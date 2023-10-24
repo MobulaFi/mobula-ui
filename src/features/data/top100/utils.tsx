@@ -241,11 +241,12 @@ export const unformatActiveView = (
     };
     return view;
   }
+  if (arr[3] === "true") isFavorite = true;
   const view = {
     id: JSON.parse(arr[0]),
     color: arr[1],
     name: arr[2],
-    is_favorite: JSON.parse(arr[3]),
+    is_favorite: isFavorite,
     display: displaysArr,
     filters,
     isFirst: true,

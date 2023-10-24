@@ -1,8 +1,8 @@
-import { getFormattedAmount } from "@utils/formaters";
-import { TextSmall } from "components/fonts";
-import { useTop100 } from "features/data/Home/context-manager";
-import { useColors } from "lib/chakra/colorMode";
 import { useMemo } from "react";
+import { TextSmall } from "../../../../components/fonts";
+import { useTop100 } from "../../../../features/data/top100/context-manager";
+import { useColors } from "../../../../lib/chakra/colorMode";
+import { getFormattedAmount } from "../../../../utils/formaters";
 import { separator } from "../../utils";
 import { Segment } from "../segment";
 

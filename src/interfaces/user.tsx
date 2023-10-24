@@ -1,5 +1,5 @@
 import { User } from "mobula-utils/lib/user/model";
-import { View } from "../features/data/Home/models";
+import { View } from "../features/data/top100/models";
 import { IPortfolio } from "./pages/portfolio";
 import { IWatchlist } from "./pages/watchlist";
 
