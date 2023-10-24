@@ -1,36 +1,43 @@
-'use client';
-import {Button, Flex, Image, Skeleton, useColorMode} from '@chakra-ui/react';
-import dynamic from 'next/dynamic';
-import {usePathname, useRouter} from 'next/navigation';
-import {useContext, useEffect, useRef, useState} from 'react';
-import {useAccount} from 'wagmi';
-import {getFormattedAmount} from '../../../../../../utils/helpers/formaters';
-import {TextLandingMedium, TextLandingSmall} from '../../../../../UI/Text';
-import {PopupUpdateContext} from '../../../../../common/context-manager/popup';
-import {UserContext} from '../../../../../common/context-manager/user';
-import {pushData} from '../../../../../common/data/utils';
-import {useColors} from '../../../../../common/utils/color-mode';
-import {TagPercentage} from '../../../../User/Portfolio/components/ui/tag-percentage';
-import {useTop100} from '../../context-manager';
-import {IWSWallet} from '../../models';
+"use client";
+import { Button, Flex, Image, Skeleton, useColorMode } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useAccount } from "wagmi";
+import {
+  TextLandingMedium,
+  TextLandingSmall,
+} from "../../../../../components/fonts";
+import { TagPercentage } from "../../../../../components/tag-percentage";
+import { PopupUpdateContext } from "../../../../../contexts/popup";
+import { UserContext } from "../../../../../contexts/user";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { pushData } from "../../../../../lib/mixpanel";
+import { getFormattedAmount } from "../../../../../utils/formaters";
+import { useTop100 } from "../../context-manager";
+import { IWSWallet } from "../../models";
 
-const EChart = dynamic(() => import('../../../../../common/charts/EChart'), {
+const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
 });
 
-export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
-  const {boxBg3, text80, text10, hover, boxBg6, borders} = useColors();
+interface PortfolioProps {
+  showPageMobile?: number;
+}
+
+export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
+  const { boxBg3, text80, text10, hover, boxBg6, borders } = useColors();
   const router = useRouter();
   const [isHover, setIsHover] = useState(false);
-  const {user} = useContext(UserContext);
-  const {activePortfolio} = useTop100();
+  const { user } = useContext(UserContext);
+  const { activePortfolio } = useTop100();
   const [isLoading, setIsLoading] = useState(true);
-  const {isConnected, isDisconnected} = useAccount();
+  const { isConnected, isDisconnected } = useAccount();
   const [wallet, setWallet] = useState<IWSWallet>({} as IWSWallet);
-  const {colorMode} = useColorMode();
-  const isDarkMode = colorMode === 'dark';
+  const { colorMode } = useColorMode();
+  const isDarkMode = colorMode === "dark";
   const firstRender = useRef(true);
-  const {setConnect} = useContext(PopupUpdateContext);
+  const { setConnect } = useContext(PopupUpdateContext);
   const pathname = usePathname();
   const [gains, setGains] = useState<{
     difference: number | null;
@@ -51,26 +58,26 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
   useEffect(() => {
     const finalPortfolio = user?.portfolios[0] || activePortfolio;
     console.log(finalPortfolio);
-    if (pathname === '/' || pathname === '/home') {
+    if (pathname === "/" || pathname === "/home") {
       if (finalPortfolio?.id) {
         const socket = new WebSocket(
-          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT,
+          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
         );
         setIsLoading(true);
-        socket.addEventListener('open', () => {
+        socket.addEventListener("open", () => {
           socket.send(
             `{"portfolio": {"id": ${
               finalPortfolio.id
             },"only": "chart_24h", "settings": { "wallets": ${JSON.stringify(
-              finalPortfolio.wallets,
+              finalPortfolio.wallets
             )}, "removed_assets": ${JSON.stringify(
-              finalPortfolio.removed_assets,
+              finalPortfolio.removed_assets
             )}, "removed_transactions": ${JSON.stringify(
-              finalPortfolio.removed_transactions,
-            )}}}, "force": true}`,
+              finalPortfolio.removed_transactions
+            )}}}, "force": true}`
           );
         });
-        socket.addEventListener('message', event => {
+        socket.addEventListener("message", (event) => {
           try {
             if (JSON.parse(event.data) !== null) {
               setWallet({
@@ -86,7 +93,7 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
             // console.log(e)
           }
         });
-        socket.addEventListener('error', () => {
+        socket.addEventListener("error", () => {
           setIsLoading(false);
         });
       }
@@ -98,14 +105,14 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
   function getGainsForPeriod() {
     const now = Date.now();
     const periods = {
-      '24H': 24 * 60 * 60 * 1000,
+      "24H": 24 * 60 * 60 * 1000,
     };
-    const periodMillis = periods['24H'];
+    const periodMillis = periods["24H"];
     const periodData =
       wallet.estimated_balance_history.filter(
-        ([timestamp]) => now - timestamp <= periodMillis,
+        ([timestamp]) => now - timestamp <= periodMillis
       ) || [];
-    if (periodData?.length < 2) return {difference: null, percentage: null};
+    if (periodData?.length < 2) return { difference: null, percentage: null };
     const startAmount = periodData[0][1];
     const endAmount = periodData[periodData.length - 1][1];
     const difference = endAmount - startAmount;
@@ -139,18 +146,18 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
   }, [wallet, isConnected]);
 
   const tablet =
-    (typeof window !== 'undefined' ? window.innerWidth : 0) < 991 &&
-    (typeof window !== 'undefined' ? window.innerWidth : 0) >= 480;
+    (typeof window !== "undefined" ? window.innerWidth : 0) < 991 &&
+    (typeof window !== "undefined" ? window.innerWidth : 0) >= 480;
 
   console.log(
-    'djdjdjd',
+    "djdjdjd",
     wallet,
-    process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT,
+    process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
   );
 
   return (
     <Flex
-      h={['175px', '175px', '175px', '200px']}
+      h={["175px", "175px", "175px", "200px"]}
       borderRadius="12px"
       bg={boxBg3}
       border={borders}
@@ -158,12 +165,13 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
       p="10px 15px"
       position="relative"
       overflow="hidden"
-      mr={['0px', '0px', '10px']}
-      minW={['100%', '100%', '407px']}
-      w={['100%', '31.5%']}
+      mr={["0px", "0px", "10px"]}
+      minW={["100%", "100%", "407px"]}
+      w={["100%", "31.5%"]}
       transform={`translateX(-${showPageMobile * 100}%)`}
       transition="all 500ms ease-in-out"
-      zIndex={showPageMobile === 0 ? 3 : 1}>
+      zIndex={showPageMobile === 0 ? 3 : 1}
+    >
       {isConnected ? (
         <>
           <Flex
@@ -171,20 +179,22 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
             position="absolute"
             zIndex="1"
             w="94%"
-            top="10px">
+            top="10px"
+          >
             <Flex justify="space-between" w="100%" mb="2px">
               <Flex
                 direction="column"
                 onMouseEnter={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}
                 onClick={() => {
-                  pushData('Window Home Clicked', {
-                    name: 'Portfolio',
-                    to_page: '/portfolio',
+                  pushData("Window Home Clicked", {
+                    name: "Portfolio",
+                    to_page: "/portfolio",
                   });
-                  router.push('/portfolio');
+                  router.push("/portfolio");
                 }}
-                cursor="pointer">
+                cursor="pointer"
+              >
                 <TextLandingSmall mt="-2px" color={text80}>
                   Portfolio
                 </TextLandingSmall>
@@ -199,10 +209,11 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
               !wallet?.estimated_balance_history?.length ? null : (
                 <Flex
                   position="relative"
-                  zIndex={showPageMobile === 0 ? 11 : 1}>
+                  zIndex={showPageMobile === 0 ? 11 : 1}
+                >
                   <TagPercentage
                     isUp={(Number(gains.percentage_raw) || 1) > 0}
-                    percentage={gains.percentage || Number('--')}
+                    percentage={gains.percentage || Number("--")}
                     isLoading={isLoading}
                   />
                 </Flex>
@@ -222,13 +233,14 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
               <TextLandingMedium
                 mt="-2px"
                 position="relative"
-                zIndex={showPageMobile === 0 ? 11 : 1}>
+                zIndex={showPageMobile === 0 ? 11 : 1}
+              >
                 $
                 {getFormattedAmount(
                   wallet?.estimated_balance_history?.[
                     wallet.estimated_balance_history.length - 1
-                  ][1],
-                ) || ' --'}
+                  ][1]
+                ) || " --"}
               </TextLandingMedium>
             )}
           </Flex>
@@ -238,14 +250,14 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
                 data={wallet.estimated_balance_history}
                 timeframe="ALL"
                 width="100%"
-                leftMargin={['0%', '0%']}
+                leftMargin={["0%", "0%"]}
                 height={
                   // eslint-disable-next-line no-nested-ternary
-                  typeof showPageMobile === 'number'
-                    ? '165px'
+                  typeof showPageMobile === "number"
+                    ? "165px"
                     : tablet
-                    ? '175px'
-                    : '190px'
+                    ? "175px"
+                    : "190px"
                 }
                 bg="transparent"
                 // bg={isDarkMode ? "#151929" : "#F7F7F7"}
@@ -260,7 +272,8 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
                 height="160"
                 viewBox="0 0 1140 160"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   transform="scale(1, 3.5)"
                   d="M108.354 62.0435L1 79H571H1139L1067.39 54.6957L1011.15 75.0435L899.708 59.2174L835.296 54.6957L782.13 36.0435L722.83 59.2174L629.789 33.2174L556.175 66L483.583 54.6957H384.408L329.197 27L249.448 44.5217L190.148 33.2174L108.354 62.0435Z"
@@ -275,7 +288,8 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
                     y1="100%"
                     x2="100%"
                     y2="100%"
-                    gradientUnits="userSpaceOnUse">
+                    gradientUnits="userSpaceOnUse"
+                  >
                     <stop stopColor={hover} />
                     <stop offset="12%" stopColor={hover} stopOpacity="0.1" />
                     <stop offset="30%" stopColor={hover} />
@@ -296,15 +310,16 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
             {wallet === null && !isLoading ? (
               <Flex
                 my="auto"
-                mt={['35px', '35px', '35px', '45px']}
-                align="center">
+                mt={["35px", "35px", "35px", "45px"]}
+                align="center"
+              >
                 <Image
                   src={
                     !isDarkMode
-                      ? '/asset/empty-roi-light.png'
-                      : '/asset/empty-roi.png'
+                      ? "/asset/empty-roi-light.png"
+                      : "/asset/empty-roi.png"
                   }
-                  h={['80px', '110px']}
+                  h={["80px", "110px"]}
                   w="auto"
                 />
                 <Flex direction="column" align="center" ml="15px">
@@ -317,7 +332,8 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
                     variant="outlined"
                     mt="10px"
                     maxW="200px"
-                    onClick={() => router.push('/portfolio')}>
+                    onClick={() => router.push("/portfolio")}
+                  >
                     Add a transaction
                   </Button>
                 </Flex>
@@ -333,11 +349,12 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
             <Image
               src={
                 !isDarkMode
-                  ? '/asset/empty-roi-light.png'
-                  : '/asset/empty-roi.png'
+                  ? "/asset/empty-roi-light.png"
+                  : "/asset/empty-roi.png"
               }
-              h={['80px', '110px']}
+              h={["80px", "110px"]}
               w="auto"
+              alt="Empty ROI"
             />
             <Flex direction="column" align="center" ml="15px">
               <TextLandingSmall textAlign="center">
@@ -347,7 +364,8 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
                 variant="outlined"
                 mt="10px"
                 maxW="200px"
-                onClick={() => setConnect(true)}>
+                onClick={() => setConnect(true)}
+              >
                 Connect
               </Button>
             </Flex>
@@ -362,7 +380,8 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
             height="160"
             viewBox="0 0 1140 160"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               transform="scale(1, 3.5)"
               d="M108.354 62.0435L1 79H571H1139L1067.39 54.6957L1011.15 75.0435L899.708 59.2174L835.296 54.6957L782.13 36.0435L722.83 59.2174L629.789 33.2174L556.175 66L483.583 54.6957H384.408L329.197 27L249.448 44.5217L190.148 33.2174L108.354 62.0435Z"
@@ -377,7 +396,8 @@ export const Portfolio = ({showPageMobile}: {showPageMobile?: number}) => {
                 y1="100%"
                 x2="100%"
                 y2="100%"
-                gradientUnits="userSpaceOnUse">
+                gradientUnits="userSpaceOnUse"
+              >
                 <stop stopColor={hover} />
                 <stop offset="12%" stopColor={hover} stopOpacity="0.1" />
                 <stop offset="30%" stopColor={hover} />

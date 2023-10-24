@@ -1,6 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { defaultCategories } from "./constants";
-import { Reducer, View } from "./models";
+import { Payload, Reducer, View } from "./models";
 
 export const maxValue = 100_000_000_000_000_000;
 
@@ -54,12 +54,12 @@ export const reducer = (state: View, action: Reducer) => {
       return { ...state, display: action.payload };
     case ACTIONS.SET_USER_VALUE:
       return {
-        ...action.payload.value,
+        ...(action.payload as any).value,
       };
     case ACTIONS.SET_BASIC_INPUT:
       return {
         ...state,
-        [action.payload.name]: action.payload.value,
+        [(action.payload as Payload).name]: (action.payload as Payload).value,
       };
     case ACTIONS.SET_FAVORITE:
       return {
@@ -69,14 +69,17 @@ export const reducer = (state: View, action: Reducer) => {
     case ACTIONS.SET_COLOR:
       return {
         ...state,
-        color: action.payload.value,
+        color: (action.payload as Payload).value,
       };
     case ACTIONS.ADD_DISPLAY:
       return {
         ...state,
         display: [
           ...state.display,
-          { type: action.payload.type, value: action.payload.value },
+          {
+            type: (action.payload as Payload).type,
+            value: (action.payload as Payload).value,
+          },
         ],
       };
     case ACTIONS.RESET_FILTER:
@@ -84,7 +87,7 @@ export const reducer = (state: View, action: Reducer) => {
         ...state,
         filters: {
           ...state.filters,
-          [action.payload.name]: { from: 0, to: maxValue },
+          [(action.payload as Payload).name]: { from: 0, to: maxValue },
         },
       };
     case ACTIONS.RESET_BLOCKCHAINS:
@@ -99,7 +102,7 @@ export const reducer = (state: View, action: Reducer) => {
       return {
         ...state,
         display: state.display.filter(
-          (entry) => entry.value !== action.payload.value
+          (entry) => entry.value !== (action.payload as Payload).value
         ),
       };
     case ACTIONS.SET_INPUT:
@@ -107,9 +110,11 @@ export const reducer = (state: View, action: Reducer) => {
         ...state,
         filters: {
           ...state.filters,
-          [action.payload.name]: {
-            ...state.filters[action.payload.name],
-            [action.payload.time]: parseFloat(action.payload.value),
+          [(action.payload as Payload).name]: {
+            ...state.filters[(action.payload as Payload).name],
+            [(action.payload as Payload).time]: parseFloat(
+              (action.payload as any).value
+            ),
           },
         },
       };
@@ -118,7 +123,10 @@ export const reducer = (state: View, action: Reducer) => {
         ...state,
         filters: {
           ...state.filters,
-          blockchains: [...state.filters.blockchains, action.payload.value],
+          blockchains: [
+            ...state.filters.blockchains,
+            (action.payload as Payload).value,
+          ],
         },
       };
     case ACTIONS.DESELECT_ALL_BLOCKCHAINS:
@@ -135,7 +143,7 @@ export const reducer = (state: View, action: Reducer) => {
         filters: {
           ...state.filters,
           blockchains: state.filters.blockchains.filter(
-            (chain) => chain !== action.payload.value
+            (chain) => chain !== (action.payload as Payload).value
           ),
         },
       };
@@ -165,7 +173,10 @@ export const reducer = (state: View, action: Reducer) => {
         ...state,
         filters: {
           ...state.filters,
-          categories: [...state.filters.categories, action.payload.value],
+          categories: [
+            ...state.filters.categories,
+            (action.payload as Payload).value,
+          ],
         },
       };
     case ACTIONS.REMOVE_CATEGORY:
@@ -174,7 +185,7 @@ export const reducer = (state: View, action: Reducer) => {
         filters: {
           ...state.filters,
           categories: state.filters.categories.filter(
-            (category) => category !== action.payload.value
+            (category) => category !== (action.payload as Payload).value
           ),
         },
       };

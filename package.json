@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@sentry/nextjs": "^7.75.0",
     "@supabase/supabase-js": "^2.38.2",
     "echart": "^0.1.3",
     "framer-motion": "^10.16.4",

@@ -1,5 +1,6 @@
-import {useColorMode} from '@chakra-ui/react';
-import {useColors} from '../../../../../../common/utils/color-mode';
+import { useColorMode } from "@chakra-ui/react";
+import React from "react";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
 
 const CryptoFearAndGreedChart = ({
   fearLevel,
@@ -8,8 +9,8 @@ const CryptoFearAndGreedChart = ({
   fearLevel: number;
   fearClassification: string;
 }) => {
-  const {text80} = useColors();
-  const {colorMode} = useColorMode();
+  const { text80 } = useColors();
+  const { colorMode } = useColorMode();
   const radius = 88;
   const centerX = radius;
   const centerY = radius;
@@ -17,11 +18,11 @@ const CryptoFearAndGreedChart = ({
   const innerRadius = radius - strokeWidth; // rayon interne
 
   const categories = [
-    {color: '#0ECB81'},
-    {color: '#93D900'},
-    {color: '#F3D42F'},
-    {color: '#EA8C00'},
-    {color: '#EA3943'},
+    { color: "#0ECB81" },
+    { color: "#93D900" },
+    { color: "#F3D42F" },
+    { color: "#EA8C00" },
+    { color: "#EA3943" },
   ];
 
   const paths = categories.map((category, index) => {
@@ -62,7 +63,7 @@ const CryptoFearAndGreedChart = ({
         A ${strokeWidth} ${strokeWidth} 0 0 1 ${endXInner} ${endYInner}
       `;
     } else {
-      pathData += 'Z'; // Fermer le chemin pour les autres segments
+      pathData += "Z"; // Fermer le chemin pour les autres segments
     }
 
     return (
@@ -87,7 +88,7 @@ const CryptoFearAndGreedChart = ({
     const circleY =
       centerY - (radius - 0.5 * strokeWidth) * Math.sin(circleAngle);
 
-    return {x: circleX, y: circleY};
+    return { x: circleX, y: circleY };
   };
 
   const circlePosition = determineCirclePosition();
@@ -98,7 +99,8 @@ const CryptoFearAndGreedChart = ({
       height="100%"
       viewBox="0 -10 177 110"
       key={Math.random()}
-      transform="translate(0, 10)">
+      transform="translate(0, 10)"
+    >
       {paths}
       <circle
         cx={circlePosition.x}
@@ -113,7 +115,8 @@ const CryptoFearAndGreedChart = ({
         textAnchor="middle"
         fontSize="30"
         fontWeight="bold"
-        fill="var(--chakra-colors-text_primary)">
+        fill="var(--chakra-colors-text_primary)"
+      >
         {fearLevel}
       </text>
       <text
@@ -122,8 +125,9 @@ const CryptoFearAndGreedChart = ({
         textAnchor="middle"
         fontSize="14"
         fontWeight="500"
-        fill="var(--chakra-colors-text_primary)">
-        {fearClassification || 'Neutral'}
+        fill="var(--chakra-colors-text_primary)"
+      >
+        {fearClassification || "Neutral"}
       </text>
     </svg>
   );

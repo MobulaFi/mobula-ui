@@ -1,8 +1,8 @@
-'use client';
-import React, {createContext, useContext, useState} from 'react';
-import {IPortfolio} from '../../../User/Portfolio/models';
-import {steps} from '../constants';
-import {INewsGeneral, ITop100, View} from '../models';
+"use client";
+import { IPortfolio } from "interfaces/pages/portfolio";
+import React, { createContext, useContext, useState } from "react";
+import { steps } from "../constants";
+import { INewsGeneral, ITop100, View } from "../models";
 
 const Top100Context = createContext<ITop100>({} as ITop100);
 
@@ -12,7 +12,6 @@ export const Top100Provider = ({
   children,
   cookies = null,
   portfolioCookie = null,
-
   btcPrice,
   ethPrice,
   aiNews,
@@ -23,19 +22,19 @@ export const Top100Provider = ({
   children: JSX.Element | JSX.Element[];
   cookies?: View;
   portfolioCookie?: IPortfolio | null;
-  btcPrice: {name: string; price: number} | undefined;
-  ethPrice: {name: string; price: number} | undefined;
+  btcPrice: { name: string; price: number } | undefined;
+  ethPrice: { name: string; price: number } | undefined;
   aiNews: INewsGeneral;
   page: number | null;
   isMobile: boolean;
   isTablet: boolean;
 }) => {
   const activeViewBuffer = cookies || {};
-  const [activeDisplay, setActiveDisplay] = useState('display');
+  const [activeDisplay, setActiveDisplay] = useState("display");
   const [news, setNews] = useState(aiNews as INewsGeneral);
   const [showCategories, setShowCategories] = useState(false);
   const [activePortfolio, setActivePortfolio] = useState<IPortfolio | null>(
-    portfolioCookie || null,
+    portfolioCookie || null
   );
   const [mainCurrenciesPrices, setMainCurrenciesPrices] = useState({
     eth: ethPrice?.price,
@@ -56,7 +55,7 @@ export const Top100Provider = ({
     {} as {
       fear_and_greed_value: number;
       fear_and_greed_value_classification: string;
-    },
+    }
   );
 
   const contextValue = React.useMemo(
@@ -123,7 +122,7 @@ export const Top100Provider = ({
       showCategories,
       isMobile,
       isTablet,
-    ],
+    ]
   );
 
   return (

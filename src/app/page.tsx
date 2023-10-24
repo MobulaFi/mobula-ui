@@ -1,12 +1,21 @@
-import {
-  INewsGeneral,
-  Metrics,
-  StaticHomeQueries,
-} from "@/interfaces/pages/top100";
-import { createSupabaseDOClient } from "@/lib/supabase";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { cookies, headers } from "next/headers";
+import { Top100 } from "../features/data/Home";
+import { Top100Provider } from "../features/data/Home/context-manager";
+import { unformatActiveView } from "../features/data/Home/utils";
+
+import {
+  defaultCategories,
+  defaultFilter,
+  defaultTop100,
+} from "features/data/Home/constants";
+import {
+  INewsGeneral,
+  StaticHomeQueries,
+  View,
+} from "../interfaces/pages/top100";
+import { createSupabaseDOClient } from "../lib/supabase";
 
 const getCookie = (name: string) => cookies().get(name);
 
@@ -30,8 +39,8 @@ export const fetchAssetsAndViews = async ({ searchParams }) => {
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
   const isTablet = /tablet|ipad|playbook|silk/i.test(userAgent);
 
-  let actualView = null;
-  let allView = null;
+  let actualView: View | null = null;
+  let allView: View | null = null;
   const maxValue = 100_000_000_000_000_000;
 
   actualView = unformatActiveView(viewCookie, "others", mainUserView, address);
@@ -120,7 +129,7 @@ export const fetchAssetsAndViews = async ({ searchParams }) => {
         isFirst: true,
         disconnected: true,
       };
-    else actualView = { ...allView, disconnected: false };
+    else actualView = { ...(allView as View), disconnected: false };
   }
 
   // const getViewKey = () => {
@@ -169,7 +178,7 @@ export const fetchAssetsAndViews = async ({ searchParams }) => {
 
   const getViewQuery = async () => {
     const query = supabase
-      .from<TableAsset>("assets")
+      .from("assets")
       .select(TABLE_ASSETS_QUERY, {
         count: "exact",
       })
@@ -197,7 +206,7 @@ export const fetchAssetsAndViews = async ({ searchParams }) => {
 
   const queries: StaticHomeQueries = [
     supabase
-      .from<Metrics>("metrics")
+      .from("metrics")
       .select("fear_and_greed_value,fear_and_greed_value_classification")
       .match({ id: 1 })
       .single(),
@@ -289,22 +298,22 @@ async function Home({ searchParams }) {
         <meta name="keywords" content="Mobula Crypto Data Aggregator" />
       </Head> */}
       <Top100Provider
-        cookies={props.actualView}
-        portfolioCookie={props.actualPortfolio}
-        ethPrice={props.ethPrice}
-        btcPrice={props.btcPrice}
-        aiNews={props.aiNews}
-        Home={props.page}
+        cookies={props.actualView as any}
+        portfolioCookie={props.actualPortfolio as any}
+        ethPrice={props.ethPrice as any}
+        btcPrice={props.btcPrice as any}
+        page={props.page}
+        aiNews={props.aiNews as any}
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >
         <Top100
           tokens={props.tokens}
-          metrics={props.metrics}
+          metrics={props.metrics as any}
           count={props.count}
           defaultFilter={props.filteredValues}
-          actualView={props.actualView}
-          cookieTop100={props.allView}
+          actualView={props.actualView as any}
+          cookieTop100={props.allView as any}
           marketCapTotal={props.marketCapTotal}
         />
       </Top100Provider>

@@ -1,10 +1,13 @@
+import React from "react";
+
 export const PriceIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="15"
     height="13"
     fill="none"
-    viewBox="0 0 15 13">
+    viewBox="0 0 15 13"
+  >
     <path
       stroke="#fff"
       strokeLinecap="round"
@@ -21,7 +24,8 @@ export const MarketCapIcon = () => (
     width="12"
     height="9"
     fill="none"
-    viewBox="0 0 12 9">
+    viewBox="0 0 12 9"
+  >
     <path
       stroke="#fff"
       strokeLinecap="round"
@@ -38,7 +42,8 @@ export const ChangeIcon = () => (
     width="15"
     height="15"
     fill="none"
-    viewBox="0 0 15 15">
+    viewBox="0 0 15 15"
+  >
     <path
       stroke="#fff"
       strokeLinecap="round"
@@ -62,7 +67,8 @@ export const VolumeIcon = () => (
     width="15"
     height="14"
     fill="none"
-    viewBox="0 0 15 14">
+    viewBox="0 0 15 14"
+  >
     <path
       stroke="#fff"
       strokeLinecap="round"
@@ -78,7 +84,8 @@ export const ChartIcon = () => (
     width="15"
     height="15"
     fill="none"
-    viewBox="0 0 15 15">
+    viewBox="0 0 15 15"
+  >
     <path
       stroke="#fff"
       strokeLinecap="round"

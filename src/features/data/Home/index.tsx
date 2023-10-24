@@ -1,16 +1,16 @@
 /* eslint-disable import/no-cycle */
 "use client";
-import { MainContainer } from "@/components/container";
-import { OrderBy, TableAsset } from "@/interfaces/assets";
-import { useColors } from "@/lib/chakra/colorMode";
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
-import { tabs } from "../../../common/components/mobile-menu/constant";
-import { TopNav } from "../../../common/components/mobile-menu/top-nav";
-import { SettingsMetricProvider } from "../../../common/context-manager/settings-metric-context";
+import { MainContainer } from "../../../components/container";
+import { OrderBy, TableAsset } from "../../../interfaces/assets";
+import { tabs } from "../../../layouts/menu-mobile/constant";
+import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import { AssetsTable } from "../../../layouts/tables/components";
+import { useColors } from "../../../lib/chakra/colorMode";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
 import { Pagination } from "./components/pagination";
@@ -86,7 +86,7 @@ export const Top100 = ({
   }, []);
 
   return (
-    <SettingsMetricProvider>
+    <>
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
       <Flex direction="column" bg={bgMain} overflowX="hidden">
         <Flex w="100%" bg={bgTable} pb={["10px", "10px", "20px"]}>
@@ -194,6 +194,6 @@ export const Top100 = ({
           </Button>
         </Flex>
       </Flex> */}
-    </SettingsMetricProvider>
+    </>
   );
 };

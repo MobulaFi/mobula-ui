@@ -1,8 +1,8 @@
-'use client';
-import {CheckIcon, CloseIcon} from '@chakra-ui/icons';
+"use client";
 import {
   Button,
   Flex,
+  Icon,
   Image,
   Input,
   Popover,
@@ -11,19 +11,21 @@ import {
   PopoverTrigger,
   Spinner,
   useDisclosure,
-} from '@chakra-ui/react';
-import Cookies from 'js-cookie';
-import {blockchainsContent} from 'mobula-lite/lib/chains/constants';
-import {useContext, useState} from 'react';
-import {useAccount} from 'wagmi';
-import {TextSmall} from '../../../../../../UI/Text';
-import {UserContext} from '../../../../../../common/context-manager/user';
-import {useColors} from '../../../../../../common/utils/color-mode';
-import {POST} from '../../../../../../common/utils/fetch';
-import {defaultCategories, formatDataForFilters} from '../../../constants';
-import {useTop100} from '../../../context-manager';
-import {View} from '../../../models';
-import {ACTIONS, maxValue} from '../../../reducer';
+} from "@chakra-ui/react";
+import Cookies from "js-cookie";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { Key, useContext, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsCheckLg } from "react-icons/bs";
+import { useAccount } from "wagmi";
+import { TextSmall } from "../../../../../../components/fonts";
+import { UserContext } from "../../../../../../contexts/user";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { POST } from "../../../../../../utils/fetch";
+import { defaultCategories, formatDataForFilters } from "../../../constants";
+import { useTop100 } from "../../../context-manager";
+import { View } from "../../../models";
+import { ACTIONS, maxValue } from "../../../reducer";
 
 export const PopoverTrade = ({
   dispatch,
@@ -38,14 +40,14 @@ export const PopoverTrade = ({
   name: string;
   setTypePopup: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const {boxBg3, text80, hover, bordersActive, borders, boxBg6} = useColors();
-  const {activeView, setIsLoading, setShowCategories, setActiveView} =
+  const { boxBg3, text80, hover, bordersActive, borders, boxBg6 } = useColors();
+  const { activeView, setIsLoading, setShowCategories, setActiveView } =
     useTop100();
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   // const alert = useAlert();
-  const {isOpen, onOpen, onClose} = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [loadTime, setLoadTime] = useState(false);
-  const {address} = useAccount();
+  const { address } = useAccount();
 
   const handleInputChange = (e, time) => {
     dispatch({
@@ -59,31 +61,31 @@ export const PopoverTrade = ({
   };
 
   const inputStyle = {
-    _placeholder: {color: text80},
-    borderRadius: '8px',
-    type: 'number',
-    px: '10px',
-    h: '40px',
+    _placeholder: { color: text80 },
+    borderRadius: "8px",
+    type: "number",
+    px: "10px",
+    h: "40px",
     bg: boxBg6,
     color: text80,
   };
 
-  const editView = toEdit => {
+  const editView = (toEdit) => {
     setLoadTime(true);
 
     onClose();
-    POST('/views/update', toEdit)
-      .then(r => r.json())
-      .then(r => {
+    POST("/views/update", toEdit)
+      .then((r) => r.json())
+      .then((r) => {
         if (r.error) {
           // alert.error(r.error);
           return;
         } else {
-          setUser(prev => ({
+          setUser((prev) => ({
             ...prev,
             views: [
               ...(prev.views?.filter(
-                entry => entry.name !== activeView?.name,
+                (entry) => entry.name !== activeView?.name
               ) || []),
               r.view[0],
             ],
@@ -97,12 +99,12 @@ export const PopoverTrade = ({
     if (!state.filters.blockchains.includes(chain))
       dispatch({
         type: ACTIONS.ADD_BLOCKCHAINS,
-        payload: {value: chain},
+        payload: { value: chain },
       });
     else
       dispatch({
         type: ACTIONS.REMOVE_BLOCKCHAINS,
-        payload: {value: chain},
+        payload: { value: chain },
       });
   };
 
@@ -110,12 +112,12 @@ export const PopoverTrade = ({
     if (!state.filters.categories?.includes(category))
       dispatch({
         type: ACTIONS.ADD_CATEGORY,
-        payload: {value: category},
+        payload: { value: category },
       });
     else
       dispatch({
         type: ACTIONS.REMOVE_CATEGORY,
-        payload: {value: category},
+        payload: { value: category },
       });
   };
 
@@ -129,10 +131,11 @@ export const PopoverTrade = ({
         bg={boxBg3}
         p="10px"
         borderRadius="16px"
-        border={borders}>
+        border={borders}
+      >
         <PopoverBody p="0px">
           <Flex direction="column">
-            {name !== 'blockchains' && name !== 'categories' ? (
+            {name !== "blockchains" && name !== "categories" ? (
               <Flex direction="column">
                 <Input
                   {...inputStyle}
@@ -142,50 +145,54 @@ export const PopoverTrade = ({
                   // _focus={{bg: "red"}}
                   // _active={{bg: "red"}}
                   // _hover={{bg: "red"}}
-                  onChange={e => handleInputChange(e, 'from')}
+                  onChange={(e) => handleInputChange(e, "from")}
                   border={borders}
                 />
                 <Input
                   {...inputStyle}
                   value={
                     state.filters?.[name]?.to === 100_000_000_000_000_000
-                      ? 'Any'
+                      ? "Any"
                       : state.filters?.[name]?.to
                   }
                   name={name}
                   border={borders}
-                  onChange={e => handleInputChange(e, 'to')}
+                  onChange={(e) => handleInputChange(e, "to")}
                 />
               </Flex>
             ) : null}
-            {name === 'blockchains' ? (
+            {name === "blockchains" ? (
               <Flex direction="column">
                 <Flex
                   direction="column"
                   w="100%"
                   maxH="390px"
-                  overflowY="scroll">
+                  overflowY="scroll"
+                >
                   {Object.keys(blockchainsContent)?.map((chain, i) => {
                     if (!chain) return null;
                     return (
                       <Flex
                         key={Math.random() + chain}
                         align="center"
-                        mt={i !== 0 ? '7.5px' : '0px'}
+                        mt={i !== 0 ? "7.5px" : "0px"}
                         mb={
                           i ===
                           (Object.keys(blockchainsContent).length || 0) - 1
-                            ? '0px'
-                            : '7.5px'
-                        }>
+                            ? "0px"
+                            : "7.5px"
+                        }
+                      >
                         <Button
                           boxSize="16px"
                           borderRadius="4px"
                           border={bordersActive}
                           onClick={() => {
                             handleBlockchainsChange(chain);
-                          }}>
-                          <CheckIcon
+                          }}
+                        >
+                          <Icon
+                            as={BsCheckLg}
                             fontSize="11px"
                             color={text80}
                             opacity={
@@ -201,7 +208,7 @@ export const PopoverTrade = ({
                           borderRadius="full"
                           src={
                             blockchainsContent[chain]?.logo ||
-                            `/logo/${chain.toLowerCase().split(' ')[0]}.png`
+                            `/logo/${chain.toLowerCase().split(" ")[0]}.png`
                           }
                           boxSize="25px"
                           minW="25px"
@@ -214,14 +221,14 @@ export const PopoverTrade = ({
                 </Flex>
               </Flex>
             ) : null}
-            {name === 'categories' ? (
+            {name === "categories" ? (
               <Flex wrap="wrap" w="100%">
                 {newDefault
-                  ?.sort(entry =>
-                    state.filters?.categories?.includes(entry) ? -1 : 1,
+                  ?.sort((entry) =>
+                    state.filters?.categories?.includes(entry) ? -1 : 1
                   )
                   ?.filter((_, i) => i < 5)
-                  .map(categorie => (
+                  .map((categorie) => (
                     <Button
                       variant="outlined_grey"
                       borderRadius="16px"
@@ -235,12 +242,14 @@ export const PopoverTrade = ({
                       }
                       border={borders}
                       color={text80}
-                      onClick={() => handleCategoryChange(categorie)}>
+                      onClick={() => handleCategoryChange(categorie)}
+                      key={categorie as Key}
+                    >
                       <TextSmall mt="1px" m="0px">
                         {categorie}
                       </TextSmall>
                       {state.filters.categories?.includes(categorie) ? (
-                        <CloseIcon fontSize="9px" ml="5px" />
+                        <Icon as={AiOutlineClose} fontSize="9px" ml="5px" />
                       ) : null}
                     </Button>
                   ))}
@@ -254,9 +263,10 @@ export const PopoverTrade = ({
                   border={borders}
                   color={text80}
                   onClick={() => {
-                    setTypePopup('edit');
+                    setTypePopup("edit");
                     setShowCategories(true);
-                  }}>
+                  }}
+                >
                   <TextSmall mt="1px" m="0px">
                     See all
                   </TextSmall>
@@ -267,7 +277,7 @@ export const PopoverTrade = ({
             <Flex mt="10px">
               <Button
                 w="50%"
-                h={['35px', '40px']}
+                h={["35px", "40px"]}
                 variant="outlined_grey"
                 onClick={() => {
                   setIsLoading(true);
@@ -275,23 +285,23 @@ export const PopoverTrade = ({
 
                   const commonFilters = {
                     ...state.filters,
-                    [name]: {from: 0, to: maxValue},
+                    [name]: { from: 0, to: maxValue },
                   };
 
                   let newFilters = {};
                   let edit = false;
 
                   switch (name) {
-                    case 'categories':
-                      dispatch({type: ACTIONS.RESET_CATEGORY});
+                    case "categories":
+                      dispatch({ type: ACTIONS.RESET_CATEGORY });
                       newFilters = {
                         ...commonFilters,
                         [name]: defaultCategories,
                       };
                       edit = true;
                       break;
-                    case 'blockchains':
-                      dispatch({type: ACTIONS.RESET_BLOCKCHAINS});
+                    case "blockchains":
+                      dispatch({ type: ACTIONS.RESET_BLOCKCHAINS });
                       newFilters = {
                         ...commonFilters,
                         [name]: Object.keys(blockchainsContent),
@@ -299,8 +309,11 @@ export const PopoverTrade = ({
                       edit = true;
                       break;
                     default:
-                      dispatch({type: ACTIONS.RESET_FILTER, payload: {name}});
-                      if (activeView?.name === 'All') {
+                      dispatch({
+                        type: ACTIONS.RESET_FILTER,
+                        payload: { name },
+                      });
+                      if (activeView?.name === "All") {
                         newFilters = commonFilters;
                       } else {
                         newFilters = commonFilters;
@@ -314,23 +327,23 @@ export const PopoverTrade = ({
                     filters: newFilters,
                     isFirst: false,
                   });
-                  if (activeView?.name === 'All') {
+                  if (activeView?.name === "All") {
                     const activeViewStr = formatDataForFilters(
                       {
                         ...state,
-                        name: 'All',
+                        name: "All",
                         filters: newFilters,
                         isFirst: false,
                       },
-                      state,
+                      state
                     );
                     Cookies.set(`view-${address}`, activeViewStr, {
-                      secure: process.env.NODE_ENV !== 'development',
-                      sameSite: 'strict',
+                      secure: process.env.NODE_ENV !== "development",
+                      sameSite: "strict",
                     });
                   }
-                  if (edit && activeView?.name !== 'All') {
-                    const {id} = activeView;
+                  if (edit && activeView?.name !== "All") {
+                    const { id } = activeView;
                     editView({
                       account: user?.address,
                       user_id: user?.id,
@@ -342,37 +355,38 @@ export const PopoverTrade = ({
                       id,
                     });
                   }
-                }}>
+                }}
+              >
                 Reset
               </Button>
               <Button
                 mb="0px"
-                h={['35px', '40px']}
+                h={["35px", "40px"]}
                 ml="5px"
                 variant="outlined"
                 bg={boxBg6}
                 w="50%"
-                _hover={{border: '1px solid var(--chakra-colors-blue)'}}
+                _hover={{ border: "1px solid var(--chakra-colors-blue)" }}
                 transition="all 250ms ease-in-out"
                 onClick={() => {
                   if (!activeView) return;
                   setIsLoading(true);
                   setLoadTime(true);
-                  if (activeView.name === 'All') {
-                    setActiveView({...state, name: 'All', isFirst: false});
+                  if (activeView.name === "All") {
+                    setActiveView({ ...state, name: "All", isFirst: false });
                     if (!user || !activeView) return;
                     const activeViewStr = formatDataForFilters(
-                      {...state, name: 'All', isFirst: false},
-                      state,
+                      { ...state, name: "All", isFirst: false },
+                      state
                     );
                     Cookies.set(`view-${address}`, activeViewStr, {
-                      secure: process.env.NODE_ENV !== 'development',
-                      sameSite: 'strict',
+                      secure: process.env.NODE_ENV !== "development",
+                      sameSite: "strict",
                     });
                     setLoadTime(false);
                     onClose();
-                  } else if (activeView.name !== 'All') {
-                    const {id} = activeView;
+                  } else if (activeView.name !== "All") {
+                    const { id } = activeView;
                     setActiveView({
                       ...activeView,
                       color: state.color,
@@ -392,7 +406,8 @@ export const PopoverTrade = ({
                       id,
                     });
                   }
-                }}>
+                }}
+              >
                 {loadTime ? (
                   <Spinner
                     thickness="2px"
@@ -404,7 +419,7 @@ export const PopoverTrade = ({
                   />
                 ) : null}
                 Apply
-              </Button>{' '}
+              </Button>{" "}
             </Flex>
           </Flex>
         </PopoverBody>

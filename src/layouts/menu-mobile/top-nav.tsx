@@ -1,7 +1,7 @@
-import { useColors } from "@/lib/chakra/colorMode";
 import { Button, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { Dispatch, Key, SetStateAction } from "react";
+import React, { Dispatch, Key, SetStateAction } from "react";
+import { useColors } from "../../lib/chakra/colorMode";
 
 interface NavProps {
   list: string[] | { name: string; url: string }[];
@@ -47,8 +47,8 @@ export const TopNav = ({
             onClick={() => {
               if (isGeneral) router.push(item.url);
               else {
-                setPreviousTab(active);
-                setActive(item);
+                if (setPreviousTab) setPreviousTab(active);
+                if (setActive) setActive(item);
               }
             }}
             fontWeight="500"

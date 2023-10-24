@@ -1,9 +1,9 @@
 "use client";
-import { OrderBy } from "@/interfaces/assets";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useSearchParams } from "next/navigation";
 import { SetStateAction, useEffect } from "react";
 import { useAccount } from "wagmi";
+import { OrderBy } from "../../../../interfaces/assets";
 import { defaultCategories, defaultFilter, defaultTop100 } from "../constants";
 import { useTop100 } from "../context-manager";
 import { Query } from "../models";

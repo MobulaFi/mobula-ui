@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react/display-name */
 import {
   ArrowBackIcon,
   CheckIcon,
   ChevronDownIcon,
   CloseIcon,
-} from '@chakra-ui/icons';
+} from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
@@ -32,9 +32,9 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-} from '@chakra-ui/react';
-import Cookies from 'js-cookie';
-import {blockchainsContent} from 'mobula-lite/lib/chains/constants';
+} from "@chakra-ui/react";
+import Cookies from "js-cookie";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, {
   ChangeEvent,
   Dispatch,
@@ -44,19 +44,22 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from 'react';
-import {AiFillStar, AiOutlineStar} from 'react-icons/ai';
-import {BsTrash3} from 'react-icons/bs';
-import {PiDotsNineBold} from 'react-icons/pi';
-import {ReactSortable} from 'react-sortablejs';
-import {useAccount} from 'wagmi';
-import {getFormattedAmount} from '../../../../../../../utils/helpers/formaters';
-import {TextLandingSmall, TextSmall} from '../../../../../../UI/Text';
-import {PopupUpdateContext} from '../../../../../../common/context-manager/popup';
-import {UserContext} from '../../../../../../common/context-manager/user';
-import {pushData} from '../../../../../../common/data/utils';
-import {useColors} from '../../../../../../common/utils/color-mode';
-import {GET, POST} from '../../../../../../common/utils/fetch';
+} from "react";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { BsTrash3 } from "react-icons/bs";
+import { PiDotsNineBold } from "react-icons/pi";
+import { ReactSortable } from "react-sortablejs";
+import { useAccount } from "wagmi";
+import {
+  TextLandingSmall,
+  TextSmall,
+} from "../../../../../../components/fonts";
+import { PopupUpdateContext } from "../../../../../../contexts/popup";
+import { UserContext } from "../../../../../../contexts/user";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { pushData } from "../../../../../../lib/mixpanel";
+import { GET, POST } from "../../../../../../utils/fetch";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
 import {
   colors,
   defaultCategories,
@@ -64,15 +67,15 @@ import {
   displays,
   filters,
   formatDataForFilters,
-} from '../../../constants';
-import {useTop100} from '../../../context-manager';
-import {View} from '../../../models';
-import {ACTIONS, INITIAL_VALUE} from '../../../reducer';
-import {unformatActiveView} from '../../../utils';
-import {Tutorial} from '../tuto';
+} from "../../../constants";
+import { useTop100 } from "../../../context-manager";
+import { View } from "../../../models";
+import { ACTIONS, INITIAL_VALUE } from "../../../reducer";
+import { unformatActiveView } from "../../../utils";
+import { Tutorial } from "../tuto";
 
 const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => (
-  <div ref={ref} style={{display: 'flex', flexWrap: 'wrap'}}>
+  <div ref={ref} style={{ display: "flex", flexWrap: "wrap" }}>
     {props.children}
   </div>
 ));
@@ -103,7 +106,7 @@ export const ViewPopup = ({
     text80,
   } = useColors();
   const [isStarHover, setIsStarHover] = useState(false);
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [showTuto, setShowTuto] = useState(false);
   const {
     activeView,
@@ -113,39 +116,39 @@ export const ViewPopup = ({
     showCategories,
     activeStep,
   } = useTop100();
-  const {address} = useAccount();
+  const { address } = useAccount();
   // const alert = useAlert();
-  const {isConnected} = useAccount();
-  const {setConnect} = useContext(PopupUpdateContext);
+  const { isConnected } = useAccount();
+  const { setConnect } = useContext(PopupUpdateContext);
   const maxValue = 100_000_000_000_000_000;
   const [isViewsLoading, setIsViewsLoading] = useState(false);
   const [dragNdrop, setDragNdrop] = useState<
-    {type: string; value: string; id: number}[]
+    { type: string; value: string; id: number }[]
   >(
     state?.display?.map((item, index) => ({
       ...item,
       id: index + 1,
-    })) || [],
+    })) || []
   );
 
   useEffect(() => {
-    if (type === 'edit' && user?.views?.length > 0)
+    if (type === "edit" && user?.views?.length > 0)
       dispatch({
         type: ACTIONS.SET_USER_VALUE,
-        payload: {value: activeView},
+        payload: { value: activeView },
       });
     if (
-      (type === 'create' && user?.views?.length > 0) ||
-      (type === 'create' && activeView?.name === 'All')
+      (type === "create" && user?.views?.length > 0) ||
+      (type === "create" && activeView?.name === "All")
     )
       dispatch({
         type: ACTIONS.SET_USER_VALUE,
-        payload: {value: INITIAL_VALUE},
+        payload: { value: INITIAL_VALUE },
       });
   }, [type]);
 
   const getTitleFromType = () => {
-    if (type === 'create') return ' filter & view';
+    if (type === "create") return " filter & view";
     return activeView?.name;
   };
 
@@ -160,13 +163,13 @@ export const ViewPopup = ({
       return {
         fill: 1,
         outline: 0,
-        color: 'yellow',
+        color: "yellow",
       };
     if (isStarHover && !state.is_favorite)
       return {
         fill: 1,
         outline: 0,
-        color: 'yellow',
+        color: "yellow",
       };
     return {
       fill: 0,
@@ -179,7 +182,7 @@ export const ViewPopup = ({
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
-    time: string,
+    time: string
   ) => {
     dispatch({
       type: ACTIONS.SET_INPUT,
@@ -193,19 +196,19 @@ export const ViewPopup = ({
 
   const handleDisplayChange = (entry, name) => {
     const isEntryInDisplay =
-      state.display?.filter(item => item.value === entry) || [];
+      state.display?.filter((item) => item.value === entry) || [];
     if (isEntryInDisplay?.length === 0)
       dispatch({
         type: ACTIONS.ADD_DISPLAY,
-        payload: {type: name, value: entry},
+        payload: { type: name, value: entry },
       });
-    else dispatch({type: ACTIONS.REMOVE_DISPLAY, payload: {value: entry}});
+    else dispatch({ type: ACTIONS.REMOVE_DISPLAY, payload: { value: entry } });
   };
 
-  const handleBasicInputChange = e => {
+  const handleBasicInputChange = (e) => {
     dispatch({
       type: ACTIONS.SET_BASIC_INPUT,
-      payload: {name: 'name', value: e.target.value},
+      payload: { name: "name", value: e.target.value },
     });
   };
 
@@ -213,18 +216,18 @@ export const ViewPopup = ({
     if (!state.filters.blockchains.includes(chain))
       dispatch({
         type: ACTIONS.ADD_BLOCKCHAINS,
-        payload: {value: chain},
+        payload: { value: chain },
       });
     else
       dispatch({
         type: ACTIONS.REMOVE_BLOCKCHAINS,
-        payload: {value: chain},
+        payload: { value: chain },
       });
   };
 
   const createView = () => {
     setIsViewsLoading(true);
-    POST('/views/create', {
+    POST("/views/create", {
       account: user?.address,
       user_id: user?.id,
       color: state.color,
@@ -233,18 +236,18 @@ export const ViewPopup = ({
       display: state.display,
       filters: state.filters,
     })
-      .then(r => r.json())
-      .then(r => {
+      .then((r) => r.json())
+      .then((r) => {
         if (r.error) {
           return;
           //  alert.error(r.error);
         } else {
-          setUser(prev => ({
+          setUser((prev) => ({
             ...prev,
             views: [...(user?.views || []), r.view[0]],
           }));
           setActiveView(r.view[0]);
-          setType('');
+          setType("");
           setIsViewsLoading(false);
         }
       });
@@ -252,7 +255,7 @@ export const ViewPopup = ({
 
   const editView = (): void => {
     setIsViewsLoading(true);
-    const {id} = activeView;
+    const { id } = activeView;
     setActiveView({
       ...activeView,
       color: state.color,
@@ -261,8 +264,8 @@ export const ViewPopup = ({
       display: state.display,
       filters: state.filters,
     });
-    setType('');
-    POST('/views/update', {
+    setType("");
+    POST("/views/update", {
       account: user?.address,
       user_id: user?.id,
       color: state.color,
@@ -272,17 +275,17 @@ export const ViewPopup = ({
       filters: state.filters,
       id,
     })
-      .then(r => r.json())
-      .then(r => {
+      .then((r) => r.json())
+      .then((r) => {
         if (r.error) {
           return;
           // alert.error(r.error);
         } else {
-          setUser(prev => ({
+          setUser((prev) => ({
             ...prev,
             views: [
               ...(prev.views?.filter(
-                entry => entry.name !== activeView?.name,
+                (entry) => entry.name !== activeView?.name
               ) || []),
               r.view[0],
             ],
@@ -294,37 +297,37 @@ export const ViewPopup = ({
 
   const removeView = () => {
     setIsViewsLoading(true);
-    pushData('View popup', {
-      action: 'delete',
+    pushData("View popup", {
+      action: "delete",
     });
-    const {id} = activeView;
+    const { id } = activeView;
     if (user)
-      GET('/views/remove', {
+      GET("/views/remove", {
         account: user.address,
         id,
       })
-        .then(r => r.json())
-        .then(r => {
+        .then((r) => r.json())
+        .then((r) => {
           if (r.error) {
             return;
             //  alert.error(r.error);
           } else {
-            setUser(prev => ({
+            setUser((prev) => ({
               ...prev,
               views: user?.views.filter(
-                entry => entry.name !== activeView?.name,
+                (entry) => entry.name !== activeView?.name
               ),
             }));
-            setType('');
+            setType("");
             setActiveView(
               JSON.stringify(user?.views[0]) !== JSON.stringify(activeView)
                 ? user?.views[0]
                 : unformatActiveView(
                     Cookies.get(`view-${user?.address}`) || null,
-                    'all',
+                    "all",
                     JSON.stringify(defaultTop100),
-                    user?.address,
-                  ),
+                    user?.address
+                  )
             );
             setIsViewsLoading(false);
           }
@@ -333,11 +336,11 @@ export const ViewPopup = ({
   };
 
   const getRenderForFilters = useCallback(
-    (filter: {name: string; title: string; icon: IconProps}) => {
-      if (filter.name === 'blockchains') {
+    (filter: { name: string; title: string; icon: IconProps }) => {
+      if (filter.name === "blockchains") {
         return (
           <AvatarGroup size="2xs" spacing="-5px" max={7}>
-            {state.filters[filter.name]?.map(item => (
+            {state.filters[filter.name]?.map((item) => (
               <Avatar
                 border="none"
                 key={item}
@@ -346,7 +349,7 @@ export const ViewPopup = ({
                 src={
                   blockchainsContent[item]?.logo ||
                   `/logo/${
-                    blockchainsContent[item]?.name?.toLowerCase().split(' ')[0]
+                    blockchainsContent[item]?.name?.toLowerCase().split(" ")[0]
                   }.png`
                 }
               />
@@ -354,7 +357,7 @@ export const ViewPopup = ({
           </AvatarGroup>
         );
       }
-      if (filter.name === 'categories') {
+      if (filter.name === "categories") {
         return (
           <TextSmall color="blue" fontWeight="500">
             {state.filters[filter.name]?.length} categories
@@ -362,9 +365,12 @@ export const ViewPopup = ({
         );
       }
 
-      const {from, to} = state.filters[filter.name] || {from: 0, to: maxValue};
+      const { from, to } = state.filters[filter.name] || {
+        from: 0,
+        to: maxValue,
+      };
       let valueMax: number | string = maxValue;
-      if (to === maxValue) valueMax = 'Any';
+      if (to === maxValue) valueMax = "Any";
       else valueMax = getFormattedAmount(to);
 
       if (to !== maxValue || from !== 0)
@@ -375,19 +381,22 @@ export const ViewPopup = ({
         );
       return null;
     },
-    [state.filters],
+    [state.filters]
   );
 
   const checkSameNameExist = () => {
-    if (user?.views?.length > 0 && type === 'create') {
-      const alreadyExist = user.views.find(view => view.name === state.name);
+    if (!user) return false;
+    if (user?.views?.length > 0 && type === "create") {
+      const alreadyExist = user
+        ? user.views.find((view) => view.name === state.name)
+        : false;
       // if (alreadyExist)
       //   alert.error(
       //     'You already have a view with this name. Please change it and retry',
       //   );
       return alreadyExist;
     }
-    if (state.name !== 'All' && activeView?.name === 'All' && type === 'edit') {
+    if (state.name !== "All" && activeView?.name === "All" && type === "edit") {
       // alert.error("Can't change the name of this view.");
       return true;
     }
@@ -395,63 +404,67 @@ export const ViewPopup = ({
   };
 
   const resetButtonStyle = {
-    w: 'fit-content',
-    mt: '10px',
-    fontSize: ['12px', '12px', '13px', '14px'],
-    fontWeight: '400',
-    color: {text40},
-    transition: 'all 250ms ease-in-out',
-    _hover: {color: text80},
+    w: "fit-content",
+    mt: "10px",
+    fontSize: ["12px", "12px", "13px", "14px"],
+    fontWeight: "400",
+    color: { text40 },
+    transition: "all 250ms ease-in-out",
+    _hover: { color: text80 },
   };
 
   const handleCategoryChange = (category: string) => {
     if (!state.filters.categories?.includes(category))
       dispatch({
         type: ACTIONS.ADD_CATEGORY,
-        payload: {value: category},
+        payload: { value: category },
       });
     else
       dispatch({
         type: ACTIONS.REMOVE_CATEGORY,
-        payload: {value: category},
+        payload: { value: category },
       });
   };
 
-  const [searchCategorie, setSearchCategorie] = useState('');
-  const filteredCategories = defaultCategories.filter(entry => {
-    if (searchCategorie === '') return true;
+  const [searchCategorie, setSearchCategorie] = useState("");
+  const filteredCategories = defaultCategories.filter((entry) => {
+    if (searchCategorie === "") return true;
     return entry.toLowerCase().includes(searchCategorie.toLowerCase());
   });
 
   useEffect(() => {
-    if (!localStorage.getItem('showTutoViews')) setShowTuto(true);
+    if (!localStorage.getItem("showTutoViews")) setShowTuto(true);
   }, []);
 
   useEffect(() => {
+    if (!state.display) return;
     if (state.display.length !== dragNdrop.length)
       setDragNdrop(
         state.display.map((item, index) => ({
           ...item,
           id: index + 1,
-        })),
+        }))
       );
   }, [state.display]);
 
   const newDefault = [...defaultCategories];
 
+  const ReactSortableAny = ReactSortable as any;
+
   return (
-    <Modal motionPreset="none" isOpen={!!type} onClose={() => setType('')}>
+    <Modal motionPreset="none" isOpen={!!type} onClose={() => setType("")}>
       <ModalOverlay />
       <ModalContent
         bg={boxBg3}
         boxShadow="none"
         borderRadius="16px"
         border={borders}
-        w={['90%', '100%']}
+        w={["90%", "100%"]}
         maxW="480px"
-        p={['15px', '15px', '20px']}
+        p={["15px", "15px", "20px"]}
         position="relative"
-        overflowX="hidden">
+        overflowX="hidden"
+      >
         {showTuto ? (
           <Flex
             direction="column"
@@ -483,7 +496,7 @@ export const ViewPopup = ({
                 <Icon as={ArrowBackIcon} mr="7.5px" />
                 <TextLandingSmall fontWeight="600" color={text80}>
                   Categories ({filteredCategories.length})
-                </TextLandingSmall>{' '}
+                </TextLandingSmall>{" "}
               </Button>
               <Input
                 maxW="210px"
@@ -491,17 +504,17 @@ export const ViewPopup = ({
                 type="text"
                 borderRadius="8px"
                 placeholder="Search a category"
-                _placeholder={{color: text60, opacity: 1}}
+                _placeholder={{ color: text60, opacity: 1 }}
                 h="35px"
                 px="10px"
                 bg={boxBg6}
                 mr="10px"
-                onChange={e => setSearchCategorie(e.target.value)}
+                onChange={(e) => setSearchCategorie(e.target.value)}
               />
             </Flex>
             {filteredCategories.length > 0 ? (
               <Flex wrap="wrap">
-                {filteredCategories.map(category => (
+                {filteredCategories.map((category) => (
                   <Button
                     variant="outlined_grey"
                     borderRadius="16px"
@@ -517,7 +530,9 @@ export const ViewPopup = ({
                     color={text80}
                     onClick={() => {
                       handleCategoryChange(category);
-                    }}>
+                    }}
+                    key={category}
+                  >
                     <TextSmall mt="1px" m="0px">
                       {category}
                     </TextSmall>
@@ -537,7 +552,8 @@ export const ViewPopup = ({
               position="sticky"
               bottom="0px"
               pt="15px"
-              borderTop={borders}>
+              borderTop={borders}
+            >
               <Button
                 variant="outlined_grey"
                 mr="5px"
@@ -546,7 +562,8 @@ export const ViewPopup = ({
                   dispatch({
                     type: ACTIONS.REMOVE_ALL_CATEGORY,
                   });
-                }}>
+                }}
+              >
                 Deselect All
               </Button>
               <Button
@@ -554,15 +571,16 @@ export const ViewPopup = ({
                 ml="5px"
                 w="50%"
                 onClick={() => {
-                  dispatch({type: ACTIONS.RESET_CATEGORY});
-                }}>
+                  dispatch({ type: ACTIONS.RESET_CATEGORY });
+                }}
+              >
                 Select All
               </Button>
             </Flex>
           </Flex>
         ) : (
           <ModalBody p="0px">
-            {type === 'edit' && activeView?.name === 'All' ? null : (
+            {type === "edit" && activeView?.name === "All" ? null : (
               <>
                 <TextLandingSmall fontWeight="600" color={text80}>
                   Name
@@ -574,26 +592,28 @@ export const ViewPopup = ({
                     bg={boxBg6}
                     border={borders}
                     color={text80}
-                    zIndex="2">
+                    zIndex="2"
+                  >
                     <Input
                       w="100%"
                       px="10px"
                       h="100%"
                       maxLength={25}
                       placeholder={
-                        type === 'create' ? 'View name' : activeView?.name
+                        type === "create" ? "View name" : activeView?.name
                       }
                       color={text80}
-                      isDisabled={activeView?.name === 'All' && type === 'edit'}
-                      _placeholder={{color: text80}}
-                      onChange={e => handleBasicInputChange(e)}
+                      isDisabled={activeView?.name === "All" && type === "edit"}
+                      _placeholder={{ color: text80 }}
+                      onChange={(e) => handleBasicInputChange(e)}
                     />
                     <InputRightElement h="100%" mr="10px" zIndex="2">
                       <Menu>
                         <MenuButton
                           as={Button}
                           h="90%"
-                          rightIcon={<ChevronDownIcon />}>
+                          rightIcon={<ChevronDownIcon />}
+                        >
                           <Flex
                             boxSize="10px"
                             bg={defaultColor}
@@ -609,8 +629,9 @@ export const ViewPopup = ({
                           bg={boxBg6}
                           borderRadius="16px"
                           border={borders}
-                          boxShadow="none">
-                          {colors.map(color => (
+                          boxShadow="none"
+                        >
+                          {colors.map((color) => (
                             <MenuItem
                               mx="2.5px"
                               mb="2.5px"
@@ -623,9 +644,10 @@ export const ViewPopup = ({
                               onClick={() =>
                                 dispatch({
                                   type: ACTIONS.SET_COLOR,
-                                  payload: {value: color},
+                                  payload: { value: color },
                                 })
-                              }>
+                              }
+                            >
                               <Flex
                                 bg={color}
                                 minH="12px"
@@ -650,7 +672,8 @@ export const ViewPopup = ({
                     h="35px"
                     onMouseEnter={() => setIsStarHover(true)}
                     onMouseLeave={() => setIsStarHover(false)}
-                    onClick={() => dispatch({type: ACTIONS.SET_FAVORITE})}>
+                    onClick={() => dispatch({ type: ACTIONS.SET_FAVORITE })}
+                  >
                     <Icon
                       opacity={getStarIconFromActiveView().outline}
                       as={AiOutlineStar}
@@ -665,14 +688,15 @@ export const ViewPopup = ({
                       color="yellow"
                       fontSize="16px"
                       transition="all 250ms ease-in-out"
-                    />{' '}
+                    />{" "}
                   </Button>
-                  {type !== 'create' ? (
+                  {type !== "create" ? (
                     <Button
                       variant="outlined_grey"
                       ml="10px"
                       color={text80}
-                      onClick={() => removeView()}>
+                      onClick={() => removeView()}
+                    >
                       <Icon as={BsTrash3} fontSize="16px" />
                     </Button>
                   ) : null}
@@ -687,97 +711,104 @@ export const ViewPopup = ({
               border={borders}
               borderRadius="8px"
               mt="10px"
-              p="2px">
+              p="2px"
+            >
               <Flex
                 position="absolute"
                 bg={hover}
                 w="50%"
-                h={['30px', '35px']}
-                zIndex={showTuto ? 3 : 'auto'}
+                h={["30px", "35px"]}
+                zIndex={showTuto ? 3 : "auto"}
                 left={
-                  activeDisplay === 'display'
-                    ? 'calc(0% + 2px)'
-                    : 'calc(50% - 2px)'
+                  activeDisplay === "display"
+                    ? "calc(0% + 2px)"
+                    : "calc(50% - 2px)"
                 }
                 borderRadius="8px"
                 transition="all 250ms ease-in-out"
               />
               <Button
                 w="50%"
-                h={['30px', '35px']}
-                onClick={() => setActiveDisplay('display')}
+                h={["30px", "35px"]}
+                onClick={() => setActiveDisplay("display")}
                 fontWeight="400"
                 zIndex={activeStep.nbr === 1 && showTuto ? 4 : 1}
-                fontSize={['12px', '12px', '13px', '14px']}
-                color={text80}>
+                fontSize={["12px", "12px", "13px", "14px"]}
+                color={text80}
+              >
                 Display
               </Button>
               <Button
                 w="50%"
-                h={['30px', '35px']}
-                onClick={() => setActiveDisplay('filters')}
+                h={["30px", "35px"]}
+                onClick={() => setActiveDisplay("filters")}
                 fontWeight="400"
                 zIndex={activeStep.nbr === 2 && showTuto ? 4 : 1}
-                fontSize={['12px', '12px', '13px', '14px']}
-                color={text80}>
+                fontSize={["12px", "12px", "13px", "14px"]}
+                color={text80}
+              >
                 Filters
               </Button>
             </Flex>
-            {activeDisplay === 'display' ? (
-              <ReactSortable
+            {activeDisplay === "display" ? (
+              <ReactSortableAny
                 tag={CustomComponent}
                 animation={200}
                 delay={0}
                 list={dragNdrop}
-                setList={newOrder => {
+                setList={(newOrder) => {
                   setDragNdrop(newOrder);
-                  dispatch({type: ACTIONS.MOVE_ELEMENT, payload: newOrder});
-                }}>
-                {dragNdrop?.map(entry => (
+                  dispatch({ type: ACTIONS.MOVE_ELEMENT, payload: newOrder });
+                }}
+              >
+                {dragNdrop?.map((entry) => (
                   <Flex
                     key={entry.id}
                     align="center"
-                    px={['7.5px', '10px']}
+                    px={["7.5px", "10px"]}
                     mr="7.5"
                     bg={hover}
                     borderRadius="full"
                     w="fit-content"
-                    h={['25px', '25px', '30px']}
+                    h={["25px", "25px", "30px"]}
                     mt="7.5px"
                     border={borders}
-                    fontSize={['12px', '12px', '13px', '14px']}
-                    cursor="pointer">
+                    fontSize={["12px", "12px", "13px", "14px"]}
+                    cursor="pointer"
+                  >
                     <Icon as={PiDotsNineBold} mr="7.5px" />
                     <TextSmall mb="1px">{entry.value}</TextSmall>
                   </Flex>
                 ))}
-              </ReactSortable>
+              </ReactSortableAny>
             ) : null}
-            {activeDisplay === 'display' ? (
+            {activeDisplay === "display" ? (
               <Flex direction="column" w="100%" mt="10px">
-                {displays.map(display => (
-                  <Flex direction="column">
+                {displays.map((display) => (
+                  <Flex direction="column" key={display.title}>
                     <TextLandingSmall fontWeight="600" mb="5px" color={text80}>
                       {display.title}
                     </TextLandingSmall>
                     <Flex wrap="wrap" w="100%" mb="20px">
-                      {display.filters.map(entry => {
+                      {display.filters.map((entry) => {
                         const isInDisplay = state.display?.some(
-                          item => item.value === entry,
+                          (item) => item.value === entry
                         );
                         return (
                           <Button
                             variant="outlined_grey"
                             borderRadius="16px"
                             mt="7.5px"
-                            h={['25px', '25px', '30px']}
+                            h={["25px", "25px", "30px"]}
                             mr="7.5px"
                             bg={isInDisplay ? hover : boxBg6}
                             border={borders}
                             color={text80}
                             onClick={() =>
                               handleDisplayChange(entry, display.name)
-                            }>
+                            }
+                            key={entry}
+                          >
                             <TextSmall mt="1px" m="0px">
                               {entry}
                             </TextSmall>
@@ -796,14 +827,16 @@ export const ViewPopup = ({
                 <Accordion mt="10px" allowMultiple allowToggle>
                   {filters.map((filter, i) => (
                     <AccordionItem
-                      borderTop={i === 0 ? borders : 'none'}
+                      borderTop={i === 0 ? borders : "none"}
                       key={filter.title}
-                      borderBottom="none !important">
+                      borderBottom="none !important"
+                    >
                       <AccordionButton
                         color={text80}
                         px="0px"
                         borderBottom={borders}
-                        _hover={{bg: 'none'}}>
+                        _hover={{ bg: "none" }}
+                      >
                         <TextLandingSmall color={text80}>
                           {filter.title}
                         </TextLandingSmall>
@@ -815,52 +848,59 @@ export const ViewPopup = ({
                       <AccordionPanel
                         pb={4}
                         color={text80}
-                        borderBottom="none !important">
+                        borderBottom="none !important"
+                      >
                         <Flex direction="column" w="100%">
-                          {filter.title === 'Blockchains' ? (
+                          {filter.title === "Blockchains" ? (
                             <Flex direction="column" w="100%">
                               <Flex
                                 direction="column"
                                 w="100%"
                                 maxH="255px"
-                                overflowY="scroll">
-                                {Object.keys(blockchainsContent).map(chain => (
-                                  <Flex
-                                    my="5px"
-                                    key={chain}
-                                    justify="space-between"
-                                    onClick={() =>
-                                      handleBlockchainsChange(chain)
-                                    }
-                                    cursor="pointer">
-                                    <Flex align="center">
-                                      <Image
-                                        src={
-                                          blockchainsContent[chain]?.logo ||
-                                          '/icon/unknown.png'
-                                        }
-                                        boxSize="22px"
-                                        borderRadius="full"
-                                        mr="7.5px"
-                                      />
-                                      <TextSmall>{chain}</TextSmall>
-                                    </Flex>
-                                    <Button
-                                      boxSize="15px"
-                                      borderRadius="4px"
-                                      border={bordersActive}
-                                      mr="15px">
-                                      {state.filters.blockchains.some(
-                                        item => item === chain,
-                                      ) ? (
-                                        <CheckIcon
-                                          color="blue"
-                                          fontSize="10px"
+                                overflowY="scroll"
+                              >
+                                {Object.keys(blockchainsContent).map(
+                                  (chain) => (
+                                    <Flex
+                                      my="5px"
+                                      key={chain}
+                                      justify="space-between"
+                                      onClick={() =>
+                                        handleBlockchainsChange(chain)
+                                      }
+                                      cursor="pointer"
+                                    >
+                                      <Flex align="center">
+                                        <Image
+                                          src={
+                                            blockchainsContent[chain]?.logo ||
+                                            "/icon/unknown.png"
+                                          }
+                                          boxSize="22px"
+                                          borderRadius="full"
+                                          mr="7.5px"
+                                          alt={chain + " logo"}
                                         />
-                                      ) : null}
-                                    </Button>
-                                  </Flex>
-                                ))}
+                                        <TextSmall>{chain}</TextSmall>
+                                      </Flex>
+                                      <Button
+                                        boxSize="15px"
+                                        borderRadius="4px"
+                                        border={bordersActive}
+                                        mr="15px"
+                                      >
+                                        {(
+                                          state?.filters?.blockchains || []
+                                        ).some((item) => item === chain) ? (
+                                          <CheckIcon
+                                            color="blue"
+                                            fontSize="10px"
+                                          />
+                                        ) : null}
+                                      </Button>
+                                    </Flex>
+                                  )
+                                )}
                               </Flex>
                               <Flex pt="10px" bg={boxBg3}>
                                 <Button
@@ -871,7 +911,8 @@ export const ViewPopup = ({
                                     dispatch({
                                       type: ACTIONS.DESELECT_ALL_BLOCKCHAINS,
                                     });
-                                  }}>
+                                  }}
+                                >
                                   Deselect All
                                 </Button>
                                 <Button
@@ -882,14 +923,15 @@ export const ViewPopup = ({
                                     dispatch({
                                       type: ACTIONS.RESET_BLOCKCHAINS,
                                     });
-                                  }}>
+                                  }}
+                                >
                                   Select All
                                 </Button>
                               </Flex>
                             </Flex>
                           ) : null}
-                          {filter.title !== 'Blockchains' &&
-                          filter.title !== 'Categories' ? (
+                          {filter.title !== "Blockchains" &&
+                          filter.title !== "Categories" ? (
                             <Flex direction="column" w="100%">
                               <Flex w="100%">
                                 <Flex direction="column" w="50%" mr="5px">
@@ -898,7 +940,7 @@ export const ViewPopup = ({
                                     bg={boxBg6}
                                     border={borders}
                                     color={text80}
-                                    _placeholder={{color: text80}}
+                                    _placeholder={{ color: text80 }}
                                     placeholder={
                                       state.filters?.[filter.name]?.from || 0
                                     }
@@ -908,7 +950,9 @@ export const ViewPopup = ({
                                     px="7.5px"
                                     h="35px"
                                     // value={state.filters[filter.name].from}
-                                    onChange={e => handleInputChange(e, 'from')}
+                                    onChange={(e) =>
+                                      handleInputChange(e, "from")
+                                    }
                                   />
                                 </Flex>
                                 <Flex direction="column" w="50%" ml="5px">
@@ -919,18 +963,18 @@ export const ViewPopup = ({
                                     px="7.5px"
                                     color={text80}
                                     h="35px"
-                                    _placeholder={{color: text80}}
+                                    _placeholder={{ color: text80 }}
                                     placeholder={
                                       state.filters?.[filter.name]?.to ===
                                       maxValue
-                                        ? 'Any'
+                                        ? "Any"
                                         : state.filters?.[filter.name]?.to ||
-                                          'Any'
+                                          "Any"
                                     }
                                     borderRadius="8px"
                                     name={filter.name}
                                     type="number"
-                                    onChange={e => handleInputChange(e, 'to')}
+                                    onChange={(e) => handleInputChange(e, "to")}
                                     // value={state.filters[filter.name].to}
                                   />
                                 </Flex>
@@ -942,31 +986,33 @@ export const ViewPopup = ({
                                   onClick={() => {
                                     dispatch({
                                       type: ACTIONS.RESET_FILTER,
-                                      payload: {name: filter.name},
+                                      payload: { name: filter.name },
                                     });
-                                  }}>
+                                  }}
+                                >
                                   <CloseIcon fontSize="8.5px" mr="7px" />
                                   Reset {filter.title}
                                 </Button>
                               ) : null}
                             </Flex>
                           ) : null}
-                          {filter.title === 'Categories' ? (
+                          {filter.title === "Categories" ? (
                             <Flex direction="column" w="100%">
                               <Flex
                                 direction="column"
                                 w="100%"
                                 maxH="255px"
-                                overflowY="scroll">
+                                overflowY="scroll"
+                              >
                                 <Flex wrap="wrap" w="100%">
                                   {newDefault
-                                    ?.sort(entry =>
+                                    ?.sort((entry) =>
                                       state.filters?.categories?.includes(entry)
                                         ? -1
-                                        : 1,
+                                        : 1
                                     )
                                     .filter((_, idx) => idx < 5)
-                                    .map(categorie => (
+                                    .map((categorie) => (
                                       <Button
                                         variant="outlined_grey"
                                         borderRadius="16px"
@@ -975,7 +1021,7 @@ export const ViewPopup = ({
                                         mr="7.5px"
                                         bg={
                                           state.filters.categories?.includes(
-                                            categorie,
+                                            categorie
                                           )
                                             ? hover
                                             : boxBg6
@@ -984,12 +1030,14 @@ export const ViewPopup = ({
                                         color={text80}
                                         onClick={() =>
                                           handleCategoryChange(categorie)
-                                        }>
+                                        }
+                                        key={categorie}
+                                      >
                                         <TextSmall mt="1px" m="0px">
                                           {categorie}
                                         </TextSmall>
                                         {state.filters.categories?.includes(
-                                          categorie,
+                                          categorie
                                         ) ? (
                                           <CloseIcon fontSize="9px" ml="5px" />
                                         ) : null}
@@ -1004,7 +1052,8 @@ export const ViewPopup = ({
                                     bg={boxBg6}
                                     border={borders}
                                     color={text80}
-                                    onClick={() => setShowCategories(true)}>
+                                    onClick={() => setShowCategories(true)}
+                                  >
                                     <TextSmall mt="1px" m="0px">
                                       See all
                                     </TextSmall>
@@ -1027,13 +1076,14 @@ export const ViewPopup = ({
                 w="100%"
                 maxW="50%"
                 onClick={() => {
-                  pushData('View popup', {
-                    action: 'reset',
+                  pushData("View popup", {
+                    action: "reset",
                   });
                   if (isConnected) {
-                    dispatch({type: ACTIONS.RESET_VIEW});
+                    dispatch({ type: ACTIONS.RESET_VIEW });
                   } else setConnect(true);
-                }}>
+                }}
+              >
                 Reset
               </Button>
               <Button
@@ -1043,8 +1093,8 @@ export const ViewPopup = ({
                 maxW="52%"
                 ml="5px"
                 onClick={() => {
-                  pushData('View popup', {
-                    action: type === 'create' ? 'create' : 'edit',
+                  pushData("View popup", {
+                    action: type === "create" ? "create" : "edit",
                   });
                   if (isConnected) {
                     if (!checkSameNameExist()) {
@@ -1052,30 +1102,31 @@ export const ViewPopup = ({
                         // alert.show('Please add a name for your view');
                         return;
                       }
-                      if (activeView?.name === 'All' && type !== 'create') {
+                      if (activeView?.name === "All" && type !== "create") {
                         setIsLoading(true);
-                        setActiveView({...state, isFirst: false});
+                        setActiveView({ ...state, isFirst: false });
                         if (!user || !activeView) return;
                         const activeViewStr = formatDataForFilters(
                           activeView,
-                          state,
+                          state
                         );
                         Cookies.set(`view-${address}`, activeViewStr, {
-                          secure: process.env.NODE_ENV !== 'development',
-                          sameSite: 'strict',
+                          secure: process.env.NODE_ENV !== "development",
+                          sameSite: "strict",
                         });
-                        setType('');
+                        setType("");
                       } else if (
-                        activeView?.name !== 'All' ||
-                        type === 'create'
+                        activeView?.name !== "All" ||
+                        type === "create"
                       ) {
                         setIsLoading(true);
-                        if (type === 'edit') editView();
+                        if (type === "edit") editView();
                         else createView();
                       }
                     }
                   } else setConnect(true);
-                }}>
+                }}
+              >
                 {isViewsLoading ? (
                   <Spinner
                     thickness="2px"
@@ -1086,7 +1137,7 @@ export const ViewPopup = ({
                     mr="7.5px"
                   />
                 ) : null}
-                {type === 'create'
+                {type === "create"
                   ? `Create ${state.name}`
                   : `Edit ${activeView?.name}`}
               </Button>
