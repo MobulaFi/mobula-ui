@@ -16,13 +16,29 @@
     "outDir": "./dist/src",
     "baseUrl": "./src",
     "paths": {
-      "@core/*": ["./core/*"],
-      "@services/*": ["./services/*", "./core/services/*"],
-      "@models/*": ["./models/*", "./core/models/*"],
-      "@constants/*": ["./constants/*"],
-      "@utils/*": ["./utils/*"]
+      "@core/*": [
+        "./core/*"
+      ],
+      "@services/*": [
+        "./services/*",
+        "./core/services/*"
+      ],
+      "@models/*": [
+        "./models/*",
+        "./core/models/*"
+      ],
+      "@constants/*": [
+        "./constants/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ]
     },
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -31,7 +47,12 @@
     "noImplicitReturns": false,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "compileOnSave": true,
   "include": [
@@ -44,5 +65,7 @@
     "typings/**/*",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
