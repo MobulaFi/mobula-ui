@@ -1,7 +1,4 @@
-import {
-  PostgrestResponse,
-  PostgrestSingleResponse,
-} from "@supabase/supabase-js";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { Asset, TableAsset } from "../assets";
 import { Coin } from "../swap";
 import { IPortfolio } from "./portfolio";
@@ -39,7 +36,7 @@ export interface QueryResults {
 
 export type StaticHomeQueries = [
   PromiseLike<PostgrestSingleResponse<Metrics>>,
-  PromiseLike<PostgrestResponse<TableAsset>>,
+  Promise<any>,
   Promise<any>,
   PromiseLike<PostgrestSingleResponse<Asset>>,
   PromiseLike<PostgrestSingleResponse<Asset>>,

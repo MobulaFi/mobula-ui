@@ -1,11 +1,12 @@
-import { SupabaseClient, SupabaseClientOptions } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export class Postbula extends SupabaseClient {
+  restUrl: string;
   constructor(
     publicKey: string,
     anonKey: string,
     restUrl: string,
-    options?: SupabaseClientOptions
+    options?: any
   ) {
     super(publicKey, anonKey, {
       ...options,

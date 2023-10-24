@@ -1,11 +1,13 @@
-import { TextSmall } from "@/components/fonts";
-import { useColors } from "@/lib/chakra/colorMode";
 import { Flex, Icon, useColorMode } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { SlWallet } from "react-icons/sl";
 import { VscArrowSwap } from "react-icons/vsc";
+import { TextSmall } from "../../components/fonts";
+import { NextChakraLink } from "../../components/link";
+import { useUrl } from "../../hooks/url";
+import { useColors } from "../../lib/chakra/colorMode";
 
 export const MenuFixedMobile = () => {
   const { boxBg3, borders, text100, text60 } = useColors();

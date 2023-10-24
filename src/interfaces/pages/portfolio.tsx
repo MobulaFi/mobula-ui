@@ -2,6 +2,7 @@ import { BlockchainName, Token } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { Asset } from "../assets";
 import { HoldingNFT } from "../holdings";
+import { PublicTransaction } from "../transactions";
 import { TimeSelected } from "./asset";
 
 export interface IPortfolioV2 {

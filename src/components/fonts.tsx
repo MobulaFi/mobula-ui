@@ -1,5 +1,6 @@
-import { useColors } from "@/lib/chakra/colorMode";
 import { Flex, Text } from "@chakra-ui/react";
+import React from "react";
+import { useColors } from "../lib/chakra/colorMode";
 
 interface defaultProps {
   children: React.ReactNode;

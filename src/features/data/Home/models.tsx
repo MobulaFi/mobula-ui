@@ -1,7 +1,7 @@
-import { Asset } from "@/interfaces/assets";
-import { IPortfolio } from "@/interfaces/pages/portfolio";
-import { Coin } from "@/interfaces/swap";
 import React from "react";
+import { Asset } from "../../../interfaces/assets";
+import { IPortfolio } from "../../../interfaces/pages/portfolio";
+import { Coin } from "../../../interfaces/swap";
 
 export interface RecomandationType {
   title: string;
@@ -195,25 +195,17 @@ export interface IWSWallet {
   addresses: string[];
 }
 
-export type Reducer =
-  | { type: "MOVE_ELEMENT"; payload: any }
-  | { type: "SET_USER_VALUE"; payload: { value: any } }
-  | { type: "SET_BASIC_INPUT"; payload: { name: string; value: any } }
-  | { type: "SET_FAVORITE" }
-  | { type: "SET_COLOR"; payload: { value: any } }
-  | { type: "ADD_DISPLAY"; payload: { type: string; value: any } }
-  | { type: "RESET_FILTER"; payload: { name: string } }
-  | { type: "RESET_BLOCKCHAINS" }
-  | { type: "REMOVE_DISPLAY"; payload: { value: any } }
-  | { type: "SET_INPUT"; payload: { name: string; time: string; value: any } }
-  | { type: "ADD_BLOCKCHAINS"; payload: { value: any } }
-  | { type: "DESELECT_ALL_BLOCKCHAINS" }
-  | { type: "REMOVE_BLOCKCHAINS"; payload: { value: any } }
-  | { type: "RESET_VIEW" }
-  | { type: "ADD_CATEGORY"; payload: { value: any } }
-  | { type: "REMOVE_CATEGORY"; payload: { value: any } }
-  | { type: "RESET_CATEGORY" }
-  | { type: "REMOVE_ALL_CATEGORY" };
+export interface Payload {
+  name?: string;
+  time?: string;
+  value?: string | View;
+  type?: string;
+}
+
+export interface Reducer {
+  type: string;
+  payload: Payload | string;
+}
 
 export interface DefaultSettings {
   [key: string]: {

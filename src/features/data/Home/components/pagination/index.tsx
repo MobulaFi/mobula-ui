@@ -1,63 +1,66 @@
-'use client';
-import {Box, Button, Flex, Spacer, VStack} from '@chakra-ui/react';
-import {Next, Previous} from 'chakra-paginator';
-import {useRouter, useSearchParams} from 'next/navigation';
-import {ChevronLeft, ChevronRight} from 'react-feather';
-import {NextChakraLink} from '../../../../../common/components/links';
-import {useColors} from '../../../../../common/utils/color-mode';
-import {useTop100} from '../../context-manager';
+"use client";
+import { Box, Button, Flex, Spacer, VStack } from "@chakra-ui/react";
+import { Next, Previous } from "chakra-paginator";
+import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { NextChakraLink } from "../../../../../components/link";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { useTop100 } from "../../context-manager";
 
 export const Pagination = ({
   maxPage,
   bg = true,
-  path = '/',
+  path = "/",
 }: {
   maxPage: any;
   bg?: boolean;
   path?: string;
 }) => {
   const router = useRouter();
-  const {setIsLoading} = useTop100();
-  const {text60, text80, hover, borders, bgTable} = useColors();
+  const { setIsLoading } = useTop100();
+  const { text60, text80, hover, borders, bgTable } = useColors();
   const searchParams = useSearchParams();
-  const pageNumber = searchParams.get('page');
+  const pageNumber = searchParams.get("page");
   const page = pageNumber
     ? Math.min(parseInt(pageNumber as string, 10), parseInt(maxPage, 10))
     : 1;
   const options = {
-    mx: '0px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
+    mx: "0px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
     p: 0,
-    boxSize: '35px',
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontWeight: '500',
+    boxSize: "35px",
+    borderRadius: "8px",
+    fontSize: "16px",
+    fontWeight: "500",
   };
   return (
-    <VStack bg={bg ? bgTable : ''} py={10}>
+    <VStack bg={bg ? bgTable : ""} py={10}>
       <Box>
         <Flex p={2}>
           <Spacer />
           <Previous bg="none" border="none" cursor="pointer" mr="20px">
             <NextChakraLink
               color={text80}
-              cursor={page > 1 ? 'pointer' : 'not-allowed'}
+              cursor={page > 1 ? "pointer" : "not-allowed"}
               href={page > 1 ? `${path}?page=${page - 1}` : undefined}
-              onClick={() => setIsLoading(true)}>
-              <ChevronLeft color={text80} />
+              onClick={() => setIsLoading(true)}
+            >
+              <FaChevronLeft color={text80} />
             </NextChakraLink>
           </Previous>
 
           <NextChakraLink
             color={page === 1 ? text80 : text60}
             sx={options}
-            bg={page === 1 ? hover : 'none'}
-            border={page === 1 ? borders : 'none'}
+            bg={page === 1 ? hover : "none"}
+            border={page === 1 ? borders : "none"}
             href={page === 1 ? undefined : `${path}?page=1`}
-            onClick={() => setIsLoading(true)}>
+            onClick={() => setIsLoading(true)}
+          >
             1
           </NextChakraLink>
           {page >= 5 && (
@@ -68,7 +71,8 @@ export const Pagination = ({
               border="none"
               type="button"
               disabled
-              fontSize="16px">
+              fontSize="16px"
+            >
               ...
             </Button>
           )}
@@ -86,10 +90,11 @@ export const Pagination = ({
                   ? undefined
                   : `${path}?page=${Math.max(
                       Math.min(page - 2, maxPage - 5),
-                      2,
+                      2
                     )}`
               }
-              onClick={() => setIsLoading(true)}>
+              onClick={() => setIsLoading(true)}
+            >
               {Math.max(Math.min(page - 2, maxPage - 5), 2)}
             </NextChakraLink>
           )}
@@ -99,7 +104,7 @@ export const Pagination = ({
               bg={
                 Math.max(Math.min(page - 1, maxPage - 4), 3) === page
                   ? hover
-                  : 'none'
+                  : "none"
               }
               color={
                 Math.max(Math.min(page - 1, maxPage - 4), 3) === page
@@ -112,10 +117,11 @@ export const Pagination = ({
                   ? undefined
                   : `${path}?page=${Math.max(
                       Math.min(page - 1, maxPage - 4),
-                      3,
+                      3
                     )}`
               }
-              onClick={() => setIsLoading(true)}>
+              onClick={() => setIsLoading(true)}
+            >
               {Math.max(Math.min(page - 1, maxPage - 4), 3)}
             </NextChakraLink>
           )}
@@ -125,12 +131,12 @@ export const Pagination = ({
               bg={
                 Math.max(Math.min(page, maxPage - 3), 4) === page
                   ? hover
-                  : 'none'
+                  : "none"
               }
               border={
                 Math.max(Math.min(page, maxPage - 3), 4) === page
                   ? borders
-                  : 'none'
+                  : "none"
               }
               color={
                 Math.max(Math.min(page, maxPage - 3), 4) === page
@@ -142,7 +148,8 @@ export const Pagination = ({
                   ? undefined
                   : `${path}?page=${Math.max(Math.min(page, maxPage - 3), 4)}`
               }
-              onClick={() => setIsLoading(true)}>
+              onClick={() => setIsLoading(true)}
+            >
               {Math.max(Math.min(page, maxPage - 3), 4)}
             </NextChakraLink>
           )}
@@ -152,12 +159,12 @@ export const Pagination = ({
               bg={
                 Math.max(Math.min(page + 1, maxPage - 2), 5) === page
                   ? hover
-                  : 'none'
+                  : "none"
               }
               border={
                 Math.max(Math.min(page + 1, maxPage - 2), 5) === page
                   ? borders
-                  : 'none'
+                  : "none"
               }
               color={
                 Math.max(Math.min(page + 1, maxPage - 2), 5) === page
@@ -169,10 +176,11 @@ export const Pagination = ({
                   ? undefined
                   : `${path}?page=${Math.max(
                       Math.min(page + 1, maxPage - 2),
-                      5,
+                      5
                     )}`
               }
-              onClick={() => setIsLoading(true)}>
+              onClick={() => setIsLoading(true)}
+            >
               {Math.max(Math.min(page + 1, maxPage - 2), 5)}
             </NextChakraLink>
           )}
@@ -182,12 +190,12 @@ export const Pagination = ({
               bg={
                 Math.max(Math.min(page + 2, maxPage - 1), 6) === page
                   ? hover
-                  : 'none'
+                  : "none"
               }
               border={
                 Math.max(Math.min(page + 2, maxPage - 1), 6) === page
                   ? borders
-                  : 'none'
+                  : "none"
               }
               color={
                 Math.max(Math.min(page + 2, maxPage - 1), 6) === page
@@ -199,10 +207,11 @@ export const Pagination = ({
                   ? undefined
                   : `${path}?page=${Math.max(
                       Math.min(page + 2, maxPage - 1),
-                      6,
+                      6
                     )}`
               }
-              onClick={() => setIsLoading(true)}>
+              onClick={() => setIsLoading(true)}
+            >
               {Math.max(Math.min(page + 2, maxPage - 1), 6)}
             </NextChakraLink>
           )}
@@ -216,17 +225,19 @@ export const Pagination = ({
               sx={options}
               color={maxPage === page ? text80 : text60}
               href={page <= maxPage ? `${path}?page=${maxPage}` : undefined}
-              onClick={() => setIsLoading(true)}>
+              onClick={() => setIsLoading(true)}
+            >
               {maxPage}
             </NextChakraLink>
           )}
           <Next bg="none" border="none" ml="20px">
             <NextChakraLink
               color={text80}
-              cursor={page < maxPage ? 'pointer' : 'not-allowed'}
+              cursor={page < maxPage ? "pointer" : "not-allowed"}
               href={page < maxPage ? `${path}?page=${page + 1}` : undefined}
-              onClick={() => setIsLoading(true)}>
-              <ChevronRight color={text80} />
+              onClick={() => setIsLoading(true)}
+            >
+              <FaChevronRight color={text80} />
             </NextChakraLink>
           </Next>
         </Flex>

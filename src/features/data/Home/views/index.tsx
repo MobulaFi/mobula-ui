@@ -1,10 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-'use client';
-import {ChevronRightIcon} from '@chakra-ui/icons';
-import {Button, Flex} from '@chakra-ui/react';
-import Cookies from 'js-cookie';
-import {blockchainsContent} from 'mobula-lite/lib/chains/constants';
-import {useRouter, useSearchParams} from 'next/navigation';
+"use client";
+import { Button, Flex, Icon } from "@chakra-ui/react";
+import Cookies from "js-cookie";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   useCallback,
   useContext,
@@ -13,30 +12,31 @@ import {
   useReducer,
   useRef,
   useState,
-} from 'react';
-import {useAccount} from 'wagmi';
-import {TextSmall} from '../../../../UI/Text';
-import {PopupUpdateContext} from '../../../../common/context-manager/popup';
-import {UserContext} from '../../../../common/context-manager/user';
-import {pushData} from '../../../../common/data/utils';
-import {useColors} from '../../../../common/utils/color-mode';
-import {GET} from '../../../../common/utils/fetch';
-import {Asset} from '../../../Assets/AssetV2/models';
-import {PopoverTrade} from '../components/popup/popover';
-import {ViewPopup} from '../components/popup/views';
-import {defaultCategories, defaultTop100, formatName} from '../constants';
-import {useTop100} from '../context-manager';
-import {View} from '../models';
-import {ACTIONS, INITIAL_VALUE, maxValue, reducer} from '../reducer';
-import {filterFromType, unformatActiveView} from '../utils';
+} from "react";
+import { FaChevronRight } from "react-icons/fa";
+import { useAccount } from "wagmi";
+import { TextSmall } from "../../../../components/fonts";
+import { PopupUpdateContext } from "../../../../contexts/popup";
+import { UserContext } from "../../../../contexts/user";
+import { Asset } from "../../../../interfaces/assets";
+import { useColors } from "../../../../lib/chakra/colorMode";
+import { pushData } from "../../../../lib/mixpanel";
+import { GET } from "../../../../utils/fetch";
+import { PopoverTrade } from "../components/popup/popover";
+import { ViewPopup } from "../components/popup/views";
+import { defaultCategories, defaultTop100, formatName } from "../constants";
+import { useTop100 } from "../context-manager";
+import { View } from "../models";
+import { ACTIONS, INITIAL_VALUE, maxValue, reducer } from "../reducer";
+import { filterFromType, unformatActiveView } from "../utils";
 
-export const Views = ({cookieTop100, actualView, setResultsData}) => {
-  const {text80, text60, borders, bgTable, hover, boxBg6} = useColors();
-  const [typePopup, setTypePopup] = useState('');
-  const {user} = useContext(UserContext);
+export const Views = ({ cookieTop100, actualView, setResultsData }) => {
+  const { text80, text60, borders, bgTable, hover, boxBg6 } = useColors();
+  const [typePopup, setTypePopup] = useState("");
+  const { user } = useContext(UserContext);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const page = searchParams.get('page');
+  const page = searchParams.get("page");
   const {
     activeView,
     setActiveView,
@@ -47,41 +47,41 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
   } = useTop100();
   const scrollContainer = useRef(null);
   const [state, dispatch] = useReducer(reducer, activeView || INITIAL_VALUE);
-  const {isConnected} = useAccount();
-  const {setConnect} = useContext(PopupUpdateContext);
-  const {address} = useAccount();
-  const [activeDisplay, setActiveDisplay] = useState('display');
+  const { isConnected } = useAccount();
+  const { setConnect } = useContext(PopupUpdateContext);
+  const { address } = useAccount();
+  const [activeDisplay, setActiveDisplay] = useState("display");
   const [showArrow, setShowArrow] = useState(false);
 
   const formatDataForFilters = () => {
-    let activeViewStr = '';
+    let activeViewStr = "";
     const newStr = [];
-    const {blockchains} = activeView.filters;
+    const { blockchains } = activeView.filters;
     const defaultBlockchains = Object.keys(blockchainsContent);
-    const {categories} = activeView.filters;
+    const { categories } = activeView.filters;
 
-    activeViewStr += activeView?.id ? `(${activeView?.id})` : '';
+    activeViewStr += activeView?.id ? `(${activeView?.id})` : "";
     activeViewStr += `(${activeView?.color})`;
     activeViewStr += `(${activeView?.name})`;
     activeViewStr += `(${activeView?.is_favorite})`;
 
-    Object.keys(activeView?.display).forEach(key => {
+    Object.keys(activeView?.display).forEach((key) => {
       newStr.push(`${activeView?.display[key]?.value}`);
     });
     activeViewStr += `(display:${JSON.stringify(newStr)})`;
 
-    Object.keys(activeView?.filters).forEach(key => {
-      if (key !== 'blockchains' && key !== 'categories') {
+    Object.keys(activeView?.filters).forEach((key) => {
+      if (key !== "blockchains" && key !== "categories") {
         const diffThanMin = activeView?.filters[key]?.from !== 0;
         const diffThanMax = activeView?.filters[key]?.to !== maxValue;
         if (diffThanMin || diffThanMax) {
           activeViewStr += `(${key}:${
-            diffThanMin ? activeView?.filters[key]?.from : '_'
-          }|${diffThanMax ? activeView?.filters[key]?.to : '_'})`;
+            diffThanMin ? activeView?.filters[key]?.from : "_"
+          }|${diffThanMax ? activeView?.filters[key]?.to : "_"})`;
         }
       }
       if (
-        key === 'blockchains' &&
+        key === "blockchains" &&
         defaultBlockchains.length !== blockchains.length
       ) {
         const diffChains = [];
@@ -91,7 +91,7 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
           blockchainsContentLength - activeViewBlockchainsLength;
 
         if (activeViewBlockchainsLength > diffLength) {
-          defaultBlockchains.forEach(chain => {
+          defaultBlockchains.forEach((chain) => {
             blockchains.forEach(() => {
               if (
                 !blockchains.includes(chain) &&
@@ -102,14 +102,14 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
           });
           activeViewStr += `(blockchains0:${JSON.stringify(diffChains)})`;
         } else {
-          blockchains.forEach(blockchain => {
+          blockchains.forEach((blockchain) => {
             diffChains.push(defaultBlockchains.indexOf(blockchain));
           });
           activeViewStr += `(blockchains1:${JSON.stringify(diffChains)})`;
         }
       }
       if (
-        key === 'categories' &&
+        key === "categories" &&
         activeView.filters.categories.length !== defaultCategories?.length
       ) {
         const activeViewCategorieLength = categories.length;
@@ -118,7 +118,7 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
         const diffCategories = [];
 
         if (activeViewCategorieLength > diffLength) {
-          defaultCategories.forEach(categorie => {
+          defaultCategories.forEach((categorie) => {
             categories.forEach(() => {
               if (
                 !categories.includes(categorie) &&
@@ -130,8 +130,8 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
           });
           activeViewStr += `(categories0:${JSON.stringify(diffCategories)})`;
         } else {
-          const newCategories = state?.filters?.categories?.map(categorie =>
-            defaultCategories.indexOf(categorie),
+          const newCategories = state?.filters?.categories?.map((categorie) =>
+            defaultCategories.indexOf(categorie)
           );
           activeViewStr += `(categories1:${JSON.stringify(newCategories)})`;
         }
@@ -143,9 +143,9 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
   const setViewCookies = () => {
     if (!user || !activeView || !isConnected) return;
     const activeViewStr = formatDataForFilters();
-    Cookies.set('actual-view', activeViewStr, {
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: 'strict',
+    Cookies.set("actual-view", activeViewStr, {
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
     });
   };
 
@@ -153,15 +153,15 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
     if (!isConnected || !user || !activeView) return;
     const activeViewStr = formatDataForFilters();
     Cookies.set(`view-${address}`, activeViewStr, {
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
     });
   };
 
   const handleResize = useCallback(() => {
     if (scrollContainer.current) {
       const containerWidth = scrollContainer.current.offsetWidth;
-      const {scrollWidth} = scrollContainer.current;
+      const { scrollWidth } = scrollContainer.current;
       const threshold = 20;
       setShowArrow(scrollWidth - containerWidth > threshold);
     }
@@ -169,16 +169,16 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
 
   useEffect(() => {
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [handleResize]);
 
   useEffect(() => {
     if (
       user &&
-      activeView?.name !== 'Portfolio' &&
+      activeView?.name !== "Portfolio" &&
       isConnected &&
       !activeView?.disconnected &&
       activeView?.filters
@@ -186,7 +186,7 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
       setViewCookies();
     if (
       user &&
-      activeView?.name === 'All' &&
+      activeView?.name === "All" &&
       isConnected &&
       !activeView?.disconnected &&
       activeView?.filters
@@ -197,36 +197,36 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
   useEffect(() => {
     if (
       address &&
-      activeView?.name === 'Portfolio' &&
+      activeView?.name === "Portfolio" &&
       portfolio?.length === 0
     ) {
       setIsPortfolioLoading(true);
-      GET('/api/1/wallet/holdings', {
+      GET("/api/1/wallet/holdings", {
         account: address,
         cached: true,
         asset_data: true,
       })
-        .then(r => r.json())
-        .then(res => {
+        .then((r) => r.json())
+        .then((res) => {
           if (res) setPortfolio(res.data);
           setIsPortfolioLoading(false);
         });
     }
 
-    if (activeView?.name === 'Portfolio' && portfolio) {
-      setResultsData({count: portfolio.length, data: portfolio});
+    if (activeView?.name === "Portfolio" && portfolio) {
+      setResultsData({ count: portfolio.length, data: portfolio });
     }
 
     if (isConnected) {
       if (activeView?.display)
         dispatch({
           type: ACTIONS.SET_USER_VALUE,
-          payload: {value: activeView},
+          payload: { value: activeView },
         });
       else
         dispatch({
           type: ACTIONS.SET_USER_VALUE,
-          payload: {value: INITIAL_VALUE},
+          payload: { value: INITIAL_VALUE },
         });
     }
   }, [activeView, portfolio, user]);
@@ -240,8 +240,8 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
   const getButtonTemplate = (): View[] => {
     const template: View[] = [
       {
-        color: 'blue',
-        name: 'Portfolio',
+        color: "blue",
+        name: "Portfolio",
         filters: {
           tokens: portfolio as Asset[],
         },
@@ -253,14 +253,14 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
         cookieTop100 ||
         unformatActiveView(
           Cookies.get(`view-${address}`) || null,
-          'all',
+          "all",
           actualView,
-          address,
+          address
         );
       if (cookieView && Object.keys(cookieView).length) {
         template.push(cookieView);
       } else {
-        template.push({...defaultTop100, color: 'grey', name: 'All'});
+        template.push({ ...defaultTop100, color: "grey", name: "All" });
       }
 
       if (user?.views?.length > 0) {
@@ -270,12 +270,12 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
             ? -1
             : !itemA.is_favorite && itemB.is_favorite
             ? 1
-            : 0,
+            : 0
         );
         template.push(...sortedViews);
       }
     } else {
-      template.push({...defaultTop100, color: 'grey', name: 'All'});
+      template.push({ ...defaultTop100, color: "grey", name: "All" });
     }
 
     return template;
@@ -283,67 +283,67 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
 
   const buttonTemplate = useMemo(
     () => getButtonTemplate(),
-    [isConnected, cookieTop100, user, activeView],
+    [isConnected, cookieTop100, user, activeView]
   );
 
   useEffect(() => {
-    if (Cookies.get('address') !== address)
-      Cookies.set('address', address, {
-        secure: process.env.NODE_ENV !== 'development',
-        sameSite: 'strict',
+    if (Cookies.get("address") !== address)
+      Cookies.set("address", address, {
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
       });
 
     if ((activeView ? Object.keys(activeView) : [])?.length === 0) {
       const storedView = unformatActiveView(
         Cookies.get(`view-${address}`) || null,
-        'all',
+        "all",
         actualView,
-        address,
+        address
       );
       setActiveView(
         storedView
-          ? {...storedView, isFirst: false, disconnected: false}
+          ? { ...storedView, isFirst: false, disconnected: false }
           : {
               ...defaultTop100,
-              color: 'grey',
-              name: 'All',
+              color: "grey",
+              name: "All",
               isFirst: false,
               disconnected: false,
-            },
+            }
       );
     }
     if (isConnected && activeView?.disconnected && !activeView?.isFirst)
       setIsLoading(true);
-    if ((activeView?.name === 'All' && !page) || activeView?.disconnected) {
+    if ((activeView?.name === "All" && !page) || activeView?.disconnected) {
       if (!activeView?.isFirst) setIsLoading(true);
 
       if (isConnected) {
         if (activeView?.disconnected) {
           const storedView = unformatActiveView(
             Cookies.get(`view-${address}`) || null,
-            'all',
+            "all",
             actualView,
-            address,
+            address
           );
           setActiveView(
             storedView
-              ? {...storedView, isFirst: false, disconnected: false}
+              ? { ...storedView, isFirst: false, disconnected: false }
               : {
                   ...defaultTop100,
-                  color: 'grey',
-                  name: 'All',
+                  color: "grey",
+                  name: "All",
                   isFirst: false,
                   disconnected: false,
-                },
+                }
           );
         } else if (cookieTop100)
-          setActiveView({...cookieTop100, disconnected: false});
+          setActiveView({ ...cookieTop100, disconnected: false });
       }
       if (isConnected === false && !activeView?.disconnected)
         setActiveView({
           ...defaultTop100,
-          color: 'grey',
-          name: 'All',
+          color: "grey",
+          name: "All",
           disconnected: true,
           isFirst: false,
         });
@@ -351,8 +351,8 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
       setIsLoading(true);
       setActiveView({
         ...defaultTop100,
-        color: 'grey',
-        name: 'All',
+        color: "grey",
+        name: "All",
         disconnected: true,
         isFirst: false,
       });
@@ -364,13 +364,13 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
       Object.entries(activeView.filters || {})
         .filter(
           ([key, filter]) =>
-            (key !== 'blockchains' &&
-              key !== 'categories' &&
+            (key !== "blockchains" &&
+              key !== "categories" &&
               (filter?.from !== 0 || filter?.to !== 100_000_000_000_000_000)) ||
-            (key === 'blockchains' &&
+            (key === "blockchains" &&
               filter.length !== Object.keys(blockchainsContent).length) ||
-            (key === 'categories' &&
-              filter.length !== defaultCategories?.length),
+            (key === "categories" &&
+              filter.length !== defaultCategories?.length)
         )
         .map(([key, filter]) => (
           <PopoverTrade
@@ -378,14 +378,16 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
             key={key}
             dispatch={dispatch}
             state={state}
-            setTypePopup={setTypePopup}>
+            setTypePopup={setTypePopup}
+          >
             <Button
               my="10px"
               variant="outlined_grey"
-              px={['8px', '12px']}
+              px={["8px", "12px"]}
               mr="10px"
               borderRadius="4px"
-              h={['30px', '30px', '30px', '35px']}>
+              h={["30px", "30px", "30px", "35px"]}
+            >
               <TextSmall mr="7.5px" fontWeight="500" color={text80}>
                 {formatName(key)}
               </TextSmall>
@@ -396,25 +398,26 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
             </Button>
           </PopoverTrade>
         )),
-    [typePopup, state.filters, activeView],
+    [typePopup, state.filters, activeView]
   );
 
-  console.log('activeView', activeView);
+  console.log("activeView", activeView);
 
   return (
     <Flex w="100%" bg={bgTable} direction="column">
       <Flex
         direction="column"
         maxWidth="1300px"
-        w={['97%', '95%', '90%', '90%']}
+        w={["97%", "95%", "90%", "90%"]}
         mx="auto"
         borderTop={borders}
         borderBottom={borders}
         overflowX="scroll"
         className="scroll"
         css={{
-          scrollBehavior: 'smooth',
-        }}>
+          scrollBehavior: "smooth",
+        }}
+      >
         <Flex justify="space-between" w="100%" mb="10px">
           <Flex
             w="fit-content"
@@ -424,27 +427,28 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
             overflowX="scroll"
             className="scroll"
             css={{
-              scrollBehavior: 'smooth',
-            }}>
+              scrollBehavior: "smooth",
+            }}
+          >
             {buttonTemplate.map((content, i) => (
               <Button
                 variant="outlined_grey"
-                mr={i === (buttonTemplate?.length || 1) - 1 ? '0px' : '10px'}
+                mr={i === (buttonTemplate?.length || 1) - 1 ? "0px" : "10px"}
                 mt="10px"
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
-                h={['30px', '30px', '30px', '35px']}
-                px={['8px', '12px']}
+                h={["30px", "30px", "30px", "35px"]}
+                px={["8px", "12px"]}
                 borderRadius="4px"
                 fontWeight="500"
                 bg={activeView?.name === content?.name ? hover : boxBg6}
                 onClick={() => {
                   setIsLoading(true);
-                  if (content.name === 'Portfolio') {
+                  if (content.name === "Portfolio") {
                     if (isConnected) {
-                      pushData('Active View', {name: 'Portfolio'});
+                      pushData("Active View", { name: "Portfolio" });
                       setActiveView({
-                        color: 'blue',
-                        name: 'Portfolio',
+                        color: "blue",
+                        name: "Portfolio",
                         filters: {
                           tokens: portfolio,
                         },
@@ -453,20 +457,21 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
                       setConnect(true);
                       setActiveView({
                         ...defaultTop100,
-                        color: 'grey',
-                        name: 'All',
+                        color: "grey",
+                        name: "All",
                         isFirst: false,
                         disconnected: true,
                       });
                     }
                   } else {
-                    if (page) router.replace('/');
-                    setActiveView({...content, isFirst: false});
-                    pushData('Active View', {name: 'Other View'});
+                    if (page) router.replace("/");
+                    setActiveView({ ...content, isFirst: false });
+                    pushData("Active View", { name: "Other View" });
                   }
-                }}>
+                }}
+              >
                 <Flex
-                  bg={content?.color || 'grey'}
+                  bg={content?.color || "grey"}
                   boxSize="10px"
                   minW="10px"
                   borderRadius="full"
@@ -480,17 +485,19 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
               position="sticky"
               right="0px"
               pl="10px"
-              bg={bgTable}>
+              bg={bgTable}
+            >
               <Button
-                isDisabled={!isConnected && activeView?.name !== 'All'}
+                isDisabled={!isConnected && activeView?.name !== "All"}
                 variant="outlined_grey"
-                h={['30px', '30px', '30px', '35px']}
-                w={['30px', '30px', '30px', '35px']}
+                h={["30px", "30px", "30px", "35px"]}
+                w={["30px", "30px", "30px", "35px"]}
                 borderRadius="4px"
                 onClick={() => {
-                  if (isConnected) setTypePopup('create');
+                  if (isConnected) setTypePopup("create");
                   else setConnect(true);
-                }}>
+                }}
+              >
                 +
               </Button>
               {showArrow ? (
@@ -498,8 +505,9 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
                   ml="10px"
                   onClick={handleClick}
                   borderRadius="0px"
-                  display={!isConnected ? 'none' : 'flex'}>
-                  <ChevronRightIcon color={text80} />
+                  display={!isConnected ? "none" : "flex"}
+                >
+                  <Icon as={FaChevronRight} color={text80} />
                 </Button>
               ) : null}
             </Flex>
@@ -508,31 +516,33 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
             {/* <Button variant="outlined_grey" mr="10px">
               <Icon as={MdiShareVariantOutline} color={text80} />
             </Button> */}
-            {activeView?.name !== 'Portfolio' ? (
+            {activeView?.name !== "Portfolio" ? (
               <Button
-                h={['30px', '30px', '30px', '35px']}
-                px={['8px', '12px']}
+                h={["30px", "30px", "30px", "35px"]}
+                px={["8px", "12px"]}
                 variant="outlined_grey"
                 borderRadius="4px"
                 onClick={() => {
-                  pushData('Edit View clicked');
-                  if (isConnected) setTypePopup('edit');
+                  pushData("Edit View clicked");
+                  if (isConnected) setTypePopup("edit");
                   else setConnect(true);
-                }}>
+                }}
+              >
                 Edit view
               </Button>
             ) : null}
           </Flex>
         </Flex>
       </Flex>
-      {activeView && activeView?.name !== 'Portfolio' ? (
+      {activeView && activeView?.name !== "Portfolio" ? (
         <Flex
           maxWidth="1300px"
-          w={['97%', '95%', '90%', '90%']}
+          w={["97%", "95%", "90%", "90%"]}
           mx="auto"
           overflowX="scroll"
           className="scroll"
-          justify="space-between">
+          justify="space-between"
+        >
           <Flex align="center" w="fit-content">
             {/* ||
             (JSON.stringify(defaultTop100.display) !==
@@ -545,14 +555,15 @@ export const Views = ({cookieTop100, actualView, setResultsData}) => {
                 <Button
                   my="10px"
                   variant="outlined_grey"
-                  px={['8px', '12px']}
+                  px={["8px", "12px"]}
                   mr="10px"
                   borderRadius="4px"
-                  boxSize={['30px', '30px', '30px', '35px']}
+                  boxSize={["30px", "30px", "30px", "35px"]}
                   onClick={() => {
-                    setActiveDisplay('filters');
-                    setTypePopup('edit');
-                  }}>
+                    setActiveDisplay("filters");
+                    setTypePopup("edit");
+                  }}
+                >
                   +
                 </Button>
                 {/* <Button
