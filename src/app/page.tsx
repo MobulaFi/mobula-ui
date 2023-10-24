@@ -1,15 +1,14 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { cookies, headers } from "next/headers";
-import { Top100 } from "../features/data/Home";
-import { Top100Provider } from "../features/data/Home/context-manager";
-import { unformatActiveView } from "../features/data/Home/utils";
-
 import {
   defaultCategories,
   defaultFilter,
   defaultTop100,
-} from "features/data/Home/constants";
+} from "features/data/home/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { cookies, headers } from "next/headers";
+import React from "react";
+import { Top100Provider } from "../features/data/Home/context-manager";
+import { unformatActiveView } from "../features/data/home/utils";
 import {
   INewsGeneral,
   StaticHomeQueries,
@@ -266,7 +265,7 @@ export const fetchAssetsAndViews = async ({ searchParams }) => {
   return props;
 };
 
-async function Home({ searchParams }) {
+export default async function homePage({ searchParams }) {
   const url = headers();
   const props = await fetchAssetsAndViews({ searchParams });
 
@@ -307,7 +306,8 @@ async function Home({ searchParams }) {
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >
-        <Top100
+        <>VEENO WAS HERE</>
+        {/* <Top100
           tokens={props.tokens}
           metrics={props.metrics as any}
           count={props.count}
@@ -315,10 +315,8 @@ async function Home({ searchParams }) {
           actualView={props.actualView as any}
           cookieTop100={props.allView as any}
           marketCapTotal={props.marketCapTotal}
-        />
+        /> */}
       </Top100Provider>
     </>
   );
 }
-
-export default Home;

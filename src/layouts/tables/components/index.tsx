@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-"use client";
 import {
   Flex,
   Table,
