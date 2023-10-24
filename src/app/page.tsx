@@ -6,9 +6,13 @@ import {
 } from "features/data/home/constants";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { cookies, headers } from "next/headers";
-import React from "react";
 import { Top100Provider } from "../features/data/Home/context-manager";
-import { unformatActiveView } from "../features/data/home/utils";
+import { Top100 } from "../features/data/home";
+import {
+  TABLE_ASSETS_QUERY,
+  timeout,
+  unformatActiveView,
+} from "../features/data/home/utils";
 import {
   INewsGeneral,
   StaticHomeQueries,
@@ -16,17 +20,8 @@ import {
 } from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
 
-const getCookie = (name: string) => cookies().get(name);
-
-const timeout = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(new Error("Timeout")), ms);
-  });
-
-export const TABLE_ASSETS_QUERY =
-  "market_cap,volume,price_change_7d,tracked,global_volume,total_supply,max_supply,price_change_1h,price_change_1m,price_change_3m,price_change_6m,price_change_1y,price_change_3y,price_change_ytd,logo,market_cap_diluted,circulating_supply,created_at,off_chain_volume,name,symbol,twitter,website,chat,discord,price_change_24h,price_change_7d,volume,volume_7d,volume_1m,price,rank_change_24h,id,contracts,tags,blockchains,liquidity,rank";
-
-export const fetchAssetsAndViews = async ({ searchParams }) => {
+const fetchAssetsAndViews = async ({ searchParams }) => {
+  const getCookie = (name: string) => cookies().get(name);
   const supabase = createSupabaseDOClient();
   const address = getCookie("address")?.value;
   const viewCookie = getCookie("actual-view")?.value;
@@ -265,9 +260,11 @@ export const fetchAssetsAndViews = async ({ searchParams }) => {
   return props;
 };
 
-export default async function homePage({ searchParams }) {
+async function HomePage({ searchParams }) {
   const url = headers();
   const props = await fetchAssetsAndViews({ searchParams });
+
+  console.log("propsprops", props.actualView);
 
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";
@@ -297,7 +294,7 @@ export default async function homePage({ searchParams }) {
         <meta name="keywords" content="Mobula Crypto Data Aggregator" />
       </Head> */}
       <Top100Provider
-        cookies={props.actualView as any}
+        activeViewCookie={props.actualView as any}
         portfolioCookie={props.actualPortfolio as any}
         ethPrice={props.ethPrice as any}
         btcPrice={props.btcPrice as any}
@@ -306,8 +303,7 @@ export default async function homePage({ searchParams }) {
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >
-        <>VEENO WAS HERE</>
-        {/* <Top100
+        <Top100
           tokens={props.tokens}
           metrics={props.metrics as any}
           count={props.count}
@@ -315,8 +311,10 @@ export default async function homePage({ searchParams }) {
           actualView={props.actualView as any}
           cookieTop100={props.allView as any}
           marketCapTotal={props.marketCapTotal}
-        /> */}
+        />
       </Top100Provider>
     </>
   );
 }
+
+export default HomePage;

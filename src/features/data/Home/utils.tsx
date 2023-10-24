@@ -254,3 +254,11 @@ export const unformatActiveView = (
   };
   return view;
 };
+
+export const timeout = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(() => resolve(new Error("Timeout")), ms);
+  });
+
+export const TABLE_ASSETS_QUERY =
+  "market_cap,volume,price_change_7d,tracked,global_volume,total_supply,max_supply,price_change_1h,price_change_1m,price_change_3m,price_change_6m,price_change_1y,price_change_3y,price_change_ytd,logo,market_cap_diluted,circulating_supply,created_at,off_chain_volume,name,symbol,twitter,website,chat,discord,price_change_24h,price_change_7d,volume,volume_7d,volume_1m,price,rank_change_24h,id,contracts,tags,blockchains,liquidity,rank";
