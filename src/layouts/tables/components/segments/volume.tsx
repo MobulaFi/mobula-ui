@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { getFormattedAmount } from "@utils/formaters";
-import { useTop100 } from "features/data/Home/context-manager";
 import { useColors } from "lib/chakra/colorMode";
+import { useTop100 } from "../../../../features/data/top100/context-manager";
 import { Segment } from "../segment";
 
 export const VolumeSegment = ({ token, display, metricsChanges }) => {

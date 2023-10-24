@@ -1,7 +1,7 @@
 import { Box, Flex, Icon, Spinner } from "@chakra-ui/react";
 import React from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { useTop100 } from "../../../../features/data/Home/context-manager";
+import { useTop100 } from "../../../../features/data/top100/context-manager";
 import { useColors } from "../../../../lib/chakra/colorMode";
 import { useWatchlist } from "../../hooks/watchlist";
 

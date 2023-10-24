@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-"use client";
 import {
   Flex,
   Table,
@@ -12,13 +11,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { PopupStateContext } from "../../../contexts/popup";
-import { defaultTop100 } from "../../../features/data/Home/constants";
-import { useTop100 } from "../../../features/data/Home/context-manager";
+import { defaultTop100 } from "../../../features/data/top100/constants";
+import { useTop100 } from "../../../features/data/top100/context-manager";
 import { Query } from "../../../interfaces/pages/top100";
 import { useColors } from "../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { DrawerDex } from "../../../components/drawer/dex";
-import { TABLE_ASSETS_QUERY } from "../../../app/page";
+import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
 import { TableContext } from "../context-manager";
 import { OrderBy, TableAsset } from "../model";
 import { Entry } from "./entry-test";
@@ -217,19 +216,13 @@ export function AssetsTable({
                 position="sticky"
                 top="0px"
                 display={[
-                  pathname !== "/" &&
-                  pathname !== "/home" &&
-                  pathname !== `/?page=${page}`
+                  pathname !== "/" && pathname !== `/?page=${page}`
                     ? "table-row"
                     : "none",
-                  pathname !== "/" &&
-                  pathname !== "/home" &&
-                  pathname !== `/?page=${page}`
+                  pathname !== "/" && pathname !== `/?page=${page}`
                     ? "table-row"
                     : "none",
-                  pathname === "/" ||
-                  pathname !== "/home" ||
-                  pathname === `/?page=${page}`
+                  pathname === "/" || pathname === `/?page=${page}`
                     ? "none"
                     : "table-row",
                   "table-row",
@@ -258,9 +251,7 @@ export function AssetsTable({
                   left={["24px", "24px", "73px"]}
                 />
                 {activeView?.display &&
-                (pathname === "/" ||
-                  pathname !== "/home" ||
-                  pathname !== `/?page=${page}`) ? (
+                (pathname === "/" || pathname === `/?page=${page}`) ? (
                   <>
                     {activeView?.display?.map((entry) => (
                       <TableHeaderEntry
@@ -296,13 +287,10 @@ export function AssetsTable({
                       title={isBalance ? "Balance" : "Volume (24h)"}
                       canOrder
                     />
-                    {pathname !== "/" &&
-                    pathname !== "/home" &&
-                    pathname !== `/?page=${page}` ? (
+                    {pathname !== "/" && pathname !== `/?page=${page}` ? (
                       <TableHeaderEntry w="175px" title={lastColumn} />
                     ) : null}
                     {pathname === "/" ||
-                    pathname !== "/home" ||
                     pathname === `/?page=${page}` ||
                     isBalance ? (
                       <TableHeaderEntry
@@ -325,28 +313,20 @@ export function AssetsTable({
                 position="sticky"
                 top="0px"
                 display={[
-                  pathname !== "/" &&
-                  pathname !== "/home" &&
-                  pathname !== `/?page=${page}`
+                  pathname !== "/" && pathname !== `/?page=${page}`
                     ? "none"
                     : "table-row",
-                  pathname !== "/" &&
-                  pathname !== "/home" &&
-                  pathname !== `/?page=${page}`
+                  pathname !== "/" && pathname !== `/?page=${page}`
                     ? "none"
                     : "table-row",
-                  pathname === "/" ||
-                  pathname !== "/home" ||
-                  pathname === `/?page=${page}`
+                  pathname === "/" || pathname === `/?page=${page}`
                     ? "table-row"
                     : "none",
                   "none",
                 ]}
               >
                 {!showMinimalMobile &&
-                (pathname === "/" ||
-                  pathname !== "/home" ||
-                  pathname === `/?page=${page}`) ? (
+                (pathname === "/" || pathname === `/?page=${page}`) ? (
                   <>
                     <TableHeaderEntry
                       title=""

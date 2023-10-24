@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
-import { ISettingMetric } from "../features/data/Home/models";
+import { ISettingMetric } from "../features/data/top100/models";
 import { Asset } from "../interfaces/assets";
 import { Coin } from "../interfaces/swap";
 

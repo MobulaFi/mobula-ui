@@ -8,6 +8,7 @@ import { MainContainer } from "../../../components/container";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import { AssetsTable } from "../../../layouts/tables/components";
 import { useColors } from "../../../lib/chakra/colorMode";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
@@ -156,7 +157,7 @@ export const Top100 = ({
           mt="0px"
           overflowX="hidden"
         >
-          {/* <AssetsTable
+          <AssetsTable
             resultsData={resultsData}
             setResultsData={setResultsData}
             bg={bgTable}
@@ -167,7 +168,7 @@ export const Top100 = ({
             showRank
             isMobile={isMobile}
             // noResult={!(resultsData?.data?.length > 0)}
-          /> */}
+          />
         </MainContainer>
       </Flex>
 

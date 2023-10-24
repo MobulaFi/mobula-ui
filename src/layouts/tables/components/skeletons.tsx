@@ -1,9 +1,9 @@
 import { Flex, Skeleton, TableCaption, Tbody, Tr } from "@chakra-ui/react";
 import { TextLandingLarge, TextLandingSmall } from "components/fonts";
 import { NextChakraLink } from "components/link";
-import { useTop100 } from "features/data/Home/context-manager";
 import { useColors } from "lib/chakra/colorMode";
 import { Ths } from "../../../components/table";
+import { useTop100 } from "../../../features/data/top100/context-manager";
 
 export const SkeletonTable = ({
   isTable = false,

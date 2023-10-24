@@ -1,7 +1,7 @@
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { TableColumnHeaderProps, Th } from "@chakra-ui/react";
 import { useContext } from "react";
-import { useTop100 } from "../../../features/data/Home/context-manager";
+import { useTop100 } from "../../../features/data/top100/context-manager";
 import { useColors } from "../../../lib/chakra/colorMode";
 import { titleToDBKey } from "../constants";
 import { TableContext } from "../context-manager";

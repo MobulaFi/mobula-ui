@@ -3,16 +3,16 @@ import {
   defaultCategories,
   defaultFilter,
   defaultTop100,
-} from "features/data/home/constants";
+} from "features/data/top100/constants";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { cookies, headers } from "next/headers";
-import { Top100Provider } from "../features/data/Home/context-manager";
-import { Top100 } from "../features/data/home";
+import { Top100 } from "../features/data/top100";
+import { Top100Provider } from "../features/data/top100/context-manager";
 import {
   TABLE_ASSETS_QUERY,
   timeout,
   unformatActiveView,
-} from "../features/data/home/utils";
+} from "../features/data/top100/utils";
 import {
   INewsGeneral,
   StaticHomeQueries,
