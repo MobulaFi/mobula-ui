@@ -74,7 +74,7 @@ const EChart: React.FC<EChartProps> = ({
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const { colorMode } = useColorMode();
-  const id = useMemo(() => uuid(), []);
+  const id: string = useMemo(() => uuid(), []);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 

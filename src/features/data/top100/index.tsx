@@ -12,7 +12,6 @@ import { AssetsTable } from "../../../layouts/tables/components";
 import { useColors } from "../../../lib/chakra/colorMode";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
-import { Pagination } from "./components/pagination";
 import { Portfolio } from "./components/portfolio";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
@@ -172,9 +171,9 @@ export const Top100 = ({
         </MainContainer>
       </Flex>
 
-      {resultsData.count > 100 && (
+      {/* {resultsData.count > 100 && (
         <Pagination maxPage={Math.floor(resultsData.count / 100)} />
-      )}
+      )} */}
       {/* 
       <Flex h="1400px" w="100%" bg={bgTable} pt="150px" direction="column">
         <Flex maxW="1300px" mx="auto" h="200px">
