@@ -260,6 +260,13 @@
   dependencies:
     "@chakra-ui/shared-utils" "2.0.5"
 
+"@chakra-ui/icons@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-2.1.1.tgz#58ff0f9e703f2f4f89debd600ce4e438f43f9c9a"
+  integrity sha512-3p30hdo4LlRZTT5CwoAJq3G9fHI0wDc0pBaMHj4SUn0yomO+RcDRlzhdXqdr5cVnzax44sqXJVnf3oQG0eI+4g==
+  dependencies:
+    "@chakra-ui/icon" "3.2.0"
+
 "@chakra-ui/image@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@chakra-ui/image/-/image-2.1.0.tgz#6c205f1ca148e3bf58345b0b5d4eb3d959eb9f87"
@@ -2672,6 +2679,11 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+classnames@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
+
 client-only@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
@@ -5016,6 +5028,14 @@ react-remove-scroll@^2.5.6:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
+react-sortablejs@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/react-sortablejs/-/react-sortablejs-6.1.4.tgz#420ebfab602bbd935035dec24a04c8b3b836dbbf"
+  integrity sha512-fc7cBosfhnbh53Mbm6a45W+F735jwZ1UFIYSrIqcO/gRIFoDyZeMtgKlpV4DdyQfbCzdh5LoALLTDRxhMpTyXQ==
+  dependencies:
+    classnames "2.3.1"
+    tiny-invariant "1.2.0"
+
 react-style-singleton@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-style-singleton/-/react-style-singleton-2.2.1.tgz#f99e420492b2d8f34d38308ff660b60d0b1205b4"
@@ -5481,6 +5501,11 @@ thread-stream@^0.15.1:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
+
+tiny-invariant@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.2.0.tgz#a1141f86b672a9148c72e978a19a73b9b94a15a9"
+  integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
 
 tiny-invariant@^1.0.6:
   version "1.3.1"
