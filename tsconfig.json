@@ -1,27 +1,71 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "noImplicitAny": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "noImplicitThis": false,
+    "strictFunctionTypes": false,
+    "strictNullChecks": false,
+    "noEmitOnError": false,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES2021",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist/src",
+    "baseUrl": "./src",
+    "paths": {
+      "@core/*": [
+        "./core/*"
+      ],
+      "@services/*": [
+        "./services/*",
+        "./core/services/*"
+      ],
+      "@models/*": [
+        "./models/*",
+        "./core/models/*"
+      ],
+      "@constants/*": [
+        "./constants/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ]
+    },
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
+    "noImplicitReturns": false,
+    "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "compileOnSave": true,
+  "include": [
+    "components/**/*",
+    "pages/**/*",
+    "utils/**/*",
+    "services/**/*",
+    "config/**/*",
+    "theme/**/*",
+    "typings/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
