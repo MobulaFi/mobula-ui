@@ -41,5 +41,17 @@
     "eslint": "^8",
     "eslint-config-next": "13.5.6",
     "typescript": "^5"
-  }
+  },
+  "description": "Mobula UI",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MobulaFi/mobula-ui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MobulaFi/mobula-ui/issues"
+  },
+  "homepage": "https://github.com/MobulaFi/mobula-ui#readme"
 }
