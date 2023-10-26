@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* BORDER */
+    --color-border-primary: 0, 0, 0, 0.03;
+    --color-border-secondary: 231, 232, 236, 1;
+    /* BACKGROUND */
+    --color-bg-table: 255, 255, 255, 1;
+    --color-bgPrimary: 255, 255, 255, 1;
+    --color-bg-secondary: 252.5, 252.5, 252.5, 1;
+    --color-bg-terciary: 250, 250, 250, 1;
+    --color-bgHover: 245, 245, 245, 1;
+    --color-bg-tags: 227, 227, 227, 1;
+    --color-test: 255, 0, 0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* BORDER */
+      --color-border-primary: 255, 255, 255, 0.03;
+      --color-border-secondary: 255, 255, 255, 0.04;
+      /* BACKGROUND */
+      --color-bg-table: 17, 21, 36, 1;
+      --color-bgPrimary: 19, 22, 39, 1;
+      --color-bg-secondary: 21, 25, 41, 1;
+      --color-bg-terciary: 23, 27, 43, 1;
+      --color-bgHover: 34, 37, 49, 1;
+      --color-bg-tags: 40, 43, 55, 1;
+      --color-test: 0, 0, 255;
+    }
+  }
+}
+
+/* 
+  shadow_primary: {
+    _light: '0px 0px 10px rgba(0, 0, 0, 0.07)',
+    _dark: '0px 0px 10px rgba(17, 21, 36, 1)',
+  },
+  border_terciary: {_light: '#5c7df9', _dark: '#5c7df9'},
+  text_primary: {
+    _light: 'rgba(0,0,0,0.95)',
+    _dark: 'rgba(255,255,255,0.95)',
+  },
+  text_secondary: {
+    _light: 'rgba(0,0,0,0.8)',
+    _dark: 'rgba(255,255,255,0.8)',
+  },
+  text_terciary: {
+    _light: 'rgba(0,0,0,0.5)',
+    _dark: 'rgba(255,255,255,0.5)',
+  },
+  text_quaternary: {
+    _light: 'rgba(0,0,0,0.2)',
+    _dark: 'rgba(255,255,255,0.2)',
+  },
+  green: '#0ECB81',
+  green_bg: '#163C31',
+  darkgreen: 'rgba(2, 192, 118, 0.2)',
+  yellow: '#f3ba2f',
+  darkyellow: 'rgba(240, 185, 11, 0.2)',
+  red: '#ea3943',
+  red_bg: 'rgba(234, 57, 67, 0.2)',
+  blue: '#5c7df9',
+  darkblue: 'rgba(43, 58, 117, 1)',
+  telegram: '#229ED9',
+  daily_active: {
+    _light: 'linear-gradient(180deg, #43D19B 37.08%, #FAFAFA 37.55%)',
+    _dark: 'linear-gradient(180deg, #43D19B 37.08%, #141828 37.55%)',
+  },
+  daily_inactive: {
+    _light: 'linear-gradient(180deg, #5C7DF9 37.08%, #FAFAFA 37.55%)',
+    _dark: 'linear-gradient(180deg, #5C7DF9 37.08%, #131727 37.55%)',
+  }, */

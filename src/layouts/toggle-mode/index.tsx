@@ -1,5 +1,7 @@
 "use client";
+import { SmallFont } from "components/fonts";
 import { useEffect } from "react";
+import { Button } from "../../components/button";
 
 export const ToggleColorMode = () => {
   useEffect(() => {
@@ -14,20 +16,24 @@ export const ToggleColorMode = () => {
     }
   }, []);
 
+  const isDarkMode =
+    document?.documentElement?.classList.contains("dark") || false;
+
   return (
-    <button
-      className="bg-gray-dark dark:bg-white rounded-full p-2 h-10 w-10 text-black dark:text-white focus:outline-none w-full flex items-center justify-center"
-      onClick={() => {
-        if (document.documentElement.classList.contains("dark")) {
-          document.documentElement.classList.remove("dark");
-          localStorage.theme = "light";
-        } else {
-          document.documentElement.classList.add("dark");
-          localStorage.theme = "dark";
-        }
-      }}
+    <div
+      className={
+        document.documentElement.classList.contains("dark") ? "dark" : "light"
+      }
     >
-      Light or Dark
-    </button>
+      <Button
+        onClick={() => {
+          const isDark = document.documentElement.classList.contains("dark");
+          document.documentElement.classList.toggle("dark");
+          localStorage.theme = isDark ? "light" : "dark";
+        }}
+      >
+        <SmallFont>Dark</SmallFont>
+      </Button>
+    </div>
   );
 };

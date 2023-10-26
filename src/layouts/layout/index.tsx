@@ -1,15 +1,19 @@
-import { Flex } from "@chakra-ui/react";
 import React from "react";
+import { Box } from "../../components/box";
 import { ToggleColorMode } from "../../layouts/toggle-mode";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Flex direction="column">
+    <div className="bg-light-bg-primary dark:bg-dark-bg-primary">
       {/* <Header /> */}
       <ToggleColorMode />
+      <Box extraClass="max-w-[300px]">
+        froogr jorgjkjnr kns nsj gnsenk len ejksng kjsenkjg esjkn gjksnegjn
+        skejng jsegjsenj kgkje nkjs ngkjn jjse ng
+      </Box>
       {children}
       {/* <Footer /> */}
-    </Flex>
+    </div>
   );
 };
 

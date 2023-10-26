@@ -1,10 +1,10 @@
 "use client";
 import { Flex } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
-import { MainContainer } from "../../../components/container";
+import { Container } from "../../../components/container";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -87,74 +87,55 @@ export const Top100 = ({
     <>
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
       <Flex direction="column" bg={bgMain} overflowX="hidden">
-        <Flex w="100%" bg={bgTable} pb={["10px", "10px", "20px"]}>
+        <div className="bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
           {isMobile ? (
-            <MainContainer
-              maxWidth="1300px"
-              mb="0px"
-              justify="space-between"
-              direction="row"
-              bg={bgTable}
-              display="flex"
-              pb="0px"
-              w="100%"
-            >
-              <Flex w="95%" mx="auto">
+            <Container extraCss="flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 pb-0 overflow-x-scroll w-full">
+              <div className="w-95per mx-auto">
                 <div className="swiper">
                   <div className="swiper-wrapper">
                     <div
-                      className="swiper-slide"
-                      style={{ display: "flex", justifyContent: "center" }}
+                      className="swiper-slide flex justify-center"
+                      // style={{ display: "flex", justifyContent: "center" }}
                     >
                       <Portfolio showPageMobile={showPage} />
                     </div>
                     <div
-                      className="swiper-slide"
-                      style={{ display: "flex", justifyContent: "center" }}
+                      className="swiper-slide flex justify-center"
+                      // style={{ display: "flex", justifyContent: "center" }}
                     >
                       <BoxMiddle showPageMobile={showPage} metrics={metrics} />
                     </div>
                     <div
-                      className="swiper-slide"
-                      style={{ display: "flex", justifyContent: "center" }}
+                      className="swiper-slide flex justify-center"
+                      // style={{ display: "flex", justifyContent: "center" }}
                     >
                       <BoxRight showPageMobile={showPage} />
                     </div>
                   </div>
                 </div>
-              </Flex>
-            </MainContainer>
+              </div>
+            </Container>
           ) : (
-            <MainContainer
-              maxWidth="1300px"
-              mb="0px"
-              justify="space-between"
-              direction="row"
-              bg={bgTable}
-              overflowX="scroll"
+            <Container
               className="scroll"
+              extraCss="flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll"
             >
               <Portfolio />
               <BoxMiddle metrics={metrics} />
               <BoxRight />
-            </MainContainer>
+            </Container>
           )}
-        </Flex>
+        </div>
         <Views
           actualView={actualView}
           cookieTop100={cookieTop100}
           setResultsData={setResultsData}
         />
       </Flex>
-      <Flex bg={bgTable}>
-        <MainContainer
-          maxWidth="1300px"
-          mb="0px"
-          justify="space-between"
-          direction="row"
-          w={["100%", "95%", "90%", "90%"]}
-          mt="0px"
-          overflowX="hidden"
+      <div className="bg-light-bg-table dark:bg-dark-bg-table">
+        <Container
+          // w={["100%", "95%", "90%", "90%"]}
+          extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden"
         >
           <AssetsTable
             resultsData={resultsData}
@@ -168,8 +149,8 @@ export const Top100 = ({
             isMobile={isMobile}
             // noResult={!(resultsData?.data?.length > 0)}
           />
-        </MainContainer>
-      </Flex>
+        </Container>
+      </div>
 
       {/* {resultsData.count > 100 && (
         <Pagination maxPage={Math.floor(resultsData.count / 100)} />

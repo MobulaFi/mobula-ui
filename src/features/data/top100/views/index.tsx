@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import { Button, Flex, Icon } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,6 +15,7 @@ import {
 } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { useAccount } from "wagmi";
+import { Button } from "../../../../components/button";
 import { TextSmall } from "../../../../components/fonts";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
@@ -380,14 +381,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             state={state}
             setTypePopup={setTypePopup}
           >
-            <Button
-              my="10px"
-              variant="outlined_grey"
-              px={["8px", "12px"]}
-              mr="10px"
-              borderRadius="4px"
-              h={["30px", "30px", "30px", "35px"]}
-            >
+            <Button extraCss="m-2.5">
               <TextSmall mr="7.5px" fontWeight="500" color={text80}>
                 {formatName(key)}
               </TextSmall>
@@ -432,15 +426,10 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
           >
             {buttonTemplate.map((content, i) => (
               <Button
-                variant="outlined_grey"
-                mr={i === (buttonTemplate?.length || 1) - 1 ? "0px" : "10px"}
-                mt="10px"
+                extraCss={`${
+                  i === (buttonTemplate?.length || 1) - 1 ? "me-0" : "me-2.5"
+                } mt-2.5`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
-                h={["30px", "30px", "30px", "35px"]}
-                px={["8px", "12px"]}
-                borderRadius="4px"
-                fontWeight="500"
-                bg={activeView?.name === content?.name ? hover : boxBg6}
                 onClick={() => {
                   setIsLoading(true);
                   if (content.name === "Portfolio") {
@@ -489,10 +478,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             >
               <Button
                 isDisabled={!isConnected && activeView?.name !== "All"}
-                variant="outlined_grey"
-                h={["30px", "30px", "30px", "35px"]}
-                w={["30px", "30px", "30px", "35px"]}
-                borderRadius="4px"
+                extraCss="w-[35px] h-[35px] p-0"
                 onClick={() => {
                   if (isConnected) setTypePopup("create");
                   else setConnect(true);

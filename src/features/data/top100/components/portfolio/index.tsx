@@ -1,13 +1,11 @@
 "use client";
-import { Button, Flex, Image, Skeleton, useColorMode } from "@chakra-ui/react";
+import { Skeleton, useColorMode } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
-import {
-  TextLandingMedium,
-  TextLandingSmall,
-} from "../../../../../components/fonts";
+import { Button } from "../../../../../components/button";
+import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
@@ -156,34 +154,17 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   );
 
   return (
-    <Flex
-      h={["175px", "175px", "175px", "200px"]}
-      borderRadius="12px"
-      bg={boxBg3}
-      border={borders}
-      direction="column"
-      p="10px 15px"
-      position="relative"
-      overflow="hidden"
-      mr={["0px", "0px", "10px"]}
-      minW={["100%", "100%", "407px"]}
-      w={["100%", "31.5%"]}
-      transform={`translateX(-${showPageMobile * 100}%)`}
-      transition="all 500ms ease-in-out"
-      zIndex={showPageMobile === 0 ? 3 : 1}
+    <div
+      className={`h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary flex-col py-2.5 px-3.5 relative overflow-hidden min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 translate-x-[-${
+        showPageMobile * 100
+      }%] z-[${showPageMobile === 0 ? 3 : 1}]`}
     >
       {isConnected ? (
         <>
-          <Flex
-            direction="column"
-            position="absolute"
-            zIndex="1"
-            w="94%"
-            top="10px"
-          >
-            <Flex justify="space-between" w="100%" mb="2px">
-              <Flex
-                direction="column"
+          <div className="flex flex-col absolute z-[1] top-2.5 w-[94%]">
+            <div className="flex justify-between w-full mb-0.5">
+              <div
+                className="flex flex-col cursor-pointer"
                 onMouseEnter={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}
                 onClick={() => {
@@ -193,32 +174,29 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   });
                   router.push("/portfolio");
                 }}
-                cursor="pointer"
               >
-                <TextLandingSmall mt="-2px" color={text80}>
-                  Portfolio
-                </TextLandingSmall>
-                <Flex
-                  h="1px"
-                  border={`1px solid ${isHover ? text80 : boxBg3}`}
-                  w={`${isHover ? 100 : 0}%`}
-                  transition="all 250ms ease-in-out"
+                <MediumFont>Portfolio</MediumFont>
+                <div
+                  className={`h-[1px] border ${
+                    isHover
+                      ? "border-light-font-100 dark:border-dark-font-100"
+                      : "border-light-bg-secondary dark:border-dark-bg-secondary"
+                  } w-[${isHover ? "100" : "0"}%] transition-all `}
                 />
-              </Flex>
+              </div>
               {wallet?.estimated_balance_history?.length === 0 ||
               !wallet?.estimated_balance_history?.length ? null : (
-                <Flex
-                  position="relative"
-                  zIndex={showPageMobile === 0 ? 11 : 1}
+                <div
+                  className={`relative z-[${showPageMobile === 0 ? 11 : 1}]`}
                 >
                   <TagPercentage
                     isUp={(Number(gains.percentage_raw) || 1) > 0}
                     percentage={gains.percentage || Number("--")}
                     isLoading={isLoading}
                   />
-                </Flex>
+                </div>
               )}
-            </Flex>
+            </div>
             {isLoading && !wallet?.estimated_balance_history ? (
               <Skeleton
                 h="25px"
@@ -230,10 +208,10 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
             ) : null}
             {wallet?.estimated_balance_history?.length === 0 ||
             !wallet?.estimated_balance_history?.length ? null : (
-              <TextLandingMedium
-                mt="-2px"
-                position="relative"
-                zIndex={showPageMobile === 0 ? 11 : 1}
+              <LargeFont
+                extraCss={`mt-[-2px] relative z-[${
+                  showPageMobile === 0 ? 11 : 1
+                }]`}
               >
                 $
                 {getFormattedAmount(
@@ -241,10 +219,10 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     wallet.estimated_balance_history.length - 1
                   ][1]
                 ) || " --"}
-              </TextLandingMedium>
+              </LargeFont>
             )}
-          </Flex>
-          <Flex w="100%" mt="3px" h="100%" justify="center" mb="10px">
+          </div>
+          <div className="w-full mt-[3px] h-full justify-center mb-2.5">
             {!isLoading && wallet?.estimated_balance_history?.length > 0 ? (
               <EChart
                 data={wallet.estimated_balance_history}
@@ -308,73 +286,64 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               </svg>
             ) : null}
             {wallet === null && !isLoading ? (
-              <Flex
-                my="auto"
-                mt={["35px", "35px", "35px", "45px"]}
-                align="center"
-              >
-                <Image
+              <div className="my-auto mt-[45px] lg:mt-[35px] items-center">
+                <img
                   src={
                     !isDarkMode
                       ? "/asset/empty-roi-light.png"
                       : "/asset/empty-roi.png"
                   }
-                  h={["80px", "110px"]}
-                  w="auto"
+                  className="h-[110px] sm:h-[80px] w-auto"
+                  alt="empty roi"
                 />
-                <Flex direction="column" align="center" ml="15px">
-                  <TextLandingSmall textAlign="center">
+                <div className="flex flex-col items-center ml-[15px]">
+                  <MediumFont extraCss="text-center">
                     No assets found
                     <br />
                     Manually add a transaction
-                  </TextLandingSmall>
+                  </MediumFont>
                   <Button
-                    variant="outlined"
-                    mt="10px"
-                    maxW="200px"
+                    extraCss="mt-2.5 max-w-[200px]"
                     onClick={() => router.push("/portfolio")}
                   >
                     Add a transaction
                   </Button>
-                </Flex>
-              </Flex>
+                </div>
+              </div>
             ) : null}
-          </Flex>
+          </div>
         </>
       ) : null}
       {isDisconnected && !isLoading ? (
         <>
-          <TextLandingSmall color={text80}>Portfolio</TextLandingSmall>
-          <Flex align="center" my="auto" justify="space-around">
-            <Image
+          <MediumFont>Portfolio</MediumFont>
+          <div className="flex items-center my-auto justify-around">
+            <img
               src={
                 !isDarkMode
                   ? "/asset/empty-roi-light.png"
                   : "/asset/empty-roi.png"
               }
-              h={["80px", "110px"]}
-              w="auto"
+              className="h-[110px] sm:h-[80px] w-auto"
               alt="Empty ROI"
             />
-            <Flex direction="column" align="center" ml="15px">
-              <TextLandingSmall textAlign="center">
+            <div className="flex flex-col items-center ml-[15px]">
+              <MediumFont extraCss="text-center">
                 Connect to Mobula to track your assets
-              </TextLandingSmall>
+              </MediumFont>
               <Button
-                variant="outlined"
-                mt="10px"
-                maxW="200px"
+                extraCss="mt-2.5 max-w-[200px]"
                 onClick={() => setConnect(true)}
               >
                 Connect
               </Button>
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         </>
       ) : null}
       {isLoading && isDisconnected ? (
         <>
-          <TextLandingSmall color={text80}>Portfolio</TextLandingSmall>
+          <MediumFont>Portfolio</MediumFont>
           <svg
             width="1140"
             height="160"
@@ -416,6 +385,6 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
           </svg>
         </>
       ) : null}
-    </Flex>
+    </div>
   );
 };

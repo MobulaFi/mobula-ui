@@ -1,4 +1,4 @@
-import { Flex, Skeleton } from "@chakra-ui/react";
+import { Skeleton } from "@chakra-ui/react";
 import React from "react";
 import { useColors } from "../lib/chakra/colorMode";
 import { getTokenPercentage } from "../utils/formaters";
@@ -40,19 +40,16 @@ export const TagPercentage = ({
       endColor={hover}
     />
   ) : (
-    <Flex
-      h={h || ["20px", "20px", "21.5px", "23px"]}
-      w="fit-content"
-      px="6px"
-      borderRadius="8px"
-      ml="10px"
-      color={isUp ? "green" : "red"}
-      bg={isUp ? "darkgreen" : "red_bg"}
-      fontSize={fs || ["12px", "12px", "13px", "14px"]}
-      fontWeight="500"
-      align="center"
+    <div
+      className={`flex h-${
+        h || "23px"
+      } lg:h-[21.5px] md:h-[20px] w-fit px-1.5 rounded-lg items-center font-medium ${
+        isUp ? "bg-darkgreen" : "bg-darkred"
+      } ml-2.5 text-sm lg:text-xs font-medium ${
+        isUp ? "text-green" : "text-red"
+      }`}
     >
       {finalPercentage}
-    </Flex>
+    </div>
   );
 };
