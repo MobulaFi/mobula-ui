@@ -18,7 +18,6 @@ import { useColors } from "../../../lib/chakra/colorMode";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
-import React from "react";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { getUrlFromName } from "../../../utils/formaters";
 import { EntryContext, TableContext } from "../context-manager";
@@ -55,7 +54,7 @@ export const Entry = ({
   const page = searchParams.get("page");
   const isBalance =
     Object.keys(token).includes("balance") &&
-    (pathname === "/" || pathname === "/home" || pathname === "/?page=" + page);
+    (pathname === "/" || pathname === "/?page=" + page);
 
   const {
     text60,
@@ -258,6 +257,7 @@ export const Entry = ({
         JSON.stringify(defaultTop100.filters)) ||
     (activeView?.name === "Portfolio" && isMobile);
 
+  console.log("activeView", activeView);
   const renderSegments = () =>
     activeView?.display?.map((entry) => {
       switch (entry.type) {
@@ -519,12 +519,8 @@ export const Entry = ({
             >
               <TokenInfo token={token} showRank={showRank} index={index} />
             </Segment>
-            {activeView?.display?.length ? (
-              activeView?.display?.length > 0
-            ) : false &&
-              (pathname === "/" ||
-                pathname === "/home" ||
-                pathname === "/?page=" + page) ? (
+            {activeView?.display?.length > 0 &&
+            (pathname === "/" || pathname === "/?page=" + page) ? (
               renderSegments()
             ) : (
               <>
@@ -545,16 +541,13 @@ export const Entry = ({
                   display="24h Volume"
                 />
                 {pathname === "/" ||
-                pathname === "/home" ||
                 pathname === `/?page=${page}` ||
                 isBalance ? (
                   <ChartSegment token={token} display="Chart" />
                 ) : null}
               </>
             )}
-            {pathname !== "/" &&
-            pathname !== "/home" &&
-            pathname !== `/?page=${page}` ? (
+            {pathname !== "/" && pathname !== `/?page=${page}` ? (
               <Segment color={text80}>{lastComponent[lastColumn]}</Segment>
             ) : null}
 
