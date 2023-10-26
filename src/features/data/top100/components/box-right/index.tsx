@@ -44,19 +44,10 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
   }, []);
 
   return (
-    <Flex
-      h={["175px", "175px", "175px", "200px"]}
-      borderRadius="12px"
-      overflow="hidden"
-      border={borders}
-      bg={boxBg3}
-      position="relative"
-      ml={["0px", "0px", "10px"]}
-      minW={["100%", "100%", "407px"]}
-      w={["100%", "31.5%"]}
-      transform={`translateX(-${showPageMobile * 100}%)`}
-      transition="all 500ms ease-in-out"
-      zIndex={showPageMobile === 2 ? 3 : 1}
+    <div
+      className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary flex-col py-2.5 px-3.5 relative overflow-hidden min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 translate-x-[-${
+        showPageMobile * 100
+      }%] z-[${showPageMobile === 2 ? 3 : 1}] ml-2.5 md:mx-0`}
     >
       <Flex
         align="center"
@@ -82,6 +73,6 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
         ))}
       </Flex>
       {render}
-    </Flex>
+    </div>
   );
 };

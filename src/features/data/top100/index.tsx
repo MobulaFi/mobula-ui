@@ -1,6 +1,5 @@
 "use client";
-import { Flex } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -86,11 +85,11 @@ export const Top100 = ({
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
-      <Flex direction="column" bg={bgMain} overflowX="hidden">
-        <div className="bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
+      <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
+        <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
           {isMobile ? (
-            <Container extraCss="flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 pb-0 overflow-x-scroll w-full">
-              <div className="w-95per mx-auto">
+            <Container extraCss="flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 pb-0 overflow-x-scroll w-full">
+              <div className="flex w-95per mx-auto">
                 <div className="swiper">
                   <div className="swiper-wrapper">
                     <div
@@ -116,10 +115,7 @@ export const Top100 = ({
               </div>
             </Container>
           ) : (
-            <Container
-              className="scroll"
-              extraCss="flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll"
-            >
+            <Container extraCss="scroll flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll">
               <Portfolio />
               <BoxMiddle metrics={metrics} />
               <BoxRight />
@@ -131,7 +127,7 @@ export const Top100 = ({
           cookieTop100={cookieTop100}
           setResultsData={setResultsData}
         />
-      </Flex>
+      </div>
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Container
           // w={["100%", "95%", "90%", "90%"]}
