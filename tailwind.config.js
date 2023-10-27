@@ -63,6 +63,9 @@ module.exports = {
           10: "rgba(0, 0, 0, 0.15)",
         },
       },
+      blue: {
+        border: "#5c7df9",
+      },
       red: "#ea3943",
       darkred: "rgba(234, 57, 67, 0.2)",
       green: "#0ECB81",
