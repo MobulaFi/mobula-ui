@@ -1,22 +1,25 @@
 import { ArrowUpIcon } from "@chakra-ui/icons";
-import { TableColumnHeaderProps, Th } from "@chakra-ui/react";
+import { TableColumnHeaderProps } from "@chakra-ui/react";
 import { useContext } from "react";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { useColors } from "../../../lib/chakra/colorMode";
 import { titleToDBKey } from "../constants";
 import { TableContext } from "../context-manager";
 
+interface TableHeaderEntryProps extends TableColumnHeaderProps {
+  title: string;
+  smaller?: string | null;
+  canOrder?: boolean;
+  extraCss?: string;
+}
+
 export const TableHeaderEntry = ({
   title,
   smaller = null,
   canOrder = false,
+  extraCss,
   ...props
-}: {
-  title: string;
-  smaller?: string | null;
-  canOrder?: boolean;
-  [key: string]: any;
-} & TableColumnHeaderProps) => {
+}: TableHeaderEntryProps) => {
   const { borders, text80 } = useColors();
   const { orderBy, setOrderBy } = useContext(TableContext);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
@@ -44,24 +47,10 @@ export const TableHeaderEntry = ({
   };
 
   return (
-    <Th
-      borderBottom={borders}
-      letterSpacing="auto"
-      whiteSpace="nowrap"
-      fontWeight="500"
-      fontSize={["12px", "12px", "14px", "14px"]}
-      fontFamily="Inter"
-      color={text80}
-      textTransform="capitalize"
-      padding={["12px 12px", "12px 12px", "17.5px 20px"]}
-      w="auto"
-      h="30px"
-      position="sticky"
-      cursor={shouldUseOrderBy() ? "pointer" : "default"}
-      top="0px"
-      left="0px"
-      zIndex="101"
-      textAlign="end"
+    <th
+      className={`border border-light-border-primary dark:border-dark-border-primary tracking-normal whitespace-nowrap font-medium text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 py-[17.5px] px-5 w-fit h-[30px] sticky ${
+        shouldUseOrderBy() ? "pointer" : "default"
+      } top-0 left-0 z-[101] text-end ${extraCss}`}
       onClick={() => {
         if (shouldUseOrderBy() === false) return;
         setIsLoading(true);
@@ -99,6 +88,6 @@ export const TableHeaderEntry = ({
             ) : null)}{" "}
         </>
       ) : null}
-    </Th>
+    </th>
   );
 };

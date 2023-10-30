@@ -1,14 +1,7 @@
 /* eslint-disable no-param-reassign */
-import {
-  Flex,
-  Table,
-  TableContainer,
-  TableContainerProps,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { TableContainerProps } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useContext, useEffect, useMemo, useRef } from "react";
+import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { PopupStateContext } from "../../../contexts/popup";
 import { defaultTop100 } from "../../../features/data/top100/constants";
@@ -174,250 +167,202 @@ export function AssetsTable({
 
   return (
     <TableContext.Provider value={value}>
-      <Flex
-        display="block"
-        overflow="auto"
-        position="relative"
-        top="0px"
-        w="100%"
-        minH={["300px", "450px", "450px", "680px"]}
-      >
-        <TableContainer
-          mb="28px"
-          mx="auto"
-          flexDirection="column"
-          alignItems="center"
-          position="relative"
-          overflow="auto"
-          isfixed="1"
-          top="0px"
-          className="scroll"
-          {...props}
-        >
-          <Table
-            w={["auto", "auto", "100%"]}
-            minW={["100%", "100%", "100%", "100%"]}
-            maxW={["1400px", "1400px", "1280px", "1280px", "1600px"]}
-            cursor="pointer"
-            margin="0px auto"
-            position="relative"
+      <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px]">
+        <table className="scroll mb-[28px] max-w-[1300px] cursor-pointer my-0 mx-auto relative w-full md:w-auto overflow-x-scroll">
+          <thead
+            className="border-t border-light-border-primary dark:border-dark-border-primary text-light-font-80 dark:text-dark-font-80 sticky top-0 "
+            ref={headerRef}
           >
-            <Thead
-              textTransform="capitalize"
-              fontFamily="Inter"
-              borderTop={borders}
-              color={text60}
-              position="sticky"
-              top="0px"
-              ref={headerRef}
+            <tr
+              className={`text-left sticky top-0 table-row ${
+                pathname === "/" || pathname === `/?page=${page}`
+                  ? "lg:hidden"
+                  : "lg:table-row"
+              } ${
+                pathname !== "/" && pathname !== `/?page=${page}`
+                  ? "md:table-row"
+                  : "md:hidden"
+              }`}
             >
-              <Tr
-                textAlign="left"
-                position="sticky"
-                top="0px"
-                display={[
-                  pathname !== "/" && pathname !== `/?page=${page}`
-                    ? "table-row"
-                    : "none",
-                  pathname !== "/" && pathname !== `/?page=${page}`
-                    ? "table-row"
-                    : "none",
-                  pathname === "/" || pathname === `/?page=${page}`
-                    ? "none"
-                    : "table-row",
-                  "table-row",
-                ]}
-              >
-                <TableHeaderEntry
-                  title="Rank"
-                  w="86px"
-                  canOrder
-                  zIndex="102"
-                  display={["none", "none", "table-cell"]}
-                  bg={isTop100 ? bgTable : bgMain}
-                />
-                <TableHeaderEntry
-                  title=""
-                  zIndex="102"
-                  display={["table-cell", "table-cell", "none"]}
-                  bg={isTop100 ? bgTable : bgMain}
-                />
-                <TableHeaderEntry
-                  title="Name"
-                  textAlign="start"
-                  w="170px"
-                  zIndex="102"
-                  bg={isTop100 ? bgTable : bgMain}
-                  left={["24px", "24px", "73px"]}
-                />
-                {activeView?.display &&
-                (pathname === "/" || pathname === `/?page=${page}`) ? (
-                  <>
-                    {activeView?.display?.map((entry) => (
-                      <TableHeaderEntry
-                        key={entry.value}
-                        title={
-                          entry.value === "Price USD" ? "Price" : entry.value
-                        }
-                        canOrder
-                        textAlign={
-                          entry.value === "24h Chart" ? "center" : "end"
-                        }
-                      />
-                    ))}
-
+              <TableHeaderEntry
+                title="Rank"
+                canOrder
+                extraCss={`${
+                  isTop100
+                    ? "bg-light-bg-table dark:bg-dark-bg-table"
+                    : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                } w-[86px] z-10 table-cell md:hidden`}
+              />
+              <TableHeaderEntry
+                title=""
+                extraCss={`z-10 hidden md:table-cell ${
+                  isTop100
+                    ? "bg-light-bg-table dark:bg-dark-bg-table"
+                    : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                }`}
+              />
+              <TableHeaderEntry
+                title="Name"
+                extraCss={`text-start w-[170px] z-10 ${
+                  isTop100
+                    ? "bg-light-bg-table dark:bg-dark-bg-table"
+                    : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                } left-[73px] md:left-[24px]`}
+              />
+              {activeView?.display &&
+              (pathname === "/" || pathname === `/?page=${page}`) ? (
+                <>
+                  {activeView?.display?.map((entry) => (
                     <TableHeaderEntry
-                      w="89px"
-                      title="Interact"
-                      display={["none", "none", "table-cell"]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <TableHeaderEntry
-                      w="140px"
-                      title="Price"
-                      canOrder
-                      isNumeric
-                    />
-                    <TableHeaderEntry title="24h (%)" canOrder />
-                    <TableHeaderEntry title="Market Cap" canOrder />
-                    <TableHeaderEntry
-                      w="162.41px"
-                      title={isBalance ? "Balance" : "Volume (24h)"}
-                      canOrder
-                    />
-                    {pathname !== "/" && pathname !== `/?page=${page}` ? (
-                      <TableHeaderEntry w="175px" title={lastColumn} />
-                    ) : null}
-                    {pathname === "/" ||
-                    pathname === `/?page=${page}` ||
-                    isBalance ? (
-                      <TableHeaderEntry
-                        w="89px"
-                        title="Chart 24h"
-                        textAlign="center"
-                        display={["none", "none", "table-cell"]}
-                      />
-                    ) : null}
-                    <TableHeaderEntry
-                      w="89px"
-                      title="Interact"
-                      display={["none", "none", "table-cell"]}
-                    />
-                  </>
-                )}
-              </Tr>
-              <Tr
-                textAlign="left"
-                position="sticky"
-                top="0px"
-                display={[
-                  pathname !== "/" && pathname !== `/?page=${page}`
-                    ? "none"
-                    : "table-row",
-                  pathname !== "/" && pathname !== `/?page=${page}`
-                    ? "none"
-                    : "table-row",
-                  pathname === "/" || pathname === `/?page=${page}`
-                    ? "table-row"
-                    : "none",
-                  "none",
-                ]}
-              >
-                {!showMinimalMobile &&
-                (pathname === "/" || pathname === `/?page=${page}`) ? (
-                  <>
-                    <TableHeaderEntry
-                      title=""
-                      zIndex="102"
-                      display={[
-                        "table-cell",
-                        "table-cell",
-                        "table-cell",
-                        "none",
-                      ]}
-                      bg={isTop100 ? bgTable : bgMain}
-                    />
-                    <TableHeaderEntry
-                      title="Name"
-                      textAlign="start"
-                      w="170px"
-                      zIndex="102"
-                      bg={isTop100 ? bgTable : bgMain}
-                      left={["24px", "24px", "88px"]}
-                    />
-                    {activeView?.display?.map((entry) => (
-                      <TableHeaderEntry
-                        key={Math.random()}
-                        title={
-                          entry.value === "Price USD" ? "Price" : entry.value
-                        }
-                        canOrder
-                      />
-                    ))}
-
-                    <TableHeaderEntry
-                      w="89px"
-                      title="Interact"
-                      display={["none", "none", "table-cell"]}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <TableHeaderEntry
-                      title="Rank"
-                      w="86px"
-                      canOrder
-                      zIndex="102"
-                      display={["none", "none", "table-cell"]}
-                      bg={isTop100 ? bgTable : bgMain}
-                    />
-                    <TableHeaderEntry
-                      title=""
-                      zIndex="102"
-                      display={["table-cell", "table-cell", "none"]}
-                      bg={isTop100 ? bgTable : bgMain}
-                    />
-                    <TableHeaderEntry
-                      title="Name"
-                      textAlign="start"
-                      w="170px"
-                      zIndex="102"
-                      bg={isTop100 ? bgTable : bgMain}
-                      left={["24px", "24px", "88px"]}
-                    />
-                    <TableHeaderEntry title="Price" canOrder />
-                    <TableHeaderEntry
+                      key={entry.value}
                       title={
-                        activeView?.name === "Portfolio" ? "Balance" : "24h %"
+                        entry.value === "Price USD" ? "Price" : entry.value
+                      }
+                      canOrder
+                      extraCss={`${
+                        entry.value === "24h Chart" ? "text-center" : "text-end"
+                      }`}
+                    />
+                  ))}
+
+                  <TableHeaderEntry
+                    extraCss="w-[89px] table-cell md:hidden"
+                    title="Interact"
+                  />
+                </>
+              ) : (
+                <>
+                  <TableHeaderEntry
+                    extraCss="w-[140px] text-end"
+                    title="Price"
+                    canOrder
+                  />
+                  <TableHeaderEntry title="24h (%)" canOrder />
+                  <TableHeaderEntry title="Market Cap" canOrder />
+                  <TableHeaderEntry
+                    extraCss="w-[162.41px]"
+                    title={isBalance ? "Balance" : "Volume (24h)"}
+                    canOrder
+                  />
+                  {pathname !== "/" && pathname !== `/?page=${page}` ? (
+                    <TableHeaderEntry extraCss="w-[175px]" title={lastColumn} />
+                  ) : null}
+                  {pathname === "/" ||
+                  pathname === `/?page=${page}` ||
+                  isBalance ? (
+                    <TableHeaderEntry
+                      extraCss="w-[89px] table-cell md:hidden text-center"
+                      title="Chart 24h"
+                    />
+                  ) : null}
+                  <TableHeaderEntry
+                    title="Interact"
+                    extraCss="w-[89px] table-cell md:hidden"
+                  />
+                </>
+              )}
+            </tr>
+            <tr
+              className={`text-left sticky top-0 hidden ${
+                pathname === "/" || pathname === `/?page=${page}`
+                  ? "lg:table-row"
+                  : "lg:hidden"
+              } ${
+                pathname !== "/" && pathname !== `/?page=${page}`
+                  ? "md:hidden"
+                  : "md:table-row"
+              }`}
+            >
+              {!showMinimalMobile &&
+              (pathname === "/" || pathname === `/?page=${page}`) ? (
+                <>
+                  <TableHeaderEntry
+                    title=""
+                    extraCss={`z-10 hidden lg:table-cell ${
+                      isTop100
+                        ? "bg-light-bg-table dark:bg-dark-bg-table"
+                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                    }`}
+                  />
+                  <TableHeaderEntry
+                    title="Name"
+                    extraCss={`z-10 w-[170px] text-start left-[88px] md:left-[24px] ${
+                      isTop100
+                        ? "bg-light-bg-table dark:bg-dark-bg-table"
+                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                    }`}
+                  />
+                  {activeView?.display?.map((entry) => (
+                    <TableHeaderEntry
+                      key={entry.value as Key}
+                      title={
+                        entry.value === "Price USD" ? "Price" : entry.value
                       }
                       canOrder
                     />
-                  </>
-                )}
-              </Tr>
-            </Thead>
+                  ))}
 
-            {((automatedSkeletons && resultsData?.data?.length > 0) ||
-              (!automatedSkeletons && !displaySkeletons)) &&
-            !isLoading ? (
-              entries
-            ) : (
-              <>
-                {Array.from({ length: 10 }).map((_, i) => (
-                  <SkeletonTable
-                    isWatchlist
-                    isTable={isTop100 as boolean}
-                    i={i}
-                    key={i}
+                  <TableHeaderEntry
+                    className="w-[89px] table-cell md:hidden"
+                    title="Interact"
                   />
-                ))}
-              </>
-            )}
-          </Table>
-        </TableContainer>
-      </Flex>
+                </>
+              ) : (
+                <>
+                  <TableHeaderEntry
+                    title="Rank"
+                    className={`z-10 w-[86px] table-cell md:hidden ${
+                      isTop100
+                        ? "bg-light-bg-table dark:bg-dark-bg-table"
+                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                    }`}
+                    canOrder
+                  />
+                  <TableHeaderEntry
+                    title=""
+                    extraCss={`z-10 hidden md:table-cell ${
+                      isTop100
+                        ? "bg-light-bg-table dark:bg-dark-bg-table"
+                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                    }`}
+                  />
+                  <TableHeaderEntry
+                    title="Name"
+                    className={`${
+                      isTop100
+                        ? "bg-light-bg-table dark:bg-dark-bg-table"
+                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                    } text-start w-[170px] z-10 left-[88px] md:left-[24px]`}
+                  />
+                  <TableHeaderEntry title="Price" canOrder />
+                  <TableHeaderEntry
+                    title={
+                      activeView?.name === "Portfolio" ? "Balance" : "24h %"
+                    }
+                    canOrder
+                  />
+                </>
+              )}
+            </tr>
+          </thead>
+          {((automatedSkeletons && resultsData?.data?.length > 0) ||
+            (!automatedSkeletons && !displaySkeletons)) &&
+          !isLoading ? (
+            entries
+          ) : (
+            <>
+              {Array.from({ length: 10 }).map((_, i) => (
+                <SkeletonTable
+                  isWatchlist
+                  isTable={isTop100 as boolean}
+                  i={i}
+                  key={i}
+                />
+              ))}
+            </>
+          )}
+        </table>
+      </div>
       {/* <DrawerDex /> */}
       {showMenuTableMobileForToken && showMenuTableMobile ? (
         <MenuCommom />

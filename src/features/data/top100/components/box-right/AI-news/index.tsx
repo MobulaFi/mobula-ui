@@ -120,9 +120,11 @@ export const AINews = ({ showPage }: AINewsProps) => {
             alt="Mobula AI logo"
           />
           <SmallFont extraCss="mr-[7.5px]">Mobula AI</SmallFont>
-          <div className="flex items-center rounded-xl h-5 px-1.5 border border-blue-border">
+          <div className="flex items-center rounded-xl h-5 px-1.5 border border-darkblue">
             <div className="rounded-full w-[5px] h-[5px] bg-blue" />
-            <p className="text-xs md:text-[10px] mb-0 ml-[5px]">Bot</p>
+            <p className="text-xs md:text-[10px] mb-0 ml-[5px] text-light-font-100 dark:text-dark-font-100">
+              Bot
+            </p>
           </div>
         </div>
         <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
