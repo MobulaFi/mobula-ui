@@ -91,11 +91,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           <button
             className="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100 py-1.5 px-2 min-w-[47px] 
             h-[25px] rounded-full flex items-center justify-center nowrap text-xs border-light-border-primary font-medium 
-             dark:border-dark-border-primary border hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250"
-            onClick={() => {
-              setShowSettings(true);
-              pushData("TRADE-ADVANCED-GWEI");
-            }}
+             dark:border-dark-border-primary border"
           >
             {isMounted && data?.gasPrice
               ? `${(
