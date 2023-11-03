@@ -7,7 +7,6 @@ import React, { createContext, useEffect, useMemo, useState } from "react";
 import { TransactionReceipt as TransactionReceiptInterface } from "viem";
 import { useAccount, useFeeData, useNetwork } from "wagmi";
 import { useHoldings } from "../../hooks/holdings";
-import { TransactionReceipt } from "./components/swaps/main/popup/receipt";
 import { useButtonClick } from "./hooks/useButtonClick";
 import { useSlippage } from "./hooks/useSlippage";
 import { useMetaContext } from "./hooks/useSwapCommon";
@@ -24,6 +23,7 @@ import {
   SyntaxicTokens,
   SyntaxicTokensBuffer,
 } from "./model";
+import { TransactionReceipt } from "./popup/receipt";
 import { cleanNumber } from "./utils";
 
 export const SwapContext = createContext({} as ISwapContext);

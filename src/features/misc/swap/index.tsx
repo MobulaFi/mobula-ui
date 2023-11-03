@@ -7,7 +7,7 @@ import { Container } from "../../../components/container";
 import { LargeFont } from "../../../components/fonts";
 import { Asset, Coin } from "../../../interfaces/swap";
 import { SwapProvider } from "../../../layouts/swap";
-import { BuySellSwap } from "../../../layouts/swap/components/buy-sell";
+import { BasicSwap } from "../../../layouts/swap/swap-variant/basic-swap";
 import { CardsAndCTA } from "./components/cards-and-cta";
 import { TopConvertion } from "./components/top-convertion";
 
@@ -87,7 +87,7 @@ export const BuySell = ({ token }: BuySellProps) => {
         </div>
         <div className="flex justify-center w-2/4 md:w-[100%] ml-auto md:ml-0 ">
           <SwapProvider tokenOutBuffer={token} lockToken={token ? ["out"] : []}>
-            <BuySellSwap activeStep={activeStep.nbr} />
+            <BasicSwap activeStep={activeStep.nbr} />
           </SwapProvider>
           {/* 
            {showTuto ? (

@@ -9,8 +9,8 @@ import { useNetwork } from "wagmi";
 import { SwapContext } from "..";
 import { MultichainAsset } from "../../../interfaces/holdings";
 import { createSupabaseDOClient } from "../../../lib/supabase";
-import { Results } from "../components/select/model";
 import { Asset, Coin } from "../model";
+import { Results } from "../popup/select/model";
 import { fetchContract } from "../utils";
 
 export const useUpdateSearch = (position: string) => {

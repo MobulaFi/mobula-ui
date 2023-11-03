@@ -1,24 +1,31 @@
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
-import { SwapContext } from "../..";
 // import {InfoPopup} from "../../../../components/popup-hover";
 import React from "react";
+import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
-import { SmallFont } from "../../../../components/fonts";
-import { Spinner } from "../../../../components/spinner";
+import { SwapContext } from "..";
+import { SmallFont } from "../../../components/fonts";
+import { Spinner } from "../../../components/spinner";
+import { pushData } from "../../../lib/mixpanel";
 import {
   getFormattedAmount,
   getRightPrecision,
-} from "../../../../utils/formaters";
-import { useLoadToken } from "../../hooks/useLoadToken";
-import { ISwapContext } from "../../model";
-import { cleanNumber } from "../../utils";
-import { Select } from "../select";
-import { InfoPopupQuotes } from "../swaps/main/popup/quotes";
+} from "../../../utils/formaters";
+import { useLoadToken } from "../hooks/useLoadToken";
+import { ISwapContext } from "../model";
+import { InfoPopupQuotes } from "../popup/quotes";
+import { Select } from "../popup/select";
+import { Settings } from "../popup/settings";
+import { cleanNumber } from "../utils";
 
-export const BuySellSwap = ({ activeStep }: { activeStep: number }) => {
+interface BasicSwapProps {
+  activeStep: number;
+}
+
+export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
   const {
     tokenIn,
     tokenOut,
@@ -47,9 +54,11 @@ export const BuySellSwap = ({ activeStep }: { activeStep: number }) => {
   const { chain } = useNetwork();
   const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
   const { loadToken } = useLoadToken();
+  const { data } = useFeeData({ chainId: chainNeeded || chain?.id || 1 });
+  const [isMounted, setIsMounted] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const switchTokenButtonStyle =
     "h-[35px] rounded-full w-fit ml-auto p-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-250";
-
   const gasCost = tx?.gasLimit
     ? cleanNumber(tx.gasLimit, 9) *
       cleanNumber(gasData?.gasPrice, 9) *
@@ -68,15 +77,42 @@ export const BuySellSwap = ({ activeStep }: { activeStep: number }) => {
     ) || [];
   const quotesAmount = quotes?.length - 1;
 
-  const buySellButtonStyle =
-    "flex justify-center items-center text-xl lg:text-lg md:text-md text-normal pb-2.5 w-1/2 transition-all duration-250";
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="flex flex-col max-w-[420px] min-w-[300px] w-full rounded-2xl border border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary p-5">
-      <div className="flex flex-col w-full mb-5">
+      <div className="flex items-center w-full mb-5 justify-between">
         <p className="text-light-font-100 dark:text-dark-font-100 text-xl font-medium">
-          Swap at best price
+          Swap
         </p>
+        <div className="flex">
+          <button
+            className="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100 py-1.5 px-2 min-w-[47px] 
+            h-[25px] rounded-full flex items-center justify-center nowrap text-xs border-light-border-primary font-medium 
+             dark:border-dark-border-primary border hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250"
+            onClick={() => {
+              setShowSettings(true);
+              pushData("TRADE-ADVANCED-GWEI");
+            }}
+          >
+            {isMounted && data?.gasPrice
+              ? `${(
+                  cleanNumber(data.gasPrice, 9) * settings.gasPriceRatio
+                ).toFixed(2)} Gwei`
+              : null}
+          </button>
+          <button
+            className="ml-2.5"
+            onClick={() => {
+              setShowSettings(true);
+              pushData("TRADE-ADVANCED-SETTINGS");
+            }}
+          >
+            <AiOutlineSetting className="text-light-font-80 dark:text-dark-font-80 text-lg hover:text-blue hover:dark:text-blue transition-colors" />
+          </button>
+        </div>
       </div>
       <div
         className={`flex flex-col rounded-lg border border-light-border-primary dark:border-dark-border-primary
@@ -240,7 +276,7 @@ export const BuySellSwap = ({ activeStep }: { activeStep: number }) => {
             ? "text-light-font-100 dark:text-dark-font-100"
             : "text-light-font-40 dark:text-dark-font-40"
         }
-        mb-5 mt-1 md:my-[15px] text-center ${
+        mb-2.5 mt-1 md:my-[15px] text-center ${
           activeStep === 3 ? "z-[5]" : "z-[1]"
         }
         `}
@@ -292,6 +328,7 @@ export const BuySellSwap = ({ activeStep }: { activeStep: number }) => {
         setVisible={setShowSelector}
         position={isTokenIn ? "in" : "out"}
       />
+      <Settings visible={showSettings} setVisible={setShowSettings} />
     </div>
   );
 };

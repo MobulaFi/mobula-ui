@@ -11,8 +11,8 @@ import { MultichainAsset } from "../../interfaces/holdings";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { idToWagmiChain } from "../../utils/chains";
 import { toNumber } from "../../utils/formaters";
-import { Results } from "./components/select/model";
 import { Asset, Coin } from "./model";
+import { Results } from "./popup/select/model";
 
 export const fetchContract = (search: string) => {
   const supabase = createSupabaseDOClient();

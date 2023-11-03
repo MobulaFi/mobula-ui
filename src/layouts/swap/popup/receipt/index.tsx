@@ -15,19 +15,18 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useAccount, useNetwork } from "wagmi";
-// eslint-disable-next-line import/no-cycle
+import { SwapContext } from "../..";
+import { TextLandingSmall, TextSmall } from "../../../../components/fonts";
+import { NextChakraLink } from "../../../../components/link";
+import { useColors } from "../../../../lib/chakra/colorMode";
 import {
   getFormattedAmount,
   getFormattedDate,
   getFormattedHours,
-} from "@utils/formaters";
-import { TextLandingSmall, TextSmall } from "components/fonts";
-import { NextChakraLink } from "components/link";
-import { useColors } from "lib/chakra/colorMode";
-import { SwapContext } from "../../../../..";
-import { getAmountOut } from "../../../../../utils";
+} from "../../../../utils/formaters";
+import { getAmountOut } from "../../utils";
 import { Lines } from "./lines";
 
 export const TransactionReceipt = () => {

@@ -8,26 +8,26 @@ import {
   Skeleton,
   Text,
 } from "@chakra-ui/react";
-import {useContext, useRef, useState} from "react";
-import {useFeeData, useNetwork} from "wagmi";
-import {SwapContext} from "../../../../..";
+import { useContext, useRef, useState } from "react";
+import { useFeeData, useNetwork } from "wagmi";
+import { SwapContext } from "../../../../..";
 // eslint-disable-next-line import/no-cycle
-import {ColorsContext} from "../../../../../../../../../pages/iframe/swap/index";
+import { ColorsContext } from "../../../../../../../../../pages/iframe/swap/index";
 import {
   getFormattedAmount,
   getRightPrecision,
 } from "../../../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../../../UI/Text";
-import {InfoPopup} from "../../../../../../../components/popup-hover";
-import {pushData} from "../../../../../../../data/utils";
-import {useColors} from "../../../../../../../utils/color-mode";
-import {ISwapContext} from "../../../../../model";
-import {cleanNumber} from "../../../../../utils";
-import {Select} from "../../../../select";
-import {BlockchainSelector} from "../../popup/blockchain-selector";
-import {BlockchainChanger} from "../blockchain-changer";
-import {SelectedToken} from "../selected-token";
-import {FlexBoxs} from "../ui";
+import { TextSmall } from "../../../../../../../../UI/Text";
+import { InfoPopup } from "../../../../../../../components/popup-hover";
+import { pushData } from "../../../../../../../data/utils";
+import { useColors } from "../../../../../../../utils/color-mode";
+import { ISwapContext } from "../../../../../model";
+import { Select } from "../../../../../popup/select";
+import { cleanNumber } from "../../../../../utils";
+import { BlockchainSelector } from "../../popup/blockchain-selector";
+import { BlockchainChanger } from "../blockchain-changer";
+import { SelectedToken } from "../selected-token";
+import { FlexBoxs } from "../ui";
 
 export const SwapBox = ({
   position,
@@ -49,13 +49,15 @@ export const SwapBox = ({
   } = useContext<ISwapContext>(SwapContext);
   const [select, setSelect]: [string | boolean, any] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const {text40, borders, text80, boxBg6, hover} = useColors();
+  const { text40, borders, text80, boxBg6, hover } = useColors();
   const [showBlockchainSelector, setShowBlockchainSelector] =
     useState<boolean>(false);
-  const {bgBox, fontSecondary, fontMain, borderColor} =
+  const { bgBox, fontSecondary, fontMain, borderColor } =
     useContext(ColorsContext);
-  const {chain} = useNetwork();
-  const {data: gasData} = useFeeData({chainId: chainNeeded || chain?.id || 1});
+  const { chain } = useNetwork();
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id || 1,
+  });
 
   // Syntax sugar
   const isFrom = position === "in";
@@ -155,9 +157,9 @@ export const SwapBox = ({
                   setAmount!(
                     tokenIn && "coin" in tokenIn
                       ? String(
-                          Math.max(parseFloat(tokenIn.balance!) - gasCost, 0),
+                          Math.max(parseFloat(tokenIn.balance!) - gasCost, 0)
                         )
-                      : tokenIn.balance!,
+                      : tokenIn.balance!
                   );
                 }}
                 fontSize="12px"
@@ -190,9 +192,9 @@ export const SwapBox = ({
             type="number"
             lang="en"
             color={fontMain || text80}
-            _placeholder={{color: fontMain || text80}}
+            _placeholder={{ color: fontMain || text80 }}
             fontSize="16px"
-            onChange={e => {
+            onChange={(e) => {
               if (
                 (!Number.isNaN(parseFloat(e.target.value)) ||
                   e.target.value === "") &&

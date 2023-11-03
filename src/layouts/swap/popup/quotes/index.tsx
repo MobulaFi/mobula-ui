@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai";
-import { SwapContext } from "../../../../..";
-import { SmallFont } from "../../../../../../../components/fonts";
-import { Popover } from "../../../../../../../components/popover";
-import { pushData } from "../../../../../../../lib/mixpanel";
-import { getFormattedAmount } from "../../../../../../../utils/formaters";
-import { famousContractsLabelFromName } from "../../../../../utils";
+import { SwapContext } from "../..";
+import { SmallFont } from "../../../../components/fonts";
+import { Popover } from "../../../../components/popover";
+import { pushData } from "../../../../lib/mixpanel";
+import { getFormattedAmount } from "../../../../utils/formaters";
+import { famousContractsLabelFromName } from "../../utils";
 
 interface InfoPopupProps {
   isSwapRouter: boolean;
