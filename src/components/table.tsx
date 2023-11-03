@@ -1,59 +1,31 @@
-import { Td, Th } from "@chakra-ui/react";
-import React from "react";
-import { useColors } from "../lib/chakra/colorMode";
-
-export const Ths = ({
-  children,
-  bg,
-  ...props
-}: {
+interface TableProps {
   children: any;
   bg?: any;
   [key: string]: any;
-}) => {
-  const { borders, text80 } = useColors();
+}
+
+export const Ths = ({ children, bg, ...props }: TableProps) => {
   return (
-    <Th
-      borderBottom={borders}
-      fontSize={["12px", "12px", "13px", "14px"]}
-      fontWeight="500"
-      fontFamily="Inter"
-      letterSpacing="auto"
-      py={["10px", "10px", "20px"]}
-      bg={bg || "none"}
-      color={text80}
-      textTransform="capitalize"
+    <th
+      className={`border-b border-light-border-primary dark:border-dark-border-primary md:text-xs text-sm font-medium text-light-font-100 dark:text-dark-font-100 py-5 md:py-2.5 ${
+        bg ? "bg-[bg]" : "bg-transparent"
+      } `}
       {...props}
     >
       {children}
-    </Th>
+    </th>
   );
 };
 
-export const Tds = ({
-  children,
-  bg,
-  ...props
-}: {
-  children: any;
-  bg?: any;
-  [key: string]: any;
-}) => {
-  const { borders, text80 } = useColors();
+export const Tds = ({ children, bg, ...props }: TableProps) => {
   return (
-    <Td
-      borderBottom={borders}
-      fontSize={["12px", "12px", "13px", "14px"]}
-      fontWeight="500"
-      fontFamily="Inter"
-      letterSpacing="auto"
-      py={["10px", "10px", "20px"]}
-      bg={bg || "none"}
-      color={text80}
-      textTransform="capitalize"
+    <td
+      className={`border-b border-light-border-primary dark:border-dark-border-primary md:text-xs text-sm font-medium text-light-font-100 dark:text-dark-font-100 py-5 md:py-2.5 ${
+        bg ? "bg-[bg]" : "bg-transparent"
+      } `}
       {...props}
     >
       {children}
-    </Td>
+    </td>
   );
 };

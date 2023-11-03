@@ -1,6 +1,6 @@
 import { Button, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { Dispatch, Key, SetStateAction } from "react";
+import { Dispatch, Key, SetStateAction } from "react";
 import { useColors } from "../../lib/chakra/colorMode";
 
 interface NavProps {
@@ -28,7 +28,6 @@ export const TopNav = ({
     const left = widthPerButton * list.indexOf(active as any);
     return left;
   };
-
   const width = getWidth();
 
   return (

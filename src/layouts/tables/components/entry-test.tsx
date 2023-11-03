@@ -18,7 +18,6 @@ import { useColors } from "../../../lib/chakra/colorMode";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
-import React from "react";
 import { Button } from "../../../components/button";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { getUrlFromName } from "../../../utils/formaters";
@@ -552,13 +551,13 @@ export const Entry = ({
           </tr>
         </tbody>
       )}
-      {/* {show || (isMobile && showAlert === token?.name) ? (
+      {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}
           setShow={setShow}
           asset={token as Asset}
         />
-      ) : null} */}
+      ) : null}
     </EntryContext.Provider>
   );
 };

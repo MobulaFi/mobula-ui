@@ -1,4 +1,3 @@
-import { FlexProps } from "@chakra-ui/react";
 import React from "react";
 
 interface ContainerProps {
@@ -12,7 +11,7 @@ export const Container = ({
   isMobile,
   extraCss,
   ...props
-}: ContainerProps & FlexProps) => {
+}: ContainerProps) => {
   if (
     isMobile === true &&
     typeof window !== "undefined" &&
@@ -30,7 +29,7 @@ export const Container = ({
 
   return (
     <div
-      className={`mx-auto w-90per lg:95per max-w-[1200px] mb-20 mt-7 md:mt-2.5 ${extraCss}`}
+      className={`min-h-[60vh] mx-auto w-90per lg:95per max-w-[1200px] mb-20 mt-7 md:mt-2.5 ${extraCss}`}
       {...props}
     >
       {children}

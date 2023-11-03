@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "../../components/box";
 import { ToggleColorMode } from "../../layouts/toggle-mode";
+import { Footer } from "../footer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         skejng jsegjsenj kgkje nkjs ngkjn jjse ng
       </Box>
       {children}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

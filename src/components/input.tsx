@@ -3,7 +3,7 @@ import React from "react";
 interface InputProps {
   extraCss?: string;
   children?: React.ReactNode;
-  isError: boolean;
+  isError?: boolean;
   [key: string]: any;
 }
 
@@ -21,7 +21,7 @@ export const Input = ({
   const borderColor = getBorderColor(isError);
   return (
     <input
-      className={`border ${borderColor} text-sm rounded bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] md:h-[30px] px-2 w-fit flex items-center transition-all duration-250 ${extraCss}`}
+      className={`border ${borderColor} text-sm rounded text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] md:h-[30px] px-2 flex items-center transition-all duration-250 ${extraCss}`}
       {...props}
     />
   );

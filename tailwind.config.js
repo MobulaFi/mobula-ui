@@ -11,6 +11,23 @@ module.exports = {
         "90per": "90%",
         "95per": "95%",
       },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
+      },
+      keyframes: {
+        spin: {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        skeleton: {
+          "0%, 100%": { backgroundPosition: "200% 0" },
+          "50%": { backgroundPosition: "0 0" },
+        },
+      },
+      animation: {
+        skeleton: "skeleton 1.5s ease-in-out infinite",
+        spin: "spin 1s linear infinite",
+      },
     },
     screens: {
       sm: { max: "480px" },
@@ -69,6 +86,7 @@ module.exports = {
       darkgreen: "rgba(2, 192, 118, 0.2)",
       blue: "#5c7df9",
       darkblue: "rgba(43, 58, 117, 1)",
+      telegram: "#30A7DE",
       purple: "#7e5bef",
       pink: "#ff49db",
       orange: "#ff7849",
@@ -76,5 +94,5 @@ module.exports = {
       yellow: "#ffc82c",
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

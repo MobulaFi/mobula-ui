@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -122,13 +122,13 @@ export const Top100 = ({
             </Container>
           )}
         </div>
+      </div>
+      <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Views
           actualView={actualView}
           cookieTop100={cookieTop100}
           setResultsData={setResultsData}
         />
-      </div>
-      <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Container
           // w={["100%", "95%", "90%", "90%"]}
           extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden"

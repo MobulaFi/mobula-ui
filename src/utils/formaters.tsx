@@ -1,5 +1,4 @@
 import { Flex, Text } from "@chakra-ui/react";
-import React from "react";
 
 export function formatName(name: string, chars: number): string {
   return `${name.substr(0, chars)}...`;
@@ -364,4 +363,41 @@ export const getDate = (timestamp: number) => {
 export const addressSlicer = (address?: string, endCut = 4) => {
   if (!address) return "...";
   return `${address.slice(0, 4)}...${address.slice(-endCut)}`;
+};
+
+export const toNumber = (amount: bigint, decimals: number) =>
+  Number((amount * 10000n) / BigInt(10 ** decimals)) / 10000;
+
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+export const getFormattedDate = (date: number) => {
+  if (!date) return null;
+  const month: string = months[new Date(date).getMonth()];
+  const day: number = new Date(date).getDate();
+  const year: number = new Date(date).getFullYear();
+  return `${month} ${day}, ${year}`;
+};
+
+export const getFormattedHours = (date: number) => {
+  if (!date) return null;
+  let hours: number | string = new Date(date).getHours();
+  let minutes: number | string = new Date(date).getMinutes();
+  let seconds: number | string = new Date(date).getSeconds();
+  if (hours < 10) hours = `0${hours}`;
+  if (minutes < 10) minutes = `0${minutes}`;
+  if (seconds < 10) seconds = `0${seconds}`;
+  return `${hours}:${minutes}:${seconds}`;
 };
