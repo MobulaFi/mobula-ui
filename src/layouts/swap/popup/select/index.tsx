@@ -167,7 +167,8 @@ export const Select = ({
       <input
         className={`w-full rounded text-light-font-80 dark:text-dark-font-80 text-medium border border-light-border-primary
          dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] px-2.5 text-sm 
-         focus:border-light-font-10 focus:dark:border-dark-font-10 focus:outline-none focus:dark:outline-none active:border-light-font-10 active:dark:border-dark-font-10 `}
+         focus:border-light-font-10 focus:dark:border-dark-font-10 focus:outline-none focus:dark:outline-none
+          active:border-light-font-10 active:dark:border-dark-font-10 `}
         placeholder="Search a token name or address"
         onChange={(e) => setToken(e.target.value)}
       />

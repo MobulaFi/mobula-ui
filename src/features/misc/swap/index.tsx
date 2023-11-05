@@ -8,6 +8,7 @@ import { LargeFont } from "../../../components/fonts";
 import { Asset, Coin } from "../../../interfaces/swap";
 import { SwapProvider } from "../../../layouts/swap";
 import { BasicSwap } from "../../../layouts/swap/swap-variant/basic-swap";
+import { SmallSwap } from "../../../layouts/swap/swap-variant/small-swap";
 import { CardsAndCTA } from "./components/cards-and-cta";
 import { TopConvertion } from "./components/top-convertion";
 
@@ -99,9 +100,22 @@ export const BuySell = ({ token }: BuySellProps) => {
             ) : null}
          */}
         </div>
-
         <CardsAndCTA extraCss="hidden md:flex mt-[30px]" />
       </Container>
+      <SwapProvider
+        tokenOutBuffer={{
+          ...token,
+          blockchain: token?.blockchains[0],
+          address:
+            token && "contracts" in token ? token.contracts[0] : undefined,
+          logo: token?.image || token?.logo,
+          name: token?.name || token?.symbol,
+          tracked: true,
+        }}
+        lockToken={["out"]}
+      >
+        <SmallSwap asset={{ ...token, tracked: true }} />
+      </SwapProvider>
       <TopConvertion />
     </>
   );

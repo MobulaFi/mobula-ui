@@ -3,12 +3,6 @@ import { parse } from "cookie";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 
 // eslint-disable-next-line import/no-cycle
-import {
-  Pref,
-  TradeFilter,
-  setUserPrefCookie,
-} from "../../../../../utils/prefs/user-pref-store";
-import { ComparedEntity } from "../../../User/Portfolio/models";
 import { Asset } from "../interfaces/assets";
 import { ILaunchpad } from "../interfaces/launchpads";
 import {
@@ -19,8 +13,11 @@ import {
   TimeSelected,
   UnformattedHistoricalData,
 } from "../interfaces/pages/asset";
-import { MarketMetrics, Trade } from "../interfaces/trades";
+import { ComparedEntity } from "../interfaces/pages/portfolio";
+import { MarketMetrics, Trade, TradeFilter } from "../interfaces/trades";
 import { createSupabaseDOClient } from "../lib/supabase";
+import { formatHistoricalData, unformatFilters } from "../utils/pages/asset";
+import { Pref, setUserPrefCookie } from "../utils/prefs";
 import { UserContext } from "./user";
 
 export const BaseAssetContext = React.createContext({} as IBasetAssetContext);
