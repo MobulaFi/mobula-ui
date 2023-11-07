@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import React from "react";
 import { GeneralContext } from "../contexts";
 import Layout from "../layouts/layout";
+import { SearchbarProvider } from "../popup/searchbar/context-manager";
 import "../styles/calendars.css";
 import "../styles/global.css";
 
@@ -20,9 +21,11 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <GeneralContext>
-          {/* <Providers> */}
-          <Layout>{children}</Layout>
-          {/* </Providers> */}
+          <SearchbarProvider>
+            {/* <Providers> */}
+            <Layout>{children}</Layout>
+            {/* </Providers> */}
+          </SearchbarProvider>
         </GeneralContext>
       </body>
     </html>

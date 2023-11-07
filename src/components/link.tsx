@@ -1,19 +1,29 @@
-import { Box, LinkProps } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
+
+interface NextChakraLinkProps {
+  children: React.ReactNode;
+  href?: string;
+  extraCss?: string;
+}
 
 export const NextChakraLink = ({
   children,
   href,
+  extraCss,
   ...props
-}: {
-  children: React.ReactNode;
-  href?: string;
-} & LinkProps) => {
-  if (!href) return <Box {...props}>{children}</Box>;
+}: NextChakraLinkProps) => {
+  if (!href)
+    return (
+      <div className={extraCss} {...props}>
+        {children}
+      </div>
+    );
   return (
     <NextLink href={href}>
-      <Box {...props}>{children}</Box>
+      <div className={extraCss} {...props}>
+        {children}
+      </div>
     </NextLink>
   );
 };

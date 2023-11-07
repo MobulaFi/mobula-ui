@@ -10,6 +10,8 @@ module.exports = {
       width: {
         "90per": "90%",
         "95per": "95%",
+        "calc-full-40": "calc(100% - 40px)",
+        "calc-full-56": "calc(90vh - 56px)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
@@ -23,10 +25,23 @@ module.exports = {
           "0%, 100%": { backgroundPosition: "200% 0" },
           "50%": { backgroundPosition: "0 0" },
         },
+        tabs: {
+          "0%": {
+            opacity: 0,
+            transform: "translateX(-10px)",
+          },
+          "10%": {
+            opacity: 1,
+          },
+          "100%": {
+            transform: "translateX(0)",
+          },
+        },
       },
       animation: {
         skeleton: "skeleton 1.5s ease-in-out infinite",
         spin: "spin 1s linear infinite",
+        tabs: "tabs 350ms linear",
       },
     },
     screens: {

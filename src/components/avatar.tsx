@@ -1,10 +1,10 @@
-import { Avatar, AvatarProps } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 const imageCache: { [address: string]: string } = {};
 
-interface AddressAvatarProps extends AvatarProps {
+interface AddressAvatarProps {
   address: string;
+  extraCss?: string;
 }
 
 async function generateImageFromAddress(address: string): Promise<string> {
@@ -56,7 +56,7 @@ async function cachedGenerateImageFromAddress(
 
 export const AddressAvatar: React.FC<AddressAvatarProps> = ({
   address,
-  ...props
+  extraCss,
 }) => {
   const [dataURI, setDataURI] = useState<string | undefined>();
 
@@ -73,5 +73,11 @@ export const AddressAvatar: React.FC<AddressAvatarProps> = ({
     })();
   }, [address]);
 
-  return <Avatar src={dataURI} {...props} />;
+  return (
+    <img
+      src={dataURI || "/empty/unknown.png"}
+      alt="user default avatar"
+      className={extraCss}
+    />
+  );
 };

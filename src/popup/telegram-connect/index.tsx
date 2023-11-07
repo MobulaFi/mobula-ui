@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { CheckIcon } from "@chakra-ui/icons";
 import { Spinner, useClipboard } from "@chakra-ui/react";
 import React, {
@@ -11,13 +10,13 @@ import React, {
 // import {useAlert} from "react-alert";
 import { BsCheckLg, BsTelegram } from "react-icons/bs";
 import { FiCopy, FiExternalLink } from "react-icons/fi";
-import { Button } from "../components/button";
-import { LargeFont, SmallFont } from "../components/fonts";
-import { NextChakraLink } from "../components/link";
-import { ModalContainer } from "../components/modal-container";
-import { UserContext } from "../contexts/user";
-import { createSupabaseDOClient } from "../lib/supabase";
-import { GET } from "../utils/fetch";
+import { Button } from "../../components/button";
+import { LargeFont, SmallFont } from "../../components/fonts";
+import { NextChakraLink } from "../../components/link";
+import { ModalContainer } from "../../components/modal-container";
+import { UserContext } from "../../contexts/user";
+import { createSupabaseDOClient } from "../../lib/supabase";
+import { GET } from "../../utils/fetch";
 
 interface PopupTelegramProps {
   showPopup: boolean;

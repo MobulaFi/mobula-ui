@@ -1,0 +1,104 @@
+.mobile-toolbar-container {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  padding-top: 28px;
+  width: 100%;
+  top: 74px;
+  right: 0px;
+  height: 100vh;
+  z-index: 5;
+}
+
+.mobile-linkTo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0px;
+  margin-left: 35px;
+}
+
+.linkTo-tag {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.linkTo {
+  margin-bottom: 30px;
+  width: fit-content;
+}
+
+.connect-mobile-container {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  margin-left: 35px;
+}
+
+.connect-wallet-mobile {
+  background: #5c7df9;
+  border-radius: 10px;
+  width: 110px;
+  height: 46px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  border: none;
+}
+.rank-mobile-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+
+  margin-left: 30px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.disconnect-wallet-mobile {
+  width: 80%;
+  margin-top: 35px;
+  margin-left: 35px;
+}
+
+.disconnect-wallet-mobile > button {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  color: #ea3943 !important;
+  border: none;
+  background: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-toolbar-container {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    padding-top: 28px;
+    width: 100%;
+    top: 55px;
+    right: 0px;
+    height: 100vh;
+    z-index: 5;
+  }
+}

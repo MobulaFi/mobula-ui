@@ -1,4 +1,3 @@
-import { Image } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
@@ -108,7 +107,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
       </SmallFont>
       <div className="flex items-center justify-between px-[15px] py-1.5 mt-auto border-r border-light-border-primary dark:border-dark-border-primary">
         <div className="flex items-center">
-          <Image
+          <img
             src={
               // TODO ADD Dark Mode
               // isDarkMode
