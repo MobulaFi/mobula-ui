@@ -1,24 +1,10 @@
-import {
-  Button,
-  Flex,
-  Image,
-  Table,
-  TableCaption,
-  TableContainer,
-  Tbody,
-  Th,
-  Thead,
-  Tr,
-  useColorMode,
-} from "@chakra-ui/react";
-import {useContext, useEffect, useMemo, useState} from "react";
-
-import {TextLandingSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {PortfolioV2Context} from "../../../context-manager";
-import {thStyle} from "../../../style";
-import {TbodyCryptocurrencies} from "../../ui/tbody-cryptocurrencies";
-import {TbodySkeleton} from "../../ui/tbody-skeleton";
+import React, { Key, useContext, useMemo, useState } from "react";
+import { MediumFont } from "../../../../../../components/fonts";
+import useDarkMode from "../../../../../../hooks/useDarkMode";
+import { PortfolioV2Context } from "../../../context-manager";
+import { thStyle } from "../../../style";
+import { TbodyCryptocurrencies } from "../../ui/tbody-cryptocurrencies";
+import { TbodySkeleton } from "../../ui/tbody-skeleton";
 
 export const Cryptocurrencies = () => {
   const {
@@ -30,9 +16,8 @@ export const Cryptocurrencies = () => {
     isMobile,
   } = useContext(PortfolioV2Context);
   const [showMore, setShowMore] = useState(false);
-  const {boxBg1, boxBg6, borders, text40, text80, bg} = useColors();
-  const {colorMode} = useColorMode();
-  const isWhiteMode = colorMode === "light";
+  const [colorTheme] = useDarkMode();
+  const isWhiteMode = colorTheme === "light";
 
   const numberOfAsset =
     wallet?.portfolio?.reduce((count, entry) => {
@@ -40,13 +25,13 @@ export const Cryptocurrencies = () => {
       return meetsBalanceCondition ? count : count + 1;
     }, 0) ?? 0;
   const isNormalBalance = wallet?.portfolio
-    ? wallet?.portfolio.some(entry => entry.estimated_balance > 1)
+    ? wallet?.portfolio.some((entry) => entry.estimated_balance > 1)
     : false;
 
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
 
-    return wallet.portfolio.filter(entry => {
+    return wallet.portfolio.filter((entry) => {
       const meetsBalanceCondition = showMore || entry.estimated_balance > 1;
       return isNormalBalance ? meetsBalanceCondition : true;
     });
@@ -54,149 +39,110 @@ export const Cryptocurrencies = () => {
 
   const filteredData = useMemo(
     () => getFilterFromBalance(),
-    [wallet, showMore],
+    [wallet, showMore]
   );
 
   return (
-    <TableContainer
-      position="relative"
-      pb={["20px", "20px", "100px"]}
-      overflowX="scroll"
-    >
-      <Table overflowX="scroll" pb="100px">
+    <>
+      <table className="relative pb-[100px] overflow-x-scroll md:pb-5">
         {isNormalBalance && numberOfAsset ? (
-          <TableCaption
-            bg={boxBg6}
-            mt="0px"
-            borderTop="none"
-            textAlign="start"
-            borderRadius="0px 0px 8px 8px"
-            pl="0px"
-          >
-            <Button
-              fontWeight="500"
-              color={text80}
-              fontSize={["12px", "12px", "13px", "14px"]}
-              h="100%"
-              pl="20px"
-              position="sticky"
-              top="0px"
-              left="-1px"
-              mb="2px"
+          <caption className="bg-light-bg-terciary dark:bg-dark-bg-terciary mt-0 text-start rounded-b-lg pl-0">
+            <button
+              className="font-medium text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs 
+              h-full pl-5 sticky top-0 left-[-1px] mb-0.5"
               onClick={() => setShowMore(!showMore)}
             >
               {showMore
                 ? "Hide low balances "
                 : `Show low balances  (${numberOfAsset} assets) `}
-            </Button>
-          </TableCaption>
+            </button>
+          </caption>
         ) : null}
-
-        <Thead borderRadius="8px 8px 0px 0px">
-          <Tr>
+        <thead className="rounded-t-lg">
+          <tr>
             {isMobile && (
-              <Th
-                {...thStyle}
-                borderBottom={borders}
-                color={text80}
-                isNumeric
-                borderRadius="0px 8px 0px 0px"
-              ></Th>
+              <th
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+              />
             )}
-            <Th
-              {...thStyle}
-              borderBottom={borders}
-              color={text80}
-              borderRight="none"
-              borderRadius="8px 0px 0px 0px"
-              position="sticky"
-              top="0px"
-              left="-1px"
-              bgColor={bg}
+            <th
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary sticky top-0 left-[-1px] `}
+              // bgColor={bg}
             >
               Asset
-            </Th>
-            <Th {...thStyle} borderBottom={borders} color={text80} isNumeric>
+            </th>
+            <th
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+            >
               Holdings
-            </Th>
-            <Th {...thStyle} borderBottom={borders} color={text80} isNumeric>
+            </th>
+            <th
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+            >
               Price
-            </Th>
-            <Th {...thStyle} borderBottom={borders} color={text80} isNumeric>
+            </th>
+            <th
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+            >
               24h Profit
-            </Th>
-            <Th {...thStyle} borderBottom={borders} color={text80} isNumeric>
+            </th>
+            <th
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+            >
               Realized PNL
-            </Th>
-            <Th {...thStyle} borderBottom={borders} color={text80} isNumeric>
+            </th>
+            <th
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+            >
               Unrealized PNL
-            </Th>
+            </th>
             {!isMobile && (
-              <Th
-                {...thStyle}
-                borderBottom={borders}
-                color={text80}
-                isNumeric
-                borderRadius="0px 8px 0px 0px"
+              <th
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
               >
                 Actions
-              </Th>
+              </th>
             )}
-          </Tr>
-        </Thead>
+          </tr>
+        </thead>
         {!isLoading &&
         filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
           .length > 0 ? (
-          <Tbody>
+          <tbody>
             {filteredData
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
-              .map(asset => (
-                <TbodyCryptocurrencies asset={asset} />
+              .map((asset) => (
+                <TbodyCryptocurrencies key={asset.name} asset={asset} />
               ))}
-          </Tbody>
+          </tbody>
         ) : null}
         {isLoading ? (
-          <Tbody>
-            {Array.from(Array(10).keys()).map(() => (
-              <TbodySkeleton />
+          <tbody>
+            {Array.from(Array(10).keys()).map((_, i) => (
+              <TbodySkeleton key={i as Key} />
             ))}
-          </Tbody>
+          </tbody>
         ) : null}
-      </Table>
+      </table>
 
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
-        <Flex
-          h="300px"
-          w="100%"
-          bg={boxBg1}
-          borderRadius=" 0 0 8px 8px"
-          align="center"
-          justify="center"
-          border={borders}
-          direction="column"
+        <div
+          className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col"
+          // bg={boxBg1}
         >
-          <Image
+          <img
+            className="h-[160px] mb-[-50px] mt-[25px]"
             src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}
-            h="160px"
-            mb="-50px"
-            mt="25px"
+            alt="empty logo"
           />
-
-          <Flex
-            maxW="80%"
-            direction="column"
-            m="auto"
-            mt="40px"
-            align="center"
-            justify="center"
-          >
-            <TextLandingSmall mb="5px" textAlign="center" color={text40}>
+          <div className="flex w-[80%] flex-col m-auto mt-[40px] items-center justify-center">
+            <MediumFont extraCss="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40">
               No tokens found{" "}
-            </TextLandingSmall>
-          </Flex>
-        </Flex>
+            </MediumFont>
+          </div>
+        </div>
       )}
-    </TableContainer>
+    </>
   );
 };

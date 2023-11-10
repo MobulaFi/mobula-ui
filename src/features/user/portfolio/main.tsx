@@ -10,6 +10,7 @@ import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { Select } from "../../../layouts/swap/popup/select";
 import { pushData } from "../../../lib/mixpanel";
+import { Cryptocurrencies } from "./components/category/cryptocurrencies";
 import { PortfolioChart } from "./components/chart";
 import { Header } from "./components/header";
 import { Holdings } from "./components/holdings";
@@ -224,17 +225,16 @@ export const PortfolioMain = () => {
               <CategorySwitcher />
             </div>
 
-            {/* {activeCategory === "General" ? (
-              <div 
-               className={`${
-                activeCategory === "General" ? "static" : "absolute"
-              } ${getAnimation("General")}`}
-                
+            {activeCategory === "General" ? (
+              <div
+                className={`${
+                  activeCategory === "General" ? "static" : "absolute"
+                } ${getAnimation("General")}`}
               >
                 <Cryptocurrencies />
               </div>
             ) : null}
-            {activeCategory === "NFTs" ? (
+            {/* {activeCategory === "NFTs" ? (
               <div
                 className={`${
                 activeCategory === "NFTs" ? "static" : "absolute"
@@ -257,10 +257,11 @@ export const PortfolioMain = () => {
           {/* MOBILE */}
           <div className="ml-5 lg:ml-0 flex flex-col lg:hidden w-calc-full-340 lg:w-full">
             {manager.portfolio_chart ? <PortfolioChart /> : null}
+            {activeCategory === "Cryptos" ? <Cryptocurrencies /> : null}
             {/* <div className="w-full mt-0 lg:mt-[55px] md:mt-0 flex lg:hidden">
               <CategorySwitcher />
             </div>
-            {activeCategory === "Cryptos" ? <Cryptocurrencies /> : null}
+          
             {activeCategory === "NFTs" ? <NFTs /> : null}
             {activeCategory === "Activity" ? <Activity /> : null} */}
           </div>

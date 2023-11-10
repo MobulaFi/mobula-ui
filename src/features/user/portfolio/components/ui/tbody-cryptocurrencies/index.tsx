@@ -1,40 +1,36 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Flex,
   Icon,
-  Img,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Td,
-  Tr,
   useColorMode,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
+import { SmallFont, TextSmall } from "../../../../../../components/fonts";
+import {
+  PopupStateContext,
+  PopupUpdateContext,
+} from "../../../../../../contexts/popup";
+import { SettingsMetricContext } from "../../../../../../contexts/settings";
+import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { pushData } from "../../../../../../lib/mixpanel";
+import { GET } from "../../../../../../utils/fetch";
 import {
   getFormattedAmount,
   getTokenPercentage,
   getUrlFromName,
-} from "../../../../../../../utils/helpers/formaters";
-import { TextSmall } from "../../../../../../UI/Text";
-import {
-  PopupStateContext,
-  PopupUpdateContext,
-} from "../../../../../../common/context-manager/popup";
-import { SettingsMetricContext } from "../../../../../../common/context-manager/settings-metric-context";
-import { pushData } from "../../../../../../common/data/utils";
-import { useWatchlist } from "../../../../../../common/ui/tables/hooks/watchlist";
-import { useColors } from "../../../../../../common/utils/color-mode";
-import { GET } from "../../../../../../common/utils/fetch";
+} from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
 import { useWebSocketResp } from "../../../hooks";
 import { UserHoldingsAsset } from "../../../models";
@@ -42,24 +38,27 @@ import { flexGreyBoxStyle, tdStyle } from "../../../style";
 import { getAmountLoseOrWin } from "../../../utils";
 import { Privacy } from "../privacy";
 
-const LinkTd = ({ children, asset, ...props }) => {
+interface TbodyCryptocurrenciesProps {
+  asset: UserHoldingsAsset;
+}
+
+const LinkTd = ({ children, asset, extraCss, ...props }) => {
   const router = useRouter();
-  const basePath = router.asPath.split("?")[0];
+  const pathname = usePathname();
+  const basePath = pathname?.split("?")[0];
 
   return (
-    <Td {...tdStyle} {...props}>
+    <td className={`${tdStyle} ${extraCss}`}>
       <Link href={asset ? `${basePath}/${getUrlFromName(asset?.name)}` : "/"}>
         {children}
       </Link>
-    </Td>
+    </td>
   );
 };
 
 export const TbodyCryptocurrencies = ({
   asset,
-}: {
-  asset: UserHoldingsAsset;
-}) => {
+}: TbodyCryptocurrenciesProps) => {
   const {
     setShowAddTransaction,
     isMobile,
@@ -85,7 +84,9 @@ export const TbodyCryptocurrencies = ({
     text60,
     borders2x,
   } = useColors();
-  const [changeColor, setChangeColor] = useState(text80);
+  const [changeColor, setChangeColor] = useState(
+    "text-light-font-100 dark:text-dark-font-100"
+  );
   const { colorMode } = useColorMode();
   const isDarkMode = colorMode === "dark";
 
@@ -108,16 +109,16 @@ export const TbodyCryptocurrencies = ({
     if (!asset) return;
 
     if (asset.estimated_balance_change === true) {
-      setChangeColor("green");
+      setChangeColor("text-green");
 
       setTimeout(() => {
-        setChangeColor(text80);
+        setChangeColor("text-light-font-100 dark:text-dark-font-100");
       }, 1000);
     } else if (asset.estimated_balance_change === false) {
-      setChangeColor("red");
+      setChangeColor("text-red");
 
       setTimeout(() => {
-        setChangeColor(text80);
+        setChangeColor("text-light-font-100 dark:text-dark-font-100");
       }, 1000);
     }
   }, [asset]);
@@ -127,160 +128,134 @@ export const TbodyCryptocurrencies = ({
   }, [inWatchlist]);
 
   return (
-    <Tr cursor="pointer">
+    <tr className="cursor-pointer">
       {isMobile && (
-        <Td {...tdStyle} borderBottom={borders}>
-          <Flex justify="flex-end">
-            <Button
+        <td
+          className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+        >
+          <div className="flex justify-end">
+            <button
               onClick={() => {
                 setShowCustomMenu(!showCustomMenu);
               }}
             >
-              <Icon as={BsThreeDotsVertical} color={text80} />
-            </Button>
-          </Flex>
-        </Td>
+              <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
+            </button>
+          </div>
+        </td>
       )}
 
       {showCustomMenu && (
         <>
-          <Flex
-            position="fixed"
-            w="100vw"
-            h="100vh"
-            left="50%"
-            zIndex={12}
-            transform="translateX(-50%)"
-            top="0%"
-            display={"flex"}
-            bg={isDarkMode ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)"}
-            onClick={() => {
-              setShowCustomMenu(!showCustomMenu);
-            }}
+          <div
+            className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-light-font-40 dark:bg-dark-font-40"
+            onClick={() => setShowCustomMenu(!showCustomMenu)}
           />
-          <Flex
-            direction="column"
-            position="fixed"
-            display={"flex"}
-            bottom={"0px"}
-            w="100vw"
-            bg={boxBg3}
-            borderTop={borders2x}
-            zIndex={13}
-            left="0px"
-            transition="all 300ms ease-in-out"
+          <div
+            className="flex flex-col fixed bottom-0 w-screen bg-light-bg-secondary dark:bg-dark-bg-secondary border-t-2
+           border-light-border-primary dark:border-dark-border-primary z-[13] left-0 transition-all duration-250"
           >
-            <Flex
-              p="15px"
-              borderBottom={borders}
-              _hover={{ bg: hover }}
-              transition="all 250ms ease-in-out"
-              onClick={() => {
-                setShowBuyDrawer(asset as any);
-              }}
+            <div
+              className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+             dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
+              onClick={() => setShowBuyDrawer(asset as any)}
             >
-              <Flex {...flexGreyBoxStyle} bg={isHover === 2 ? "blue" : hover}>
-                <Icon as={VscArrowSwap} color={text80} />{" "}
-              </Flex>
+              <div
+                className={`${flexGreyBoxStyle} ${
+                  isHover === 2
+                    ? "bg-blue dark:bg-blue"
+                    : "bg-light-bg-hover dark:bg-dark-bg-hover"
+                }`}
+              >
+                <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />{" "}
+              </div>
               Swap
-            </Flex>
-
-            <Flex
-              p="15px"
-              borderBottom={borders}
-              _hover={{ bg: hover }}
-              transition="all 250ms ease-in-out"
-              onClick={() => {
-                setTokenTsx(asset);
-              }}
+            </div>
+            <div
+              className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+           dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
+              onClick={() => setTokenTsx(asset)}
             >
-              <Flex {...flexGreyBoxStyle} bg={isHover === 0 ? "blue" : hover}>
-                <Icon as={BiHide} color={text80} />
-              </Flex>
+              <div
+                className={`${flexGreyBoxStyle} ${
+                  isHover === 0
+                    ? "bg-blue dark:bg-blue"
+                    : "bg-light-bg-hover dark:bg-dark-bg-hover"
+                }`}
+              >
+                <BiHide className="text-light-font-100 dark:text-dark-font-100" />
+              </div>
               Hide asset
-            </Flex>
-
-            <Flex
-              p="15px"
-              borderBottom={borders}
-              _hover={{ bg: hover }}
-              transition="all 250ms ease-in-out"
+            </div>
+            <div
+              className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
               onClick={() => {
                 router.push(
-                  `${router.asPath.split("?")[0]}/${getUrlFromName(asset.name)}`
+                  `${pathname.split("?")[0]}/${getUrlFromName(asset.name)}`
                 );
               }}
             >
-              <Flex {...flexGreyBoxStyle} bg={isHover === 1 ? "blue" : hover}>
-                <Icon as={BiShow} color={text80} />
-              </Flex>
+              <div
+                className={`${flexGreyBoxStyle} ${
+                  isHover === 1
+                    ? "bg-blue dark:bg-blue"
+                    : "bg-light-bg-hover dark:bg-dark-bg-hover"
+                }`}
+              >
+                <BiShow className="text-light-font-100 dark:text-dark-font-100" />
+              </div>
               See transactions
-            </Flex>
+            </div>
 
-            <Flex
-              p="15px"
-              borderBottom={borders}
-              _hover={{ bg: hover }}
-              transition="all 250ms ease-in-out"
+            <div
+              className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+             dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
               onClick={() => {
                 setTokenTsx(asset);
                 setShowAddTransaction(true);
                 pushData("Add Asset Button Clicked");
               }}
             >
-              <Flex {...flexGreyBoxStyle} bg={isHover === 2 ? "blue" : hover}>
-                <Icon as={IoMdAddCircleOutline} color={text80} />
-              </Flex>
+              <div
+                className={`${flexGreyBoxStyle} ${
+                  isHover === 2
+                    ? "bg-blue dark:bg-blue"
+                    : "bg-light-bg-hover dark:bg-dark-bg-hover"
+                }`}
+              >
+                <IoMdAddCircleOutline className="text-light-font-100 dark:text-dark-font-100" />
+              </div>
               Add transactions
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         </>
       )}
       <LinkTd
-        {...tdStyle}
-        position="sticky"
-        top="0px"
-        left="-1px"
+        extraCss="sticky top-0 left-[-1px] border-b border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-primary"
         asset={asset}
-        borderBottom={borders}
-        bg={bg}
       >
-        <Flex align="center" minW="130px">
-          <Img
+        <div className="flex items-center min-w-[130px]">
+          <img
+            className="rounded-full w-[28px] h-[28px] min-w-[28px]"
             src={asset.image}
-            boxSize={["24px", "24px", "28px"]}
-            borderRadius="full"
+            alt={`${asset.name} logo`}
           />
-          <Flex
-            direction="column"
-            overflowX="hidden"
-            textOverflow="ellipsis"
-            ml={["7.5px", "7.5px", "7.5px", "10px"]}
-            fontWeight="500"
-            fontSize={["12px", "12px", "13px", "14px"]}
-          >
-            <TextSmall
-              fontWeight="500"
-              fontSize={["13px", "13px", "14px"]}
-              color={text80}
-            >
+          <div className="flex flex-col overflow-x-hidden truncate ml-2.5 lg:ml-[7.5px] font-medium text-sm lg:text-[13px] md:text-xs">
+            <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium text-sm md:text-[13px]">
               {asset.symbol}
-            </TextSmall>
-            <TextSmall
-              fontWeight="500"
-              color={text40}
-              maxW="130px"
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
-              overflowX="hidden"
-            >
+            </SmallFont>
+            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium text-sm md:text-[13px] max-w-[130px] truncate">
               {asset?.name}
-            </TextSmall>
-          </Flex>
-        </Flex>
+            </SmallFont>
+          </div>
+        </div>
       </LinkTd>
-      <LinkTd asset={asset} borderBottom={borders} {...tdStyle}>
-        <Flex direction="column" align="flex-end" w="100%">
+      <LinkTd
+        extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
+        asset={asset}
+      >
+        <div className="flex flex-col items-end w-full">
           {manager.privacy_mode ? (
             <Privacy />
           ) : (
@@ -291,90 +266,98 @@ export const TbodyCryptocurrencies = ({
           {manager.privacy_mode ? (
             <Privacy />
           ) : (
-            <TextSmall fontWeight="500" color={text40} textAlign="end">
+            <SmallFont extraCss="font-medium text-light-font-40 dark:text-dark-font-40 text-end">
               {`${getFormattedAmount(asset.token_balance)} ${asset.symbol}`}
-            </TextSmall>
+            </SmallFont>
           )}
-        </Flex>
+        </div>
       </LinkTd>
-      <LinkTd asset={asset} borderBottom={borders} {...tdStyle}>
-        <Flex direction="column" align="flex-end" w="100%">
-          <TextSmall fontWeight="500" textAlign="end" color={changeColor}>
+      <LinkTd
+        asset={asset}
+        extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
+      >
+        <div className="flex flex-col items-end w-full">
+          <SmallFont extraCss={`font-medium text-end ${changeColor}`}>
             ${getFormattedAmount(asset.price)}
-          </TextSmall>
-          <TextSmall
-            fontWeight="500"
-            color={
-              Number(getTokenPercentage(asset.change_24h)) > 0 ? "green" : "red"
-            }
-            textAlign="end"
+          </SmallFont>
+          <SmallFont
+            extraCss={`font-medium text-end ${
+              Number(getTokenPercentage(asset.change_24h)) > 0
+                ? "text-green"
+                : "text-red"
+            }`}
           >
             {getTokenPercentage(asset.change_24h)}%
-          </TextSmall>
-        </Flex>
+          </SmallFont>
+        </div>
       </LinkTd>
-      <LinkTd asset={asset} borderBottom={borders} {...tdStyle}>
+      <LinkTd
+        asset={asset}
+        extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
+      >
         {manager.privacy_mode ? (
           <Privacy justify="flex-end" />
         ) : (
-          <TextSmall
-            fontWeight="500"
-            color={
+          <SmallFont
+            extraCss={`font-medium text-end ${
               Number(
                 getAmountLoseOrWin(asset.change_24h, asset.estimated_balance)
               ) > 0
-                ? "green"
-                : "red"
-            }
-            textAlign="end"
+                ? "text-green"
+                : "text-red"
+            }`}
           >
             {getFormattedAmount(
               getAmountLoseOrWin(asset.change_24h, asset.estimated_balance)
             )}
             $
-          </TextSmall>
+          </SmallFont>
         )}
       </LinkTd>
-      <LinkTd asset={asset} borderBottom={borders} {...tdStyle}>
+      <LinkTd
+        asset={asset}
+        extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
+      >
         {manager.privacy_mode ? (
           <Privacy justify="flex-end" />
         ) : (
-          <TextSmall
-            fontWeight="500"
-            color={
+          <SmallFont
+            extraCss={`font-medium text-end ${
               Number(getTokenPercentage(asset.realized_usd)) > 0
-                ? "green"
-                : "var(--chakra-colors-red)"
-            }
-            textAlign="end"
+                ? "text-green"
+                : "text-red"
+            }`}
           >
             {getFormattedAmount(asset.realized_usd)}$
-          </TextSmall>
+          </SmallFont>
         )}
       </LinkTd>
-      <LinkTd asset={asset} borderBottom={borders} {...tdStyle}>
+      <LinkTd
+        asset={asset}
+        extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
+      >
         {manager.privacy_mode ? (
           <Privacy justify="flex-end" />
         ) : (
-          <TextSmall
-            fontWeight="500"
-            color={
+          <SmallFont
+            extraCss={`font-medium text-end ${
               Number(getTokenPercentage(asset.unrealized_usd)) > 0
-                ? "green"
-                : "red"
-            }
-            textAlign="end"
+                ? "text-green"
+                : "text-red"
+            }`}
           >
             {getFormattedAmount(asset.unrealized_usd)}$
-          </TextSmall>
+          </SmallFont>
         )}
       </LinkTd>
       {!isMobile && (
-        <Td {...tdStyle} borderBottom={borders}>
-          <Flex justify="flex-end">
-            <Button onClick={() => setShowBuyDrawer(asset as any)}>
-              <Icon as={VscArrowSwap} color={text80} />{" "}
-            </Button>
+        <td
+          className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+        >
+          <div className="flex justify-end">
+            <button onClick={() => setShowBuyDrawer(asset as any)}>
+              <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
+            </button>
             <Menu offset={[-0, 10]}>
               <MenuButton ml="10px" as={Button}>
                 <Icon as={BsThreeDotsVertical} color={text80} />
@@ -441,9 +424,7 @@ export const TbodyCryptocurrencies = ({
                   fontSize={["12px", "12px", "13px", "14px"]}
                   onClick={() => {
                     router.push(
-                      `${router.asPath.split("?")[0]}/${getUrlFromName(
-                        asset.name
-                      )}`
+                      `${pathname?.split("?")[0]}/${getUrlFromName(asset.name)}`
                     );
                   }}
                 >
@@ -476,9 +457,9 @@ export const TbodyCryptocurrencies = ({
                 </MenuItem>
               </MenuList>
             </Menu>
-          </Flex>
-        </Td>
+          </div>
+        </td>
       )}
-    </Tr>
+    </tr>
   );
 };

@@ -1,5 +1,3 @@
-import { TableColumnHeaderProps } from "@chakra-ui/react";
-
 export const buttonHeaderStyle = {
   h: "32px",
   px: "10px",
@@ -8,16 +6,6 @@ export const buttonHeaderStyle = {
   fontWeight: "400",
   transition: "all 250ms ease-in-out",
 };
-
-export const flexGreyBoxStyle = {
-  boxSize: "24px",
-  align: "center",
-  justify: "center",
-  borderRadius: "6px",
-  mr: "10px",
-  transition: "all 200ms ease-in-out",
-};
-
 export const buttonPopupStyle = {
   fontWeight: "400",
   maxW: "95px",
@@ -51,25 +39,18 @@ export const inputTimeStyle = {
 
 export const boxStyle = "rounded-2xl p-2.5 flex";
 
-export const thStyle: TableColumnHeaderProps = {
-  fontSize: ["12px", "12px", "13px", "14px"],
-  fontWeight: "500",
-  fontFamily: "Inter",
-  letterSpacing: "auto",
-  py: "15px",
-  textTransform: "capitalize",
-  px: "10px",
-};
+export const thStyle =
+  "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs py-[15px] px-2.5";
+
+export const flexGreyBoxStyle =
+  "w-[24px] h-[24px] min-w-[24px] flex items-center justify-center mr-2.5 transition-all duration-250 rounded-md";
+
+export const tdStyle = "py-[15px] px-2.5";
 
 export const buttonSquareStyle = {
   boxSize: "24px",
   borderRadius: "6px",
   transition: "all 250ms ease-in-out",
-};
-
-export const tdStyle = {
-  py: "15px",
-  px: "10px",
 };
 
 export const buttonDeleteNft = {
