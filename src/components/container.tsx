@@ -29,7 +29,7 @@ export const Container = ({
 
   return (
     <div
-      className={`min-h-[60vh] mx-auto w-90per lg:95per max-w-[1200px] mb-20 mt-7 md:mt-2.5 ${extraCss}`}
+      className={`mx-auto w-90per lg:95per max-w-[1200px] ${extraCss}`}
       {...props}
     >
       {children}

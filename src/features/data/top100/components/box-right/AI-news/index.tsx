@@ -31,19 +31,11 @@ const formatNewsSummary = (news: INewsGeneral) => {
     let priceChangeIcon: React.ReactNode;
     if (assetData.price_change_24h > 0) {
       priceChangeIcon = (
-        <TbTriangleFilled
-        // TODO: Add this
-        // boxSize="10px" color="green" mx="3px"
-        />
+        <TbTriangleFilled className="text-[10px] text-green mx-[3px]" />
       );
     } else if (assetData.price_change_24h < 0) {
       priceChangeIcon = (
-        <TbTriangleInvertedFilled
-        // TODO: add this
-        // boxSize="10px"
-        // color="red"
-        // mx="3px"
-        />
+        <TbTriangleInvertedFilled className="text-[10px] text-red mx-[3px]" />
       );
     }
 
@@ -90,9 +82,8 @@ export const AINews = ({ showPage }: AINewsProps) => {
 
   return (
     <div
-      className={`flex min-w-full w-[200px] flex-col transition-all duration-250 translate-x-[-${
-        showPage * 100
-      }%]`}
+      className={`flex w-[200px] flex-col transition-all duration-250 min-w-[200px] md:min-w-full`}
+      style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <div className="flex items-center justify-between w-full pt-2.5 px-[15px] pb-0">
         <div className="flex items-center">

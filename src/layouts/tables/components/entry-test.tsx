@@ -262,7 +262,6 @@ export const Entry = ({
         JSON.stringify(defaultTop100.filters)) ||
     (activeView?.name === "Portfolio" && isMobile);
 
-  console.log("activeView", activeView);
   const renderSegments = () =>
     activeView?.display?.map((entry) => {
       switch (entry.type) {

@@ -10,7 +10,7 @@ export const TopConvertion = () => {
   const router = useRouter();
   return (
     <div className="flex w-full border-t-2 border-light-border-primary dark:border-dark-border-primary">
-      <Container extraCss="mt-0">
+      <Container extraCss="mt-0 mb-0 min-h-auto mb-10">
         <p
           className="text-3xl md:text-lg font-normal text-center
          text-light-font-100 dark:text-dark-font-100 my-[50px] lg:my-[30px] md:my-5"

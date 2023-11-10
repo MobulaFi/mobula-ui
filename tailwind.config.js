@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  darkMode: ["class"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     borderWidth: {
       DEFAULT: "1px",
@@ -12,6 +17,9 @@ module.exports = {
         "95per": "95%",
         "calc-full-40": "calc(100% - 40px)",
         "calc-full-56": "calc(90vh - 56px)",
+        "calc-full-340": "calc(100% - 340px)",
+        "calc-full-320": "calc(100% - 320px)",
+        "calc-half-2": "calc(50% - 2px)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
@@ -20,6 +28,14 @@ module.exports = {
         spin: {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
+        },
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
         },
         skeleton: {
           "0%, 100%": { backgroundPosition: "200% 0" },
@@ -42,6 +58,8 @@ module.exports = {
         skeleton: "skeleton 1.5s ease-in-out infinite",
         spin: "spin 1s linear infinite",
         tabs: "tabs 350ms linear",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
     screens: {
@@ -109,5 +127,5 @@ module.exports = {
       yellow: "#ffc82c",
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
 };

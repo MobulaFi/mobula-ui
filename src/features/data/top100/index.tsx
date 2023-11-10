@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -115,7 +115,7 @@ export const Top100 = ({
               </div>
             </Container>
           ) : (
-            <Container extraCss="scroll flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll">
+            <Container extraCss="scroll flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll mt-7 md:mt-2.5 min-h-full">
               <Portfolio />
               <BoxMiddle metrics={metrics} />
               <BoxRight />
@@ -123,6 +123,7 @@ export const Top100 = ({
           )}
         </div>
       </div>
+
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Views
           actualView={actualView}
@@ -131,7 +132,7 @@ export const Top100 = ({
         />
         <Container
           // w={["100%", "95%", "90%", "90%"]}
-          extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden"
+          extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden mb-20 "
         >
           <AssetsTable
             resultsData={resultsData}

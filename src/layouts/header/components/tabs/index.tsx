@@ -1,68 +1,164 @@
-import React, { useState } from "react";
-import { AiFillCaretDown } from "react-icons/ai";
-import { navigation } from "../../constants";
-import { TabsPopover } from "../ui/tabs-popover";
+"use client";
 
-export const Tabs: React.FC = () => {
-  const [selected, setSelected] = useState("");
-  const isSmallScreen =
-    (typeof window !== "undefined" ? window.innerWidth : 0) < 1200;
+import * as React from "react";
+import { useState } from "react";
+import { BsChevronRight } from "react-icons/bs";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../../../../@/components/ui/navigation-menu";
+import { cn } from "../../../../@/lib/utils";
+import { NextChakraLink } from "../../../../components/link";
+import { navigation } from "../../constants";
+
+export function Tabs() {
+  const [isHover, setIsHover] = useState("");
   return (
-    <div
-      className="flex"
-      //   fontFamily="Inter"
-      //   color={text80}
-      //   fontSize="13px"
-      //   h={["35px", "35px", "45px", "45px"]}
-    >
-      {navigation.map((item) => {
-        const isActive = selected === item.name && item.extends;
-        const isEcosystem = isSmallScreen && item.name === "Ecosystem";
-        const isDoubleSize = item.extends.length > 4;
-        return (
-          <div
-            // pb-[22px]
-            className="flex justify-center items-center font-medium h-[65px] "
-            key={item.name}
-            onMouseLeave={() => setSelected("")}
-            onMouseEnter={() => {
-              if (item.extends) setSelected(item.name);
-              else setSelected("");
-            }}
-          >
-            <div className="flex items-center relative text-sm text-light-font-100 dark:text-dark-font-100 mr-2.5">
-              {item.name}{" "}
-              <AiFillCaretDown
-                className={`text-light-font-60 dark:text-dark-font-60 
-            ${
-              isActive ? "rotate-180" : "rotate-0"
-            } mt-[3px] ml-[5px] text-[10px]`}
-              />
-              <div
-                className={`border border-light-border-primary dark:border-dark-border-primary absolute top-[47px] ${
-                  isActive ? "flex" : "hidden"
-                }
-             ${
-               isEcosystem ? "left-[50%]" : "left-0"
-             } bg-light-bg-secondary dark:bg-dark-bg-secondary z-10 shadow-md ${
-                  isEcosystem ? "translate-x-[-35%]" : "translate-x-0"
-                } 
-             rounded ${
-               isDoubleSize ? "w-[780px]" : "w-[390px]"
-             } transition-all duration-250`}
-              >
-                <TabsPopover extend={item} condition={(i: number) => i < 4} />
-                {selected === item.name && item.extends && isDoubleSize ? (
-                  <TabsPopover
-                    extend={item}
-                    condition={(i: number) => i >= 4}
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>{navigation?.[0]?.name}</NavigationMenuTrigger>
+          <NavigationMenuContent className="z-[10]">
+            <ul className="grid gap-3 p-2.5 md:w-[400px] w-[400px] lg:grid-cols-[.75fr_1fr]">
+              {navigation?.[0]?.extends?.map((entry, i) => (
+                <div
+                  key={entry.url}
+                  className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
+                  onMouseEnter={() => setIsHover(entry.name)}
+                  onMouseLeave={() => setIsHover("")}
+                >
+                  <div className="flex items-center">
+                    <div
+                      className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
+                   bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
+                    >
+                      {entry.icon}
+                    </div>
+                    <ListItem href={entry.url} title={entry.name}>
+                      {entry.description}
+                    </ListItem>
+                  </div>
+                  <BsChevronRight
+                    className={`text-md ${
+                      isHover === entry.name ? "animate-tabs" : "opacity-0"
+                    } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
                   />
-                ) : null}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+                </div>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>{navigation?.[2]?.name}</NavigationMenuTrigger>
+          <NavigationMenuContent className=" z-[10] ">
+            <ul className="grid gap-3 p-2.5 md:w-[400px] lg:w-[500px] w-[600px] grid-cols-2 lg:grid-cols-2">
+              {navigation?.[2]?.extends?.map((entry, i) => (
+                <div
+                  key={entry.url}
+                  className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
+                  onMouseEnter={() => setIsHover(entry.name)}
+                  onMouseLeave={() => setIsHover("")}
+                >
+                  <div className="flex items-center">
+                    <div
+                      className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
+               bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
+                    >
+                      {entry.icon}
+                    </div>
+                    <ListItem
+                      key={entry.url}
+                      href={entry.url}
+                      title={entry.name}
+                    >
+                      {entry.description}
+                    </ListItem>
+                  </div>
+                  <BsChevronRight
+                    className={`text-md ${
+                      isHover === entry.name ? "animate-tabs" : "opacity-0"
+                    } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
+                  />
+                </div>
+              ))}
+
+              {/* <ListItem href="/docs/installation" title="Installation">
+                How to install dependencies and structure your app.
+              </ListItem>
+              <ListItem href="/docs/primitives/typography" title="Typography">
+                Styles for headings, paragraphs, lists...etc
+              </ListItem> */}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NextChakraLink
+            href={navigation?.[1]?.url}
+            extraCss="text-sm font-medium hover:text-light-font-60 hover:dark:text-dark-font-60 transition-all duration-250"
+          >
+            {navigation?.[1]?.name}
+          </NextChakraLink>
+        </NavigationMenuItem>
+        {/* {navigation.map((item) => {
+          const isActive = selected === item.name && item.extends;
+          const isEcosystem = isSmallScreen && item.name === "Ecosystem";
+          const isDoubleSize = item.extends.length > 4;
+          return (
+            <NavigationMenuItem key={item.name}>
+              <NavigationMenuTrigger> {item.name}</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                  {item?.extends?.map((entry, i) => {
+                    // const isHover = mouseHover === entry.name;
+                    if (i >= 4)
+                      return (
+                        <ListItem
+                          key={entry.name}
+                          title={entry.name}
+                          href={entry.url}
+                        >
+                          {entry.description}
+                        </ListItem>
+                      );
+                  })}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          );
+        })} */}
+      </NavigationMenuList>
+    </NavigationMenu>
   );
-};
+}
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none text-light-font-100 dark:text-dark-font-100">
+            {title}
+          </div>
+          <p className="line-clamp-2 text-[13px] leading-snug text-muted-foreground text-light-font-60 dark:text-dark-font-60">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";

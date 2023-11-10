@@ -61,11 +61,10 @@ export const Header = ({ addressCookie }) => {
             </NextChakraLink>
           </TextLandingSmall>
         </Flex> */}
-
-      <div className="border-b-2 border-light-border-primary dark:border-dark-border-primary">
+      <div>
         <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
           <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] ">
-            <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px]">
+            <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px]">
               <NextChakraLink
                 href="/"
                 extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px]"
@@ -90,6 +89,7 @@ export const Header = ({ addressCookie }) => {
                 />
               </NextChakraLink>
               <Tabs />
+              {/* <Tabs /> */}
             </div>
             <UserSection addressFromCookie={addressFromCookie} />
           </div>
@@ -97,6 +97,7 @@ export const Header = ({ addressCookie }) => {
         {/* {showNotif && <NotifDrawer />}
         {showAddedToWatchlist && <AddedToWatchlistPopup />} */}
       </div>
+      <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
     </CommonPageProvider>
   );
 };

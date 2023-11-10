@@ -1,4 +1,4 @@
-import router from "next/router";
+import router from "next/navigation";
 import React, { useContext } from "react";
 import { BiArrowToRight } from "react-icons/bi";
 import { pushData } from "../../../../lib/mixpanel";

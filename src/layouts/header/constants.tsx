@@ -1,15 +1,11 @@
-import { BiCandles } from "react-icons/bi";
 import { FiHelpCircle } from "react-icons/fi";
 import { HiOutlineNewspaper } from "react-icons/hi";
-import { MdOutlineRocketLaunch } from "react-icons/md";
-import { TbCoins } from "react-icons/tb";
 import { VscArrowSwap } from "react-icons/vsc";
 
 import React from "react";
 import {
   ContributeIcon,
   DocsIcon,
-  GovernanceIcon,
   ListIcon,
   MoversIcon,
   ProtocolIcon,
@@ -48,7 +44,8 @@ export const navigation = [
     ],
   },
   {
-    name: "Tools",
+    name: "Swap",
+    url: "/swap",
     extends: [
       {
         name: "Swap",
@@ -58,22 +55,22 @@ export const navigation = [
         ),
         description: "Secure, best rates, minimal fees.",
       },
-      {
-        name: "SwapDesk",
-        url: "/trade",
-        icon: (
-          <BiCandles className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
-        ),
-        description: "Real-time trading charts, and analytics.",
-      },
-      {
-        name: "Launchpad Ranking",
-        url: "/launchpad-ranking",
-        icon: (
-          <MdOutlineRocketLaunch className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
-        ),
-        description: "Ranked list of leading launchpads.",
-      },
+      // {
+      //   name: "SwapDesk",
+      //   url: "/trade",
+      //   icon: (
+      //     <BiCandles className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+      //   ),
+      //   description: "Real-time trading charts, and analytics.",
+      // },
+      // {
+      //   name: "Launchpad Ranking",
+      //   url: "/launchpad-ranking",
+      //   icon: (
+      //     <MdOutlineRocketLaunch className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+      //   ),
+      //   description: "Ranked list of leading launchpads.",
+      // },
     ],
   },
 
@@ -96,7 +93,6 @@ export const navigation = [
         ),
         description: "Contribute to Mobula DAO.",
       },
-
       {
         name: "Mobula API",
         url: "https://developer.mobula.fi",
@@ -123,22 +119,22 @@ export const navigation = [
         description: "Stay updated with the latest news.",
       },
 
-      {
-        name: "Learn & Earn",
-        url: "/learn",
-        icon: (
-          <TbCoins className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
-        ),
-        description: "Elevate your crypto knowledge, reap rewards.",
-      },
-      {
-        name: "Governance",
-        url: "/dao/governance/overview",
-        description: "Mobula DAO governance portal.",
-        icon: (
-          <GovernanceIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
-        ),
-      },
+      // {
+      //   name: "Learn & Earn",
+      //   url: "/learn",
+      //   icon: (
+      //     <TbCoins className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+      //   ),
+      //   description: "Elevate your crypto knowledge, reap rewards.",
+      // },
+      // {
+      //   name: "Governance",
+      //   url: "/dao/governance/overview",
+      //   description: "Mobula DAO governance portal.",
+      //   icon: (
+      //     <GovernanceIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+      //   ),
+      // },
       {
         name: "Protocol",
         url: "/dao/protocol/overview",

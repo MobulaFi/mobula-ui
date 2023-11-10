@@ -9,7 +9,6 @@ import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
 import { Button } from "../../../../components/button";
 import { PopupUpdateContext } from "../../../../contexts/popup";
-import { useColors } from "../../../../lib/chakra/colorMode";
 
 interface ChainsChangerProps {
   isMobileVersion?: boolean;
@@ -34,8 +33,7 @@ export const ChainsChanger = ({
     return name;
   };
   const { setShowSwitchNetwork, setConnect } = useContext(PopupUpdateContext);
-  const [showXBlockchains, setShowXBlockchains] = useState([1, 7]);
-  const { boxBg6, text80, boxBg3, text60, borders, hover } = useColors();
+  const [showXBlockchains, setShowXBlockchains] = useState([1, 8]);
 
   const orderBlockchainsByNewest = () => {
     const newArray = [...Object.entries(blockchainsContent)];
@@ -77,6 +75,9 @@ export const ChainsChanger = ({
     Object.values(newChainsOrder),
     blockchainsContent[chain?.name || 0]?.name
   );
+
+  const showNextButton =
+    showXBlockchains[1] <= Object.values(blockchainsContent).length;
 
   return (
     <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
@@ -167,35 +168,48 @@ export const ChainsChanger = ({
                 }
                 return null;
               })}
+              {showXBlockchains[1] >= 8 ? (
+                <button
+                  className={`h-[40px] w-[185px] lg:w-[145px]
+                     text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
+                     text-sm md:text-xs transition-all duration-250 ${
+                       showXBlockchains[1] === 8
+                         ? "opacity-50 cursor-not-allowed"
+                         : ""
+                     }`}
+                  onClick={() =>
+                    setShowXBlockchains((prev) => [prev[0] - 8, prev[1] - 8])
+                  }
+                  disabled={showXBlockchains[1] === 8}
+                >
+                  <div className="flex items-center w-full h-full px-2.5">
+                    <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-medium" />
+                    Previous
+                  </div>
+                </button>
+              ) : null}
               <button
                 className={`h-[40px] w-[185px] lg:w-[145px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
-                     text-sm md:text-xs transition-all duration-250`}
+                     text-sm md:text-xs transition-all duration-250 ${
+                       showNextButton ? "" : "opacity-50 cursor-not-allowed"
+                     }`}
                 onClick={() => {
-                  if (
-                    showXBlockchains[1] >= 7 &&
-                    showXBlockchains[1] <=
-                      Object.values(blockchainsContent).length
-                  )
-                    setShowXBlockchains((prev) => [prev[1] + 1, prev[1] + 7]);
-                  else setShowXBlockchains([1, 7]);
+                  if (showXBlockchains[1] >= 7 && showNextButton)
+                    setShowXBlockchains((prev) => [prev[1] + 1, prev[1] + 8]);
                 }}
+                disabled={!showNextButton}
               >
-                {showXBlockchains[1] <=
-                Object.values(blockchainsContent).length ? (
-                  <div className="flex items-center w-full h-full px-2.5">
-                    <AiOutlineDoubleRight className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-medium" />
-                    Next (
-                    {Object.values(blockchainsContent).length -
-                      showXBlockchains[1]}
-                    )
-                  </div>
-                ) : (
-                  <div className="flex items-center w-full h-full px-2.5">
-                    <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-medium" />
-                    Show less
-                  </div>
-                )}
+                <div className="flex items-center w-full h-full px-2.5">
+                  <AiOutlineDoubleRight className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-medium" />
+                  Next
+                  {showNextButton
+                    ? ` (${
+                        Object.values(blockchainsContent).length -
+                        showXBlockchains[1]
+                      })`
+                    : null}
+                </div>
               </button>
             </div>
           </div>

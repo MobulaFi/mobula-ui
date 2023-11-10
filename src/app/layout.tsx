@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import React from "react";
 import { GeneralContext } from "../contexts";
+import { PopupProvider } from "../contexts/popup";
+import { PortfolioV2Provider } from "../features/user/portfolio/context-manager";
 import Layout from "../layouts/layout";
+import { ThemeProvider } from "../lib/next-theme";
 import { SearchbarProvider } from "../popup/searchbar/context-manager";
 import "../styles/calendars.css";
 import "../styles/global.css";
@@ -16,17 +19,27 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = cookies();
   const userCookie = cookieStore.get("user-balance")?.value;
   const tradeFilterCookie = cookieStore.get("trade-filter")?.value;
-
+  const userAgent: string = headers().get("user-agent") || "";
+  const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
+  // isWalletExplorer={pageProps.isWalletExplorer}
+  // isPortfolioExplorer={pageProps.isPortfolioExplorer}
+  // const portfolio = cookies?.portfolio ? JSON.parse(cookies?.portfolio) : null;
   return (
     <html lang="en">
       <body>
-        <GeneralContext>
-          <SearchbarProvider>
-            {/* <Providers> */}
-            <Layout>{children}</Layout>
-            {/* </Providers> */}
-          </SearchbarProvider>
-        </GeneralContext>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <GeneralContext>
+            <PortfolioV2Provider isMobile={isMobile}>
+              <SearchbarProvider>
+                <PopupProvider>
+                  {/* <Providers> */}
+                  <Layout>{children}</Layout>
+                  {/* </Providers> */}
+                </PopupProvider>
+              </SearchbarProvider>
+            </PortfolioV2Provider>
+          </GeneralContext>
+        </ThemeProvider>
       </body>
     </html>
   );

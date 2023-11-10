@@ -13,9 +13,8 @@ interface FearGreedProps {
 export const FearGreed = ({ showPage, metrics }: FearGreedProps) => {
   return (
     <div
-      className={`flex flex-col translate-x-[-${
-        showPage * 100
-      }%] transition-all duration-250 w-[200px] min-w-full`}
+      className={`flex flex-col transition-all duration-250 w-[200px] min-w-full`}
+      style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <MediumFont className="z-[1] absolute top-2.5 left-[15px] text-light-font-100 dark:text-dark-font-100">
         Today Fear & Greed

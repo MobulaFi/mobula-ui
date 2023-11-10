@@ -18,9 +18,8 @@ export const CryptoMarket = ({ showPage, height }: CryptoMarketProps) => {
   const { totalMarketCap, marketCapChange } = useTop100();
   return (
     <div
-      className={`flex flex-col translate-x-[-${
-        showPage * 100
-      }%] transition-all duration-250 w-[200px] min-w-full`}
+      className={`flex flex-col transition-all duration-250 w-[200px] min-w-full`}
+      style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <div className="flex flex-col absolute z-[1] w-[94%] top-2.5">
         <div className="w-full flex justify-between">

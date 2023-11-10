@@ -1,0 +1,282 @@
+"use client";
+import Cookies from "js-cookie";
+import React, { useContext, useEffect, useRef } from "react";
+import { UserContext } from "../../../contexts/user";
+import { Asset } from "../../../interfaces/assets";
+import { createSupabaseDOClient } from "../../../lib/supabase";
+import { fromUrlToName } from "../../../utils/formaters";
+import { PortfolioAsset } from "./asset";
+import { PortfolioV2Context } from "./context-manager";
+import { PortfolioMain } from "./main";
+import { IPortfolio } from "./models";
+
+interface PortfolioProps {
+  id?: string;
+  main: boolean;
+  asset?: string;
+  address?: string;
+}
+
+export const setPortfolioCookies = (portfolio: IPortfolio) => {
+  Cookies.set("portfolio", JSON.stringify(portfolio), {
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+  });
+};
+
+export const Portfolio = ({
+  id,
+  main,
+  asset: assetName,
+  address,
+}: PortfolioProps) => {
+  const {
+    wallet,
+    setWallet,
+    setAsset,
+    setUserPortfolio,
+    isAssetPage,
+    setIsAssetPage,
+    setActivePortfolio,
+    activePortfolio,
+    isWalletExplorer,
+    setIsWalletExplorer,
+    setIsLoading,
+    setIsRefreshing,
+    setError,
+    showPortfolioSelector,
+    userPortfolio,
+  } = useContext(PortfolioV2Context);
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (activePortfolio) setPortfolioCookies(activePortfolio);
+  }, [activePortfolio]);
+
+  useEffect(() => {
+    // ID means we're exploring, userPortfolio means we're on the user's portfolio
+    const finalId = id || activePortfolio?.id;
+
+    if (
+      !isWalletExplorer &&
+      finalId &&
+      (!wallet || wallet.id !== finalId) &&
+      Number(id) !== activePortfolio?.id
+    ) {
+      setIsLoading(true);
+
+      const socket = new WebSocket(
+        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
+      );
+
+      socket.addEventListener("open", () => {
+        const settingsString = activePortfolio.wallets
+          ? `, "settings": { "wallets": ${JSON.stringify(
+              activePortfolio.wallets
+            )}, "removed_assets": ${JSON.stringify(
+              activePortfolio.removed_assets
+            )}, "removed_transactions": ${JSON.stringify(
+              activePortfolio.removed_transactions
+            )}}`
+          : "";
+
+        socket.send(
+          `{"portfolio": {"id": ${
+            id || activePortfolio?.id
+          }${settingsString} }, "force": true}`
+        );
+      });
+
+      let failed = true;
+
+      socket.addEventListener("message", (event) => {
+        try {
+          const portfolio = JSON.parse(event.data);
+          if (portfolio !== null) {
+            failed = false;
+
+            if (portfolio.status === "error") {
+              setError(
+                "Invalid address. Mobula Portfolio does not support smart-contracts."
+              );
+              setWallet(null);
+              setIsLoading(false);
+            } else {
+              failed = false;
+              setWallet({
+                ...portfolio,
+                id: id || activePortfolio?.id,
+                uniqueIdentifier: id || activePortfolio?.id,
+              });
+            }
+          } else if (failed) setWallet(null);
+
+          setIsLoading(false);
+          // Basically, refreshing will keep the little weel spinning while starting to display first data.
+          setIsRefreshing(true);
+        } catch (e) {
+          if (event.data === "Goodbye.") {
+            setIsRefreshing(false);
+            if (failed) {
+              setIsLoading(false);
+              setWallet(null);
+            }
+          }
+        }
+      });
+    }
+
+    return () => {};
+  }, [activePortfolio, isWalletExplorer]);
+
+  useEffect(() => {
+    if (user && !isWalletExplorer && !id) {
+      const supabase = createSupabaseDOClient();
+      supabase
+        .from("portfolios")
+        .select(
+          "hidden_assets,id,name,public,removed_assets,removed_transactions,wallets,user,portfolio"
+        )
+        .eq("user", user.id)
+        .order("last_cached", { ascending: false })
+        .then((r) => {
+          if (r.data) {
+            setUserPortfolio(r.data);
+            if (!id && r.data[0]?.id !== activePortfolio?.id) {
+              setActivePortfolio(r.data[0]);
+            } else if (Number(id) !== activePortfolio?.id && id)
+              setActivePortfolio(
+                r.data.find((entry) => entry.id === Number(id))
+              );
+          }
+        });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!isWalletExplorer && id && String(activePortfolio?.id) !== id) {
+      console.log("indeed");
+      const supabase = createSupabaseDOClient();
+      supabase
+        .from("portfolios")
+        .select(
+          "hidden_assets,id,name,public,removed_assets,removed_transactions,wallets,user"
+        )
+        .eq("id", id)
+        .then((r) => {
+          if (r.data) {
+            console.log("setting active portfolio", r.data[0]);
+            setActivePortfolio(r.data[0]);
+          }
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (assetName && wallet?.portfolio) {
+      const rightAsset = wallet?.portfolio.find(
+        (entry) => entry.name.toLowerCase() === fromUrlToName(assetName)
+      );
+      setAsset({
+        ...rightAsset,
+        uniqueIdentifier: assetName,
+      });
+      setIsAssetPage(true);
+    } else if (isAssetPage) setIsAssetPage(false);
+  }, [wallet, assetName]);
+
+  const threadId = useRef(Math.round(100000000 * Math.random()));
+  useEffect(() => {
+    let interval: any;
+
+    if (wallet) {
+      const supabase = createSupabaseDOClient();
+      // We want to get the price of all the assets in the portfolio
+      // If we're on the main page, we want to get the price of all the assets in the portfolio
+      // If we're on the Portfolio selector, we iterate all portfolios assets
+      const ids = showPortfolioSelector
+        ? userPortfolio
+            .map((entry) => entry.portfolio.map((asset) => asset.asset_id))
+            .flat()
+        : // We want to remove duplicates
+          wallet?.portfolio?.map((entry) => entry.id);
+
+      const updateAll = () => {
+        supabase
+          .from<Asset>("assets")
+          .select("price,price_change_24h,id,name")
+          .in("id", ids)
+          .then((r) => {
+            if (r.error) {
+              console.log(r.error);
+              return;
+            }
+
+            if (threadId.current !== threadId.current) return;
+
+            const newWallet = { ...wallet };
+            newWallet.estimated_balance = 0;
+
+            newWallet.portfolio = newWallet.portfolio.map((entry) => {
+              const newEntry = { ...entry };
+              const asset = r.data.find((e) => e.id === entry.id);
+              newEntry.price = asset.price;
+              newEntry.change_24h = asset.price_change_24h;
+              newEntry.estimated_balance = asset.price * entry.token_balance;
+              newWallet.estimated_balance += newEntry.estimated_balance;
+              newEntry.estimated_balance_change =
+                newEntry.estimated_balance - entry.estimated_balance > 0;
+
+              // If the change is 0, we don't want to display it
+              if (!(newEntry.estimated_balance - entry.estimated_balance))
+                newEntry.estimated_balance_change = undefined;
+              return newEntry;
+            });
+
+            newWallet.estimated_history[
+              newWallet.estimated_history.length - 1
+            ] = [Date.now(), newWallet.estimated_balance];
+
+            newWallet.estimated_balance_change =
+              newWallet.estimated_balance - wallet.estimated_balance > 0;
+
+            // If the change is 0, we don't want to display it
+            if (!(newWallet.estimated_balance - wallet.estimated_balance))
+              newWallet.estimated_balance_change = undefined;
+
+            setWallet(newWallet);
+
+            if (showPortfolioSelector) {
+              for (let i = 0; i < userPortfolio.length; i += 1) {
+                userPortfolio[i].portfolio = userPortfolio[i].portfolio.map(
+                  (entry) => {
+                    const newEntry = { ...entry };
+                    const asset = r.data.find((e) => e.id === entry.asset_id);
+                    newEntry.balance_usd = asset.price * entry.balance;
+                    newEntry.name = asset.name;
+                    return newEntry;
+                  }
+                );
+              }
+
+              setUserPortfolio([...userPortfolio]);
+            }
+          });
+      };
+
+      interval = setInterval(() => {
+        updateAll();
+      }, 5000);
+
+      updateAll();
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+      threadId.current = Math.round(100000000 * Math.random());
+    };
+  }, [wallet?.id, showPortfolioSelector, wallet?.portfolio?.length]);
+
+  if (main) return <PortfolioMain />;
+  return <PortfolioAsset />;
+};

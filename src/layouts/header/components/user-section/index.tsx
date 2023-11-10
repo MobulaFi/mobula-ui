@@ -31,7 +31,9 @@ import {
 import { UserContext } from "../../../../contexts/user";
 import { useColors } from "../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../lib/mixpanel";
+import { Connect } from "../../../../popup/connect";
 import { SearchBarPopup } from "../../../../popup/searchbar";
+import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
@@ -76,7 +78,7 @@ export const UserSection = ({ addressFromCookie }) => {
   const [triggerSearch, setTriggerSearch] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
+  const [isConnectorOpen, setIsConnectorOpen] = useState(false);
   const { setConnect } = useContext(PopupUpdateContext);
   const { connect, showCard, showConnectSocialPopup } =
     useContext(PopupStateContext);
@@ -267,6 +269,8 @@ export const UserSection = ({ addressFromCookie }) => {
     "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
     "flex items-center text-sm font-medium px-[15px] py-[12.5px] text-light-font-100 dark:text-dark-font-100 cursor-pointer transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
+
+  console.log("IsConnected ? ", isConnectorOpen);
 
   return (
     <>
@@ -459,10 +463,9 @@ export const UserSection = ({ addressFromCookie }) => {
             setTrigger={setTriggerSearch}
           />
         )}
-        {/* 
-        <ConnectWallet visible={connect} setVisible={setConnect} />
+        <Connect />
         <SwitchNetworkPopup />
-        {showFeedbackPopup ? (
+        {/*  {showFeedbackPopup ? (
           <FeedBackPopup
             visible={showFeedbackPopup}
             setVisible={setShowFeedbackPopup}
