@@ -22,7 +22,7 @@ export function Tabs() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>{navigation?.[0]?.name}</NavigationMenuTrigger>
-          <NavigationMenuContent className="z-[10]">
+          <NavigationMenuContent className="z-[10] w-[400px]">
             <ul className="grid gap-3 p-2.5 md:w-[400px] w-[400px] lg:grid-cols-[.75fr_1fr]">
               {navigation?.[0]?.extends?.map((entry, i) => (
                 <div
@@ -54,7 +54,7 @@ export function Tabs() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>{navigation?.[2]?.name}</NavigationMenuTrigger>
-          <NavigationMenuContent className=" z-[10] ">
+          <NavigationMenuContent className=" z-[10] md:w-[400px] lg:w-[500px] w-[600px]">
             <ul className="grid gap-3 p-2.5 md:w-[400px] lg:w-[500px] w-[600px] grid-cols-2 lg:grid-cols-2">
               {navigation?.[2]?.extends?.map((entry, i) => (
                 <div

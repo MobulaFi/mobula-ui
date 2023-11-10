@@ -29,14 +29,6 @@ module.exports = {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
         },
-        "accordion-down": {
-          from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
-        },
         skeleton: {
           "0%, 100%": { backgroundPosition: "200% 0" },
           "50%": { backgroundPosition: "0 0" },
@@ -62,11 +54,11 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+    // Header animation come from screens object
     screens: {
       sm: { max: "480px" },
       md: { max: "768px" },
       lg: { max: "976px" },
-      xl: "1440px",
     },
     colors: {
       dark: {
