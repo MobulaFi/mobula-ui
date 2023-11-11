@@ -1,4 +1,5 @@
 import React from "react";
+import { cn } from "../@/lib/utils";
 
 interface SpinnerProps {
   extraCss?: string;
@@ -8,7 +9,10 @@ export const Spinner = ({ extraCss }: SpinnerProps) => (
   <div role="status">
     <svg
       aria-hidden="true"
-      className={`inline mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue ${extraCss} `}
+      className={cn(
+        "inline mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue",
+        extraCss
+      )}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

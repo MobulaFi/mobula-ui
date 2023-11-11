@@ -1,4 +1,5 @@
 import React from "react";
+import { cn } from "../@/lib/utils";
 
 interface PopoverProps {
   visibleContent: React.ReactNode;
@@ -24,9 +25,10 @@ export const Popover = ({
       <div>{visibleContent}</div>
       {isOpen ? (
         <div
-          className={`absolute z-[11] border
-       border-light-border-primary dark:border-dark-border-primary
-        rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary p-2.5 w-fit shadow-md ${extraCss}`}
+          className={cn(
+            "absolute z-[11] border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary p-2.5 w-fit shadow-md",
+            extraCss
+          )}
         >
           {hiddenContent}
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { cn } from "../@/lib/utils";
 
 interface ContainerProps {
   extraCss?: string;
@@ -29,7 +30,10 @@ export const Container = ({
 
   return (
     <div
-      className={`mx-auto w-90per lg:95per max-w-[1200px] ${extraCss}`}
+      className={cn(
+        "mt-[28px] md:mt-2.5 flex flex-col mx-auto w-90per lg:95per max-w-[1200px]",
+        extraCss
+      )}
       {...props}
     >
       {children}

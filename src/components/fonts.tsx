@@ -1,5 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import React from "react";
+import { cn } from "../@/lib/utils";
 import { useColors } from "../lib/chakra/colorMode";
 
 interface defaultProps {
@@ -114,7 +115,12 @@ export const LandingTitle = ({ title, subtitle }: TitleProps) => (
 
 export const SmallFont = ({ extraCss, children, ...props }: defaultProps) => {
   return (
-    <p className={`text-sm lg:text-[13px] md:text-xs font-normal ${extraCss}`}>
+    <p
+      className={cn(
+        "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal",
+        extraCss
+      )}
+    >
       {children}
     </p>
   );
@@ -122,12 +128,26 @@ export const SmallFont = ({ extraCss, children, ...props }: defaultProps) => {
 
 export const MediumFont = ({ extraCss, children, ...props }: defaultProps) => {
   return (
-    <p className={`text-base lg:text-sm font-medium ${extraCss}`}>{children}</p>
+    <p
+      className={cn(
+        "text-light-font-100 dark:text-dark-font-100 text-base lg:text-sm font-medium",
+        extraCss
+      )}
+    >
+      {children}
+    </p>
   );
 };
 
 export const LargeFont = ({ extraCss, children, ...props }: defaultProps) => {
   return (
-    <p className={`text-lg lg:text-base font-bold ${extraCss}`}>{children}</p>
+    <p
+      className={cn(
+        "text-light-font-100 dark:text-dark-font-100 text-lg lg:text-base font-bold ",
+        extraCss
+      )}
+    >
+      {children}
+    </p>
   );
 };

@@ -177,8 +177,8 @@ export const PNL = () => {
                     extraCss={`${
                       wallet?.relative_global_pnl?.[timeframe.toLowerCase()]
                         ?.realized > 0
-                        ? "text-green"
-                        : "text-red"
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
                     }`}
                   >
                     {getFormattedAmount(
@@ -209,7 +209,9 @@ export const PNL = () => {
               ) : (
                 <SmallFont
                   extraCss={`${
-                    wallet?.total_realized > 0 ? "text-green" : "text-red"
+                    wallet?.total_realized > 0
+                      ? "text-green dark:text-green"
+                      : "text-red dark:text-red"
                   }`}
                 >
                   {getFormattedAmount(wallet?.total_realized)}$
@@ -235,7 +237,9 @@ export const PNL = () => {
               ) : (
                 <SmallFont
                   extraCss={`${
-                    wallet?.total_unrealized > 0 ? "text-green" : "text-red"
+                    wallet?.total_unrealized > 0
+                      ? "text-green dark:text-green"
+                      : "text-red dark:text-red"
                   }`}
                 >
                   {getFormattedAmount(wallet?.total_unrealized)}$
