@@ -30,7 +30,7 @@ export const UserBalanceProvider = ({ children, cookies }) => {
   const [userBalance, setUserBalance] = useState({
     actual_balance: balance || 0,
     prev_balance: 0,
-    color: "text-green",
+    color: "text-green dark:text-green",
     change_color: false,
   });
 

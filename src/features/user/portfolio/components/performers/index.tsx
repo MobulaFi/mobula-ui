@@ -93,13 +93,14 @@ export const Performers = () => {
       className={`${boxStyle} flex-col mt-2.5 border border-light-border-primary dark:border-dark-border-primary
      bg-light-bg-secondary dark:bg-dark-bg-secondary w-[320px] lg:w-full`}
     >
-      <MediumFont className="text-bold ml-[5px] text-light-font-100 dark:text-dark-font-100 mb-[5px]">
+      <MediumFont extraCss="text-bold ml-[5px] mb-[5px]">
         Performers (24h)
       </MediumFont>
       {performers?.length > 0 && !isLoading ? (
         <div className="flex flex-col w-full">
           {performers.map((token) => (
             <div
+              key={token.title}
               className={`${boxStyle} border border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary
              dark:bg-dark-bg-terciary flex-row items-center mt-[7.5px] w-full hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
              transition-all duration-250 cursor-pointer`}
@@ -113,14 +114,13 @@ export const Performers = () => {
                 alt="token image"
               />
               <div className="flex flex-col w-full">
-                <SmallFont className="text-light-font-40 dark:text-dark-font-40">
+                <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
                   {token.title}
                 </SmallFont>
                 <div className="flex items-center justify-between">
-                  <SmallFont className="text-light-font-100 dark:text-dark-font-100">
+                  <SmallFont extraCss="font-medium">
                     {token?.asset.symbol}
                   </SmallFont>
-
                   <div className="flex items-center ml-[15px]">
                     {manager.privacy_mode ? (
                       <Privacy
@@ -129,10 +129,10 @@ export const Performers = () => {
                       />
                     ) : (
                       <SmallFont
-                        className={`${
+                        extraCss={`${
                           token?.asset.change_24h > 0
-                            ? "text-green"
-                            : "text-red"
+                            ? "text-green dark:text-green"
+                            : "text-red dark:text-red"
                         }`}
                       >
                         {token?.amount}
@@ -194,7 +194,7 @@ export const Performers = () => {
               src={"/mobula/mobula-logo.svg"}
               alt="mobula logo"
             />
-            <SmallFont className="text-light-font-40 dark:text-dark-font-40">
+            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
               Portfolio empty
             </SmallFont>
           </div>
@@ -205,9 +205,7 @@ export const Performers = () => {
                 fontSize={["16px", "16px", "18px", "20px"]}
               />
             ) : (
-              <SmallFont className="text-light-font-100 dark:text-dark-font-100">
-                --
-              </SmallFont>
+              <SmallFont>--</SmallFont>
             )}
             <TagPercentage isUp={false} percentage={0} />
           </div>

@@ -223,8 +223,8 @@ export const Select = ({
                     ? searchToken.price_change_24h < 0
                     : false;
                 let color = "text-light-font-40 dark:text-dark-font-40";
-                if (isGainer) color = "text-green";
-                else if (isLoser) color = "text-red";
+                if (isGainer) color = "text-green dark:text-green";
+                else if (isLoser) color = "text-red dark:text-red";
 
                 return (
                   <div

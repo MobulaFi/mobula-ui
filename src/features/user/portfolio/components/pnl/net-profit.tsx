@@ -99,7 +99,9 @@ export const NetProfit = ({
             ) : (
               <p
                 className={`text-xl lg:text-lg md:text-base ${
-                  gains.difference_raw > 0 ? "text-green" : "text-red"
+                  gains.difference_raw > 0
+                    ? "text-green dark:text-green"
+                    : "text-red dark:text-red"
                 }`}
               >
                 {Number(gains.difference_raw) > 0 ? "+" : "-"}$

@@ -109,13 +109,13 @@ export const TbodyCryptocurrencies = ({
     if (!asset) return;
 
     if (asset.estimated_balance_change === true) {
-      setChangeColor("text-green");
+      setChangeColor("text-green dark:text-green");
 
       setTimeout(() => {
         setChangeColor("text-light-font-100 dark:text-dark-font-100");
       }, 1000);
     } else if (asset.estimated_balance_change === false) {
-      setChangeColor("text-red");
+      setChangeColor("text-red dark:text-red");
 
       setTimeout(() => {
         setChangeColor("text-light-font-100 dark:text-dark-font-100");
@@ -283,8 +283,8 @@ export const TbodyCryptocurrencies = ({
           <SmallFont
             extraCss={`font-medium text-end ${
               Number(getTokenPercentage(asset.change_24h)) > 0
-                ? "text-green"
-                : "text-red"
+                ? "text-green dark:text-green"
+                : "text-red dark:text-red"
             }`}
           >
             {getTokenPercentage(asset.change_24h)}%
@@ -303,8 +303,8 @@ export const TbodyCryptocurrencies = ({
               Number(
                 getAmountLoseOrWin(asset.change_24h, asset.estimated_balance)
               ) > 0
-                ? "text-green"
-                : "text-red"
+                ? "text-green dark:text-green"
+                : "text-red dark:text-red"
             }`}
           >
             {getFormattedAmount(
@@ -324,8 +324,8 @@ export const TbodyCryptocurrencies = ({
           <SmallFont
             extraCss={`font-medium text-end ${
               Number(getTokenPercentage(asset.realized_usd)) > 0
-                ? "text-green"
-                : "text-red"
+                ? "text-green dark:text-green"
+                : "text-red dark:text-red"
             }`}
           >
             {getFormattedAmount(asset.realized_usd)}$
@@ -342,8 +342,8 @@ export const TbodyCryptocurrencies = ({
           <SmallFont
             extraCss={`font-medium text-end ${
               Number(getTokenPercentage(asset.unrealized_usd)) > 0
-                ? "text-green"
-                : "text-red"
+                ? "text-green dark:text-green"
+                : "text-red dark:text-red"
             }`}
           >
             {getFormattedAmount(asset.unrealized_usd)}$

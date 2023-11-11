@@ -28,12 +28,12 @@ export const PNL = () => {
   useEffect(() => {
     if (!wallet) return;
     if (wallet.estimated_balance_change === true) {
-      setBalanceColor("text-green");
+      setBalanceColor("text-green dark:text-green");
       setTimeout(() => {
         setBalanceColor("text-light-font-100 dark:text-dark-font-100");
       }, 1000);
     } else if (wallet.estimated_balance_change === false) {
-      setBalanceColor("text-red");
+      setBalanceColor("text-red dark:text-red");
       setTimeout(() => {
         setBalanceColor("text-light-font-100 dark:text-dark-font-100");
       }, 1000);
