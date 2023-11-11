@@ -1,7 +1,5 @@
-import { Button, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { Dispatch, Key, SetStateAction } from "react";
-import { useColors } from "../../lib/chakra/colorMode";
+import React, { Dispatch, Key, SetStateAction } from "react";
 
 interface NavProps {
   list: string[] | { name: string; url: string }[];
@@ -20,7 +18,6 @@ export const TopNav = ({
   isGeneral = false,
   isPortfolio = false,
 }: NavProps) => {
-  const { text40, text80, borders } = useColors();
   const router = useRouter();
 
   const getWidth = () => {
@@ -31,18 +28,27 @@ export const TopNav = ({
   const width = getWidth();
 
   return (
-    <Flex
-      w="100%"
-      overflowX="scroll"
-      className="scroll"
-      display={["flex", "flex", isPortfolio ? "flex" : "none", "none"]}
-      position="relative"
-      direction="column"
-      borderBottom={borders}
+    <div
+      className={`hidden ${
+        isPortfolio ? "lg:flex" : ""
+      } md:flex w-full overflow-x-scroll scroll relative flex flex-col border-b border-light-border-primary dark:border-dark-border-primary`}
     >
-      <Flex align="center" w="100%">
+      <div className="flex items-center w-full">
         {list.map((item, index) => (
-          <Button
+          <button
+            className={`font-medium pb-2.5 text-xs h-full p-2.5 ${
+              isGeneral && active === item?.name
+                ? "border-2 border-[#5c6ac4] dark:border-[#5c6ac4]"
+                : ""
+            } ${
+              active === item || (isGeneral && active === item?.name)
+                ? "text-light-font-100 dark:text-dark-font-100"
+                : "text-light-font-40 dark:text-dark-font-40"
+            } transition-all duration-250`}
+            style={{
+              width: `${100 / (list?.length || 0)}%`,
+            }}
+            key={item as Key}
             onClick={() => {
               if (isGeneral) router.push(item.url);
               else {
@@ -50,42 +56,21 @@ export const TopNav = ({
                 if (setActive) setActive(item);
               }
             }}
-            fontWeight="500"
-            w={`${100 / (list?.length || 0)}%`}
-            fontSize="12px"
-            pb="10px"
-            h="100%"
-            pt="10px"
-            px="10px"
-            borderRadius="0px"
-            borderBottom={
-              isGeneral && active === item?.name ? "2px solid #5c6ac4" : "none"
-            }
-            transition="all 250ms ease-in-out"
-            color={
-              active === item || (isGeneral && active === item?.name)
-                ? text80
-                : text40
-            }
-            key={item as Key}
           >
             {isGeneral ? item.name : item}
-          </Button>
+          </button>
         ))}
-      </Flex>
+      </div>
       {!isGeneral ? (
-        <Flex
-          h="2px"
-          mt="5px"
-          px="10px"
-          bottom="0px"
-          w={`${100 / (list?.length || 0)}%`}
-          transition="all 200ms ease-in-out"
-          position="absolute"
-          bg="blue"
-          left={`${width}%`}
+        <div
+          className={`flex h-[2px] mt-[5px] px-2.5 bottom-0 transition-all duration-200 absolute bg-blue dark:bg-blue 
+        ${100 / (list?.length || 0)}%`}
+          style={{
+            width: `${100 / (list?.length || 0)}%`,
+            left: `${width}%`,
+          }}
         />
       ) : null}
-    </Flex>
+    </div>
   );
 };

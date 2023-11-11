@@ -6,15 +6,6 @@ export const buttonHeaderStyle = {
   fontWeight: "400",
   transition: "all 250ms ease-in-out",
 };
-export const buttonPopupStyle = {
-  fontWeight: "400",
-  maxW: "95px",
-  w: "100%",
-  h: "30px",
-  mr: "10px",
-  borderRadius: "8px",
-  fontSize: ["12px", "12px", "13px", "14px"],
-};
 
 export const buttonMarketPriceStyle = {
   mt: "7.5px",
@@ -47,11 +38,11 @@ export const flexGreyBoxStyle =
 
 export const tdStyle = "py-[15px] px-2.5";
 
-export const buttonSquareStyle = {
-  boxSize: "24px",
-  borderRadius: "6px",
-  transition: "all 250ms ease-in-out",
-};
+export const buttonSquareStyle =
+  "min-w-[24px] h-[24px] w-[24px] rounded-md transition-all duration-250 flex items-center justify-center";
+
+export const buttonPopupStyle =
+  "text-medium max-w-[95px] w-full h-[30px] mr-2.5 rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100";
 
 export const buttonDeleteNft = {
   mr: "auto",

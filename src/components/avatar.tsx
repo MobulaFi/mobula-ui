@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { cn } from "../@/lib/utils";
 
 const imageCache: { [address: string]: string } = {};
 
@@ -77,7 +78,7 @@ export const AddressAvatar: React.FC<AddressAvatarProps> = ({
     <img
       src={dataURI || "/empty/unknown.png"}
       alt="user default avatar"
-      className={extraCss}
+      className={cn("rounded-full", extraCss)}
     />
   );
 };
