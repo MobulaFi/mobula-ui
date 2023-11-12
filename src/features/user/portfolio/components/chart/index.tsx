@@ -3,7 +3,6 @@ import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
 import { Key, useContext } from "react";
 import { MediumFont } from "../../../../../components/fonts";
-import { UserContext } from "../../../../../contexts/user";
 import { TimeSelected } from "../../../../../interfaces/pages/asset";
 import { colors } from "../../constants";
 import { PortfolioV2Context } from "../../context-manager";
@@ -16,14 +15,11 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 });
 
 export const PortfolioChart = () => {
-  const { user } = useContext(UserContext);
   const {
     wallet,
     isLoading,
     timeframe,
     setShowSelect,
-    isWalletExplorer,
-    activePortfolio,
     comparedEntities,
     error,
     isMobile,
@@ -89,7 +85,7 @@ export const PortfolioChart = () => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center w-full min-h-[320px] max-h-[320px] items-center relative max-w-full mr-5 mt-5 md:mt-0">
+          <div className="flex justify-center w-full min-h-[320px] max-h-[320px] items-center relative max-w-full mr-5 mt-5 ">
             {isLoading ? (
               <Spinner extraCss="w-[60px] h-[60px]" />
             ) : (

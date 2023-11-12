@@ -1,15 +1,19 @@
-import { Button, Flex, FlexProps } from "@chakra-ui/react";
+import { cn } from "@/lib/utils";
+import { Button } from "@chakra-ui/react";
 import { useContext } from "react";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { PortfolioV2Context } from "../../../context-manager";
+
+interface ButtonTimeSliderProps {
+  isChart?: boolean;
+  extraCss?: string;
+}
 
 export const ButtonTimeSlider = ({
   isChart = false,
-  ...props
-}: { isChart?: boolean } & FlexProps) => {
+  extraCss,
+}: ButtonTimeSliderProps) => {
   const timeframes = ["24H", "7D", "30D", "1Y", "ALL"];
   const { timeframe, setTimeframe } = useContext(PortfolioV2Context);
-  const { boxBg6, text40, text80, hover } = useColors();
 
   const getPosition = (time: string) => {
     if (time === "24H") return "4px";
@@ -20,45 +24,32 @@ export const ButtonTimeSlider = ({
   };
 
   return (
-    <Flex
-      h="38px"
-      zIndex="1"
-      align="center"
-      bg={boxBg6}
-      position="relative"
-      px="4px"
-      mb={isChart ? ["0px", "0px", "70px"] : "0px"}
-      borderRadius="8px"
-      w={["100%", "fit-content"]}
-      {...props}
+    <div
+      className={cn(
+        `flex h-[38px] px-[4px] z-[1] items-center bg-light-bg-terciary dark:bg-dark-bg-terciary rounded w-fit sm:w-full relative ${
+          isChart ? "mb-[70px] md:mb-0" : "mb-0"
+        }`,
+        extraCss
+      )}
     >
-      <Flex
-        w={["20%", "40px"]}
-        h="30px"
-        bg={hover}
-        borderRadius="6px"
-        position="absolute"
-        transition="all 250ms ease-in-out"
-        left={getPosition(timeframe)}
+      <div
+        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
+        style={{ left: getPosition(timeframe) }}
       />
       {timeframes.map((time) => (
         <Button
-          h="30px"
-          w={["20%", "40px"]}
-          fontSize={["12px", "12px", "13px", "14px"]}
-          color={timeframe === time ? text80 : text40}
-          fontWeight="400"
-          transition="all 250ms ease-in-out"
-          onClick={() => {
-            setTimeframe(time);
-          }}
+          className={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
+            timeframe === time
+              ? "text-light-font-100 dark:text-dark-font-100"
+              : "text-light-font-40 dark:text-dark-font-40"
+          }`}
+          onClick={() => setTimeframe(time)}
         >
-          <Flex w="100%" h="100%" align="center" justify="center">
-            {" "}
+          <div className="w-full flex h-full items-center justify-center">
             {time}
-          </Flex>
+          </div>
         </Button>
       ))}
-    </Flex>
+    </div>
   );
 };

@@ -20,6 +20,7 @@ module.exports = {
         "calc-full-340": "calc(100% - 340px)",
         "calc-full-320": "calc(100% - 320px)",
         "calc-half-2": "calc(50% - 2px)",
+        "calc-80-4": "calc(80% - 4px)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
