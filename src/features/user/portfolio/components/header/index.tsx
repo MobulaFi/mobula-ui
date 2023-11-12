@@ -1,17 +1,15 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Button, Flex, Icon } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
+import { BiSolidChevronDown } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
-import { TextLandingMedium, TextSmall } from "../../../../../components/fonts";
+import { Button } from "../../../../../components/button";
+import { LargeFont, SmallFont } from "../../../../../components/fonts";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../lib/mixpanel";
 import { addressSlicer } from "../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../context-manager";
-import { buttonHeaderStyle } from "../../style";
 import { NetworkButton } from "../network-button";
 import { SharePopup } from "../popup/share";
 
@@ -28,78 +26,50 @@ export const Header = () => {
     isMobile,
     activeStep,
   } = useContext(PortfolioV2Context);
-  const { boxBg3, borders, text80, hover } = useColors();
   const [showShare, setShowShare] = useState(false);
   const router = useRouter();
   const { user } = useContext(UserContext);
   const { setConnect } = useContext(PopupUpdateContext);
+  const pathname = usePathname();
 
   return (
-    <Flex align="center" justify="space-between" w="100%" wrap="wrap">
-      <Flex>
+    <div className="flex items-center justify-between w-full flex-wrap">
+      <div className="flex">
         {isWalletExplorer ? (
-          <TextLandingMedium>
-            {addressSlicer(isWalletExplorer)}
-          </TextLandingMedium>
+          <LargeFont>{addressSlicer(isWalletExplorer)}</LargeFont>
         ) : (
-          <Button
-            onClick={() => {
-              setShowPortfolioSelector(true);
-            }}
-            fontWeight="500"
-            color={text80}
-            fontSize={["16px", "16px", "20px", "24px"]}
-            mr={["-5px", "0px"]}
-            zIndex={activeStep.nbr === 5 ? 5 : 0}
+          <button
+            className={`flex items-center font-medium text-light-font-100 dark:text-dark-font-100 text-[24px] lg:text-[20px] md:text-[16px] mr-0 sm:mr-[-5px] ${
+              activeStep.nbr === 5 ? "z-[5]" : "z-[0]"
+            }`}
+            onClick={() => setShowPortfolioSelector(true)}
           >
             {isMobile ? "Portfolio" : activePortfolio.name}
-            {activePortfolio && router.asPath === "/portfolio" && (
-              <ChevronDownIcon />
+            {activePortfolio && pathname === "/portfolio" && (
+              <BiSolidChevronDown className="ml-[5px]" />
             )}
-          </Button>
+          </button>
         )}
-
         <Button
-          ml="10px"
-          mr={["5px", "10px"]}
-          sx={buttonHeaderStyle}
-          color={text80}
-          border={borders}
-          bg={boxBg3}
-          _hover={{ bg: hover }}
+          extraCss="ml-2.5 mr-2.5 sm:mr-[5px]"
           onClick={() => setShowShare(true)}
         >
-          <TextSmall display={["none", "none", "flex"]} mr="5px">
-            Share
-          </TextSmall>
-          <Icon as={BsShare} color={text80} />
+          <SmallFont extraCss="flex md:hidden mr-[5px]">Share</SmallFont>
+          <BsShare className="text-light-font-100 dark:text-dark-font-100 text-sm" />
         </Button>
         <Button
-          sx={buttonHeaderStyle}
-          color={text80}
-          border={borders}
-          bg={boxBg3}
-          _hover={{ bg: hover }}
+          extraCss={`${activeStep.nbr === 3 ? "z-[5]" : "z-[0]"}`}
           onClick={() => setShowManage(true)}
-          zIndex={activeStep.nbr === 3 ? 5 : 0}
         >
-          <TextSmall display={["none", "none", "flex"]} mr="5px">
-            Manage
-          </TextSmall>{" "}
-          <Icon as={AiOutlineSetting} color={text80} />
+          <SmallFont extraCss="flex md:hidden mr-[5px]">Manage</SmallFont>
+          <AiOutlineSetting className="text-light-font-100 dark:text-dark-font-100 text-sm" />
         </Button>
-      </Flex>
-      <Flex wrap="wrap" my="auto" align="center">
-        <NetworkButton wrap="wrap" />
+      </div>
+      <div className="flex flex-wrap my-auto items-center">
+        <NetworkButton extraCss="flex-wrap" />
         {isWalletExplorer || isPortfolioExplorer ? null : (
           <Button
-            // mt={["0px", "0px", "10px"]}
-            sx={buttonHeaderStyle}
-            color={text80}
-            border={borders}
-            bg={boxBg3}
-            zIndex={activeStep.nbr === 2 ? 5 : 0}
-            _hover={{ bg: hover }}
+            extraCss={`${activeStep.nbr === 2 ? "z-[5]" : "z-[0]"}`}
             onClick={() => setShowSelect(true)}
           >
             Add Asset +
@@ -107,19 +77,12 @@ export const Header = () => {
         )}
         {isWalletExplorer ? (
           <Button
-            // mt={["0px", "0px", "10px"]}
-            sx={buttonHeaderStyle}
-            color={text80}
-            border={borders}
-            bg={boxBg3}
-            zIndex={activeStep.nbr === 2 ? 5 : 0}
-            _hover={{ bg: hover }}
+            extraCss={`${activeStep.nbr === 2 ? "z-[5]" : "z-[0]"}`}
             onClick={() => {
               if (!user) {
                 setConnect(true);
               } else {
                 router.push("/portfolio");
-
                 setTimeout(() => {
                   setShowPortfolioSelector(true);
                   setShowCreatePortfolio(true);
@@ -137,7 +100,7 @@ export const Header = () => {
           </Button>
         ) : null}
         <SharePopup show={showShare} setShow={setShowShare} />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

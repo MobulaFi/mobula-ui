@@ -1,12 +1,3 @@
-export const buttonHeaderStyle = {
-  h: "32px",
-  px: "10px",
-  borderRadius: "8px",
-  fontSize: ["12px", "12px", "13px", "14px"],
-  fontWeight: "400",
-  transition: "all 250ms ease-in-out",
-};
-
 export const buttonMarketPriceStyle = {
   mt: "7.5px",
   h: "25px",
@@ -17,6 +8,9 @@ export const buttonMarketPriceStyle = {
   fontWeight: "400",
   transition: " all 250ms ease-in-out",
 };
+
+export const buttonHeaderStyle =
+  "h-[32px] px-[10px] rounded text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 transition-all duration-250";
 
 export const inputTimeStyle =
   "h-full w-[40px] text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs";

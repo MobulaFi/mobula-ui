@@ -275,7 +275,7 @@ export const AddTransactionPopup = () => {
             Transfer
           </p>
           <Select>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full border-0 border-inherit dark:border-inherit">
               <SelectValue
                 placeholder={
                   settings.transfer ? settings.transfer : "Select transfer type"
