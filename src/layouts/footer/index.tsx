@@ -1,6 +1,6 @@
 "use client";
 import { useColorMode } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
@@ -37,13 +37,11 @@ export const Footer = () => {
                   <LargeFont extraCss="mb-2.5">{entry.name}</LargeFont>
                   {entry.extends.map((page) => (
                     <NextChakraLink
+                      extraCss="w-fit"
                       href={page.url}
                       key={page.url}
                       target="_blank"
                       rel="noreferrer"
-                      //   boxShadow={`-1px -1px 1px 0 ${borders} !important`}
-                      border="none !important"
-                      w="fit-content"
                       onMouseEnter={() => setIsHover(page.name)}
                       onMouseLeave={() => setIsHover(null)}
                       onClick={() => {
@@ -58,7 +56,7 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } text-center transition-all duration-250`}
+                        } transition-all duration-250`}
                       >
                         {page.name}
                       </SmallFont>
@@ -73,33 +71,21 @@ export const Footer = () => {
               ))}
             </div>
             <div className="w-full md:flex flex-col hidden bg-light-bg-secondary dark:bg-dark-bg-secondary">
-              {/* <Image
-                src={
-                  colorMode === "light"
-                    ? "/mobula/mobula-logo-text-light.svg"
-                    : "/mobula/mobula-logo-text.svg"
-                }
-                mr="auto"
-                w="110px"
-                ml="25px"
-                mt="20px"
-                mb="5px"
-              /> */}
               {pages.map((entry) => (
                 <div
                   className="flex flex-col item-between px-[25px] py-[20px] border-b border-light-border-primary dark:border-dark-border-primary"
                   key={entry.name}
                 >
-                  <LargeFont extraCss="mb-[15px]">{entry.name}</LargeFont>
+                  <LargeFont extraCss="mb-[15px] text-start">
+                    {entry.name}
+                  </LargeFont>
                   {entry.extends.map((page) => (
                     <NextChakraLink
+                      extraCss="text-start w-fit mr-auto"
                       href={page.url}
                       key={page.url}
                       target="_blank"
                       rel="noreferrer"
-                      //   boxShadow={`-1px -1px 1px 0 ${borders} !important`}
-                      border="none !important"
-                      w="fit-content"
                       onMouseEnter={() => setIsHover(page.name)}
                       onMouseLeave={() => setIsHover(null)}
                       onClick={() => {
@@ -114,7 +100,7 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-250 text-center font-medium`}
+                        } transition-all duration-250 font-medium text-start`}
                       >
                         {page.name}
                       </p>
