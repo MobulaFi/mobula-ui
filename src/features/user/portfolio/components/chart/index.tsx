@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Image, Spinner } from "@chakra-ui/react";
+import { Button } from "components/button";
+import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import React, { useContext } from "react";
-import { TextLandingSmall } from "../../../../../components/fonts";
+import { Key, useContext } from "react";
+import { MediumFont } from "../../../../../components/fonts";
 import { UserContext } from "../../../../../contexts/user";
 import { TimeSelected } from "../../../../../interfaces/pages/asset";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { colors } from "../../constants";
 import { PortfolioV2Context } from "../../context-manager";
 import { ButtonTimeSlider } from "../ui/button-time-slider";
@@ -17,17 +17,6 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 
 export const PortfolioChart = () => {
   const { user } = useContext(UserContext);
-  const {
-    text80,
-    boxBg3,
-    boxBg6,
-    text10,
-    text40,
-    hover,
-    borders,
-    bordersActive,
-    borders2x,
-  } = useColors();
   const {
     wallet,
     isLoading,
@@ -45,121 +34,64 @@ export const PortfolioChart = () => {
     ((typeof window !== "undefined" && window.innerWidth) || 0) > 991;
 
   return (
-    <Box
-      position="relative"
-      w="100%"
-      mt={["10px", "10px", "10px", "0px"]}
-      mb={["10px", "20px", "20px", "80px"]}
-    >
-      <Flex
-        justify="space-between"
-        align={["flex-start", "center"]}
-        w="100%"
-        wrap="wrap"
-        mb={["30px", "30px", "0px", "30px"]}
-        direction={["column", "row"]}
-      >
+    <div className="relative w-full mt-0 lg:mt-2.5 mb-[80px] lg:mb-5 sm:mb-2.5">
+      <div className="flex justify-between items-center sm:items-start w-full flex-wrap mb-[30px] lg:mb-0 md:mb-[30px] flex-row sm:flex-col">
         <CompareButtons
-          display={["none", "none", "none", "flex"]}
+          extraCss="flex lg:hidden"
           buttonH="35px"
           comparedEntities={comparedEntities}
           setComparedEntities={setComparedEntities}
         />
-
         <ComparePopover
-          display={["none", "none", "none", "flex"]}
+          extraCss="flex lg:hidden"
           setComparedEntities={setComparedEntities}
           comparedEntities={comparedEntities}
         />
-
         <ButtonTimeSlider />
-        <Flex justify="space-between" w="100%" align="center" mb="-30px">
+        <div className="flex justify-between w-full items-center mb-[-30px]">
           <CompareButtons
-            display={["flex", "flex", "flex", "none"]}
-            mb="-50px"
+            extraCss="hidden lg:flex mb-[-50px] mt-[-10px]"
             buttonH="30px"
-            mt="-10px"
             comparedEntities={comparedEntities}
             setComparedEntities={setComparedEntities}
           />
-
           <ComparePopover
-            display={["flex", "flex", "flex", "none"]}
-            mb="-50px"
-            h="30px"
-            mr="0px"
+            extraCss="hidden lg:flex mb-[-50px] h-[30px] mr-0"
             setComparedEntities={setComparedEntities}
             comparedEntities={comparedEntities}
           />
-        </Flex>
-      </Flex>
-      <Flex align="center" w="100%">
-        {/* {wallet.}Array.from(Array(10).keys()).map(() => ( */}
+        </div>
+      </div>
+      <div className="flex items-center w-full">
         {!wallet && !isLoading ? (
-          <Flex
-            position="relative"
-            maxH="320px"
-            minH="320px"
-            mt={["0px", "0px", "0px", "20px"]}
-            w="100%"
-            border={borders2x}
-            borderRadius="16px"
-            bg={boxBg3}
-            align="center"
-            justify="center"
-          >
+          <div className="flex relative max-h-[320px] min-h-[320px] mt-5 lg:mt-0 w-full border-2 border-light-border-primary dark:border-dark-border-primary rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary justify-center items-center">
             {Array.from(Array(4).keys()).map((_, i) => (
-              <Flex
-                h="1px"
-                bg={text10}
-                w="100%"
-                position="absolute"
-                top={`${(i + 1) * 20}%`}
+              <div
+                key={i as Key}
+                className="flex h-[1px] w-full absolute bg-light-border-primary dark:bg-dark-border-primary"
+                style={{ top: `${(i + 1) * 20}%` }}
               />
             ))}
-            <Flex direction="column" align="center" justify="center">
-              <TextLandingSmall color={text40} mb="15px">
+            <div className="flex flex-col items-center justify-center">
+              <MediumFont extraCss="text-light-font-40 dark:text-dark-font-40 mb-[15px]">
                 No data {error ? `: ${error}` : ""}
-              </TextLandingSmall>
-              {!isWalletExplorer && activePortfolio?.user === user?.id ? (
-                <Button
-                  px="6px"
-                  py="6px"
-                  fontWeight="400"
-                  fontSize={["12px", "12px", "13px", "14px"]}
-                  color={text80}
-                  _hover={{ bg: hover, border: bordersActive }}
-                  borderRadius="8px"
-                  border={borders}
-                  bg={boxBg6}
-                  onClick={() => setShowSelect(true)}
-                >
-                  <Image
+              </MediumFont>
+              {true ? (
+                <Button onClick={() => setShowSelect(true)}>
+                  <img
+                    className="w-[20px] h-[20px] mr-[7.5px] rounded-full"
                     src="/logo/bitcoin.png"
-                    boxSize="20px"
-                    borderRadius="full"
                     alt="bitcoin logo"
-                    mr="7.5px"
                   />
                   Add an asset
                 </Button>
               ) : null}
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         ) : (
-          <Flex
-            justify="center"
-            mt={["0px", "0px", "0px", "40px"]}
-            w="100%"
-            minHeight="320px"
-            maxHeight="320px"
-            align="center"
-            position="relative"
-            maxW="100%"
-            mr="20px"
-          >
+          <div className="flex justify-center w-full min-h-[320px] max-h-[320px] items-center relative max-w-full mr-5 mt-5 md:mt-0">
             {isLoading ? (
-              <Spinner boxSize="60px" color="var(--chakra-colors-blue)" />
+              <Spinner extraCss="w-[60px] h-[60px]" />
             ) : (
               <EChart
                 height={isMobile || !isMoreThan991 ? 350 : 500}
@@ -182,9 +114,9 @@ export const PortfolioChart = () => {
                 type="Balance"
               />
             )}
-          </Flex>
+          </div>
         )}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 };

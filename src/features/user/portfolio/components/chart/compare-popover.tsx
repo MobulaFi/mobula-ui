@@ -1,29 +1,24 @@
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction } from "react";
-import { useColors } from "../../../../../lib/chakra/colorMode";
+import { Button } from "components/button";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Popover } from "../.../../../../../../components/popover";
 import { pushData } from "../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { CoreSearchBar } from "../../../../../popup/searchbar/core";
 import { ComparedEntity, UserHoldings } from "../../models";
 import { loadWalletPortfolio } from "../../utils";
 
+interface ComparePopoverProps {
+  setComparedEntities: Dispatch<SetStateAction<ComparedEntity[]>>;
+  comparedEntities: ComparedEntity[];
+  extraCss?: string;
+}
+
 export const ComparePopover = ({
   setComparedEntities,
   comparedEntities,
-  ...props
-}: {
-  [key: string]: any;
-  setComparedEntities: Dispatch<SetStateAction<ComparedEntity[]>>;
-  comparedEntities: ComparedEntity[];
-}) => {
-  const { onOpen, onClose, isOpen } = useDisclosure();
-  const { borders, shadow } = useColors();
+  extraCss,
+}: ComparePopoverProps) => {
+  const [showCompare, setShowCompare] = useState(false);
   // const alert = useAlert();
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -33,7 +28,7 @@ export const ComparePopover = ({
     type: string;
     label: string;
   }) => {
-    onClose();
+    setShowCompare(false);
     const supabase = createSupabaseDOClient();
     const { content, type, label } = value;
     const isAlreadyCompared = comparedEntities.some(
@@ -88,42 +83,32 @@ export const ComparePopover = ({
   };
 
   return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
-      <PopoverTrigger>
+    <Popover
+      visibleContent={
         <Button
-          variant="outlined_grey"
-          ml="auto"
-          mr="10px"
-          h={["30px"]}
-          zIndex="1"
-          px="8px"
+          extraCss={`${extraCss} mr-2.5 ml-auto h-[30px] z-[1] px-2`}
           onClick={() => {
-            onOpen();
+            setShowCompare((prev) => !prev);
             pushData("Portfolio Compare Clicked");
           }}
-          {...props}
-          //   mb={!isOpen ? props.mb : ""}
         >
           Compare +
         </Button>
-      </PopoverTrigger>
-      {isOpen ? (
-        <PopoverContent
-          overflow="auto"
-          maxHeight="450px"
-          border={borders}
-          borderRadius="16px"
-          boxShadow={shadow}
-        >
+      }
+      hiddenContent={
+        showCompare ? (
           <CoreSearchBar
             showPagesAndArticles={false}
             maxAssetsResult={3}
             maxWalletsResult={isMobile ? 1 : 3}
             callback={fetchCompare}
-            setTrigger={onClose}
+            setTrigger={setShowCompare}
           />
-        </PopoverContent>
-      ) : null}
-    </Popover>
+        ) : null
+      }
+      onToggle={() => {}}
+      isOpen={showCompare}
+      extraCss="p-0 top-[110%] left-0 z-[100000000]"
+    />
   );
 };

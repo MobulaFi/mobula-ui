@@ -1,56 +1,59 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-var */
 /* eslint-disable block-scoped-var */
-import {SmallCloseIcon} from "@chakra-ui/icons";
-import {Box, Button, Flex, FlexProps, Spinner} from "@chakra-ui/react";
-import {Dispatch, SetStateAction} from "react";
-import {colors} from "../../constants";
-import {ComparedEntity} from "../../models";
+import { Dispatch, SetStateAction } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { cn } from "../../../../../@/lib/utils";
+import { Button } from "../../../../../components/button";
+import { Spinner } from "../../../../../components/spinner";
+import { colors } from "../../constants";
+import { ComparedEntity } from "../../models";
 
-export const CompareButtons = ({
-  buttonH = "38px",
-  comparedEntities,
-  setComparedEntities,
-  noMaxW = false,
-  ...props
-}: {
+interface CompareButtonsProps {
   buttonH?: string;
   comparedEntities: ComparedEntity[];
   setComparedEntities: Dispatch<SetStateAction<ComparedEntity[]>>;
   noMaxW?: boolean;
-} & FlexProps) => (
-  <Flex
-    mr="auto"
-    maxW={[
-      noMaxW ? "95%" : "300px",
-      noMaxW ? "95%" : "300px",
-      noMaxW ? "95%" : "500px",
-    ]}
-    ml={[noMaxW ? "2.5%" : "0px", noMaxW ? "2.5%" : "0px", "0px"]}
-    flexWrap="wrap"
+  extraCss?: string;
+}
+
+export const CompareButtons = ({
+  buttonH = "h-[38px]",
+  comparedEntities,
+  setComparedEntities,
+  noMaxW = false,
+  extraCss,
+  ...props
+}: CompareButtonsProps) => (
+  <div
+    className={cn(
+      `flex flex-wrap mr-auto ${
+        noMaxW
+          ? "max-w-[95%] ml-0 md:ml-[2.5%]"
+          : "max-w-[500px] md:max-w-[300px] ml-0"
+      }`,
+      extraCss
+    )}
     {...props}
   >
     {comparedEntities?.map((entity, i) => (
       <Button
-        variant="outlined_grey"
-        zIndex={1}
-        px="8px"
-        h={buttonH}
+        extraCss={`z-[1] px-2 ${buttonH} mr-2.5 mb-2.5 `}
         onClick={() => {
           comparedEntities.splice(i, 1);
           setComparedEntities([...comparedEntities]);
         }}
-        mr="10px"
-        mt="10px"
       >
-        <Box bg={colors[i]} borderRadius="full" w="10px" h="10px" mr="5px" />
+        <div
+          className={`${colors[i]} rounded-full w-[10px] min-w-[10px] h-[10px] mr-[5px]`}
+        />
         {entity.label}
         {entity.data.length ? (
-          <SmallCloseIcon ml="5px" />
+          <AiOutlineClose className="ml-[5px]" />
         ) : (
-          <Spinner h="10px" w="10px" ml="5px" />
+          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
         )}
       </Button>
     ))}
-  </Flex>
+  </div>
 );

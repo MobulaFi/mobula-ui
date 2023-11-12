@@ -1,4 +1,4 @@
-import {ManageOption} from "./models";
+import { ManageOption } from "./models";
 
 export const manageOptions: ManageOption[] = [
   // {
@@ -94,15 +94,15 @@ export const colorsWallets = [
 export const timeframeOptions = ["24H", "7D", "30D", "1Y"];
 
 export const colors = [
-  "#165DFF",
-  "#3491FA",
-  "#0FC6C2",
-  "#722ED1",
-  "#D91AD9",
-  "#F7BA1E",
-  "#403724",
-  "#5C7DF9",
-  "#02A486",
-  "#16C784",
-  "#DC272E",
+  "bg-[#165DFF] dark:bg-[#165DFF]",
+  "bg-[#3491FA] dark:bg-[#3491FA]",
+  "bg-[#0FC6C2] dark:bg-[#0FC6C2]",
+  "bg-[#722ED1] dark:bg-[#722ED1]",
+  "bg-[#D91AD9] dark:bg-[#D91AD9]",
+  "bg-[#F7BA1E] dark:bg-[#F7BA1E]",
+  "bg-[#403724] dark:bg-[#403724]",
+  "bg-[#5C7DF9] dark:bg-[#5C7DF9]",
+  "bg-[#02A486] dark:bg-[#02A486]",
+  "bg-[#16C784] dark:bg-[#16C784]",
+  "bg-[#DC272E] dark:bg-[#DC272E]",
 ];
