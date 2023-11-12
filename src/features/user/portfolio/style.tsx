@@ -18,15 +18,8 @@ export const buttonMarketPriceStyle = {
   transition: " all 250ms ease-in-out",
 };
 
-export const inputTimeStyle = {
-  placeholder: "00",
-  h: "100%",
-  w: "40px",
-  type: "text",
-  color: "text.80",
-  pattern: "d*",
-  maxLength: "2",
-};
+export const inputTimeStyle =
+  "h-full w-[40px] text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs";
 
 export const boxStyle = "rounded-2xl p-2.5 flex";
 

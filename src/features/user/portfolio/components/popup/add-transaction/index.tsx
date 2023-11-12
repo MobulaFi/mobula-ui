@@ -1,33 +1,23 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Collapse,
-  Flex,
-  Icon,
-  Img,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-} from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 // import {useAlert} from "react-alert";
-import React from "react";
+import { Collapse } from "@chakra-ui/react";
+import { Button } from "components/button";
+import { ModalContainer } from "components/modal-container";
+import { inputTimeStyle } from "features/user/portfolio/style";
 import { BiTimeFive } from "react-icons/bi";
-import DatePicker from "react-widgets/DatePicker";
+import { BsCalendar3 } from "react-icons/bs";
+import Calendar from "react-widgets/Calendar";
 import { useAccount } from "wagmi";
-import { TextLandingMedium } from "../../../../../../components/fonts";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../../../../@/components/ui/select";
+import { LargeFont } from "../../../../../../components/fonts";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
@@ -36,13 +26,13 @@ import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getClosest,
+  getDate,
   getFormattedAmount,
   getRightPrecision,
 } from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
 import { useWebSocketResp } from "../../../hooks";
 import { BuySettings } from "../../../models";
-import { buttonMarketPriceStyle, inputTimeStyle } from "../../../style";
 import { convertInMillis } from "../../../utils";
 import { ButtonSlider } from "../../ui/button-slider";
 
@@ -55,7 +45,7 @@ export const AddTransactionPopup = () => {
   } = useContext(PortfolioV2Context);
   const inputRef = useRef<HTMLInputElement>(null);
   const { address } = useAccount();
-  const router = useRouter();
+  const pathname = usePathname();
   // const alert = useAlert();
   const hoursRef = useRef<HTMLInputElement>(null);
   const minutesRef = useRef<HTMLInputElement>(null);
@@ -66,6 +56,7 @@ export const AddTransactionPopup = () => {
   const switcherOptions = ["Buy", "Sell", "Transfer"];
   const { boxBg3, boxBg6, borders, text40, text80, hover } = useColors();
   const [isUSDInput, setIsUSDInput] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const switcherPriceOptions = [
     "Market Price",
     "Custom Price",
@@ -95,8 +86,8 @@ export const AddTransactionPopup = () => {
   >(null);
   const refreshPortfolio = useWebSocketResp();
 
-  const portfolioId = router.asPath.split("/")[3]
-    ? router.asPath.split("/")[3].split("?")[0]
+  const portfolioId = pathname.split("/")[3]
+    ? pathname.split("/")[3].split("?")[0]
     : activePortfolio?.id;
 
   const getPriceFromActivePriceOption = (type) => {
@@ -207,437 +198,334 @@ export const AddTransactionPopup = () => {
   }, [tokenTsx]);
 
   return (
-    <Modal
+    <ModalContainer
+      extraCss="max-w-[380px]"
       isOpen={showAddTransaction}
       onClose={() => setShowAddTransaction(false)}
-    >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg3}
-        borderRadius="16px"
-        border={borders}
-        p={["15px", "15px", "20px"]}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="380px"
-      >
-        <ModalHeader p="0px" mb="15px">
-          <Flex align="center">
-            <Img
-              src={tokenTsx?.image || tokenTsx?.logo}
-              boxSize="30px"
-              borderRadius="full"
-              mr="7.5px"
-            />
-            <TextLandingMedium color={text80} mr="7.5px">
-              {tokenTsx?.name}
-            </TextLandingMedium>
-            <TextLandingMedium color={text40}>
-              {tokenTsx?.symbol}
-            </TextLandingMedium>
-          </Flex>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="0px">
-          <ButtonSlider
-            switcherOptions={switcherOptions}
-            typeSelected={typeSelected}
-            setTypeSelected={setTypeSelected}
-            callback={(type) =>
-              setSettings((prev) => ({ ...prev, state: type }))
-            }
+      title={
+        <div className="flex items-center">
+          <img
+            className="w-[24px] h-[24px] rounded-full mr-[7.5px]"
+            src={tokenTsx?.image || tokenTsx?.logo}
+            alt={`${tokenTsx?.name} logo`}
           />
-          <Text fontSize="14px" fontWeight="400" color={text80} mb="10px">
-            Amount
-          </Text>
-          <InputGroup>
-            <Input
-              bg={boxBg6}
-              _placeholder={{ color: text80 }}
-              borderRadius="8px"
-              h="35px"
+          <LargeFont extraCss="mr-[7.5px]">{tokenTsx?.name}</LargeFont>
+          <LargeFont extraCss="text-light-font-60 dark:text-dark-font-60">
+            {tokenTsx?.symbol}
+          </LargeFont>
+        </div>
+      }
+    >
+      <ButtonSlider
+        switcherOptions={switcherOptions}
+        typeSelected={typeSelected}
+        setTypeSelected={setTypeSelected}
+        callback={(type) => setSettings((prev) => ({ ...prev, state: type }))}
+      />
+      <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5">
+        Amount
+      </p>
+      <div className="flex items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
+        <input
+          className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          type="number"
+          lang="en"
+          placeholder="0.00"
+          ref={inputRef}
+          onChange={(e) => {
+            if (
+              !Number.isNaN(parseFloat(e.target.value)) ||
+              e.target.value === ""
+            ) {
+              console.log("coucou", e.target.value);
+              setSettings((prev) => ({
+                ...prev,
+                quantity: e.target.value,
+              }));
+              setSettings((prev) => ({
+                ...prev,
+                total_spent:
+                  parseFloat(e.target.value) * parseFloat(prev.quantity),
+              }));
+            }
+          }}
+          value={
+            typeof window !== "undefined" &&
+            inputRef.current === document?.activeElement
+              ? settings.quantity
+              : getRightPrecision(settings.quantity)
+          }
+        />
+        <div className="flex items-center text-light-font-100 dark:text-dark-font-100 h-full px-2.5">
+          <p className="text-sm mr-2.5">
+            {isUSDInput ? "$" : tokenTsx?.symbol}
+          </p>
+          <Button
+            h="70%"
+            extraCss="h-[70%] mr-0"
+            onClick={() => setIsUSDInput(!isUSDInput)}
+          >
+            Switch to {!isUSDInput ? "$" : tokenTsx?.symbol}
+          </Button>
+        </div>
+      </div>
+      {typeSelected === "Transfer" ? (
+        <>
+          <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+            Transfer
+          </p>
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue
+                placeholder={
+                  settings.transfer ? settings.transfer : "Select transfer type"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem
+                  onClick={() =>
+                    setSettings((prev) => ({
+                      ...prev,
+                      transfer: "Transfer In",
+                    }))
+                  }
+                  value="Transfer In"
+                >
+                  Transfer In
+                </SelectItem>
+                <SelectItem
+                  onClick={() =>
+                    setSettings((prev) => ({
+                      ...prev,
+                      transfer: "Transfer Out",
+                    }))
+                  }
+                  value="Transfer Out"
+                >
+                  Transfer Out
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </>
+      ) : (
+        <>
+          <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+            Price
+          </p>
+          <div className="flex items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
+            <input
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
               type="number"
               lang="en"
-              placeholder="0.00"
-              ref={inputRef}
+              value={getFormattedAmount(settings.price)}
+              placeholder={getFormattedAmount(settings.price)}
+              readOnly={activePrice !== "Custom Price"}
               onChange={(e) => {
-                if (
-                  !Number.isNaN(parseFloat(e.target.value)) ||
-                  e.target.value === ""
-                ) {
-                  console.log("coucou", e.target.value);
-                  setSettings((prev) => ({
-                    ...prev,
-                    quantity: e.target.value,
-                  }));
-                  setSettings((prev) => ({
-                    ...prev,
-                    total_spent:
-                      parseFloat(e.target.value) * parseFloat(prev.quantity),
-                  }));
-                }
+                setSettings((prev) => ({
+                  ...prev,
+                  price: parseFloat(e.target.value),
+                }));
+                setSettings((prev) => ({
+                  ...prev,
+                  total_spent:
+                    parseFloat(e.target.value) * parseFloat(prev.quantity),
+                }));
               }}
-              value={
-                typeof window !== "undefined" &&
-                inputRef.current === document?.activeElement
-                  ? settings.quantity
-                  : getRightPrecision(settings.quantity)
-              }
             />
-            <InputRightElement color={text80} h="100%" pr="10px" pl="10px">
-              <Text mr="10px">{isUSDInput ? "$" : tokenTsx?.symbol}</Text>
-              <Button
-                h="70%"
-                variant="outlined_grey"
-                onClick={() => {
-                  setIsUSDInput(!isUSDInput);
-                }}
-              >
-                Switch to {!isUSDInput ? "$" : tokenTsx?.symbol}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-          {typeSelected === "Transfer" ? (
-            <>
-              <Text
-                fontSize="14px"
-                fontWeight="400"
-                color={text80}
-                mt="15px"
-                mb="10px"
-              >
-                Transfer
-              </Text>
-              <Menu matchWidth>
-                <MenuButton
-                  w="100%"
-                  bg={boxBg6}
-                  borderRadius="8px"
-                  h="35px"
-                  px="10px"
-                  textAlign="start"
-                  color={text80}
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  <Text
-                    mr="7px"
-                    fontSize="14px"
-                    color={text80}
-                    fontWeight="400"
-                  >
-                    {settings.transfer
-                      ? settings.transfer
-                      : "Select transfer type"}
-                  </Text>
-                </MenuButton>
-                <MenuList
-                  fontSize="14px"
-                  color={text80}
-                  fontWeight="400"
-                  bg={boxBg3}
-                  borderRadius="8px"
-                  border={borders}
-                  boxShadow="none"
-                >
-                  <MenuItem
-                    bg={boxBg3}
-                    borderRadius="8px"
-                    _hover={{ color: text40 }}
-                    transition="all 250ms ease-in-out"
-                    onClick={() =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        transfer: "Transfer In",
-                      }))
-                    }
-                  >
-                    Transfer In
-                  </MenuItem>
-                  <MenuItem
-                    bg="box_bg.1"
-                    borderRadius="8px"
-                    _hover={{ color: text40 }}
-                    transition="all 250ms ease-in-out"
-                    onClick={() =>
-                      setSettings((prev) => ({
-                        ...prev,
-                        transfer: "Transfer Out",
-                      }))
-                    }
-                  >
-                    Transfer Out
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </>
-          ) : (
-            <>
-              <Text
-                fontSize="14px"
-                fontWeight="400"
-                color={text80}
-                mt="15px"
-                mb="10px"
-              >
-                Price
-              </Text>
-              <InputGroup>
-                <Input
-                  bg={boxBg6}
-                  borderRadius="8px"
-                  h="35px"
-                  color={text80}
-                  _placeholder={{ color: text80 }}
-                  type="number"
-                  value={getFormattedAmount(settings.price)}
-                  placeholder={JSON.stringify(
-                    getFormattedAmount(settings.price)
-                  )}
-                  isReadOnly={activePrice !== "Custom Price"}
-                  onChange={(e) => {
-                    setSettings((prev) => ({
-                      ...prev,
-                      price: parseFloat(e.target.value),
-                    }));
-                    setSettings((prev) => ({
-                      ...prev,
-                      total_spent:
-                        parseFloat(e.target.value) * parseFloat(prev.quantity),
-                    }));
-                  }}
-                />
-                <InputRightElement color={text80} h="100%" pr="10px" pl="10px">
-                  <Text>$</Text>
-                </InputRightElement>
-              </InputGroup>
-              {false &&
-                switcherPriceOptions
-                  .filter((entry) => entry)
-                  .map((name) => {
-                    const isActive = activePrice === name;
-                    return (
-                      <Button
-                        onClick={() => {
-                          setActivePrice(name);
-                          getPriceFromActivePriceOption(name);
-                        }}
-                        sx={buttonMarketPriceStyle}
-                        bg={boxBg6}
-                        _hover={{ bg: hover }}
-                        color={text80}
-                        opacity={isActive ? 1 : 0.5}
-                      >
-                        {name}
-                      </Button>
-                    );
-                  })}
-            </>
-          )}
-          <Text
-            fontSize="14px"
-            fontWeight="400"
-            color={text80}
-            mt="15px"
-            mb="10px"
+            <div className="flex items-center text-light-font-100 dark:text-dark-font-100 h-full px-2.5">
+              <p className="text-sm">$</p>
+            </div>
+          </div>
+          {/* {false &&
+              switcherPriceOptions
+                .filter((entry) => entry)
+                .map((name) => {
+                  const isActive = activePrice === name;
+                  return (
+                    <Button
+                      onClick={() => {
+                        setActivePrice(name);
+                        getPriceFromActivePriceOption(name);
+                      }}
+                      sx={buttonMarketPriceStyle}
+                      bg={boxBg6}
+                      _hover={{ bg: hover }}
+                      color={text80}
+                      opacity={isActive ? 1 : 0.5}
+                    >
+                      {name}
+                    </Button>
+                  );
+                })} */}
+        </>
+      )}
+      <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+        Date & Time
+      </p>
+      <div className="flex items-center">
+        <div
+          className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+               cursor-pointer max-w-full justify-between"
+        >
+          <input
+            className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+            onClick={() => setShowCalendar((prev) => !prev)}
+            value={getDate(date)}
+          />
+          <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
+          {showCalendar ? (
+            <Calendar
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary absolute left-0 top-[110%] w-[345px] md:w-[300px]"
+              onMouseLeave={() => setShowCalendar((prev) => !prev)}
+              onChange={(pickedDate) => {
+                const finalDate =
+                  pickedDate.getTime() > new Date().getTime()
+                    ? new Date()
+                    : pickedDate;
+                const dateToMillis = finalDate.getTime();
+                setDate(dateToMillis);
+                setShowCalendar(false);
+              }}
+              value={new Date(date)}
+            />
+          ) : null}
+        </div>
+        <div className="flex items-center w-fit bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-2.5">
+          <input
+            placeholder="00"
+            pattern="d*"
+            maxLength={2}
+            type="text"
+            min="0"
+            max="23"
+            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+            ref={hoursRef}
+            onInput={(e) => {
+              if (parseInt((e.target as HTMLInputElement).value, 10) > 23) {
+                (e.target as HTMLInputElement).value = "23";
+              }
+            }}
+          />
+          <p className="text-light-font-100 dark:text-dark-font-100 text-sm">
+            :
+          </p>
+          <input
+            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+            placeholder="00"
+            pattern="d*"
+            maxLength={2}
+            type="text"
+            ref={minutesRef}
+            step="1"
+            min="0"
+            max="59"
+            onInput={(e) => {
+              if (parseInt((e.target as HTMLInputElement).value, 10) > 59) {
+                (e.target as HTMLInputElement).value = "59";
+              }
+            }}
+          />
+          <BiTimeFive className="text-md text-light-font-100 dark:text-dark-font-100" />
+        </div>
+      </div>
+      {typeSelected === "Transfer" ? null : (
+        <>
+          <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+            Total
+          </p>
+          <div
+            className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+               cursor-pointer max-w-full justify-between"
           >
-            Date & Time
-          </Text>
-          <Flex align="center">
-            <Flex w="auto" mr="10px">
-              <DatePicker
-                onChange={(pickedDate) => {
-                  const finalDate =
-                    pickedDate.getTime() > new Date().getTime()
-                      ? new Date()
-                      : pickedDate;
-                  const dateToMillis = finalDate.getTime();
-                  setDate(dateToMillis);
-                }}
-                value={new Date(date)}
-              />
-            </Flex>
-
-            <Flex
-              bg={boxBg6}
-              borderRadius="8px"
-              h="35px"
-              align="center"
-              w="fit-content"
-              pr="10px"
-            >
-              <Input
-                {...inputTimeStyle}
-                ref={hoursRef}
-                _placeholder={{ color: text80 }}
-                min="0"
-                max="23"
-                onInput={(e) => {
-                  if (parseInt((e.target as HTMLInputElement).value, 10) > 23) {
-                    (e.target as HTMLInputElement).value = "23";
+            <input
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
+              value={(() => {
+                const timestamp =
+                  date +
+                  convertInMillis(
+                    hoursRef.current?.value,
+                    minutesRef.current?.value
+                  );
+                return getFormattedAmount(
+                  isUSDInput
+                    ? parseFloat(settings.quantity) /
+                        getClosest(historicalData || [], timestamp)
+                    : getClosest(historicalData || [], timestamp) *
+                        parseFloat(settings.quantity),
+                  0,
+                  {
+                    minifyBigNumbers: false,
+                    minifyZeros: false,
                   }
-                }}
-                maxLength={2}
-              />
-
-              <Text color={text80}>:</Text>
-              <Input
-                {...inputTimeStyle}
-                ref={minutesRef}
-                step="1"
-                min="0"
-                _placeholder={{ color: text80 }}
-                max="59"
-                onInput={(e) => {
-                  if (parseInt((e.target as HTMLInputElement).value, 10) > 59) {
-                    (e.target as HTMLInputElement).value = "59";
-                  }
-                }}
-                maxLength={2}
-              />
-              <Icon as={BiTimeFive} fontSize="16px" color={text80} />
-            </Flex>
-          </Flex>
-          {typeSelected === "Transfer" ? null : (
-            <>
-              {" "}
-              <Text
-                fontSize="14px"
-                fontWeight="400"
-                color={text80}
-                mt="15px"
-                mb="10px"
-              >
-                Total
-              </Text>
-              <InputGroup>
-                <Input
-                  bg={boxBg6}
-                  borderRadius="8px"
-                  h="35px"
-                  _placeholder={{ color: text80 }}
-                  color={text80}
-                  value={(() => {
-                    const timestamp =
-                      date +
-                      convertInMillis(
-                        hoursRef.current?.value,
-                        minutesRef.current?.value
-                      );
-                    return getFormattedAmount(
-                      isUSDInput
-                        ? parseFloat(settings.quantity) /
-                            getClosest(historicalData || [], timestamp)
-                        : getClosest(historicalData || [], timestamp) *
-                            parseFloat(settings.quantity),
-                      0,
-                      {
-                        minifyBigNumbers: false,
-                        minifyZeros: false,
-                      }
-                    );
-                  })()}
-                  isReadOnly
-                />
-                <InputRightElement color={text80} h="100%" pr="10px" pl="10px">
-                  <Text>{!isUSDInput ? "$" : tokenTsx.symbol}</Text>
-                </InputRightElement>
-              </InputGroup>
-            </>
-          )}
-          <Collapse startingHeight={0} in={showNote}>
-            <Flex>
-              <Flex direction="column" w="80%" mr="10px">
-                <Text
-                  fontSize="14px"
-                  fontWeight="400"
-                  color={text80}
-                  mt="15px"
-                  mb="10px"
-                >
-                  Note
-                </Text>
-                <Input
-                  bg={boxBg6}
-                  _placeholder={{ color: text80 }}
-                  color={text80}
-                  placeholder="Type a note"
-                  borderRadius="8px"
-                  h="35px"
-                  onChange={(e) => {
-                    setSettings((prev) => ({ ...prev, note: e.target.value }));
-                  }}
-                />
-              </Flex>
-              <Flex direction="column" w="70px">
-                <Text
-                  fontSize="14px"
-                  fontWeight="400"
-                  color={text80}
-                  mt="15px"
-                  mb="10px"
-                >
-                  Fee
-                </Text>
-                <InputGroup>
-                  <Input
-                    bg={boxBg6}
-                    borderRadius="8px"
-                    h="35px"
-                    pr="25px"
-                    placeholder="0.5"
-                    _placeholder={{ color: text80 }}
-                    type="number"
-                    color={text80}
-                    onChange={(e) => {
-                      setSettings((prev) => ({
-                        ...prev,
-                        fee: e.target.value,
-                      }));
-                    }}
-                  />
-                  <InputRightElement
-                    color={text80}
-                    h="100%"
-                    pr="10px"
-                    pl="10px"
-                  >
-                    %
-                  </InputRightElement>
-                </InputGroup>
-              </Flex>
-            </Flex>
-          </Collapse>
-          <Flex direction="column">
-            <Button
-              mt="20px"
-              variant="outlined"
-              borderRadius="8px"
-              fontSize={["12px", "12px", "13px", "14px"]}
-              fontWeight="400"
-              color={text80}
-              border={borders}
-              _hover={{ border: "1px solid var(--chakra-colors-borders-1)" }}
-              onClick={() => setShowNote(!showNote)}
+                );
+              })()}
+              readOnly
+            />
+            <div className="w-fit h-full px-2.5 text-light-font-100 dark:text-dark-font-100">
+              <p>{!isUSDInput ? "$" : tokenTsx.symbol}</p>
+            </div>
+          </div>
+        </>
+      )}
+      <Collapse startingHeight={0} in={showNote}>
+        <div className="flex">
+          <div className="flex flex-col w-[80%] mr-2.5">
+            <p className="text-sm text-light-font-100 dark:text-dark-font-100 mt-[15px] mb-2.5">
+              Note
+            </p>
+            <input
+              className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
+              placeholder="Type a note"
+              onChange={(e) => {
+                setSettings((prev) => ({
+                  ...prev,
+                  note: e.target.value,
+                }));
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-[70px]">
+            <p className="text-sm text-light-font-100 dark:text-dark-font-100 mt-[15px] mb-2.5">
+              Fee
+            </p>
+            <div
+              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+               cursor-pointer max-w-full justify-between"
             >
-              {showNote ? "Hide Fee and Note" : "Fee, Note"}
-            </Button>
-
-            <Button
-              mt="10px"
-              borderRadius="8px"
-              variant="outlined"
-              fontSize={["12px", "12px", "13px", "14px"]}
-              fontWeight="400"
-              color={text80}
-              onClick={() => submitTransaction()}
-              isDisabled={!historicalData}
-            >
-              Add Transaction
-            </Button>
-          </Flex>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+              <input
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100 pr-[25px]"
+                placeholder="0.5"
+                type="number"
+                onChange={(e) => {
+                  setSettings((prev) => ({
+                    ...prev,
+                    fee: e.target.value,
+                  }));
+                }}
+              />
+              <div className="text-sm text-light-font-100 dark:text-dark-font-100 px-2.5">
+                %
+              </div>
+            </div>
+          </div>
+        </div>
+      </Collapse>
+      <div className="flex flex-col">
+        <Button extraCss="mt-5 w-full" onClick={() => setShowNote(!showNote)}>
+          {showNote ? "Hide Fee and Note" : "Fee, Note"}
+        </Button>
+        <Button
+          extraCss="border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue
+             mt-2.5 w-full hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary"
+          onClick={() => submitTransaction()}
+          isDisabled={!historicalData}
+        >
+          Add Transaction
+        </Button>
+      </div>
+    </ModalContainer>
   );
 };

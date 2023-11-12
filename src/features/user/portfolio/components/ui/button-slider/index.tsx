@@ -1,53 +1,50 @@
-import { Button, Flex, FlexProps } from "@chakra-ui/react";
+import { cn } from "@/lib/utils";
 import React, { useContext } from "react";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { PortfolioV2Context } from "../../../context-manager";
 import { getPositionOfSwitcherButton } from "../../../utils";
+
+interface ButtonSliderProps {
+  switcherOptions: string[];
+  typeSelected: string;
+  setTypeSelected: React.Dispatch<React.SetStateAction<string>>;
+  callback?: (type: string) => void;
+  extraCss?: string;
+}
 
 export const ButtonSlider = ({
   switcherOptions,
   typeSelected,
   setTypeSelected,
   callback,
-  ...props
-}: {
-  switcherOptions: string[];
-  typeSelected: string;
-  setTypeSelected: React.Dispatch<React.SetStateAction<string>>;
-  callback?: (type: string) => void;
-} & FlexProps) => {
+  extraCss,
+}: ButtonSliderProps) => {
   const { activeStep } = useContext(PortfolioV2Context);
-  const { boxBg6, text40, text80, hover } = useColors();
   return (
-    <Flex
-      h="38px"
-      align="center"
-      bg={boxBg6}
-      position="relative"
-      px="8px"
-      borderRadius="8px"
-      mb="15px"
-      {...props}
+    <div
+      className={cn(
+        "flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[38px] rounded-lg mb-[15px] relative px-2",
+        extraCss
+      )}
     >
-      <Flex
-        w={`${100 / switcherOptions.length}%`}
-        h="30px"
-        bg={hover}
-        borderRadius="6px"
-        position="absolute"
-        transition="all 250ms ease-in-out"
-        left={getPositionOfSwitcherButton(typeSelected)}
+      <div
+        className="h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-250"
+        style={{
+          left: getPositionOfSwitcherButton(typeSelected),
+          width: `${100 / switcherOptions.length}%`,
+        }}
       />
       {switcherOptions.map((type) => (
-        <Button
-          w={`${100 / switcherOptions.length}%`}
-          h="30px"
-          fontSize={["12px", "12px", "13px", "14px"]}
-          color={typeSelected === type ? text80 : text40}
-          fontWeight="400"
-          transition="all 250ms ease-in-out"
-          isDisabled={type === "Staking"}
+        <button
+          key={type}
+          className={`${
+            typeSelected === type
+              ? "text-light-font-100 dark:text-dark-font-100"
+              : "text-light-font-40 dark:text-dark-font-40"
+          } h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 ${
+            type === "Activity" && activeStep.nbr === 4 ? "z-[5]" : "z-[0]"
+          }`}
+          style={{ width: `${100 / switcherOptions.length}%` }}
           onClick={() => {
             pushData("Portfolio Switch Clicked", {
               type,
@@ -55,11 +52,10 @@ export const ButtonSlider = ({
             setTypeSelected(type);
             if (callback) callback(type);
           }}
-          zIndex={type === "Activity" && activeStep.nbr === 4 ? 5 : 0}
         >
           {type}
-        </Button>
+        </button>
       ))}
-    </Flex>
+    </div>
   );
 };

@@ -4,6 +4,20 @@
   scrollbar-width: none;
 }
 
+input {
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .nft {
   min-height: 280px;
   min-width: 280px;
@@ -2006,7 +2020,7 @@ fieldset[disabled] .rw-widget {
   border: none;
   color: inherit;
   box-shadow: none;
-  background: none;
+  background: none !important;
   font: inherit;
   line-height: inherit;
   -ms-touch-action: manipulation;
