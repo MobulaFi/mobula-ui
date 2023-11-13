@@ -1,26 +1,9 @@
-import { CheckIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useColorMode,
-} from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
-import { BsShare } from "react-icons/bs";
-import {
-  TextLandingMedium,
-  TextSmall,
-} from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { BsCheckLg, BsShare } from "react-icons/bs";
+import { SmallFont } from "../../../../../../components/fonts";
+import { ModalContainer } from "../../../../../../components/modal-container";
+import useDarkMode from "../../../../../../hooks/useDarkMode";
 import {
   addressSlicer,
   getFormattedAmount,
@@ -37,92 +20,73 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
   const [isCopied, setIsCopied] = useState("");
   const { activePortfolio, isWalletExplorer, wallet } =
     useContext(PortfolioV2Context);
-  const { boxBg6, borders, text40, boxBg1, text80 } = useColors();
-  const { colorMode } = useColorMode();
+  const [colorTheme] = useDarkMode();
 
   return (
-    <Modal motionPreset="none" isOpen={show} onClose={() => setShow(false)}>
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg1}
-        borderRadius="16px"
-        border={borders}
-        p={["15px", "15px", "15px 20px"]}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="390px"
-      >
-        <ModalHeader p="0px" mb="15px">
-          <TextLandingMedium>Share Portfolio</TextLandingMedium>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="0px">
-          <Flex pb="15px" align="center">
-            <Image
-              src={
-                colorMode === "dark"
-                  ? "/mobula/fullicon.png"
-                  : "/mobula/mobula-logo.svg"
+    <ModalContainer
+      extraCss="max-w-[390px]"
+      title="Share Portfolio"
+      isOpen={show}
+      onClose={() => setShow(false)}
+    >
+      <div>
+        <div className="flex pb-[15px] items-center">
+          <img
+            className="w-[34px] h-[34px] mr-[5px]"
+            src={
+              colorTheme === "dark"
+                ? "/mobula/fullicon.png"
+                : "/mobula/mobula-logo.svg"
+            }
+            alt="mobula logo"
+          />
+          <div className="flex flex-col ml-[7.5px]">
+            <SmallFont extraCss="font-medium">
+              {isWalletExplorer
+                ? addressSlicer(isWalletExplorer)
+                : activePortfolio?.name}
+            </SmallFont>
+            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+              ${getFormattedAmount(wallet?.estimated_balance)}
+            </SmallFont>
+          </div>
+        </div>
+      </div>
+      <div className="pt-[15px] border-t border-light-border-primary dark:border-dark-border-primary">
+        <div className="flex flex-col w-full">
+          <div className="flex items-center mb-2.5">
+            <BsShare className="text-light-font-100 dark:text-dark-font-100 mr-2.5" />
+            <SmallFont>Share to Community</SmallFont>
+          </div>
+          <div
+            className="flex items-center justify-between px-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded h-[35px]
+             text-light-font-100 dark:text-dark-font-100 border-light-border-primary dark:border-dark-border-primary"
+          >
+            <SmallFont>
+              {isWalletExplorer
+                ? `https://mobula.fi/wallet/${addressSlicer(isWalletExplorer)}`
+                : `https://mobula.fi/portfolio/explore/${activePortfolio?.id}`}
+            </SmallFont>
+            <button
+              className="text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs"
+              onClick={() =>
+                copyText(
+                  isWalletExplorer
+                    ? `https://mobula.fi/wallet/${isWalletExplorer}`
+                    : `https://mobula.fi/portfolio/explore/${activePortfolio?.id}`,
+                  setIsCopied
+                )
               }
-              boxSize="34px"
-            />
-            <Flex direction="column" ml="7.5px">
-              <TextSmall>
-                {isWalletExplorer
-                  ? addressSlicer(isWalletExplorer)
-                  : activePortfolio?.name}
-              </TextSmall>
-              <TextSmall color={text40}>
-                ${getFormattedAmount(wallet?.estimated_balance)}
-              </TextSmall>
-            </Flex>
-          </Flex>
-        </ModalBody>
-        <ModalFooter px="0px" pb="0px" pt="15px" borderTop={borders}>
-          <Flex direction="column" w="100%">
-            <Flex align="center" mb="10px">
-              <Icon as={BsShare} mr="10px" color={text80} />
-              <TextSmall>Share to Community</TextSmall>
-            </Flex>
-            <Flex
-              align="center"
-              justify="space-between"
-              px="10px"
-              bg={boxBg6}
-              borderRadius="8px"
-              h="35px"
-              color={text80}
             >
-              <TextSmall>
-                {isWalletExplorer
-                  ? `https://mobula.fi/wallet/${addressSlicer(
-                      isWalletExplorer
-                    )}`
-                  : `https://mobula.fi/portfolio/explore/${activePortfolio?.id}`}
-              </TextSmall>
-              <Button
-                fontWeight="400"
-                color={text80}
-                fontSize={["12px", "12px", "13px", "14px"]}
-                onClick={() =>
-                  copyText(
-                    isWalletExplorer
-                      ? `https://mobula.fi/wallet/${isWalletExplorer}`
-                      : `https://mobula.fi/portfolio/explore/${activePortfolio?.id}`,
-                    setIsCopied
-                  )
-                }
-              >
-                {isCopied ? (
-                  <CheckIcon color="green" ml="7.5px" fontSize="15px" />
-                ) : (
-                  <Icon ml="7.5px" as={BiCopy} color={text40} fontSize="15px" />
-                )}
-              </Button>
-            </Flex>
-          </Flex>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+              {isCopied ? (
+                <BsCheckLg className="text-green dark:text-green ml-[7.5px] text-[15px]" />
+              ) : (
+                <BiCopy className="ml-[7.5px] text-light-font-40 dark:text-dark-font-40 text-[15px]" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </ModalContainer>
   );
 };

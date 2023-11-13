@@ -1,18 +1,16 @@
-import { CloseIcon } from "@chakra-ui/icons";
-import { Button, Collapse, Flex, Icon, Input, Switch } from "@chakra-ui/react";
+import { Collapse, Switch } from "@chakra-ui/react";
 import { useContext, useRef } from "react";
 // import {useAlert} from "react-alert";
 import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { BsDatabaseDown, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../../components/avatar";
-import {
-  TextExtraSmall,
-  TextMedium,
-  TextSmall,
-} from "../../../../../../components/fonts";
+import { Button } from "../../../../../../components/button";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { Input } from "../../../../../../components/input";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
@@ -98,37 +96,28 @@ export const CreatePortfolio = () => {
   };
 
   return (
-    <Flex direction="column">
-      <Flex align="center" justify="space-between" mb="10px">
-        <Flex align="center">
-          <Icon as={BsDatabaseDown} color={text80} mr="7.5px" />
-          <TextSmall>Portfolio name</TextSmall>
-        </Flex>
-        <Button onClick={() => setShowCreatePortfolio(false)}>
-          <CloseIcon fontSize="10px" color={text80} />
-        </Button>
-      </Flex>
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between mb-2.5">
+        <div className="flex items-center">
+          <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
+          <SmallFont>Portfolio name</SmallFont>
+        </div>
+        <button onClick={() => setShowCreatePortfolio(false)}>
+          <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-xs" />
+        </button>
+      </div>
       <Input
-        mb="5px"
-        px="10px"
+        extraCss="mb-[5px] w-full"
+        placeholder="My Best Portfolio"
+        value={portfolioSettings.name}
         onChange={(e) => {
           setPortfolioSettings((prev) => ({ ...prev, name: e.target.value }));
         }}
-        placeholder="My Best Portfolio"
-        value={portfolioSettings.name}
-        h="35px"
-        borderRadius="8px"
-        bg={boxBg6}
-        w="100%"
-        color={text80}
-        fontWeight="400"
-        _placeholder={{ color: text80 }}
-        border={borders}
       />
-      <Flex align="center" justify="space-between" mb="10px">
-        <TextExtraSmall mt="-4px" color={text40}>
+      <div className="flex items-center justify-between mb-2.5">
+        <p className="text-xs lg:text-[11px] md:text-[10px] -mt-1 text-light-font-40 dark:text-dark-font-40">
           Make this portfolio public
-        </TextExtraSmall>
+        </p>
         <Switch
           size="sm"
           mt="4px"
@@ -139,35 +128,17 @@ export const CreatePortfolio = () => {
             setPortfolioSettings((prev) => ({ ...prev, public: !prev.public }))
           }
         />
-      </Flex>
-      <Flex align="center" justify="space-between" mb="10px">
-        <Flex align="center">
-          <Icon as={BsDatabaseDown} color={text80} mr="7.5px" />
-          <TextSmall>Add wallet</TextSmall>
-        </Flex>
-      </Flex>
-      <Flex mb="10px">
-        <Input
-          px="10px"
-          ref={inputRef}
-          placeholder="0x"
-          h="35px"
-          borderRadius="8px"
-          bg={boxBg6}
-          w="100%"
-          color={text80}
-          fontWeight="400"
-          border={borders}
-          _placeholder={{ color: text80 }}
-        />
+      </div>
+      <div className="flex items-center justify-between mb-2.5">
+        <div className="flex items-center">
+          <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
+          <SmallFont>Add wallet</SmallFont>
+        </div>
+      </div>
+      <div className="flex mb-2.5">
+        <Input extraCss="w-full" ref={inputRef} placeholder="0x" />
         <Button
-          boxSize="35px"
-          bg={boxBg6}
-          borderRadius="8px"
-          ml="10px"
-          border={borders}
-          _hover={{ bg: hover }}
-          transition="all 250ms ease-in-out"
+          extraCss="ml-2.5"
           onClick={() => {
             if (!isAddress(inputRef.current.value)) {
               // alert.error("Invalid address");
@@ -183,27 +154,30 @@ export const CreatePortfolio = () => {
             inputRef.current.value = "";
           }}
         >
-          <Icon as={IoMdAddCircleOutline} color={text80} />
+          <IoMdAddCircleOutline className="text-light-font-100 dark:text-dark-font-100" />
         </Button>
-      </Flex>
+      </div>
       <Collapse in={portfolioSettings.wallets.length > 0} startingHeight={0}>
-        <Flex direction="column" mb="10px">
+        <div className="flex flex-col mb-2.5">
           {portfolioSettings.wallets?.map((entry, index) => (
-            <Flex align="center" justify="space-between" mb="5px">
-              <Flex
-                align="center"
-                mb={
-                  index !== portfolioSettings.wallets.length - 1 ? "5px" : "0px"
-                }
-                ml="2px"
+            <div className="flex items-center justify-between mb-[5px]">
+              <div
+                className={`flex items-center ml-0.5 ${
+                  index !== portfolioSettings.wallets.length - 1
+                    ? "mb-[5px]"
+                    : "mb-0"
+                }`}
               >
-                <AddressAvatar boxSize="32px" address={entry} />
-                <Flex direction="column" ml="10px">
-                  <TextMedium>{addressSlicer(entry)}</TextMedium>
-                </Flex>
-              </Flex>
-              <Button
-                boxSize="fit-content"
+                <AddressAvatar
+                  extraCss="w-[32px] h-[32px] min-w-[32px]"
+                  address={entry}
+                />
+                <div className="flex flex-col ml-2.5">
+                  <MediumFont>{addressSlicer(entry)}</MediumFont>
+                </div>
+              </div>
+              <button
+                className="w-fit h-fit"
                 onClick={() => {
                   setPortfolioSettings((prev) => ({
                     ...prev,
@@ -211,23 +185,19 @@ export const CreatePortfolio = () => {
                   }));
                 }}
               >
-                <Flex {...flexGreyBoxStyle} bg="red" mr="3px">
-                  <Icon as={BsTrash3} color={text80} />
-                </Flex>
-              </Button>
-            </Flex>
+                <div
+                  className={`${flexGreyBoxStyle} bg-red dark:bg-red mr-[3px]`}
+                >
+                  <BsTrash3 className="text-light-font-100 dark:text-dark-font-100" />
+                </div>
+              </button>
+            </div>
           ))}
-        </Flex>
+        </div>
       </Collapse>
-      <Flex mt="15px">
+      <div className="flex mt-[15px]">
         <Button
-          variant="outlined"
-          fontSize={["12px", "12px", "13px", "14px"]}
-          fontWeight="400"
-          color={text80}
-          w="100%"
-          maxW="100%"
-          borderRadius="8px"
+          extraCss="w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
           onClick={() => {
             signerGuard(() => {
               if (portfolioSettings.name !== "") {
@@ -239,7 +209,7 @@ export const CreatePortfolio = () => {
         >
           Create
         </Button>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

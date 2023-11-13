@@ -1,10 +1,4 @@
-import {
-  default as React,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -12,6 +6,8 @@ import { Select } from "../../../layouts/swap/popup/select";
 import { pushData } from "../../../lib/mixpanel";
 import { Cryptocurrencies } from "./components/category/cryptocurrencies";
 import { PortfolioChart } from "./components/chart";
+import { CumulativePnl } from "./components/cumulative-pnl";
+import { DailyPnl } from "./components/daily-pnl";
 import { Header } from "./components/header";
 import { Holdings } from "./components/holdings";
 import { Performers } from "./components/performers";
@@ -173,19 +169,15 @@ export const PortfolioMain = () => {
                 } ${getAnimation("Widgets")}`}
               >
                 <div className="hidden lg:flex flex-col w-full">
-                  <ButtonTimeSlider mt="10px" />
+                  <ButtonTimeSlider extraCss="mt-2.5" />
                   {manager.performers ? <Performers /> : null}
                   {manager.holdings ? (
                     <Holdings chartId="piechart-mobile" />
                   ) : null}
                   {timeframe !== "ALL" ? (
                     <>
-                      {/* {manager.daily_pnl ? (
-                        <DailyPnl chartId="pnlchart-mobile" wallet={wallet} />
-                      ) : null} */}
-                      {/* {manager.cumulative_pnl ? (
-                        <CumulativePnl chartId="cumulative-chart-mobile" />
-                      ) : null} */}
+                      {manager.daily_pnl ? <DailyPnl wallet={wallet} /> : null}
+                      {manager.cumulative_pnl ? <CumulativePnl /> : null}
                     </>
                   ) : null}
                 </div>{" "}
@@ -200,12 +192,8 @@ export const PortfolioMain = () => {
               {timeframe !== "ALL" ? (
                 <>
                   {" "}
-                  {/* {manager.daily_pnl ? (
-                    <DailyPnl chartId="pnlchart-desktop" wallet={wallet} />
-                  ) : null} */}
-                  {/* {manager.cumulative_pnl ? (
-                    <CumulativePnl chartId="cumulative-chart-desktop" />
-                  ) : null} */}
+                  {manager.daily_pnl ? <DailyPnl wallet={wallet} /> : null}
+                  {manager.cumulative_pnl ? <CumulativePnl /> : null}
                 </>
               ) : null}
             </div>

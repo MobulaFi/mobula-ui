@@ -1,8 +1,8 @@
-import {ActiveStep, UserHoldings, UserHoldingsAsset} from "./models";
+import { ActiveStep, UserHoldings, UserHoldingsAsset } from "./models";
 
 export const copyText = (
   text: string,
-  setIsCopied: React.Dispatch<React.SetStateAction<string>>,
+  setIsCopied: React.Dispatch<React.SetStateAction<string>>
 ) => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(() => {
@@ -59,8 +59,8 @@ export const getHours = (timestamp: number) => {
 
 export const getFormattedPNL = (
   wallet: UserHoldingsAsset | UserHoldings,
-  timeframe: string,
-): {t: number; y: number}[] => {
+  timeframe: string
+): [number, number][] => {
   try {
     if (wallet) {
       let walletPnl;
@@ -68,13 +68,12 @@ export const getFormattedPNL = (
       else walletPnl = wallet.pnl_history;
 
       const newArr = walletPnl[timeframe.toLowerCase()]?.map(
-        (entry, i, arr) => ({
-          y: entry[1].realized + entry[1].unrealized,
-          t:
-            arr.length - 1 === i
-              ? arr[i - 1][0]
-              : entry[0] - (arr[1][0] - arr[0][0]) + 1,
-        }),
+        (entry, i, arr) => [
+          arr.length - 1 === i
+            ? arr[i - 1][0]
+            : entry[0] - (arr[1][0] - arr[0][0]) + 1,
+          entry[1].realized + entry[1].unrealized,
+        ]
       );
       return newArr;
     }
@@ -142,9 +141,9 @@ export const loadWalletPortfolio = async (address: string) => {
   });
 
   let failed = true;
-  return new Promise(r => {
+  return new Promise((r) => {
     let portfolio: UserHoldings;
-    socket.addEventListener("message", event => {
+    socket.addEventListener("message", (event) => {
       try {
         const result = JSON.parse(event.data);
         if (result !== null) {

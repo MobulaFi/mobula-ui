@@ -1,21 +1,9 @@
 import { CheckIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { Button, Flex, Image } from "@chakra-ui/react";
+import { ModalContainer } from "components/modal-container";
+import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import {
-  TextLandingMedium,
-  TextSmall,
-} from "../../../../../../components/fonts";
+import { TextSmall } from "../../../../../../components/fonts";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
@@ -98,90 +86,74 @@ export const ManageEdit = () => {
   }, [isCheck]);
 
   return (
-    <Modal
+    <ModalContainer
+      extraCss="max-w-[400px]"
+      title="Hidden assets"
       isOpen={showHiddenTokensPopup}
       onClose={() => setShowHiddenTokensPopup(false)}
-      motionPreset="none"
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg1}
-        borderRadius="16px"
-        border={borders}
-        p={["15px", "15px", "20px"]}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="400px"
-      >
-        <ModalHeader p="0px" mb="5px">
-          <TextLandingMedium>Hidden assets</TextLandingMedium>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="0px">
-          <Flex wrap="wrap">
-            {Object.entries(hiddenTokens).map(([tokenId, tokenData], index) => (
-              <Flex
-                key={index}
-                align="center"
-                justify="space-between"
-                mt="10px"
-                bg={boxBg6}
-                p="10px"
-                w="calc(50% - 10px)"
-                mr={index % 2 === 0 ? "10px" : "0px"}
-                ml={index % 2 === 0 ? "0px" : "10px"}
-                borderRadius="8px"
-                border={borders}
-                onClick={() => handleCheckboxChange(Number(tokenId))}
-                cursor="pointer"
-                _hover={{ bg: hover }}
-                transition="all 200ms ease-in-out"
-              >
-                <Flex align="center">
-                  <Image
-                    src={tokenData.logo}
-                    alt={`${tokenData.symbol} logo`}
-                    boxSize={["25px"]}
-                    borderRadius="full"
-                  />
-                  <TextSmall ml="10px" fontWeight="500">
-                    {tokenData.symbol}
-                  </TextSmall>
-                </Flex>
-
-                <Flex
-                  align="center"
-                  justify="center"
-                  width="15px"
-                  height="15px"
-                  border={bordersActive}
-                  borderRadius="3px"
-                >
-                  <CheckIcon
-                    fontSize="10px"
-                    opacity={isCheck[Number(tokenId)] ? 1 : 0}
-                    transition={"all 200ms ease-in-out"}
-                  />
-                </Flex>
-              </Flex>
-            ))}
-          </Flex>
-          <Button
-            variant="outlined"
-            borderRadius="8px"
-            fontWeight="400"
-            color={text80}
+      <Flex wrap="wrap">
+        {Object.entries(hiddenTokens).map(([tokenId, tokenData], index) => (
+          <Flex
+            key={index}
+            align="center"
+            justify="space-between"
             mt="10px"
-            onClick={() => {
-              restoreHiddenAssets();
-              setShowHiddenTokensPopup(false);
-              setShowManage(false);
-            }}
+            bg={boxBg6}
+            p="10px"
+            w="calc(50% - 10px)"
+            mr={index % 2 === 0 ? "10px" : "0px"}
+            ml={index % 2 === 0 ? "0px" : "10px"}
+            borderRadius="8px"
+            border={borders}
+            onClick={() => handleCheckboxChange(Number(tokenId))}
+            cursor="pointer"
+            _hover={{ bg: hover }}
+            transition="all 200ms ease-in-out"
           >
-            Delete from hidden assets ({selectedTokens.length})
-          </Button>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+            <Flex align="center">
+              <Image
+                src={tokenData.logo}
+                alt={`${tokenData.symbol} logo`}
+                boxSize={["25px"]}
+                borderRadius="full"
+              />
+              <TextSmall ml="10px" fontWeight="500">
+                {tokenData.symbol}
+              </TextSmall>
+            </Flex>
+
+            <Flex
+              align="center"
+              justify="center"
+              width="15px"
+              height="15px"
+              border={bordersActive}
+              borderRadius="3px"
+            >
+              <CheckIcon
+                fontSize="10px"
+                opacity={isCheck[Number(tokenId)] ? 1 : 0}
+                transition={"all 200ms ease-in-out"}
+              />
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
+      <Button
+        variant="outlined"
+        borderRadius="8px"
+        fontWeight="400"
+        color={text80}
+        mt="10px"
+        onClick={() => {
+          restoreHiddenAssets();
+          setShowHiddenTokensPopup(false);
+          setShowManage(false);
+        }}
+      >
+        Delete from hidden assets ({selectedTokens.length})
+      </Button>
+    </ModalContainer>
   );
 };

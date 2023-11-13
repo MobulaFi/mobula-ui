@@ -1,4 +1,4 @@
-import { Flex, useColorMode } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { BarChart, LineChart } from "echarts/charts";
 import {
   DataZoomComponent,
@@ -11,6 +11,7 @@ import {
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
+import useDarkMode from "hooks/useDarkMode";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { TimeSelected } from "../../../interfaces/pages/asset";
@@ -73,7 +74,7 @@ const EChart: React.FC<EChartProps> = ({
   isVesting = false,
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const { colorMode } = useColorMode();
+  const [colorTheme] = useDarkMode();
   const id: string = useMemo(() => uuid(), []);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -105,6 +106,7 @@ const EChart: React.FC<EChartProps> = ({
     );
   }, [id]);
 
+  console.log("Echart, data: ", data);
   useEffect(() => {
     const chart = createInstance();
     if (chart)
@@ -114,7 +116,7 @@ const EChart: React.FC<EChartProps> = ({
           // backgroundColor: bg || 'var(--chakra-colors-bg_principal)',
           textStyle: {
             color:
-              colorMode === "light"
+              colorTheme === "light"
                 ? "rgba(0,0,0,0.8)"
                 : "rgba(255,255,255,0.8)",
           },
@@ -138,7 +140,7 @@ const EChart: React.FC<EChartProps> = ({
     options,
     timeframe,
     noDataZoom,
-    colorMode,
+    colorTheme,
     transactions,
     extraData,
   ]);
@@ -178,7 +180,7 @@ const EChart: React.FC<EChartProps> = ({
         });
       });
     }
-  }, [colorMode]);
+  }, [colorTheme]);
 
   return (
     <Flex

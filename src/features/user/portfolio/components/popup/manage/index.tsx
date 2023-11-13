@@ -1,34 +1,16 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  AvatarGroup,
-  Button,
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Spinner,
-  Switch,
-} from "@chakra-ui/react";
+import { Button } from "components/button";
+import { ModalContainer } from "components/modal-container";
+import { Spinner } from "components/spinner";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useEffect } from "react";
-import { useAccount } from "wagmi";
-import {
-  TextLandingMedium,
-  TextSmall,
-} from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { BiSolidChevronDown } from "react-icons/bi";
+import { Switch } from "../../../../../../@/components/ui/switch";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { manageOptions } from "../../../constants";
 import { PortfolioV2Context } from "../../../context-manager";
 import { PortfolioDeleteTokens } from "../../../models";
-import { buttonHeaderStyle } from "../../../style";
-
-const supabase = createSupabaseDOClient();
 
 export const ManagePopup = () => {
   const {
@@ -46,8 +28,7 @@ export const ManagePopup = () => {
     setShowHiddenTokensPopup,
     isLoading,
   } = useContext(PortfolioV2Context);
-  const { address } = useAccount();
-  const { boxBg6, borders, boxBg1, text10, text80, hover } = useColors();
+  const supabase = createSupabaseDOClient();
 
   const handleSwitch = (name: string) => {
     pushData("Portfolio Settings Modified", {
@@ -87,191 +68,129 @@ export const ManagePopup = () => {
   }, [activePortfolio.id]);
 
   return (
-    <>
-      <Modal
-        motionPreset="none"
-        isOpen={showManage}
-        onClose={() => setShowManage(false)}
-      >
-        <ModalOverlay />
-        <ModalContent
-          bg={boxBg1}
-          borderRadius="16px"
-          border={borders}
-          p={["15px", "15px", "20px"]}
-          boxShadow="none"
-          w={["90vw", "100%"]}
-          maxW="400px"
+    <ModalContainer
+      extraCss="max-w-[400px]"
+      title="Manage"
+      isOpen={showManage}
+      onClose={() => setShowManage(false)}
+    >
+      <div className="flex items-center justify-between mt-2.5 hover:text-blue hover:dark:text-blue">
+        <SmallFont>Hidden assets</SmallFont>
+        <Button
+          extraCss={`${
+            Object.keys(hiddenTokens).length <= 0
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
+          disabled={Object.keys(hiddenTokens).length <= 0}
+          onClick={() => {
+            setShowHiddenTokensPopup(true);
+            setShowManage(false);
+          }}
         >
-          <ModalHeader p="0px" mb="5px">
-            <TextLandingMedium>Manage</TextLandingMedium>
-          </ModalHeader>
-          <ModalCloseButton color={text80} />
-          <ModalBody p="0px">
-            <Flex
-              align="center"
-              justify="space-between"
-              mt="10px"
-              _hover={{ color: "blue" }}
-            >
-              <TextSmall>Hidden assets</TextSmall>
+          Edit
+          {isLoading ? (
+            <Spinner extraCss="w-[16px] h-[16px] ml-[7.5px]" />
+          ) : null}
+        </Button>
+      </div>
+      {manageOptions
+        .filter((entry) =>
+          !entry.type && isWalletExplorer
+            ? entry.title !== "Wallets" && !entry.type
+            : entry && !entry.type
+        )
+        .map((option) => (
+          <div className="flex items-center justify-between mt-2.5">
+            <SmallFont>{option.title}</SmallFont>
+            {option.title === "Active Networks" ? (
               <Button
-                isDisabled={Object.keys(hiddenTokens).length <= 0}
-                sx={buttonHeaderStyle}
-                bg={boxBg6}
-                color={text80}
-                _hover={{ bg: hover }}
-                border={borders}
+                extraCss="mb-0 mt-0"
+                disabled
                 onClick={() => {
-                  setShowHiddenTokensPopup(true);
+                  setShowNetwork(true);
                   setShowManage(false);
                 }}
               >
-                Edit{" "}
-                {isLoading ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    boxSize="16px"
-                    ml="7.5px"
-                    emptyColor={text10}
-                    color="blue"
-                  />
-                ) : null}
+                <div className="flex items-center">
+                  {activeNetworks
+                    ?.filter((entry) => entry !== null)
+                    .map((blockchain, i) => {
+                      if (i < 6)
+                        return (
+                          <img
+                            className="w-[16px] h-[16px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-full"
+                            alt={`${blockchain} logo`}
+                            src={blockchainsContent[blockchain]?.logo}
+                          />
+                        );
+                      return null;
+                    })}
+                </div>
+                <BiSolidChevronDown className="ml-[5px] text-md text-light-font-100 dark:text-dark-font-100" />
               </Button>
-            </Flex>
-            {manageOptions
-              .filter((entry) =>
-                !entry.type && isWalletExplorer
-                  ? entry.title !== "Wallets" && !entry.type
-                  : entry && !entry.type
-              )
-              .map((option) => (
-                <Flex align="center" justify="space-between" mt="10px">
-                  <TextSmall>{option.title}</TextSmall>
-                  {option.title === "Active Networks" ? (
-                    <Button
-                      sx={buttonHeaderStyle}
-                      bg={boxBg6}
-                      color={text80}
-                      _hover={{ bg: hover }}
-                      border={borders}
-                      px="0px"
-                      mb="0px"
-                      isDisabled
-                      mt="0px"
-                      onClick={() => {
-                        setShowNetwork(true);
-                        setShowManage(false);
-                      }}
-                    >
-                      <AvatarGroup
-                        size="xs"
-                        fontSize="12px"
-                        max={6}
-                        spacing="-7.5px"
-                      >
-                        {activeNetworks
-                          ?.filter((entry) => entry !== null)
-                          .map((blockchain) => (
-                            <Avatar
-                              fontSize="12px"
-                              bg={boxBg6}
-                              name={`${blockchain} logo`}
-                              src={blockchainsContent[blockchain]?.logo}
-                            />
-                          ))}
-                      </AvatarGroup>
-                      <ChevronDownIcon
-                        ml="5px"
-                        fontSize="16px"
-                        color={text80}
-                      />
-                    </Button>
-                  ) : (
-                    <Button
-                      sx={buttonHeaderStyle}
-                      bg={boxBg6}
-                      color={text80}
-                      _hover={{ bg: hover }}
-                      border={borders}
-                      px="0px"
-                      mb="0px"
-                      mt="0px"
-                      onClick={() => {
-                        setShowWallet(true);
-                        setShowManage(false);
-                      }}
-                    >
-                      {activePortfolio?.wallets?.length} Wallets
-                    </Button>
-                  )}
-                </Flex>
-              ))}
-            <Flex align="center" justify="space-between" mt="10px">
-              <TextSmall>Show non-trade transactions</TextSmall>
-              <Switch
-                colorScheme="none"
-                borderRadius="full"
-                isChecked={manager.show_interaction}
-                onChange={() =>
-                  setManager({
-                    ...manager,
-                    show_interaction: !manager.show_interaction,
-                  })
-                }
-                size="sm"
-                bg={manager.show_interaction ? "blue" : "borders.1"}
-              />
-            </Flex>
-            {manageOptions
-              .filter((entry) =>
-                entry.type && isWalletExplorer
-                  ? entry.title !== "Privacy Mode" && entry.type
-                  : entry.type
-              )
-              .map((option, i) => {
-                if (i < 7)
-                  return (
-                    <Flex align="center" justify="space-between" mt="10px">
-                      <TextSmall>{option.title}</TextSmall>
-                      <Switch
-                        colorScheme="none"
-                        borderRadius="full"
-                        isChecked={manager[option.name]}
-                        onChange={() => handleSwitch(option.name)}
-                        size="sm"
-                        bg={manager[option.name] ? "blue" : "borders.1"}
-                      />
-                    </Flex>
-                  );
-                return null;
-              })}
-            <TextLandingMedium mt="10px" pt="10px" borderTop={borders}>
-              Asset Informations
-            </TextLandingMedium>
-            {manageOptions
-              .filter((entry) => entry.type)
-              .map((option, i) => {
-                if (i > 6)
-                  return (
-                    <Flex align="center" justify="space-between" mt="10px">
-                      <TextSmall>{option.title}</TextSmall>
-                      <Switch
-                        colorScheme="none"
-                        borderRadius="full"
-                        isChecked={manager[option.name]}
-                        onChange={() => handleSwitch(option.name)}
-                        size="sm"
-                        bg={manager[option.name] ? "blue" : "borders.1"}
-                      />
-                    </Flex>
-                  );
-                return null;
-              })}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+            ) : (
+              <Button
+                extraCss="my-0"
+                onClick={() => {
+                  setShowWallet(true);
+                  setShowManage(false);
+                }}
+              >
+                {activePortfolio?.wallets?.length} Wallets
+              </Button>
+            )}
+          </div>
+        ))}
+      <div className="flex items-center justify-between mt-2.5">
+        <SmallFont>Show non-trade transactions</SmallFont>
+        <Switch
+          checked={manager.show_interaction}
+          onClick={() =>
+            setManager({
+              ...manager,
+              show_interaction: !manager.show_interaction,
+            })
+          }
+        />
+      </div>
+      {manageOptions
+        .filter((entry) =>
+          entry.type && isWalletExplorer
+            ? entry.title !== "Privacy Mode" && entry.type
+            : entry.type
+        )
+        .map((option, i) => {
+          if (i < 7)
+            return (
+              <div className="flex items-center justify-between mt-2.5">
+                <SmallFont>{option.title}</SmallFont>
+                <Switch
+                  checked={manager[option.name]}
+                  onClick={() => handleSwitch(option.name)}
+                />
+              </div>
+            );
+          return null;
+        })}
+      <LargeFont extraCss="mt-2.5 pt-2.5 border-t border-light-border-primary dark:border-dark-border-primary">
+        Asset Informations
+      </LargeFont>
+      {manageOptions
+        .filter((entry) => entry.type)
+        .map((option, i) => {
+          if (i > 6)
+            return (
+              <div className="flex items-center justify-between mt-2.5">
+                <SmallFont>{option.title}</SmallFont>
+                <Switch
+                  checked={manager[option.name]}
+                  onClick={() => handleSwitch(option.name)}
+                />
+              </div>
+            );
+          return null;
+        })}
+    </ModalContainer>
   );
 };
