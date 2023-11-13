@@ -1,10 +1,12 @@
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { Button, Flex, Input } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
 import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { TextSmall } from "../../../../../../components/fonts";
+import { Button } from "../../../../../../components/button";
+import { SmallFont } from "../../../../../../components/fonts";
+import { Input } from "../../../../../../components/input";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -51,54 +53,35 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
   };
 
   return (
-    <Flex direction="column" borderBottom={borders}>
-      <Flex align="center" justify="space-between" my="10px">
-        <TextSmall>Rename</TextSmall>
-        <Button onClick={() => setShow(false)}>
-          <CloseIcon fontSize="10px" mr="13px" color={text80} />
-        </Button>
-      </Flex>
-      <Flex mt="0px" mb="15px">
+    <div className="flex flex-col border-b border-light-border-primary dark:border-dark-border-primary">
+      <div className="flex items-center justify-between my-2.5">
+        <SmallFont>Rename</SmallFont>
+        <button onClick={() => setShow(false)}>
+          <AiOutlineClose className="text-xs mr-[13px] text-light-font-100 dark:text-dark-font-100" />
+        </button>
+      </div>
+      <div className="flex items-center mt-0 mb-[15px]">
         <Input
-          px="10px"
-          onChange={(e) => {
-            setNewName(e.target.value);
-          }}
+          extraCss="w-full"
           placeholder="Name"
           value={newName}
-          h="35px"
-          borderRadius="8px"
-          bg={boxBg6}
-          w="100%"
-          color={text80}
-          fontWeight="400"
-          _placeholder={{ color: text80 }}
-          border={borders}
+          onChange={(e) => setNewName(e.target.value)}
         />
-
         <Button
-          variant="outlined"
-          minW="35px"
-          bg={boxBg6}
-          color={text80}
-          _hover={{ bg: hover, color: "green" }}
-          border={borders}
-          boxSize="35px"
-          w="fit-content"
-          ml="10px"
-          borderRadius="8px"
+          extraCss="min-w-[35px] w-[35px] h-[35px] ml-2.5"
           onClick={() => {
             signerGuard(() => {
               if (newName !== "") {
                 renamePortfolio();
                 setShow(false);
-              } else alert.show("Name cannot be empty");
+              }
+              // else alert.show("Name cannot be empty");
             });
           }}
         >
-          <CheckIcon fontSize="12px" />
+          <BsCheckLg className="text-xs text-light-font-100 dark:text-dark-font-100" />
         </Button>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

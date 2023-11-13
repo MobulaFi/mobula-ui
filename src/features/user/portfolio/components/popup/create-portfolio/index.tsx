@@ -136,7 +136,11 @@ export const CreatePortfolio = () => {
         </div>
       </div>
       <div className="flex mb-2.5">
-        <Input extraCss="w-full" ref={inputRef} placeholder="0x" />
+        <Input
+          extraCss="w-full border border-light-border-primary dark:border-dark-border-primary"
+          ref={inputRef}
+          placeholder="0x"
+        />
         <Button
           extraCss="ml-2.5"
           onClick={() => {
