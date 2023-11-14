@@ -1,11 +1,11 @@
-import {Flex, Image, useColorMode} from "@chakra-ui/react";
-import {useContext} from "react";
-import {TextLandingSmall} from "../../../../../../UI/Text";
+import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
-import {useMultiWalletNftHoldings} from "../../../../../../common/hooks/holdings";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {PortfolioV2Context} from "../../../context-manager";
-import {NftPortfolioCard} from "./card";
+import React from "react";
+import { MediumFont } from "../../../../../../components/fonts";
+import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
+import useDarkMode from "../../../../../../hooks/useDarkMode";
+import { PortfolioV2Context } from "../../../context-manager";
+import { NftPortfolioCard } from "./card";
 
 export const blacklistedNft: Record<string, true> = {
   "0xdc2d620faa02c6fca6abc37148faf8c3d085cf94": true,
@@ -55,66 +55,53 @@ export const blacklistedUri: Record<string, true> = {
   "https://daidrop.com": true,
 };
 export const NFTs = () => {
-  const {activePortfolio, isWalletExplorer, isNftLoading, showDeleteSelector} =
-    useContext(PortfolioV2Context);
-
+  const {
+    activePortfolio,
+    isWalletExplorer,
+    isNftLoading,
+    showDeleteSelector,
+  } = useContext(PortfolioV2Context);
+  const { nfts } = useContext(PortfolioV2Context);
+  const [colorTheme] = useDarkMode();
+  const isWhiteMode = colorTheme === "light";
   useMultiWalletNftHoldings(
-    isWalletExplorer ? [isWalletExplorer] : activePortfolio?.wallets,
+    isWalletExplorer ? [isWalletExplorer] : activePortfolio?.wallets
   );
 
-  const {nfts} = useContext(PortfolioV2Context);
-  const {boxBg1, borders, text40} = useColors();
-  const {colorMode} = useColorMode();
-  const isWhiteMode = colorMode === "light";
-
   return (
-    <Flex direction="column">
+    <div className="flex flex-col">
       {(nfts?.length > 0 && !isNftLoading) || isNftLoading ? (
-        <Flex wrap="wrap">
-          {(nfts || Array.from({length: 3})).map((nft, i) => (
+        <div className="flex flex-wrap">
+          {(nfts || Array.from({ length: 3 })).map((nft, i) => (
             <NftPortfolioCard
               key={nft?.token_hash || i}
               nft={nft}
               showDeleteSelector={showDeleteSelector}
             />
           ))}
-        </Flex>
+        </div>
       ) : null}
       {!isNftLoading && !nfts?.length ? (
-        <Flex
-          h="300px"
-          w="100%"
-          bg={boxBg1}
-          borderRadius="8px"
-          align="center"
-          justify="center"
-          border={borders}
-          direction="column"
+        <div
+          className="flex h-[300px] w-full bg-light-bg-secondary dark:bg-dark-bg-secondary rounded border
+         border-light-border-primary dark:border-dark-border-primary items-center justify-center flex-col"
         >
-          <Image
+          <img
             src={
               isWhiteMode
                 ? "/asset/empty-bracket-light.png"
                 : "/asset/empty-bracket.png"
             }
-            h="100px"
-            mb="-20px"
-            mt="25px"
+            alt="empty bracket"
+            className="h-[100px] -mb-5 mt-[25px]"
           />
-          <Flex
-            maxW="80%"
-            direction="column"
-            mt="40px"
-            align="center"
-            justify="center"
-            mb="20px"
-          >
-            <TextLandingSmall mb="5px" textAlign="center" color={text40}>
+          <div className="flex flex-col items-center justify-center mb-5 mt-[40px] max-w-[80%]">
+            <MediumFont className="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40">
               No NFTs found{" "}
-            </TextLandingSmall>
-          </Flex>
-        </Flex>
+            </MediumFont>
+          </div>
+        </div>
       ) : null}
-    </Flex>
+    </div>
   );
 };

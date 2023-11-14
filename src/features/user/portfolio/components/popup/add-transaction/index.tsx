@@ -5,6 +5,7 @@ import { Collapse } from "@chakra-ui/react";
 import { Button } from "components/button";
 import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
+import React from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import Calendar from "react-widgets/Calendar";
@@ -369,16 +370,16 @@ export const AddTransactionPopup = () => {
         <div
           className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
                cursor-pointer max-w-full justify-between"
+          onClick={() => setShowCalendar((prev) => !prev)}
         >
           <input
             className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
-            onClick={() => setShowCalendar((prev) => !prev)}
             value={getDate(date)}
           />
           <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
           {showCalendar ? (
             <Calendar
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary absolute left-0 top-[110%] w-[345px] md:w-[300px]"
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary absolute left-0 top-[110%] w-[345px] md:w-[300px] z-[100]"
               onMouseLeave={() => setShowCalendar((prev) => !prev)}
               onChange={(pickedDate) => {
                 const finalDate =

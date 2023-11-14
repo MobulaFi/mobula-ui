@@ -1,57 +1,54 @@
-import {ChevronRightIcon} from "@chakra-ui/icons";
-import {Flex} from "@chakra-ui/react";
-import {getFormattedAmount} from "../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {PublicTransaction, TransactionAsset} from "./model";
+import React from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { SmallFont } from "../../../../../../components/fonts";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
+import { PublicTransaction, TransactionAsset } from "./model";
 
-const CoreComponent = ({
-  amount,
-  symbol,
-  amount_usd,
-}: {
-  amount: number;
-  amount_usd: number;
-  symbol: string;
-}) => {
-  const {text40, text80} = useColors();
+interface CoreComponentProps {
+  amount: number | undefined;
+  amount_usd: number | undefined;
+  symbol: string | undefined;
+}
 
+interface TransactionsAmountProps {
+  transaction: PublicTransaction;
+  tokens: TransactionAsset[];
+}
+
+const CoreComponent = ({ amount, symbol, amount_usd }: CoreComponentProps) => {
   return (
-    <Flex direction="column">
-      <TextSmall color={text80}>{`${getFormattedAmount(
-        amount,
-      )} ${symbol}`}</TextSmall>
-      <TextSmall color={text40}>
+    <div className="flex flex-col">
+      <SmallFont extraCss="whitespace-nowrap font-medium">{`${getFormattedAmount(
+        amount
+      )} ${symbol}`}</SmallFont>
+      <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
         {amount_usd ? `$${getFormattedAmount(amount_usd)} ` : "--"}
-      </TextSmall>
-    </Flex>
+      </SmallFont>
+    </div>
   );
 };
 
 export const TransactionAmount = ({
   transaction,
   tokens,
-}: {
-  transaction: PublicTransaction;
-  tokens: TransactionAsset[];
-}) => {
+}: TransactionsAmountProps) => {
   if (transaction.type === "swap") {
-    const tokenIn = tokens.find(token => token.id === transaction.in.id);
-    const tokenOut = tokens.find(token => token.id === transaction.out.id);
+    const tokenIn = tokens.find((token) => token.id === transaction?.in?.id);
+    const tokenOut = tokens.find((token) => token.id === transaction?.out?.id);
     return (
-      <Flex align="center" maxW="120px">
+      <div className="flex items-center max-w-[120px]">
         <CoreComponent
-          amount={transaction.out.amount}
+          amount={transaction?.out?.amount}
           symbol={tokenOut?.symbol}
-          amount_usd={transaction.out.amount_usd}
+          amount_usd={transaction?.out?.amount_usd}
         />
-        <ChevronRightIcon mx={["0px", "10px"]} />
+        <BsChevronDown className="mx-2.5 sm:mx-0 rotate-90 text-light-font-100 dark:text-dark-font-100" />
         <CoreComponent
-          amount={transaction.in.amount}
+          amount={transaction?.in?.amount}
           symbol={tokenIn?.symbol}
-          amount_usd={transaction.in.amount_usd}
+          amount_usd={transaction?.in?.amount_usd}
         />
-      </Flex>
+      </div>
     );
   }
 

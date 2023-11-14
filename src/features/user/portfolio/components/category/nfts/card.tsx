@@ -1,150 +1,88 @@
-import {CheckIcon} from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Skeleton,
-  useColorMode,
-} from "@chakra-ui/react";
-import {useContext, useEffect, useState} from "react";
-import {getUrlFromName} from "../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../UI/Text";
-import {HoldingNFT} from "../../../../../../common/model/holdings";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {PortfolioV2Context} from "../../../context-manager";
+import React, { useContext, useEffect, useState } from "react";
+import { BsCheck } from "react-icons/bs";
+import { SmallFont } from "../../../../../../components/fonts";
+import { Skeleton } from "../../../../../../components/skeleton";
+import { HoldingNFT } from "../../../../../../interfaces/holdings";
+import { getUrlFromName } from "../../../../../../utils/formaters";
+import { PortfolioV2Context } from "../../../context-manager";
+
+interface NftPortfolioCardProps {
+  showDeleteSelector: boolean;
+  nft: HoldingNFT;
+}
 
 export const NftPortfolioCard = ({
   nft,
   showDeleteSelector,
-}: {
-  showDeleteSelector: boolean;
-  nft: HoldingNFT;
-}) => {
-  const {setNftToDelete, nftToDelete, isNftLoading} =
+}: NftPortfolioCardProps) => {
+  const { setNftToDelete, nftToDelete, isNftLoading } =
     useContext(PortfolioV2Context);
   const [nftImage, setNftImage] = useState<string | undefined>(undefined);
   const [isHover, setIsHover] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
-  const {colorMode} = useColorMode();
-  const {boxBg6, hover, borders, bordersActive, text80, bgMain, text60} =
-    useColors();
-  console.log(showDeleteSelector);
 
   useEffect(() => {
     if (!nft?.image && !isNftLoading) {
       fetch(nft.token_uri)
-        .then(r => r.json())
-        .then((r: {image: string}) => {
+        .then((r) => r.json())
+        .then((r: { image: string }) => {
           setNftImage(r.image);
         });
     }
   }, [nft]);
-
-  const sx = !error
-    ? {
-        w: ["160px", "160px", "210px", "210px"],
-        h: ["160px", "160px", "210px", "210px"],
-      }
-    : {};
 
   const openInNewTab = (url: string) => {
     const win = window.open(url, "_blank");
     win?.focus();
   };
 
-  //   if (!nft?.name) return null;
   return (
-    <Flex
-      direction="column"
-      // css="width:calc(20% - 10px)"
-      m="5px"
-      borderRadius="8px"
-      bg={boxBg6}
-      position="relative"
-      minW={["160px", "100px", "210px", "210px"]}
-      minH={["160px", "100px", "210px", "210px"]}
-      w={[
-        "calc(50% - 10px)",
-        "calc(33% - 10px)",
-        "calc(33% -8px)",
-        "calc(20% - 10px)",
-      ]}
-      border={borders}
+    <div
+      className="flex flex-col m-[5px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
+    min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px] sm:min-h-[160px] 
+    border border-light-border-primary dark:border-dark-border-primary w-calc-1/5-10 lg:w-calc-1/3-8 md:w-calc-1/3-10 sm:w-calc-half-10"
       onMouseEnter={() => setIsHover(nft?.token_hash)}
       onMouseLeave={() => setIsHover("")}
     >
-      <Box
-        w="100%"
-        h="auto"
-        mb="auto"
-        display="flex"
-        alignItems="center"
-        bg={boxBg6}
-      >
+      <div className="w-full h-auto mb-auto flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary">
         {isNftLoading ? (
-          <Skeleton
-            h="210px"
-            borderRadius="8px 8px 0 0"
-            w="100%"
-            startColor={bgMain}
-            endColor={hover}
-          />
+          <Skeleton extraCss="h-[210px] w-full rounded-t" />
         ) : (
           <>
             {(nft?.image || nftImage)?.includes(".mp4") ? (
-              <Box
-                as="video"
+              <video
+                className="w-full rounded-t"
                 src={nft?.image || nftImage}
-                borderRadius="8px 8px 0 0"
-                w="100%"
                 autoPlay
                 muted
               />
             ) : (
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                position="relative"
-                w="100%"
-              >
-                <Image
+              <div className="flex flex-col items-center justify-center relative w-full">
+                <img
+                  className="rounde-t w-full p-0 h-auto max-h-[210px] bg-light-bg-hover dark:bg-dark-bg-hover"
                   src={nft?.image || nftImage}
-                  fallbackSrc={
-                    error
-                      ? colorMode === "light"
-                        ? "/asset/no-image.png"
-                        : "/asset/no-image-dark.png"
-                      : colorMode === "light"
-                      ? "/asset/load.png"
-                      : "asset/load-dark.png"
-                  }
-                  borderRadius="8px 8px 0 0"
-                  w="100%"
-                  p="0px"
-                  h="auto"
-                  maxH="210px"
-                  bg={hover}
-                  onError={() => {
-                    setError(true);
-                  }}
+                  // error
+                  //     ? colorTheme === "light"
+                  //       ? "/asset/no-image.png"
+                  //       : "/asset/no-image-dark.png"
+                  //     : colorTheme === "light"
+                  //     ? "/asset/load.png"
+                  //     : "asset/load-dark.png"
                 />
-              </Flex>
+              </div>
             )}
           </>
         )}
-      </Box>
-      <Flex p="10px" direction="column" justify="center" h="auto">
+      </div>
+      <div className="flex p-2.5 flex-col justify-center h-auto">
         {isNftLoading ? (
-          <Skeleton h="20px" w="90px" startColor={bgMain} endColor={hover} />
+          <Skeleton extraCss="h-[20px] w-[90px]" />
         ) : (
-          <TextSmall whiteSpace="pre-wrap" fontWeight="500">
+          <SmallFont extraCss="whitespace-pre-wrap font-medium">
             {nft.name} {showDeleteSelector}
-            <Box as="span" ml="5px" color={text60}>
+            <span className="ml-[5px] text-light-font-60 dark:text-dark-font-60">
               {String(nft?.token_id).length < 10 ? `#${nft?.token_id}` : ""}
-            </Box>
-          </TextSmall>
+            </span>
+          </SmallFont>
         )}
         {/* <TextExtraSmall color={text60}>Est. Value</TextExtraSmall>
           <Flex align="center">
@@ -153,77 +91,56 @@ export const NftPortfolioCard = ({
             </TextMedium>
             <TextSmall color="red">-52%</TextSmall>
           </Flex> */}
-      </Flex>
-      <Flex
-        position="absolute"
-        w="100%"
-        h="100%"
-        maxH="250px"
-        bg={bgMain}
-        borderRadius="8px"
-        transition="all 250ms ease-in-out"
-        minW={["160px", "100px", "210px", "210px"]}
-        minH={["160px", "100px", "210px", "210px"]}
-        opacity={showDeleteSelector || isHover ? "0.8" : "0"}
-        cursor={isHover && !showDeleteSelector ? "pointer" : "default"}
+      </div>
+      <div
+        className={`flex absolute w-full h-full max-h-[250px] bg-light-bg-primary dark:bg-dark-bg-primary rounded
+       transition-all duration-250 min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px]
+        sm:min-h-[160px] ${
+          showDeleteSelector || isHover ? "opacity-80" : "opacity-0"
+        } ${
+          isHover && !showDeleteSelector ? "cursor-pointer" : "cursor-default"
+        }`}
       />
-
       {showDeleteSelector ? (
-        <Button
+        <button
+          className="flex items-center justify-center rounded w-[20px] h-[20px] min-w-[20px] left-[10px] 
+        top-[10px] absolute border border-light-border-secondary dark:border-dark-border-secondary"
           onClick={() => {
             if (nftToDelete?.includes(nft?.token_hash))
               setNftToDelete(
-                nftToDelete.filter(nftHash => nftHash !== nft.token_hash),
+                nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
               );
             else setNftToDelete([...nftToDelete, nft.token_hash]);
           }}
-          boxSize="20px"
-          borderRadius="8px"
-          border={bordersActive}
-          left="10px"
-          position="absolute"
-          top="10px"
         >
           {nftToDelete?.includes(nft?.token_hash) ? (
-            <CheckIcon color={text80} mt="2px" fontSize="10px" />
+            <BsCheck className="text-light-font-100 dark:text-dark-font-100 mt-0.5 text-xs" />
           ) : null}
-        </Button>
+        </button>
       ) : null}
       {isHover === nft?.token_hash && !showDeleteSelector ? (
-        <Button
-          right="50%"
-          top="45%"
-          position="absolute"
-          transform="translate(50%,-50%)"
-          w="80%"
-          h="100%"
-          transition="all 250ms ease-in-out"
-          opacity={isHover === nft.token_hash ? "1" : "0"}
+        <button
+          className={`flex items-center justify-center right-1/2 top-[45%] absolute -translate-x-1/2 translate-y-1/2 w-[80%] h-full transition-all duration-250 ${
+            isHover === nft.token_hash ? "opacity-100" : "opacity-0"
+          }`}
           onClick={() => {
             openInNewTab(
-              `https://opensea.io/collection/${getUrlFromName(nft?.name)}`,
+              `https://opensea.io/collection/${getUrlFromName(nft?.name)}`
             );
           }}
         >
-          <Flex direction="column" align="center" justify="center">
-            <TextSmall
-              mb="10px"
-              fontWeight="600"
-              textAlign="center"
-              whiteSpace="pre-wrap"
-            >
+          <div className="flex flex-col items-center justify-center">
+            <SmallFont className="mb-2.5 font-bold text-center whitespace-pre-wrap">
               Watch on Opensea
-            </TextSmall>
-            <Image
+            </SmallFont>
+            <img
+              className="w-[35px] h-[35px] rounded-full shadow-md border border-light-border-secondary dark:border-dark-border-secondary"
               src="https://opensea.io/static/images/logos/opensea-logo.svg"
-              boxSize="35px"
-              border={bordersActive}
-              borderRadius="full"
-              boxShadow="1px 2px 13px 4px rgba(0,0,0,0.1)"
+              alt="Opensea logo"
             />
-          </Flex>
-        </Button>
+          </div>
+        </button>
       ) : null}
-    </Flex>
+    </div>
   );
 };

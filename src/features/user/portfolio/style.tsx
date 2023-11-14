@@ -31,12 +31,5 @@ export const buttonSquareStyle =
 export const buttonPopupStyle =
   "text-medium max-w-[95px] w-full h-[30px] mr-2.5 rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100";
 
-export const buttonDeleteNft = {
-  mr: "auto",
-  transition: "all 250ms ease-in-out",
-  fontWeight: "400",
-  fontSize: ["12px", "12px", "13px", "13px"],
-  h: "28px",
-  borderRadius: "8px",
-  px: "10px",
-};
+export const buttonDeleteNft =
+  "flex items-center mr-auto transition-all duration-250 font-medium text-sm lg:text-[13px] md:text-xs h-[28px] rounded-md px-2.5";

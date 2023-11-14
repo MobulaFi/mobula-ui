@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TransactionReceipt } from "viem";
 // import {
 //   blacklistedName,
@@ -7,6 +7,7 @@ import { TransactionReceipt } from "viem";
 // } from "../../Pages/User/Portfolio/components/category/nfts";
 // import { PortfolioV2Context } from "../../Pages/User/Portfolio/context-manager";
 import { getIPFSUrl } from "../constants";
+import { PortfolioV2Context } from "../features/user/portfolio/context-manager";
 import {
   HoldingNFT,
   HoldingsNftResponse,
@@ -122,11 +123,7 @@ export const useNftHoldings = (address?: string) => {
 };
 
 export const useMultiWalletNftHoldings = (addresses?: string[]) => {
-  const { nfts, setNfts, setIsNftLoading } = {
-    nfts: [],
-    setNfts: () => {},
-    setIsNftLoading: () => {},
-  };
+  const { nfts, setNfts, setIsNftLoading } = useContext(PortfolioV2Context);
   //   useContext(PortfolioV2Context);
 
   useEffect(() => {

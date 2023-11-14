@@ -45,19 +45,6 @@ export const Cryptocurrencies = () => {
   return (
     <>
       <table className="relative pb-[100px] overflow-x-scroll md:pb-5">
-        {isNormalBalance && numberOfAsset ? (
-          <caption className="bg-light-bg-terciary dark:bg-dark-bg-terciary mt-0 text-start rounded-b-lg pl-0">
-            <button
-              className="font-medium text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs 
-              h-full pl-5 sticky top-0 left-[-1px] mb-0.5"
-              onClick={() => setShowMore(!showMore)}
-            >
-              {showMore
-                ? "Hide low balances "
-                : `Show low balances  (${numberOfAsset} assets) `}
-            </button>
-          </caption>
-        ) : null}
         <thead className="rounded-t-lg">
           <tr>
             {isMobile && (
@@ -122,6 +109,19 @@ export const Cryptocurrencies = () => {
               <TbodySkeleton key={i as Key} />
             ))}
           </tbody>
+        ) : null}
+        {isNormalBalance && numberOfAsset ? (
+          <caption className="bg-light-bg-terciary dark:bg-dark-bg-terciary mt-0 text-start rounded-b-lg pl-0">
+            <button
+              className="font-medium text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs 
+              h-full pl-5 sticky top-0 left-[-1px]"
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore
+                ? "Hide low balances "
+                : `Show low balances  (${numberOfAsset} assets) `}
+            </button>
+          </caption>
         ) : null}
       </table>
 

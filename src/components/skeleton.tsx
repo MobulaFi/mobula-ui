@@ -9,7 +9,7 @@ export const Skeleton = ({ extraCss }: SkeletonProps) => {
   return (
     <div
       className={cn(
-        "animate-skeleton bg-gradient-to-r from-[#F5F5F5] via-[#E3E3E3] to-[#F5F5F5] dark:from-[#222531] dark:via-[#282B37] dark:to-[#222531] bg-[length:200%_100%]",
+        "animate-skeleton bg-gradient-to-r from-[#F5F5F5] via-[#E3E3E3] to-[#F5F5F5] dark:from-[#222531] dark:via-[#282B37] dark:to-[#222531] bg-[length:200%_100%] rounded",
         extraCss
       )}
       style={{

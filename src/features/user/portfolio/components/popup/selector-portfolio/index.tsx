@@ -1,7 +1,6 @@
 import { Collapse } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
-import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -86,7 +85,6 @@ export const SelectorPortfolioPopup = () => {
     >
       <div className="mb-[15px]">
         {userPortfolio?.map((otherPortfolio, index) => {
-          console.log(wallet);
           const isActive = activePortfolio?.id === otherPortfolio.id;
           const totalBalance = isActive
             ? wallet?.estimated_balance || 0
@@ -112,7 +110,7 @@ export const SelectorPortfolioPopup = () => {
             })
             .slice(0, 10);
           return (
-            <div className="flex flex-col">
+            <div className="flex flex-col" key={otherPortfolio.id}>
               <div
                 className={`flex items-center justify-between mt-2.5 transition-all duration-250 py-2.5 rounded-lg flex-col cursor-pointer ${
                   isActive || isHover === index
