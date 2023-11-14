@@ -49,43 +49,43 @@ export const Cryptocurrencies = () => {
           <tr>
             {isMobile && (
               <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-start`}
               />
             )}
             <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary sticky top-0 left-[-1px] `}
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary sticky top-0 left-[-1px] text-start `}
               // bgColor={bg}
             >
               Asset
             </th>
             <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
             >
               Holdings
             </th>
             <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
             >
               Price
             </th>
             <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
             >
               24h Profit
             </th>
             <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
             >
               Realized PNL
             </th>
             <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
             >
               Unrealized PNL
             </th>
             {!isMobile && (
               <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
               >
                 Actions
               </th>

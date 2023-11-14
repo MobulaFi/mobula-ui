@@ -1,4 +1,5 @@
-import { Flex, Skeleton, Td, Tr } from "@chakra-ui/react";
+import React from "react";
+import { Skeleton } from "../../../../../../components/skeleton";
 import { tdStyle } from "../../../style";
 
 interface TbodySkeletonProps {
@@ -42,12 +43,7 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       <td
         className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
       >
-        <div
-          className="flex flex-col items-end w-full"
-          direction="column"
-          align="flex-end"
-          w="100%"
-        >
+        <div className="flex flex-col items-end w-full">
           <Skeleton
             extraCss={`h-[12px] mb-[5px] rounded ml-[7.5px] ${
               isActivity ? "w-[100px]" : "w-[65px]"
@@ -68,12 +64,7 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
             <Skeleton extraCss="h-[15px] mb-[5px] rounded ml-[7.5px] w-[60px]" />
           </div>
         ) : (
-          <div
-            className="flex flex-col items-end w-full"
-            direction="column"
-            align="flex-end"
-            w="100%"
-          >
+          <div className="flex flex-col items-end w-full">
             <Skeleton extraCss="h-[12px] mb-[5px] rounded ml-[7.5px] w-[65px]" />
             <Skeleton extraCss="h-[15px] mb-[5px] rounded ml-[7.5px] w-[40px]" />
           </div>
@@ -93,7 +84,7 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       <td
         className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
       >
-        <div className="w-full justify-end">
+        <div className="flex w-full justify-end">
           <Skeleton
             extraCss={`h-[15px] mb-[5px] rounded ${
               isActivity ? "w-[90px]" : "w-[50px]"
@@ -110,7 +101,7 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
             <Skeleton extraCss="h-[15px] mb-[5px] rounded w-[50px]" />
           </div>
         ) : (
-          <div className="flex items-end">
+          <div className="flex items-end justify-end">
             <Skeleton extraCss="h-[15px] mb-[5px] ml-auto rounded w-[50px]" />
           </div>
         )}

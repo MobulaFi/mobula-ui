@@ -1,16 +1,17 @@
-import {Flex} from "@chakra-ui/react";
+import React from "react";
+import { cn } from "../../../../../../@/lib/utils";
 
-export const Privacy = ({...props}: {[key: string]: any}) => (
-  <Flex
-    borderRadius="8px"
-    color="text.80"
-    fontSize={["12px", "12px", "13px", "14px"]}
-    fontWeight="400"
-    transition="all 250ms ease-in-out"
-    align="center"
-    justify="flex-start"
-    {...props}
+interface PrivacyProps {
+  extraCss?: string;
+}
+
+export const Privacy = ({ extraCss }: PrivacyProps) => (
+  <div
+    className={cn(
+      "rounded flex text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium transition-all duration-250 items-center justify-start",
+      extraCss
+    )}
   >
     ****
-  </Flex>
+  </div>
 );

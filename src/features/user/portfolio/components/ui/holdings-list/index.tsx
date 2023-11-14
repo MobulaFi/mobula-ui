@@ -1,6 +1,13 @@
-import {Flex, Circle} from "@chakra-ui/react";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
+import React from "react";
+import { SmallFont } from "../../../../../../components/fonts";
+
+interface HoldingsListProps {
+  isOdds: boolean;
+  background: string;
+  keys: string;
+  value: string;
+  size: string;
+}
 
 export const HoldingsList = ({
   isOdds,
@@ -8,27 +15,23 @@ export const HoldingsList = ({
   keys,
   value,
   size,
-}: {
-  isOdds: boolean;
-  background: string;
-  keys: string;
-  value: string;
-  size: string;
-}) => {
-  const {text40} = useColors();
+}: HoldingsListProps) => {
   return (
-    <Flex
-      w={size}
-      mr={isOdds ? "15px" : "0px"}
-      borderRadius="2px"
-      align="center"
-      mt="5px"
+    <div
+      className={`${
+        isOdds ? "mr-[15px]" : "mr-0"
+      } rounded-sm items-center flex mt-[5px] ${size}`}
     >
-      <Circle size="10px" bg={background} mr="7.5px" />
-      <Flex align="center">
-        <TextSmall color={text40}> {keys}:</TextSmall>
-        <TextSmall ml="7.5px">{value}</TextSmall>
-      </Flex>
-    </Flex>
+      <div
+        className={`flex w-[10px] h-[10px] min-w-[10px] mr-[7.5px] ${background}`}
+      />
+      <div className="flex items-center">
+        <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+          {" "}
+          {keys}:
+        </SmallFont>
+        <SmallFont extraCss="ml-[7.5px]">{value}</SmallFont>
+      </div>
+    </div>
   );
 };

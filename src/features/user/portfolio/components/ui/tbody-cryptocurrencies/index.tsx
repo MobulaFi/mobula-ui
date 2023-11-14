@@ -1,13 +1,3 @@
-import {
-  Button,
-  Flex,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useColorMode,
-} from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
@@ -17,6 +7,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { SmallFont, TextSmall } from "../../../../../../components/fonts";
+import { Menu } from "../../../../../../components/menu";
 import {
   PopupStateContext,
   PopupUpdateContext,
@@ -42,8 +33,13 @@ interface TbodyCryptocurrenciesProps {
   asset: UserHoldingsAsset;
 }
 
-const LinkTd = ({ children, asset, extraCss, ...props }) => {
-  const router = useRouter();
+interface LinkTdProps {
+  children: React.ReactNode;
+  asset: UserHoldingsAsset;
+  extraCss?: string;
+}
+
+const LinkTd = ({ children, asset, extraCss }: LinkTdProps) => {
   const pathname = usePathname();
   const basePath = pathname?.split("?")[0];
 
@@ -87,8 +83,6 @@ export const TbodyCryptocurrencies = ({
   const [changeColor, setChangeColor] = useState(
     "text-light-font-100 dark:text-dark-font-100"
   );
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === "dark";
 
   const {
     setShowAddedToWatchlist,
@@ -257,14 +251,14 @@ export const TbodyCryptocurrencies = ({
       >
         <div className="flex flex-col items-end w-full">
           {manager.privacy_mode ? (
-            <Privacy />
+            <Privacy extraCss="justify-end" />
           ) : (
             <TextSmall fontWeight="500" textAlign="end" color={changeColor}>
               ${getFormattedAmount(asset.estimated_balance)}
             </TextSmall>
           )}
           {manager.privacy_mode ? (
-            <Privacy />
+            <Privacy extraCss="justify-end" />
           ) : (
             <SmallFont extraCss="font-medium text-light-font-40 dark:text-dark-font-40 text-end">
               {`${getFormattedAmount(asset.token_balance)} ${asset.symbol}`}
@@ -296,7 +290,7 @@ export const TbodyCryptocurrencies = ({
         extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
       >
         {manager.privacy_mode ? (
-          <Privacy justify="flex-end" />
+          <Privacy extraCss="justify-end" />
         ) : (
           <SmallFont
             extraCss={`font-medium text-end ${
@@ -319,7 +313,7 @@ export const TbodyCryptocurrencies = ({
         extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
       >
         {manager.privacy_mode ? (
-          <Privacy justify="flex-end" />
+          <Privacy extraCss="justify-end" />
         ) : (
           <SmallFont
             extraCss={`font-medium text-end ${
@@ -337,7 +331,7 @@ export const TbodyCryptocurrencies = ({
         extraCss="border-b border-light-border-primary dark:border-dark-border-primary"
       >
         {manager.privacy_mode ? (
-          <Privacy justify="flex-end" />
+          <Privacy extraCss="justify-end" />
         ) : (
           <SmallFont
             extraCss={`font-medium text-end ${
@@ -358,19 +352,13 @@ export const TbodyCryptocurrencies = ({
             <button onClick={() => setShowBuyDrawer(asset as any)}>
               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
             </button>
-            <Menu offset={[-0, 10]}>
-              <MenuButton ml="10px" as={Button}>
-                <Icon as={BsThreeDotsVertical} color={text80} />
-              </MenuButton>
-              <MenuList
-                bg={boxBg1}
-                border={borders}
-                borderRadius="8px"
-                color={text80}
-                boxShadow="1px 2px 13px 3px rgba(0,0,0,0.1)"
-                fontSize={["12px", "12px", "13px", "14px"]}
-                onMouseEnter={() => setIsHover(0)}
-                onMouseLeave={() => setIsHover(null)}
+            <Menu
+              titleCss="ml-2.5"
+              title={
+                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
+              }
+            >
+              <div
                 onClick={() => {
                   pushData("Asset Removed");
                   const newPortfolio = {
@@ -384,7 +372,7 @@ export const TbodyCryptocurrencies = ({
                   refreshPortfolio(newPortfolio);
 
                   GET("/portfolio/edit", {
-                    account: address,
+                    account: address as string,
                     removed_assets: [
                       ...activePortfolio.removed_assets,
                       asset.id,
@@ -399,63 +387,71 @@ export const TbodyCryptocurrencies = ({
                   });
                 }}
               >
-                <MenuItem
-                  bg={boxBg1}
-                  fontSize={["12px", "12px", "13px", "14px"]}
+                <div
+                  className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
                   onMouseEnter={() => setIsHover(0)}
                   onMouseLeave={() => setIsHover(null)}
-                  onClick={() => {
-                    setTokenTsx(asset);
-                  }}
+                  onClick={() => setTokenTsx(asset)}
                 >
-                  <Flex
-                    {...flexGreyBoxStyle}
-                    bg={isHover === 0 ? "blue" : hover}
+                  <div
+                    className={`${flexGreyBoxStyle} ${
+                      isHover === 0
+                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                    }`}
                   >
-                    <Icon as={BiHide} color={text80} />
-                  </Flex>
+                    <BiHide />
+                  </div>
                   Hide asset
-                </MenuItem>
-                <MenuItem
-                  bg={boxBg1}
+                </div>
+                <div
+                  className={`flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs whitespace-nowrap ${
+                    manager.privacy_mode
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  } mb-2.5`}
                   onMouseEnter={() => setIsHover(1)}
                   onMouseLeave={() => setIsHover(null)}
-                  isDisabled={manager.privacy_mode}
-                  fontSize={["12px", "12px", "13px", "14px"]}
                   onClick={() => {
+                    if (manager.privacy_mode) return;
                     router.push(
                       `${pathname?.split("?")[0]}/${getUrlFromName(asset.name)}`
                     );
                   }}
                 >
-                  <Flex
-                    {...flexGreyBoxStyle}
-                    bg={isHover === 1 ? "blue" : hover}
+                  <div
+                    className={`${flexGreyBoxStyle} ${
+                      isHover === 1
+                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                    }`}
                   >
-                    <Icon as={BiShow} color={text80} />
-                  </Flex>
+                    <BiShow />
+                  </div>
                   See transactions
-                </MenuItem>
-                <MenuItem
+                </div>
+                <div
                   onMouseEnter={() => setIsHover(2)}
                   onMouseLeave={() => setIsHover(null)}
-                  bg={boxBg1}
-                  fontSize={["12px", "12px", "13px", "14px"]}
+                  className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs whitespace-nowrap"
                   onClick={() => {
                     setTokenTsx(asset);
                     setShowAddTransaction(true);
                     pushData("Add Asset Button Clicked");
                   }}
                 >
-                  <Flex
-                    {...flexGreyBoxStyle}
-                    bg={isHover === 2 ? "blue" : hover}
+                  <div
+                    className={`${flexGreyBoxStyle} ${
+                      isHover === 2
+                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                    }`}
                   >
-                    <Icon as={IoMdAddCircleOutline} color={text80} />
-                  </Flex>
+                    <IoMdAddCircleOutline />
+                  </div>
                   Add transactions
-                </MenuItem>
-              </MenuList>
+                </div>
+              </div>
             </Menu>
           </div>
         </td>
