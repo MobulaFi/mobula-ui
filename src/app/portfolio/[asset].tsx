@@ -1,7 +1,5 @@
 import { NextPage } from "next";
 import { useContext, useEffect } from "react";
-import { Portfolio } from "../../components/Pages/User/Portfolio";
-import { PortfolioV2Context } from "../../components/Pages/User/Portfolio/context-manager";
 
 interface AssetPortfolioProps {
   asset: string; // Replace this with your portfolio type

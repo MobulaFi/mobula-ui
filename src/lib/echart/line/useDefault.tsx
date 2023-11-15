@@ -223,17 +223,6 @@ export const useDefault = ({
         hour: "2-digit",
         minute: "2-digit",
       });
-      // return `<div style="display:flex;font-family:Inter;justify-content:space-between;width:100%;font-weight:500"><p style="font-weight:bold;height:10px">${dateFormatter.format(
-      //   date,
-      // )}</p> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ${timeFormatter.format(
-      //   date,
-      // )}</div><div style="display:flex;font-family:Inter;justify-content:space-between;width:100%;height:22px;margin-top:6.5px"><p style="margin-right:10px;font-family:Inter;font-size:15px">${type}:</p> <p style="font-weight:bold;font-family:Inter;">${unit}${getFormattedAmount(
-      //   price,
-      //   0,
-      //   {
-      //     minifyZeros: false,
-      //   },
-      // )}</p></div>`;
       return `
       <div style="color:${
         lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"

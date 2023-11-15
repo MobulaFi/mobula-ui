@@ -1,4 +1,5 @@
-import React, { Key, useContext, useMemo, useState } from "react";
+import { createSupabaseDOClient } from "lib/supabase";
+import { Key, useContext, useEffect, useMemo, useState } from "react";
 import { MediumFont } from "../../../../../../components/fonts";
 import useDarkMode from "../../../../../../hooks/useDarkMode";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -14,10 +15,13 @@ export const Cryptocurrencies = () => {
     isLoading,
     activePortfolio,
     isMobile,
+    asset,
   } = useContext(PortfolioV2Context);
   const [showMore, setShowMore] = useState(false);
+  const [showTokenInfo, setShowTokenInfo] = useState(null);
   const [colorTheme] = useDarkMode();
   const isWhiteMode = colorTheme === "light";
+  const [tokensData, setTokensData] = useState([]);
 
   const numberOfAsset =
     wallet?.portfolio?.reduce((count, entry) => {
@@ -42,9 +46,30 @@ export const Cryptocurrencies = () => {
     [wallet, showMore]
   );
 
+  useEffect(() => {
+    if (
+      showTokenInfo !== asset?.id ||
+      tokensData.some((token) => token.id === asset.id)
+    )
+      return;
+    const supabase = createSupabaseDOClient();
+    supabase
+      .from("assets")
+      .select("name, id, symbol, price_history")
+      .eq("id", asset?.id)
+      .single()
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+          return;
+        }
+        setTokensData([...tokensData, data]);
+      });
+  }, [tokensData, showTokenInfo]);
+
   return (
     <>
-      <table className="relative pb-[100px] overflow-x-scroll md:pb-5">
+      <table className="relative pb-[100px] overflow-x-scroll md:pb-5  border-separate border-spacing-0">
         <thead className="rounded-t-lg">
           <tr>
             {isMobile && (
@@ -99,7 +124,13 @@ export const Cryptocurrencies = () => {
             {filteredData
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
               .map((asset) => (
-                <TbodyCryptocurrencies key={asset.name} asset={asset} />
+                <TbodyCryptocurrencies
+                  key={asset.name}
+                  asset={asset}
+                  setShowTokenInfo={setShowTokenInfo}
+                  showTokenInfo={showTokenInfo}
+                  tokenInfo={tokensData.find((token) => token.id === asset.id)}
+                />
               ))}
           </tbody>
         ) : null}

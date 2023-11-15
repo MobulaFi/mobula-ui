@@ -1,4 +1,3 @@
-import { Flex } from "@chakra-ui/react";
 import { BarChart, LineChart } from "echarts/charts";
 import {
   DataZoomComponent,
@@ -106,7 +105,6 @@ const EChart: React.FC<EChartProps> = ({
     );
   }, [id]);
 
-  console.log("Echart, data: ", data);
   useEffect(() => {
     const chart = createInstance();
     if (chart)
@@ -183,7 +181,7 @@ const EChart: React.FC<EChartProps> = ({
   }, [colorTheme]);
 
   return (
-    <Flex
+    <div
       ref={parentRef}
       id={id}
       className="no-swipe"
