@@ -1,0 +1,55 @@
+import { cn } from "@/lib/utils";
+import { Button } from "@chakra-ui/react";
+import { useContext } from "react";
+import { PortfolioV2Context } from "../../../context-manager";
+
+interface ButtonTimeSliderProps {
+  isChart?: boolean;
+  extraCss?: string;
+}
+
+export const ButtonTimeSlider = ({
+  isChart = false,
+  extraCss,
+}: ButtonTimeSliderProps) => {
+  const timeframes = ["24H", "7D", "30D", "1Y", "ALL"];
+  const { timeframe, setTimeframe } = useContext(PortfolioV2Context);
+
+  const getPosition = (time: string) => {
+    if (time === "24H") return "4px";
+    if (time === "7D") return "20%";
+    if (time === "30D") return "40%";
+    if (time === "1Y") return "60%";
+    return "calc(80% - 4px)";
+  };
+
+  return (
+    <div
+      className={cn(
+        `flex h-[38px] px-[4px] z-[1] items-center bg-light-bg-terciary dark:bg-dark-bg-terciary rounded w-fit sm:w-full relative ${
+          isChart ? "mb-[70px] md:mb-0" : "mb-0"
+        }`,
+        extraCss
+      )}
+    >
+      <div
+        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
+        style={{ left: getPosition(timeframe) }}
+      />
+      {timeframes.map((time) => (
+        <Button
+          className={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
+            timeframe === time
+              ? "text-light-font-100 dark:text-dark-font-100"
+              : "text-light-font-40 dark:text-dark-font-40"
+          }`}
+          onClick={() => setTimeframe(time)}
+        >
+          <div className="w-full flex h-full items-center justify-center">
+            {time}
+          </div>
+        </Button>
+      ))}
+    </div>
+  );
+};

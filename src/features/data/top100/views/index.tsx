@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import { Button, Flex, Icon } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
+import React, {
   useCallback,
   useContext,
   useEffect,
@@ -15,7 +15,8 @@ import {
 } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { useAccount } from "wagmi";
-import { TextSmall } from "../../../../components/fonts";
+import { Button } from "../../../../components/button";
+import { SmallFont } from "../../../../components/fonts";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
 import { Asset } from "../../../../interfaces/assets";
@@ -380,67 +381,31 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             state={state}
             setTypePopup={setTypePopup}
           >
-            <Button
-              my="10px"
-              variant="outlined_grey"
-              px={["8px", "12px"]}
-              mr="10px"
-              borderRadius="4px"
-              h={["30px", "30px", "30px", "35px"]}
-            >
-              <TextSmall mr="7.5px" fontWeight="500" color={text80}>
+            <Button extraCss="mr-2.5 my-2.5">
+              <SmallFont extraCss="mr-[7.5px] text-light-font-80 dark:text-dark-font-80 text-medium">
                 {formatName(key)}
-              </TextSmall>
+              </SmallFont>
               |
-              <TextSmall ml="7.5px" color={text60}>
+              <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60">
                 {filterFromType(key, filter)}
-              </TextSmall>
+              </SmallFont>
             </Button>
           </PopoverTrade>
         )),
     [typePopup, state.filters, activeView]
   );
 
-  console.log("activeView", activeView);
-
   return (
-    <Flex w="100%" bg={bgTable} direction="column">
-      <Flex
-        direction="column"
-        maxWidth="1300px"
-        w={["97%", "95%", "90%", "90%"]}
-        mx="auto"
-        borderTop={borders}
-        borderBottom={borders}
-        overflowX="scroll"
-        className="scroll"
-        css={{
-          scrollBehavior: "smooth",
-        }}
-      >
-        <Flex justify="space-between" w="100%" mb="10px">
-          <Flex
-            w="fit-content"
-            maxW="calc(90% - 40px)"
-            position="relative"
-            ref={scrollContainer}
-            overflowX="scroll"
-            className="scroll"
-            css={{
-              scrollBehavior: "smooth",
-            }}
-          >
+    <div className="w-full bg-light-bg-table dark:bg-dark-bg-table flex flex-col">
+      <div className="flex flex-col max-w-[1300px] w-[90%] md:w-[95%] sm:w-[97%] mx-auto border-t border-b border-light-border-primary dark:border-dark-border-primary scroll overflow-x-scroll scroll-smooth">
+        <div className="flex justify-between w-full mb-2.5">
+          <div className="flex w-fit max-w-[calc(90% - 40px)] relative overflow-x-scroll scroll">
             {buttonTemplate.map((content, i) => (
               <Button
-                variant="outlined_grey"
-                mr={i === (buttonTemplate?.length || 1) - 1 ? "0px" : "10px"}
-                mt="10px"
+                extraCss={`${
+                  i === (buttonTemplate?.length || 1) - 1 ? "me-0" : "me-2.5"
+                } mt-2.5`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
-                h={["30px", "30px", "30px", "35px"]}
-                px={["8px", "12px"]}
-                borderRadius="4px"
-                fontWeight="500"
-                bg={activeView?.name === content?.name ? hover : boxBg6}
                 onClick={() => {
                   setIsLoading(true);
                   if (content.name === "Portfolio") {
@@ -480,19 +445,10 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                 {content?.name}
               </Button>
             ))}
-            <Flex
-              mt="10px"
-              position="sticky"
-              right="0px"
-              pl="10px"
-              bg={bgTable}
-            >
+            <div className="mt-2.5 sticky right-0 pl-2.5 flex bg-light-bg-table dark:bg-dark-bg-table">
               <Button
                 isDisabled={!isConnected && activeView?.name !== "All"}
-                variant="outlined_grey"
-                h={["30px", "30px", "30px", "35px"]}
-                w={["30px", "30px", "30px", "35px"]}
-                borderRadius="4px"
+                extraCss="w-[35px] h-[35px] p-0"
                 onClick={() => {
                   if (isConnected) setTypePopup("create");
                   else setConnect(true);
@@ -501,27 +457,19 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                 +
               </Button>
               {showArrow ? (
-                <Button
-                  ml="10px"
+                <button
+                  className={`ml-2.5 ${!isConnected ? "hidden" : "flex"}`}
                   onClick={handleClick}
-                  borderRadius="0px"
-                  display={!isConnected ? "none" : "flex"}
                 >
-                  <Icon as={FaChevronRight} color={text80} />
-                </Button>
+                  <FaChevronRight className="text-light-font-100 dark:text-dark-font-100" />
+                </button>
               ) : null}
-            </Flex>
-          </Flex>
-          <Flex w="fit-content" ml="10px" mt="10px">
-            {/* <Button variant="outlined_grey" mr="10px">
-              <Icon as={MdiShareVariantOutline} color={text80} />
-            </Button> */}
+            </div>
+          </div>
+          <div className="flex w-fit ml-2.5 mt-2.5">
             {activeView?.name !== "Portfolio" ? (
               <Button
-                h={["30px", "30px", "30px", "35px"]}
-                px={["8px", "12px"]}
-                variant="outlined_grey"
-                borderRadius="4px"
+                extraCss="px-3 sm:px-2"
                 onClick={() => {
                   pushData("Edit View clicked");
                   if (isConnected) setTypePopup("edit");
@@ -531,60 +479,27 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                 Edit view
               </Button>
             ) : null}
-          </Flex>
-        </Flex>
-      </Flex>
+          </div>
+        </div>
+      </div>
       {activeView && activeView?.name !== "Portfolio" ? (
-        <Flex
-          maxWidth="1300px"
-          w={["97%", "95%", "90%", "90%"]}
-          mx="auto"
-          overflowX="scroll"
-          className="scroll"
-          justify="space-between"
-        >
-          <Flex align="center" w="fit-content">
-            {/* ||
-            (JSON.stringify(defaultTop100.display) !==
-              JSON.stringify(state.display) &&
-              isConnected) */}
+        <div className="max-w-[1300px] w-[90%] md:w-[95%] sm:w-[97%] mx-auto flex justify-between ">
+          <div className="flex w-fit items-center">
             {callBackPopoverFilters()}
             {JSON.stringify(defaultTop100.filters) !==
               JSON.stringify(state.filters) && isConnected ? (
-              <>
-                <Button
-                  my="10px"
-                  variant="outlined_grey"
-                  px={["8px", "12px"]}
-                  mr="10px"
-                  borderRadius="4px"
-                  boxSize={["30px", "30px", "30px", "35px"]}
-                  onClick={() => {
-                    setActiveDisplay("filters");
-                    setTypePopup("edit");
-                  }}
-                >
-                  +
-                </Button>
-                {/* <Button
-                  my="10px"
-                  variant="outlined_grey"
-                  px={["8px", "12px"]}
-                  ml="auto"
-                  mr="10px"
-                  borderRadius="4px"
-                  h={["30px", "30px", "30px", "35px"]}
-                  onClick={() => {
-                    setActiveDisplay("display");
-                    setTypePopup("edit");
-                  }}
-                >
-                  Change Display
-                </Button> */}
-              </>
+              <Button
+                extraCss="my-2.5 mr-2.5"
+                onClick={() => {
+                  setActiveDisplay("filters");
+                  setTypePopup("edit");
+                }}
+              >
+                +
+              </Button>
             ) : null}
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       ) : null}
       {typePopup ? (
         <ViewPopup
@@ -596,6 +511,6 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
           setActiveDisplay={setActiveDisplay}
         />
       ) : null}
-    </Flex>
+    </div>
   );
 };

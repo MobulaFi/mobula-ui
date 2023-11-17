@@ -1,7 +1,15 @@
-import { Flex, Skeleton } from "@chakra-ui/react";
 import React from "react";
-import { useColors } from "../lib/chakra/colorMode";
 import { getTokenPercentage } from "../utils/formaters";
+import { Skeleton } from "./skeleton";
+
+interface TagPercentageProps {
+  percentage: number;
+  isUp: boolean;
+  isLoading?: boolean;
+  h?: string[];
+  fs?: string[];
+  isMultiple?: boolean;
+}
 
 export const TagPercentage = ({
   percentage,
@@ -10,15 +18,7 @@ export const TagPercentage = ({
   h,
   fs,
   isMultiple = false,
-}: {
-  percentage: number;
-  isUp: boolean;
-  isLoading?: boolean;
-  h?: string[];
-  fs?: string[];
-  isMultiple?: boolean;
-}) => {
-  const { boxBg6, hover } = useColors();
+}: TagPercentageProps) => {
   const getDisplay = () => {
     if (isMultiple) return `x${getTokenPercentage(percentage)}`;
     if (isUp) return `+${getTokenPercentage(percentage)}%`;
@@ -26,33 +26,17 @@ export const TagPercentage = ({
   };
 
   const finalPercentage = getDisplay();
+
   return isLoading ? (
-    <Skeleton
-      h={["20px", "20px", "21.5px", "23px"]}
-      w="60px"
-      px="6px"
-      borderRadius="8px"
-      ml="10px"
-      color={isUp ? "green" : "red"}
-      bg={isUp ? "darkgreen" : "red_bg"}
-      fontSize={["12px", "12px", "13px", "14px"]}
-      startColor={boxBg6}
-      endColor={hover}
-    />
+    <Skeleton extraCss="h-[23px] lg:h-[21.5px] md:h-[20px] w-[60px] rounded-lg ml-2.5" />
   ) : (
-    <Flex
-      h={h || ["20px", "20px", "21.5px", "23px"]}
-      w="fit-content"
-      px="6px"
-      borderRadius="8px"
-      ml="10px"
-      color={isUp ? "green" : "red"}
-      bg={isUp ? "darkgreen" : "red_bg"}
-      fontSize={fs || ["12px", "12px", "13px", "14px"]}
-      fontWeight="500"
-      align="center"
+    <div
+      className={`${h || "h-[23px] lg:h-[21.5px] md:h-[20px]"} w-fit px-1.5 
+    rounded-lg ml-2.5 ${
+      isUp ? "text-green bg-darkgreen" : "text-red bg-darkred"
+    } ${fs || "text-sm lg:text-[13px] md:text-xs"} font-medium text-center`}
     >
       {finalPercentage}
-    </Flex>
+    </div>
   );
 };

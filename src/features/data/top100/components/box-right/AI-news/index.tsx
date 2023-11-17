@@ -1,23 +1,15 @@
-import {
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Link,
-  useColorMode,
-} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
-import {
-  TextExtraSmall,
-  TextLandingSmall,
-  TextSmall,
-} from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../../components/link";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { getDate, getUrlFromName } from "../../../../../../utils/formaters";
 import { useTop100 } from "../../../context-manager";
 import { INewsGeneral } from "../../../models";
+
+interface AINewsProps {
+  showPage: number;
+}
 
 const formatNewsSummary = (news: INewsGeneral) => {
   const elements: React.ReactNode[] = [];
@@ -36,35 +28,27 @@ const formatNewsSummary = (news: INewsGeneral) => {
     const assetData = news.assetsData
       ? news.assetsData[p1]
       : { price_change_24h: 0, name: "" };
-    let priceChangeIcon = null;
+    let priceChangeIcon: React.ReactNode;
     if (assetData.price_change_24h > 0) {
       priceChangeIcon = (
-        <Icon as={TbTriangleFilled} boxSize="10px" color="green" mx="3px" />
+        <TbTriangleFilled className="text-[10px] text-green mx-[3px]" />
       );
     } else if (assetData.price_change_24h < 0) {
       priceChangeIcon = (
-        <Icon
-          as={TbTriangleInvertedFilled}
-          boxSize="10px"
-          color="red"
-          mx="3px"
-        />
+        <TbTriangleInvertedFilled className="text-[10px] text-red mx-[3px]" />
       );
     }
 
     elements.push(
-      <Button
+      <NextChakraLink
+        // TODO: add this
         key={offset}
-        variant="outlined_grey"
-        padding="2px"
-        h="18px"
-        fontSize={["10px", "10px", "11px", "12px"]}
-        fontWeight={450}
-        as={Link}
+        // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
+        // as={Link}
         href={`https://mobula.fi/asset/${getUrlFromName(assetData.name)}`}
       >
         {p1} {priceChangeIcon}
-      </Button>
+      </NextChakraLink>
     );
 
     lastIndex = offset + fullMatch.length;
@@ -77,11 +61,8 @@ const formatNewsSummary = (news: INewsGeneral) => {
   return elements;
 };
 
-export const AINews = ({ showPage }) => {
-  const { text40, text80, borders, bordersBlue } = useColors();
+export const AINews = ({ showPage }: AINewsProps) => {
   const { news, setNews } = useTop100();
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === "dark";
 
   useEffect(() => {
     if (news === undefined) {
@@ -100,77 +81,46 @@ export const AINews = ({ showPage }) => {
   }, []);
 
   return (
-    <Flex
-      minW="100%"
-      direction="column"
-      w="200px"
-      transform={`translateX(-${showPage * 100}%)`}
-      transition="all 250ms ease-in-out"
+    <div
+      className={`flex w-[200px] flex-col transition-all duration-250 min-w-[200px] md:min-w-full`}
+      style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
-      <Flex
-        align="center"
-        justify="space-between"
-        w="100%"
-        p="10px 15px 0px 15px"
-      >
-        <Flex align="center">
-          <TextLandingSmall color={text80}>News</TextLandingSmall>
-          <TextLandingSmall color={text40} ml="7.5px">
+      <div className="flex items-center justify-between w-full pt-2.5 px-[15px] pb-0">
+        <div className="flex items-center">
+          <MediumFont>News</MediumFont>
+          <MediumFont extraCss="text-light-font-40 dark: text-dark-font-40 ml-[7.5px]">
             {news?.created_at ? getDate(Date.parse(news?.created_at)) : ""}
-          </TextLandingSmall>
-        </Flex>
-      </Flex>
-      <TextSmall
-        p="0px 15px 10px 15px"
-        mt="10px"
-        maxH="110px"
-        overflowY="scroll"
-        className="scroll"
-        color={text80}
-      >
+          </MediumFont>
+        </div>
+      </div>
+      <SmallFont extraCss="scroll overflow-y-scroll max-h-[110px] mt-2.5 pt-0 px-[15px] pr-2.5">
         {news ? formatNewsSummary(news) : "Loading..."}
-      </TextSmall>
-      <Flex
-        align="center"
-        justify="space-between"
-        borderTop={borders}
-        py="6px"
-        px="15px"
-        mt="auto"
-      >
-        <Flex align="center">
-          <Image
+      </SmallFont>
+      <div className="flex items-center justify-between px-[15px] py-1.5 mt-auto border-r border-light-border-primary dark:border-dark-border-primary">
+        <div className="flex items-center">
+          <img
             src={
-              isDarkMode
-                ? "/mobula/mobula-logo.svg"
-                : "/mobula/mobula-light-logo.svg"
+              // TODO ADD Dark Mode
+              // isDarkMode
+              // ? "/mobula/mobula-logo.svg"
+              // :"/mobula/mobula-light-logo.svg"
+              "/mobula/mobula-logo.svg"
             }
-            boxSize="15px"
-            w="15px"
-            borderRadius="full"
-            mr="7.5px"
+            className="mr-[7.5px] rounded-full w-[15px] h-[15px]"
             alt="Mobula AI logo"
           />
-          <TextSmall color={text80} mr="7.5px">
-            Mobula AI
-          </TextSmall>
-          <Flex
-            borderRadius="12px"
-            px="6px"
-            align="center"
-            h="20px"
-            border={bordersBlue}
-          >
-            <Flex borderRadius="full" boxSize="5px" bg="blue" />
-            <TextExtraSmall mb="0px" ml="5px">
+          <SmallFont extraCss="mr-[7.5px]">Mobula AI</SmallFont>
+          <div className="flex items-center rounded-xl h-5 px-1.5 border border-darkblue">
+            <div className="rounded-full w-[5px] h-[5px] bg-blue" />
+            <p className="text-xs md:text-[10px] mb-0 ml-[5px] text-light-font-100 dark:text-dark-font-100">
               Bot
-            </TextExtraSmall>
-          </Flex>
-        </Flex>
-        <TextSmall color={text40}>
+            </p>
+          </div>
+        </div>
+        <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
           Based on +{news?.news_count || "..."} news
-        </TextSmall>
-      </Flex>
-    </Flex>
+        </SmallFont>
+      </div>
+    </div>
   );
 };
