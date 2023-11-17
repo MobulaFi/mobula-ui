@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
-import { useColorMode } from "@chakra-ui/react";
 import { DataZoomComponentOption } from "echarts";
 import * as echarts from "echarts/core";
+import { useTheme } from "next-themes";
 import { useMemo } from "react";
 import { TimeSelected } from "../../../interfaces/pages/asset";
 import { PublicTransaction } from "../../../interfaces/transactions";
@@ -10,7 +10,6 @@ import {
   getFormattedAmount,
   getShortenedAmount,
 } from "../../../utils/formaters";
-import { useColors } from "../../chakra/colorMode";
 import { getTimeStampFromTimeFrame } from "./utils";
 
 interface UseDefaultProps {
@@ -23,7 +22,9 @@ interface UseDefaultProps {
   noDataZoom?: boolean;
   noAxis?: boolean;
   unitPosition?: "before" | "after";
-  extraData?: { data: [number, number][]; name: string; color?: string }[];
+  extraData?:
+    | { data: [number, number][]; name: string; color?: string }[]
+    | null;
   isVesting?: boolean;
 }
 
@@ -74,9 +75,8 @@ export const useDefault = ({
   isVesting = false,
 }: UseDefaultProps) => {
   const extraData = extraDataBuffer || [];
-  const { colorMode } = useColorMode();
-  const { text80, text40, text60, bgMain, boxBg6 } = useColors();
-  const lightMode = colorMode === "light";
+  const { theme } = useTheme();
+  const lightMode = theme === "light";
   const getTextColorsAxis = () => {
     if (noAxis) return lightMode ? "#f7f7f7" : "#151929";
     return lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)";
@@ -191,7 +191,9 @@ export const useDefault = ({
       type: "cross",
       label: {
         shadowBlur: 0,
-        backgroundColor: boxBg6,
+        backgroundColor: lightMode
+          ? "rgba(250, 250, 250, 1)"
+          : "rgba(23, 27, 43, 1)",
         shadowColor: "rgba(0, 0, 0, 0)",
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)",
         // formatter: (axis: any) => {
@@ -200,10 +202,15 @@ export const useDefault = ({
         // },
       },
     },
-    backgroundColor: boxBg6,
+    backgroundColor: lightMode
+      ? "rgba(250, 250, 250, 1)"
+      : "rgba(23, 27, 43, 1)",
     borderColor: lightMode ? "#0d0d0d08" : "#ffffff08",
-    color: text80,
-    textStyle: { color: text80 },
+    color: lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)",
+    textStyle: {
+      color: lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)",
+    },
+    confine: true,
     borderWidth: 2,
     borderRadius: 12,
     padding: 10,
@@ -219,31 +226,24 @@ export const useDefault = ({
         hour: "2-digit",
         minute: "2-digit",
       });
-      // return `<div style="display:flex;font-family:Inter;justify-content:space-between;width:100%;font-weight:500"><p style="font-weight:bold;height:10px">${dateFormatter.format(
-      //   date,
-      // )}</p> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ${timeFormatter.format(
-      //   date,
-      // )}</div><div style="display:flex;font-family:Inter;justify-content:space-between;width:100%;height:22px;margin-top:6.5px"><p style="margin-right:10px;font-family:Inter;font-size:15px">${type}:</p> <p style="font-weight:bold;font-family:Inter;">${unit}${getFormattedAmount(
-      //   price,
-      //   0,
-      //   {
-      //     minifyZeros: false,
-      //   },
-      // )}</p></div>`;
       return `
-      <div style="color:${text80};font-weight:600;display:flex;justify-content:space-between"><span>${dateFormatter.format(
+      <div style="color:${
+        lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
+      };font-weight:600;display:flex;justify-content:space-between"><span>${dateFormatter.format(
         date
-      )}</span><span style="font-weight:400;color:${text40}; margin-left: 5px">${timeFormatter.format(
-        date
-      )}</span></div>
+      )}</span><span style="font-weight:400;color:${
+        lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
+      }; margin-left: 5px">${timeFormatter.format(date)}</span></div>
       ${params
         .map(
           (param) =>
-            `<div style="font-weight:600;display:flex;align:center;margin-top:7.5px;"><div margin-right:5px; style="border-radius:10px;margin-top:3px;padding:2px;background:${text60};height:14px;width:fit-content;margin-right:5px;display:flex;align:center"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background-color:${
+            `<div style="font-weight:600;display:flex;align:center;margin-top:7.5px;"><div margin-right:5px; style="border-radius:10px;margin-top:3px;padding:2px;background:${
+              lightMode ? "rgba(0,0,0,0.65)" : "rgba(255,255,255,0.65)"
+            };height:14px;width:fit-content;margin-right:5px;display:flex;align:center"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background-color:${
               param.color
-            };"></span></div> <span style="color:${text40};margin-right:5px;font-weight:400">${
-              param.seriesName
-            }:</span> ${
+            };"></span></div> <span style="color:${
+              lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
+            };margin-right:5px;font-weight:400">${param.seriesName}:</span> ${
               unitPosition === "before" ? unit : ""
             }${getFormattedAmount(param.value[1], 0, {
               minifyZeros: false,
@@ -351,7 +351,7 @@ export const useDefault = ({
   ];
 
   const getColorFromMode = () => {
-    if (colorMode === "light") {
+    if (theme === "light") {
       if (noDataZoom) return "none";
       return "rgba(0, 0, 0, 0.4)";
     }
@@ -360,7 +360,7 @@ export const useDefault = ({
   };
 
   const getBorderDataZoom = () => {
-    if (colorMode === "light") {
+    if (theme === "light") {
       if (noDataZoom) return "none";
       return "rgba(0, 0, 0, 0.1)";
     }
@@ -486,22 +486,32 @@ export const useDefault = ({
                 trigger: "item",
                 formatter(params) {
                   const tx: PublicTransaction = params.value[2];
-                  return `<span style="margin-right:5px;color:${text40};">Date:</span> <span style="color=${text80};font-weight:600">${getDate(
+                  return `<span style="margin-right:5px;color:${
+                    lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
+                  };">Date:</span> <span style="color=${
+                    lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
+                  };font-weight:600">${getDate(
                     tx.timestamp
-                  )}</span><br/><span style="margin-right:5px;color:${text40};">${getVerb(
-                    tx.type
-                  )} at:</span> <span style="color=${text80};font-weight:600">$${getFormattedAmount(
+                  )}</span><br/><span style="margin-right:5px;color:${
+                    lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
+                  };">${getVerb(tx.type)} at:</span> <span style="color=${
+                    lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
+                  };font-weight:600">$${getFormattedAmount(
                     tx.amount_usd / tx.amount
-                  )}</span><br/><span style="margin-right:5px;color:${text40};">Amount:</span> <span style="color=${text80};font-weight:600">${`${getFormattedAmount(
-                    tx.amount
-                  )} ${tx.asset?.symbol}`}</span>
-        <span style="margin-right:5px;color:${text40};">($${getFormattedAmount(
-                    tx.amount_usd
-                  )})</span>`;
+                  )}</span><br/><span style="margin-right:5px;color:${
+                    lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
+                  };">Amount:</span> <span style="color=${
+                    lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
+                  };font-weight:600">${`${getFormattedAmount(tx.amount)} ${
+                    tx.asset?.symbol
+                  }`}</span>
+        <span style="margin-right:5px;color:${
+          lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
+        };">($${getFormattedAmount(tx.amount_usd)})</span>`;
                 },
               },
             })) || [],
-    [transactions, data, timeframe, colorMode, extraData]
+    [transactions, data, timeframe, theme, extraData]
   );
 
   const series = [
@@ -538,7 +548,9 @@ export const useDefault = ({
                 },
                 {
                   offset: 1,
-                  color: "transparent",
+                  color: lightMode
+                    ? "rgba(255,255,255,1)"
+                    : "rgba(19, 22, 39, 1)",
                 },
               ]),
             },

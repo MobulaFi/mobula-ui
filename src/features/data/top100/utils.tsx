@@ -113,7 +113,7 @@ export const unformatActiveView = (
   othersViewCookie: string | undefined,
   address: string | undefined
 ) => {
-  if (!address || !viewStr)
+  if (!address || address === "undefined" || !viewStr)
     return { ...defaultTop100, disconnected: true, isFirst: true };
   let isAllView: boolean = false;
   if (othersViewCookie === viewStr) isAllView = true;

@@ -1,6 +1,5 @@
-import { Button, Flex, useColorMode } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useColors } from "../../../../../lib/chakra/colorMode";
+import { Button } from "../../../../../components/button";
 import { getDiscoverInfos } from "../../constants";
 import { AINews } from "./AI-news";
 import { Discover } from "./discover";
@@ -10,10 +9,9 @@ interface BoxRightProps {
 }
 
 export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
-  const { boxBg3, borders, text40, text80 } = useColors();
   const [showPage, setShowPage] = useState(0);
-  const { colorMode } = useColorMode();
-  const isDark = colorMode === "dark";
+  // TODO: isDark is always true
+  const isDark = true;
 
   const render = [
     <AINews showPage={showPage} key="AiNews" />,
@@ -44,44 +42,34 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
   }, []);
 
   return (
-    <Flex
-      h={["175px", "175px", "175px", "200px"]}
-      borderRadius="12px"
-      overflow="hidden"
-      border={borders}
-      bg={boxBg3}
-      position="relative"
-      ml={["0px", "0px", "10px"]}
-      minW={["100%", "100%", "407px"]}
-      w={["100%", "31.5%"]}
-      transform={`translateX(-${showPageMobile * 100}%)`}
-      transition="all 500ms ease-in-out"
-      zIndex={showPageMobile === 2 ? 3 : 1}
+    <div
+      className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
+       border-light-border-primary dark:border-dark-border-primary py-2.5 px-3.5 relative overflow-hidden 
+       min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500  ${
+         showPageMobile === 2 ? "z-[3]" : "z-[1]"
+       }] ml-2.5 md:mx-0`}
+      style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
     >
-      <Flex
-        align="center"
-        position="absolute"
-        top="0px"
-        right="0px"
-        h="35px"
-        px="15px"
-        bg={boxBg3}
-        zIndex="1"
-      >
+      <div className="flex items-center absolute top-0 right-0 h-[35px] px-[15px] bg-light-bg-secondary dark:bg-dark-bg-secondary z-[1]">
         {render.map((_, idx) => (
           <Button
-            borderRadius="full"
-            key={Math.random()}
-            boxSize={showPage === idx ? "9px" : "8px"}
-            w={showPage === idx ? "9px" : "8px"}
-            bg={showPage === idx ? text80 : text40}
-            ml="5px"
-            transition="all 500ms ease-in-out"
+            extraCss={`rounded-full ${
+              showPage === idx ? "w-[9px]" : "w-[8px]"
+            } ${showPage === idx ? "h-[9px]" : "h-[8px]"} ${
+              showPage === idx ? "max-w-[9px]" : "max-w-[8px]"
+            } ${
+              showPage === idx ? "max-h-[9px]" : "max-h-[8px]"
+            } px-0 ml-[5px] ${
+              showPage === idx
+                ? "bg-light-font-80 dark:bg-dark-font-80"
+                : "bg-light-font-40 dark:bg-dark-font-40"
+            } `}
+            key={_.key}
             onClick={() => setShowPage(idx)}
           />
         ))}
-      </Flex>
+      </div>
       {render}
-    </Flex>
+    </div>
   );
 };

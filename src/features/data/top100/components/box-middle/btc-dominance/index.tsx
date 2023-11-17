@@ -1,11 +1,6 @@
-import { Flex } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import React from "react";
-import {
-  TextLandingMedium,
-  TextLandingSmall,
-} from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { MediumFont } from "../../../../../../components/fonts";
 import { getTokenPercentage } from "../../../../../../utils/formaters";
 import { useTop100 } from "../../../context-manager";
 
@@ -13,45 +8,38 @@ const EChart = dynamic(() => import("../../../../../../lib/echart/line"), {
   ssr: false,
 });
 
-export const BtcDominance = ({ showPage, height }) => {
-  const { text80 } = useColors();
+interface BtcDominanceProps {
+  showPage: number;
+  height: string;
+}
+
+export const BtcDominance = ({ showPage, height }: BtcDominanceProps) => {
   const { btcDominance } = useTop100();
   return (
-    <Flex
-      minW="100%"
-      direction="column"
-      w="200px"
-      transform={`translateX(-${showPage * 100}%)`}
-      transition="all 250ms ease-in-out"
+    <div
+      className={`min-w-full flex flex-col w-[200px] transition-all duration-250`}
+      style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
-      <Flex
-        direction="column"
-        position="absolute"
-        zIndex="1"
-        w="94%"
-        top="10px"
-      >
-        <Flex justify="space-between" w="100%">
-          <TextLandingSmall color={text80} ml="15px">
-            Bitcoin Dominance
-          </TextLandingSmall>
-        </Flex>
-        <Flex>
-          <TextLandingMedium mt="-2px" ml="15px">
+      <div className="flex flex-col absolute z-[1] w-[94%] top-2.5">
+        <div className="flex justify-between w-full">
+          <MediumFont extraCss="ml-[15px]">Bitcoin Dominance</MediumFont>
+        </div>
+        <div className="flex">
+          <MediumFont extraCss="flex ml-[15px] mt-[-2px]">
             {getTokenPercentage(
               btcDominance?.[(btcDominance?.length || 1) - 1]?.[1] || 0
             )}
             %
-          </TextLandingMedium>
-          <Flex mt="2px">
+          </MediumFont>
+          <div className="flex mt-0.5">
             {/* <TagPercentage
               isUp={btcDominance > 0}
               percentage={marketCapChange}
             />{" "} */}
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex w="100%" mt="12px" h="100%" justify="center" mb="10px" px="15px">
+          </div>
+        </div>
+      </div>
+      <div className="w-full mt-3 h-full justify-center mb-2.5 px-[15px]">
         <EChart
           data={btcDominance || []}
           timeframe="24H"
@@ -65,7 +53,7 @@ export const BtcDominance = ({ showPage, height }) => {
           noDataZoom
           noAxis
         />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

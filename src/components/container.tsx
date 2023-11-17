@@ -1,16 +1,18 @@
-import { Flex, FlexProps } from "@chakra-ui/react";
 import React from "react";
+import { cn } from "../@/lib/utils";
 
 interface ContainerProps {
+  extraCss?: string;
   children: React.ReactNode;
   isMobile?: boolean;
 }
 
-export const MainContainer = ({
+export const Container = ({
   children,
   isMobile,
+  extraCss,
   ...props
-}: ContainerProps & FlexProps) => {
+}: ContainerProps) => {
   if (
     isMobile === true &&
     typeof window !== "undefined" &&
@@ -27,16 +29,14 @@ export const MainContainer = ({
   }
 
   return (
-    <Flex
-      mt={["10px", "10px", "28px", "28px"]}
-      mb="100px"
-      maxWidth="1200px"
-      mx="auto"
-      w={["95%", "90%", "90%", "90%"]}
-      direction="column"
+    <div
+      className={cn(
+        "mt-[28px] md:mt-2.5 flex flex-col mx-auto w-90per lg:w-[95%] max-w-[1200px]",
+        extraCss
+      )}
       {...props}
     >
       {children}
-    </Flex>
+    </div>
   );
 };

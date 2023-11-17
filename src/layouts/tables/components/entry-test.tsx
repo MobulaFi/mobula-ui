@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Flex, Icon, Spinner, Tbody, Tr } from "@chakra-ui/react";
+import { Box, Icon, Spinner } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillStar, AiOutlineStar, AiOutlineSwap } from "react-icons/ai";
@@ -18,6 +18,7 @@ import { useColors } from "../../../lib/chakra/colorMode";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
+import { Button } from "../../../components/button";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { getUrlFromName } from "../../../utils/formaters";
 import { EntryContext, TableContext } from "../context-manager";
@@ -243,11 +244,15 @@ export const Entry = ({
   );
 
   const getBackgroundFromTable = () => {
-    if (isTop100 && !isHover) return bgTable;
-    if (isTop100 && isHover) return boxBg3;
-    if (!isTop100 && isHover) return boxBg3;
-    return bgMain;
+    if (isTop100 && !isHover) return "bg-light-bg-table dark:bg-dark-bg-table";
+    if (isTop100 && isHover)
+      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
+    if (!isTop100 && isHover)
+      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
+    return "bg-light-bg-primary dark:bg-dark-bg-primary";
   };
+
+  const background = getBackgroundFromTable();
 
   const showMinimalMobile =
     (isMobile &&
@@ -257,7 +262,6 @@ export const Entry = ({
         JSON.stringify(defaultTop100.filters)) ||
     (activeView?.name === "Portfolio" && isMobile);
 
-  console.log("activeView", activeView);
   const renderSegments = () =>
     activeView?.display?.map((entry) => {
       switch (entry.type) {
@@ -312,38 +316,22 @@ export const Entry = ({
   return (
     <EntryContext.Provider value={value}>
       {showMinimalMobile ? (
-        <Tbody
+        <tbody
+          className={` ${
+            isHover
+              ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+              : "bg-transparent dark:bg-transparent"
+          } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
-          fontFamily="Inter"
-          borderBottom="none"
-          bg={[isHover ? boxBg3 : "none"]}
-          _hover={{
-            cursor: "pointer",
-            color: text80,
-          }}
           ref={entryRef}
         >
-          <Tr
-            color={text80}
-            display={["table-row", "table-row", "table-row", "none"]}
-          >
+          <tr className="hidden lg:table-row text-light-font-100 dark:text-dark-font-100">
             <Segment
-              pl="10px"
-              pr={["0px", "0px"]}
+              extraCss={`pl-2.5 pr-0 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[20px] lg:py-[5px] ${background}`}
               noLink
-              maxW={["35px", "20px", "auto"]}
-              position={["sticky", "sticky", "sticky"]}
-              left="0px"
-              zIndex={2}
-              py={["5px", "5px", "5px", "20px"]}
-              bg={getBackgroundFromTable()}
             >
-              <Flex
-                align="center"
-                justify="center"
-                display={["none", "none", "flex"]}
-              >
+              <div className="flex items-center justify-center md:hidden">
                 {isLoading ? (
                   <Spinner
                     thickness="2px"
@@ -375,15 +363,13 @@ export const Entry = ({
                     )}
                   </>
                 )}
-                <Box marginLeft="5px" opacity="0.6" color={text80}>
+                <div className="ml-[5px] opacity-60 text-light-font-100 dark:text-dark-font-100">
                   {token.rank}
-                </Box>
-              </Flex>
-              <Box w="fit-content" display={["block", "block", "none"]}>
+                </div>
+              </div>
+              <div className="w-fit hidden md:block">
                 <Button
-                  as={Button}
-                  px="5px"
-                  py="8px"
+                  className="px-[5px] py-2"
                   onClick={() => {
                     setShowMenuTableMobile(true);
                     setShowMenuTableMobileForToken(token);
@@ -395,18 +381,16 @@ export const Entry = ({
                     fontSize="18px"
                   />
                 </Button>
-              </Box>
+              </div>
             </Segment>
             <Segment
-              py="10px"
-              maxWidth={["120px", "190px !important"]}
-              minWidth={["105px", "125px", "125px", "19Opx"]}
-              position="sticky"
-              w="fit-content"
-              left={["24px", "24px", "70px"]}
-              bg={getBackgroundFromTable()}
+              extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px] ${background}`}
             >
-              <TokenInfo token={token} showRank={showRank} index={index} />
+              <TokenInfo
+                token={token as Asset}
+                showRank={showRank}
+                index={index}
+              />
             </Segment>
             <PriceSegment
               token={token}
@@ -422,38 +406,25 @@ export const Entry = ({
             ) : (
               <ChangeSegment token={token} display="24h %" />
             )}
-          </Tr>
-        </Tbody>
+          </tr>
+        </tbody>
       ) : (
-        <Tbody
+        <tbody
+          className={`border-b border-light-border-primary dark:border-dark-border-primary ${
+            isHover
+              ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+              : "bg-transparent dark:bg-transparent"
+          } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
-          fontFamily="Inter"
-          borderBottom="none"
-          bg={[isHover ? boxBg3 : "none"]}
-          _hover={{
-            cursor: "pointer",
-            color: text80,
-          }}
           ref={entryRef}
         >
-          <Tr color={text80} display={["table-row"]}>
+          <tr className="text-light-font-100 dark:text-dark-font-100">
             <Segment
-              pl={["5px", "10px"]}
-              pr={["10px", "0px"]}
+              extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[5px] ${background}`}
               noLink
-              maxW={["35px", "20px", "auto"]}
-              position={["sticky", "sticky", "sticky"]}
-              left="0px"
-              zIndex={2}
-              py={["5px", "5px", "5px", "30px"]}
-              bg={getBackgroundFromTable()}
             >
-              <Flex
-                align="center"
-                justify="center"
-                display={["none", "none", "flex"]}
-              >
+              <div className="items-center justify-center flex md:hidden">
                 {isLoading ? (
                   <Spinner
                     thickness="2px"
@@ -485,16 +456,13 @@ export const Entry = ({
                     )}
                   </>
                 )}
-                <Box marginLeft="5px" opacity="0.6" color={text80}>
+                <div className="ml-[5px] opacity-60 text-light-font-100 dark:text-dark-font-100">
                   {token.rank}
-                </Box>
-              </Flex>
-              <Box w="fit-content" display={["block", "block", "none"]}>
+                </div>
+              </div>
+              <div className="w-fit hidden md:block">
                 <Button
-                  as={Button}
-                  px="5px"
-                  py="8px"
-                  h="100%"
+                  extraCss="h-full px-[5px] py-2"
                   onClick={() => {
                     setShowMenuTableMobile(true);
                     setShowMenuTableMobileForToken(token);
@@ -506,18 +474,17 @@ export const Entry = ({
                     fontSize="18px"
                   />
                 </Button>
-              </Box>
+              </div>
             </Segment>
             <Segment
-              py="10px"
-              maxWidth={["160px ", "100px ", "150px ", "190px "]}
-              minWidth={["125px", "185px", "180px", "19Opx"]}
-              position="sticky"
-              left={["32px", "32px", "73px"]}
-              zIndex="1"
-              bg={getBackgroundFromTable()}
+              // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
+              extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[32px] z-[1] ${background}`}
             >
-              <TokenInfo token={token} showRank={showRank} index={index} />
+              <TokenInfo
+                token={token as Asset}
+                showRank={showRank}
+                index={index}
+              />
             </Segment>
             {activeView?.display?.length > 0 &&
             (pathname === "/" || pathname === "/?page=" + page) ? (
@@ -548,16 +515,13 @@ export const Entry = ({
               </>
             )}
             {pathname !== "/" && pathname !== `/?page=${page}` ? (
-              <Segment color={text80}>{lastComponent[lastColumn]}</Segment>
+              <Segment>{lastComponent[lastColumn]}</Segment>
             ) : null}
 
-            <Segment display={["none", "none", "table-cell"]} noLink>
-              <Flex align="center" justify="flex-end">
+            <Segment extraCss="table-cell" noLink>
+              <div className="flex items-center justify-end">
                 <Button
-                  variant="outlined_grey"
-                  px="0px"
-                  boxSize="28px"
-                  mr="5px"
+                  extraCss="px-0 w-[28px] h-[28px] mr-[5px]"
                   onClick={() => {
                     setShow(true);
                     pushData("Interact", {
@@ -571,9 +535,7 @@ export const Entry = ({
                 </Button>
                 {token.contracts && token.contracts.length > 0 && (
                   <Button
-                    variant="outlined_grey"
-                    px="0px"
-                    boxSize="28px"
+                    extraCss="px-0 w-[28px] h-[28px]"
                     onClick={() => {
                       setShowBuyDrawer(token as Asset);
                       pushData("Interact", {
@@ -591,10 +553,10 @@ export const Entry = ({
                     />
                   </Button>
                 )}
-              </Flex>
+              </div>
             </Segment>
-          </Tr>
-        </Tbody>
+          </tr>
+        </tbody>
       )}
       {/* {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup

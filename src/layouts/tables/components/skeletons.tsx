@@ -1,6 +1,4 @@
-import { Flex, Skeleton, TableCaption, Tbody, Tr } from "@chakra-ui/react";
-import { TextLandingLarge, TextLandingSmall } from "components/fonts";
-import { NextChakraLink } from "components/link";
+import { Flex, Skeleton } from "@chakra-ui/react";
 import { useColors } from "lib/chakra/colorMode";
 import { Ths } from "../../../components/table";
 import { useTop100 } from "../../../features/data/top100/context-manager";
@@ -19,8 +17,8 @@ export const SkeletonTable = ({
   return (
     <>
       {isLoading || isPortfolioLoading ? (
-        <Tbody>
-          <Tr position="relative">
+        <tbody>
+          <tr className="relative">
             {isTable ? (
               <>
                 <Ths
@@ -362,10 +360,10 @@ export const SkeletonTable = ({
                 </Flex>
               </Ths>
             ) : null}
-          </Tr>
-        </Tbody>
+          </tr>
+        </tbody>
       ) : null}
-      {activeView?.name !== "Portfolio" && !isLoading && !isPortfolioLoading ? (
+      {/* {activeView?.name !== "Portfolio" && !isLoading && !isPortfolioLoading ? (
         <TableCaption
           w={["100vw", "100vw", "100vw", "100%"]}
           h={["300px", "400px", "450px", "600px"]}
@@ -416,7 +414,7 @@ export const SkeletonTable = ({
             </TextLandingSmall>
           </Flex>
         </TableCaption>
-      ) : null}
+      ) : null} */}
     </>
   );
 };

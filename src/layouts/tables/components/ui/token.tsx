@@ -1,9 +1,14 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { NextImageFallback } from "components/image";
-import { useColors } from "lib/chakra/colorMode";
+import React from "react";
+import { NextImageFallback } from "../../../../components/image";
+import { Asset } from "../../../../interfaces/assets";
 
-export const TokenInfo = ({ token, index, showRank }) => {
-  const { text60, text80, text40 } = useColors();
+interface TokenInfoProps {
+  token: Asset;
+  index: number;
+  showRank: boolean;
+}
+
+export const TokenInfo = ({ token, index, showRank }: TokenInfoProps) => {
   const checkImage = () => {
     if (token?.logo) {
       if (token.logo["0"] === "h") return token.logo;
@@ -11,11 +16,12 @@ export const TokenInfo = ({ token, index, showRank }) => {
     }
     return "/icon/unknown.png";
   };
+  const image = checkImage();
   return (
-    <Flex align="center" w="100%">
-      <Flex boxSize={26} minW={26} minH={26} mr="10px" borderRadius="full">
+    <div className="flex items-center w-full">
+      <div className="flex w-[26px] h-[26px] min-w-[26px] min-h-[26px] mr-2.5 rounded-full">
         <NextImageFallback
-          src={checkImage()}
+          src={image}
           alt="token logo"
           width={26}
           height={26}
@@ -25,42 +31,22 @@ export const TokenInfo = ({ token, index, showRank }) => {
           priority={index < 10}
           fallbackSrc="/icon/unknown.png"
         />
-      </Flex>
-      <Flex
-        mr={["0px", "10px", "10px", "10px", "10px"]}
-        direction={["column"]}
-        flexWrap="wrap"
-      >
-        <Flex>
+      </div>
+      <div className="flex flex-col flex-wrap mr-2.5 sm:mr-0">
+        <div className="flex">
           {showRank ? (
-            <Box
-              display={["block", "block", "none", "none"]}
-              mr="7.5px"
-              color={text40}
-              fontSize="14px"
-            >
+            <div className="mr-[7.5px] text-sm text-light-font-100 dark:text-dark-font-100 hidden md:block">
               {token.rank}
-            </Box>
+            </div>
           ) : null}
-          <Box as="span" fontSize="14px" fontWeight="600" color={text80}>
+          <span className="text-light-font-100 dark:text-dark-font-100 text-sm font-bold ">
             {token.symbol}
-          </Box>
-        </Flex>
-        <Box
-          mr="10px"
-          whiteSpace="nowrap"
-          as="span"
-          fontSize="12px"
-          textAlign="left"
-          textOverflow="ellipsis"
-          overflow="hidden"
-          color={text60}
-          maxW={["90px", "100px", "130px"]}
-          w="130px"
-        >
+          </span>
+        </div>
+        <span className="truncate mr-2.5 text-xs text-left text-light-font-60 dark:text-dark-font-60 max-w-[130px] md:max-w-[100px] sm:max-w-[90px] w-[130px]">
           {token.name}
-        </Box>
-      </Flex>
-    </Flex>
+        </span>
+      </div>
+    </div>
   );
 };

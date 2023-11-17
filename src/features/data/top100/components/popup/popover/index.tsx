@@ -1,26 +1,16 @@
 "use client";
-import {
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Input,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Spinner,
-  useDisclosure,
-} from "@chakra-ui/react";
-import Cookies from "js-cookie";
+import { Button } from "components/button";
+import { SmallFont } from "components/fonts";
+import { Input } from "components/input";
+import { Cookies } from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { Key, useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { TextSmall } from "../../../../../../components/fonts";
+import { Popover } from "../../../../../../components/popover";
+import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { POST } from "../../../../../../utils/fetch";
 import { defaultCategories, formatDataForFilters } from "../../../constants";
 import { useTop100 } from "../../../context-manager";
@@ -40,12 +30,11 @@ export const PopoverTrade = ({
   name: string;
   setTypePopup: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const { boxBg3, text80, hover, bordersActive, borders, boxBg6 } = useColors();
   const { activeView, setIsLoading, setShowCategories, setActiveView } =
     useTop100();
   const { user, setUser } = useContext(UserContext);
   // const alert = useAlert();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [loadTime, setLoadTime] = useState(false);
   const { address } = useAccount();
 
@@ -60,20 +49,9 @@ export const PopoverTrade = ({
     });
   };
 
-  const inputStyle = {
-    _placeholder: { color: text80 },
-    borderRadius: "8px",
-    type: "number",
-    px: "10px",
-    h: "40px",
-    bg: boxBg6,
-    color: text80,
-  };
-
   const editView = (toEdit) => {
     setLoadTime(true);
-
-    onClose();
+    setIsPopoverOpen(false);
     POST("/views/update", toEdit)
       .then((r) => r.json())
       .then((r) => {
@@ -81,22 +59,25 @@ export const PopoverTrade = ({
           // alert.error(r.error);
           return;
         } else {
-          setUser((prev) => ({
-            ...prev,
-            views: [
-              ...(prev.views?.filter(
-                (entry) => entry.name !== activeView?.name
-              ) || []),
-              r.view[0],
-            ],
-          }));
+          setUser(
+            (prev) =>
+              ({
+                ...prev,
+                views: [
+                  ...(prev?.views?.filter(
+                    (entry) => entry.name !== activeView?.name
+                  ) || []),
+                  r.view[0],
+                ],
+              } as never)
+          );
           setLoadTime(false);
         }
       });
   };
 
   const handleBlockchainsChange = (chain: string) => {
-    if (!state.filters.blockchains.includes(chain))
+    if (!state?.filters?.blockchains?.includes(chain))
       dispatch({
         type: ACTIONS.ADD_BLOCKCHAINS,
         payload: { value: chain },
@@ -123,106 +104,84 @@ export const PopoverTrade = ({
 
   const newDefault = [...defaultCategories];
 
+  console.log(isPopoverOpen, "isPopoverOpen");
+
   return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen} matchWidth>
-      <PopoverTrigger>{children}</PopoverTrigger>
-      <PopoverContent
-        maxW="240px"
-        bg={boxBg3}
-        p="10px"
-        borderRadius="16px"
-        border={borders}
-      >
-        <PopoverBody p="0px">
-          <Flex direction="column">
+    <Popover
+      extraCss="left-0 top-[100%]"
+      onToggle={() => setIsPopoverOpen((prev) => !prev)}
+      isOpen={isPopoverOpen}
+      visibleContent={children}
+      hiddenContent={
+        isPopoverOpen ? (
+          <div className="flex flex-col">
             {name !== "blockchains" && name !== "categories" ? (
-              <Flex direction="column">
+              <div className="flex flex-col">
                 <Input
-                  {...inputStyle}
-                  value={state.filters?.[name]?.from}
+                  extraCss="mb-2.5"
+                  placeholder={state.filters?.[name]?.from}
                   name={name}
-                  mb="10px"
-                  // _focus={{bg: "red"}}
-                  // _active={{bg: "red"}}
-                  // _hover={{bg: "red"}}
                   onChange={(e) => handleInputChange(e, "from")}
-                  border={borders}
                 />
                 <Input
-                  {...inputStyle}
-                  value={
+                  placeholder={
                     state.filters?.[name]?.to === 100_000_000_000_000_000
                       ? "Any"
                       : state.filters?.[name]?.to
                   }
                   name={name}
-                  border={borders}
                   onChange={(e) => handleInputChange(e, "to")}
                 />
-              </Flex>
+              </div>
             ) : null}
             {name === "blockchains" ? (
-              <Flex direction="column">
-                <Flex
-                  direction="column"
-                  w="100%"
-                  maxH="390px"
-                  overflowY="scroll"
-                >
+              <div className="flex flex-col">
+                <div className="flex flex-col w-full max-h-[390px] overflow-y-scroll">
                   {Object.keys(blockchainsContent)?.map((chain, i) => {
                     if (!chain) return null;
                     return (
-                      <Flex
-                        key={Math.random() + chain}
-                        align="center"
-                        mt={i !== 0 ? "7.5px" : "0px"}
-                        mb={
+                      <div
+                        className={`flex items-center ${
+                          i !== 0 ? "mt-[7.5px]" : "mt-0"
+                        } ${
                           i ===
                           (Object.keys(blockchainsContent).length || 0) - 1
-                            ? "0px"
-                            : "7.5px"
-                        }
+                            ? "mb-0"
+                            : "mb-[7.5px]"
+                        }`}
+                        key={chain}
                       >
                         <Button
-                          boxSize="16px"
-                          borderRadius="4px"
-                          border={bordersActive}
+                          className="w-[16px] h-[16px] border-blue max-w-[16px] max-h-[16px] flex items-center justify-center rounded border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover"
                           onClick={() => {
                             handleBlockchainsChange(chain);
                           }}
                         >
-                          <Icon
-                            as={BsCheckLg}
-                            fontSize="11px"
-                            color={text80}
-                            opacity={
+                          <BsCheckLg
+                            className={`text-xs text-light-font-100 dark:text-dark-font-100 ${
                               state?.filters?.blockchains?.includes(chain)
-                                ? 1
-                                : 0
-                            }
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
                           />
                         </Button>
-
-                        <Image
-                          ml="15px"
-                          borderRadius="full"
+                        <img
+                          className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] min-h-[25px] mr-2.5"
                           src={
                             blockchainsContent[chain]?.logo ||
                             `/logo/${chain.toLowerCase().split(" ")[0]}.png`
                           }
-                          boxSize="25px"
-                          minW="25px"
-                          mr="10px"
+                          alt={`${chain} logo`}
                         />
-                        <TextSmall>{chain}</TextSmall>
-                      </Flex>
+                        <SmallFont extraCss="mr-2.5">{chain}</SmallFont>
+                      </div>
                     );
                   })}
-                </Flex>
-              </Flex>
+                </div>
+              </div>
             ) : null}
             {name === "categories" ? (
-              <Flex wrap="wrap" w="100%">
+              <div className="flex flex-wrap w-full">
                 {newDefault
                   ?.sort((entry) =>
                     state.filters?.categories?.includes(entry) ? -1 : 1
@@ -230,55 +189,34 @@ export const PopoverTrade = ({
                   ?.filter((_, i) => i < 5)
                   .map((categorie) => (
                     <Button
-                      variant="outlined_grey"
-                      borderRadius="16px"
-                      mt="7.5px"
-                      h="30px"
-                      mr="7.5px"
-                      bg={
+                      extraCss={`rounded-2xl mt-[7.5px] h-[30px] mr-[7.5px] ${
                         state.filters.categories?.includes(categorie)
-                          ? hover
-                          : boxBg6
-                      }
-                      border={borders}
-                      color={text80}
+                          ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                          : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                      } `}
                       onClick={() => handleCategoryChange(categorie)}
                       key={categorie as Key}
                     >
-                      <TextSmall mt="1px" m="0px">
-                        {categorie}
-                      </TextSmall>
+                      <SmallFont>{categorie}</SmallFont>
                       {state.filters.categories?.includes(categorie) ? (
-                        <Icon as={AiOutlineClose} fontSize="9px" ml="5px" />
+                        <AiOutlineClose className="text-[9px] ml-[5px]" />
                       ) : null}
                     </Button>
                   ))}
                 <Button
-                  variant="outlined_grey"
-                  borderRadius="16px"
-                  mt="7.5px"
-                  h="30px"
-                  mr="7.5px"
-                  bg={boxBg6}
-                  border={borders}
-                  color={text80}
+                  extraCss="rounded-2xl mt-[7.5px] h-[30px] mr-[7.5px]"
                   onClick={() => {
                     setTypePopup("edit");
                     setShowCategories(true);
                   }}
                 >
-                  <TextSmall mt="1px" m="0px">
-                    See all
-                  </TextSmall>
+                  <SmallFont>See all</SmallFont>
                 </Button>
-              </Flex>
+              </div>
             ) : null}
-
-            <Flex mt="10px">
+            <div className="flex mt-2.5">
               <Button
-                w="50%"
-                h={["35px", "40px"]}
-                variant="outlined_grey"
+                extraCss="w-1/2 flex items-center h-[40px] sm:h-[35px]"
                 onClick={() => {
                   setIsLoading(true);
                   setLoadTime(true);
@@ -360,14 +298,7 @@ export const PopoverTrade = ({
                 Reset
               </Button>
               <Button
-                mb="0px"
-                h={["35px", "40px"]}
-                ml="5px"
-                variant="outlined"
-                bg={boxBg6}
-                w="50%"
-                _hover={{ border: "1px solid var(--chakra-colors-blue)" }}
-                transition="all 250ms ease-in-out"
+                extraCss="w-1/2 flex items-center h-[40px] sm:h-[35px] border-blue mb-0 ml-[5px]"
                 onClick={() => {
                   if (!activeView) return;
                   setIsLoading(true);
@@ -384,7 +315,7 @@ export const PopoverTrade = ({
                       sameSite: "strict",
                     });
                     setLoadTime(false);
-                    onClose();
+                    setIsPopoverOpen(false);
                   } else if (activeView.name !== "All") {
                     const { id } = activeView;
                     setActiveView({
@@ -409,21 +340,14 @@ export const PopoverTrade = ({
                 }}
               >
                 {loadTime ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    emptyColor={boxBg3}
-                    color="blue"
-                    size="xs"
-                    mr="7.5px"
-                  />
+                  <Spinner extraCss="w-[20px] h-[20px] mr-[7.5px]" />
                 ) : null}
                 Apply
               </Button>{" "}
-            </Flex>
-          </Flex>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+            </div>
+          </div>
+        ) : null
+      }
+    />
   );
 };

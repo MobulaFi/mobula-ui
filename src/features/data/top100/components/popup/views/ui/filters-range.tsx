@@ -1,45 +1,33 @@
-import { Button, Flex, Input } from "@chakra-ui/react";
-import React from "react";
-import { TextSmall } from "../../../../../../../components/fonts";
-import { useColors } from "../../../../../../../lib/chakra/colorMode";
+import { Button } from "components/button";
+import { Input } from "components/input";
+import { SmallFont } from "../../../../../../../components/fonts";
 
 export const FiltersRange = ({ state, setState }) => {
-  const { boxBg6, borders, text80 } = useColors();
   return (
-    <Flex direction="column" w="100%">
-      <Flex w="100%">
-        <Flex direction="column" w="50%" mr="5px">
-          <TextSmall>From</TextSmall>
+    <div className="flex flex-col w-full">
+      <div className="w-full">
+        <div className="flex flex-col w-1/2 mr-[5px]">
+          <SmallFont>From</SmallFont>
           <Input
-            bg={boxBg6}
-            border={borders}
-            color={text80}
-            _placeholder={{ color: text80 }}
             placeholder={state.from}
-            borderRadius="8px"
             type="number"
             onChange={(e) =>
               setState((prev) => ({ ...prev, from: e.target.value }))
             }
           />
-        </Flex>
-        <Flex direction="column" w="50%" ml="5px">
-          <TextSmall>To</TextSmall>
+        </div>
+        <div className="flex flex-col w-1/2 ml-[5px]">
+          <SmallFont>To</SmallFont>
           <Input
-            bg={boxBg6}
-            border={borders}
-            color={text80}
-            _placeholder={{ color: text80 }}
             placeholder={state.to}
-            borderRadius="8px"
             type="number"
             onChange={(e) =>
               setState((prev) => ({ ...prev, to: e.target.value }))
             }
           />
-        </Flex>
-      </Flex>
-      <Button variant="outlined_grey">Reset</Button>
-    </Flex>
+        </div>
+      </div>
+      <Button>Reset</Button>
+    </div>
   );
 };
