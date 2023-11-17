@@ -1,27 +1,25 @@
-import {CheckIcon, CopyIcon} from "@chakra-ui/icons";
-import {Button, Flex, Image, useClipboard} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {BlockchainName} from "mobula-lite/lib/model";
-import {useContext} from "react";
-import {useAlert} from "react-alert";
-import {useNetwork} from "wagmi";
-import {TextSmall} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {addressSlicer} from "../../../../../common/utils/user";
-import {BaseAssetContext} from "../../context-manager";
+import { useClipboard } from "@chakra-ui/react";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { BlockchainName } from "mobula-lite/lib/model";
+import React, { useContext } from "react";
+// import {useAlert} from "react-alert";
+import { BiCopy } from "react-icons/bi";
+import { BsCheckLg } from "react-icons/bs";
+import { useNetwork } from "wagmi";
+import { SmallFont } from "../../../../components/fonts";
+import { addressSlicer } from "../../../../utils/formaters";
+import { BaseAssetContext } from "../../context-manager";
 
-export function Contracts({
-  contract,
-  blockchain,
-}: {
+interface ContractsProps {
   contract: string;
   blockchain: string;
-}) {
-  const {onCopy, hasCopied} = useClipboard(contract);
-  const alert = useAlert();
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {chain} = useNetwork();
-  const {text80, text60, boxBg6, hover, borders, bordersActive} = useColors();
+}
+
+export function Contracts({ contract, blockchain }: ContractsProps) {
+  const { onCopy, hasCopied } = useClipboard(contract);
+  // const alert = useAlert();
+  const { baseAsset } = useContext(BaseAssetContext);
+  const { chain } = useNetwork();
   const shortenedName =
     blockchain === "BNB Smart Chain (BEP20)"
       ? "BNB Chain"
@@ -51,76 +49,62 @@ export function Contracts({
       } catch (error) {
         // Empty error
       }
-    } else {
-      alert.error(
-        `Please switch to a network compatible with ${baseAsset.name}`,
-      );
     }
+    // else {
+    //   alert.error(
+    //     `Please switch to a network compatible with ${baseAsset.name}`,
+    //   );
+    // }
   };
 
   return (
-    <Flex
-      align="center"
-      position="relative"
-      justify="space-between"
-      minWidth={["135px", "135px", "181px", "220px"]}
-      borderRadius="8px"
-      bg={boxBg6}
-      border={borders}
-      px="10px"
-      h="32px"
-      w="100%"
-      _hover={{bg: hover, border: bordersActive}}
-      transition="all 250ms ease-in-out"
+    <div
+      className="flex items-center relative justify-between min-w-[220px] lg:min-w-[181px] md:min-w-[135px] 
+    rounded bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary 
+    px-2.5 w-full h-[32px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250"
     >
-      <Flex w="100%" align="center">
+      <div className="flex w-full items-center">
         {blockchain ? (
-          <Image
-            width="17px"
-            borderRadius="50%"
-            height="17px"
-            mr="7px"
+          <img
+            className="w-[17px] h-[17px] min-w-[17px] mr-[7px] rounded-full"
+            alt={`${blockchain} logo`}
             src={
               blockchainsContent[blockchain]?.logo ||
               `/logo/${blockchain.toLowerCase().split(" ")[0]}.png`
             }
           />
         ) : null}
-        <TextSmall color={text60}>{shortenedName}</TextSmall>
-      </Flex>
-      <Flex w="100%" justify="flex-end" ml="20px">
-        <TextSmall
-          mt="1px"
-          mr="10px"
+        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+          {shortenedName}
+        </SmallFont>
+      </div>
+      <div className="flex justify-end ml-5 w-full">
+        <SmallFont
+          extraCss="mr-2.5 text-start ml-[9px]"
           onClick={() => {
             window.open(
               `${blockchainsContent[blockchain]?.explorer}/address/${contract}`,
-              "_blank",
+              "_blank"
             );
             window.focus();
           }}
-          ml="9px"
-          textAlign="start"
-          color={text80}
         >
           {addressSlicer(contract)}
-        </TextSmall>
-        <Button onClick={onCopy} fontSize="12px">
+        </SmallFont>
+        <button className="flex items-center text-xs" onClick={onCopy}>
           {hasCopied ? (
-            <CheckIcon color="green" />
+            <BsCheckLg className="text-green dark:text-green" />
           ) : (
-            <CopyIcon color={text60} />
+            <BiCopy className="text-light-font-60 dark:text-dark-font-60" />
           )}
-        </Button>
-        <Image
+        </button>
+        <img
+          className="cursor-pointer ml-[7.5px] mt-0.5 min-w-[17px] w-[17px] h-[17px]"
           onClick={AddTokenToMetamask}
-          cursor="pointer"
           src="/logo/metamask.png"
-          ml="7.5px"
-          mt="2px"
-          boxSize="17px"
+          alt="metamask logo"
         />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 }

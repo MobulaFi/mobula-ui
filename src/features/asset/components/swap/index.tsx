@@ -1,106 +1,67 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
-import {Button, Flex, useMediaQuery} from "@chakra-ui/react";
-import {useContext} from "react";
-import {MainContainer} from "../../../../../UI/MainContainer";
-import {TextLandingMedium} from "../../../../../UI/Text";
-import {SwapProvider} from "../../../../../common/providers/swap";
-import {Litedex} from "../../../../../common/providers/swap/components/swaps/main";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../context-manager";
+import React, { useContext } from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { Button } from "../../../../components/button";
+import { Container } from "../../../../components/container";
+import { LargeFont } from "../../../../components/fonts";
+import { SwapProvider } from "../../../../layouts/swap";
+import { BasicSwap } from "../../../../layouts/swap/swap-variant/basic-swap";
+import { BaseAssetContext } from "../../context-manager";
 
 export const SwapPopup = () => {
-  const {baseAsset, showSwap, setShowSwap} = useContext(BaseAssetContext);
-  const {boxBg6, text80, hover, borders} = useColors();
-  const [isDesktop] = useMediaQuery("(min-width: 768px)", {
-    ssr: true,
-    fallback: false,
-  });
+  const { baseAsset, showSwap, setShowSwap } = useContext(BaseAssetContext);
 
   const getSwapPosition = () => {
-    if (showSwap === 2) return "0px";
-    if (showSwap === 1) return "-420px";
-    return "-475px";
+    if (showSwap === 2) return "bottom-[0px]";
+    if (showSwap === 1) return "bottom-[420px]";
+    return "bottom-[-475px]";
   };
+  const swapPosition = getSwapPosition();
+
   return (
-    <MainContainer
-      bottom={getSwapPosition()}
-      transform="translateX(50%)"
-      right="50%"
-      position="fixed"
-      zIndex="10"
-      mb="0px"
-      justify="flex-end"
-      transition="all 250ms ease-in-out"
-      display={["flex", "flex", "flex", "none"]}
+    <Container
+      extraCss={`${swapPosition} translate-x-[50%] right-[50%] fixed z-10 mb-0 justify-end transition-all duration-250 hidden lg:flex`}
     >
-      <Flex
-        direction="column"
-        maxW="420px"
-        w="100%"
-        ml="auto"
-        mr={["auto", "auto", "auto", "0px"]}
-        bg={boxBg6}
-        border={borders}
-        borderRadius="16px 16px 0px 0px"
-        boxShadow="1px 2px 13px 4px rgba(0, 0, 0, 0.2)"
-        transition="all 250ms ease-in-out"
+      <div
+        className="flex flex-col max-w-[420px] w-full ml-auto mr-0 lg:mr-auto bg-light-bg-terciary 
+      dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded-l-2xl 
+      shadow-md transition-all duration-250"
       >
-        <Flex
-          bg={boxBg6}
-          align="center"
-          borderRadius="16px 16px 0px 0px"
-          justify="space-between"
-          h="50px"
-          px="15px"
-          borderBottom="none"
-        >
-          <TextLandingMedium color={text80}>
-            Trade {baseAsset?.symbol}
-          </TextLandingMedium>
+        <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-l-2xl justify-between flex items-center px-[15px] h-[50px]">
+          <LargeFont>Trade {baseAsset?.symbol}</LargeFont>
           <Button
-            boxSize={["30px", "36px"]}
-            borderRadius="full"
-            bg={boxBg6}
-            _hover={{
-              bg: hover,
-              border: hover,
-            }}
-            color={text80}
-            transition="all 250ms ease-in-out"
-            border={borders}
+            extraCss="w-[36px] h-[36px] min-w-[36px] sm:w-[30px] sm:min-w-[30px] sm:h-[30px] rounded-full"
             onClick={() => {
               if (showSwap === 1) setShowSwap(2);
               else setShowSwap(1);
             }}
           >
-            <ChevronDownIcon
-              transform={showSwap ? "rotate(180deg)" : "rotate(0deg)"}
-              color="blue"
-              transition="all 250ms ease-in-out"
-              fontSize="30px"
+            <BsChevronDown
+              className={`${
+                showSwap ? "rotate-180" : ""
+              } text-blue dark:text-blue transition-all duration-250 text-3xl`}
             />
           </Button>
-        </Flex>
-        {!isDesktop ? (
+        </div>
+        <div className="flex md:hidden">
           <SwapProvider
-            tokenOutBuffer={{
-              ...baseAsset,
-              blockchain: baseAsset?.blockchains[0],
-              address:
-                baseAsset && "contracts" in baseAsset
-                  ? baseAsset.contracts[0]
-                  : undefined,
-              logo: baseAsset?.image || baseAsset?.logo,
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              name: baseAsset?.name || baseAsset?.symbol,
-            }}
+            tokenOutBuffer={
+              {
+                ...baseAsset,
+                blockchain: baseAsset?.blockchains[0],
+                address:
+                  baseAsset && "contracts" in baseAsset
+                    ? baseAsset.contracts[0]
+                    : undefined,
+                logo: baseAsset?.image || baseAsset?.logo,
+                name: baseAsset?.name || baseAsset?.symbol,
+              } as never
+            }
             lockToken={["out"]}
           >
-            <Litedex />
+            <BasicSwap activeStep={0} />
           </SwapProvider>
-        ) : null}
-      </Flex>
-    </MainContainer>
+        </div>
+      </div>
+    </Container>
   );
 };
