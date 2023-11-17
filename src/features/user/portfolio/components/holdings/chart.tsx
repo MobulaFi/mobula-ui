@@ -1,5 +1,6 @@
 import * as echarts from "echarts";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { useTheme } from "next-themes";
 import React, {
   useCallback,
   useContext,
@@ -9,7 +10,6 @@ import React, {
 } from "react";
 import { v4 as uuid } from "uuid";
 import { SmallFont } from "../../../../../components/fonts";
-import useDarkMode from "../../../../../hooks/useDarkMode";
 import {
   getFormattedAmount,
   getTokenPercentage,
@@ -24,8 +24,8 @@ export const HoldingChart = ({ ...props }) => {
   type EChartsOption = echarts.EChartsOption;
   const id = useMemo(() => uuid(), []);
   const [title, setTitle] = useState("asset");
-  const [colorTheme] = useDarkMode();
-  const isDarkMode = colorTheme === "dark";
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   const sortedHoldings = useMemo(
     () =>
@@ -97,7 +97,7 @@ export const HoldingChart = ({ ...props }) => {
       bottom: "4%",
       orient: "horizontal",
       textStyle: {
-        color: isDarkMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)",
+        color: isDarkMode ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.95)",
         fontWeight: 500,
       },
       itemWidth: 10,
@@ -199,7 +199,7 @@ export const HoldingChart = ({ ...props }) => {
 
   return (
     <div
-      className="flex bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl md:rounded-none mb-2.5 w-full mx-auto flex-col"
+      className="flex bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl md:rounded-none mb-2.5 w-full flex-col"
       {...props}
     >
       <p className="text-light-font-100 dark:text-dark-font-100 font-medium text-lg md:text-base mb-0">
@@ -240,7 +240,7 @@ export const HoldingChart = ({ ...props }) => {
         </button>
       </div>
       {data.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-5">
+        <div className="flex flex-col items-center justify-center mt-5 mx-auto ">
           <img
             className="w-[150px] h-[150px] min-w-[150px]"
             src={"/asset/empty-roi-light.png"}
@@ -250,7 +250,7 @@ export const HoldingChart = ({ ...props }) => {
           <SmallFont className="mt-[15px] mb-2.5">No data available</SmallFont>
         </div>
       ) : (
-        <div className="flex h-[300px] w-full md:w-[278px] mx-auto flex-col">
+        <div className="flex h-[300px] w-[320px] md:w-[278px] mx-auto flex-col">
           <div id={id} className="h-[300px] w-[278px] min-w-[278px]" />
         </div>
       )}

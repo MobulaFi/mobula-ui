@@ -13,6 +13,14 @@ import {
   Transaction,
 } from "../models";
 
+interface PortfolioV2Props {
+  children: React.ReactNode;
+  cookies?: null | IPortfolio;
+  isMobile?: boolean;
+  isPortfolioExplorer?: boolean;
+  isWalletExplorer?: string | false;
+}
+
 export const PortfolioV2Context = React.createContext({} as IPortfolioV2);
 
 export const PortfolioV2Provider = ({
@@ -21,13 +29,7 @@ export const PortfolioV2Provider = ({
   isMobile = false,
   isPortfolioExplorer: isPortfolioExplorerBuffer = false,
   isWalletExplorer: isWalletExplorerBuffer = false,
-}: {
-  children: React.ReactNode;
-  cookies?: null | IPortfolio;
-  isMobile?: boolean;
-  isPortfolioExplorer?: boolean;
-  isWalletExplorer?: string | false;
-}) => {
+}: PortfolioV2Props) => {
   const activePortfolioBuffer = cookies || {};
 
   /** POPUPS */
@@ -111,9 +113,7 @@ export const PortfolioV2Provider = ({
     activePortfolioBuffer as IPortfolio
   );
   // on the "add asset" popup, if a token is "predefined"
-  const [tokenTsx, setTokenTsx] = useState<Partial<Asset>>(
-    {} as Partial<Asset>
-  );
+  const [tokenTsx, setTokenTsx] = useState<Asset>({} as Asset);
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []
   );

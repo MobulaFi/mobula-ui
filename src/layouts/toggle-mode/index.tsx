@@ -1,7 +1,7 @@
 "use client";
 import { SmallFont } from "components/fonts";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../components/button";
 
 export const ToggleColorMode = () => {

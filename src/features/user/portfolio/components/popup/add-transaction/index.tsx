@@ -5,7 +5,6 @@ import { Collapse } from "@chakra-ui/react";
 import { Button } from "components/button";
 import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
-import React from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import Calendar from "react-widgets/Calendar";
@@ -21,7 +20,6 @@ import {
 import { LargeFont } from "../../../../../../components/fonts";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
@@ -55,7 +53,6 @@ export const AddTransactionPopup = () => {
   const [date, setDate] = useState(new Date().getTime());
   const [typeSelected, setTypeSelected] = useState("Buy");
   const switcherOptions = ["Buy", "Sell", "Transfer"];
-  const { boxBg3, boxBg6, borders, text40, text80, hover } = useColors();
   const [isUSDInput, setIsUSDInput] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const switcherPriceOptions = [
@@ -77,7 +74,7 @@ export const AddTransactionPopup = () => {
     quantity: "",
     price: 0,
     total_spent: 0,
-    token: initialToken,
+    token: initialToken as Asset,
     date: new Date(),
     fee: "",
     note: "",
@@ -94,12 +91,15 @@ export const AddTransactionPopup = () => {
   const getPriceFromActivePriceOption = (type) => {
     if (type === "Market Price") {
       setSettings((prev) => ({ ...prev, price: tokenTsx?.price }));
-      setSettings((prev) => ({
-        ...prev,
-        total_spent: tokenTsx?.price
-          ? tokenTsx.price * parseFloat(prev.quantity)
-          : null,
-      }));
+      setSettings(
+        (prev) =>
+          ({
+            ...prev,
+            total_spent: tokenTsx?.price
+              ? tokenTsx.price * parseFloat(prev.quantity)
+              : null,
+          } as never)
+      );
     }
     if (type === "Custom Price") {
       setSettings((prev) => ({ ...prev, price: 0 }));
@@ -110,12 +110,15 @@ export const AddTransactionPopup = () => {
     }
     if (type === "Ico Price") {
       setSettings((prev) => ({ ...prev, price: tokenTsx?.ico_price }));
-      setSettings((prev) => ({
-        ...prev,
-        total_spent: tokenTsx?.ico_price
-          ? tokenTsx.ico_price * parseFloat(prev.quantity)
-          : null,
-      }));
+      setSettings(
+        (prev) =>
+          ({
+            ...prev,
+            total_spent: tokenTsx?.ico_price
+              ? tokenTsx.ico_price * parseFloat(prev.quantity)
+              : null,
+          } as never)
+      );
     }
   };
 
@@ -151,11 +154,12 @@ export const AddTransactionPopup = () => {
     });
 
     const timestamp =
-      date + convertInMillis(hoursRef.current.value, minutesRef.current.value);
+      date +
+      convertInMillis(hoursRef?.current?.value, minutesRef?.current?.value);
     if (parseFloat(settings.quantity)) {
       GET("/portfolio/addtx", {
-        account: address,
-        asset: String(settings.token?.id),
+        account: address as string,
+        asset: String(settings?.token?.id || 0),
         amount: String(
           parseFloat(
             String(
@@ -190,11 +194,14 @@ export const AddTransactionPopup = () => {
   }, []);
 
   useEffect(() => {
-    setSettings((prev) => ({
-      ...prev,
-      price: tokenTsx?.price,
-      token: tokenTsx,
-    }));
+    setSettings(
+      (prev) =>
+        ({
+          ...prev,
+          price: tokenTsx?.price,
+          token: tokenTsx,
+        } as BuySettings)
+    );
     loadHistory(tokenTsx);
   }, [tokenTsx]);
 

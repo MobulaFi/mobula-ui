@@ -31,7 +31,7 @@ export const Container = ({
   return (
     <div
       className={cn(
-        "mt-[28px] md:mt-2.5 flex flex-col mx-auto w-90per lg:95per max-w-[1200px]",
+        "mt-[28px] md:mt-2.5 flex flex-col mx-auto w-90per lg:w-[95%] max-w-[1200px]",
         extraCss
       )}
       {...props}

@@ -1,11 +1,11 @@
 "use client";
 import Cookies from "js-cookie";
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { getAddress } from "viem";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
-import { PortfolioAsset } from "./asset";
 import { PortfolioV2Context } from "./context-manager";
 import { PortfolioMain } from "./main";
 import { IPortfolio } from "./models";
@@ -15,6 +15,7 @@ interface PortfolioProps {
   main: boolean;
   asset?: string;
   address?: string;
+  isWalletExplorer?: boolean;
 }
 
 export const setPortfolioCookies = (portfolio: IPortfolio) => {
@@ -29,6 +30,7 @@ export const Portfolio = ({
   main,
   asset: assetName,
   address,
+  isWalletExplorer,
 }: PortfolioProps) => {
   const {
     wallet,
@@ -39,7 +41,6 @@ export const Portfolio = ({
     setIsAssetPage,
     setActivePortfolio,
     activePortfolio,
-    isWalletExplorer,
     setIsWalletExplorer,
     setIsLoading,
     setIsRefreshing,
@@ -130,6 +131,67 @@ export const Portfolio = ({
   }, [activePortfolio, isWalletExplorer]);
 
   useEffect(() => {
+    // ID means we're exploring, userPortfolio means we're on the user's portfolio
+
+    if (
+      isWalletExplorer &&
+      address &&
+      (!wallet || wallet.addresses[0] !== address.toLowerCase())
+    ) {
+      setIsWalletExplorer(getAddress(address));
+      setIsLoading(true);
+
+      const socket = new WebSocket(
+        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
+      );
+      socket.addEventListener("open", () => {
+        socket.send(`{"explorer": {"wallet": "${address}"}, "force": true}`);
+      });
+
+      let failed = true;
+      socket.addEventListener("message", (event) => {
+        try {
+          const portfolio = JSON.parse(event.data);
+
+          if (portfolio !== null) {
+            if (portfolio.status === "error") {
+              setError(
+                "Invalid address. Mobula Portfolio does not support smart-contracts."
+              );
+              setWallet(null);
+              setIsLoading(false);
+            } else {
+              failed = false;
+              setWallet({
+                ...portfolio,
+                uniqueIdentifier: address,
+                // id: id || activePortfolio?.id,
+              });
+            }
+          } else if (failed) setWallet(null);
+          setIsLoading(false);
+          // Basically, refreshing will keep the little weel spinning while starting to display first data.
+          setIsRefreshing(true);
+        } catch (e) {
+          console.log(event.data, event.data === "Goodbye.");
+          if (event.data === "Goodbye.") {
+            setIsRefreshing(false);
+            if (failed) {
+              setIsLoading(false);
+              setWallet(null);
+            }
+          }
+        }
+      });
+      return () => {
+        socket.close();
+      };
+    }
+
+    return () => {};
+  }, [isWalletExplorer, address]);
+
+  useEffect(() => {
     if (user && !isWalletExplorer && !id) {
       const supabase = createSupabaseDOClient();
       supabase
@@ -180,7 +242,7 @@ export const Portfolio = ({
       setAsset({
         ...rightAsset,
         uniqueIdentifier: assetName,
-      });
+      } as never);
       setIsAssetPage(true);
     } else if (isAssetPage) setIsAssetPage(false);
   }, [wallet, assetName]);
@@ -205,7 +267,7 @@ export const Portfolio = ({
         supabase
           .from<Asset>("assets")
           .select("price,price_change_24h,id,name")
-          .in("id", ids)
+          .in("id", ids || [])
           .then((r) => {
             if (r.error) {
               console.log(r.error);
@@ -217,12 +279,13 @@ export const Portfolio = ({
             const newWallet = { ...wallet };
             newWallet.estimated_balance = 0;
 
-            newWallet.portfolio = newWallet.portfolio.map((entry) => {
+            newWallet.portfolio = newWallet?.portfolio?.map((entry) => {
               const newEntry = { ...entry };
               const asset = r.data.find((e) => e.id === entry.id);
-              newEntry.price = asset.price;
-              newEntry.change_24h = asset.price_change_24h;
-              newEntry.estimated_balance = asset.price * entry.token_balance;
+              newEntry.price = asset?.price as number;
+              newEntry.change_24h = asset?.price_change_24h as number;
+              newEntry.estimated_balance =
+                (asset?.price || 0) * entry.token_balance;
               newWallet.estimated_balance += newEntry.estimated_balance;
               newEntry.estimated_balance_change =
                 newEntry.estimated_balance - entry.estimated_balance > 0;
@@ -233,14 +296,27 @@ export const Portfolio = ({
               return newEntry;
             });
 
-            newWallet.estimated_history[
-              newWallet.estimated_history.length - 1
-            ] = [Date.now(), newWallet.estimated_balance];
+            if (newWallet && newWallet.estimated_history) {
+              const lastIndex = newWallet.estimated_history.length - 1;
+              if (lastIndex >= 0) {
+                newWallet.estimated_history[lastIndex] = [
+                  Date.now(),
+                  newWallet.estimated_balance,
+                ];
+              } else {
+                newWallet.estimated_history = [
+                  [Date.now(), newWallet.estimated_balance],
+                ];
+              }
+            } else if (newWallet) {
+              newWallet.estimated_history = [
+                [Date.now(), newWallet.estimated_balance],
+              ];
+            }
 
             newWallet.estimated_balance_change =
               newWallet.estimated_balance - wallet.estimated_balance > 0;
 
-            // If the change is 0, we don't want to display it
             if (!(newWallet.estimated_balance - wallet.estimated_balance))
               newWallet.estimated_balance_change = undefined;
 
@@ -252,8 +328,8 @@ export const Portfolio = ({
                   (entry) => {
                     const newEntry = { ...entry };
                     const asset = r.data.find((e) => e.id === entry.asset_id);
-                    newEntry.balance_usd = asset.price * entry.balance;
-                    newEntry.name = asset.name;
+                    newEntry.balance_usd = (asset?.price || 0) * entry.balance;
+                    newEntry.name = asset?.name;
                     return newEntry;
                   }
                 );
@@ -277,6 +353,5 @@ export const Portfolio = ({
     };
   }, [wallet?.id, showPortfolioSelector, wallet?.portfolio?.length]);
 
-  if (main) return <PortfolioMain />;
-  return <PortfolioAsset />;
+  return <PortfolioMain />;
 };

@@ -386,7 +386,11 @@ export const Entry = ({
             <Segment
               extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px] ${background}`}
             >
-              <TokenInfo token={token} showRank={showRank} index={index} />
+              <TokenInfo
+                token={token as Asset}
+                showRank={showRank}
+                index={index}
+              />
             </Segment>
             <PriceSegment
               token={token}
@@ -476,7 +480,11 @@ export const Entry = ({
               // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
               extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[32px] z-[1] ${background}`}
             >
-              <TokenInfo token={token} showRank={showRank} index={index} />
+              <TokenInfo
+                token={token as Asset}
+                showRank={showRank}
+                index={index}
+              />
             </Segment>
             {activeView?.display?.length > 0 &&
             (pathname === "/" || pathname === "/?page=" + page) ? (
@@ -550,13 +558,13 @@ export const Entry = ({
           </tr>
         </tbody>
       )}
-      {show || (isMobile && showAlert === token?.name) ? (
+      {/* {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}
           setShow={setShow}
           asset={token as Asset}
         />
-      ) : null}
+      ) : null} */}
     </EntryContext.Provider>
   );
 };

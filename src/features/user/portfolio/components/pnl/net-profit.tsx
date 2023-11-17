@@ -8,7 +8,6 @@ import React, {
 import { BsChevronDown } from "react-icons/bs";
 import { Skeleton } from "../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../components/tag-percentage";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../context-manager";
 import { Gains } from "../../models";
@@ -28,7 +27,6 @@ export const NetProfit = ({
 }: NetProfitProps) => {
   const { manager, isLoading, timeframe, wallet } =
     useContext(PortfolioV2Context);
-  const { text80, text60, boxBg6, hover } = useColors();
   const [gains, setGains] = useState<Gains>({
     difference: null,
     percentage: null,
@@ -52,8 +50,8 @@ export const NetProfit = ({
       ) || [];
     if (periodData.length < 2) return { difference: null, percentage: null };
     const startAmount = periodData.find((e) => e[1] !== 0)?.[1] ?? 0;
-    const endAmount = wallet.estimated_balance;
-    const difference = endAmount - startAmount;
+    const endAmount = wallet?.estimated_balance;
+    const difference = (endAmount || 0) - startAmount;
     const percentage = (difference / startAmount) * 100;
 
     return {
@@ -91,7 +89,7 @@ export const NetProfit = ({
     <div className={`flex justify-between items-center ${extraCss}`} {...props}>
       <div className="flex items-center">
         {manager.privacy_mode ? (
-          <Privacy color={text60} fontSize={["16px", "16px", "18px", "20px"]} />
+          <Privacy extraCss="text-light-font-60 dark:text-dark-font-60 text-xl lg:text-lg md:text-base" />
         ) : (
           <div className="flex items-center">
             {isLoading ? (
@@ -99,7 +97,7 @@ export const NetProfit = ({
             ) : (
               <p
                 className={`text-xl lg:text-lg md:text-base ${
-                  gains.difference_raw > 0
+                  (gains?.difference_raw || 0) > 0
                     ? "text-green dark:text-green"
                     : "text-red dark:text-red"
                 }`}

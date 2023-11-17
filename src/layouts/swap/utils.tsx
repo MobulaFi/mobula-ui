@@ -32,8 +32,8 @@ export const fetchContract = (search: string) => {
           const contract = getContract({
             address: search as never,
             abi: erc20ABI,
-            publicClient,
-          });
+            publicClient: publicClient as never,
+          }) as any;
 
           const symbol = await contract.read.symbol();
           r({ symbol, blockchain: blockchain.name });

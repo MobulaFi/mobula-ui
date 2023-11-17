@@ -1,4 +1,4 @@
-import router from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiArrowToRight } from "react-icons/bi";
@@ -15,6 +15,7 @@ interface PageResultsProps {
 
 export const PageResults = ({ firstIndex, setTrigger }: PageResultsProps) => {
   const { results, active, setActive, pages } = useContext(SearchbarContext);
+  const router = useRouter();
   const clickEvent = (page: Page) => {
     setTrigger(false);
     pushData("Searchbar", { type: "page", name: page.name });

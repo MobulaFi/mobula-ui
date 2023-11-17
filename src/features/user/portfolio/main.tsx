@@ -25,6 +25,7 @@ import { WalletsPopup } from "./components/popup/wallets";
 import { ButtonTimeSlider } from "./components/ui/button-time-slider";
 import { CategorySwitcher } from "./components/ui/category-switcher";
 import { PortfolioV2Context } from "./context-manager";
+import { UserHoldings } from "./models";
 
 export const PortfolioMain = () => {
   const [showTuto, setShowTuto] = useState(true);
@@ -62,7 +63,7 @@ export const PortfolioMain = () => {
 
   useEffect(() => {
     setIsAssetPage(false);
-    setAsset(null);
+    setAsset(null as never);
   }, []);
 
   useEffect(() => {
@@ -139,7 +140,10 @@ export const PortfolioMain = () => {
   }, []);
 
   return (
-    <div className="flex flex-col overflow-x-hidden" {...handlers}>
+    <div
+      className="flex flex-col overflow-x-hidden mb-[100px] md:mb-[40px]"
+      {...handlers}
+    >
       {activeStep.nbr ? (
         <div
           className="flex fixed w-screen h-screen top-0 bg-red z-[3]"
@@ -151,7 +155,7 @@ export const PortfolioMain = () => {
           list={["General", "Widgets", "NFTs", "Activity"]}
           setActive={setActiveCategory}
           active={activeCategory}
-          setPreviousTab={setPreviousTab}
+          setPreviousTab={setPreviousTab as never}
           isPortfolio
         />
       ) : null}
@@ -178,7 +182,9 @@ export const PortfolioMain = () => {
                   ) : null}
                   {timeframe !== "ALL" ? (
                     <>
-                      {manager.daily_pnl ? <DailyPnl wallet={wallet} /> : null}
+                      {manager.daily_pnl ? (
+                        <DailyPnl wallet={wallet as UserHoldings} />
+                      ) : null}
                       {manager.cumulative_pnl ? <CumulativePnl /> : null}
                     </>
                   ) : null}
@@ -194,13 +200,15 @@ export const PortfolioMain = () => {
               {timeframe !== "ALL" ? (
                 <>
                   {" "}
-                  {manager.daily_pnl ? <DailyPnl wallet={wallet} /> : null}
+                  {manager.daily_pnl ? (
+                    <DailyPnl wallet={wallet as UserHoldings} />
+                  ) : null}
                   {manager.cumulative_pnl ? <CumulativePnl /> : null}
                 </>
               ) : null}
             </div>
           </div>
-          <div className="hidden lg:flex flex-col ml-5 w-calc-full-340 lg:w-full">
+          <div className="hidden lg:flex flex-col ml-5 lg:ml-0 w-calc-full-340 lg:w-full">
             {activeCategory === "General" ? (
               <div
                 className={`${
@@ -244,7 +252,7 @@ export const PortfolioMain = () => {
             ) : null}
           </div>
           {/* MOBILE */}
-          <div className="ml-5 lg:ml-0 flex flex-col lg:hidden w-calc-full-340 lg:w-full">
+          <div className="ml-5 md:ml-0 lg:ml-0 flex flex-col lg:hidden w-calc-full-340 lg:w-full">
             {manager.portfolio_chart ? <PortfolioChart /> : null}
             <div className="w-full mt-0 lg:mt-[55px] md:mt-0 flex lg:hidden">
               <CategorySwitcher />
@@ -271,6 +279,7 @@ export const PortfolioMain = () => {
               setShowAddTransaction(true);
               pushData("Add Asset Button Clicked");
             }}
+            position={"in"}
           />
         )}
         {showTuto ? <StepPopup /> : null}

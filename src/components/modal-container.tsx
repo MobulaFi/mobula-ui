@@ -6,7 +6,7 @@ import { LargeFont } from "./fonts";
 interface ModalContainerProps {
   extraCss?: string;
   isOpen: boolean;
-  title?: string;
+  title?: React.ReactNode;
   onClose: Function;
   children: React.ReactNode;
 }

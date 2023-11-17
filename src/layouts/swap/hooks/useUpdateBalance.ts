@@ -31,8 +31,8 @@ export const useUpdateBalance = () => {
       const contract = getContract({
         abi: erc20ABI,
         address: tokenIn.address as never,
-        publicClient: client,
-      });
+        publicClient: client as never,
+      }) as any;
 
       contract.read.balanceOf([address]).then((balance) => {
         setTokenIn({

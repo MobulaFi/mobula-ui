@@ -1,4 +1,4 @@
-import router from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { BiArrowToRight } from "react-icons/bi";
 import { pushData } from "../../../../lib/mixpanel";
@@ -19,6 +19,7 @@ export const WalletResult = ({
   setTrigger,
   callback,
 }: WalletResultProps) => {
+  const router = useRouter();
   const { users, results, active, setActive, token } =
     useContext(SearchbarContext);
 
@@ -31,16 +32,15 @@ export const WalletResult = ({
       });
     else {
       setTrigger(false);
-      const isUsername =
-        token &&
-        !token.includes(".eth") &&
-        token.toLowerCase() !== wallet.address.toLowerCase();
+      // const isUsername =
+      //   token &&
+      //   !token.includes(".eth") &&
+      //   token.toLowerCase() !== wallet.address.toLowerCase();
       pushData("Searchbar", {
         type: "wallet",
         name: newWallet.address,
       });
-      if (isUsername) router.push(`/profile/${newWallet.address}`);
-      else router.push(`/wallet/${newWallet.address}`);
+      router.push(`/wallet/${newWallet.address}`);
     }
   };
 

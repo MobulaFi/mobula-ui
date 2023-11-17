@@ -1,7 +1,7 @@
 import { Button } from "components/button";
 import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import { Key, useContext } from "react";
+import React, { Key, useContext } from "react";
 import { MediumFont } from "../../../../../components/fonts";
 import { TimeSelected } from "../../../../../interfaces/pages/asset";
 import { colors } from "../../constants";
@@ -46,13 +46,13 @@ export const PortfolioChart = () => {
         <ButtonTimeSlider />
         <div className="flex justify-between w-full items-center mb-[-30px]">
           <CompareButtons
-            extraCss="hidden lg:flex mb-[-50px] mt-[-10px]"
+            extraCss="hidden lg:flex mb-[-50px] mt-[-10px] sm:mt-2.5"
             buttonH="30px"
             comparedEntities={comparedEntities}
             setComparedEntities={setComparedEntities}
           />
           <ComparePopover
-            extraCss="hidden lg:flex mb-[-50px] h-[30px] mr-0"
+            extraCss="hidden lg:flex mb-[-50px] sm:mt-2.5 h-[30px] mr-0"
             setComparedEntities={setComparedEntities}
             comparedEntities={comparedEntities}
           />

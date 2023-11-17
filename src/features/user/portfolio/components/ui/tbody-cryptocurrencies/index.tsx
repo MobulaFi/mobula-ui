@@ -1,10 +1,11 @@
 import { Asset } from "interfaces/assets";
 import dynamic from "next/dynamic";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { TbTriangleFilled } from "react-icons/tb";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import {
@@ -18,10 +19,9 @@ import {
   PopupUpdateContext,
 } from "../../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
+import { TimeSelected } from "../../../../../../interfaces/pages/asset";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
-import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getFormattedAmount,
@@ -46,19 +46,21 @@ interface LinkTdProps {
   children: React.ReactNode;
   asset: UserHoldingsAsset;
   extraCss?: string;
+  [key: string]: any;
 }
 
 const EChart = dynamic(() => import("../../../../../../lib/echart/line"), {
   ssr: false,
 });
 
-const LinkTd = ({ children, asset, extraCss }: LinkTdProps) => {
+const LinkTd = ({ children, asset, extraCss, ...props }: LinkTdProps) => {
   const pathname = usePathname();
   const basePath = pathname?.split("?")[0];
 
   return (
     <td
-      className={`${tdStyle} ${extraCss} border-b border-t border-light-border-primary dark:border-dark-border-primary`}
+      className={`${tdStyle} ${extraCss} border-b border-t border-light-border-primary dark:border-dark-border-primary md:px-[5px]`}
+      {...props}
     >
       {/* href={asset ? `${basePath}/${getUrlFromName(asset?.name)}` : "/"} */}
       {/*  <Link> */}
@@ -88,19 +90,8 @@ export const TbodyCryptocurrencies = ({
   const { setShowBuyDrawer } = useContext(SettingsMetricContext);
   const { handleAddWatchlist, inWatchlist } = useWatchlist(asset.id);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
-  const [isHover, setIsHover] = useState(null);
-  const router = useRouter();
-  const {
-    text40,
-    text80,
-    boxBg1,
-    borders,
-    hover,
-    bg,
-    boxBg3,
-    text60,
-    borders2x,
-  } = useColors();
+  const [isHover, setIsHover] = useState<number | null>(null);
+  const [tokenTimeframe, setTokenTimeframe] = useState("24H");
   const [changeColor, setChangeColor] = useState(
     "text-light-font-100 dark:text-dark-font-100"
   );
@@ -119,8 +110,6 @@ export const TbodyCryptocurrencies = ({
   const refreshPortfolio = useWebSocketResp();
 
   const { address } = useAccount();
-
-  console.log("Coucou c'est moi l'asset:", asset);
 
   useEffect(() => {
     if (!asset) return;
@@ -144,25 +133,6 @@ export const TbodyCryptocurrencies = ({
     setIsInWatchlist(inWatchlist);
   }, [inWatchlist]);
 
-  const [token, setToken] = useState();
-
-  useEffect(() => {
-    if (showTokenInfo !== asset?.id) return;
-    const supabase = createSupabaseDOClient();
-    supabase
-      .from("assets")
-      .select("name, id, symbol, price_history")
-      .eq("id", asset?.id)
-      .single()
-      .then(({ data, error }) => {
-        if (error) {
-          console.log(error);
-          return;
-        }
-        setToken(data);
-      });
-  }, [asset, showTokenInfo]);
-
   const newWallet = wallet?.portfolio.filter(
     (entry) => entry.name === asset?.name
   )[0];
@@ -182,26 +152,32 @@ export const TbodyCryptocurrencies = ({
     return 0;
   };
 
+  const triggerTokenInfo = () => {
+    if (showTokenInfo === asset?.id) {
+      setAsset(null);
+      setShowTokenInfo(null);
+    } else if (showTokenInfo && showTokenInfo !== asset?.id) {
+      setAsset(asset);
+      setShowTokenInfo(asset?.id);
+    } else {
+      setAsset(asset);
+      setShowTokenInfo(asset?.id);
+    }
+  };
+
+  console.log("wallet,", asset);
+
   return (
     <>
-      <tr
-        className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250"
-        onClick={() => {
-          if (showTokenInfo === asset?.id) {
-            setAsset(null);
-            setShowTokenInfo(null);
-          } else if (showTokenInfo && showTokenInfo !== asset?.id) {
-            setAsset(asset);
-            setShowTokenInfo(asset?.id);
-          } else {
-            setAsset(asset);
-            setShowTokenInfo(asset?.id);
-          }
-        }}
-      >
+      <tr className="h-[10px]"></tr>
+      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250">
         {isMobile && (
           <td
-            className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary`}
+            className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary rounded-l-2xl border-l border-t w-fit ${
+              showTokenInfo === asset?.id
+                ? "pb-[300px] md:pb-[600px]"
+                : "pb-[15px]"
+            }`}
           >
             <div className="flex justify-end">
               <button
@@ -218,7 +194,7 @@ export const TbodyCryptocurrencies = ({
         {showCustomMenu && (
           <>
             <div
-              className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-light-font-40 dark:bg-dark-font-40"
+              className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-light-font-20 dark:bg-light-font-20"
               onClick={() => setShowCustomMenu(!showCustomMenu)}
             />
             <div
@@ -302,10 +278,17 @@ export const TbodyCryptocurrencies = ({
           </>
         )}
         <LinkTd
-          extraCss={`sticky top-0 left-[-1px] border-l border-light-border-primary dark:border-dark-border-primary rounded-l-2xl ${
-            showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
-          }`}
+          extraCss={`sticky top-0 left-[-1px] ${
+            isMobile
+              ? "pl-0"
+              : "border-l border-light-border-primary dark:border-dark-border-primary rounded-l-2xl"
+          } ${
+            showTokenInfo === asset?.id
+              ? "pb-[300px] md:pb-[600px]"
+              : "pb-[15px]"
+          } `}
           asset={asset}
+          onClick={triggerTokenInfo}
         >
           <div className="flex items-center min-w-[130px]">
             <img
@@ -317,7 +300,7 @@ export const TbodyCryptocurrencies = ({
               <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium text-sm md:text-[13px]">
                 {asset.symbol}
               </SmallFont>
-              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium text-sm md:text-[13px] max-w-[130px] truncate">
+              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium text-sm md:text-[13px] max-w-[130px] truncate md:max-w-[77px]">
                 {asset?.name}
               </SmallFont>
             </div>
@@ -325,9 +308,12 @@ export const TbodyCryptocurrencies = ({
         </LinkTd>
         <LinkTd
           extraCss={`${
-            showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
-          }`}
+            showTokenInfo === asset?.id
+              ? "pb-[300px] md:pb-[600px]"
+              : "pb-[15px]"
+          } `}
           asset={asset}
+          onClick={triggerTokenInfo}
         >
           <div className="flex flex-col items-end w-full">
             {manager.privacy_mode ? (
@@ -346,97 +332,137 @@ export const TbodyCryptocurrencies = ({
             )}
           </div>
         </LinkTd>
+        {isMobile ? null : (
+          <LinkTd
+            asset={asset}
+            extraCss={`${
+              showTokenInfo === asset?.id
+                ? "pb-[300px] md:pb-[600px]"
+                : "pb-[15px]"
+            } `}
+            onClick={triggerTokenInfo}
+          >
+            <div className="flex flex-col items-end w-full">
+              <SmallFont extraCss={`font-medium text-end ${changeColor}`}>
+                ${getFormattedAmount(asset.price)}
+              </SmallFont>
+              <SmallFont
+                extraCss={`font-medium text-end ${
+                  Number(getTokenPercentage(asset.change_24h)) > 0
+                    ? "text-green dark:text-green"
+                    : "text-red dark:text-red"
+                }`}
+              >
+                {getTokenPercentage(asset.change_24h)}%
+              </SmallFont>
+            </div>
+          </LinkTd>
+        )}
         <LinkTd
           asset={asset}
           extraCss={`${
-            showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
-          }`}
-        >
-          <div className="flex flex-col items-end w-full">
-            <SmallFont extraCss={`font-medium text-end ${changeColor}`}>
-              ${getFormattedAmount(asset.price)}
-            </SmallFont>
-            <SmallFont
-              extraCss={`font-medium text-end ${
-                Number(getTokenPercentage(asset.change_24h)) > 0
-                  ? "text-green dark:text-green"
-                  : "text-red dark:text-red"
-              }`}
-            >
-              {getTokenPercentage(asset.change_24h)}%
-            </SmallFont>
-          </div>
-        </LinkTd>
-        <LinkTd
-          asset={asset}
-          extraCss={`${
-            showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
-          }`}
+            showTokenInfo === asset?.id
+              ? "pb-[300px] md:pb-[600px]"
+              : "pb-[15px]"
+          } ${isMobile ? "pr-5 md:pr-5 rounded-r-2xl border-r" : ""}`}
+          onClick={triggerTokenInfo}
         >
           {manager.privacy_mode ? (
             <Privacy extraCss="justify-end" />
           ) : (
-            <SmallFont
-              extraCss={`font-medium text-end ${
-                Number(
-                  getAmountLoseOrWin(asset.change_24h, asset.estimated_balance)
-                ) > 0
-                  ? "text-green dark:text-green"
-                  : "text-red dark:text-red"
-              }`}
-            >
-              {getFormattedAmount(
-                getAmountLoseOrWin(asset.change_24h, asset.estimated_balance)
+            <div className="flex items-center justify-end">
+              {isMobile ? null : (
+                <TbTriangleFilled
+                  className={`font-medium text-[10px] mr-1.5 text-end ${
+                    Number(
+                      getAmountLoseOrWin(
+                        asset.change_24h,
+                        asset.estimated_balance
+                      )
+                    ) > 0
+                      ? "text-green dark:text-green"
+                      : "text-red dark:text-red rotate-180"
+                  }`}
+                />
               )}
-              $
-            </SmallFont>
+              <SmallFont
+                extraCss={`font-medium text-end ${
+                  Number(
+                    getAmountLoseOrWin(
+                      asset.change_24h,
+                      asset.estimated_balance
+                    )
+                  ) > 0
+                    ? "text-green dark:text-green"
+                    : "text-red dark:text-red"
+                }`}
+              >
+                {getFormattedAmount(
+                  getAmountLoseOrWin(asset.change_24h, asset.estimated_balance)
+                )}
+                $
+              </SmallFont>
+            </div>
           )}
         </LinkTd>
-        <LinkTd
-          asset={asset}
-          extraCss={`${
-            showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
-          }`}
-        >
-          {manager.privacy_mode ? (
-            <Privacy extraCss="justify-end" />
-          ) : (
-            <SmallFont
-              extraCss={`font-medium text-end ${
-                Number(getTokenPercentage(asset.realized_usd)) > 0
-                  ? "text-green dark:text-green"
-                  : "text-red dark:text-red"
-              }`}
-            >
-              {getFormattedAmount(asset.realized_usd)}$
-            </SmallFont>
-          )}
-        </LinkTd>
-        <LinkTd
-          asset={asset}
-          extraCss={`${
-            showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
-          }`}
-        >
-          {manager.privacy_mode ? (
-            <Privacy extraCss="justify-end" />
-          ) : (
-            <SmallFont
-              extraCss={`font-medium text-end ${
-                Number(getTokenPercentage(asset.unrealized_usd)) > 0
-                  ? "text-green dark:text-green"
-                  : "text-red dark:text-red"
-              }`}
-            >
-              {getFormattedAmount(asset.unrealized_usd)}$
-            </SmallFont>
-          )}
-        </LinkTd>
+        {isMobile ? null : (
+          <LinkTd
+            asset={asset}
+            extraCss={`${
+              showTokenInfo === asset?.id
+                ? "pb-[300px] md:pb-[600px]"
+                : "pb-[15px]"
+            } `}
+            onClick={triggerTokenInfo}
+          >
+            {manager.privacy_mode ? (
+              <Privacy extraCss="justify-end" />
+            ) : (
+              <SmallFont
+                extraCss={`font-medium text-end ${
+                  Number(getTokenPercentage(asset.realized_usd)) > 0
+                    ? "text-green dark:text-green"
+                    : "text-red dark:text-red"
+                }`}
+              >
+                {getFormattedAmount(asset.realized_usd)}$
+              </SmallFont>
+            )}
+          </LinkTd>
+        )}
+        {isMobile ? null : (
+          <LinkTd
+            asset={asset}
+            extraCss={`${
+              showTokenInfo === asset?.id
+                ? "pb-[300px] md:pb-[600px]"
+                : "pb-[15px]"
+            } `}
+            onClick={triggerTokenInfo}
+          >
+            {manager.privacy_mode ? (
+              <Privacy extraCss="justify-end" />
+            ) : (
+              <SmallFont
+                extraCss={`font-medium text-end ${
+                  Number(getTokenPercentage(asset.unrealized_usd)) > 0
+                    ? "text-green dark:text-green"
+                    : "text-red dark:text-red"
+                }`}
+              >
+                {getFormattedAmount(asset.unrealized_usd)}$
+              </SmallFont>
+            )}
+          </LinkTd>
+        )}
         {!isMobile && (
           <td
             className={`${tdStyle} ${
-              showTokenInfo === asset?.id ? "pb-[300px]" : "pb-[15px]"
+              showTokenInfo === asset?.id
+                ? "pb-[300px] md:pb-[600px]"
+                : "pb-[15px]"
             } border-r border-b border-t border-light-border-primary dark:border-dark-border-primary rounded-r-2xl`}
+            // onClick={triggerTokenInfo}
           >
             <div className="flex justify-end items-start">
               <button onClick={() => setShowBuyDrawer(asset as any)}>
@@ -460,7 +486,6 @@ export const TbodyCryptocurrencies = ({
                     };
                     setActivePortfolio(newPortfolio);
                     refreshPortfolio(newPortfolio);
-
                     GET("/portfolio/edit", {
                       account: address as string,
                       removed_assets: [
@@ -547,67 +572,96 @@ export const TbodyCryptocurrencies = ({
           </td>
         )}
         {showTokenInfo === asset.id ? (
-          <div className="absolute left-0 w-full bottom-0 h-[300px] flex pb-4 flex-col">
-            <div className="flex w-full items-center">
-              <div className="flex items-center px-5 pt-5 w-2/4">
-                <div className="mr-8">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium">
-                    Avg Price bought
-                  </SmallFont>
-                  <SmallFont extraCss="font-medium">
-                    {getFormattedAmount(newWallet?.price_bought)}$
-                  </SmallFont>
+          <div className="absolute left-0 w-full bottom-0 h-[300px] md:h-[600px] flex pb-4 flex-col">
+            <div className="flex w-full items-center"></div>
+            <div className="flex md:flex-col">
+              <div className="w-[50%] md:w-full px-5 relative ">
+                <div className="flex items-center pr-5 pt-5 w-full">
+                  <div className="mr-8">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium  mb-0.5">
+                      Avg Price bought
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
+                      {getFormattedAmount(newWallet?.price_bought)}$
+                    </SmallFont>
+                  </div>
+                  <div>
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium mb-0.5">
+                      Total Invested
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
+                      {getFormattedAmount(asset?.total_invested)}$
+                    </SmallFont>
+                  </div>
                 </div>
-                <div>
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium">
-                    Total Invested
-                  </SmallFont>
-                  <SmallFont extraCss="font-medium">
-                    {getFormattedAmount(asset?.total_invested)}$
-                  </SmallFont>
+                <div className="flex items-center justify-between absolute top-[80px] md:top-[70px] w-full pr-8 ">
+                  <MediumFont>{asset?.symbol} Price History</MediumFont>
+                  <div className="flex z-10">
+                    <button
+                      className={`w-full px-1.5 font-medium ${
+                        tokenTimeframe === "24H"
+                          ? "text-light-font-100 dark:text-dark-font-100"
+                          : "text-light-font-40 dark:text-dark-font-40"
+                      } text-sm lg:text-[13px] md:text-xs`}
+                      onClick={() => setTokenTimeframe("24H")}
+                    >
+                      24H
+                    </button>
+                    <button
+                      className={`w-full px-1.5 font-medium ${
+                        tokenTimeframe === "7D"
+                          ? "text-light-font-100 dark:text-dark-font-100"
+                          : "text-light-font-40 dark:text-dark-font-40"
+                      } text-sm lg:text-[13px] md:text-xs`}
+                      onClick={() => setTokenTimeframe("7D")}
+                    >
+                      7D
+                    </button>
+                  </div>
+                </div>
+                <div className="md:mt-4">
+                  <EChart
+                    data={tokenInfo?.price_history?.price || []}
+                    timeframe={tokenTimeframe as TimeSelected}
+                    height="250px"
+                    width="100%"
+                    leftMargin={["0%", "0%"]}
+                    type={tokenInfo?.name}
+                    unit="$"
+                    noDataZoom
+                  />
                 </div>
               </div>
-              <div className="flex items-center pl-2.5 pr-5 pt-0 w-2/4">
-                <div className="flex flex-col w-full h-full">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium mb-1">
-                    Buy Price Range
-                  </SmallFont>
-                  <div className="w-full h-[5px] rounded-full bg-light-border-primary dark:bg-dark-border-primary">
-                    <div
-                      className="h-full bg-green dark:bg-green rounded-full"
-                      style={{ width: `${getPercentageOfBuyRange()}%` }}
-                    />
-                    <div className="flex items-center justify-between mt-1">
-                      <p className="text-xs lg:text-[11px] md:text-[10px] font-medium">
-                        ${getFormattedAmount(newWallet?.min_buy_price)}
-                      </p>
-                      <p className="text-xs lg:text-[11px] md:text-[10px] font-medium">
-                        ${getFormattedAmount(newWallet?.max_buy_price)}
-                      </p>
+              <div className="w-[50%] md:w-full flex flex-col p-2.5 pt-2.5 md:pt-0 md:mt-[-15px]">
+                <div className="flex items-center pr-5 pt-0 w-full pb-5">
+                  <div className="flex flex-col w-full h-full">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium mb-1">
+                      Buy Price Range
+                    </SmallFont>
+                    <div className="w-full h-[5px] rounded-full bg-light-border-primary dark:bg-dark-border-primary">
+                      <div
+                        className="h-full bg-green dark:bg-green rounded-full"
+                        style={{ width: `${getPercentageOfBuyRange()}%` }}
+                      />
+                      <div className="flex items-center justify-between mt-1">
+                        <p className="text-xs lg:text-[11px] md:text-[10px] font-medium">
+                          ${getFormattedAmount(newWallet?.min_buy_price)}
+                        </p>
+                        <p className="text-xs lg:text-[11px] md:text-[10px] font-medium">
+                          ${getFormattedAmount(newWallet?.max_buy_price)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="w-[50%] px-5">
-                <EChart
-                  data={tokenInfo?.price_history?.price || []}
-                  timeframe="ALL"
-                  height="250px"
-                  width="100%"
-                  leftMargin={["0%", "0%"]}
-                  type={tokenInfo?.name}
-                  unit="$"
-                  noDataZoom
-                />
-              </div>
-              <div className="w-[50%] flex flex-col p-2.5 pt-0">
                 {editAssetManager.transactions ? (
                   <div className="flex flex-col w-full rounded-lg pt-0">
                     <MediumFont extraCss="mt-5">Transactions</MediumFont>
                     <div className="overflow-y-scroll h-[190px] w-full">
-                      <Activity isSmallTable />
+                      {asset?.id === tokenInfo?.id &&
+                      showTokenInfo === tokenInfo?.id ? (
+                        <Activity isSmallTable />
+                      ) : null}
                     </div>
                   </div>
                 ) : null}
@@ -616,7 +670,6 @@ export const TbodyCryptocurrencies = ({
           </div>
         ) : null}
       </tr>
-      <tr className="h-[10px]"></tr>
     </>
   );
 };

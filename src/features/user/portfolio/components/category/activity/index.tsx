@@ -1,4 +1,5 @@
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { useTheme } from "next-themes";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
@@ -8,8 +9,8 @@ import { VscAdd, VscArrowUp } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
-import useDarkMode from "../../../../../../hooks/useDarkMode";
 import { GET } from "../../../../../../utils/fetch";
 import {
   addressSlicer,
@@ -42,8 +43,8 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
     isLoading,
     wallet,
     transactions,
-    setTransactions,
     asset,
+    setTransactions,
   } = useContext(PortfolioV2Context);
   const [activeTransaction, setActiveTransaction] = useState<string>();
   const { user } = useContext(UserContext);
@@ -54,8 +55,8 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
   const searchParams = useSearchParams();
   const assetQuery = searchParams.get("asset");
   const pathname = usePathname();
-  const [colorTheme] = useDarkMode();
-  const isWhiteMode = colorTheme === "light";
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "light";
 
   const handleRemoveTransaction = (id: number) => {
     GET("/portfolio/removetx", {
@@ -88,7 +89,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
   const txsLimit = assetQuery ? 200 : 20;
 
   const fetchTransactions = (refresh = false) => {
-    setIsLoadingFetch(true);
+    // setIsLoadingFetch(true);
     const txRequest: any = {
       should_fetch: false,
       limit: txsLimit,
@@ -98,8 +99,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
       added_transactions: true,
     };
 
-    if (asset) txRequest.only_assets = asset.id;
-
+    if (isSmallTable) txRequest.only_assets = asset.id;
     if (isWalletExplorer) delete txRequest.portfolio_id;
 
     GET(
@@ -120,7 +120,10 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
 
   useEffect(() => {
     if (isMounted.current || !transactions?.length) {
+      console.log("J'arrive ici");
       if (assetQuery && !asset) return;
+      console.log("Puis ici", isSmallTable);
+      console.log("Et enfin ici");
       setTransactions([]);
       fetchTransactions(true);
     } else isMounted.current = true;
@@ -406,7 +409,6 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                 Actor
               </th>
             )}
-
             <th
               className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden text-end`}
             >
@@ -415,7 +417,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
           </tr>
         </thead>
       )}
-      {Object.entries(transactionsByDate)?.length > 0 ? (
+      {transactions?.length > 0 ? (
         <tbody>
           {Object.entries(transactionsByDate).map(
             ([date, transactionsForDate]: [string, PublicTransaction[]]) => (
@@ -596,14 +598,14 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                                         : ""
                                     }`}
                                   </SmallFont>
-                                  {transactionInfos.type === "internal" ? (
+                                  {/* {transactionInfos.type === "internal" ? (
                                     <InfoPopup
                                       info="Transaction involving multiple wallets from this portfolio."
                                       mt="0px"
                                       mb="2px"
                                       noClose
                                     />
-                                  ) : null}
+                                  ) : null} */}
                                 </div>
                               )}
                               {isSmallTable ? null : (
@@ -832,7 +834,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                             </div>
                             <div className="items-center ml-5 hidden md:flex">
                               <img
-                                className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
+                                className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                 src={
                                   blockchainsIdContent[transaction.chain_id]
                                     ?.logo || "/icon/unknown.png"
@@ -843,7 +845,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                                 } logo`}
                               />
                               <FiExternalLink
-                                className="text-light-font-40 dark:text-dark-font-40 ml-[5px]"
+                                className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xl"
                                 onClick={() =>
                                   window.open(
                                     `${
@@ -856,7 +858,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                               {transaction.id &&
                               activePortfolio?.user === user?.id ? (
                                 <BsTrash3
-                                  className="ml-[25px] text-light-font-100 dark:text-dark-font-100 "
+                                  className="ml-[25px] text-light-font-100 dark:text-dark-font-100 text-lg"
                                   onClick={() =>
                                     handleRemoveTransaction(transaction.id)
                                   }
@@ -879,13 +881,17 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
           )}
         </tbody>
       ) : null}
-      {isLoading || transactions.length === 0 ? (
+      {(isLoading && transactions?.length === 0) ||
+      (transactions.length === 0 && !isSmallTable) ? (
         <tbody>
           {" "}
           {Array.from(Array(10).keys()).map((_, i) => (
             <TbodySkeleton key={i} isActivity />
           ))}{" "}
         </tbody>
+      ) : null}
+      {isSmallTable && isLoading ? (
+        <Spinner extraCss="h-[25px] w-[25px]" />
       ) : null}
       {transactions.length !== 0 &&
       Object.keys(transactionsByDate).length === 0 ? (

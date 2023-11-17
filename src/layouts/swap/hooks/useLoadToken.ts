@@ -81,8 +81,8 @@ export const useLoadToken = () => {
         const contract = getContract({
           abi: erc20ABI,
           address: token.address as never,
-          publicClient: client,
-        });
+          publicClient: client as never,
+        }) as any;
 
         if (account) {
           balanceQuery = contract.read.balanceOf([account]);

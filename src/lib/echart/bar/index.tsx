@@ -1,4 +1,3 @@
-import { Flex, useColorMode } from "@chakra-ui/react";
 import { BarChart, LineChart } from "echarts/charts";
 import {
   DataZoomComponent,
@@ -11,7 +10,7 @@ import {
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import useDarkMode from "hooks/useDarkMode";
+import { useTheme } from "next-themes";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { getFormattedAmount } from "../../../utils/formaters";
@@ -35,18 +34,15 @@ interface DataProps {
   width?: string;
 }
 
-const BarChartComponent: React.FC<DataProps> = ({
-  data,
-  height,
-  width,
-}: DataProps) => {
+const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const { colorMode } = useColorMode();
   const id = useMemo(() => uuid(), []);
-  const [colorTheme] = useDarkMode();
+  const { theme } = useTheme();
 
   const createInstance = useCallback(() => {
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
 
     return (
       instance ||
@@ -56,16 +52,6 @@ const BarChartComponent: React.FC<DataProps> = ({
     );
   }, [id]);
 
-  const getColor = () => {
-    const colors = Object.entries(data)?.map((entry, i) => {
-      console.log("ENTRY", entry);
-      if (entry[1][1] > 0) return "#0ECB81";
-      return "#ea3943";
-    });
-    console.log("COLOR", colors);
-    return colors;
-  };
-
   const options = {
     grid: {
       left: "0%",
@@ -74,9 +60,36 @@ const BarChartComponent: React.FC<DataProps> = ({
       top: "5%",
       containLabel: true,
     },
+    tooltip: {
+      trigger: "item",
+      confine: true,
+      padding: 0,
+      backgroundColor: "transparent",
+      borderColor: "transparent",
+      formatter: (params: any) => {
+        const value = params.value[1];
+        return `
+        <div class="flex items-center p-2.5 rounded-lg bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary
+         dark:border-dark-border-primary">
+          <div class="flex items-center justify-between text-light-font-100 dark:text-dark-font-100 font-medium">
+            <div class="flex items-center mr-2.5 w-full">
+              <div class="h-[10px] w-[10px] min-w-[10px] rounded-full mr-2.5 ${
+                getFormattedAmount(value) > 0
+                  ? "bg-green dark:bg-green"
+                  : "bg-red dark:bg-red"
+              }" />
+            </div>
+            ${getFormattedAmount(value)}$
+          </div>
+         </div>`;
+      },
+    },
     xAxis: [
       {
         type: "time",
+        axisLabel: {
+          color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+        },
       },
     ],
     yAxis: [
@@ -86,8 +99,7 @@ const BarChartComponent: React.FC<DataProps> = ({
           formatter(value: number) {
             return getFormattedAmount(value);
           },
-          color:
-            colorTheme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+          color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
         },
         axisLine: {
           lineStyle: {
@@ -104,10 +116,15 @@ const BarChartComponent: React.FC<DataProps> = ({
       },
     ],
     series: {
-      name: "RFE",
+      name: "Profit",
       type: "bar",
       itemStyle: {
-        color: getColor(),
+        color: (params) => {
+          console.log("dddd", params);
+          const value = params.value[1];
+          if (value > 0) return "#0ECB81";
+          return "#ea3943";
+        },
       },
       data: data,
     },
@@ -116,7 +133,7 @@ const BarChartComponent: React.FC<DataProps> = ({
   useEffect(() => {
     const chart = createInstance();
     if (chart) chart.setOption(options);
-  }, [data, colorMode]);
+  }, [data, theme]);
 
   useEffect(() => {
     const chart = createInstance();
@@ -132,10 +149,10 @@ const BarChartComponent: React.FC<DataProps> = ({
         });
       });
     }
-  }, [colorMode]);
+  }, [theme]);
 
   return (
-    <Flex
+    <div
       ref={parentRef}
       id={id}
       className="no-swipe"

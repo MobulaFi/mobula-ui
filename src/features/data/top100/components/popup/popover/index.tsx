@@ -1,5 +1,4 @@
 "use client";
-import { Spinner, useDisclosure } from "@chakra-ui/react";
 import { Button } from "components/button";
 import { SmallFont } from "components/fonts";
 import { Input } from "components/input";
@@ -10,13 +9,13 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
 import { Popover } from "../../../../../../components/popover";
+import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { POST } from "../../../../../../utils/fetch";
 import { defaultCategories, formatDataForFilters } from "../../../constants";
 import { useTop100 } from "../../../context-manager";
 import { View } from "../../../models";
-import { ACTIONS } from "../../../reducer";
+import { ACTIONS, maxValue } from "../../../reducer";
 
 export const PopoverTrade = ({
   dispatch,
@@ -31,12 +30,10 @@ export const PopoverTrade = ({
   name: string;
   setTypePopup: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const { boxBg3, text80, hover, bordersActive, borders, boxBg6 } = useColors();
   const { activeView, setIsLoading, setShowCategories, setActiveView } =
     useTop100();
   const { user, setUser } = useContext(UserContext);
   // const alert = useAlert();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [loadTime, setLoadTime] = useState(false);
   const { address } = useAccount();
@@ -52,20 +49,9 @@ export const PopoverTrade = ({
     });
   };
 
-  const inputStyle = {
-    _placeholder: { color: text80 },
-    borderRadius: "8px",
-    type: "number",
-    px: "10px",
-    h: "40px",
-    bg: boxBg6,
-    color: text80,
-  };
-
   const editView = (toEdit) => {
     setLoadTime(true);
-
-    onClose();
+    setIsPopoverOpen(false);
     POST("/views/update", toEdit)
       .then((r) => r.json())
       .then((r) => {
@@ -73,22 +59,25 @@ export const PopoverTrade = ({
           // alert.error(r.error);
           return;
         } else {
-          setUser((prev) => ({
-            ...prev,
-            views: [
-              ...(prev.views?.filter(
-                (entry) => entry.name !== activeView?.name
-              ) || []),
-              r.view[0],
-            ],
-          }));
+          setUser(
+            (prev) =>
+              ({
+                ...prev,
+                views: [
+                  ...(prev?.views?.filter(
+                    (entry) => entry.name !== activeView?.name
+                  ) || []),
+                  r.view[0],
+                ],
+              } as never)
+          );
           setLoadTime(false);
         }
       });
   };
 
   const handleBlockchainsChange = (chain: string) => {
-    if (!state.filters.blockchains.includes(chain))
+    if (!state?.filters?.blockchains?.includes(chain))
       dispatch({
         type: ACTIONS.ADD_BLOCKCHAINS,
         payload: { value: chain },
@@ -326,7 +315,7 @@ export const PopoverTrade = ({
                       sameSite: "strict",
                     });
                     setLoadTime(false);
-                    onClose();
+                    setIsPopoverOpen(false);
                   } else if (activeView.name !== "All") {
                     const { id } = activeView;
                     setActiveView({
@@ -351,14 +340,7 @@ export const PopoverTrade = ({
                 }}
               >
                 {loadTime ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    emptyColor={boxBg3}
-                    color="blue"
-                    size="xs"
-                    mr="7.5px"
-                  />
+                  <Spinner extraCss="w-[20px] h-[20px] mr-[7.5px]" />
                 ) : null}
                 Apply
               </Button>{" "}

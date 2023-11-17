@@ -10,7 +10,7 @@ import {
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import useDarkMode from "hooks/useDarkMode";
+import { useTheme } from "next-themes";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { TimeSelected } from "../../../interfaces/pages/asset";
@@ -73,7 +73,7 @@ const EChart: React.FC<EChartProps> = ({
   isVesting = false,
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const [colorTheme] = useDarkMode();
+  const { theme } = useTheme();
   const id: string = useMemo(() => uuid(), []);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -114,9 +114,7 @@ const EChart: React.FC<EChartProps> = ({
           // backgroundColor: bg || 'var(--chakra-colors-bg_principal)',
           textStyle: {
             color:
-              colorTheme === "light"
-                ? "rgba(0,0,0,0.8)"
-                : "rgba(255,255,255,0.8)",
+              theme === "light" ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)",
           },
           grid: {
             bottom: "15%", // Distance from bottom to grid, for the zoom slider
@@ -133,15 +131,7 @@ const EChart: React.FC<EChartProps> = ({
         },
         true
       );
-  }, [
-    data,
-    options,
-    timeframe,
-    noDataZoom,
-    colorTheme,
-    transactions,
-    extraData,
-  ]);
+  }, [data, options, timeframe, noDataZoom, theme, transactions, extraData]);
 
   useEffect(() => {
     if (timeframe !== "24H")
@@ -178,7 +168,7 @@ const EChart: React.FC<EChartProps> = ({
         });
       });
     }
-  }, [colorTheme]);
+  }, [theme]);
 
   return (
     <div

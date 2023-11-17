@@ -1,4 +1,4 @@
-import { BlockchainName, Token } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { Asset } from "../../../interfaces/assets";
 import { HoldingNFT } from "../../../interfaces/holdings";
@@ -226,7 +226,7 @@ export interface PopupToken {
 
 export interface BuySettings {
   quantity: string;
-  token: Partial<Token | PopupToken> | null;
+  token: Asset | null;
   price?: number;
   date: Date;
   fee: string;
@@ -294,4 +294,10 @@ export interface Gains {
   percentage: number | null;
   difference_raw: number | null;
   percentage_raw: number | null;
+}
+
+export interface ResultProps {
+  asset: Asset;
+  amount: string;
+  title: string;
 }

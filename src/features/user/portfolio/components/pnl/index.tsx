@@ -48,9 +48,9 @@ export const PNL = () => {
       <div className="flex justify-between">
         <div className="flex flex-col w-full">
           <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
+            <div className="flex items-center text-3xl">
               {manager.privacy_mode ? (
-                <Privacy fontSize={["18px", "18px", "24px", "30px"]} />
+                <Privacy extraCss="text-3xl lg:text-2xl md:text-lg" />
               ) : (
                 <div className="flex">
                   {isLoading ? (
@@ -209,7 +209,7 @@ export const PNL = () => {
               ) : (
                 <SmallFont
                   extraCss={`${
-                    wallet?.total_realized > 0
+                    (wallet?.total_realized || 0) > 0
                       ? "text-green dark:text-green"
                       : "text-red dark:text-red"
                   }`}
@@ -237,7 +237,7 @@ export const PNL = () => {
               ) : (
                 <SmallFont
                   extraCss={`${
-                    wallet?.total_unrealized > 0
+                    (wallet?.total_unrealized || 0) > 0
                       ? "text-green dark:text-green"
                       : "text-red dark:text-red"
                   }`}

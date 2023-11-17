@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import { DataZoomComponentOption } from "echarts";
 import * as echarts from "echarts/core";
-import useDarkMode from "hooks/useDarkMode";
+import { useTheme } from "next-themes";
 import { useMemo } from "react";
 import { TimeSelected } from "../../../interfaces/pages/asset";
 import { PublicTransaction } from "../../../interfaces/transactions";
@@ -22,7 +22,9 @@ interface UseDefaultProps {
   noDataZoom?: boolean;
   noAxis?: boolean;
   unitPosition?: "before" | "after";
-  extraData?: { data: [number, number][]; name: string; color?: string }[];
+  extraData?:
+    | { data: [number, number][]; name: string; color?: string }[]
+    | null;
   isVesting?: boolean;
 }
 
@@ -73,8 +75,8 @@ export const useDefault = ({
   isVesting = false,
 }: UseDefaultProps) => {
   const extraData = extraDataBuffer || [];
-  const [colorTheme] = useDarkMode();
-  const lightMode = colorTheme === "light";
+  const { theme } = useTheme();
+  const lightMode = theme === "light";
   const getTextColorsAxis = () => {
     if (noAxis) return lightMode ? "#f7f7f7" : "#151929";
     return lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)";
@@ -208,6 +210,7 @@ export const useDefault = ({
     textStyle: {
       color: lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)",
     },
+    confine: true,
     borderWidth: 2,
     borderRadius: 12,
     padding: 10,
@@ -348,7 +351,7 @@ export const useDefault = ({
   ];
 
   const getColorFromMode = () => {
-    if (colorTheme === "light") {
+    if (theme === "light") {
       if (noDataZoom) return "none";
       return "rgba(0, 0, 0, 0.4)";
     }
@@ -357,7 +360,7 @@ export const useDefault = ({
   };
 
   const getBorderDataZoom = () => {
-    if (colorTheme === "light") {
+    if (theme === "light") {
       if (noDataZoom) return "none";
       return "rgba(0, 0, 0, 0.1)";
     }
@@ -508,7 +511,7 @@ export const useDefault = ({
                 },
               },
             })) || [],
-    [transactions, data, timeframe, colorTheme, extraData]
+    [transactions, data, timeframe, theme, extraData]
   );
 
   const series = [
@@ -545,7 +548,9 @@ export const useDefault = ({
                 },
                 {
                   offset: 1,
-                  color: "transparent",
+                  color: lightMode
+                    ? "rgba(255,255,255,1)"
+                    : "rgba(19, 22, 39, 1)",
                 },
               ]),
             },

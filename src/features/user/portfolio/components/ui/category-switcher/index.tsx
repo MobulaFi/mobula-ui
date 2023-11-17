@@ -4,7 +4,6 @@ import React from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
-import { RiBankLine } from "react-icons/ri";
 import { Button } from "../../../../../../components/button";
 import { MediumFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
@@ -23,6 +22,7 @@ export const CategorySwitcher = () => {
     setShowDeleteSelector,
     showDeleteSelector,
     activeStep,
+    setAsset,
   } = useContext(PortfolioV2Context);
   // const alert = useAlert();
 
@@ -39,10 +39,10 @@ export const CategorySwitcher = () => {
       title: "Activity",
       icon: <AiOutlineSwap className="mr-[7.5px]" />,
     },
-    {
-      title: "Staking",
-      icon: <RiBankLine className="mr-[7.5px]" />,
-    },
+    // {
+    //   title: "Staking",
+    //   icon: <RiBankLine className="mr-[7.5px]" />,
+    // },
   ];
   useEffect(() => {
     setNftsDeleted(JSON.parse(localStorage.getItem("hiddenNft") as string));
@@ -63,8 +63,8 @@ export const CategorySwitcher = () => {
   };
   return (
     <div
-      className={`flex justify-between items-center my-[25px] overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
-        !manager.portfolio_chart ? "mt-0" : "mt-[25px]"
+      className={`flex justify-between items-center h-[30px] mb-[15px] mt-5 overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
+        !manager.portfolio_chart ? "mt-0" : "mt-5"
       } w-full`}
     >
       <div className="flex">
@@ -85,6 +85,7 @@ export const CategorySwitcher = () => {
               }`}
               disabled={entry.title === "Staking"}
               onClick={() => {
+                setAsset(null);
                 if (entry.title === "Cryptocurrencies")
                   setActiveCategory("Cryptos");
                 else setActiveCategory(entry.title);
@@ -119,7 +120,7 @@ export const CategorySwitcher = () => {
           href="https://developer.mobula.fi/reference/wallet-explorer-api?utm_source=website&utm_medium=portfolio&utm_campaign=portfolio"
           target="_blank"
           rel="noreferrer"
-          extraCss="text-blue dark:text-blue ml-[5px]"
+          extraCss="text-blue dark:text-blue ml-[5px] font-medium"
           onClick={() => {
             pushData("API Clicked");
           }}

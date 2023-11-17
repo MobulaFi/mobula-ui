@@ -1,5 +1,5 @@
 import { Button } from "components/button";
-import { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Popover } from "../.../../../../../../components/popover";
 import { pushData } from "../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
@@ -108,7 +108,7 @@ export const ComparePopover = ({
       }
       onToggle={() => {}}
       isOpen={showCompare}
-      extraCss="p-0 top-[110%] left-0 z-[100000000]"
+      extraCss="p-0 top-[40px] lg:top-[35px] left-0 lg:right-0 lg:left-auto z-[100] mr-2.5"
     />
   );
 };

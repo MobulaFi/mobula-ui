@@ -33,7 +33,7 @@ export const Holdings = ({
       ((isAsset || typeSelected === "Blockchains") &&
         sortedBlockchains?.length === 0) ? (
         <img
-          className="mt-[2.5– ml-[2.5px]"
+          className="mt-[2.5] ml-[2.5px]"
           // light mode TODO
           src={"/asset/holding.png"}
           alt="no holdings logo"

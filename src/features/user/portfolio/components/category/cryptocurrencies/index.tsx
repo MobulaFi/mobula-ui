@@ -1,7 +1,7 @@
 import { createSupabaseDOClient } from "lib/supabase";
-import { Key, useContext, useEffect, useMemo, useState } from "react";
+import { useTheme } from "next-themes";
+import React, { Key, useContext, useEffect, useMemo, useState } from "react";
 import { MediumFont } from "../../../../../../components/fonts";
-import useDarkMode from "../../../../../../hooks/useDarkMode";
 import { PortfolioV2Context } from "../../../context-manager";
 import { thStyle } from "../../../style";
 import { TbodyCryptocurrencies } from "../../ui/tbody-cryptocurrencies";
@@ -19,9 +19,9 @@ export const Cryptocurrencies = () => {
   } = useContext(PortfolioV2Context);
   const [showMore, setShowMore] = useState(false);
   const [showTokenInfo, setShowTokenInfo] = useState(null);
-  const [colorTheme] = useDarkMode();
-  const isWhiteMode = colorTheme === "light";
-  const [tokensData, setTokensData] = useState([]);
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "light";
+  const [tokensData, setTokensData] = useState({});
 
   const numberOfAsset =
     wallet?.portfolio?.reduce((count, entry) => {
@@ -47,11 +47,7 @@ export const Cryptocurrencies = () => {
   );
 
   useEffect(() => {
-    if (
-      showTokenInfo !== asset?.id ||
-      tokensData.some((token) => token.id === asset.id)
-    )
-      return;
+    if (showTokenInfo !== asset?.id || tokensData[asset?.id]) return;
     const supabase = createSupabaseDOClient();
     supabase
       .from("assets")
@@ -63,18 +59,18 @@ export const Cryptocurrencies = () => {
           console.log(error);
           return;
         }
-        setTokensData([...tokensData, data]);
+        setTokensData({ ...tokensData, [data.id]: data });
       });
   }, [tokensData, showTokenInfo]);
 
   return (
     <>
-      <table className="relative pb-[100px] overflow-x-scroll md:pb-5  border-separate border-spacing-0">
+      <table className="relative overflow-x-scroll md:pb-5 border-separate border-spacing-0 w-full caption-bottom">
         <thead className="rounded-t-lg">
           <tr>
             {isMobile && (
               <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-start`}
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-start w-2.5`}
               />
             )}
             <th
@@ -88,26 +84,32 @@ export const Cryptocurrencies = () => {
             >
               Holdings
             </th>
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            >
-              Price
-            </th>
+            {isMobile ? null : (
+              <th
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
+              >
+                Price
+              </th>
+            )}
             <th
               className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
             >
               24h Profit
             </th>
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            >
-              Realized PNL
-            </th>
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            >
-              Unrealized PNL
-            </th>
+            {isMobile ? null : (
+              <th
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
+              >
+                Realized PNL
+              </th>
+            )}
+            {isMobile ? null : (
+              <th
+                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
+              >
+                Unrealized PNL
+              </th>
+            )}
             {!isMobile && (
               <th
                 className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
@@ -127,9 +129,9 @@ export const Cryptocurrencies = () => {
                 <TbodyCryptocurrencies
                   key={asset.name}
                   asset={asset}
-                  setShowTokenInfo={setShowTokenInfo}
+                  setShowTokenInfo={setShowTokenInfo as never}
                   showTokenInfo={showTokenInfo}
-                  tokenInfo={tokensData.find((token) => token.id === asset.id)}
+                  tokenInfo={tokensData[asset.id]}
                 />
               ))}
           </tbody>
@@ -142,7 +144,12 @@ export const Cryptocurrencies = () => {
           </tbody>
         ) : null}
         {isNormalBalance && numberOfAsset ? (
-          <caption className="bg-light-bg-terciary dark:bg-dark-bg-terciary mt-0 text-start rounded-b-lg pl-0">
+          <caption
+            className="bg-light-bg-secondary dark:bg-dark-bg-secondary text-start 
+          rounded-xl pl-0 h-[40px] border border-light-border-primary dark:border-dark-border-primary 
+          hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover cursor-pointer transition-all duration-250
+           mt-2.5"
+          >
             <button
               className="font-medium text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs 
               h-full pl-5 sticky top-0 left-[-1px]"

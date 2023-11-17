@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { TableCellProps } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { NextChakraLink } from "../../../components/link";
@@ -13,15 +14,14 @@ export const Segment = ({
   noLink = false,
   extraCss,
   children,
-  ...props
 }: SegmentProps) => {
   const { url } = useContext(EntryContext);
   return (
     <td
-      className={`font-medium text-sm md:text-[13px] py-[15px] min-h-[76px] text-end px-5 text-light-font-100 dark:text-dark-font-100 ${extraCss}`}
-      // py={["5px", "5px", "5px", "5px", "15px"]}
-      // px={["10px", "10px", "15px", "15px"]}
-      {...props}
+      className={cn(
+        "font-medium text-sm md:text-[13px] py-[15px] min-h-[76px] text-end px-5 text-light-font-100 dark:text-dark-font-100",
+        extraCss
+      )}
     >
       {noLink ? (
         children

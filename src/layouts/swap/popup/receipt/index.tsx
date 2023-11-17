@@ -15,7 +15,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useAccount, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { TextLandingSmall, TextSmall } from "../../../../components/fonts";
@@ -100,10 +100,9 @@ export const TransactionReceipt = () => {
             <TextLandingSmall color={text80} mb="10px">
               {txError?.hint}
               <NextChakraLink
-                ml="5px"
+                extraCss="ml-[5px]"
                 href="https://discord.gg/2a8hqNzkzN"
                 target="_blank"
-                color={text80}
               >
                 Help: Discord
               </NextChakraLink>

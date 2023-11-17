@@ -1,9 +1,9 @@
+import { useTheme } from "next-themes";
 import React, { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsShare } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";
 import { ModalContainer } from "../../../../../../components/modal-container";
-import useDarkMode from "../../../../../../hooks/useDarkMode";
 import {
   addressSlicer,
   getFormattedAmount,
@@ -20,7 +20,7 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
   const [isCopied, setIsCopied] = useState("");
   const { activePortfolio, isWalletExplorer, wallet } =
     useContext(PortfolioV2Context);
-  const [colorTheme] = useDarkMode();
+  const { theme } = useTheme();
 
   return (
     <ModalContainer
@@ -34,7 +34,7 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
           <img
             className="w-[34px] h-[34px] mr-[5px]"
             src={
-              colorTheme === "dark"
+              theme === "dark"
                 ? "/mobula/fullicon.png"
                 : "/mobula/mobula-logo.svg"
             }

@@ -126,7 +126,7 @@ export const useButtonClick = () => {
               return button;
             });
             pushData("Trade Approved", dataProperties);
-          } catch (e) {
+          } catch (e: any) {
             setButtonLoading((button) => {
               if (button === "Approving...") return undefined;
               return button;
@@ -205,7 +205,7 @@ export const useButtonClick = () => {
             ...completedTx,
             timestamp: Date.now(),
           });
-        } catch (e) {
+        } catch (e: any) {
           pushData("Trade Failed", {
             ...dataProperties,
             failure_reason: e.message,
@@ -229,7 +229,7 @@ export const useButtonClick = () => {
                 `0x${(rawError || "").slice(10)}`
               );
               [decodedErrorMessage] = result;
-            } catch (callError) {
+            } catch (callError: any) {
               decodedErrorMessage = callError?.message;
             }
             setTxError(generateTxError(e, decodedErrorMessage));
