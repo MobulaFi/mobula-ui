@@ -46,7 +46,7 @@ export const useSafeSwitchNetwork = () => {
           }, 500);
         });
         switched = true;
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
         // if (e.message === "User denied account authorization") {
         //   alert.error("Please authorize the switch of network.");

@@ -51,7 +51,7 @@ export const usePageLoad = () => {
   }, [address]);
 
   useEffect(() => {
-    if (address && isAddress(address) && router.isReady) {
+    if (address && isAddress(address) && pathname) {
       const ref = localStorage.getItem("ref");
       const notificationAsked = localStorage.getItem("notification");
       const offset = new Date().getTimezoneOffset() / 60;
@@ -59,7 +59,7 @@ export const usePageLoad = () => {
       GET("/connection", {
         account: address,
         ref,
-        page: router.asPath.split("?")[0],
+        page: pathname.split("?")[0],
         offset,
       });
 

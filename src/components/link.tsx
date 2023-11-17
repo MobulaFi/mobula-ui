@@ -9,6 +9,8 @@ interface NextChakraLinkProps {
   target?: string;
   rel?: string;
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 export const NextChakraLink = ({
@@ -18,6 +20,8 @@ export const NextChakraLink = ({
   target,
   rel,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   ...props
 }: NextChakraLinkProps) => {
   if (!href)
@@ -30,7 +34,14 @@ export const NextChakraLink = ({
       </div>
     );
   return (
-    <NextLink href={href} target="_blank" rel={rel} onClick={onClick}>
+    <NextLink
+      href={href}
+      target="_blank"
+      rel={rel}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div
         className={cn("text-light-font-100 dark:text-dark-font-100", extraCss)}
         {...props}

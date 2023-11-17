@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDash } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useConnect } from "wagmi";
@@ -26,6 +26,7 @@ export const Connect = () => {
       }, 1000);
     },
   });
+  const conenctorImage = pendingConnector?.["storage" as never];
 
   async function connector(element: string, isMail: boolean) {
     connect({ connector: connectors[4] });
@@ -210,7 +211,7 @@ export const Connect = () => {
             <div className="w-full flex flex-col relative items-center">
               <div className="flex items-center">
                 <img
-                  src={pendingConnector?.storage?.["connect-image"]}
+                  src={conenctorImage?.["connect-image"]}
                   className="h-[50px] w-[50px] rounded-full my-4 mr-1"
                   alt="Pending connector logo"
                 />
