@@ -8,6 +8,7 @@ import { ChartLite } from "./charts/linear";
 import ChartBox from "./charts/trading-view";
 import { Description } from "./description";
 import { SimilarAsset } from "./similar-asset";
+import { Socials } from "./socials";
 import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 
@@ -68,8 +69,8 @@ export const Essentials = ({ marketMetrics }) => {
             </Flex>
           ) : null} */}
           <Description />
-          {/* <Socials />
-          {!untracked.isUntracked ? <PriceData /> : null}
+          <Socials />
+          {/* {!untracked.isUntracked ? <PriceData /> : null}
           <CoreActor
           extraCss={`${baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"} hidden` }
           /> */}

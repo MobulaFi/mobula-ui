@@ -1,26 +1,15 @@
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Tr,
-} from "@chakra-ui/react";
-import {useContext} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {TextLandingMedium, TextSmall} from "../../../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../../../common/components/links";
-import {HoverLink} from "../../../../../../../common/ui/hover";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {Social} from "../../../../models";
-import {Tds} from "../../../ui/td";
+import React, { useContext } from "react";
+import { FiExternalLink } from "react-icons/fi";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { HoverLink } from "../../../../../../components/hover-link";
+import { NextChakraLink } from "../../../../../../components/link";
+import { Tds } from "../../../../../../components/table";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { Social } from "../../../../models";
 
 export const Socials = () => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {borders, text40, text60, text80} = useColors();
+  const { baseAsset } = useContext(BaseAssetContext);
   const socials: Social[] = [
     {
       title: "Twitter",
@@ -51,176 +40,157 @@ export const Socials = () => {
     },
   ];
   return (
-    <Flex
-      direction="column"
-      mt={["30px", "30px", "50px"]}
-      w={["95%", "95%", "100%", "100%"]}
-      mx="auto"
-    >
-      <TextLandingMedium mb="10px">Socials</TextLandingMedium>
-      {socials?.filter(entry => entry.url)?.length > 0 ? (
-        <TableContainer>
-          <Table variant="simple">
-            {socials
-              .filter(entry => entry.url)
-              .map((entry, i) => {
-                const isLast = i === 2;
-                const linkChild = (
-                  <NextChakraLink
-                    color={text40}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={entry.url}
-                    key={entry.url}
-                    isExternal
-                  >
-                    <Flex mr="20px">
-                      <TextSmall
-                        maxWidth="150px"
-                        whiteSpace="nowrap"
-                        overflowX="scroll"
-                        className="scroll"
-                        color={text60}
-                      >
-                        {entry.username ? `@${entry.username}` : "N/A"}
-                        {entry.username ? (
-                          <ExternalLinkIcon ml="5px" fontSize="13px" />
-                        ) : null}
-                      </TextSmall>
-                    </Flex>
-                  </NextChakraLink>
-                );
-                return (
-                  <Tbody>
-                    <Tr>
-                      <Tds
-                        py="15px"
-                        px="15px"
-                        borderBottom={isLast ? "none" : borders}
-                      >
-                        <Flex align="center">
-                          <Image src={entry.logo} w="25px" mr="15px" />
-                          <Box>
-                            <TextSmall>{entry.title}</TextSmall>
-                            {entry.url ? (
-                              <NextChakraLink href={entry.url} color={text60}>
-                                {linkChild}
-                              </NextChakraLink>
-                            ) : (
-                              linkChild
-                            )}
-                          </Box>
-                        </Flex>
-                      </Tds>
-                      <Tds
-                        py="10px"
-                        px="15px"
-                        borderBottom={isLast ? "none" : borders}
-                      >
+    <div className="flex flex-col mt-[50px] md:mt-[30px] w-full md:w-[95%] mx-auto">
+      <LargeFont mb="10px">Socials</LargeFont>
+      {socials?.filter((entry) => entry.url)?.length > 0 ? (
+        <table>
+          {socials
+            .filter((entry) => entry.url)
+            .map((entry, i) => {
+              const isLast = i === 2;
+              const linkChild = (
+                <NextChakraLink
+                  extraCss="text-light-font-40 dark:text-dark-font-40"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={entry.url}
+                  key={entry.url}
+                >
+                  <div className="flex mr-5">
+                    <SmallFont extraCss="truncate max-w-[150px] text-light-font-60 dark:text-dark-font-60">
+                      {entry.username ? `@${entry.username}` : "N/A"}
+                      {entry.username ? (
+                        <FiExternalLink className="ml-[5px] text-[13px]" />
+                      ) : null}
+                    </SmallFont>
+                  </div>
+                </NextChakraLink>
+              );
+              return (
+                <tbody key={entry.url}>
+                  <tr>
+                    <Tds
+                      extraCss={`py-[15px] px-[15px] border-light-border-primary dark:border-dark-border-primary ${
+                        isLast ? "border-b-0" : "border-b"
+                      }}`}
+                    >
+                      <div className="flex items-center">
+                        <img
+                          src={entry.logo}
+                          className="w-[25px] mr-[15px]"
+                          alt={`${entry.username} logo`}
+                        />
+                        <div>
+                          <SmallFont>{entry.title}</SmallFont>
+                          {entry.url ? (
+                            <NextChakraLink
+                              href={entry.url}
+                              extraCss="text-light-font-60 dark:text-dark-font-60"
+                            >
+                              {linkChild}
+                            </NextChakraLink>
+                          ) : (
+                            linkChild
+                          )}
+                        </div>
+                      </div>
+                    </Tds>
+                    <Tds
+                      extraCss={`py-[10px] px-[15px] border-light-border-primary dark:border-dark-border-primary ${
+                        isLast ? "border-b-0" : "border-b"
+                      }}`}
+                    >
+                      {!entry.members ||
+                      (entry.online && entry.online == null) ||
+                      (entry.engagement && entry.engagement == null) ? (
+                        "-"
+                      ) : (
+                        <div>
+                          <SmallFont>
+                            {getFormattedAmount(entry.members)}
+                          </SmallFont>
+                          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+                            {entry.subtitle}
+                          </SmallFont>
+                        </div>
+                      )}
+                    </Tds>
+                    <Tds
+                      extraCss={`py-[10px] px-[15px] border-light-border-primary dark:border-dark-border-primary ${
+                        isLast ? "border-b-0" : "border-b"
+                      }}`}
+                    >
+                      <div className="flex flex-col items-end text-light-font-100 dark:text-dark-font-100">
                         {!entry.members ||
-                        (entry.online && entry.online == null) ||
-                        (entry.engagement && entry.engagement == null) ? (
+                        (entry.online == null && !entry.engagement) ||
+                        (!entry.online && entry.engagement == null) ? (
                           "-"
                         ) : (
-                          <Box>
-                            <TextSmall>
-                              {getFormattedAmount(entry.members)}
-                            </TextSmall>
-                            <TextSmall color={text40}>
-                              {entry.subtitle}
-                            </TextSmall>
-                          </Box>
+                          <>
+                            <div className="flex items-center">
+                              <div
+                                className={`w-1.5 h-1.5 min-w-1.5 rounded-full mr-[5px] ${
+                                  entry.engagement
+                                    ? "bg-yellow dark:bg-yellow"
+                                    : "bg-green dark:bg-green"
+                                }`}
+                              />
+                              <SmallFont>
+                                {entry.engagement
+                                  ? `${entry.engagement}%`
+                                  : entry.online}
+                              </SmallFont>
+                            </div>
+                            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+                              {entry.engagement ? "Engagement" : "Online"}
+                            </SmallFont>
+                          </>
                         )}
-                      </Tds>
-                      <Tds
-                        px="15px"
-                        py="10px"
-                        borderBottom={isLast ? "none" : borders}
-                      >
-                        <Flex
-                          direction="column"
-                          align="flex-end"
-                          color={text80}
-                        >
-                          {!entry.members ||
-                          (entry.online == null && !entry.engagement) ||
-                          (!entry.online && entry.engagement == null) ? (
-                            "-"
-                          ) : (
-                            <>
-                              <Flex align="center">
-                                <Box
-                                  boxSize="6px"
-                                  borderRadius="full"
-                                  mr="5px"
-                                  bg={entry.engagement ? "yellow" : "green"}
-                                />
-                                <TextSmall>
-                                  {entry.engagement
-                                    ? `${entry.engagement}%`
-                                    : entry.online}
-                                </TextSmall>
-                              </Flex>
-
-                              <TextSmall color={text40}>
-                                {entry.engagement ? "Engagement" : "Online"}
-                              </TextSmall>
-                            </>
-                          )}
-                        </Flex>
-                      </Tds>
-                      {/* <Tds
-               py="10px"
-               px="15px"
-               display={["none", "none", "table-cell", "table-cell"]}
-               borderBottom={isLast ? "none" : borders}
-             >
-               <Flex justify="flex-end">
-                 <TagPercentage
-                   percentage={baseAsset?.price_change_24h}
-                   isUp={baseAsset?.price_change_24h > 0}
-                 />
-               </Flex>
-             </Tds>
-             <Tds
-               py="10px"
-               px="15px"
-               display={["none", "none", "table-cell", "table-cell"]}
-               borderBottom={isLast ? "none" : borders}
-             >
-               <Flex justify="flex-end">
-                 <Box w="135px">
-                   <NextImageFallback
-                     alt={`${baseAsset?.name} sparkline`}
-                     width="100%"
-                     height="45px"
-                     src={
-                       `${API_ENDPOINT}/spark?id=${baseAsset?.id}.svg` ||
-                       "/404/sparkline.png"
-                     }
-                     fallbackSrc="/404/sparkline.png"
-                     priority={i < 4}
-                   />
-                 </Box>
-               </Flex>
-             </Tds> */}
-                    </Tr>
-                  </Tbody>
-                );
-              })}
-          </Table>
-        </TableContainer>
+                      </div>
+                    </Tds>
+                    {/* <Tds
+                      extraCss={`py-[10px] px-[15px] border-light-border-primary dark:border-dark-border-primary ${
+                        isLast ? "border-b-0" : "border-b"
+                      }} table-cell md:hidden`}
+                    >
+                      <div className="flex justify-end">
+                        <TagPercentage
+                          percentage={baseAsset?.price_change_24h}
+                          isUp={baseAsset?.price_change_24h > 0}
+                        />
+                      </div>
+                    </Tds>
+                    <Tds
+                      extraCss={`py-[10px] px-[15px] border-light-border-primary dark:border-dark-border-primary ${
+                        isLast ? "border-b-0" : "border-b"
+                      }} table-cell md:hidden`}
+                    >
+                      <div className="flex justify-end">
+                        <div className="w-[135px]">
+                          <NextImageFallback
+                            alt={`${baseAsset?.name} sparkline`}
+                            extraCss="w-full h-[45px]"
+                            src={
+                              `${API_ENDPOINT}/spark?id=${baseAsset?.id}.svg` ||
+                              "/404/sparkline.png"
+                            }
+                            fallbackSrc="/404/sparkline.png"
+                            priority={i < 4}
+                          />
+                        </div>
+                      </div>
+                    </Tds> */}
+                  </tr>
+                </tbody>
+              );
+            })}
+        </table>
       ) : (
-        <Flex
-          align="center"
-          fontSize={["12px", "12px", "13px", "14px"]}
-          fontWeight="400"
-          color={text60}
-        >
+        <div className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-60 dark:text-dark-font-60">
           No social link provided. Provide one <HoverLink>now</HoverLink>
           to improve Mobula!
-        </Flex>
+        </div>
       )}
-    </Flex>
+    </div>
   );
 };
