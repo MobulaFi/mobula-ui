@@ -1,6 +1,7 @@
-import { useMediaQuery } from "@chakra-ui/react";
 import { useTheme } from "next-themes";
 import React, { useContext, useEffect } from "react";
+import { SwapProvider } from "../../../../../layouts/swap";
+import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import { BaseAssetContext } from "../../../context-manager";
 import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
@@ -17,10 +18,7 @@ export const Essentials = ({ marketMetrics }) => {
     setActiveMetric,
     untracked,
   } = useContext(BaseAssetContext);
-  const [isDesktop] = useMediaQuery("(min-width: 768px)", {
-    ssr: true,
-    fallback: false,
-  });
+  const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
 
   const { theme } = useTheme();
   const hasBeenListed =
@@ -76,27 +74,28 @@ export const Essentials = ({ marketMetrics }) => {
         </div>
 
         <div className="flex flex-col max-w-[320px] lg:max-w-full w-full lg:hidden">
-          {/* <div className="flex">
+          <div className="flex">
             {isDesktop && (
               <SwapProvider
-                tokenOutBuffer={{
-                  ...baseAsset,
-                  blockchain: baseAsset?.blockchains[0],
-                  address:
-                    baseAsset && "contracts" in baseAsset
-                      ? baseAsset.contracts[0]
-                      : undefined,
-                  logo: baseAsset?.image || baseAsset?.logo,
-                  name: baseAsset?.name || baseAsset?.symbol,
-                }}
+                tokenOutBuffer={
+                  {
+                    ...baseAsset,
+                    blockchain: baseAsset?.blockchains[0],
+                    address:
+                      baseAsset && "contracts" in baseAsset
+                        ? baseAsset.contracts[0]
+                        : undefined,
+                    logo: baseAsset?.image || baseAsset?.logo,
+                    name: baseAsset?.name || baseAsset?.symbol,
+                  } as never
+                }
                 lockToken={["out"]}
               >
-                {" "}
-                <SmallSwap asset={baseAsset} />
+                <SmallSwap asset={baseAsset as never} />
               </SwapProvider>
             )}
           </div>
-*/}
+
           {!untracked.isUntracked ? <TokenMetrics /> : null}
           {/* {!untracked.isUntracked ? (
             <HoldingRoi chartId="holdings-chart" />
