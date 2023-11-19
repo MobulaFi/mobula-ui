@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsChevronDown, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -295,7 +295,7 @@ export const Assets = () => {
 
   return (
     <>
-      <div className="flex flex-col min-h-[80vh]" {...handlers}>
+      <div className="flex flex-col" {...handlers}>
         <TopNav
           list={tabs}
           setActive={setActiveTab}

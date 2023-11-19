@@ -6,6 +6,7 @@ import { BaseAssetContext } from "../../../context-manager";
 import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
 import ChartBox from "./charts/trading-view";
+import { SimilarAsset } from "./similar-asset";
 import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 
@@ -73,7 +74,7 @@ export const Essentials = ({ marketMetrics }) => {
           /> */}
         </div>
 
-        <div className="flex flex-col max-w-[320px] lg:max-w-full w-full lg:hidden">
+        <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
           <div className="flex">
             {isDesktop && (
               <SwapProvider
@@ -118,7 +119,7 @@ export const Essentials = ({ marketMetrics }) => {
           ) : null} */}
         </div>
       </div>
-      {/* <SimilarAsset /> */}
+      <SimilarAsset />
     </>
   );
 };
