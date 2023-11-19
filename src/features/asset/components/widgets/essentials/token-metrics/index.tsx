@@ -1,35 +1,24 @@
-import {ChevronDownIcon, ChevronUpIcon} from "@chakra-ui/icons";
-import {
-  Button,
-  Collapse,
-  Flex,
-  PlacementWithLogical,
-  ResponsiveValue,
-  Text,
-  useMediaQuery,
-} from "@chakra-ui/react";
-import {useContext, useState} from "react";
-// eslint-disable-next-line import/no-cycle
-import {formatAmount} from "../../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../../../common/components/links";
-import {InfoPopup} from "../../../../../../../common/components/popup-hover";
-import {pushData} from "../../../../../../../common/data/utils";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {Metrics} from "../../../../models";
-import {FlexBorderBox} from "../../../../style";
+import { Collapse, useMediaQuery } from "@chakra-ui/react";
+import React, { useContext, useState } from "react";
+import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
+import { cn } from "../../../../../../@/lib/utils";
+import { Button } from "../../../../../../components/button";
+import { SmallFont } from "../../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../../components/link";
+import { pushData } from "../../../../../../lib/mixpanel";
+import { formatAmount } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { Metrics } from "../../../../models";
+import { FlexBorderBox } from "../../../../style";
 
-export const TokenMetrics = ({
-  isMobile,
-  ...props
-}: {
+interface TokenMetricsProps {
   isMobile?: boolean;
-  [props: string]: any;
-}) => {
+  extraCss?: string;
+}
+
+export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const [showMore, setShowMore] = useState(false);
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {borders, text100, hover, boxBg6, boxBg3, text80, text60} = useColors();
+  const { baseAsset } = useContext(BaseAssetContext);
   const metrics: Metrics[] = [
     {
       title: "Total Volume (24h)",
@@ -82,67 +71,49 @@ export const TokenMetrics = ({
     ssr: true,
     fallback: false,
   });
+
   return (
-    <Flex
-      {...FlexBorderBox}
-      bg={[boxBg3]}
-      border={["none", "none", "none", borders]}
-      w="100%"
-      mx="auto"
-      borderRadius={["0px ", "0px ", "0px ", "16px"]}
-      {...props}
-    >
-      <Flex
-        fontSize={["16px", "16px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="10px"
-        align="center"
-        px={["2.5%", "2.5%", "2.5%", "0px"]}
-        pt={["15px", "15px", "0px"]}
-      >
+    <div className={cn(`${FlexBorderBox} w-full mx-auto`, extraCss)}>
+      <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 lg:px-[2.5%] pt-0 md:pt-[15px]">
         Token Metrics
-        <Flex ml="auto" fontSize="12px">
+        <div className="flex items-center ml-auto text-xs">
           Need data?
           <NextChakraLink
             href="https://developer.mobula.fi/reference/market-api?utm_source=website&utm_medium=asset&utm_campaign=asset"
             target="_blank"
             rel="noreferrer"
-            ml="5px"
-            color="blue"
+            extraCss="ml-[5px] text-blue dark:text-blue"
             onClick={() => {
               pushData("API Clicked");
             }}
           >
             Our API
           </NextChakraLink>
-        </Flex>
-      </Flex>
-
+        </div>
+      </div>
       <Collapse startingHeight={isLargerThan991 ? "100%" : 129} in={showMore}>
         {metrics.map((entry, i) => {
           const isNotDollar =
             entry.title.includes("Supply") || entry.title.includes("Rank");
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
           return (
-            <Flex
-              justify="space-between"
-              align="center"
-              borderTop={i === 0 ? "none" : borders}
-              py="10px"
-              px={["2.5%", "2.5%", "2.5%", "0px"]}
-              pb={metrics.length - 1 === i ? "0px" : "10px"}
+            <div
+              className={`flex justify-between items-center ${
+                i === 0 ? "border-0" : "border-t"
+              } border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 lg:px-[2.5%] ${
+                metrics.length - 1 === i ? "pb-0" : "pb-2.5"
+              }`}
+              key={entry.title}
             >
-              <Flex align="center">
-                <TextSmall
-                  color={text60}
-                  fontWeight="500"
-                  fontSize={["13px", "13px", "13px", "14px"]}
-                  opacity={noLiquidity ? 0.5 : 1}
+              <div className="flex items-center">
+                <SmallFont
+                  extraCss={`text-light-font-60 dark:text-dark-font-60 font-medium text-sm lg:text-[13px] ${
+                    noLiquidity ? "opacity-50" : ""
+                  }`}
                 >
                   {entry.title}
-                </TextSmall>
-                <InfoPopup
+                </SmallFont>
+                {/* <InfoPopup
                   info={entry.info}
                   mb="3px"
                   cursor="pointer"
@@ -150,45 +121,41 @@ export const TokenMetrics = ({
                     "right" as PlacementWithLogical & ResponsiveValue<any>
                   }
                   noClose
-                />
-              </Flex>
-              <Flex align="center" opacity={noLiquidity ? 0.5 : 1}>
-                <Text fontSize="13px" fontWeight="500" color={text80}>
+                /> */}
+              </div>
+              <div
+                className={`${
+                  noLiquidity ? "opacity-50" : ""
+                } flex items-center`}
+              >
+                <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
                   {(!isNotDollar ? "$" : "") + formatAmount(entry.value)}
-                </Text>
-              </Flex>
-            </Flex>
+                </p>
+              </div>
+            </div>
           );
         })}
       </Collapse>
-
       {isMobile ? (
         <Button
-          color={text80}
-          fontWeight="500"
-          bg={boxBg6}
-          h="30px"
-          mt={[showMore ? "10px" : "0px", showMore ? "10px" : "0px", "0px"]}
-          borderRadius={["0px", "0px", "8px"]}
-          fontSize={["12px", "12px", "13px", "14px"]}
+          extraCss={`h-[30px] w-full mt-0 ${
+            showMore ? "mt-2.5" : "mt-0"
+          } md:rounded-0`}
           onClick={() => setShowMore(!showMore)}
-          _hover={{bg: hover, color: text100}}
-          transition="all 250ms ease-in-out"
-          w="100%"
         >
           {showMore ? (
             <>
               Less Data
-              <ChevronUpIcon fontSize="14px" ml="5px" />
+              <BiSolidChevronUp className="text-sm ml-[5px]" />
             </>
           ) : (
             <>
               More Data
-              <ChevronDownIcon fontSize="14px" ml="5px" />
+              <BiSolidChevronDown className="text-sm ml-[5px]" />
             </>
           )}
         </Button>
       ) : null}
-    </Flex>
+    </div>
   );
 };
