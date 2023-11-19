@@ -7,6 +7,7 @@ import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
 import ChartBox from "./charts/trading-view";
 import { Description } from "./description";
+import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
 import { Socials } from "./socials";
 import { TimeSwitcher } from "./time-switcher";
@@ -57,7 +58,7 @@ export const Essentials = ({ marketMetrics }) => {
             <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
           {!untracked.isUntracked ? (
-            <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px]" />
+            <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           ) : null}
           {/* {untracked.isUntracked || isOffChain ? null : <TokenTrades />} */}
           {/* {!untracked.isUntracked ? (
@@ -70,12 +71,11 @@ export const Essentials = ({ marketMetrics }) => {
           ) : null} */}
           <Description />
           <Socials />
-          {/* {!untracked.isUntracked ? <PriceData /> : null}
-          <CoreActor
+          {!untracked.isUntracked ? <PriceData /> : null}
+          {/* <CoreActor
           extraCss={`${baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"} hidden` }
           /> */}
         </div>
-
         <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
           <div className="flex">
             {isDesktop && (

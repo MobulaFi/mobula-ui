@@ -73,7 +73,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   });
 
   return (
-    <div className={cn(`${FlexBorderBox} w-full mx-auto`, extraCss)}>
+    <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
       <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 lg:px-[2.5%] pt-0 md:pt-[15px]">
         Token Metrics
         <div className="flex items-center ml-auto text-xs">
