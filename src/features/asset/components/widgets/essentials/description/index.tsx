@@ -1,36 +1,25 @@
-import {Flex} from "@chakra-ui/react";
-import {useContext} from "react";
-import {TextLandingMedium, TextSmall} from "../../../../../../../UI/Text";
-import {HoverLink} from "../../../../../../../common/ui/hover";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
+import React, { useContext } from "react";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { HoverLink } from "../../../../../../components/hover-link";
+import { BaseAssetContext } from "../../../../context-manager";
 
 export const Description = () => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text60} = useColors();
+  const { baseAsset } = useContext(BaseAssetContext);
   return (
-    <Flex
-      w={["95%", "95%", "100%", "100%"]}
-      mx="auto"
-      direction="column"
-      mt={["30px", "30px", "50px"]}
-    >
-      <TextLandingMedium mb="15px">
+    <div className="w-full md:w-[95%] mx-auto flex flex-col mt-[50px] md:mt-[30px]">
+      <LargeFont extraCss="mb-[15px]">
         About {baseAsset?.name} {baseAsset?.symbol}
-      </TextLandingMedium>
+      </LargeFont>
       {baseAsset?.description ? (
-        <TextSmall color={text60}>{baseAsset?.description}</TextSmall>
+        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+          {baseAsset?.description}
+        </SmallFont>
       ) : (
-        <Flex
-          align="center"
-          fontSize={["12px", "12px", "13px", "14px"]}
-          fontWeight="400"
-          color={text60}
-        >
+        <div className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-60 dark:text-dark-font-60">
           No token description provided. Provide one <HoverLink>now</HoverLink>
           to improve Mobula!
-        </Flex>
+        </div>
       )}
-    </Flex>
+    </div>
   );
 };
