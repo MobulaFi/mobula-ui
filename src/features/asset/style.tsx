@@ -1,23 +1,12 @@
 import { FlexProps } from "@chakra-ui/react";
 
-export const squareBox = {
-  // bg: "box_bg.6",
-  // border: "1px solid var(--chakra-colors-borders-3)",
-  borderRadius: "8px",
-  boxSize: "26px",
-  ml: "10px",
-  mt: "5px",
-};
+export const squareBox =
+  "rounded w-[26px] h-[26px] min-w-[26px] ml-2.5 mt-[5px]";
 
-export const percentageTags = (isUp) => ({
-  bg: isUp ? "darkgreen" : "red_bg",
-  h: ["22px", "22px", "26px", "30px"],
-  px: ["5px", "5px", "7.5px", "10px"],
-  borderRadius: "8px",
-  ml: "10px",
-  align: "center",
-  justify: "center",
-});
+export const percentageTags = (isUp: boolean) =>
+  `${
+    isUp ? "bg-darkgreen dark:bg-darkgreen" : "bg-darkred dark:bg-darkred"
+  } h-[30px] lg:h-[26px] md:h-[22px] px-2.5 lg:px-[7.5px] md:px-[5px] rounded ml-2.5 items-center justify-center`;
 
 export const mainButtonStyle =
   "h-[30px] px-2.5 lg:px-[7.5px] mr-[7.5px] lg:mr-0 ml-0 lg:ml-[7.5px] rounded transition-all duration-250 font-medium";
@@ -50,13 +39,4 @@ export const FlexBorderBox: FlexProps = {
   direction: "column",
 };
 
-export const cancelButtonStyle = {
-  variant: "outlined",
-  mb: "0px",
-  maxW: "100px",
-  w: "100%",
-  fontSize: ["12px", "12px", "13px", "14px"],
-  fontWeight: "400",
-  h: "30px",
-  mr: "10px",
-};
+export const cancelButtonStyle = "mb-0 max-w-[100px] w-full h-[30px] mr-2.5";

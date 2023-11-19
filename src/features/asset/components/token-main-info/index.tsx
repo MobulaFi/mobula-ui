@@ -1,14 +1,6 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
 import {
-  Box,
   Button,
-  Flex,
-  Icon,
-  Img,
   Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Popover,
   PopoverBody,
   PopoverContent,
@@ -17,35 +9,34 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import {useContext, useEffect, useMemo, useState} from "react";
-import {AiFillStar, AiOutlineStar} from "react-icons/ai";
-import {TbBellRinging} from "react-icons/tb";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { TbBellRinging } from "react-icons/tb";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+  TextLandingLarge,
+} from "../../../../components/fonts";
+import { UserContext } from "../../../../contexts/user";
+import { IWatchlist } from "../../../../interfaces/pages/watchlist";
+import { useColors } from "../../../../lib/chakra/colorMode";
 import {
   getClosest,
   getFormattedAmount,
   getTokenPercentage,
   removeScNotation,
-} from "../../../../../../utils/helpers/formaters";
-import {
-  TextLandingLarge,
-  TextLandingMedium,
-  TextLandingSmall,
-  TextSmall,
-} from "../../../../../UI/Text";
-import {UserContext} from "../../../../../common/context-manager/user";
-import {useWatchlist} from "../../../../../common/ui/tables/hooks/watchlist";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {IWatchlist} from "../../../../User/Watchlist/models";
-import {timestamp, timestamps} from "../../constant";
-import {BaseAssetContext} from "../../context-manager";
-import {useAthPrice} from "../../hooks/use-athPrice";
-import {useMarketMetrics} from "../../hooks/use-marketMetrics";
-import {percentageTags, squareBox} from "../../style";
+} from "../../../../utils/formaters";
+import { timestamp, timestamps } from "../../constant";
+import { BaseAssetContext } from "../../context-manager";
+import { useAthPrice } from "../../hooks/use-athPrice";
+import { useMarketMetrics } from "../../hooks/use-marketMetrics";
+import { percentageTags, squareBox } from "../../style";
 
 export const TokenMainInfo = () => {
   const [isHoverStar, setIsHoverStar] = useState(false);
   const [inWl, setInWl] = useState(false);
-  const {priceLow, priceHigh} = useAthPrice();
+  const { priceLow, priceHigh } = useAthPrice();
   const {
     baseAsset,
     historyData,
@@ -55,10 +46,10 @@ export const TokenMainInfo = () => {
     setShowSwap,
     showSwap,
   } = useContext(BaseAssetContext);
-  const {handleAddWatchlist, inWatchlist} = useWatchlist(baseAsset.id);
-  const {user} = useContext(UserContext);
+  const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
+  const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
-  const {marketMetrics} = useMarketMetrics(baseAsset);
+  const { marketMetrics } = useMarketMetrics(baseAsset);
   const [metricsChanges, setMetricsChanges] = useState(null);
   const {
     text80,
@@ -73,10 +64,12 @@ export const TokenMainInfo = () => {
   const watchlist: IWatchlist = user?.main_watchlist;
 
   const getIconFromWatchlistState = () => {
-    if (isLoading) return <Spinner h="13px" w="13px" color="blue" />;
+    if (isLoading) return <Spinner extraCss="h-[13px] w-[13px]" />;
     if (inWl || inWatchlist || isHoverStar)
-      return <Icon as={AiFillStar} color="yellow" fontSize="16px" />;
-    return <Icon as={AiOutlineStar} color={text40} fontSize="16px" />;
+      return <AiFillStar className="text-base text-yellow dark:text-yellow" />;
+    return (
+      <AiOutlineStar className="text-base text-light-font-40 dark:text-dark-font-40" />
+    );
   };
   //   let interval: NodeJS.Timer;
 
@@ -133,7 +126,7 @@ export const TokenMainInfo = () => {
   // }, [isVisible]);
 
   useEffect(() => {
-    setMetricsChanges(newMetricsChange => {
+    setMetricsChanges((newMetricsChange) => {
       let updatedPrice;
       if (marketMetrics?.priceChange) updatedPrice = true;
       else if (marketMetrics?.priceChange !== undefined) updatedPrice = false;
@@ -144,7 +137,7 @@ export const TokenMainInfo = () => {
       };
     });
     setTimeout(() => {
-      setMetricsChanges(newMarketMetricsChange => ({
+      setMetricsChanges((newMarketMetricsChange) => ({
         ...newMarketMetricsChange,
         price: null,
       }));
@@ -161,9 +154,9 @@ export const TokenMainInfo = () => {
         (baseAsset.price /
           getClosest(
             historyData.price_history.concat(
-              baseAsset.price_history?.price || [],
+              baseAsset.price_history?.price || []
             ),
-            Math.max(Date.now() - timestamp[timeSelected], 0),
+            Math.max(Date.now() - timestamp[timeSelected], 0)
           ) -
           1) *
         100
@@ -180,25 +173,15 @@ export const TokenMainInfo = () => {
   const isUp = priceChange > 0;
 
   return (
-    <Flex direction="column" w={["100%", "100%", "100%", "60%"]}>
-      <Flex
-        align="center"
-        justify={[
-          "space-between",
-          "space-between",
-          "space-between",
-          "flex-start",
-        ]}
-        mb={["2px", "2px", "2px", "0px"]}
-      >
-        <Flex align="center">
-          <Img
+    <div className="flex flex-col w-[60%] lg:w-full">
+      <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
+        <div className="flex items-center">
+          <img
+            className="w-[24px] h-[24px] min-w-[24px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
             src={baseAsset.logo}
-            boxSize={["20px", "20px", "22px", "24px"]}
-            mr="7.5px"
-            borderRadius="full"
+            alt={`${baseAsset.name} logo`}
           />
-          <Flex wrap="wrap" align="center">
+          <div className="flex flex-wrap items-center">
             <Tooltip
               hasArrow
               label={baseAsset?.name}
@@ -210,28 +193,16 @@ export const TokenMainInfo = () => {
               py="2.5px"
               px="10px"
             >
-              <Text
-                fontSize={["16px", "16px", "18px", "20px"]}
-                fontWeight="500"
-                color={text80}
-                mr="5px"
-                display={["flex", "flex", "flex", "none"]}
-              >
+              <LargeFont extraCss="mr-[5px] hidden lg:flex">
                 {baseAsset.name.length > 15
                   ? `${baseAsset?.name.slice(0, 15)}...`
                   : baseAsset?.name}
-              </Text>
+              </LargeFont>
             </Tooltip>
             {baseAsset.name.length <= 15 ? (
-              <Text
-                fontSize={["20px", "20px", "22px", "24px"]}
-                fontWeight="500"
-                color={text80}
-                mr="5px"
-                display={["none", "none", "none", "flex"]}
-              >
+              <p className="text-2xl lg:text-[22px] md:text-xl font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
                 {baseAsset?.name}
-              </Text>
+              </p>
             ) : null}
             {baseAsset.name.length > 15 ? (
               <Popover trigger="hover" matchWidth>
@@ -269,36 +240,23 @@ export const TokenMainInfo = () => {
                 ) : null}
               </Popover>
             ) : null}
-            <TextLandingMedium
-              color={text40}
-              mt={["0px", "0px", "3px"]}
-              mb={["2px", "2px", "0px"]}
-              fontSize={["16px", "16px", "18px", "20px"]}
-            >
+            <LargeFont extraCss="mb-0 md:mb-0.5 mt-[3px] md:mt-0 text-light-font-40 dark:text-dark-font-40">
               {baseAsset?.symbol}
-            </TextLandingMedium>
-          </Flex>
-        </Flex>
-        <Flex align="center">
+            </LargeFont>
+          </div>
+        </div>
+        <div className="flex items-center">
           <Button
-            sx={squareBox}
-            bg={boxBg6}
-            border={borders}
-            _hover={{
-              border: bordersActive,
-              bg: hover,
-            }}
-            transition="all 250ms ease-in-out"
+            extraCss={`${squareBox} ml-0`}
             onMouseEnter={() => setIsHoverStar(true)}
             onMouseLeave={() => setIsHoverStar(false)}
-            ml="0px"
             onClick={() => {
               if (inWl) {
                 handleAddWatchlist(
                   baseAsset?.id,
                   watchlist?.id,
                   false,
-                  setIsLoading,
+                  setIsLoading
                 );
                 setInWl(false);
               } else {
@@ -306,7 +264,7 @@ export const TokenMainInfo = () => {
                   baseAsset?.id,
                   watchlist?.id,
                   true,
-                  setIsLoading,
+                  setIsLoading
                 );
                 setInWl(true);
               }
@@ -316,36 +274,16 @@ export const TokenMainInfo = () => {
           </Button>
 
           <Button
+            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl w-[26px] h-[26px] min-w-[26px] ml-[7.5px] mt-[5px] mr-0"
             onClick={() => setShowTargetPrice(true)}
-            color={text40}
-            fontSize="20px"
-            bg={boxBg6}
-            borderRadius="8px"
-            boxSize="26px"
-            _hover={{color: text80, bg: hover}}
-            transition="all 250ms ease-in-out"
-            border={borders}
-            ml="7.5px"
-            mt="5px"
-            mr="0px"
           >
-            <Icon as={TbBellRinging} fontSize="18px" />
+            <TbBellRinging className="text-lg" />
           </Button>
-        </Flex>
-      </Flex>
+        </div>
+      </div>
       {baseAsset?.tracked ? (
-        <Flex direction="column">
-          <Flex
-            align="center"
-            justify={[
-              "space-between",
-              "space-between",
-              "space-between",
-              "flex-start",
-            ]}
-            mt="5px"
-            mb="7.5px"
-          >
+        <div className="flex flex-col">
+          <div className="flex items-center justify-start lg:justify-between mt-[5px] mb-[7.5px]">
             <Popover trigger="hover" matchWidth>
               <PopoverTrigger>
                 <Button>
@@ -370,15 +308,21 @@ export const TokenMainInfo = () => {
                 </PopoverBody>
               </PopoverContent>
             </Popover>
-            <Flex align="center">
-              <Flex {...percentageTags(isUp)} mr="10px">
-                <TextLandingSmall color={isUp ? "green" : "red"}>
+            <div className="flex items-center">
+              <div className={`flex mr-2.5 ${percentageTags(isUp)}`}>
+                <MediumFont
+                  extraCss={
+                    isUp
+                      ? "text-green dark:text-green"
+                      : "text-red dark:text-red"
+                  }
+                >
                   {isUp ? "+" : ""}
                   {getTokenPercentage(priceChange)}%
-                </TextLandingSmall>
-              </Flex>
-              <Menu matchWidth>
-                <MenuButton
+                </MediumFont>
+              </div>
+              <Menu titleCss="px-[7.5px] h-[28px] rounded" title={timeSelected}>
+                {/* <MenuButton
                   border={borders}
                   borderRadius="8px"
                   color={text80}
@@ -386,113 +330,89 @@ export const TokenMainInfo = () => {
                   h="28px"
                   px="7.5px"
                   bg={boxBg6}
-                  _hover={{border: bordersActive, bg: hover}}
+                  _hover={{ border: bordersActive, bg: hover }}
                   transition="all 250ms ease-in-out"
                   fontSize={["12px", "12px", "13px", "14px"]}
                   as={Button}
                   rightIcon={<ChevronDownIcon pl="0px" mr="-2px" ml="-5px" />}
                 >
                   {timeSelected}
-                </MenuButton>
-                <MenuList
-                  py="5px"
-                  minW="0px"
-                  border={borders}
-                  boxShadow="1px 2px 13px 3px rgba(0,0,0,0.1)"
-                  bg={boxBg6}
-                  borderRadius="8px"
-                >
-                  {timestamps.map(time => (
-                    <MenuItem
-                      _hover={{color: text80}}
-                      transition="all 250ms ease-in-out"
-                      borderRadius="8px"
-                      color={timeSelected === time ? text80 : text40}
-                      py="5px"
-                      fontSize={["12px", "12px", "13px", "14px"]}
-                      bg={boxBg6}
-                      key={time}
-                      onClick={() => setUserTimeSelected(time)}
-                    >
-                      {time}
-                    </MenuItem>
-                  ))}
-                </MenuList>
+                </MenuButton> */}
+                {timestamps.map((time) => (
+                  <button
+                    key={time}
+                    onClick={() => setUserTimeSelected(time)}
+                    className={`transition-all duration-250 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
+                       rounded ${
+                         timeSelected === time
+                           ? "text-light-font-100 dark:text-dark-font-100"
+                           : "text-light-font-40 dark:text-dark-font-40 hover:text-light-font-100 hover:dark:text-dark-font-100"
+                       }`}
+                  >
+                    {time}
+                  </button>
+                ))}
               </Menu>
-            </Flex>
-          </Flex>
+            </div>
+          </div>
 
-          <Flex direction="column" display={["flex"]}>
-            <Flex
-              h="7px"
-              w={["100%", "100%", "100%", "50%"]}
-              bg="#87878720"
-              borderRadius="8px"
-              mt="2.5px"
-            >
-              <Box
-                borderRadius="8px"
-                h="100%"
-                bg={isUp ? "green" : "red"}
-                w={
-                  priceLow && priceHigh
-                    ? `${
-                        ((marketMetrics.price - priceLow) /
-                          (priceHigh - priceLow)) *
-                        100
-                      }%`
-                    : "0%"
-                }
+          <div className="flex flex-col">
+            <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[2.5px]">
+              <div
+                className={`rounded h-full ${
+                  isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
+                }`}
+                style={{
+                  width:
+                    priceLow && priceHigh
+                      ? `${
+                          ((marketMetrics.price - priceLow) /
+                            (priceHigh - priceLow)) *
+                          100
+                        }%`
+                      : "0%",
+                }}
               />
-            </Flex>
-            <Flex
-              justify="space-between"
-              mt={["5px", "5px", "7.5px"]}
-              w={["100%", "100%", "100%", "50%"]}
-            >
-              <Flex align="center">
-                <TextSmall color={text60} mr="5px">
+            </div>
+            <div className="flex justify-between mt-[7.5px] md:mt-[5px] w-[50%] lg:w-full">
+              <div className="flex items-center">
+                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
                   Low
-                </TextSmall>
-                <TextSmall color={text80} fontWeight="500">
+                </SmallFont>
+                <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
                   ${getFormattedAmount(priceLow)}
-                </TextSmall>
-              </Flex>
-              <Flex align="center">
-                <TextSmall color={text60} mr="5px">
+                </SmallFont>
+              </div>
+              <div className="flex items-center">
+                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
                   High
-                </TextSmall>
-                <TextSmall color={text80} fontWeight="500">
+                </SmallFont>
+                <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
                   ${getFormattedAmount(priceHigh)}
-                </TextSmall>
-              </Flex>
-            </Flex>
-          </Flex>
-        </Flex>
+                </SmallFont>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
-        <Flex
-          h="7px"
-          w={["100%", "100%", "100%", "50%"]}
-          bg="#87878720"
-          borderRadius="8px"
-          mt={["10px", "10px", "25px"]}
-        >
-          <Box
-            borderRadius="8px"
-            h="100%"
-            bg={isUp ? "green" : "red"}
-            w={
-              priceLow && priceHigh
-                ? `${
-                    ((marketMetrics.price - priceLow) /
-                      (priceHigh - priceLow)) *
-                    100
-                  }%`
-                : "0%"
-            }
+        <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[25px] md:mt-2.5">
+          <div
+            className={`rounded h-full ${
+              isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
+            }`}
+            style={{
+              width:
+                priceLow && priceHigh
+                  ? `${
+                      ((marketMetrics.price - priceLow) /
+                        (priceHigh - priceLow)) *
+                      100
+                    }%`
+                  : "0%",
+            }}
           />
-        </Flex>
+        </div>
       )}
-    </Flex>
+    </div>
   );
 };

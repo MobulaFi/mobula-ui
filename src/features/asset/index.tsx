@@ -10,8 +10,6 @@ import { NextChakraLink } from "../../components/link";
 import { Skeleton } from "../../components/skeleton";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { TopNav } from "../../layouts/menu-mobile/top-nav";
-import { SwapProvider } from "../../layouts/swap";
-import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
@@ -20,12 +18,6 @@ import { PopupAllTags } from "./components/popup/tags";
 import { TradeFiltersPopup } from "./components/popup/trade-filters";
 import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
-import { Essentials } from "./components/widgets/essentials";
-import { Fundraising } from "./components/widgets/fundraising";
-import { Market } from "./components/widgets/market";
-import { SocialsDeveloper } from "./components/widgets/social-developer";
-import { Tokenomic } from "./components/widgets/tokenomic";
-import { Vesting } from "./components/widgets/vesting";
 import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
@@ -407,7 +399,7 @@ export const Assets = () => {
                 ))}
             </div>
           </div>
-          {activeTab === "Essentials" ? (
+          {/* {activeTab === "Essentials" ? (
             <div
               style={{
                 animation: getAnimation("Essentials"),
@@ -507,7 +499,7 @@ export const Assets = () => {
                 </Button>
               </div>{" "}
             </div>
-          ) : null}
+          ) : null} */}
 
           <TradeFiltersPopup />
           <PopupSocialMobile />

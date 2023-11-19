@@ -15,14 +15,12 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useContext, useState} from "react";
-import {TextLandingMedium, TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../context-manager";
-import {TradeBlockchainPopup} from "../trade-blockchain-selector";
-import {TradeTypePopup} from "../trade-type";
-import {TradeValueAmountPopup} from "../trade-value-amount";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { useContext, useState } from "react";
+import { BaseAssetContext } from "../../../context-manager";
+import { TradeBlockchainPopup } from "../trade-blockchain-selector";
+import { TradeTypePopup } from "../trade-type";
+import { TradeValueAmountPopup } from "../trade-value-amount";
 
 export const TradeFiltersPopup = () => {
   const {
@@ -33,7 +31,7 @@ export const TradeFiltersPopup = () => {
     setShowTradeValue,
     showTradeValue,
   } = useContext(BaseAssetContext);
-  const {borders, text80, boxBg3, hover} = useColors();
+  const { borders, text80, boxBg3, hover } = useColors();
   const [activeNames, setActiveNames] = useState({
     liquidity_pool: "All Liquidity Pool",
     blockchain: "Any Blockchains",
@@ -149,7 +147,11 @@ export const TradeFiltersPopup = () => {
                 w="100%"
                 borderBottom="none"
               >
-                <AccordionButton px="0px" fontSize="13px" _hover={{bg: boxBg3}}>
+                <AccordionButton
+                  px="0px"
+                  fontSize="13px"
+                  _hover={{ bg: boxBg3 }}
+                >
                   <Box
                     as="span"
                     flex="1"
