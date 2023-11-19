@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-var */
 /* eslint-disable block-scoped-var */
-import { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { cn } from "../../../../../@/lib/utils";
 import { Button } from "../../../../../components/button";
@@ -38,6 +38,7 @@ export const CompareButtons = ({
   >
     {comparedEntities?.map((entity, i) => (
       <Button
+        key={entity.label}
         extraCss={`z-[1] px-2 ${buttonH} mr-2.5 mb-2.5 `}
         onClick={() => {
           comparedEntities.splice(i, 1);
@@ -45,7 +46,7 @@ export const CompareButtons = ({
         }}
       >
         <div
-          className={`${colors[i]} rounded-full w-[10px] min-w-[10px] h-[10px] mr-[5px]`}
+          className={`flex items-center justify-center ${colors[i]} rounded-full w-[10px] min-w-[10px] h-[10px] mr-[5px]`}
         />
         {entity.label}
         {entity.data.length ? (

@@ -1,3 +1,4 @@
+"use client";
 import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 interface NavActiveProviderProps {

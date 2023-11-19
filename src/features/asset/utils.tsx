@@ -1,9 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 // eslint-disable-next-line import/no-cycle
 import React from "react";
-import { CoreActor } from "./components/widgets/essentials/core-actor";
-import { HoldingRoi } from "./components/widgets/essentials/holdings-roi";
-import { TokenMetrics } from "./components/widgets/essentials/token-metrics";
 import { timestamps } from "./constant";
 import {
   FormattedHistoricalData,
@@ -20,9 +17,9 @@ export const getRenderFromTabs = (activeTab) => {
   if (activeTab === "Essentials") {
     return (
       <div className="flex flex-col max-w-[320px] w-full">
-        <TokenMetrics />
+        {/* <TokenMetrics />
         <HoldingRoi chartId="holdings-chart" />
-        <CoreActor />
+        <CoreActor /> */}
       </div>
     );
   }

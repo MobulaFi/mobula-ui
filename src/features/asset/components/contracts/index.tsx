@@ -1,7 +1,7 @@
 import { useClipboard } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import React, { useContext } from "react";
+import { useContext } from "react";
 // import {useAlert} from "react-alert";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -74,7 +74,7 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
             }
           />
         ) : null}
-        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
           {shortenedName}
         </SmallFont>
       </div>

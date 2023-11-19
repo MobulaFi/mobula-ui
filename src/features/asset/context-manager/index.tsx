@@ -1,5 +1,5 @@
+"use client";
 import { PostgrestResponse } from "@supabase/supabase-js";
-import { parse } from "cookie";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { UserContext } from "../../../contexts/user";
 import { ILaunchpad } from "../../../interfaces/launchpads";
@@ -17,7 +17,7 @@ import {
   Trade,
   UnformattedHistoricalData,
 } from "../models";
-import { formatHistoricalData, unformatFilters } from "../utils";
+import { formatHistoricalData } from "../utils";
 
 interface BaseAssetProviderProps {
   token: Asset;
@@ -26,6 +26,8 @@ interface BaseAssetProviderProps {
   cookies: any;
   tradHistory: Trade[];
   launchpad?: ILaunchpad[];
+  hideTxCookie: string;
+  tradeCookie: TradeFilter[];
 }
 
 export const BaseAssetContext = React.createContext({} as IBasetAssetContext);
@@ -37,11 +39,10 @@ export const BaseAssetProvider = ({
   cookies,
   tradHistory,
   launchpad,
+  hideTxCookie,
+  tradeCookie,
 }: BaseAssetProviderProps) => {
-  const newCookies = parse(cookies);
   const [transactions, setTransactions] = useState([]);
-  const hideTxCookie = newCookies.hideTx || "false";
-  const tradeCookie = unformatFilters(newCookies["trade-filters"] || "") || [];
   const [baseAsset, setBaseAsset] = useState<Asset>(token);
   const [historyData, setHistoryData] = useState<HistoryData | null>(null);
   const [formattedHistoricalData, setFormattedHistoricalData] =
@@ -90,7 +91,7 @@ export const BaseAssetProvider = ({
     (launchpad as ILaunchpad[]) || []
   );
   const [untracked, setUntracked] = useState({
-    isUntracked: !token.tracked,
+    isUntracked: !token?.tracked,
     showChart: false,
   });
 

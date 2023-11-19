@@ -1,10 +1,12 @@
-import {Button, Flex} from "@chakra-ui/react";
-import {useContext} from "react";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {timestamps} from "../../../../constant";
-import {BaseAssetContext} from "../../../../context-manager";
+import React, { useContext } from "react";
+import { timestamps } from "../../../../constant";
+import { BaseAssetContext } from "../../../../context-manager";
 
-export const TimeSwitcher = ({...props}) => {
+interface TimeSwitcherProps {
+  extraCss?: string;
+}
+
+export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
   const {
     timeSelected,
     chartType,
@@ -12,66 +14,41 @@ export const TimeSwitcher = ({...props}) => {
     shouldLoadHistory,
     loadHistoryData,
   } = useContext(BaseAssetContext);
-  const {text80, hover, borders, text40, boxBg3} = useColors();
 
   const getPosition = () => {
     if (timeSelected === "24H") return "calc(0% + 1px)";
     if (timeSelected === "ALL") return "calc(83.34% - 1px)";
     return `${(100 / timestamps.length) * timestamps.indexOf(timeSelected)}%`;
   };
+  const buttonPosition = getPosition();
 
   return (
-    <Flex
-      align="center"
-      justify="space-between"
-      mt={["10px", "10px", "0px", "0px"]}
-      mb={["25px", "25px", "0px", "0px"]}
-      ml={["0px", "0px", "auto", "auto"]}
-      zIndex={2}
-      w={["95%", "95%", "fit-content", "fit-content"]}
-      mx={["auto", "auto", "0px", "0px"]}
-      {...props}
+    <div
+      className={`flex items-center justify-between mt-0 md:mt-2.5 mb-0 md:mb-[25px] ml-auto md:ml-0 w-fit md:w-[95%] mx-0 md:mx-auto ${extraCss}`}
     >
-      <Flex
-        h="34px"
-        w={["100%", "100%", "230px", "230px"]}
-        p="2px"
-        borderRadius="8px"
-        bg={boxBg3}
-        position="relative"
-        border={borders}
-      >
-        <Flex
-          h="90%"
-          top="50%"
-          transform="translateY(-50%)"
-          w="16.66%"
-          transition="all 250ms ease-in-out"
-          borderRadius="4px"
-          position="absolute"
-          bg={hover}
-          left={getPosition()}
+      <div className="h-[34px] w-[230px] md:w-full p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary relative border border-light-border-primary dark:border-dark-border-primary">
+        <div
+          className="h-[90%] top-[50%] -translate-y-[50%] w-[16.66%] transition-all duration-250 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0]"
+          style={{ left: buttonPosition }}
         />
-        {timestamps.map(time => (
-          <Button
-            h="100%"
+        {timestamps.map((time) => (
+          <button
+            className={`h-full ${
+              timeSelected === time
+                ? "text-light-font-100 dark:text-dark-font-100"
+                : "text-light-font-40 dark:text-dark-font-40"
+            } transition-all duration-250 w-[16.66%] text-sm lg:text-[13px] md:text-xs font-medium z-[2]`}
             key={time}
-            color={timeSelected === time ? text80 : text40}
-            fontWeight="500"
-            transition="all 400ms ease-in"
-            w="16.66%"
-            fontSize={["12px", "12px", "13px", "14px"]}
             onClick={() => {
               if (shouldLoadHistory(chartType, time))
                 loadHistoryData(chartType, time);
-
               setUserTimeSelected(time);
             }}
           >
             {time}
-          </Button>
+          </button>
         ))}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

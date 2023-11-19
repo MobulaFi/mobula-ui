@@ -1,13 +1,13 @@
-import {Avatar, AvatarGroup, Flex, Img} from "@chakra-ui/react";
-import {useRouter} from "next/router";
-import {useState} from "react";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {boxStyle} from "../../../../../User/Portfolio/style";
-import {ActorsPopup} from "../popup-actors";
+import { Avatar, AvatarGroup, Flex, Img } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { TextSmall } from "../../../../../components/fonts";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { boxStyle } from "../../../../user/portfolio/style";
+import { ActorsPopup } from "../popup-actors";
 
-export const ActorsBox = ({data, title}) => {
-  const {borders, text40, bordersActive, hover, boxBg6} = useColors();
+export const ActorsBox = ({ data, title }) => {
+  const { borders, text40, bordersActive, hover, boxBg6 } = useColors();
   const [showActors, setShowActors] = useState(false);
   const router = useRouter();
   return (
@@ -55,7 +55,7 @@ export const ActorsBox = ({data, title}) => {
                 <AvatarGroup size="xs" fontSize="xs" max={2}>
                   {data
                     .filter((_, i) => i !== 0)
-                    .map(item => (
+                    .map((item) => (
                       <Avatar
                         bg={hover}
                         border={borders}

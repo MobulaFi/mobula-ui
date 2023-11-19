@@ -1,72 +1,59 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
-import {
-  Button,
-  Icon,
-  Image,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-} from "@chakra-ui/react";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {mainButtonStyle} from "../../../style";
+import { Button } from "components/button";
+import { Popover } from "components/popover";
+import { useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { SmallFont } from "../../../../../components/fonts";
+import { mainButtonStyle } from "../../../style";
+
+interface CustomPopOverProps {
+  title: string;
+  icon?: any;
+  children: JSX.Element | JSX.Element[] | string;
+  isMobile?: boolean;
+  logo?: string;
+  position?: string;
+}
 
 export const CustomPopOver = ({
   title,
   icon,
   children,
   isMobile,
+  position,
   logo,
-}: {
-  title: string;
-  icon?: any;
-  children: JSX.Element | JSX.Element[] | string;
-  isMobile?: boolean;
-  logo?: string;
-}) => {
-  const {boxBg6, text80, borders, boxBg3, bordersActive, hover} = useColors();
+}: CustomPopOverProps) => {
+  const [showCustomPopover, setShowCustomPopover] = useState(false);
   return (
-    <Popover>
-      <PopoverTrigger>
-        <Button
-          sx={mainButtonStyle}
-          bg={boxBg6}
-          border={borders}
-          color={text80}
-          _hover={{
-            border: bordersActive,
-            bg: hover,
-          }}
-          mb="5px"
-        >
-          {isMobile ? (
-            <Image
-              src={logo}
-              boxSize="15px"
-              ml="10px"
-              borderRadius="full"
-              mr="5px"
-            />
-          ) : (
-            <Icon
-              as={icon}
-              fontSize="13px"
-              color={text80}
-              mr={!isMobile ? "5px" : "0px"}
-            />
-          )}
-          <TextSmall fontWeight="500" mt="1px">
-            {title}
-          </TextSmall>
-          <ChevronDownIcon fontSize="16px" ml="2.5px" />
+    <Popover
+      visibleContent={
+        <Button extraCss={`${mainButtonStyle} mb-[5px]`}>
+          {
+            isMobile ? (
+              <img
+                className="w-[15px] h-[15px] min-w-[15px] ml-2.5 rounded-full mr-[5px]"
+                src={logo}
+                alt="logo"
+              />
+            ) : (
+              icon
+            )
+            // <Icon
+            //   as={icon}
+            //   fontSize="13px"
+            //   color={text80}
+            //   mr={!isMobile ? "5px" : "0px"}
+            // />
+          }
+          <SmallFont extraCss="font-medium">{title}</SmallFont>
+          <BsChevronDown className="text-base ml-[2.5px]" />
         </Button>
-      </PopoverTrigger>
-      <PopoverContent border={borders} bg={boxBg3} borderRadius="16px">
-        <PopoverBody maxH="246px" pr="0px" overflowY="scroll">
-          {children}
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      }
+      hiddenContent={
+        <div className="pr-0 overflow-y-scroll scroll">{children}</div>
+      }
+      isOpen={showCustomPopover}
+      onToggle={() => setShowCustomPopover((prev) => !prev)}
+      extraCss={`top-[35px] ${position || ""}`}
+    />
   );
 };

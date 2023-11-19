@@ -14,6 +14,7 @@ import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
 import { TableContext } from "../context-manager";
 import { OrderBy, TableAsset } from "../model";
 import { Entry } from "./entry-test";
+import { SkeletonTable } from "./skeletons";
 import { TableHeaderEntry } from "./table-header-entry";
 import { MenuCommom } from "./ui/menu";
 
@@ -350,14 +351,14 @@ export function AssetsTable({
             entries
           ) : (
             <>
-              {/* {Array.from({ length: 10 }).map((_, i) => (
+              {Array.from({ length: 10 }).map((_, i) => (
                 <SkeletonTable
                   isWatchlist
                   isTable={isTop100 as boolean}
                   i={i}
                   key={i}
                 />
-              ))} */}
+              ))}
             </>
           )}
         </table>

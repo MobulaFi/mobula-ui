@@ -1,32 +1,35 @@
 /* eslint-disable react/no-unescaped-entities */
-import {InfoOutlineIcon} from "@chakra-ui/icons";
-import {Box, Button, Flex, FlexProps, Spinner} from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import {useRouter} from "next/router";
-import {useContext, useEffect, useState} from "react";
-import {TextLandingSmall} from "../../../../../../../UI/Text";
-import {UserContext} from "../../../../../../../common/context-manager/user";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {GET} from "../../../../../../../common/utils/fetch";
-import {TransactionResponse} from "../../../../../../User/Portfolio/components/category/activity/model";
-import {colors} from "../../../../../../User/Portfolio/constants";
-import {BaseAssetContext} from "../../../../context-manager";
-import {Countdown} from "../../../../models";
-import {getInitalCountdown} from "../../../../utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { cn } from "../../../../../../@/lib/utils";
+import { Button } from "../../../../../../components/button";
+import { MediumFont } from "../../../../../../components/fonts";
+import { Spinner } from "../../../../../../components/spinner";
+import { UserContext } from "../../../../../../contexts/user";
+import { TransactionResponse } from "../../../../../../interfaces/transactions";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { GET } from "../../../../../../utils/fetch";
+import { colors } from "../../../../constant";
+import { BaseAssetContext } from "../../../../context-manager";
+import { Countdown } from "../../../../models";
+import { getInitalCountdown } from "../../../../utils";
 
-const EChart = dynamic(
-  () => import("../../../../../../../common/charts/EChart"),
-  {
-    ssr: false,
-  },
-);
+const EChart = dynamic(() => import("../../../../../../lib/echart/line"), {
+  ssr: false,
+});
+
+interface ChartLiteProps {
+  isBalanceHide?: boolean;
+  extraCss?: string;
+}
 
 export const ChartLite = ({
   isBalanceHide = false,
+  extraCss,
   ...props
-}: {
-  isBalanceHide?: boolean;
-} & FlexProps) => {
+}: ChartLiteProps) => {
   const {
     timeSelected,
     baseAsset,
@@ -49,21 +52,25 @@ export const ChartLite = ({
   } = useColors();
   const [isTracked, setIsTracked] = useState(false);
   const [countdown, setCountdown] = useState<Countdown | null>(
-    getInitalCountdown(baseAsset.launch?.date),
+    getInitalCountdown(baseAsset.launch?.date)
   );
+  const searchParams = useSearchParams();
+  const assetQuery = searchParams.get("asset");
 
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const router = useRouter();
 
   const fetchTransactions = (refresh = false) => {
     if (!user || !baseAsset) return;
     const wallets = [...user.external_wallets, user.address];
-    const lowerCaseWallets = wallets.map(newWallet => newWallet?.toLowerCase());
-    const txsLimit = router?.query.asset ? 200 : 20;
+    const lowerCaseWallets = wallets.map((newWallet) =>
+      newWallet?.toLowerCase()
+    );
+    const txsLimit = assetQuery ? 200 : 20;
     const txRequest: any = {
       should_fetch: false,
       limit: txsLimit,
-      offset: refresh ? 0 : transactions.length,
+      offset: refresh ? 0 : transactions?.length,
       wallets: lowerCaseWallets.join(","),
       portfolio_id: user?.portfolios[0]?.id,
       added_transactions: true,
@@ -73,13 +80,16 @@ export const ChartLite = ({
     GET(
       `${process.env.NEXT_PUBLIC_PORTFOLIO_ENDPOINT}/portfolio/rawtxs`,
       txRequest,
-      true,
+      true
     )
-      .then(r => r.json())
+      .then((r) => r.json())
       .then((r: TransactionResponse) => {
         if (r) {
           if (!refresh)
-            setTransactions(oldTsx => [...oldTsx, ...r.data.transactions]);
+            setTransactions((oldTsx) => [
+              ...(oldTsx || []),
+              ...r.data.transactions,
+            ]);
           else setTransactions(r.data.transactions);
         }
       });
@@ -105,18 +115,18 @@ export const ChartLite = ({
 
   const getDateSinceUntracked = () => {
     if (baseAsset) {
-      if (unformattedHistoricalData[type]?.ALL?.length === 0)
+      if (unformattedHistoricalData?.[type]?.ALL?.length === 0)
         return "a few minutes ago";
       const now = new Date().getTime();
       const lastData =
-        unformattedHistoricalData[type]?.ALL?.[
-          (unformattedHistoricalData[type]?.ALL?.length || 0) - 1
+        unformattedHistoricalData?.[type]?.ALL?.[
+          (unformattedHistoricalData?.[type]?.ALL?.length || 0) - 1
         ];
-      const lastDataTime = new Date(lastData?.[0]).getTime();
+      const lastDataTime = new Date(lastData?.[0] || "").getTime();
       const diff = now - lastDataTime;
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
-        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
       if (days > 0) return `${days} days ago`;
       if (hours > 0) return `${hours} hours ago`;
@@ -129,7 +139,7 @@ export const ChartLite = ({
     if (
       unformattedHistoricalData?.[type]?.[timeSelected]?.length === undefined
     ) {
-      return <Spinner boxSize="60px" color="var(--chakra-colors-blue)" />;
+      return <Spinner extraCss="min-w-[60px] w-[60px] h-[60px]" />;
     }
 
     // if ( baseAsset?.untrack_reason !== "pre-listing") {
@@ -147,182 +157,113 @@ export const ChartLite = ({
       unformattedHistoricalData?.[type]?.ALL?.length
     ) {
       return (
-        <Flex direction="column" align="center" justify="center">
-          <InfoOutlineIcon mb="15px" fontSize="30px" color="red" />
-          <TextLandingSmall fontSize={["14px", "14px", "15px", "16px"]}>
+        <div className="flex flex-col items-center justify-center">
+          <AiOutlineInfoCircle className="text-[30px] mb-[15px] text-red dark:text-red rotate-180" />
+          <MediumFont>
             {baseAsset?.name} has been untracked {getDateSinceUntracked()} due
             to low liquidity
-          </TextLandingSmall>
-          {unformattedHistoricalData?.price?.ALL?.length > 0 && (
+          </MediumFont>
+          {(unformattedHistoricalData?.price?.ALL?.length as number) > 0 && (
             <Button
-              mt="15px"
-              fontSize={["14px", "14px", "15px", "16px"]}
-              color={text60}
-              fontWeight="400"
-              bg={boxBg6}
-              transition="all 250ms ease-in-out"
-              h="35px"
-              px="12px"
-              borderRadius="8px"
-              border={borders}
-              _hover={{
-                border: bordersActive,
-                bg: hover,
-              }}
+              extraCss="mt-[15px] px-3 text-light-font-60 dark:text-dark-font-60"
               onClick={() => setIsTracked(true)}
             >
               Display old chart
             </Button>
           )}
-        </Flex>
+        </div>
       );
     }
     if (!isTracked && baseAsset?.untrack_reason !== "pre-listing")
       return (
-        <Flex direction="column" align="center" justify="center">
-          <InfoOutlineIcon
-            mb="15px"
-            fontSize="30px"
-            color="yellow"
-            transform="rotate(180deg)"
-          />
-          <TextLandingSmall fontSize={["14px", "14px", "15px", "16px"]}>
+        <div className="flex flex-col items-center justify-center">
+          <AiOutlineInfoCircle className="text-[30px] mb-[15px] text-yellow dark:text-yellow rotate-180" />
+          <MediumFont>
             {baseAsset?.name} is untracked as it doesn&apos;t have any on-chain
             liquidity
-          </TextLandingSmall>
+          </MediumFont>
           <Button
-            mt="15px"
-            fontSize={["14px", "14px", "15px", "16px"]}
-            color={text60}
-            fontWeight="400"
-            bg={boxBg6}
-            transition="all 250ms ease-in-out"
-            h="35px"
-            px="12px"
-            borderRadius="8px"
-            border={borders}
-            _hover={{
-              border: bordersActive,
-              bg: hover,
-            }}
+            extraCss="mt-[15px] px-3 text-light-font-60 dark:text-dark-font-60"
             onClick={() => setIsTracked(true)}
           >
             Display old chart
           </Button>
-        </Flex>
+        </div>
       );
 
     if (countdown) {
       const currentSale =
         baseAsset?.sales?.[(baseAsset?.sales?.length || 0) - 1];
       return (
-        <Flex direction="column" align="center" justify="center">
-          <InfoOutlineIcon mb="15px" fontSize="30px" color="red" />
-          <TextLandingSmall fontSize={["14px", "14px", "15px", "16px"]}>
-            {baseAsset?.name} isn't launched yet.
-          </TextLandingSmall>
-          <Flex justify="space-around" w="180px" mt="20px">
-            <Flex direction="column" align="center">
-              <Flex
-                bg={boxBg1}
-                h="35px"
-                w="35px"
-                align="center"
-                justify="center"
-                borderRadius="8px"
-                border={borders}
+        <div className="flex flex-col items-center justify-center">
+          <AiOutlineInfoCircle className="text-[30px] mb-[15px] text-red dark:text-red rotate-180" />
+          <MediumFont>{baseAsset?.name} isn't launched yet.</MediumFont>
+          <div className="flex justify-around w-[180px] mt-5">
+            <div className="flex flex-col items-center">
+              <div
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] w-[35px] rounded
+               border border-light-border-primary dark:border-dark-border-primary flex items-center justify-center"
               >
                 {countdown.days}
-              </Flex>
-              <TextLandingSmall>Days</TextLandingSmall>
-            </Flex>
+              </div>
+              <MediumFont>Days</MediumFont>
+            </div>
             :
-            <Flex direction="column" align="center">
-              <Flex
-                bg={boxBg1}
-                h="35px"
-                w="35px"
-                align="center"
-                justify="center"
-                borderRadius="8px"
-                border={borders}
+            <div className="flex items-center flex-col">
+              <div
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] w-[35px] rounded
+               border border-light-border-primary dark:border-dark-border-primary flex items-center justify-center"
               >
                 {countdown.hours}
-              </Flex>
-              <TextLandingSmall>Hours</TextLandingSmall>
-            </Flex>
+              </div>
+              <MediumFont>Hours</MediumFont>
+            </div>
             :
-            <Flex direction="column" align="center">
-              <Flex
-                bg={boxBg1}
-                h="35px"
-                w="35px"
-                align="center"
-                justify="center"
-                borderRadius="8px"
-                border={borders}
+            <div className="flex items-center flex-col">
+              <div
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] w-[35px] rounded
+              border border-light-border-primary dark:border-dark-border-primary flex items-center justify-center"
               >
                 {countdown.minutes}
-              </Flex>
-              <TextLandingSmall>Min</TextLandingSmall>
-            </Flex>
+              </div>
+              <MediumFont>Min</MediumFont>
+            </div>
             :
-            <Flex direction="column" align="center">
-              <Flex
-                bg={boxBg1}
-                h="35px"
-                w="35px"
-                align="center"
-                justify="center"
-                borderRadius="8px"
-                border={borders}
+            <div className="flex items-center flex-col">
+              <div
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] w-[35px] rounded
+                border border-light-border-primary dark:border-dark-border-primary flex items-center justify-center"
               >
                 {countdown.seconds}
-              </Flex>
-              <TextLandingSmall>Sec</TextLandingSmall>
-            </Flex>
-          </Flex>
+              </div>
+              <MediumFont>Sec</MediumFont>
+            </div>
+          </div>
           {currentSale?.link ? (
             <Button
-              mt="15px"
-              fontSize={["14px", "14px", "15px", "16px"]}
-              color={text60}
-              fontWeight="400"
-              bg={boxBg6}
-              transition="all 250ms ease-in-out"
-              h="35px"
-              px="12px"
-              borderRadius="8px"
-              border={borders}
-              _hover={{
-                border: bordersActive,
-                bg: hover,
-              }}
-              onClick={() => {
-                window.open(currentSale?.link, "_blank");
-              }}
+              extraCss="mt-[15px] px-3 text-light-font-60 dark:text-dark-font-60"
+              onClick={() => window.open(currentSale?.link, "_blank")}
             >
               Open presale
             </Button>
           ) : null}
-        </Flex>
+        </div>
       );
     }
   };
+  const chartMessage = renderChartMessage();
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 
   return (
-    <Box position="relative" w="100%" h="100%">
-      <Flex
-        filter={isBalanceHide ? "blur(5px)" : "none"}
-        justify="center"
-        mt={["-30px", "-30px", "20px"]}
-        w="100%"
-        align="center"
-        position="relative"
-        mb={["10px", "10px", "10px", "0px"]}
-        {...props}
+    <div className="flex relative w-full h-full">
+      <div
+        className={cn(
+          `flex items-center justify-center ${
+            isBalanceHide ? "blur-sm" : ""
+          } relative w-full mb-0 lg:mb-2.5 mt-5 md:mt-[-30px]`,
+          extraCss
+        )}
       >
         {baseAsset?.price_history?.price && (
           <EChart
@@ -331,41 +272,30 @@ export const ChartLite = ({
             transactions={hideTx ? [] : transactions}
             height={isMobile ? 400 : 500}
             extraData={
-              comparedEntities.filter(entity => entity.data.length).length
+              (comparedEntities.filter((entity) => entity.data.length).length
                 ? comparedEntities
-                    .filter(entity => entity.data.length)
+                    .filter((entity) => entity.data.length)
                     .map((entity, i) => ({
                       data: entity.data,
                       name: entity.label,
                       color: colors[i],
                     }))
-                : null
+                : null) as never
             }
             unit={comparedEntities.length ? "%" : "$"}
             unitPosition={comparedEntities.length ? "after" : "before"}
           />
         )}
-      </Flex>
+      </div>
       {!isTracked && baseAsset?.untrack_reason === "pre-listing" ? (
-        <Flex
-          position="absolute"
-          w="100%"
-          h="100%"
-          left="50%"
-          top="50%"
-          transform="translateY(-50%) translateX(-50%)"
-          align="center"
-          justify="center"
-          color={text80}
-          direction="column"
-          zIndex="2"
-          bg={boxBg3}
-          borderRadius="16px"
-          border={borders}
+        <div
+          className="absolute flex w-full h-full left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] justify-center items-center 
+        text-light-font-100 dark:text-dark-font-100 z-[2] flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary
+         rounded-2xl border border-light-border-primary dark:border-dark-border-primary"
         >
-          {renderChartMessage()}
-        </Flex>
+          {chartMessage}
+        </div>
       ) : null}
-    </Box>
+    </div>
   );
 };

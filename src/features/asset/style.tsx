@@ -1,7 +1,6 @@
 import { FlexProps } from "@chakra-ui/react";
 
-export const squareBox =
-  "rounded w-[26px] h-[26px] min-w-[26px] ml-2.5 mt-[5px]";
+export const squareBox = "rounded ml-2.5 mt-[5px]";
 
 export const percentageTags = (isUp: boolean) =>
   `${
@@ -15,18 +14,8 @@ export const popOverStyle = {
   boxShadow: "1px 2px 13px 3px rgba(0,0,0,0.1)",
 };
 
-export const PopOverLinesStyle: FlexProps = {
-  align: "center",
-  position: "relative",
-  justify: "space-between",
-  minWidth: ["135px", "135px", "181px", "200px"],
-  borderRadius: "4px",
-  px: "10px",
-  h: "30px",
-  w: "100%",
-  _hover: { bg: "box_bg.5" },
-  transition: "all 0.2s ease-in-out",
-};
+export const PopOverLinesStyle =
+  "flex items-center relative justify-between min-w-[200px] lg:min-w-[181px] md:min-w-[135px] rounded px-2.5 h-[30px] w-full hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 bg-light-bg-terciary dark:bg-dark-bg-terciary";
 
 export const FlexBorderBox: FlexProps = {
   borderRadius: "16px",

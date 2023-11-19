@@ -1,25 +1,13 @@
-import {Flex, useColorMode, useMediaQuery} from "@chakra-ui/react";
-import {useContext, useEffect} from "react";
-import {ChartHeader} from "./charts/header";
-import {ChartLite} from "./charts/linear";
+import { useMediaQuery } from "@chakra-ui/react";
+import { useTheme } from "next-themes";
+import React, { useContext, useEffect } from "react";
+import { BaseAssetContext } from "../../../context-manager";
+import { ChartHeader } from "./charts/header";
+import { ChartLite } from "./charts/linear";
 import ChartBox from "./charts/trading-view";
-import {Description} from "./description";
-import {PriceData} from "./price-data";
-// eslint-disable-next-line import/no-cycle
-import {SwapProvider} from "../../../../../../common/providers/swap";
-import {AssetPro} from "../../../../../../common/providers/swap/components/second-swap";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../context-manager";
-import {CoreActor} from "./core-actor";
-import {ListingDetails} from "./listing-details";
-import {PresaleDetails} from "./presale-details";
-import {SimilarAsset} from "./similar-asset";
-import {Socials} from "./socials";
-import {TimeSwitcher} from "./time-switcher";
-import {TokenMetrics} from "./token-metrics";
-import {TokenTrades} from "./trades";
+import { TimeSwitcher } from "./time-switcher";
 
-export const Essentials = ({marketMetrics}) => {
+export const Essentials = ({ marketMetrics }) => {
   const {
     historyData,
     baseAsset,
@@ -33,8 +21,7 @@ export const Essentials = ({marketMetrics}) => {
     fallback: false,
   });
 
-  const {bgMain} = useColors();
-  const {colorMode} = useColorMode();
+  const { theme } = useTheme();
   const hasBeenListed =
     (baseAsset?.trust_score || 0) +
       (baseAsset?.social_score || 0) +
@@ -50,52 +37,31 @@ export const Essentials = ({marketMetrics}) => {
 
   return (
     <>
-      <Flex
-        mt={["0px", "0px", "0px", "20px"]}
-        direction={[
-          "column-reverse",
-          "column-reverse",
-          "column-reverse",
-          "row",
-        ]}
-      >
-        <Flex
-          direction="column"
-          maxW="990px"
-          w={["100%", "100%", "100%", "calc(100% - 345px)"]}
-          mr={["0px", "0px", "0px", "25px"]}
-        >
+      <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
+        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] lg:mr-0">
           {untracked.isUntracked ? null : <ChartHeader />}
           {untracked.isUntracked ? null : (
-            <TimeSwitcher display={["flex", "flex", "none", "none"]} />
+            <TimeSwitcher extraCss="hidden md:flex" />
           )}
-          {activeChart === "Trading view" && colorMode !== undefined ? (
+          {activeChart === "Trading view" && theme !== undefined ? (
             <ChartBox
               baseAsset={baseAsset}
               historyData={historyData}
               marketMetrics={marketMetrics}
-              background={bgMain}
-              minH={["320px", "320px", "370px", "500px"]}
-              h={["370px", "370px", "420px", "520px"]}
-              w={["95%", "95%", "100%", "100%"]}
-              mx="auto"
+              extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-[95%] mx-auto h-[520px] lg:h-[420px] md:h-[370px]"
+              background={"bg-light-bg-secondary dark:bg-dark-bg-secondary"}
             />
           ) : (
-            <ChartLite
-              minH={["250px", "300px", "350px", "480px"]}
-              h={["350px", "350px", "400px", "480px"]}
-              w={["95%", "95%", "100%", "100%"]}
-              mx="auto"
-            />
+            <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
-          {!untracked.isUntracked ? (
+          {/* {!untracked.isUntracked ? (
             <TokenMetrics
               isMobile
-              display={["flex", "flex", "flex", "none"]}
-              mt="15px"
+              extraCss="hidden lg:flex mt-[15px]"
+             
             />
-          ) : null}
-          {untracked.isUntracked || isOffChain ? null : <TokenTrades />}
+          ) : null} */}
+          {/* {untracked.isUntracked || isOffChain ? null : <TokenTrades />} */}
           {/* {!untracked.isUntracked ? (
             <Flex w="100%" display={["flex", "flex", "none", "none"]}>
               <HoldingRoi
@@ -104,28 +70,16 @@ export const Essentials = ({marketMetrics}) => {
               />{" "}
             </Flex>
           ) : null} */}
-
-          <Description />
+          {/* <Description />
           <Socials />
           {!untracked.isUntracked ? <PriceData /> : null}
-
           <CoreActor
-            display={[
-              baseAsset?.investors?.length > 0 ? "flex" : "none",
-              baseAsset?.investors?.length > 0 ? "flex" : "none",
-              baseAsset?.investors?.length > 0 ? "flex" : "none",
-              "none",
-            ]}
-          />
-        </Flex>
+          extraCss={`${baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"} hidden` }
+          /> */}
+        </div>
 
-        <Flex
-          direction="column"
-          maxW={["100%", "100%", "100%", "320px"]}
-          w="100%"
-          display={["none", "none", "none", "flex"]}
-        >
-          <Flex>
+        <div className="flex flex-col max-w-[320px] lg:max-w-full w-full lg:hidden">
+          {/* <div className="flex">
             {isDesktop && (
               <SwapProvider
                 tokenOutBuffer={{
@@ -136,50 +90,39 @@ export const Essentials = ({marketMetrics}) => {
                       ? baseAsset.contracts[0]
                       : undefined,
                   logo: baseAsset?.image || baseAsset?.logo,
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
                   name: baseAsset?.name || baseAsset?.symbol,
                 }}
                 lockToken={["out"]}
               >
                 {" "}
-                <AssetPro asset={baseAsset} />
+                <SmallSwap asset={baseAsset} />
               </SwapProvider>
             )}
-          </Flex>
+          </div>
 
-          {!untracked.isUntracked ? <TokenMetrics /> : null}
+          {!untracked.isUntracked ? <TokenMetrics /> : null} */}
           {/* {!untracked.isUntracked ? (
             <HoldingRoi chartId="holdings-chart" />
           ) : null} */}
-          <CoreActor
-            display={[
-              "none",
-              "none",
-              "none",
-              baseAsset?.investors?.length > 0 ? "flex" : "none",
-            ]}
+          {/* <CoreActor
+          extraCss={`${baseAsset?.investors?.length > 0 ? "flex" : "hidden"} lg:hidden` }
+           
           />
           {untracked.isUntracked ? (
-            <PresaleDetails display={hasBeenListed ? "flex" : "none"} />
+            <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`}  />
           ) : null}
           {untracked.isUntracked ? (
-            <ListingDetails display={hasBeenListed ? "flex" : "none"} />
+            <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`}  />
           ) : null}
           {untracked.isUntracked ? (
             <ListingDetails
-              display={[
-                hasBeenListed ? "flex" : "none",
-                hasBeenListed ? "flex" : "none",
-                "none",
-                "none",
-              ]}
-              mt="10px"
+            extraCss={`${hasBeenListed ? "md:flex" : "md:hidden"} hidden mt-2.5` } 
+             
             />
-          ) : null}
-        </Flex>
-      </Flex>
-      <SimilarAsset />
+          ) : null} */}
+        </div>
+      </div>
+      {/* <SimilarAsset /> */}
     </>
   );
 };

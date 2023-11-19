@@ -1,10 +1,10 @@
-import {CheckIcon} from "@chakra-ui/icons";
-import {Button, Flex} from "@chakra-ui/react";
-import {useContext} from "react";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../context-manager";
-import {cancelButtonStyle} from "../../../style";
+import { CheckIcon } from "@chakra-ui/icons";
+import { Button, Flex } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { TextSmall } from "../../../../../components/fonts";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { BaseAssetContext } from "../../../context-manager";
+import { cancelButtonStyle } from "../../../style";
 
 export const TradeTypePopup = ({
   onClose,
@@ -22,13 +22,13 @@ export const TradeTypePopup = ({
     setShouldInstantLoad,
     setShowTradeFilters,
   } = useContext(BaseAssetContext);
-  const {text80, boxBg6, borders, bordersActive, hover} = useColors();
+  const { text80, boxBg6, borders, bordersActive, hover } = useColors();
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  const handleSelectType = type => {
+  const handleSelectType = (type) => {
     if (selectedTradeFilters.type === type || type === "all") {
       setSelectedTradeFilters({
         ...selectedTradeFilters,
@@ -42,24 +42,24 @@ export const TradeTypePopup = ({
     }
   };
 
-  const handleAddFilter = reset => {
+  const handleAddFilter = (reset) => {
     setShouldInstantLoad(true);
-    setMarketMetrics(prev => ({
+    setMarketMetrics((prev) => ({
       ...prev,
       trade_history: [],
     }));
     const index = filters.findIndex(
-      entry => entry.value[0] === "trade_history.type",
+      (entry) => entry.value[0] === "trade_history.type"
     );
     if (index !== -1) filters.splice(index, 1);
     if (reset) return;
     if (selectedTradeFilters.type !== null) {
-      setActiveName(prev => ({
+      setActiveName((prev) => ({
         ...prev,
         type: `${capitalizeFirstLetter(selectedTradeFilters.type)} Tx`,
       }));
       const final = filters.filter(
-        f => f.value[0] !== "trade_history.blockchain",
+        (f) => f.value[0] !== "trade_history.blockchain"
       );
       final.push({
         action: "eq",
@@ -67,7 +67,7 @@ export const TradeTypePopup = ({
       });
       setFilters(final);
     } else {
-      setActiveName(prev => ({
+      setActiveName((prev) => ({
         ...prev,
         type: "All Types",
       }));
@@ -159,7 +159,7 @@ export const TradeTypePopup = ({
               type: null,
             });
             handleAddFilter(true);
-            setActiveName(prev => ({
+            setActiveName((prev) => ({
               ...prev,
               type: "All Types",
             }));

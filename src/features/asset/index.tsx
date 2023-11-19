@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { default as React, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronDown, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -18,6 +18,7 @@ import { PopupAllTags } from "./components/popup/tags";
 import { TradeFiltersPopup } from "./components/popup/trade-filters";
 import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
+import { Essentials } from "./components/widgets/essentials";
 import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
@@ -294,7 +295,7 @@ export const Assets = () => {
 
   return (
     <>
-      <div className="flex flex-col" {...handlers}>
+      <div className="flex flex-col min-h-[80vh]" {...handlers}>
         <TopNav
           list={tabs}
           setActive={setActiveTab}
@@ -399,7 +400,7 @@ export const Assets = () => {
                 ))}
             </div>
           </div>
-          {/* {activeTab === "Essentials" ? (
+          {activeTab === "Essentials" ? (
             <div
               style={{
                 animation: getAnimation("Essentials"),
@@ -409,7 +410,7 @@ export const Assets = () => {
               <Essentials marketMetrics={marketMetrics} />
             </div>
           ) : null}
-          {activeTab === "Market" ? (
+          {/* {activeTab === "Market" ? (
             <div
               style={{
                 animation: getAnimation("Market"),

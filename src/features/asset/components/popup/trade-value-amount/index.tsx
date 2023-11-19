@@ -1,9 +1,9 @@
-import {Button, Flex, Input} from "@chakra-ui/react";
-import React, {useContext, useRef, useState} from "react";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../context-manager";
-import {cancelButtonStyle} from "../../../style";
+import { Button, Flex, Input } from "@chakra-ui/react";
+import React, { useContext, useRef, useState } from "react";
+import { TextSmall } from "../../../../../components/fonts";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { BaseAssetContext } from "../../../context-manager";
+import { cancelButtonStyle } from "../../../style";
 
 export const TradeValueAmountPopup = ({
   title,
@@ -29,13 +29,13 @@ export const TradeValueAmountPopup = ({
     setShouldInstantLoad,
     setShowTradeFilters,
   } = useContext(BaseAssetContext);
-  const {text80, boxBg6, borders, hover, bordersActive} = useColors();
+  const { text80, boxBg6, borders, hover, bordersActive } = useColors();
   const maxRef = useRef(null);
   const minRef = useRef(null);
   const lastMax = Number(
     activeName[title.toLowerCase()].split(" - ")?.[1] === "Any"
       ? 1000000000000
-      : Number(activeName[title.toLowerCase()].split(" - ")?.[1]) || 0,
+      : Number(activeName[title.toLowerCase()].split(" - ")?.[1]) || 0
   );
   const lastMin = Number(activeName[title.toLowerCase()].split(" - ")?.[0]);
   const [max, setMax] = useState(lastMax === 0 ? 1000000000000 : lastMax);
@@ -50,12 +50,12 @@ export const TradeValueAmountPopup = ({
     if (title === "Value") filterName = "value";
     if (title === "token_amount") filterName = "token_amount";
     setShouldInstantLoad(true);
-    setMarketMetrics(prev => ({
+    setMarketMetrics((prev) => ({
       ...prev,
       trade_history: [],
     }));
 
-    setActiveName(prev => ({
+    setActiveName((prev) => ({
       ...prev,
       [filterName]: `${selectedTradeFilters[filterName][0]} - ${
         selectedTradeFilters[filterName][1] === 1000000000000
@@ -70,13 +70,13 @@ export const TradeValueAmountPopup = ({
 
     const arr = [1, 2];
     arr.forEach(() => {
-      const index = filters.findIndex(entry => entry.value[0] === req);
+      const index = filters.findIndex((entry) => entry.value[0] === req);
       if (index !== -1) filters.splice(index, 1);
     });
 
     const finalFilters = [];
 
-    filters.forEach(f => {
+    filters.forEach((f) => {
       if (
         f.value[0] === "trade_history.value_usd" &&
         title === "token_amount"
@@ -98,7 +98,7 @@ export const TradeValueAmountPopup = ({
           req,
           Number(selectedTradeFilters[filterName][1]) || 1_000_000_000_000,
         ],
-      },
+      }
     );
     setFilters(finalFilters);
     setShowTradeFilters(false);
@@ -121,13 +121,13 @@ export const TradeValueAmountPopup = ({
             pl="10px"
             ref={minRef}
             placeholder={JSON.stringify(min)}
-            _placeholder={{color: text80}}
+            _placeholder={{ color: text80 }}
             isInvalid={
               selectedTradeFilters[title.toLowerCase()]?.[1] <
               minRef?.current?.value
             }
-            onChange={e => {
-              setSelectedTradeFilters(prevState => ({
+            onChange={(e) => {
+              setSelectedTradeFilters((prevState) => ({
                 ...prevState,
                 [title.toLowerCase()]: [
                   e.target.value,
@@ -155,7 +155,7 @@ export const TradeValueAmountPopup = ({
             color={text80}
             border={borders}
             errorBorderColor="red"
-            _placeholder={{color: text80}}
+            _placeholder={{ color: text80 }}
             isInvalid={
               selectedTradeFilters[title.toLowerCase()]?.[0] >
               maxRef?.current?.value
@@ -163,8 +163,8 @@ export const TradeValueAmountPopup = ({
             bg={boxBg6}
             type="number"
             ref={maxRef}
-            onChange={e => {
-              setSelectedTradeFilters(prevState => ({
+            onChange={(e) => {
+              setSelectedTradeFilters((prevState) => ({
                 ...prevState,
                 [title.toLowerCase()]: [
                   prevState[title.toLowerCase()]
@@ -193,7 +193,7 @@ export const TradeValueAmountPopup = ({
               ...selectedTradeFilters,
               [title.toLowerCase()]: [0, 1_000_000_000_000],
             });
-            setActiveName(prev => ({
+            setActiveName((prev) => ({
               ...prev,
               [title.toLowerCase()]: `Any${
                 title === "token_amount" ? " Amount" : " Value"

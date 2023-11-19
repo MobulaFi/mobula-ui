@@ -1,16 +1,11 @@
 import { cookies } from "next/headers";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { useAccount } from "wagmi";
-import { BaseAssetProvider } from "../../../contexts/asset";
 import { Assets } from "../../../features/asset";
-import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
-import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
 import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
+import { Layout } from "./layout";
 
 export const fetchAssetData = async ({ params, searchParams }) => {
   const cookieStore = cookies();
@@ -18,12 +13,10 @@ export const fetchAssetData = async ({ params, searchParams }) => {
     const cache: Asset = await memoryCache.get(`COIN_${params.asset}`);
     if (cache) {
       return {
-        props: {
-          asset: cache,
-          key: cache.id,
-          tradHistory: cache.trade_history ?? [],
-          cookies: cookieStore ?? "",
-        },
+        asset: cache,
+        key: cache.id,
+        tradeHistory: cache.trade_history ?? [],
+        cookies: cookieStore ?? "",
       };
     }
 
@@ -57,54 +50,48 @@ export const fetchAssetData = async ({ params, searchParams }) => {
       supabase.from("launchpads").select("logo,name"),
     ]);
 
-    const { data: tradHistory } = tradHistoryResult;
+    const { data: tradeHistory } = tradHistoryResult;
     const { data: launchpads } = launchpadsResult;
 
     const rightAsset =
-      tradHistory?.find(
+      tradeHistory?.find(
         (asset) => asset.name.toLowerCase() === fromUrlToName(params.asset)
-      ) || tradHistory?.[0];
+      ) || tradeHistory?.[0];
 
     if (rightAsset) {
       memoryCache.set(`COIN_${params.asset}`, rightAsset, 120);
       return {
-        props: {
-          asset: rightAsset,
-          key: rightAsset.id,
-          tradHistory: tradHistory ?? [],
-          cookies: cookieStore ?? "",
-          launchpads: launchpads ?? [],
-        },
+        asset: rightAsset,
+        key: rightAsset.id,
+        tradHistory: tradeHistory ?? [],
+        cookies: cookieStore ?? "",
+        launchpads: launchpads ?? [],
       };
     }
     return {
-      props: {
-        asset: {},
-        error: true,
-        holdings: [],
-        tradHistory: [],
-        cookies: cookieStore ?? "",
-        launchpads: launchpads ?? [],
-      },
+      asset: {},
+      error: true,
+      holdings: [],
+      tradeHistory: [],
+      cookies: cookieStore ?? "",
+      launchpads: launchpads ?? [],
     };
   } catch (e) {
     console.error("error: ", e);
     return {
-      props: {
-        asset: "",
-        error: true,
-        tradHistory: [],
-        cookies: cookieStore ?? "",
-        launchpads: [],
-      },
+      asset: "",
+      error: true,
+      tradeHistory: [],
+      cookies: cookieStore ?? "",
+      launchpads: [],
     };
   }
 };
 
 export const AssetPage = async ({ params, searchParams }) => {
   const data = await fetchAssetData({ params, searchParams });
-  const router = useRouter();
-  const { address: account } = useAccount();
+
+  const { asset, key, tradeHistory, cookies, launchpads } = data;
 
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
@@ -164,35 +151,26 @@ export const AssetPage = async ({ params, searchParams }) => {
   console.log("data", data);
 
   return (
-    <BaseAssetProvider
-    //   token={asset}
-    //   pref={getUserPrefCookie(cookies)}
-    //   cookies={cookies}
-    //   tradHistory={tradHistory}
-    //   launchpad={launchpads}
-    >
-      {/* <Head>
-        <title>{title}</title>
-      </Head>
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      /> */}
-      <ShowMoreProvider>
-        <NavActiveProvider>
-          <Assets />
-        </NavActiveProvider>
-      </ShowMoreProvider>
-    </BaseAssetProvider>
+    <Layout props={data as never}>
+      <Assets />
+    </Layout>
   );
 };
+
+// {/* <Head>
+//   <title>{title}</title>
+// </Head>
+// <meta
+//   property="og:image"
+//   content="https://mobula.fi/metaimage/Generic/others.png"
+// />
+// <meta
+//   name="twitter:image"
+//   content="https://mobula.fi/metaimage/Generic/others.png"
+// />
+// <meta
+//   itemProp="image"
+//   content="https://mobula.fi/metaimage/Generic/others.png"
+// /> */}
 
 export default AssetPage;

@@ -16,7 +16,9 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
+import { TextLandingMedium, TextSmall } from "../../../../../components/fonts";
+import { useColors } from "../../../../../lib/chakra/colorMode";
 import { BaseAssetContext } from "../../../context-manager";
 import { TradeBlockchainPopup } from "../trade-blockchain-selector";
 import { TradeTypePopup } from "../trade-type";

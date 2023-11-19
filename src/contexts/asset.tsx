@@ -1,5 +1,5 @@
+"use client";
 import { PostgrestResponse } from "@supabase/supabase-js";
-import { parse } from "cookie";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 
 // eslint-disable-next-line import/no-cycle
@@ -37,7 +37,7 @@ export const BaseAssetProvider = ({
   tradHistory: Trade[];
   launchpad?: ILaunchpad[];
 }) => {
-  const newCookies = parse(cookies);
+  const newCookies = cookies ?? {};
   const [transactions, setTransactions] = useState([]);
   const hideTxCookie = newCookies.hideTx || "false";
   const tradeCookie = unformatFilters(newCookies["trade-filters"] || "") || [];

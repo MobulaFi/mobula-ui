@@ -1,14 +1,26 @@
-import {Box, Flex, FlexProps, Spinner, useColorMode} from "@chakra-ui/react";
-import {useContext, useEffect, useRef, useState} from "react";
+import { useTheme } from "next-themes";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   IChartingLibraryWidget,
+  ResolutionString,
   Timezone,
-} from "../../../../../../../../public/static/charting_library";
-import {ResolutionString} from "../../../../../../../../public/static/charting_library/datafeed-api";
-import {MarketMetrics} from "../../../../../../../../utils/streamblockchain";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {Asset, Bar, HistoryData} from "../../../../models";
+} from "../../../../../../../public/static/charting_library";
+import { cn } from "../../../../../../@/lib/utils";
+import { Spinner } from "../../../../../../components/spinner";
+import { MarketMetrics } from "../../../../../../interfaces/trades";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { BaseAssetContext } from "../../../../context-manager";
+import { Asset, Bar, HistoryData } from "../../../../models";
+
+interface ChartBoxProps {
+  baseAsset: Asset;
+  historyData: HistoryData | null;
+  marketMetrics: MarketMetrics;
+  mobile?: boolean;
+  background?: string;
+  custom_css_url?: string;
+  extraCss?: string;
+}
 
 const supportedResolutions = [
   "1",
@@ -31,7 +43,7 @@ async function generateBars(
   resolution,
   periodParams,
   onResult,
-  type,
+  type
   // bars,
   // setBars,
 ) {
@@ -40,9 +52,8 @@ async function generateBars(
 
     // const bars = [];
     const timeframe = data.filter(
-      entry =>
-        entry[0] > periodParams.from * 1000 &&
-        entry[0] < periodParams.to * 1000,
+      (entry) =>
+        entry[0] > periodParams.from * 1000 && entry[0] < periodParams.to * 1000
     );
 
     const finalResolution = resolution.includes("D")
@@ -106,7 +117,7 @@ async function generateBars(
       (!lastBar || bars[bars.length - 1].time > lastBar.time)
     ) {
       // console.log("Last bar", lastBar);
-      lastBar = {...bars[bars.length - 1], type};
+      lastBar = { ...bars[bars.length - 1], type };
     }
 
     // setBars(bars);
@@ -117,12 +128,12 @@ async function generateBars(
 const Datafeed = (
   baseAsset,
   historyData,
-  setUpdateCallback,
+  setUpdateCallback
   // bars,
   // setBars,
 ) => ({
-  onReady: callback => {
-    setTimeout(() => callback({supported_resolutions: supportedResolutions}));
+  onReady: (callback) => {
+    setTimeout(() => callback({ supported_resolutions: supportedResolutions }));
   },
   resolveSymbol: (symbolName, onResolve) => {
     setTimeout(() => {
@@ -139,9 +150,9 @@ const Datafeed = (
             : Math.min(
                 10 **
                   String(
-                    Math.round(10000 / baseAsset[symbolName.toLowerCase()]),
+                    Math.round(10000 / baseAsset[symbolName.toLowerCase()])
                   ).length,
-                10000000000000000,
+                10000000000000000
               ),
         has_intraday: true,
         intraday_multipliers: ["1", "15", "30", "60"],
@@ -157,7 +168,7 @@ const Datafeed = (
       ? historyData[`${symbolInfo.name.toLowerCase()}_history`]?.concat(
           baseAsset[`${symbolInfo.name.toLowerCase()}_history`]?.[
             symbolInfo.name.toLowerCase()
-          ],
+          ]
         )
       : baseAsset[`${symbolInfo.name.toLowerCase()}_history`]?.[
           symbolInfo.name.toLowerCase()
@@ -168,7 +179,7 @@ const Datafeed = (
       resolution,
       periodParams,
       onResult,
-      symbolInfo.name,
+      symbolInfo.name
       // bars,
       // setBars,
     );
@@ -205,18 +216,19 @@ const ChartBox = ({
   mobile = false,
   background,
   custom_css_url = "../themed.css",
-  ...props
-}: {
-  baseAsset: Asset;
-  historyData: HistoryData | null;
-  marketMetrics: MarketMetrics;
-  mobile?: boolean;
-  background?: string;
-  custom_css_url?: string;
-} & FlexProps) => {
-  // State variable to store the userId
+  extraCss,
+}: ChartBoxProps) => {
   const [userId, setUserId] = useState("");
   // This useEffect hook will run when the component mounts.
+  const [tradingWidget, setTradingWidget] =
+    useState<IChartingLibraryWidget | null>(null);
+  const [widgetReady, setWidgetReady] = useState(false);
+  const [updateCallback, setUpdateCallback] = useState<any | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const { borders } = useColors();
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "light";
+
   useEffect(() => {
     let localUserId = localStorage.getItem("userId");
     if (!localUserId) {
@@ -225,20 +237,12 @@ const ChartBox = ({
     }
     setUserId(localUserId);
   }, []);
-  const [tradingWidget, setTradingWidget] =
-    useState<IChartingLibraryWidget | null>(null);
-  const [widgetReady, setWidgetReady] = useState(false);
-  const [updateCallback, setUpdateCallback] = useState<any | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  const {borders} = useColors();
-  const {colorMode} = useColorMode();
-  const isWhiteMode = colorMode === "light";
 
   useEffect(() => {
     if (baseAsset && baseAsset.price_history && userId) {
       let freshWidget: IChartingLibraryWidget | null = null;
-      import("../../../../../../../../public/static/charting_library").then(
-        ({widget: Widget}) => {
+      import("../../../../../../../public/static/charting_library").then(
+        ({ widget: Widget }) => {
           if (!ref.current) return;
           freshWidget = new Widget({
             charts_storage_url: "https://tdv.mobula.fi",
@@ -249,7 +253,7 @@ const ChartBox = ({
             datafeed: Datafeed(
               baseAsset,
               historyData,
-              setUpdateCallback,
+              setUpdateCallback
               // bars,
               // setBars,
             ),
@@ -311,26 +315,26 @@ const ChartBox = ({
           freshWidget.onChartReady(() => {
             setWidgetReady(true);
             // Subscribe to the onAutoSaveNeeded event
-            freshWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
+            freshWidget?.subscribe("onAutoSaveNeeded", handleAutoSave);
             function handleAutoSave() {
               console.log("Auto save triggered!");
               const saveOptions = {
                 chartName: "MyChartName_Ex",
               };
               // Call saveChartToServer with the chart name options
-              freshWidget.saveChartToServer(
+              freshWidget?.saveChartToServer(
                 () => {
                   console.log("Chart successfully saved!");
                 },
                 () => {
                   console.error("Failed to save the chart!");
                 },
-                saveOptions,
+                saveOptions
               );
             }
           });
           console.log("onAutoSaveNeeded event subscription set");
-        },
+        }
       );
 
       return () => {
@@ -384,46 +388,31 @@ const ChartBox = ({
     () => () => {
       firstBar = null;
     },
-    [],
+    []
   );
 
-  const {activeChart} = useContext(BaseAssetContext);
+  const { activeChart } = useContext(BaseAssetContext);
 
   return (
-    <Flex
-      direction="column"
-      bg={["none", "none", "none", background]}
-      border={["none", "none", "none", borders]}
-      borderRadius="8px"
-      w="100%"
-      position="relative"
-      mt="0px"
-      align="center"
-      justify="center"
+    <div
+      className={cn(
+        `flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary rounded w-full
+     border border-light-border-primary dark:border-dark-border-primary lg:bg-inherit lg:dark:bg-inherit lg:border-0
+      items-center justify-center mt-0 relative mb-0 ${
+        activeChart === "Trading view" ? "mb-2.5" : ""
+      } p-[5px] lg:p-0`,
+        extraCss
+      )}
       ref={ref}
-      mb={[
-        "0px",
-        "0px",
-        activeChart === "Trading view" ? "10px" : "0px",
-        "0px",
-      ]}
-      p={["0px", "0px", "0px", "5px"]}
-      {...props}
     >
-      <Box>
+      <div>
         {tradingWidget !== null ? (
-          <Box />
+          <div />
         ) : (
-          <Spinner
-            thickness="6px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.200"
-            size="xl"
-          />
+          <Spinner extraCss="w-[60px] h-[60px]" />
         )}
-      </Box>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

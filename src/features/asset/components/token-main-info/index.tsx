@@ -1,23 +1,12 @@
-import {
-  Button,
-  Menu,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Spinner,
-  Text,
-  Tooltip,
-} from "@chakra-ui/react";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Tooltip } from "@chakra-ui/react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { TbBellRinging } from "react-icons/tb";
-import {
-  LargeFont,
-  MediumFont,
-  SmallFont,
-  TextLandingLarge,
-} from "../../../../components/fonts";
+import { Button } from "../../../../components/button";
+import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
+import { Menu } from "../../../../components/menu";
+import { Popover } from "../../../../components/popover";
+import { Spinner } from "../../../../components/spinner";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
 import { useColors } from "../../../../lib/chakra/colorMode";
@@ -25,13 +14,12 @@ import {
   getClosest,
   getFormattedAmount,
   getTokenPercentage,
-  removeScNotation,
 } from "../../../../utils/formaters";
 import { timestamp, timestamps } from "../../constant";
 import { BaseAssetContext } from "../../context-manager";
 import { useAthPrice } from "../../hooks/use-athPrice";
 import { useMarketMetrics } from "../../hooks/use-marketMetrics";
-import { percentageTags, squareBox } from "../../style";
+import { percentageTags } from "../../style";
 
 export const TokenMainInfo = () => {
   const [isHoverStar, setIsHoverStar] = useState(false);
@@ -46,7 +34,9 @@ export const TokenMainInfo = () => {
     setShowSwap,
     showSwap,
   } = useContext(BaseAssetContext);
-  const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
+  // const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
+  const handleAddWatchlist = () => {};
+  const inWatchlist = false;
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const { marketMetrics } = useMarketMetrics(baseAsset);
@@ -66,11 +56,12 @@ export const TokenMainInfo = () => {
   const getIconFromWatchlistState = () => {
     if (isLoading) return <Spinner extraCss="h-[13px] w-[13px]" />;
     if (inWl || inWatchlist || isHoverStar)
-      return <AiFillStar className="text-base text-yellow dark:text-yellow" />;
+      return <AiFillStar className="text-yellow dark:text-yellow" />;
     return (
-      <AiOutlineStar className="text-base text-light-font-40 dark:text-dark-font-40" />
+      <AiOutlineStar className=" text-light-font-40 dark:text-dark-font-40" />
     );
   };
+  const watchlistIcon = getIconFromWatchlistState();
   //   let interval: NodeJS.Timer;
 
   //   if (isVisible && !interval) {
@@ -166,18 +157,31 @@ export const TokenMainInfo = () => {
   }, [baseAsset, historyData, timeSelected]);
 
   const getColorFromMarketChange = () => {
-    if (metricsChanges?.price) return "green";
-    if (metricsChanges?.price === false) return "red";
-    return text80;
+    if (metricsChanges?.price) return "text-green dark:text-green";
+    if (metricsChanges?.price === false) return "text-red dark:text-red";
+    return "text-light-font-100 dark:text-dark-font-100";
   };
   const isUp = priceChange > 0;
+
+  const [showPriceUnformatted, setShowPriceUnformatted] = useState(false);
+  const [showNameUnformatted, setShowNameUnformatted] = useState(false);
+
+  const triggerWatchlist = () => {
+    if (inWl) {
+      handleAddWatchlist(baseAsset?.id, watchlist?.id, false, setIsLoading);
+      setInWl(false);
+    } else {
+      handleAddWatchlist(baseAsset?.id, watchlist?.id, true, setIsLoading);
+      setInWl(true);
+    }
+  };
 
   return (
     <div className="flex flex-col w-[60%] lg:w-full">
       <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
         <div className="flex items-center">
           <img
-            className="w-[24px] h-[24px] min-w-[24px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
+            className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
             src={baseAsset.logo}
             alt={`${baseAsset.name} logo`}
           />
@@ -205,109 +209,56 @@ export const TokenMainInfo = () => {
               </p>
             ) : null}
             {baseAsset.name.length > 15 ? (
-              <Popover trigger="hover" matchWidth>
-                <PopoverTrigger>
-                  <Button>
-                    <TextLandingLarge
-                      fontWeight="500"
-                      color={getColorFromMarketChange()}
-                      cursor="default"
-                    >
-                      <Text
-                        fontSize={["20px", "20px", "26px", "32px"]}
-                        fontWeight="500"
-                        color={text80}
-                        mr="10px"
-                        display={["none", "none", "none", "flex"]}
-                      >
-                        {baseAsset.name.length > 13
-                          ? `${baseAsset?.name.slice(0, 13)}...`
-                          : baseAsset?.name}
-                      </Text>
-                    </TextLandingLarge>
-                  </Button>
-                </PopoverTrigger>
-                {baseAsset.name.length > 13 ? (
-                  <PopoverContent
-                    maxW="fit-content"
-                    bg={boxBg3}
-                    border={borders}
-                    p="0px"
-                    borderRadius="8px"
+              <Popover
+                visibleContent={
+                  <LargeFont
+                    extraCss={`${getColorFromMarketChange()} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
                   >
-                    <PopoverBody color={text80}>{baseAsset?.name}</PopoverBody>
-                  </PopoverContent>
-                ) : null}
-              </Popover>
+                    <p className="text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl">
+                      {baseAsset.name.length > 13
+                        ? `${baseAsset?.name.slice(0, 13)}...`
+                        : baseAsset?.name}
+                    </p>
+                  </LargeFont>
+                }
+                hiddenContent={
+                  baseAsset.name.length > 13 ? baseAsset?.name : null
+                }
+                onToggle={() => setShowNameUnformatted((prev) => !prev)}
+                isOpen={showNameUnformatted}
+                extraCss="top-[35px]"
+              />
             ) : null}
-            <LargeFont extraCss="mb-0 md:mb-0.5 mt-[3px] md:mt-0 text-light-font-40 dark:text-dark-font-40">
+            <LargeFont extraCss="mb-0 md:mb-0.5 mt-1.5 md:mt-0 text-light-font-40 dark:text-dark-font-40">
               {baseAsset?.symbol}
             </LargeFont>
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center ml-2.5">
           <Button
-            extraCss={`${squareBox} ml-0`}
+            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px] mt-[5px] mr-0 lg:text-xl md:text-xl ml-0"
             onMouseEnter={() => setIsHoverStar(true)}
             onMouseLeave={() => setIsHoverStar(false)}
-            onClick={() => {
-              if (inWl) {
-                handleAddWatchlist(
-                  baseAsset?.id,
-                  watchlist?.id,
-                  false,
-                  setIsLoading
-                );
-                setInWl(false);
-              } else {
-                handleAddWatchlist(
-                  baseAsset?.id,
-                  watchlist?.id,
-                  true,
-                  setIsLoading
-                );
-                setInWl(true);
-              }
-            }}
+            onClick={triggerWatchlist}
           >
-            {getIconFromWatchlistState()}
+            {watchlistIcon}
           </Button>
-
           <Button
-            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl w-[26px] h-[26px] min-w-[26px] ml-[7.5px] mt-[5px] mr-0"
+            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px] mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-250"
             onClick={() => setShowTargetPrice(true)}
           >
-            <TbBellRinging className="text-lg" />
+            <TbBellRinging />
           </Button>
         </div>
       </div>
       {baseAsset?.tracked ? (
         <div className="flex flex-col">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] mb-[7.5px]">
-            <Popover trigger="hover" matchWidth>
-              <PopoverTrigger>
-                <Button>
-                  <TextLandingLarge
-                    fontSize={["24px", "24px", "24px", "32px"]}
-                    fontWeight="500"
-                    color={getColorFromMarketChange()}
-                  >
-                    ${getFormattedAmount(marketMetrics.price)}
-                  </TextLandingLarge>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                maxW="fit-content"
-                bg={boxBg3}
-                border={borders}
-                p="0px"
-                borderRadius="8px"
-              >
-                <PopoverBody color={text80}>
-                  {removeScNotation(marketMetrics.price)}
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+            <LargeFont
+              extraCss={`${getColorFromMarketChange()} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
+            >
+              ${getFormattedAmount(marketMetrics.price)}
+            </LargeFont>
             <div className="flex items-center">
               <div className={`flex mr-2.5 ${percentageTags(isUp)}`}>
                 <MediumFont
@@ -355,7 +306,6 @@ export const TokenMainInfo = () => {
               </Menu>
             </div>
           </div>
-
           <div className="flex flex-col">
             <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[2.5px]">
               <div

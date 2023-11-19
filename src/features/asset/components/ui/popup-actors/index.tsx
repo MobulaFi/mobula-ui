@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-
 import {
   BsFacebook,
   BsGlobe,
@@ -25,16 +24,13 @@ import {
   BsTwitter,
   BsYoutube,
 } from "react-icons/bs";
-import {FaMedium} from "react-icons/fa";
-import {SiCrunchbase} from "react-icons/si";
+import { FaMedium } from "react-icons/fa";
+import { SiCrunchbase } from "react-icons/si";
 
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
+export const ActorsPopup = ({ visible, setVisible, data }) => {
+  const { boxBg3, borders, text40, text100, hover, text80 } = useColors();
 
-export const ActorsPopup = ({visible, setVisible, data}) => {
-  const {boxBg3, borders, text40, text100, hover, text80} = useColors();
-
-  const getIconFromType = type => {
+  const getIconFromType = (type) => {
     switch (type) {
       case "CRUNCHBASE":
         return (
@@ -155,7 +151,7 @@ export const ActorsPopup = ({visible, setVisible, data}) => {
         </ModalHeader>
         <ModalCloseButton color={text80} />
         <ModalBody p="20px" maxH="435px" overflowY="scroll">
-          {data.map(item => (
+          {data.map((item) => (
             <Flex align="center" mb="15px" justify="space-between">
               <Flex align="center">
                 <Flex position="relative">
@@ -197,10 +193,10 @@ export const ActorsPopup = ({visible, setVisible, data}) => {
                     borderRadius="16px"
                     boxShadow="1px 2px 13px 4px rgba(0,0,0,0.15)"
                   >
-                    {item.links?.map(link => (
+                    {item.links?.map((link) => (
                       <MenuItem
                         bg={boxBg3}
-                        _hover={{bg: hover}}
+                        _hover={{ bg: hover }}
                         transition="all 250ms ease-in-out"
                         onClick={() => window.open(link.link, "_blank")}
                         fontSize={["12px", "12px", "13px", "14px"]}
