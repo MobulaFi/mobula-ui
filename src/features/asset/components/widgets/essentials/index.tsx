@@ -1,3 +1,4 @@
+import { MarketMetrics } from "features/asset/models";
 import { useTheme } from "next-themes";
 import { useContext, useEffect } from "react";
 import { SwapProvider } from "../../../../../layouts/swap";
@@ -17,7 +18,11 @@ import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
-export const Essentials = ({ marketMetrics }) => {
+interface MarketMetricsProps {
+  marketMetrics: MarketMetrics;
+}
+
+export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
   const {
     historyData,
     baseAsset,

@@ -1,6 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 // eslint-disable-next-line import/no-cycle
-import React from "react";
 import { timestamps } from "./constant";
 import {
   FormattedHistoricalData,
@@ -65,7 +64,7 @@ export const getColorAndLogoFromName = (name: string) => {
       color: "#E04041",
     },
     Others: {
-      logo: "/icon/unknown.png",
+      logo: "/empty/unknown.png",
       color: "rgba(255, 255, 255, 0.5)",
     },
   };

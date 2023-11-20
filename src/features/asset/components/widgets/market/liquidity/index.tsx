@@ -1,31 +1,35 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable consistent-return */
-import {Button, Flex, Image, Text, useColorMode} from "@chakra-ui/react";
+import { cn } from "@/lib/utils";
 import * as echarts from "echarts";
-import {useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {v4 as uuid} from "uuid";
-import {getTokenPercentage} from "../../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {getColorAndLogoFromName} from "../../../../utils";
+import { useTheme } from "next-themes";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { v4 as uuid } from "uuid";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { getTokenPercentage } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { getColorAndLogoFromName } from "../../../../utils";
 
-export const Liquidity = ({...props}) => {
-  const {baseAsset} = useContext(BaseAssetContext);
+interface LiquidityProps {
+  extraCss?: string;
+}
+
+export const Liquidity = ({ extraCss }: LiquidityProps) => {
+  const { baseAsset } = useContext(BaseAssetContext);
   const [biggestPairs, setBiggestPairs] = useState<[string, number][]>([]);
-  const {text80, borders, text40, boxBg6, hover, boxBg3, text60} = useColors();
+  const { text80, borders, text40, boxBg6, hover, boxBg3, text60 } =
+    useColors();
   type EChartsOption = echarts.EChartsOption;
   const id = useMemo(() => uuid(), []);
   const [title, setTitle] = useState("asset");
-  const {colorMode} = useColorMode();
-  const isDarkMode = colorMode === "dark";
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
-  const data = biggestPairs.map(pair => ({
+  const data = biggestPairs.map((pair) => ({
     name: pair[0],
     value: getTokenPercentage(pair[1]),
   }));
   const getColorArrayFromData = () =>
-    data.map(item => getColorAndLogoFromName(item.name)?.logo);
+    data.map((item) => getColorAndLogoFromName(item.name)?.logo);
   const logos = getColorArrayFromData();
 
   useEffect(() => {
@@ -33,8 +37,8 @@ export const Liquidity = ({...props}) => {
       if (title === "asset" && baseAsset?.assets_raw_pairs?.pairs_data) {
         setBiggestPairs(
           Object.entries(baseAsset?.assets_raw_pairs?.pairs_data).sort(
-            (a, b) => b[1] - a[1],
-          ),
+            (a, b) => b[1] - a[1]
+          )
         );
       } else if (
         title === "chain" &&
@@ -42,8 +46,8 @@ export const Liquidity = ({...props}) => {
       ) {
         setBiggestPairs(
           Object.entries(baseAsset?.assets_raw_pairs?.pairs_per_chain).sort(
-            (a, b) => b[1] - a[1],
-          ),
+            (a, b) => b[1] - a[1]
+          )
         );
       }
     }
@@ -72,12 +76,12 @@ export const Liquidity = ({...props}) => {
       extraCssText:
         "width: 150px; height: auto;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:none",
       formatter(params) {
-        let {name} = params;
+        let { name } = params;
         if (params.name === "BNB Smart Chain (BEP20)") name = "BNB";
         if (params.name === "Avalanche C-Chain") name = "Avalanche";
         return `<div style="display:flex;flex-direction:column;align-items:center"><img src="${
           getColorAndLogoFromName(name)?.logo
-        }" style="width:30px;height:30px;border-radius:20px;margin-bottom:10px;"/><p style="font-weight:600;color:${text60};margin-bottom:0px"> ${name}</p><p style="font-weight:600;color:${text80};font-size:18px;margin:0px">${
+        }" style="width:30px;height:30px;border-radius:20px;margin-bottom:10px;"/><p class="text-light-font-60 dark:text-dark-font-60" style="font-weight:600;margin-bottom:0px"> ${name}</p><p class="text-light-font-100 dark:text-dark-font-100" style="font-weight:600;font-size:18px;margin:0px">${
           params.value
         }%</p></div>`;
       },
@@ -138,86 +142,61 @@ export const Liquidity = ({...props}) => {
   }, [biggestPairs, title]);
 
   return (
-    <Flex
-      p="20px"
-      borderRadius={["0px", "0px", "16px"]}
-      border={["none", "none", "none", borders]}
-      bg={boxBg3}
-      mb="10px"
-      w="100%"
-      mx="auto"
-      direction="column"
-      {...props}
+    <div
+      className={cn(
+        "flex p-5 rounded-2xl md:rounded-0 border border-light-border-primary dark:border-dark-border-primary lg:border-0 mb-2.5 w-full mx-auto flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary",
+        extraCss
+      )}
     >
-      <Text
-        fontSize={["16px", "16px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="0px"
-      >
-        On-Chain liquidity repartition
-      </Text>
-      <Flex
-        w="100%"
-        h="fit-content"
-        bg={boxBg6}
-        borderRadius="8px"
-        p="1px"
-        position="relative"
-        border={borders}
-        align="center"
-        mt="10px"
-      >
-        <Flex
-          position="absolute"
-          w="calc(50% - 2px)"
-          h={["28px", "28px", "30px", "32px"]}
-          borderRadius="6px"
-          bg={hover}
-          left={title === "asset" ? "calc(0% + 3px)" : "calc(50% - 2px)"}
-          transition="all 250ms ease-in-out"
+      <LargeFont>On-Chain liquidity repartition</LargeFont>
+      <div className="flex items-center mt-2.5 w-full h-fit bg-light-bg-terciary dark:bg-dark-bg-terciary rounded p-[1px] relative border border-light-border-primary dark:border-dark-border-primary">
+        <div
+          className="flex absolute w-calc-half-2 h-[32px] lg:h-[30px] md:h-[28px] rounded
+         bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary
+          dark:border-dark-border-primary transition-all duration-250"
+          style={{
+            left: title === "asset" ? "calc(0% + 3px)" : "calc(50% - 2px)",
+          }}
         />
-        <Button
-          w="50%"
-          h={["32px", "32px", "34px", "36px"]}
+        <button
+          className={`w-2/4 h-[36px] lg:h-[34px] md:h-[32px] transition-all duration-250 
+        font-medium text-sm lg:text-[13px] md:text-xs ${
+          title === "asset"
+            ? "text-light-font-100 dark:text-dark-font-100"
+            : "text-light-font-40 dark:text-dark-font-40"
+        } z-[2]`}
           onClick={() => setTitle("asset")}
-          color={title === "asset" ? text80 : text40}
-          transition="all 250ms ease-in-out"
-          fontWeight="500"
-          fontSize={["12px", "12px", "13px", "14px"]}
         >
           Asset
-        </Button>
-        <Button
-          w="50%"
-          h={["32px", "32px", "34px", "36px"]}
-          fontWeight="500"
+        </button>
+        <button
           onClick={() => setTitle("chain")}
-          color={title === "chain" ? text80 : text40}
-          transition="all 250ms ease-in-out"
-          fontSize={["12px", "12px", "13px", "14px"]}
+          className={`w-2/4 h-[36px] lg:h-[34px] md:h-[32px] transition-all duration-250 
+          font-medium text-sm lg:text-[13px] md:text-xs ${
+            title === "chain"
+              ? "text-light-font-100 dark:text-dark-font-100"
+              : "text-light-font-40 dark:text-dark-font-40"
+          } z-[2]`}
         >
           Chain
-        </Button>
-      </Flex>
+        </button>
+      </div>
       {biggestPairs.length === 0 ? (
-        <Flex direction="column" align="center" justify="center" mt="20px">
-          <Image
+        <div className="flex flex-col items-center justify-center mt-5">
+          <img
+            className="w-[150px] h-[150px]"
             src={
               isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
             }
-            boxSize="150px"
+            alt="empty ROI image"
           />
-          <TextSmall mt="15px" mb="10px">
-            No data available
-          </TextSmall>
-        </Flex>
+          <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
+        </div>
       ) : (
-        <Flex
-          h={biggestPairs?.length > 5 ? "300px" : "250px"}
-          w="100%"
-          maxW="278px"
-          mx="auto"
+        <div
+          className={`flex w-full max-w-[278px] mx-auto ${
+            biggestPairs?.length > 5 ? "h-[300px]" : "h-[250px]"
+          }`}
         >
           <div
             id={id}
@@ -226,8 +205,8 @@ export const Liquidity = ({...props}) => {
               width: "100%",
             }}
           />
-        </Flex>
+        </div>
       )}
-    </Flex>
+    </div>
   );
 };

@@ -1,29 +1,36 @@
+import React from "react";
+import { cn } from "../@/lib/utils";
+
 interface TableProps {
   children: any;
   bg?: any;
-  [key: string]: any;
+  extraCss?: string;
 }
 
-export const Ths = ({ children, bg, ...props }: TableProps) => {
+export const Ths = ({ children, bg, extraCss }: TableProps) => {
   return (
     <th
-      className={`border-b border-light-border-primary dark:border-dark-border-primary md:text-xs text-sm font-medium text-light-font-100 dark:text-dark-font-100 py-5 md:py-2.5 ${
-        bg ? "bg-[bg]" : "bg-transparent"
-      } `}
-      {...props}
+      className={cn(
+        `border-b border-light-border-primary dark:border-dark-border-primary md:text-xs text-sm font-medium text-light-font-100 dark:text-dark-font-100 py-5 md:py-2.5 ${
+          bg ? "bg-[bg]" : "bg-transparent"
+        } `,
+        extraCss
+      )}
     >
       {children}
     </th>
   );
 };
 
-export const Tds = ({ children, bg, ...props }: TableProps) => {
+export const Tds = ({ children, bg, extraCss }: TableProps) => {
   return (
     <td
-      className={`border-b border-light-border-primary dark:border-dark-border-primary md:text-xs text-sm font-medium text-light-font-100 dark:text-dark-font-100 py-5 md:py-2.5 ${
-        bg ? "bg-[bg]" : "bg-transparent"
-      } `}
-      {...props}
+      className={cn(
+        `border-b border-light-border-primary dark:border-dark-border-primary md:text-xs text-sm font-medium text-light-font-100 dark:text-dark-font-100 py-5 md:py-2.5 ${
+          bg ? "bg-[bg]" : "bg-transparent"
+        } `,
+        extraCss
+      )}
     >
       {children}
     </td>

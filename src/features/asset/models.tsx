@@ -346,3 +346,28 @@ export interface Investors {
     type: string;
   }[];
 }
+
+export interface TradeHistory {
+  block: number;
+  blockchain: string;
+  hash: string;
+  date: number;
+  id: number;
+  pair: string;
+  token_amount: number;
+  token_id: number;
+  token_price: number;
+  type: string;
+  unique_discriminator: number;
+  value_usd: number;
+}
+
+export interface MarketMetrics {
+  liquidity: number;
+  volume: number;
+  market_cap: number;
+  price: number;
+  priceChange: boolean;
+  volumeChange: boolean | null;
+  trade_history: TradeHistory[];
+}

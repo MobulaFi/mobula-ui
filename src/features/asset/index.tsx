@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronDown, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -19,6 +19,7 @@ import { TradeFiltersPopup } from "./components/popup/trade-filters";
 import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
 import { Essentials } from "./components/widgets/essentials";
+import { Market } from "./components/widgets/market";
 import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
@@ -410,7 +411,7 @@ export const Assets = () => {
               <Essentials marketMetrics={marketMetrics} />
             </div>
           ) : null}
-          {/* {activeTab === "Market" ? (
+          {activeTab === "Market" ? (
             <div
               style={{
                 animation: getAnimation("Market"),
@@ -420,7 +421,7 @@ export const Assets = () => {
               <Market />
             </div>
           ) : null}
-          {activeTab === "Social & Developer" ? (
+          {/* {activeTab === "Social & Developer" ? (
             <div
               style={{
                 animation: getAnimation("Social & Developer"),

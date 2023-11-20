@@ -1,15 +1,21 @@
-import {Flex, Text} from "@chakra-ui/react";
-import {useContext, useEffect, useState} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {createSupabaseDOClient} from "../../../../../../../../utils/supabase";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {FlexBorderBox} from "../../../../style";
+import React, { useContext, useEffect, useState } from "react";
+import { cn } from "../../../../../../@/lib/utils";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { createSupabaseDOClient } from "../../../../../../lib/supabase";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { FlexBorderBox } from "../../../../style";
 
-export const BuySellSpread = ({...props}) => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text80, borders, boxBg3, text40} = useColors();
+interface BuySellSpreadProps {
+  extraCss?: string;
+}
+
+export const BuySellSpread = ({ extraCss }: BuySellSpreadProps) => {
+  const { baseAsset } = useContext(BaseAssetContext);
   const [spreadData, setSpreadData] = useState({
     buy_trades: 120,
     sell_trades: 100,
@@ -21,124 +27,109 @@ export const BuySellSpread = ({...props}) => {
 
   useEffect(() => {
     const supabase = createSupabaseDOClient();
-    supabase.rpc("get_trade_stats", {p_token_id: baseAsset?.id}).then(r => {
+    supabase.rpc("get_trade_stats", { p_token_id: baseAsset?.id }).then((r) => {
       if (r.data) setSpreadData(r.data[0]);
     });
   }, []);
 
-  const getPercentage = (buy, sell) => {
+  const getPercentage = (buy: number, sell: number) => {
     const total = buy + sell;
     const buyPercentage = (buy / total) * 100;
     const sellPercentage = (sell / total) * 100;
-    return {buyPercentage, sellPercentage};
+    return { buyPercentage, sellPercentage };
   };
 
   const hasData = spreadData?.buy_trades && spreadData?.sell_trades;
 
   return (
-    <Flex
-      {...FlexBorderBox}
-      bg={[boxBg3]}
-      mt={["25px", "25px", "25px", "0px"]}
-      py={["15px", "15px", "15px", "20px"]}
-      borderRadius={["0px", "0px", "16px"]}
-      px={["15px", "15px", "15px", "20px"]}
-      display={hasData ? "flex" : "none"}
-      border={["none", "none", "none", borders]}
-      {...props}
+    <div
+      className={cn(
+        `${FlexBorderBox} mt-0 lg:mt-[25px] py-5 lg:py-[15px] rounded-2xl md:rounded-0 px-5 lg:px-[15px] ${
+          hasData ? "flex" : "hidden"
+        }`,
+        extraCss
+      )}
     >
-      <Flex align="center" justify="space-between" w="100%" mb="20px">
-        <Text
-          fontSize={["16px", "16px", "16px", "18px"]}
-          fontWeight="500"
-          color={text80}
-        >
-          Buy/Sell Spread
-        </Text>
-        <Text
-          fontSize={["14px", "14px", "14px", "16px"]}
-          fontWeight="400"
-          color={text80}
-        >
-          24h
-        </Text>
-      </Flex>
-      <Flex w="100%" h="9px" borderRadius="full">
-        <Flex
-          w={`${
-            getPercentage(spreadData?.buy_trades, spreadData?.sell_trades)
-              ?.buyPercentage
-          }%`}
-          h="100%"
-          bg="green"
-          borderRadius="8px 0px 0px 8px"
+      <div className="flex items-center justify-between w-full mb-5">
+        <LargeFont>Buy/Sell Spread</LargeFont>
+        <MediumFont>24h</MediumFont>
+      </div>
+      <div className="flex w-full h-[9px] rounded-full">
+        <div
+          className="flex h-full bg-green dark:bg-green rounded-l"
+          style={{
+            width: `${
+              getPercentage(spreadData?.buy_trades, spreadData?.sell_trades)
+                ?.buyPercentage
+            }%`,
+          }}
         />
-        <Flex
-          w={`${
-            getPercentage(spreadData?.buy_trades, spreadData?.sell_trades)
-              ?.sellPercentage
-          }%`}
-          h="100%"
-          bg="red"
-          borderRadius="0px 8px 8px 0px"
+        <div
+          className="flex h-full bg-red dark:bg-red rounded-r"
+          style={{
+            width: `${
+              getPercentage(spreadData?.buy_trades, spreadData?.sell_trades)
+                ?.sellPercentage
+            }%`,
+          }}
         />
-      </Flex>
-      <Flex justify="space-between" align="center" mt="7.5px">
-        <Flex align="center">
-          <TextSmall>{spreadData?.buy_trades}</TextSmall>
-          <TextSmall ml="7.5px" color={text40}>
+      </div>
+      <div className="flex justify-between items-center mt-[7.5px]">
+        <div className="flex items-center">
+          <SmallFont>{spreadData?.buy_trades}</SmallFont>
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-[7.5px]">
             Buy
-          </TextSmall>
-        </Flex>
-        <Flex align="center">
-          <TextSmall>{spreadData?.sell_trades}</TextSmall>
-          <TextSmall ml="7.5px" color={text40}>
+          </SmallFont>
+        </div>
+        <div className="flex items-center">
+          <SmallFont>{spreadData?.sell_trades}</SmallFont>
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-[7.5px]">
             Sell
-          </TextSmall>
-        </Flex>
-      </Flex>
-      <Flex w="100%" h="9px" borderRadius="full" mt="30px">
-        <Flex
-          w={`${
-            getPercentage(
-              spreadData?.total_buy_volume_usd,
-              spreadData?.total_sell_volume_usd,
-            )?.buyPercentage
-          }%`}
-          h="100%"
-          bg="green"
-          borderRadius="8px 0px 0px 8px"
+          </SmallFont>
+        </div>
+      </div>
+      <div className="flex w-full h-[9px] rounded-full mt-[30px]">
+        <div
+          className="flex h-full bg-green dark:bg-green rounded-l"
+          style={{
+            width: `${
+              getPercentage(
+                spreadData?.total_buy_volume_usd,
+                spreadData?.total_sell_volume_usd
+              )?.buyPercentage
+            }%`,
+          }}
         />
-        <Flex
-          w={`${
-            getPercentage(
-              spreadData?.total_buy_volume_usd,
-              spreadData?.total_sell_volume_usd,
-            )?.sellPercentage
-          }%`}
-          h="100%"
-          bg="red"
-          borderRadius="0px 8px 8px 0px"
+        <div
+          className="flex h-full bg-red dark:bg-red rounded-r"
+          style={{
+            width: `${
+              getPercentage(
+                spreadData?.total_buy_volume_usd,
+                spreadData?.total_sell_volume_usd
+              )?.sellPercentage
+            }%`,
+          }}
         />
-      </Flex>
-      <Flex justify="space-between" align="center" mt="7.5px">
-        <Flex align="center">
-          <TextSmall>
+      </div>
+      <div className="flex justify-between items-center mt-[7.5px]">
+        <div className="flex items-center">
+          <SmallFont>
             ${getFormattedAmount(spreadData.total_buy_volume_usd)}
-          </TextSmall>
-          <TextSmall ml="7.5px" color={text40}>
+          </SmallFont>
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-[7.5px]">
             Volume
-          </TextSmall>
-        </Flex>
-        <Flex align="center">
-          <TextSmall>
+          </SmallFont>
+        </div>
+        <div className="flex items-center">
+          <SmallFont>
             ${getFormattedAmount(spreadData.total_sell_volume_usd)}
-          </TextSmall>
-          <TextSmall ml="7.5px" color={text40}>
+          </SmallFont>
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-[7.5px]">
             Volume
-          </TextSmall>
-        </Flex>
-      </Flex>
-    </Flex>
+          </SmallFont>
+        </div>
+      </div>
+    </div>
   );
 };

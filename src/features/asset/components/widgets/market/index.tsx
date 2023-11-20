@@ -1,78 +1,51 @@
-import {Flex} from "@chakra-ui/react";
-import {useContext} from "react";
-import {TextLandingMedium, TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../context-manager";
-import {AllTime} from "./ath-atl";
-import {BuySellSpread} from "./buy-sell-spread";
-import {Liquidity} from "./liquidity";
-import {PriceInTime} from "./price-time";
-import {TokenVersusMarket} from "./token-versus-market";
-import {TradingPairs} from "./trading-pair";
+import { useContext } from "react";
+import { LargeFont, SmallFont } from "../../../../../components/fonts";
+import { BaseAssetContext } from "../../../context-manager";
+import { AllTime } from "./ath-atl";
+import { BuySellSpread } from "./buy-sell-spread";
+import { Liquidity } from "./liquidity";
+import { PriceInTime } from "./price-time";
+import { TokenVersusMarket } from "./token-versus-market";
+import { TradingPairs } from "./trading-pair";
 
 export const Market = () => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text60} = useColors();
+  const { baseAsset } = useContext(BaseAssetContext);
   return (
-    <Flex
-      mt={["0px", "0px", "0px", "20px"]}
-      direction={["column-reverse", "column-reverse", "column-reverse", "row"]}
-    >
-      <Flex
-        direction="column"
-        maxW="990px"
-        w={["100%", "100%", "100%", "calc(100% - 345px)"]}
-        mr={["0px", "0px", "0px", "25px"]}
-      >
+    <div className="flex mt-5 lg:mt-0 flex-row lg:flex-col-reverse">
+      <div className="flex flex-col max-w-[990px] w-full-345 lg:w-full mr-[25px] lg:mr-0">
         <TradingPairs />
         <TokenVersusMarket />
-        <Flex
-          w={["95%", "95%", "100%", "100%"]}
-          mx="auto"
-          direction="column"
-          mt={["30px", "30px", "50px"]}
-        >
-          <TextLandingMedium mb="10px">
+        <div className="w-full flex md:w-[95%] mx-auto flex-col mt-[50px] md:mt-[30px]">
+          <LargeFont extraCss="mb-2.5">
             More about {baseAsset.name} trading pairs
-          </TextLandingMedium>
-          <TextSmall color={text60}>
+          </LargeFont>
+          <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
             Mobula aggregates trading pairs directly from the blockchain as well
             as from all CEX to give you the most accurate and up to date
             information. Data is refreshed in real time.
-          </TextSmall>
-        </Flex>
-        <Flex
-          w={["95%", "95%", "100%", "100%"]}
-          mx="auto"
-          direction="column"
-          mt={["30px", "30px", "50px"]}
-        >
-          <TextLandingMedium mb="10px">
+          </SmallFont>
+        </div>
+        <div className="w-full flex md:w-[95%] mx-auto flex-col mt-[50px] md:mt-[30px]">
+          <LargeFont extraCss="mb-2.5">
             More about {baseAsset.name} vs Market
-          </TextLandingMedium>
-
-          <TextSmall color={text60}>
+          </LargeFont>
+          <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
             {baseAsset.name} is compared to market categories & other crypto
             assets over time to give an overview of its performance relative to
             the overall market, and not just its price, especially useful during
             high volatility periods.
-          </TextSmall>
-        </Flex>
-        <Flex display={["flex", "flex", "flex", "none"]} direction="column">
-          <BuySellSpread mt="30px" />
-          <PriceInTime mt="10px" />
+          </SmallFont>
+        </div>
+        <div className="hidden lg:flex flex-col">
+          <BuySellSpread extraCss="mt-[30px]" />
+          <PriceInTime extraCss="mt-2.5" />
           {Object.keys(baseAsset?.assets_raw_pairs?.pairs_data || {})?.length >
           0 ? (
-            <Liquidity mt="10px" />
+            <Liquidity extraCss="mt-2.5" />
           ) : null}
-        </Flex>
-      </Flex>
-      <Flex
-        direction="column"
-        display={["none", "none", "none", "flex"]}
-        maxW="320px"
-        w="100%"
-      >
+        </div>
+      </div>
+      <div className="flex flex-col lg:hidden max-w-[345px] w-full">
         <PriceInTime />
         <BuySellSpread />
         {Object.keys(baseAsset?.assets_raw_pairs?.pairs_data || {})?.length >
@@ -80,7 +53,7 @@ export const Market = () => {
           <Liquidity />
         ) : null}
         <AllTime />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

@@ -1,21 +1,26 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
-import {Button, Collapse, Flex, Text} from "@chakra-ui/react";
-import {useContext, useState} from "react";
+import { Collapse } from "@chakra-ui/react";
+import React, { useContext, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { cn } from "../../../../../../@/lib/utils";
+import { Button } from "../../../../../../components/button";
+import { LargeFont } from "../../../../../../components/fonts";
+import { TagPercentage } from "../../../../../../components/tag-percentage";
 import {
   getFormattedAmount,
   getTokenPercentage,
-} from "../../../../../../../../utils/helpers/formaters";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {TagPercentage} from "../../../../../../User/Portfolio/components/ui/tag-percentage";
-import {BaseAssetContext} from "../../../../context-manager";
-import {FlexBorderBox} from "../../../../style";
-import {getDateFromTimeStamp, timeframes} from "../../../../utils";
+} from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { FlexBorderBox } from "../../../../style";
+import { getDateFromTimeStamp, timeframes } from "../../../../utils";
 
-export const PriceInTime = ({...props}) => {
-  const {text80, text100, hover, boxBg6, borders, boxBg3, text60} = useColors();
-  const {unformattedHistoricalData, baseAsset} = useContext(BaseAssetContext);
+interface PriceInTimeProps {
+  extraCss?: string;
+}
+
+export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
+  const { unformattedHistoricalData, baseAsset } = useContext(BaseAssetContext);
   const [showMore, setShowMore] = useState(
-    !Object.keys(baseAsset?.assets_raw_pairs?.pairs_data || {})?.length,
+    !Object.keys(baseAsset?.assets_raw_pairs?.pairs_data || {})?.length
   );
 
   const sortOrder = [
@@ -39,10 +44,10 @@ export const PriceInTime = ({...props}) => {
 
   function getHistoricalPrices(history) {
     const results = {};
-    Object.keys(timeframes).forEach(key => {
+    Object.keys(timeframes).forEach((key) => {
       const targetTimestamp = Date.now() - timeframes[key];
       const filteredHistory = history.filter(
-        item => item[0] >= targetTimestamp,
+        (item) => item[0] >= targetTimestamp
       );
       if (filteredHistory.length > 0) {
         const [, value] = filteredHistory[0];
@@ -80,117 +85,88 @@ export const PriceInTime = ({...props}) => {
   }
 
   getHistoricalPrices(
-    Object.entries(getHistoricalPrices(unformattedHistoricalData?.price?.ALL)),
+    Object.entries(getHistoricalPrices(unformattedHistoricalData?.price?.ALL))
   );
 
   return (
-    <Flex
-      {...FlexBorderBox}
-      bg={boxBg3}
-      border={["none", "none", "none", borders]}
-      {...props}
-      p="0px !important"
-      borderRadius={["0px", "0px", "16px"]}
+    <div
+      className={cn(
+        `${FlexBorderBox} p-0 pb-0 rounded-2xl md:rounded-0`,
+        extraCss
+      )}
     >
-      <Text
-        fontSize={["16px", "16px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mt={["20px", "20px", "20px", "0px"]}
-        mb="10px"
-        p={["0px 20px", "0px 20px", "0px 20px", "20px 20px 0px 20px"]}
-      >
+      <LargeFont extraCss="mt-0 lg:mt-5 mb-2.5 px-5 pt-5 pb-0 lg:py-0">
         Price-in-time
-      </Text>
+      </LargeFont>
       <Collapse
         startingHeight={
           Object.entries(
-            getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
+            getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
           ).length > 5
             ? 220
             : Object.entries(
-                getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
+                getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
               ).length * 44
         }
         in={showMore}
       >
         {Object.entries(
-          getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
+          getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
         )
           ?.filter(
             (entry, i) =>
               entry[1] !==
               Object.entries(
-                getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
-              )[i - 1]?.[1],
+                getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
+              )[i - 1]?.[1]
           )
           .map((entry, i) => (
-            <Flex
-              px="20px"
-              justify="space-between"
-              borderTop={i === 0 ? "none" : borders}
-              py="10px"
-              pb={
-                Object.entries(
-                  getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
-                ).length -
-                  1 ===
-                i
-                  ? "10px"
-                  : "10px"
-              }
-              color={text80}
+            <div
+              key={entry[0] + entry[1]}
+              className={`flex px-5 text-light-font-100 dark:text-dark-font-100 justify-between py-2.5 ${
+                i === 0
+                  ? ""
+                  : "border-t border-light-border-primary dark:border-dark-border-primary"
+              } pb-2.5`}
             >
-              <Flex align="center" fontSize="14px" mb="5px" color={text60}>
+              <div className="flex items-center text-sm mb-[5px] text-light-font-60 dark:text-dark-font-60">
                 {getDateFromTimeStamp(entry[0])}
-              </Flex>
-              <Flex align="center">
-                <Text fontSize="13px" color={text80} fontWeight="500">
+              </div>
+              <div className="flex items-center">
+                <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] font-medium">
                   ${getFormattedAmount(entry[1][0])}
-                </Text>
+                </p>
                 <TagPercentage
                   fs={["12px", "12px", "13px"]}
                   h={["20px", "20px", "21.5px", "21.5px"]}
                   percentage={Number(getTokenPercentage(entry[1][1]))}
                   isUp={Number(getTokenPercentage(entry[1][1])) > 0}
                 />
-              </Flex>
-            </Flex>
+              </div>
+            </div>
           ))}
       </Collapse>
       {Object.entries(
-        getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
+        getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
       )?.filter(
         (entry, i) =>
           entry[1] !==
           Object.entries(
-            getHistoricalPrices(unformattedHistoricalData?.price?.ALL),
-          )[i - 1]?.[1],
+            getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
+          )[i - 1]?.[1]
       ).length > 5 ? (
         <Button
-          mt="10px"
-          fontWeight="400"
-          color={text80}
-          mx="auto"
-          fontSize="14px"
-          h="30px"
-          w="100%"
-          bg={boxBg6}
-          borderTop={borders}
+          extraCss="mx-auto h-[30px] mt-2.5 text-sm w-full rounded-b-xl"
           onClick={() => setShowMore(!showMore)}
-          _hover={{color: text100, bg: hover}}
-          transition="all 250ms ease-in-out"
-          borderRadius="0px 0px 12px 12px"
         >
           {showMore ? "Show less" : "Show more"}
-          <ChevronDownIcon
-            ml="5px"
-            transform={showMore ? "rotate(180deg)" : "rotate(0deg)"}
-            fontSize="16px"
-            transition="all 250ms ease-in-out"
+          <BsChevronDown
+            className={`ml-[5px] text-base transition-all duration-250 ${
+              showMore ? "rotate-180" : ""
+            }`}
           />
         </Button>
       ) : null}
-    </Flex>
+    </div>
   );
 };

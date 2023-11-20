@@ -1,39 +1,28 @@
-/* eslint-disable no-unsafe-optional-chaining */
-import {CheckIcon, CopyIcon, ExternalLinkIcon} from "@chakra-ui/icons";
+import { famousContractsLabelFromName } from "layouts/swap/utils";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { useRouter } from "next/navigation";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { BsCheckLg } from "react-icons/bs";
+import { FaRegCopy } from "react-icons/fa6";
+import { FiExternalLink } from "react-icons/fi";
 import {
-  Button,
-  Flex,
-  Image,
-  Skeleton,
-  Table,
-  TableCaption,
-  TableContainer,
-  Tbody,
-  Td,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useRouter} from "next/router";
-import {useContext, useEffect, useRef, useState} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { LoadMore } from "../../../../../../components/load-more";
+import { Skeleton } from "../../../../../../components/skeleton";
+import { Ths } from "../../../../../../components/table";
+import { GET } from "../../../../../../utils/fetch";
 import {
-  TextLandingMedium,
-  TextMedium,
-  TextSmall,
-} from "../../../../../../../UI/Text";
-import {famousContractsLabelFromName} from "../../../../../../../common/providers/swap/utils";
-import {LoadMore} from "../../../../../../../common/ui/load-more-table";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {GET} from "../../../../../../../common/utils/fetch";
-import {addressSlicer} from "../../../../../../../common/utils/user";
-import {BaseAssetContext} from "../../../../context-manager";
-import {IPairs} from "../../../../models";
-import {Ths} from "../../../ui/td";
+  addressSlicer,
+  getFormattedAmount,
+} from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { IPairs } from "../../../../models";
 
 export const TradingPairs = () => {
-  const {borders, text60, boxBg6, text80, hover, text40, boxBg3} = useColors();
-  const {baseAsset, setPairs, pairs} = useContext(BaseAssetContext);
+  const { baseAsset, setPairs, pairs } = useContext(BaseAssetContext);
   const [isLoading, setIsLoading] = useState(!pairs?.length);
   const router = useRouter();
   const [isCopied, setIsCopied] = useState("");
@@ -58,15 +47,15 @@ export const TradingPairs = () => {
       offset: page,
       hideBrokenPairs: true,
     })
-      .then(r => r.json())
-      .then(({data}) => {
+      .then((r) => r.json())
+      .then(({ data }) => {
         if (data && data.pairs.length > 0) {
-          setPairs(prevTrades => [...prevTrades, ...data.pairs]);
+          setPairs((prevTrades) => [...(prevTrades || []), ...data.pairs]);
           setTotalPairs(data.total_count);
-          setPage(prevPage => prevPage + 1);
+          setPage((prevPage) => prevPage + 1);
           setIsTradeScrollLoading(false);
           setIsLoading(false);
-          if (pairs?.length > 0)
+          if ((pairs?.length || 0) > 0)
             containerRef.current?.scrollTo({
               top: containerRef.current?.scrollHeight * data.pairs.length + 51,
               behavior: "smooth",
@@ -84,7 +73,7 @@ export const TradingPairs = () => {
     } else setIsLoading(false);
   }, [baseAsset]);
 
-  const copyText = pair => {
+  const copyText = (pair) => {
     window.navigator.clipboard.writeText(pair?.address);
     window.focus();
     setIsCopied(pair.address);
@@ -93,9 +82,9 @@ export const TradingPairs = () => {
     }, 2000);
   };
 
-  const newPairs: IPairs[] = pairs;
+  const newPairs: IPairs[] | null = pairs;
 
-  const getPositionFromPair = pair => {
+  const getPositionFromPair = (pair: string) => {
     switch (pair) {
       case "all":
         return "calc(0% + 2px)";
@@ -112,167 +101,117 @@ export const TradingPairs = () => {
     fetchTrades();
   };
 
-  const getSymbol = pair => {
+  const getSymbol = (pair) => {
     if (pair.token1.symbol === baseAsset?.symbol) return pair.token0.symbol;
     return pair.token1.symbol;
   };
 
   return (
-    <Flex
-      direction="column"
-      mt={["5px", "5px", "20px", "0px"]}
-      mb="20px"
-      w="100%"
-      display={newPairs?.length > 0 || isLoading ? "flex" : "none"}
+    <div
+      className={`flex-col mt-0 lg:mt-5 md:mt-[5px] mb-5 w-full ${
+        (newPairs?.length || 0) > 0 || isLoading ? "flex" : "hidden"
+      }`}
     >
-      <Flex
-        align="center"
-        mb="15px"
-        justify="space-between"
-        pr={["7.5px", "7.5px", "0px"]}
-      >
-        <TextLandingMedium
-          fontSize={["16px", "16px", "16px", "18px"]}
-          ml={["10px", "10px", "0px"]}
-        >
-          Trading Pairs
-        </TextLandingMedium>
-        <Flex
-          bg={boxBg6}
-          border={borders}
-          borderRadius="8px"
-          p="2px"
-          h={["31px", "31px", "36px"]}
-          position="relative"
-          maxW="200px"
-          w="100%"
-        >
-          <Flex
-            h={["25px", "25px", "30px"]}
-            bg={hover}
-            w="calc(33.33% - 4px)"
-            borderRadius="6px"
-            position="absolute"
-            left={getPositionFromPair(activePairs)}
-            transition="all 250ms ease-in-out"
+      <div className="flex items-center mb-[15px] justify-between pr-0 md:pr-[7.5px]">
+        <LargeFont extraCss="ml-0 md:ml-2.5">Trading Pairs</LargeFont>
+        <div className="flex bg-light-bg-terciary dark:bg-dark-bg-terciary rounded p-0.5 h-[36px] md:h-[31px] relative max-w-[200px] w-full">
+          <div
+            className="flex transition-all duration-250 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[30px] md:h-[25px]"
+            style={{ left: getPositionFromPair(activePairs) }}
           />
-          <Button
-            w="33.33%"
-            h={["25px", "25px", "30px"]}
+          <button
+            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center"
             onClick={() => setActivePairs("all")}
-            isDisabled
+            disabled
           >
-            <TextSmall
-              color={activePairs === "all" ? text80 : text40}
-              fontWeight="500"
-              transition="all 250ms ease-in-out"
+            <SmallFont
+              extraCss={`transition-all duration-250 font-medium ${
+                activePairs === "all"
+                  ? "text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }`}
             >
               All
-            </TextSmall>
-          </Button>
-          <Button
-            w="33.33%"
-            h={["25px", "25px", "30px"]}
+            </SmallFont>
+          </button>
+          <button
+            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center"
             onClick={() => setActivePairs("cex")}
-            isDisabled
+            disabled
           >
-            <TextSmall
-              color={activePairs === "cex" ? text80 : text40}
-              fontWeight="500"
-              transition="all 250ms ease-in-out"
+            <SmallFont
+              extraCss={`transition-all duration-250 font-medium ${
+                activePairs === "cex"
+                  ? "text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }`}
             >
               CEX
-            </TextSmall>
-          </Button>
-          <Button
-            w="33.33%"
-            h={["25px", "25px", "30px"]}
+            </SmallFont>
+          </button>
+          <button
+            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center"
             onClick={() => setActivePairs("dex")}
           >
-            <TextSmall
-              fontWeight="500"
-              transition="all 250ms ease-in-out"
-              color={activePairs === "dex" ? text80 : text40}
+            <SmallFont
+              extraCss={`transition-all duration-250 font-medium ${
+                activePairs === "dex"
+                  ? "text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }`}
             >
               DEX
-            </TextSmall>
-          </Button>
-        </Flex>
-      </Flex>
-      <TableContainer
-        maxH={["430px", "430px", "500px"]}
-        overflowY="scroll"
-        className="scroll"
-        ref={containerRef}
-        position="relative"
-      >
-        <Table
-          variant="simple"
-          position="relative"
-          maxH={["350px", "350px", "500px"]}
-        >
-          <Thead>
-            <Tr>
+            </SmallFont>
+          </button>
+        </div>
+      </div>
+      <div className="max-h-[500px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
+        <table className="relative w-full" ref={containerRef}>
+          <thead>
+            <tr>
               {titles
-                .filter(entry => entry !== "Unit Price")
+                .filter((entry) => entry !== "Unit Price")
                 .map((entry, i) => {
                   const isFirst = i === 0;
                   const isLast = i === titles.length - 1;
                   const isOpen = entry === "Open";
                   return (
                     <Ths
+                      extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px]
+                   border-t border-b px-2.5 py-[10px] border-light-border-primary dark:border-dark-border-primary
+                    ${isFirst ? "pl-5 md:pl-2.5" : "pl-2.5"} ${
+                        isLast || isOpen ? "pr-5 md:pr-2.5" : "pr-2.5"
+                      } 
+                    ${
+                      isFirst || entry === "Trading Pairs"
+                        ? "text-start"
+                        : "text-end"
+                    } table-cell ${entry === "Unit Price" ? "md:hidden" : ""}`}
                       key={entry}
-                      position="sticky"
-                      bg={boxBg3}
-                      zIndex="2"
-                      top="-1px"
-                      borderTop={borders}
-                      borderBottom={borders}
-                      px="10px"
-                      py="13px"
-                      pl={["10px", "10px", isFirst ? "20px" : "10px"]}
-                      pr={["10px", "10px", isLast || isOpen ? "20px" : "10px"]}
-                      textAlign={
-                        isFirst || entry === "Trading Pairs" ? "start" : "end"
-                      }
-                      display={[
-                        entry === "Unit Price" ? "none" : "table-cell",
-                        entry === "Unit Price" ? "none" : "table-cell",
-                        "table-cell",
-                        "table-cell",
-                      ]}
                     >
                       {entry === "Pairs Address" ? (
-                        <Flex align="center" justify="end">
-                          <TextSmall
-                            fontWeight="500"
-                            textAlign="end"
-                            display={["none", "none", "flex"]}
-                          >
+                        <div className="flex items-center justify-end">
+                          <SmallFont extraCss="flex md:hidden text-end font-medium">
                             {entry}
-                          </TextSmall>
-                          <TextSmall
-                            fontWeight="500"
-                            textAlign="end"
-                            display={["flex", "flex", "none"]}
-                          >
+                          </SmallFont>
+                          <SmallFont extraCss="hidden md:flex text-end font-medium">
                             Link
-                          </TextSmall>
-                        </Flex>
+                          </SmallFont>
+                        </div>
                       ) : (
-                        <TextSmall fontWeight="500">{entry}</TextSmall>
+                        <SmallFont extraCss="font-medium">{entry}</SmallFont>
                       )}
                     </Ths>
                   );
                 })}
-            </Tr>
-          </Thead>
-          {newPairs?.length > 0 || isLoading ? (
+            </tr>
+          </thead>
+          {(newPairs?.length || 0) > 0 || isLoading ? (
             <>
-              <Tbody>
-                {(pairs?.length > 0
+              <tbody>
+                {((pairs?.length || 0) > 0
                   ? pairs?.sort((a, b) => b.liquidity - a.liquidity)
-                  : Array.from({length: 8})
+                  : Array.from({ length: 8 })
                 )?.map((pair: IPairs, i: number) => {
                   const geckoId =
                     blockchainsContent[pair?.blockchain]?.geckoterminalChain;
@@ -280,191 +219,108 @@ export const TradingPairs = () => {
                     ? `https://www.geckoterminal.com/${geckoId}/pools/${pair.address}`
                     : "";
                   return (
-                    <Tr
+                    <tr
                       key={
                         pair?.exchange + pair?.address + pair?.liquidity || i
                       }
                     >
-                      <Td
-                        borderBottom={borders}
-                        py="5px"
-                        pl={["10px", "10px", "20px"]}
-                        pr={["25px", "25px", "10px"]}
-                        fontSize={["8px", "8px", "10px", "11px"]}
+                      <td
+                        className="border-b border-light-border-primary dark:border-dark-border-primary py-[15px]
+                     pl-5 md:pl-2.5 pr-2.5 md:pr-[25px] text-[11px] lg:text-[10px] md:text-[8px]"
                       >
                         {isLoading ? (
-                          <Flex align="center">
-                            <Skeleton
-                              startColor={boxBg6}
-                              endColor={hover}
-                              h="20px"
-                              borderRadius="4px"
-                              w="120px"
-                            />
-                            <Skeleton
-                              startColor={boxBg6}
-                              endColor={hover}
-                              boxSize="23px"
-                              borderRadius="full"
-                              ml="10px"
-                            />
-                          </Flex>
+                          <div className="flex items-center">
+                            <Skeleton extraCss="h-[20px] w-[120px]" />
+                            <Skeleton extraCss="h-[23px] w-[23px] rounded-full ml-2.5" />
+                          </div>
                         ) : (
-                          <Flex align="center" justify={["center", "start"]}>
-                            <Image
+                          <div className="flex items-center sm:justify-center justify-start">
+                            <img
+                              className="w-[23px] h-[23px] min-w-[23px] md:w-[18px] md:h-[18px] md:min-w-[18px] 
+                          rounded-full mr-2.5 md:mr-[5px]"
                               src={
                                 famousContractsLabelFromName?.[pair?.exchange]
-                                  ?.logo
+                                  ?.logo || "/empty/unknown.png"
                               }
-                              fallbackSrc="/icon/unknown.png"
-                              boxSize={["18px", "18px", "23px"]}
-                              borderRadius="full"
-                              mr={["5px", "5px", "10px"]}
                             />
-                            <TextSmall
-                              fontWeight="500"
-                              display={["none", "flex"]}
-                            >
+                            <SmallFont extraCss="font-medium flex sm:hidden">
                               {pair?.exchange || "Unknown"}
-                            </TextSmall>
-                          </Flex>
+                            </SmallFont>
+                          </div>
                         )}
-                      </Td>
-                      <Td
-                        borderBottom={borders}
-                        px="10px"
-                        py="5px"
-                        textAlign="start"
-                        fontSize={["8px", "8px", "10px", "11px"]}
+                      </td>
+                      <td
+                        className="border-b border-light-border-primary dark:border-dark-border-primary py-[15px]
+                      px-2.5 text-[11px] lg:text-[10px] md:text-[8px]"
                       >
-                        <Flex w="100%">
+                        <div className="flex w-full">
                           {isLoading ? (
-                            <Skeleton
-                              startColor={boxBg6}
-                              endColor={hover}
-                              h="20px"
-                              borderRadius="4px"
-                              w="120px"
-                            />
+                            <Skeleton extraCss="h-[20px] w-[120px]" />
                           ) : (
-                            <TextSmall
-                              mb={["-5px", "-5px", "-2px"]}
-                              fontWeight="500"
-                              color="blue"
-                            >
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] text-blue dark:text-blue">
                               {`${baseAsset?.symbol}/`}
                               {getSymbol(pair) || "--"}
-                            </TextSmall>
+                            </SmallFont>
                           )}
-                        </Flex>
-                      </Td>
-                      <Td borderBottom={borders} px="10px" isNumeric>
-                        <Flex justify="flex-end" w="100%">
+                        </div>
+                      </td>
+                      <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                        <div className="flex justify-end w-full">
                           {isLoading ? (
-                            <Skeleton
-                              startColor={boxBg6}
-                              endColor={hover}
-                              h="20px"
-                              borderRadius="4px"
-                              w="120px"
-                            />
+                            <Skeleton extraCss="h-[20px] w-[120px]" />
                           ) : (
-                            <TextSmall
-                              fontWeight="500"
-                              mb={["-5px", "-5px", "-2px"]}
-                            >
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
                               ${getFormattedAmount(pair.liquidity)}
-                            </TextSmall>
+                            </SmallFont>
                           )}
-                        </Flex>
-                      </Td>
-                      <Td
-                        borderBottom={borders}
-                        px="10px"
-                        textAlign="end"
-                        isNumeric
-                      >
-                        <Flex justify="flex-end" w="100%">
+                        </div>
+                      </td>
+                      <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                        <div className="flex justify-end w-full">
                           {isLoading ? (
-                            <Skeleton
-                              startColor={boxBg6}
-                              endColor={hover}
-                              h="20px"
-                              borderRadius="4px"
-                              w="80px"
-                            />
+                            <Skeleton extraCss="h-[20px] w-[80px]" />
                           ) : (
-                            <TextSmall
-                              fontWeight="500"
-                              mb={["-5px", "-5px", "-2px"]}
-                            >
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
                               ${getFormattedAmount(pair.price)}
-                            </TextSmall>
+                            </SmallFont>
                           )}
-                        </Flex>
-                      </Td>
-                      <Td borderBottom={borders} px="10px">
-                        <Flex
-                          justify="flex-end"
-                          w="100%"
-                          display={["none", "none", "flex"]}
-                        >
+                        </div>
+                      </td>
+                      <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5">
+                        <div className="flex justify-end w-full md:hidden">
                           {isLoading ? (
-                            <Skeleton
-                              startColor={boxBg6}
-                              endColor={hover}
-                              h="20px"
-                              borderRadius="4px"
-                              w="100px"
-                            />
+                            <Skeleton extraCss="h-[20px] w-[100px]" />
                           ) : (
-                            <Flex
-                              align="center"
+                            <div
+                              className="flex items-center cursor-pointer"
                               onClick={() => copyText(pair)}
-                              cursor="pointer"
                             >
-                              <TextSmall
-                                fontWeight="500"
-                                mb={["-5px", "-5px", "-2px"]}
-                              >
+                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
                                 {addressSlicer(pair.address)}
-                              </TextSmall>
+                              </SmallFont>
                               {isCopied === pair.address ? (
-                                <CheckIcon
-                                  ml="10px"
-                                  color="green"
-                                  fontSize={["12px", "12px", "13px", "14px"]}
-                                />
+                                <BsCheckLg className="text-green dark:text-green text-sm lg:text-[13px] md:text-xs ml-2.5" />
                               ) : (
-                                <CopyIcon
-                                  ml="10px"
-                                  color={text80}
-                                  fontSize={["12px", "12px", "13px", "14px"]}
-                                />
+                                <FaRegCopy className="ml-2.5 text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs" />
                               )}
-                            </Flex>
+                            </div>
                           )}
-                        </Flex>
-                        <Flex
-                          display={["flex", "flex", "none"]}
+                        </div>
+                        <div
+                          className="hidden md:flex"
                           onClick={() => router.push(geckoUrl)}
                         >
-                          <ExternalLinkIcon color={text60} mr="auto" />
-                        </Flex>
-                      </Td>
-                    </Tr>
+                          <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 mr-auto" />
+                        </div>
+                      </td>
+                    </tr>
                   );
                 })}
-              </Tbody>
+              </tbody>
               {hasMoreData && totalPairs !== pairs?.length ? (
                 <LoadMore
-                  position="sticky"
-                  w="100%"
-                  bottom="0px"
-                  zIndex={1}
-                  callback={() => {
-                    fetchMoreTrades();
-                  }}
+                  extraCss="sticky w-full bottom-0 z-[1]"
+                  callback={fetchMoreTrades}
                   isLoading={isTradeScrollLoading}
                   totalCount={totalPairs}
                   count={pairs?.length}
@@ -472,28 +328,17 @@ export const TradingPairs = () => {
               ) : null}
             </>
           ) : (
-            <TableCaption
-              border={borders}
-              mt="0px"
-              borderRadius="0px 0px 8px 8px"
-              borderTop="none"
-            >
-              <Flex
-                h="250px"
-                w="100%"
-                align="center"
-                direction="column"
-                justify="center"
-              >
-                <Image src="/404/ray.png" />
-                <TextMedium color={text60} fontWeight="500" mt="20px" mb="10px">
+            <caption className="border border-light-border-primary dark:border-dark-border-primary rounded-b border-t-0 mt-0">
+              <div className="flex h-[250px] w-full items-enter justify-center flex-col">
+                <img alt="no trading pairs image" src="/404/ray.png" />
+                <MediumFont extraCss="text-light-font-60 dark:text-font-60 font-medium mt-5 mb-2.5">
                   No trading pairs detected for this token.
-                </TextMedium>
-              </Flex>
-            </TableCaption>
+                </MediumFont>
+              </div>
+            </caption>
           )}
-        </Table>
-      </TableContainer>
-    </Flex>
+        </table>
+      </div>
+    </div>
   );
 };
