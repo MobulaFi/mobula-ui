@@ -1,51 +1,35 @@
 /* eslint-disable no-fallthrough */
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Spinner,
-  Table,
-  TableCaption,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
 import Cookies from "js-cookie";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useContext, useEffect, useState} from "react";
-import {FiFilter} from "react-icons/fi";
-import {useAccount} from "wagmi";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { useContext, useEffect, useState } from "react";
+import { FiExternalLink, FiFilter } from "react-icons/fi";
+import { useAccount } from "wagmi";
+import { Button } from "../../../../../../components/button";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../../components/link";
+import { Spinner } from "../../../../../../components/spinner";
+import { Ths } from "../../../../../../components/table";
+import { PopupUpdateContext } from "../../../../../../contexts/popup";
+import { UserTrade } from "../../../../../../interfaces/assets";
+import { GET } from "../../../../../../utils/fetch";
 import {
   getClosest,
   getFormattedAmount,
-} from "../../../../../../../../utils/helpers/formaters";
-import {UserTrade} from "../../../../../../../../utils/interfaces/typescript";
-import {
-  TextLandingMedium,
-  TextMedium,
-  TextSmall,
-} from "../../../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../../../common/components/links";
-import {PopupUpdateContext} from "../../../../../../../common/context-manager/popup";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {GET} from "../../../../../../../common/utils/fetch";
-import {BaseAssetContext} from "../../../../context-manager";
-import {Trade} from "../../../../models";
-import {formatFilters} from "../../../../utils";
-import {TradeBlockchainPopup} from "../../../popup/trade-blockchain-selector";
-import {TradeTypePopup} from "../../../popup/trade-type";
-import {TradeValueAmountPopup} from "../../../popup/trade-value-amount";
-import {PopoverTrade} from "../../../ui/popover-trade";
-import {Ths} from "../../../ui/td";
+} from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { Trade, UserTrades } from "../../../../models";
+import { formatFilters } from "../../../../utils";
+import { TradeBlockchainPopup } from "../../../popup/trade-blockchain-selector";
+import { TradeTypePopup } from "../../../popup/trade-type";
+import { TradeValueAmountPopup } from "../../../popup/trade-value-amount";
+import { PopoverTrade } from "../../../ui/popover-trade";
 
 export const TokenTrades = () => {
-  const {setConnect} = useContext(PopupUpdateContext);
+  const { setConnect } = useContext(PopupUpdateContext);
   const {
     setShowTradeFilters,
     marketMetrics,
@@ -57,21 +41,11 @@ export const TokenTrades = () => {
     filters,
     baseAsset,
   } = useContext(BaseAssetContext);
-  const {address} = useAccount();
-  const [userTrades, setUserTrades] = useState(null);
+  const { address } = useAccount();
+  const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
   const [isMyTrades, setIsMyTrades] = useState<boolean>(false);
   const maxValue = 1_000_000_000_000;
-  const {
-    text80,
-    hover,
-    boxBg6,
-    borders,
-    text40,
-    text60,
-    text10,
-    bordersActive,
-    boxBg3,
-  } = useColors();
+  const { isConnected, isDisconnected } = useAccount();
   const titles: string[] = [
     "Type",
     "Tokens",
@@ -80,14 +54,14 @@ export const TokenTrades = () => {
     "Time",
     "Explorer",
   ];
-  const {isConnected, isDisconnected} = useAccount();
-  const getDefaultName = title => {
+
+  const getDefaultName = (title: string) => {
     let newValue = "";
     const defaultValue = [0, maxValue];
     let tokenAmounts = [...defaultValue];
     let valueUsd = [...defaultValue];
 
-    filters.forEach(filter => {
+    filters.forEach((filter) => {
       const name = filter.value?.[0]?.split("trade_history")[1].split(".")[1];
       const value = filter.value?.[1];
       switch (name) {
@@ -169,41 +143,26 @@ export const TokenTrades = () => {
   useEffect(() => {
     GET("/api/1/wallet/transactions", {
       asset: baseAsset.name,
-      wallet: address,
+      wallet: address || "",
       limit: 25,
       order: "desc",
     })
-      .then(r => r.json())
-      .then(r => {
+      .then((r) => r.json())
+      .then((r) => {
         if (r.data) setUserTrades(r.data.transactions);
       });
   }, []);
 
   return (
-    <Flex
-      direction="column"
-      mt={["20px", "20px", "20px", "20px"]}
-      w={["95%", "95%", "100%", "100%"]}
-      mx="auto"
-    >
-      <Flex align="center" justify="space-between">
-        <TextLandingMedium>Live Trades</TextLandingMedium>
-      </Flex>
-
-      <Flex
-        justify="space-between"
-        align="center"
-        mb="10px"
-        mt="10px"
-        overflowX="scroll"
-        className="scroll"
-        display={["none", "none", "none", "flex"]}
-      >
-        <Flex
-          minH="45px"
-          align="center"
-          opacity={isMyTrades ? 0.5 : 1}
-          transition="all 150ms ease-in-out"
+    <div className="flex flex-col mt-5 w-full md:w-[95%] mx-auto">
+      <div className="flex items-center justify-between">
+        <LargeFont>Live Trades</LargeFont>
+      </div>
+      <div className="flex justify-between items-center my-2.5 lg:hidden">
+        <div
+          className={`min-h-[45px] flex items-center transition-all ${
+            isMyTrades ? "opacity-50" : ""
+          }`}
         >
           {/* <PopoverTrade title={activeNames.liquidity_pool}>
             <TradeLiquidityPoolPopup />
@@ -235,461 +194,352 @@ export const TokenTrades = () => {
               activeName={activeNames}
             />
           </PopoverTrade>
-        </Flex>
-        <Flex
-          h="35px"
-          align="center"
-          bg={boxBg6}
-          position="relative"
-          px="8px"
-          borderRadius="8px"
-          w="200px"
-          display={["none", "none", "none", "flex"]}
-          border={borders}
+        </div>
+        <div
+          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative px-2
+         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary"
         >
-          <Flex
-            w="50% "
-            h="29px"
-            bg={hover}
-            borderRadius="6px"
-            position="absolute"
-            transition="all 250ms ease-in-out"
-            left={getPositionOfSwitcherButton(isMyTrades)}
+          <div
+            className="flex w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
+            style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
           />
-          <Button
-            w="50%"
-            h="29px"
-            px="10px"
-            fontSize={["12px", "12px", "13px", "14px"]}
-            color={!isMyTrades ? text80 : text40}
-            fontWeight="500"
-            transition="all 250ms ease-in-out"
+          <button
+            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+          md:text-xs font-medium transition-all duration-250 ${
+            !isMyTrades
+              ? "text-light-font-100 dark:text-dark-font-100"
+              : "text-light-font-40 dark:text-dark-font-40"
+          } z-[2]`}
             onClick={() => {
               setIsMyTrades(false);
               if (!isDisconnected) setConnect(true);
             }}
           >
             All trades
-          </Button>
-          <Button
-            w="50%"
-            px="10px"
-            h="30px"
-            fontSize={["12px", "12px", "13px", "14px"]}
-            color={isMyTrades ? text80 : text40}
-            fontWeight="500"
-            transition="all 250ms ease-in-out"
+          </button>
+          <button
+            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+            md:text-xs font-medium transition-all duration-250 ${
+              isMyTrades
+                ? "text-light-font-100 dark:text-dark-font-100"
+                : "text-light-font-40 dark:text-dark-font-40"
+            } z-[2]`}
             onClick={() => setIsMyTrades(true)}
           >
             My Trades
-          </Button>
-        </Flex>
-      </Flex>
-      <Flex
-        align="center"
-        justify="space-between"
-        display={["flex", "flex", "flex", "none"]}
-        my="10px"
-      >
+          </button>
+        </div>
+      </div>
+      <div className="items-center justify-between hidden lg:flex my-2.5">
         <Button
-          maxW="fit-content"
-          px="12px"
-          h="32px"
-          borderRadius="8px"
-          bg={boxBg6}
-          border={borders}
-          _hover={{
-            border: bordersActive,
-            bg: hover,
-          }}
-          transition="all 250ms ease-in-out"
-          color={text80}
-          fontWeight="400"
-          fontSize={["12px", "12px", "13px", "14px"]}
+          extraCss="max-w-fit h-[32px] px-3"
           onClick={() => setShowTradeFilters(true)}
         >
-          <Icon as={FiFilter} mr="7.5px" />
+          <FiFilter className="mr-[7.5px]" />
           Filters
         </Button>
-        <Flex
-          h="32px"
-          align="center"
-          bg={boxBg6}
-          position="relative"
-          px="8px"
-          borderRadius="8px"
-          w="180px"
-          border={borders}
+        <div
+          className="flex h-[32px] items-center justify-center relative bg-light-bg-terciary
+         dark:bg-dark-bg-terciary px-2 w-[180px] rounded border border-light-border-primary dark:border-dark-border-primary"
         >
-          <Flex
-            w="50%"
-            h="26px"
-            bg={hover}
-            borderRadius="6px"
-            position="absolute"
-            transition="all 250ms ease-in-out"
-            left={getPositionOfSwitcherButton(isMyTrades)}
+          <div
+            className="w-[50%] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded absolute transition-all duration-250"
+            style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
           />
-          <Button
-            w="50%"
-            h="26px"
-            fontSize={["12px", "12px", "13px", "14px"]}
-            color={!isMyTrades ? text80 : text40}
-            fontWeight="400"
-            transition="all 250ms ease-in-out"
+          <button
+            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+               md:text-xs font-medium transition-all duration-250 ${
+                 !isMyTrades
+                   ? "text-light-font-100 dark:text-dark-font-100"
+                   : "text-light-font-40 dark:text-dark-font-40"
+               }`}
             onClick={() => {
               setIsMyTrades(false);
               if (!isConnected) setConnect(true);
             }}
           >
             All trades
-          </Button>
-          <Button
-            w="50%"
-            h="30px"
-            fontSize={["12px", "12px", "13px", "14px"]}
-            color={isMyTrades ? text80 : text40}
-            fontWeight="400"
-            transition="all 250ms ease-in-out"
+          </button>
+          <button
+            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+            md:text-xs font-medium transition-all duration-250 ${
+              isMyTrades
+                ? "text-light-font-100 dark:text-dark-font-100"
+                : "text-light-font-40 dark:text-dark-font-40"
+            }`}
             onClick={() => setIsMyTrades(true)}
           >
             My Trades
-          </Button>
-        </Flex>
-      </Flex>
-      <Box h="100%" w="100%" mx="auto">
-        <TableContainer overflowY="scroll" className="scroll" maxH="480px">
-          <Table variant="simple" position="relative" overflowX="scroll">
-            {!isMarketMetricsLoading &&
-            isMyTrades &&
-            (userTrades?.length || 0) === 0 ? (
-              <TableCaption
-                border={borders}
-                mt="0px"
-                borderRadius="0px 0px 8px 8px"
-                borderTop="none"
-              >
-                <Flex
-                  h="250px"
-                  w="100%"
-                  align="center"
-                  direction="column"
-                  justify="center"
-                >
-                  <Image src="/404/ray.png" />
-                  <TextMedium
-                    color={text60}
-                    fontWeight="500"
-                    mt="20px"
-                    mb="10px"
-                  >
-                    You don&apos;t have any trades
-                  </TextMedium>
-                </Flex>
-              </TableCaption>
-            ) : null}
-            {isMarketMetricsLoading ? (
-              <TableCaption
-                border={borders}
-                mt="0px"
-                borderRadius="0px 0px 8px 8px"
-                borderTop="none"
-              >
-                <Flex
-                  h="250px"
-                  w="100%"
-                  align="center"
-                  direction="column"
-                  justify="center"
-                >
-                  <Spinner
-                    thickness="6px"
-                    speed="0.65s"
-                    emptyColor={text10}
-                    color="blue"
-                    size="xl"
-                  />
-                </Flex>
-              </TableCaption>
-            ) : null}
-            {!isMarketMetricsLoading &&
-            marketMetrics?.trade_history?.length === 0 &&
-            !isMyTrades ? (
-              <TableCaption
-                border={borders}
-                mt="0px"
-                borderRadius="0px 0px 8px 8px"
-                borderTop="none"
-              >
-                <Flex
-                  h="250px"
-                  w="100%"
-                  align="center"
-                  direction="column"
-                  justify="center"
-                >
-                  <Image src="/404/ray.png" />
-                  <TextMedium
-                    color={text60}
-                    fontWeight="500"
-                    mt="20px"
-                    mb="10px"
-                  >
-                    No trades available
-                  </TextMedium>
-                </Flex>
-              </TableCaption>
-            ) : null}
-            <Thead>
-              <Tr>
-                {titles
-                  .filter(entry => entry !== "Unit Price")
-                  .map((entry, i) => {
-                    const isFirst = i === 0;
-                    const isLast = i === titles.length - 1;
-                    const isExplorer = entry === "Explorer";
-                    return (
-                      <Ths
-                        key={entry}
-                        position="sticky"
-                        zIndex="2"
-                        top="-1px"
-                        bg={boxBg3}
-                        borderTop={borders}
-                        borderBottom={borders}
-                        px="10px"
-                        py="13px"
-                        pl={["10px", "10px", isFirst ? "20px" : "10px"]}
-                        pr={[
-                          "10px",
-                          "10px",
-                          isLast || isExplorer ? "20px" : "10px",
-                        ]}
-                        textAlign={isFirst ? "start" : "end"}
-                        display={[
-                          entry === "Unit Price" || entry === "Value"
-                            ? "none"
-                            : "table-cell",
-                          entry === "Unit Price" || entry === "Value"
-                            ? "none"
-                            : "table-cell",
-                          "table-cell",
-                          "table-cell",
-                        ]}
-                      >
-                        <TextSmall>{entry}</TextSmall>
-                      </Ths>
-                    );
-                  })}
-              </Tr>
-            </Thead>
-            {(isMyTrades
-              ? userTrades?.filter(entry => entry.amount > 0)
-              : marketMetrics?.trade_history
-            )?.map((trade: Trade | UserTrade) => {
-              const isSell = trade.type === "sell";
-              const date = isMyTrades ? trade?.timestamp : trade?.date;
-              return (
-                <Tbody
-                  key={
-                    trade.date +
-                    trade.value_usd +
-                    trade.token_amount +
-                    trade.type +
-                    (trade?.hash || 0) +
-                    (trade?.unique_discriminator || 0) +
-                    (trade?.id || 0)
-                  }
-                >
-                  <Tr>
-                    <Td
-                      borderBottom={borders}
-                      pl={["10px", "10px", "20px"]}
-                      pr="10px"
-                      py="5px"
-                      fontSize={["8px", "8px", "10px", "11px"]}
+          </button>
+        </div>
+      </div>
+      <div className="w-full h-full mx-auto max-h-[480px] overflow-y-scroll ">
+        <table className="relative  w-full ">
+          {!isMarketMetricsLoading &&
+          isMyTrades &&
+          (userTrades?.length || 0) === 0 ? (
+            <caption className="border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
+              <div className="h-[250px] flex w-full items-center justify-center">
+                <img src="/404/ray.png" alt="No trade image" />
+                <MediumFont extraCss="font-medium text-light-font-60 dark:text-dark-font-60 mt-5 mb-2.5">
+                  You don&apos;t have any trades
+                </MediumFont>
+              </div>
+            </caption>
+          ) : null}
+          {isMarketMetricsLoading ? (
+            <caption className="border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
+              <div className="h-[250px] flex w-full items-center justify-center">
+                <Spinner extraCss="h-[50px] w-[50px]" />
+              </div>
+            </caption>
+          ) : null}
+          {!isMarketMetricsLoading &&
+          marketMetrics?.trade_history?.length === 0 &&
+          !isMyTrades ? (
+            <caption className="border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
+              <div className="h-[250px] flex w-full items-center justify-center">
+                <img src="/404/ray.png" alt="No trade image" />
+                <MediumFont extraCss="font-medium text-light-font-60 dark:text-dark-font-60 mt-5 mb-2.5">
+                  No trades available
+                </MediumFont>
+              </div>
+            </caption>
+          ) : null}
+          <thead>
+            <tr>
+              {titles
+                .filter((entry) => entry !== "Unit Price")
+                .map((entry, i) => {
+                  const isFirst = i === 0;
+                  const isLast = i === titles.length - 1;
+                  const isExplorer = entry === "Explorer";
+                  return (
+                    <Ths
+                      extraCss={`sticky z-[2] top-[-1px] bg-light-bg-secondary dark:bg-dark-bg-secondary 
+                      border-t border-b border-light-border-primary dark:border-dark-border-primary px-2.5 
+                      py-[13px] ${
+                        isFirst
+                          ? "pl-5 md:pl-2.5 text-start"
+                          : "pl-2.5 text-end"
+                      } ${isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"} 
+                       table-cell ${
+                         entry === "Unit Price" || entry === "Value"
+                           ? "md:hidden"
+                           : "md:table-cell"
+                       } `}
+                      key={entry}
                     >
-                      <Box>
-                        <TextSmall
-                          mb={["-5px", "-5px", "-2px"]}
-                          color={isSell ? "red" : "green"}
-                        >
-                          {isSell ? "Sell" : "Buy"}
-                        </TextSmall>
-                      </Box>
-                    </Td>
-                    <Td
-                      borderBottom={borders}
-                      px="10px"
-                      pr={["10px", "10px", "20px"]}
-                    >
-                      <Flex
-                        align="end"
-                        w="100%"
-                        justify="center"
-                        direction="column"
+                      <SmallFont
+                        extraCss={`${
+                          isFirst
+                            ? " pl-5 md:pl-2.5  text-start"
+                            : "pl-2.5 text-end"
+                        } ${
+                          isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"
+                        }`}
                       >
-                        {"blockchain" in trade || isMyTrades ? (
-                          <TextSmall fontWeight="500">
-                            <NextChakraLink
-                              isExternal
-                              href={
-                                "blockchain" in trade && "hash" in trade
-                                  ? `${
-                                      blockchainsContent[trade.blockchain]
-                                        .explorer
-                                    }/tx/${trade.hash}`
-                                  : "/"
-                              }
-                              key={trade.hash}
-                              target="_blank"
-                              color={text80}
-                            >
-                              {getFormattedAmount(
-                                isMyTrades ? trade.amount : trade.token_amount,
-                              )}
-                            </NextChakraLink>
-                          </TextSmall>
-                        ) : null}
-                        <Text
-                          fontWeight="500"
-                          m="0px"
-                          mt="-4px"
-                          color={isSell ? "red" : "green"}
-                          fontSize={["11px", "11px", "12px", "13px"]}
-                          mr={["0px", "0px", "10px", "0px"]}
-                          display={["flex", "flex", "none"]}
-                        >
-                          $
-                          {getFormattedAmount(
-                            isMyTrades ? trade.amount_usd : trade.value_usd,
-                            2,
-                          )}
-                        </Text>
-                      </Flex>
-                    </Td>
+                        {entry}
+                      </SmallFont>
+                    </Ths>
+                  );
+                })}
+            </tr>
+          </thead>
+          {(isMyTrades
+            ? userTrades?.filter((entry) => entry.amount > 0)
+            : marketMetrics?.trade_history
+          )?.map((trade: Trade | UserTrade) => {
+            const isSell = trade.type === "sell";
+            const date: number = isMyTrades
+              ? (trade?.timestamp as number)
+              : trade?.date;
+            return (
+              <tbody
+                key={
+                  trade.date +
+                  trade.value_usd +
+                  trade.token_amount +
+                  trade.type +
+                  (trade?.hash || 0) +
+                  (trade?.unique_discriminator || 0) +
+                  (trade?.id || 0)
+                }
+              >
+                <tr>
+                  <td
+                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                  md:pl-2.5 pr-2.5 py-[7.5px] text-[11px] lg:text-[10px] md:text-[8px]"
+                  >
+                    <div>
+                      <SmallFont
+                        extraCss={`mb-[-2px] md:mb-[-5px] ${
+                          isSell
+                            ? "text-red dark:text-red"
+                            : "text-green dark:text-green"
+                        }`}
+                      >
+                        {isSell ? "Sell" : "Buy"}
+                      </SmallFont>
+                    </div>
+                  </td>
+                  <td
+                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                  px-2.5 pr-5 md:pr-2.5"
+                  >
+                    <div className="flex items-end w-full justify-center flex-col">
+                      {"blockchain" in trade || isMyTrades ? (
+                        <SmallFont extraCss="font-medium">
+                          <NextChakraLink
+                            href={
+                              "blockchain" in trade && "hash" in trade
+                                ? `${
+                                    blockchainsContent[trade.blockchain]
+                                      .explorer
+                                  }/tx/${trade.hash}`
+                                : "/"
+                            }
+                            key={trade.hash}
+                            target="_blank"
+                          >
+                            {getFormattedAmount(
+                              (isMyTrades
+                                ? trade.amount
+                                : trade.token_amount) as number
+                            )}
+                          </NextChakraLink>
+                        </SmallFont>
+                      ) : null}
+                      <SmallFont
+                        extraCss={`mt-[-4px] mr-0 lg:mr-2.5 md:mr-0 hidden md:flex ${
+                          isSell
+                            ? "text-red dark:text-red"
+                            : "text-green dark:text-green"
+                        } font-medium`}
+                      >
+                        $
+                        {getFormattedAmount(
+                          (isMyTrades
+                            ? trade.amount_usd
+                            : trade.value_usd) as number,
+                          2
+                        )}
+                      </SmallFont>
+                    </div>
+                  </td>
 
-                    <Td
-                      borderBottom={borders}
-                      px="10px"
-                      display={["none", "none", "table-cell"]}
-                    >
-                      <Flex justify="flex-end" w="100%" minWidth="60px">
-                        <Text
-                          color={isSell ? "red" : "green"}
-                          fontSize={["11px", "11px", "12px", "13px"]}
-                          mr={["0px", "0px", "10px", "0px"]}
-                        >
-                          $
-                          {getFormattedAmount(
-                            isMyTrades ? trade.amount_usd : trade.value_usd,
-                            2,
-                          )}
-                        </Text>
-                      </Flex>
-                    </Td>
-                    <Td borderBottom={borders} px="10px" minWidth="90px">
-                      <Flex justify="flex-end" w="100%">
-                        <Text
-                          textAlign="end"
-                          color={isSell ? "red" : "green"}
-                          fontSize={["11px", "11px", "12px", "13px"]}
-                        >
-                          {`$${getFormattedAmount(
-                            isMyTrades
-                              ? getClosest(
-                                  baseAsset?.price_history?.price,
-                                  trade?.timestamp,
-                                )
-                              : trade.token_price,
-                          )}`}
-                        </Text>
-                      </Flex>{" "}
-                    </Td>
-                    <Td
-                      borderBottom={borders}
-                      px="10px"
-                      pl={["10px", "10px", "20px"]}
-                      isNumeric
-                    >
-                      <Flex align="end" direction="column">
-                        <TextSmall fontSize="12px" fontWeight="500">
-                          {new Date(date).getHours() > 9
-                            ? new Date(date).getHours()
-                            : `0${new Date(date).getHours()}`}
-                          :
-                          {new Date(date).getMinutes() > 9
-                            ? new Date(date).getMinutes()
-                            : `0${new Date(date).getMinutes()}`}
-                          :
-                          {new Date(date).getSeconds() > 9
-                            ? new Date(date).getSeconds()
-                            : `0${new Date(date).getSeconds()}`}
-                        </TextSmall>
-                        {isMyTrades ? (
-                          <TextSmall fontSize="12px" fontWeight="500">
-                            {trade.date}
-                          </TextSmall>
-                        ) : null}{" "}
-                      </Flex>
-                    </Td>
-                    <Td
-                      borderBottom={borders}
-                      px="10px"
-                      pr={["10px", "10px", "20px"]}
-                    >
-                      <Flex
-                        align="center"
-                        justify={["flex-start", "flex-start", "flex-end"]}
-                        w="100%"
+                  <td
+                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                     px-2.5 table-cell md:hidden"
+                  >
+                    <div className="flex justify-end w-full min-w-[60%]">
+                      <SmallFont
+                        extraCss={`${
+                          isSell
+                            ? "text-red dark:text-red"
+                            : "text-green dark:text-green"
+                        } mr-0 lg:mr-2.5 md:mr-0`}
                       >
-                        {"blockchain" in trade || isMyTrades ? (
-                          <>
-                            {" "}
-                            <NextChakraLink
-                              isExternal
-                              href={
-                                "blockchain" in trade && "hash" in trade
-                                  ? `${
-                                      blockchainsContent[trade.blockchain]
-                                        .explorer
-                                    }/tx/${trade.hash}`
-                                  : "/"
-                              }
-                              key={trade.hash}
-                              target="_blank"
-                            >
-                              <ExternalLinkIcon
-                                color={text40}
-                                ml={["0px", "0px", "15px"]}
-                                mb="3px"
-                                mr="7.5px"
-                              />
-                            </NextChakraLink>
-                            <Image
-                              src={
-                                blockchainsContent[trade.blockchain]?.logo ||
-                                `/logo/${
-                                  trade.blockchain.toLowerCase().split(" ")[0]
-                                }.png`
-                              }
-                              boxSize="18px"
-                              minWidth="18px"
-                              mb="2px"
-                              width="18px"
-                              borderRadius="50%"
-                            />
-                          </>
-                        ) : null}
-                      </Flex>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              );
-            })}
-          </Table>
-        </TableContainer>
-      </Box>
-    </Flex>
+                        $
+                        {getFormattedAmount(
+                          (isMyTrades
+                            ? trade.amount_usd
+                            : trade.value_usd) as number,
+                          2
+                        )}
+                      </SmallFont>
+                    </div>
+                  </td>
+                  <td
+                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                  px-2.5 min-w-[90px]"
+                  >
+                    <div className="flex justify-end w-full">
+                      <SmallFont
+                        extraCss={`text-end ${
+                          isSell
+                            ? "text-red dark:text-red"
+                            : "text-green dark:text-green"
+                        }`}
+                      >
+                        {`$${getFormattedAmount(
+                          isMyTrades
+                            ? getClosest(
+                                baseAsset?.price_history?.price || [],
+                                trade?.timestamp as number
+                              )
+                            : trade.token_price
+                        )}`}
+                      </SmallFont>
+                    </div>
+                  </td>
+                  <td
+                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                     px-2.5 pr-5 md:pr-2.5"
+                  >
+                    <div className="flex items-end flex-col">
+                      <SmallFont extraCss="font-medium">
+                        {new Date(date).getHours() > 9
+                          ? new Date(date).getHours()
+                          : `0${new Date(date).getHours()}`}
+                        :
+                        {new Date(date).getMinutes() > 9
+                          ? new Date(date).getMinutes()
+                          : `0${new Date(date).getMinutes()}`}
+                        :
+                        {new Date(date).getSeconds() > 9
+                          ? new Date(date).getSeconds()
+                          : `0${new Date(date).getSeconds()}`}
+                      </SmallFont>
+                      {isMyTrades ? (
+                        <SmallFont extraCss="text-xs font-medium">
+                          {trade.date}
+                        </SmallFont>
+                      ) : null}{" "}
+                    </div>
+                  </td>
+                  <td
+                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                            px-2.5 pr-5 md:pr-2.5"
+                  >
+                    <div className="flex items-center justify-end md:justify-start w-full">
+                      {"blockchain" in trade || isMyTrades ? (
+                        <>
+                          {" "}
+                          <NextChakraLink
+                            href={
+                              "blockchain" in trade && "hash" in trade
+                                ? `${
+                                    blockchainsContent[trade.blockchain]
+                                      .explorer
+                                  }/tx/${trade.hash}`
+                                : "/"
+                            }
+                            key={trade.hash}
+                            target="_blank"
+                          >
+                            <FiExternalLink className="ml-[15px] md:ml-0 mb-[3px] mr-[7.5px] text-light-font-40 dark:text-dark-font-40" />
+                          </NextChakraLink>
+                          <img
+                            className="w-[18px] h-[18px] min-w-[18px] mb-0.5 rounded-full"
+                            src={
+                              blockchainsContent[trade.blockchain]?.logo ||
+                              `/logo/${
+                                trade.blockchain.toLowerCase().split(" ")[0]
+                              }.png`
+                            }
+                            alt={`${trade.blockchain} logo`}
+                          />
+                        </>
+                      ) : null}
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            );
+          })}
+        </table>
+      </div>
+    </div>
   );
 };

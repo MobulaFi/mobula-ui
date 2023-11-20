@@ -1,36 +1,30 @@
 /* eslint-disable import/no-cycle */
-import {Flex, Text, useColorMode} from "@chakra-ui/react";
-import {useRouter} from "next/router";
-import {useContext} from "react";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {FlexBorderBox} from "../../../../style";
-import {ActorsBox} from "../../../ui/actors-box";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import React, { useContext } from "react";
+import { cn } from "../../../../../../@/lib/utils";
+import { MediumFont } from "../../../../../../components/fonts";
+import { BaseAssetContext } from "../../../../context-manager";
+import { FlexBorderBox } from "../../../../style";
+import { ActorsBox } from "../../../ui/actors-box";
 
-export const CoreActor = ({...props}) => {
-  const {boxBg3, borders, text80} = useColors();
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {colorMode} = useColorMode();
-  const isDarkMode = colorMode === "dark";
+interface CoreActorProps {
+  extraCss?: string;
+}
+
+export const CoreActor = ({ extraCss }: CoreActorProps) => {
+  const { baseAsset } = useContext(BaseAssetContext);
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   const router = useRouter();
-
   return (
-    <Flex
-      {...FlexBorderBox}
-      bg={boxBg3}
-      border={["none", "none", "none", borders]}
-      p={["15px", "15px", "15px", "20px"]}
-      borderRadius={["0px", "0px", "0px", "16px"]}
-      {...props}
+    <div
+      className={cn(
+        `${FlexBorderBox} flex p-5 lg:p-[15px] rounded-2xl lg:rounded-0`,
+        extraCss
+      )}
     >
-      <Text
-        fontSize={["16px", "16px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb={["7.5px", "7.5px", "7.5px", "0px"]}
-      >
-        Core Actors
-      </Text>
+      <MediumFont extraCss="mb-0 md:mb-[7.5px]">Core Actors</MediumFont>
       {baseAsset?.investors?.length > 0 ? (
         <>
           {Object.values(baseAsset?.team || {}).length > 0 ? (
@@ -48,7 +42,6 @@ export const CoreActor = ({...props}) => {
         </>
       ) : null}
       {/* ADD DATA FOR EDIT SYSTEM / DO NOT REMOVE!!!
-      
       (
         <Flex direction="column" align="center" justify="center" mt="20px">
           <Image
@@ -70,8 +63,7 @@ export const CoreActor = ({...props}) => {
           </Button>
         </Flex>
       )}
-      
       */}
-    </Flex>
+    </div>
   );
 };

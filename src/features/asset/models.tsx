@@ -314,3 +314,35 @@ export interface PrevPathProps {
   name: string;
   url: string | null;
 }
+
+export interface UserTrades {
+  amount: number;
+  amount_usd: number;
+  asset: Pick<Asset, "id" | "name" | "symbol" | "logo" | "contract">;
+  blockchain: string;
+  from: string;
+  to: string;
+  hash: string;
+  method_id: string;
+  timestamp: number;
+  type: string;
+}
+
+export interface Investors {
+  country: {
+    flag: string;
+    name: string;
+  };
+  description: string;
+  image: string;
+  lead: boolean;
+  name: string;
+  rating: number;
+  saleIds: number[];
+  tier: string;
+  type: string;
+  links: {
+    link: string;
+    type: string;
+  }[];
+}

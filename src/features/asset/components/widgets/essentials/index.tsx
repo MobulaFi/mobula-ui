@@ -1,17 +1,21 @@
 import { useTheme } from "next-themes";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import { BaseAssetContext } from "../../../context-manager";
 import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
 import ChartBox from "./charts/trading-view";
+import { CoreActor } from "./core-actor";
 import { Description } from "./description";
+import { ListingDetails } from "./listing-details";
+import { PresaleDetails } from "./presale-details";
 import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
 import { Socials } from "./socials";
 import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
+import { TokenTrades } from "./trades";
 
 export const Essentials = ({ marketMetrics }) => {
   const {
@@ -22,9 +26,9 @@ export const Essentials = ({ marketMetrics }) => {
     setActiveMetric,
     untracked,
   } = useContext(BaseAssetContext);
-  const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
-
   const { theme } = useTheme();
+  const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
+  const isOffChain = !baseAsset?.blockchains?.length || !baseAsset?.tracked;
   const hasBeenListed =
     (baseAsset?.trust_score || 0) +
       (baseAsset?.social_score || 0) +
@@ -35,8 +39,6 @@ export const Essentials = ({ marketMetrics }) => {
     setShowMobileMetric(true);
     setActiveMetric("Metrics");
   }, []);
-
-  const isOffChain = !baseAsset?.blockchains?.length || !baseAsset?.tracked;
 
   return (
     <>
@@ -60,21 +62,15 @@ export const Essentials = ({ marketMetrics }) => {
           {!untracked.isUntracked ? (
             <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           ) : null}
-          {/* {untracked.isUntracked || isOffChain ? null : <TokenTrades />} */}
-          {/* {!untracked.isUntracked ? (
-            <Flex w="100%" display={["flex", "flex", "none", "none"]}>
-              <HoldingRoi
-                chartId="holdings-chart-mobile"
-                display={["flex", "flex", "none", "none"]}
-              />{" "}
-            </Flex>
-          ) : null} */}
+          {untracked.isUntracked || isOffChain ? null : <TokenTrades />}
           <Description />
           <Socials />
           {!untracked.isUntracked ? <PriceData /> : null}
-          {/* <CoreActor
-          extraCss={`${baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"} hidden` }
-          /> */}
+          <CoreActor
+            extraCss={`${
+              baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"
+            } hidden`}
+          />
         </div>
         <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
           <div className="flex">
@@ -98,27 +94,25 @@ export const Essentials = ({ marketMetrics }) => {
               </SwapProvider>
             )}
           </div>
-
           {!untracked.isUntracked ? <TokenMetrics /> : null}
-          {/* {!untracked.isUntracked ? (
-            <HoldingRoi chartId="holdings-chart" />
-          ) : null} */}
-          {/* <CoreActor
-          extraCss={`${baseAsset?.investors?.length > 0 ? "flex" : "hidden"} lg:hidden` }
-           
+          <CoreActor
+            extraCss={`${
+              baseAsset?.investors?.length > 0 ? "flex" : "hidden"
+            } lg:hidden`}
           />
           {untracked.isUntracked ? (
-            <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`}  />
+            <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
           ) : null}
           {untracked.isUntracked ? (
-            <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`}  />
+            <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
           ) : null}
           {untracked.isUntracked ? (
             <ListingDetails
-            extraCss={`${hasBeenListed ? "md:flex" : "md:hidden"} hidden mt-2.5` } 
-             
+              extraCss={`${
+                hasBeenListed ? "md:flex" : "md:hidden"
+              } hidden mt-2.5`}
             />
-          ) : null} */}
+          ) : null}
         </div>
       </div>
       <SimilarAsset />

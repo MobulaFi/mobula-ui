@@ -1,9 +1,18 @@
-import { Button, Flex, Input } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
-import { TextSmall } from "../../../../../components/fonts";
-import { useColors } from "../../../../../lib/chakra/colorMode";
+import { Button } from "../../../../../components/button";
+import { SmallFont } from "../../../../../components/fonts";
+import { Input } from "../../../../../components/input";
 import { BaseAssetContext } from "../../../context-manager";
 import { cancelButtonStyle } from "../../../style";
+
+interface TradeValueAmountPopupProps {
+  onClose?: any;
+  title: string;
+  state?: boolean;
+  setActiveName: any;
+  activeName: any;
+  setStateValue?: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export const TradeValueAmountPopup = ({
   title,
@@ -12,14 +21,7 @@ export const TradeValueAmountPopup = ({
   setStateValue,
   setActiveName,
   activeName,
-}: {
-  onClose?: any;
-  title: string;
-  state?: boolean;
-  setActiveName: any;
-  activeName: any;
-  setStateValue?: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+}: TradeValueAmountPopupProps) => {
   const {
     setSelectedTradeFilters,
     setMarketMetrics,
@@ -29,7 +31,6 @@ export const TradeValueAmountPopup = ({
     setShouldInstantLoad,
     setShowTradeFilters,
   } = useContext(BaseAssetContext);
-  const { text80, boxBg6, borders, hover, bordersActive } = useColors();
   const maxRef = useRef(null);
   const minRef = useRef(null);
   const lastMax = Number(
@@ -40,7 +41,6 @@ export const TradeValueAmountPopup = ({
   const lastMin = Number(activeName[title.toLowerCase()].split(" - ")?.[0]);
   const [max, setMax] = useState(lastMax === 0 ? 1000000000000 : lastMax);
   const [min, setMin] = useState(lastMin || 0);
-  console.log(lastMax);
 
   const handleAddFilter = (init: boolean) => {
     let req: string;
@@ -50,10 +50,13 @@ export const TradeValueAmountPopup = ({
     if (title === "Value") filterName = "value";
     if (title === "token_amount") filterName = "token_amount";
     setShouldInstantLoad(true);
-    setMarketMetrics((prev) => ({
-      ...prev,
-      trade_history: [],
-    }));
+    setMarketMetrics(
+      (prev) =>
+        ({
+          ...prev,
+          trade_history: [],
+        } as never)
+    );
 
     setActiveName((prev) => ({
       ...prev,
@@ -105,23 +108,17 @@ export const TradeValueAmountPopup = ({
   };
 
   return (
-    <Flex direction="column">
-      <Flex>
-        <Flex direction="column">
-          <TextSmall mb="10px">
+    <div className="flex flex-col w-full">
+      <div className="flex">
+        <div className="flex flex-col">
+          <SmallFont extraCss="mb-2.5 whitespace-nowrap">
             Min {title === "token_amount" ? "Amount" : title}
-          </TextSmall>
+          </SmallFont>
           <Input
-            border={borders}
-            bg={boxBg6}
+            extraCss="w-full"
             type="number"
-            h="35px"
-            borderRadius="8px"
-            color={text80}
-            pl="10px"
             ref={minRef}
             placeholder={JSON.stringify(min)}
-            _placeholder={{ color: text80 }}
             isInvalid={
               selectedTradeFilters[title.toLowerCase()]?.[1] <
               minRef?.current?.value
@@ -139,28 +136,19 @@ export const TradeValueAmountPopup = ({
               setMin(Number(e.target.value));
             }}
           />
-        </Flex>
-        <TextSmall mx="15px" mt="37px">
-          To
-        </TextSmall>
-        <Flex direction="column">
-          <TextSmall mb="10px">
+        </div>
+        <SmallFont extraCss="mx-[15px] mt-[37px]">To</SmallFont>
+        <div className="flex flex-col">
+          <SmallFont extraCss="mb-2.5 whitespace-nowrap">
             Max {title === "token_amount" ? "Amount" : title}
-          </TextSmall>
+          </SmallFont>
           <Input
-            h="35px"
-            borderRadius="8px"
+            extraCss="w-full"
             placeholder={max === 1000000000000 ? "Any" : JSON.stringify(max)}
-            pl="10px"
-            color={text80}
-            border={borders}
-            errorBorderColor="red"
-            _placeholder={{ color: text80 }}
             isInvalid={
               selectedTradeFilters[title.toLowerCase()]?.[0] >
               maxRef?.current?.value
             }
-            bg={boxBg6}
             type="number"
             ref={maxRef}
             onChange={(e) => {
@@ -176,18 +164,11 @@ export const TradeValueAmountPopup = ({
               setMax(Number(e.target.value));
             }}
           />
-        </Flex>
-      </Flex>
-      <Flex mt="20px">
+        </div>
+      </div>
+      <div className="flex mt-5">
         <Button
-          sx={cancelButtonStyle}
-          color={text80}
-          bg={boxBg6}
-          border={borders}
-          _hover={{
-            border: bordersActive,
-            bg: hover,
-          }}
+          extraCss={`${cancelButtonStyle} w-[50%]`}
           onClick={() => {
             setSelectedTradeFilters({
               ...selectedTradeFilters,
@@ -211,11 +192,7 @@ export const TradeValueAmountPopup = ({
           Reset
         </Button>
         <Button
-          variant="outlined"
-          mb="0px"
-          color={text80}
-          maxW="100px"
-          h="30px"
+          extraCss="h-[30px] max-w-[100px] border-darkblue dark:border-darkblue hover:border-blue dark:border-blue w-[50%]"
           onClick={() => {
             setStateValue(false);
             handleAddFilter(false);
@@ -224,7 +201,7 @@ export const TradeValueAmountPopup = ({
         >
           Apply
         </Button>{" "}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

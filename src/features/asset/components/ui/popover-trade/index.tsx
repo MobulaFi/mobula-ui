@@ -1,67 +1,46 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
-import {
-  Avatar,
-  AvatarGroup,
-  Button,
-  Popover,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverTrigger,
-  useDisclosure,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React from "react";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {mainButtonStyle} from "../../../style";
+import { BsChevronDown } from "react-icons/bs";
+import { Button } from "../../../../../components/button";
+import { SmallFont } from "../../../../../components/fonts";
+import { Popover } from "../../../../../components/popover";
+import { mainButtonStyle } from "../../../style";
+
+interface PopoverTradeProps {
+  title: string | string[];
+  isImage?: boolean;
+  children: React.ReactNode;
+}
 
 export const PopoverTrade = ({
   title,
   isImage,
   children,
-}: {
-  title: string | string[];
-  isImage?: boolean;
-  children: JSX.Element[] | JSX.Element | any;
-}) => {
-  const {isOpen, onOpen, onClose} = useDisclosure();
-  const {boxBg3, borders, bgMain, text80, boxBg6, bordersActive, hover} =
-    useColors();
+}: PopoverTradeProps) => {
+  const [showContent, setShowContent] = React.useState(false);
+  const onClose = () => setShowContent(false);
   return (
     <Popover
-      isOpen={isOpen}
-      onClose={onClose}
-      onOpen={onOpen}
-      placement="bottom"
-    >
-      <PopoverTrigger>
+      visibleContent={
         <Button
-          isDisabled={title === "All Liquidity Pool"}
-          {...mainButtonStyle}
-          bg={boxBg6}
-          color={text80}
-          border={borders}
-          fontWeight="500"
-          _hover={{
-            border: bordersActive,
-            bg: hover,
-          }}
+          extraCss={`${mainButtonStyle} ${
+            title === "All Liquidity Pool"
+              ? "cursor-not-allowed opacity-50"
+              : ""
+          }`}
+          disabled={title === "All Liquidity Pool"}
         >
           {!isImage || !Array.isArray(title) ? title : null}
           {isImage && title?.length > 0 ? (
-            <AvatarGroup size="xs" spacing="-5px">
+            <div className="flex items-center">
               {Array.isArray(title)
                 ? title
                     .filter((_, i) => i < 4)
                     .map((item, i) => (
-                      <Avatar
-                        border="none"
-                        w="18px"
-                        h="18px"
+                      <img
+                        className="rounded-full w-[18px] h-[18px] bg-light-bg-primary dark:bg-dark-bg-primary ml-[-5px]"
                         key={item}
-                        bg={bgMain}
-                        name={blockchainsContent[title[i]]?.name}
+                        alt={blockchainsContent[title[i]]?.name}
                         src={
                           blockchainsContent[title[i]]?.logo ||
                           `/logo/${title[i]?.toLowerCase().split(" ")[0]}.png`
@@ -69,20 +48,18 @@ export const PopoverTrade = ({
                       />
                     ))
                 : null}
-            </AvatarGroup>
+            </div>
           ) : null}
           {isImage && title?.length > 4 ? (
-            <TextSmall ml="5px" mr="5px">
-              +{title.length - 4}
-            </TextSmall>
+            <SmallFont extraCss="mx-[5px]">+{title.length - 4}</SmallFont>
           ) : null}
-          <ChevronDownIcon fontSize="16px" ml="5px" />
+          <BsChevronDown className="text-base ml-[5px]" />
         </Button>
-      </PopoverTrigger>
-      <PopoverContent bg={boxBg3} p="10px" borderRadius="16px" border={borders}>
-        <PopoverCloseButton />
-        <PopoverBody>{React.cloneElement(children, {onClose})}</PopoverBody>
-      </PopoverContent>
-    </Popover>
+      }
+      hiddenContent={React.cloneElement(children as never, { onClose })}
+      isOpen={showContent}
+      onToggle={() => setShowContent((prev) => !prev)}
+      extraCss="top-[35px]"
+    />
   );
 };

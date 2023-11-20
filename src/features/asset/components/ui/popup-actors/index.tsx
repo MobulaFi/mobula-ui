@@ -1,19 +1,4 @@
-import {
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
+import React from "react";
 import {
   BsFacebook,
   BsGlobe,
@@ -26,193 +11,117 @@ import {
 } from "react-icons/bs";
 import { FaMedium } from "react-icons/fa";
 import { SiCrunchbase } from "react-icons/si";
+import { SmallFont } from "../../../../../components/fonts";
+import { Menu } from "../../../../../components/menu";
+import { ModalContainer } from "../../../../../components/modal-container";
+import { Investors } from "../../../models";
 
-export const ActorsPopup = ({ visible, setVisible, data }) => {
-  const { boxBg3, borders, text40, text100, hover, text80 } = useColors();
+interface ActorsPopupProps {
+  visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  data: Investors[];
+}
 
-  const getIconFromType = (type) => {
-    switch (type) {
-      case "CRUNCHBASE":
-        return (
-          <Icon
-            as={SiCrunchbase}
-            mr="7.5px"
-            boxSize={["14px", "14px", "18px"]}
-            color="#0C4163"
-          />
-        );
-      case "TWITTER":
-        return (
-          <Icon
-            as={BsTwitter}
-            mr="7.5px"
-            boxSize={["14px", "14px", "18px"]}
-            color="#1DA1F2"
-          />
-        );
-      case "LINKEDIN":
-        return (
-          <Icon
-            as={BsLinkedin}
-            mr="7.5px"
-            boxSize={["14px", "14px", "18px"]}
-            color="#0A66C2"
-          />
-        );
-      case "WEBSITE":
-        return (
-          <Icon
-            as={BsGlobe}
-            mr="7.5px"
-            boxSize={["12px", "12px", "16px"]}
-            color={text80}
-          />
-        );
-      case "MEDIUM":
-        return (
-          <Icon
-            as={FaMedium}
-            mr="7.5px"
-            boxSize={["15px", "15px", "19px"]}
-            color={text100}
-          />
-        );
-      case "YOUTUBE":
-        return (
-          <Icon
-            as={BsYoutube}
-            mr="7.5px"
-            boxSize={["15px", "15px", "19px"]}
-            color="#FF0000"
-          />
-        );
-      case "REDDIT":
-        return (
-          <Icon
-            as={BsReddit}
-            mr="7.5px"
-            boxSize={["15px", "15px", "19px"]}
-            color="#ff4500"
-          />
-        );
-      case "FACEBOOK":
-        return (
-          <Icon
-            as={BsFacebook}
-            mr="7.5px"
-            boxSize={["15px", "15px", "19px"]}
-            color="#3b5998"
-          />
-        );
-      case "TELEGRAM_ANN":
-        return (
-          <Icon
-            as={BsTelegram}
-            mr="7.5px"
-            boxSize={["15px", "15px", "19px"]}
-            color="#2AABEE"
-          />
-        );
-      case "TELEGRAM_CHAT":
-        return (
-          <Icon
-            as={BsTelegram}
-            mr="7.5px"
-            boxSize={["15px", "15px", "19px"]}
-            color="#2AABEE"
-          />
-        );
-      default:
-        return null;
-    }
+export const ActorsPopup = ({
+  visible,
+  setVisible,
+  data,
+}: ActorsPopupProps) => {
+  const getIconFromType = (type: string) => {
+    const socials = {
+      CRUNCHBASE: (
+        <SiCrunchbase className="mr-[7.5px] w-[18px] h-[18px] md:w-[14px] md:h-[14px] text-[#0C4163] dark:text-[#0C4163]" />
+      ),
+      TWITTER: (
+        <BsTwitter className="mr-[7.5px] w-[18px] h-[18px] md:w-[14px] md:h-[14px] text-twitter dark:text-twitter" />
+      ),
+      LINKEDIN: (
+        <BsLinkedin className="mr-[7.5px] w-[18px] h-[18px] md:w-[14px] md:h-[14px] text-[#0A66C2] dark:text-[#0A66C2]" />
+      ),
+      WEBSITE: (
+        <BsGlobe className="mr-[7.5px] w-[16px] h-[16px] md:w-[12px] md:h-[12px] text-light-font-100 dark:text-dark-font-100" />
+      ),
+      MEDIUM: (
+        <FaMedium className="mr-[7.5px] w-[19px] h-[19px] md:w-[15px] md:h-[15px] text-light-font-100 dark:text-dark-font-100" />
+      ),
+      YOUTUBE: (
+        <BsYoutube className="mr-[7.5px] w-[19px] h-[19px] md:w-[15px] md:h-[15px] text-[#FF0000] dark:text-[#FF0000]" />
+      ),
+      REDDIT: (
+        <BsReddit className="mr-[7.5px] w-[19px] h-[19px] md:w-[15px] md:h-[15px] text-[#ff4500] dark:text-[#ff4500]" />
+      ),
+      FACEBOOK: (
+        <BsFacebook className="mr-[7.5px] w-[19px] h-[19px] md:w-[15px] md:h-[15px] text-[#3b5998] dark:text-[#3b5998]" />
+      ),
+      TELEGRAM_ANN: (
+        <BsTelegram className="mr-[7.5px] w-[19px] h-[19px] md:w-[15px] md:h-[15px] text-telegram dark:text-telegram" />
+      ),
+      TELEGRAM_CHAT: (
+        <BsTelegram className="mr-[7.5px] w-[19px] h-[19px] md:w-[15px] md:h-[15px] text-telegram dark:text-telegram" />
+      ),
+    };
+    return socials[type] || null;
   };
 
   return (
-    <Modal
-      motionPreset="none"
+    <ModalContainer
+      extraCss="max-w-[500px]"
+      title="Core Actors"
       isOpen={visible}
-      onClose={() => setVisible(false)}
+      onClose={() => setVisible((prev) => !prev)}
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg3}
-        boxShadow="none"
-        borderRadius="16px"
-        w={["90%", "90%", "100%"]}
-        maxW="500px"
-        border={borders}
-      >
-        <ModalHeader
-          pb="0px"
-          color={text80}
-          fontSize={["16px", "16px", "18px", "20px"]}
-        >
-          Core Actors
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="20px" maxH="435px" overflowY="scroll">
-          {data.map((item) => (
-            <Flex align="center" mb="15px" justify="space-between">
-              <Flex align="center">
-                <Flex position="relative">
-                  <Image
-                    src={item.image}
-                    boxSize={["32px", "32px", "38px"]}
-                    borderRadius="full"
-                    mr="10px"
-                    boxShadow="1px 2px 13px 4px rgba(0, 0, 0, 0.1)"
+      <div className="flex flex-col h-full w-full max-h-[435px] overflow-y-scroll">
+        {data.map((item) => (
+          <div
+            className="flex items-center mb-[15px] justify-between"
+            key={item.name}
+          >
+            <div className="flex items-center">
+              <div className="flex relative">
+                <img
+                  className="w-[38px] h-[38px] min-w-[38px] md:w-[32px] md:h-[32px] md:min-w-[32px] rounded-full mr-2.5 shadow-md"
+                  src={item.image}
+                  alt={`${item.name} logo`}
+                />
+                {item.country?.flag ? (
+                  <img
+                    src={item.country.flag}
+                    alt={`${item.name} flag`}
+                    className="w-[15px] h-[15px] min-w-[15px] md:w-[12px] md:h-[12px] md:min-w-[12px] rounded-full absolute -bottom-[3px] right-2"
                   />
-                  {item.country?.flag ? (
-                    <Image
-                      src={item.country.flag}
-                      boxSize={["12px", "12px", "15px"]}
-                      borderRadius="full"
-                      position="absolute"
-                      bottom="-3px"
-                      right="8px"
-                    />
-                  ) : null}
-                </Flex>
-                <Flex direction="column">
-                  <TextSmall color={text40} fontWeight="500" mb="2px">
-                    {item.type}
-                  </TextSmall>
-                  <TextSmall color={text80} fontWeight="500">
-                    {item.name}
-                  </TextSmall>
-                </Flex>
-              </Flex>
-              {item?.links?.length > 0 ? (
-                <Menu offset={[-200, 10]}>
-                  <MenuButton as={Button}>
-                    <Icon as={BsThreeDotsVertical} boxSize="18px" />
-                  </MenuButton>
-                  <MenuList
-                    border={borders}
-                    bg={boxBg3}
-                    borderRadius="16px"
-                    boxShadow="1px 2px 13px 4px rgba(0,0,0,0.15)"
+                ) : null}
+              </div>
+              <div className="flex flex-col">
+                <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 mb-0.5 font-medium">
+                  {item.type}
+                </SmallFont>
+                <SmallFont extraCss="font-medium">{item.name}</SmallFont>
+              </div>
+            </div>
+            {item?.links?.length > 0 ? (
+              <Menu
+                title={
+                  <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+                }
+              >
+                {item.links?.map((link) => (
+                  <div
+                    className="flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary
+                     transition-all duration-250 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+                     text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
+                    key={link.link}
+                    onClick={() => window.open(link.link, "_blank")}
                   >
-                    {item.links?.map((link) => (
-                      <MenuItem
-                        bg={boxBg3}
-                        _hover={{ bg: hover }}
-                        transition="all 250ms ease-in-out"
-                        onClick={() => window.open(link.link, "_blank")}
-                        fontSize={["12px", "12px", "13px", "14px"]}
-                      >
-                        {getIconFromType(link.type)}{" "}
-                        {link.type.toLowerCase().slice(0, 1).toUpperCase() +
-                          link.type.toLowerCase().slice(1)}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </Menu>
-              ) : null}
-            </Flex>
-          ))}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+                    {getIconFromType(link.type)}{" "}
+                    {link.type.toLowerCase().slice(0, 1).toUpperCase() +
+                      link.type.toLowerCase().slice(1)}
+                  </div>
+                ))}
+              </Menu>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </ModalContainer>
   );
 };

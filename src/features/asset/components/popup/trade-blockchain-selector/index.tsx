@@ -124,7 +124,6 @@ export const TradeBlockchainPopup = ({
                   }`}
                 />
               </div>
-
               <img
                 className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] mr-2.5"
                 src={
@@ -133,7 +132,9 @@ export const TradeBlockchainPopup = ({
                 }
                 alt={`${entry} logo`}
               />
-              <SmallFont>{entry}</SmallFont>
+              <SmallFont extraCss="whitespace-nowrap text-start">
+                {entry}
+              </SmallFont>
             </div>
           );
         })}

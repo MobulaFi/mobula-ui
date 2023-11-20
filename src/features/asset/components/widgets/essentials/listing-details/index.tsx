@@ -1,19 +1,23 @@
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {Flex, Link, Text} from "@chakra-ui/react";
-import {useContext} from "react";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {FlexBorderBox} from "../../../../style";
-import {formatISODate} from "../../../../utils";
+import { cn } from "@/lib/utils";
+import { MediumFont, SmallFont } from "components/fonts";
+import { NextChakraLink } from "components/link";
+import { useContext } from "react";
+import { FiExternalLink } from "react-icons/fi";
+import { BaseAssetContext } from "../../../../context-manager";
+import { FlexBorderBox } from "../../../../style";
+import { formatISODate } from "../../../../utils";
 
-export const ListingDetails = ({...props}: {[props: string]: any}) => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text80, borders, boxBg3, text60} = useColors();
+interface ListingDetailsProps {
+  extraCss?: string;
+}
+
+export const ListingDetails = ({ extraCss }: ListingDetailsProps) => {
+  const { baseAsset } = useContext(BaseAssetContext);
+
   const getColorFromScore = (score: number) => {
-    if (score >= 4) return "green";
-    if (score === 3) return "yellow";
-    return "red";
+    if (score >= 4) return "text-green dark:text-green";
+    if (score === 3) return "text-yellow dark:text-yellow";
+    return "text-red dark:text-red";
   };
 
   const metrics = [
@@ -29,93 +33,78 @@ export const ListingDetails = ({...props}: {[props: string]: any}) => {
     {
       title: "Utility Score",
       value: (
-        <Text
-          fontSize="13px"
-          color={getColorFromScore(baseAsset?.utility_score)}
+        <p
+          className={`text-[13px] ${getColorFromScore(
+            baseAsset?.utility_score
+          )}`}
         >
           {`${baseAsset?.utility_score}/5`}
-        </Text>
+        </p>
       ),
     },
     {
       title: "Trust Score",
       value: (
-        <Text fontSize="13px" color={getColorFromScore(baseAsset?.trust_score)}>
+        <p
+          className={`text-[13px] ${getColorFromScore(baseAsset?.trust_score)}`}
+        >
           {`${baseAsset?.trust_score}/5`}
-        </Text>
+        </p>
       ),
     },
     {
       title: "Social Score",
       value: (
-        <Text
-          fontSize="13px"
-          color={getColorFromScore(baseAsset?.social_score)}
+        <p
+          className={`text-[13px] ${getColorFromScore(
+            baseAsset?.social_score
+          )}`}
         >
           {`${baseAsset?.social_score}/5`}
-        </Text>
+        </p>
       ),
     },
   ];
 
   return (
-    <Flex
-      {...FlexBorderBox}
-      bg={["none", "none", "none", boxBg3]}
-      border={["none", "none", "none", borders]}
-      {...props}
-    >
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="10px"
-        display={["none", "none", "none", "flex"]}
-      >
+    <div className={cn(FlexBorderBox, extraCss)}>
+      <MediumFont extraCss="mb-2.5 flex lg:hidden">Listing Details</MediumFont>
+      <MediumFont extraCss="mt-2.5 mb-[5px] hidden lg:flex">
         Listing Details
-      </Text>
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="5px"
-        mt="10px"
-        display={["flex", "flex", "flex", "none"]}
-      >
-        Listing Details
-      </Text>
+      </MediumFont>
       {metrics.map(
         (entry, i) =>
           entry.value && (
-            <Flex
-              justify="space-between"
-              borderTop={i === 0 ? "none" : borders}
-              py="10px"
-              pb={metrics.length - 1 === i ? "0px" : "10px"}
+            <div
+              className={`flex justify-between py-2.5 ${
+                i === 0 && i !== metrics.length - 1
+                  ? ""
+                  : "border-b border-light-border-primary dark:border-dark-border-primary"
+              } ${metrics.length - 1 === i ? "" : "pb-2.5"}`}
             >
-              <Flex align="center" mb="5px">
-                <TextSmall color={text60}>{entry.title}</TextSmall>
-              </Flex>
-              <Flex color={text80} align="center">
+              <div className="flex items-center mb-[5px]">
+                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                  {entry.title}
+                </SmallFont>
+              </div>
+              <div className="flex items-center text-light-font-100 dark:text-dark-font-100 font-medium">
                 {entry.value}
                 {entry.link ? (
-                  <Flex color={text80} align="center" ml="5px">
-                    <Link
+                  <div className="flex items-center ml-[5px]">
+                    <NextChakraLink
                       href={entry.link}
                       target="_blank"
-                      display="flex"
+                      extraCss="flex items-center justify-center"
                       rel="noreferrer"
-                      alignItems="center"
-                      justifyContent="center"
                     >
-                      <ExternalLinkIcon color={text60} />
-                    </Link>
-                  </Flex>
+                      <FiExternalLink className="text-light-font-60 dark:text-dark-font-60" />
+                    </NextChakraLink>
+                  </div>
                 ) : null}
-              </Flex>
-            </Flex>
-          ),
+              </div>
+            </div>
+          )
       )}
-    </Flex>
+    </div>
   );
 };

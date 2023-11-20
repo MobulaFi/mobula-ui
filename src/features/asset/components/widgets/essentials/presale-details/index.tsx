@@ -1,25 +1,26 @@
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {Flex, FlexProps, Link, Text} from "@chakra-ui/react";
-import {useContext} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {FlexBorderBox} from "../../../../style";
-import {formatISODate} from "../../../../utils";
+import { cn } from "@/lib/utils";
+import { getFormattedAmount } from "@utils/formaters";
+import { MediumFont, SmallFont } from "components/fonts";
+import { NextChakraLink } from "components/link";
+import { useContext } from "react";
+import { FiExternalLink } from "react-icons/fi";
+import { BaseAssetContext } from "../../../../context-manager";
+import { FlexBorderBox } from "../../../../style";
+import { formatISODate } from "../../../../utils";
 
-export const PresaleDetails = ({...props}: FlexProps) => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text80, borders, boxBg3, text60} = useColors();
+interface PresaleDetailsProps {
+  extraCss?: string;
+}
 
+export const PresaleDetails = ({ extraCss }: PresaleDetailsProps) => {
+  const { baseAsset } = useContext(BaseAssetContext);
   const currentSale = baseAsset?.sales?.[(baseAsset?.sales?.length || 0) - 1];
-
   if (!currentSale) return null;
 
   const metrics = [
     {
       title: "Platform",
-      value: currentSale.platform,
+      value: currentSale.platform || "-",
       link: currentSale.link,
     },
     {
@@ -45,60 +46,41 @@ export const PresaleDetails = ({...props}: FlexProps) => {
   ];
 
   return (
-    <Flex
-      {...FlexBorderBox}
-      bg={["none", "none", "none", boxBg3]}
-      border={["none", "none", "none", borders]}
-      {...props}
-    >
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="10px"
-        display={["none", "none", "none", "flex"]}
-      >
+    <div className={cn(FlexBorderBox, extraCss)}>
+      <MediumFont extraCss="mb-2.5 flex lg:hidden">Presale Details</MediumFont>
+      <MediumFont extraCss="mb-[5px] mt-2.5 hidden lg:flex">
         Presale Details
-      </Text>
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="5px"
-        mt="10px"
-        display={["flex", "flex", "flex", "none"]}
-      >
-        Presale Details
-      </Text>
+      </MediumFont>
       {metrics.map((entry, i) => (
-        <Flex
-          justify="space-between"
-          borderTop={i === 0 ? "none" : borders}
-          py="10px"
-          pb={metrics.length - 1 === i ? "0px" : "10px"}
+        <div
+          className={`flex justify-between py-2.5 ${
+            i === 0
+              ? ""
+              : "border-t border-light-border-primary dark:border-dark-border-primary"
+          } ${metrics.length - 1 === i ? "" : "pb-2.5"}`}
         >
-          <Flex align="center" mb="5px">
-            <TextSmall color={text60}>{entry.title}</TextSmall>
-          </Flex>
-          <Flex color={text80} align="center">
+          <div className="flex items-center mb-[5px]">
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+              {entry.title}
+            </SmallFont>
+          </div>
+          <div className="flex items-center text-light-font-100 dark:text-dark-font-100 font-medium">
             {entry.value}
             {entry.link ? (
-              <Flex color={text80} align="center" ml="5px">
-                <Link
+              <div className="flex items-center ml-[5px]">
+                <NextChakraLink
                   href={entry.link}
                   target="_blank"
-                  display="flex"
                   rel="noreferrer"
-                  alignItems="center"
-                  justifyContent="center"
+                  extraCss="flex items-center justify-center"
                 >
-                  <ExternalLinkIcon color={text60} />
-                </Link>
-              </Flex>
+                  <FiExternalLink className="text-light-font-100 dark:text-dark-font-100" />
+                </NextChakraLink>
+              </div>
             ) : null}
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       ))}
-    </Flex>
+    </div>
   );
 };

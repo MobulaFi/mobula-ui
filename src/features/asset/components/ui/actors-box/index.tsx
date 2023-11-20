@@ -1,75 +1,69 @@
-import { Avatar, AvatarGroup, Flex, Img } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { TextSmall } from "../../../../../components/fonts";
-import { useColors } from "../../../../../lib/chakra/colorMode";
+import { SmallFont } from "../../../../../components/fonts";
 import { boxStyle } from "../../../../user/portfolio/style";
+import { Investors } from "../../../models";
 import { ActorsPopup } from "../popup-actors";
 
-export const ActorsBox = ({ data, title }) => {
-  const { borders, text40, bordersActive, hover, boxBg6 } = useColors();
+interface ActorsBoxProps {
+  data: Investors[];
+  title: string;
+}
+
+export const ActorsBox = ({ data, title }: ActorsBoxProps) => {
   const [showActors, setShowActors] = useState(false);
   const router = useRouter();
   return (
     <>
-      <Flex
-        {...boxStyle}
-        direction="row"
-        border={borders}
-        bg={boxBg6}
-        mt={["7.5px", "7.5px", "10px", "15px"]}
-        align="center"
-        w="100%"
-        _hover={{
-          bg: hover,
-          cursor: "pointer",
-          border: bordersActive,
-        }}
-        transition="all 250ms ease-in-out"
+      <div
+        className={`${boxStyle} flex border border-light-border-primary dark:border-dark-border-primary
+       bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover items-center
+        w-full hover:cursor-pointer transition-all duration-250 mt-[15px] lg:mt-2.5 md:mt-[7.5px]`}
         onClick={() => {
+          console.log("clicked", showActors);
           if (data?.[0].name === "Click here to add some") router.push("/list");
           else setShowActors(true);
         }}
       >
-        <Img
-          src={data[0]?.image}
-          boxSize={["28px", "28px", "30px", "34px"]}
-          borderRadius="full"
-          mr="10px"
+        <img
+          className="w-[34px] h-[34px] min-w-[34px] lg:w-[30px] lg:h-[30px] lg:min-w-[30px] md:w-[28px] md:h-[28px] md:min-w-[28px] mr-2.5 rounded-full"
+          src={data?.[0]?.image || "/empty/unknown.png"}
+          alt={data?.[0]?.name}
         />
-        <Flex direction="column" w="100%">
-          <Flex align="center" justify="space-between">
-            <Flex direction="column" mb="4px">
-              <TextSmall
-                color={text40}
-                maxW="120px"
-                textOverlfow="ellipsis"
-                whiteSpace="nowrap"
-              >
+
+        <div className="flex flex-col w-full">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col mb-1">
+              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 max-w-[120px] text-overlfow-ellipsis whitespace-nowrap">
                 {title}
-              </TextSmall>
-              <TextSmall>{data[0]?.name}</TextSmall>
-            </Flex>
+              </SmallFont>
+              <SmallFont>{data[0]?.name}</SmallFont>
+            </div>
             {data.length > 1 ? (
-              <Flex align="flex-end" direction="column" ml="15px">
-                <AvatarGroup size="xs" fontSize="xs" max={2}>
+              <div className="flex items-end flex-col ml-[15px]">
+                <div className="flex items-center">
                   {data
                     .filter((_, i) => i !== 0)
-                    .map((item) => (
-                      <Avatar
-                        bg={hover}
-                        border={borders}
-                        fontSize="2xs"
-                        name={item.name}
-                        src={item.image}
-                      />
-                    ))}
-                </AvatarGroup>
-              </Flex>
+                    .map((item, i) => {
+                      console.log(item.image);
+                      if (i < 5)
+                        return (
+                          <img
+                            className="bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary
+                         dark:border-dark-border-primary h-[20px] w-[20px] rounded-full ml-[-5px]"
+                            alt={item.name}
+                            src={item.image || "/empty/unknown.png"}
+                            key={item.image}
+                          />
+                        );
+                      return null;
+                    })}
+                </div>
+              </div>
             ) : null}
-          </Flex>
-        </Flex>
-      </Flex>
+          </div>
+        </div>
+      </div>
       <ActorsPopup
         data={data}
         visible={showActors}

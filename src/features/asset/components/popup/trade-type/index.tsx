@@ -1,18 +1,19 @@
-import { CheckIcon } from "@chakra-ui/icons";
-import { Button, Flex } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { TextSmall } from "../../../../../components/fonts";
-import { useColors } from "../../../../../lib/chakra/colorMode";
+import { BsCheckLg } from "react-icons/bs";
+import { Button } from "../../../../../components/button";
+import { SmallFont } from "../../../../../components/fonts";
 import { BaseAssetContext } from "../../../context-manager";
 import { cancelButtonStyle } from "../../../style";
+
+interface TradeTypePopupProps {
+  onClose?: any;
+  setActiveName?: any;
+}
 
 export const TradeTypePopup = ({
   onClose,
   setActiveName,
-}: {
-  onClose?: any;
-  setActiveName?: any;
-}) => {
+}: TradeTypePopupProps) => {
   const {
     setSelectedTradeFilters,
     setMarketMetrics,
@@ -22,13 +23,12 @@ export const TradeTypePopup = ({
     setShouldInstantLoad,
     setShowTradeFilters,
   } = useContext(BaseAssetContext);
-  const { text80, boxBg6, borders, bordersActive, hover } = useColors();
 
-  function capitalizeFirstLetter(string) {
+  function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  const handleSelectType = (type) => {
+  const handleSelectType = (type: string) => {
     if (selectedTradeFilters.type === type || type === "all") {
       setSelectedTradeFilters({
         ...selectedTradeFilters,
@@ -42,12 +42,15 @@ export const TradeTypePopup = ({
     }
   };
 
-  const handleAddFilter = (reset) => {
+  const handleAddFilter = (reset: boolean) => {
     setShouldInstantLoad(true);
-    setMarketMetrics((prev) => ({
-      ...prev,
-      trade_history: [],
-    }));
+    setMarketMetrics(
+      (prev) =>
+        ({
+          ...prev,
+          trade_history: [],
+        } as never)
+    );
     const index = filters.findIndex(
       (entry) => entry.value[0] === "trade_history.type"
     );
@@ -56,7 +59,7 @@ export const TradeTypePopup = ({
     if (selectedTradeFilters.type !== null) {
       setActiveName((prev) => ({
         ...prev,
-        type: `${capitalizeFirstLetter(selectedTradeFilters.type)} Tx`,
+        type: `${capitalizeFirstLetter(selectedTradeFilters?.type || "")} Tx`,
       }));
       const final = filters.filter(
         (f) => f.value[0] !== "trade_history.blockchain"
@@ -77,111 +80,100 @@ export const TradeTypePopup = ({
     setShowTradeFilters(false);
   };
 
+  const resetFilter = () => {
+    handleSelectType("all");
+    setSelectedTradeFilters({
+      ...selectedTradeFilters,
+      type: null,
+    });
+    handleAddFilter(true);
+    setActiveName((prev) => ({
+      ...prev,
+      type: "All Types",
+    }));
+    if (onClose) onClose();
+    setShowTradeFilters(false);
+  };
+
   return (
-    <Flex direction="column">
-      <Flex align="center" mb="7.5px" mt="0px">
-        <Button onClick={() => handleSelectType("buy")}>
-          <Flex
-            boxSize="16px"
-            bg={boxBg6}
-            borderRadius="4px"
-            border={bordersActive}
-            align="center"
-            justify="center"
-          >
-            <CheckIcon
-              fontSize="11px"
-              color={text80}
-              opacity={selectedTradeFilters.type === "buy" ? "1" : "0"}
-            />
-          </Flex>
-          <Flex direction="column" ml="15px">
-            <TextSmall color="green">Buy transactions</TextSmall>
-          </Flex>
-        </Button>
-      </Flex>
-      <Flex align="center" mt="7.5px" mb="7.5px">
-        <Button onClick={() => handleSelectType("sell")}>
-          <Flex
-            boxSize="16px"
-            bg={boxBg6}
-            borderRadius="4px"
-            border={bordersActive}
-            align="center"
-            justify="center"
-          >
-            <CheckIcon
-              fontSize="11px"
-              color={text80}
-              opacity={selectedTradeFilters.type === "sell" ? "1" : "0"}
-            />
-          </Flex>
-          <Flex direction="column" ml="15px">
-            <TextSmall color="red">Sell transactions</TextSmall>
-          </Flex>
-        </Button>
-      </Flex>
-      <Flex align="center" mt="7.5px" mb="7.5px">
-        <Button onClick={() => handleSelectType("buy/sell")}>
-          <Flex
-            boxSize="16px"
-            borderRadius="4px"
-            border={bordersActive}
-            bg={boxBg6}
-            align="center"
-            justify="center"
-          >
-            <CheckIcon
-              fontSize="11px"
-              color={text80}
-              opacity={selectedTradeFilters.type === null ? "1" : "0"}
-            />
-          </Flex>
-          <Flex direction="column" ml="15px">
-            <TextSmall color={text80}>Buy/Sell transactions</TextSmall>
-          </Flex>
-        </Button>
-      </Flex>
-      <Flex mt="10px">
-        <Button
-          sx={cancelButtonStyle}
-          color={text80}
-          bg={boxBg6}
-          border={borders}
-          _hover={{
-            border: bordersActive,
-            bg: hover,
-          }}
-          onClick={() => {
-            handleSelectType("all");
-            setSelectedTradeFilters({
-              ...selectedTradeFilters,
-              type: null,
-            });
-            handleAddFilter(true);
-            setActiveName((prev) => ({
-              ...prev,
-              type: "All Types",
-            }));
-            if (onClose) onClose();
-            setShowTradeFilters(false);
-          }}
+    <div className="flex flex-col">
+      <div className="flex items-center mb-[7.5px]">
+        <button
+          className="flex items-center"
+          onClick={() => handleSelectType("buy")}
         >
+          <div
+            className="flex items-center justify-center w-[16px] h-[16px] rounded border
+           border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          >
+            <BsCheckLg
+              className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
+                selectedTradeFilters.type === "buy" ? "opacity-100" : ""
+              }"}`}
+            />
+          </div>
+          <div className="flex flex-col ml-[15px]">
+            <SmallFont extraCss="text-green dark:text-green text-start whitespace-nowrap">
+              Buy transactions
+            </SmallFont>
+          </div>
+        </button>
+      </div>
+      <div className="flex items-center my-[7.5px]">
+        <button
+          className="flex items-center"
+          onClick={() => handleSelectType("sell")}
+        >
+          <div
+            className="flex items-center justify-center w-[16px] h-[16px] rounded border
+           border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          >
+            <BsCheckLg
+              className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
+                selectedTradeFilters.type === "sell" ? "opacity-100" : ""
+              }"}`}
+            />
+          </div>
+          <div className="flex flex-col ml-[15px]">
+            <SmallFont extraCss="text-red dark:text-red text-start whitespace-nowrap">
+              Sell transactions
+            </SmallFont>
+          </div>
+        </button>
+      </div>
+      <div className="flex items-center my-[7.5px]">
+        <button
+          className="flex items-center"
+          onClick={() => handleSelectType("buy/sell")}
+        >
+          <div
+            className="flex items-center justify-center w-[16px] h-[16px] rounded border
+             border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          >
+            <BsCheckLg
+              className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
+                selectedTradeFilters.type === null ? "opacity-100" : ""
+              }"}`}
+            />
+          </div>
+          <div className="flex flex-col ml-[15px]">
+            <SmallFont extraCss="text-start whitespace-nowrap">
+              Buy/Sell transactions
+            </SmallFont>
+          </div>
+        </button>
+      </div>
+      <div className="flex mt-2.5">
+        <Button extraCss={`${cancelButtonStyle} w-2/4`} onClick={resetFilter}>
           Reset
         </Button>
         <Button
-          variant="outlined"
-          mb="0px"
-          color={text80}
-          maxW="100px"
-          h="30px"
-          onClick={() => {
-            handleAddFilter(false);
-          }}
+          extraCss="mb-0 w-2/4 h-[30px] max-w-[100px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+          onClick={() => handleAddFilter(false)}
         >
           Apply
-        </Button>{" "}
-      </Flex>
-    </Flex>
+        </Button>
+      </div>
+    </div>
   );
 };
