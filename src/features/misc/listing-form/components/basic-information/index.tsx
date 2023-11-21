@@ -57,8 +57,6 @@ export const BasicInformation = ({ state, dispatch }) => {
       });
   }, []);
 
-  console.log("categories", categories);
-
   const handleUpload = (e) => {
     const reader = new FileReader();
     reader.addEventListener("load", async () => {

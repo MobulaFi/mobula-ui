@@ -1,15 +1,15 @@
-import {Flex, Input} from "@chakra-ui/react";
-import {useState} from "react";
-import {TextExtraSmall, TextLandingMedium} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {inputStyle} from "../../../styles";
+import React, { useState } from "react";
+import { cn } from "../../../../../../@/lib/utils";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { inputStyle } from "../../../styles";
 
 const WEBSITE_MIN_LENGTH = 8;
 const WEBSITE_PREFIX = "https://";
-const BORDER_STYLE_ERROR = "1px solid red";
-const BORDER_STYLE_NORMAL = "1px solid var(--chakra-colors-borders-3)";
+const BORDER_STYLE_ERROR = "border border-red dark:border-red";
+const BORDER_STYLE_NORMAL =
+  "border border-light-border-primary dark:border-dark-border-primary";
 
-const validateWebsite = website => website.includes(WEBSITE_PREFIX);
+const validateWebsite = (website) => website.includes(WEBSITE_PREFIX);
 
 interface InputTemplateProps {
   dispatch: any;
@@ -19,7 +19,8 @@ interface InputTemplateProps {
   action: any;
   placeholder: string;
   icon?: JSX.Element;
-  [x: string]: any;
+  extraCss?: string;
+  state?: any;
 }
 
 export const InputTemplate = ({
@@ -31,20 +32,19 @@ export const InputTemplate = ({
   icon,
   state,
   placeholder,
-  ...props
+  extraCss,
 }: InputTemplateProps) => {
-  const {boxBg3, text80} = useColors();
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [borderStyle, setBorderStyle] = useState(BORDER_STYLE_NORMAL);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     dispatch({
       type: action,
-      payload: {name: e.target.name, value: e.target.value},
+      payload: { name: e.target.name, value: e.target.value },
     });
   };
 
-  const handleWebsiteError = e => {
+  const handleWebsiteError = (e) => {
     if (
       e.target.value !== "" &&
       e.target.value.length > WEBSITE_MIN_LENGTH &&
@@ -64,31 +64,29 @@ export const InputTemplate = ({
   };
 
   return (
-    <Flex direction="column">
-      <Flex direction="column" mt="20px">
-        <Flex align="center" mb="10px">
+    <div className="flex flex-col">
+      <div className="flex flex-col mt-5">
+        <div className="flex items-center mb-2.5">
           {icon}
-          <TextLandingMedium>{title}</TextLandingMedium>
-        </Flex>
-        <Input
-          {...inputStyle(boxBg3, text80)}
+          <LargeFont>{title}</LargeFont>
+        </div>
+        <input
+          className={cn(`${inputStyle} ${borderStyle}`, extraCss)}
           name={name}
           placeholder={placeholder}
           id={name}
           value={state?.[name]}
-          border={borderStyle}
-          onChange={e => {
+          onChange={(e) => {
             handleWebsiteError(e);
             handleChange(e);
           }}
-          {...props}
         />{" "}
-      </Flex>
+      </div>
       {errorMessageVisible ? (
-        <TextExtraSmall color="red" mt="5px">
+        <SmallFont extraCss="text-[10px] lg:text-[9px] md:text-[8px] text-red dark:text-red mt-[5px]">
           Website should includes https://
-        </TextExtraSmall>
+        </SmallFont>
       ) : null}
-    </Flex>
+    </div>
   );
 };
