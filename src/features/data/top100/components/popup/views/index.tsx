@@ -743,6 +743,7 @@ export const ViewPopup = ({
             <div className="flex flex-col w-full my-2.5">
               {filters.map((filter, i) => (
                 <AccordionCustom
+                  key={filter.name}
                   extraCss={`${i === 0 ? "border-b" : "border-t"}`}
                   visibleContent={
                     <>
@@ -753,156 +754,155 @@ export const ViewPopup = ({
                       </div>
                     </>
                   }
-                  hiddenContent={
-                    <div className="flex flex-col w-full">
-                      {filter.title === "Blockchains" ? (
+                >
+                  <div className="flex flex-col w-full">
+                    {filter.title === "Blockchains" ? (
+                      <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full max-h-[255px] overflow-y-scroll ">
+                          {Object.keys(blockchainsContent).map((chain) => (
+                            <div
+                              className="my-[5px] justify-between flex cursor-pointer"
+                              key={chain}
+                              onClick={() => handleBlockchainsChange(chain)}
+                            >
+                              <div className="flex items-center">
+                                <img
+                                  className="w-[22px] h-[22px] max-h-[22px] max-w-[22px] rounded-full mr-[7.5px]"
+                                  src={
+                                    blockchainsContent[chain]?.logo ||
+                                    "/icon/unknown.png"
+                                  }
+                                  alt={chain + " logo"}
+                                />
+                                <SmallFont>{chain}</SmallFont>
+                              </div>
+                              <button className="flex items-center justify-center w-[15px] h-[15px] rounded border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
+                                {(state?.filters?.blockchains || []).some(
+                                  (item) => item === chain
+                                ) ? (
+                                  <BsCheckLg className="text-blue text-[14px]" />
+                                ) : null}
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex pt-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary mb-2.5">
+                          <Button
+                            extraCss="mr-[5px] w-1/2"
+                            onClick={() => {
+                              dispatch({
+                                type: ACTIONS.DESELECT_ALL_BLOCKCHAINS,
+                              });
+                            }}
+                          >
+                            Deselect All
+                          </Button>
+                          <Button
+                            extraCss="ml-[5px] w-1/2"
+                            onClick={() => {
+                              dispatch({
+                                type: ACTIONS.RESET_BLOCKCHAINS,
+                              });
+                            }}
+                          >
+                            Select All
+                          </Button>
+                        </div>
+                      </div>
+                    ) : null}
+                    {filter.title !== "Blockchains" &&
+                    filter.title !== "Categories" ? (
+                      <div className="flex flex-col w-full">
+                        <div className="flex w-full mb-2.5">
+                          <div className="flex flex-col w-1/2 mr-[5px]">
+                            <SmallFont extraCss="mb-[5px]">From</SmallFont>
+                            <Input
+                              placeholder={
+                                state.filters?.[filter.name]?.from || 0
+                              }
+                              name={filter.name}
+                              type="number"
+                              // value={state.filters[filter.name].from}
+                              onChange={(e) => handleInputChange(e, "from")}
+                            />
+                          </div>
+                          <div className="flex flex-col w-1/2 ml-[5px]">
+                            <SmallFont extraCss="mb-[5px]">To</SmallFont>
+                            <Input
+                              placeholder={
+                                state.filters?.[filter.name]?.to === maxValue
+                                  ? "Any"
+                                  : state.filters?.[filter.name]?.to || "Any"
+                              }
+                              name={filter.name}
+                              type="number"
+                              onChange={(e) => handleInputChange(e, "to")}
+                              // value={state.filters[filter.name].to}
+                            />
+                          </div>
+                        </div>
+                        {state.filters?.[filter.name]?.from !== 0 ||
+                        state.filters?.[filter.name]?.to !== maxValue ? (
+                          <button
+                            className="text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center mr-auto mb-2.5"
+                            onClick={() => {
+                              dispatch({
+                                type: ACTIONS.RESET_FILTER,
+                                payload: { name: filter.name },
+                              });
+                            }}
+                          >
+                            <CloseIcon fontSize="8.5px" mr="7px" />
+                            Reset {filter.title}
+                          </button>
+                        ) : null}
+                      </div>
+                    ) : null}
+                    {filter.title === "Categories" ? (
+                      <div className="flex flex-col w-full">
                         <div className="flex flex-col w-full">
-                          <div className="flex flex-col w-full max-h-[255px] overflow-y-scroll ">
-                            {Object.keys(blockchainsContent).map((chain) => (
-                              <div
-                                className="my-[5px] justify-between flex cursor-pointer"
-                                key={chain}
-                                onClick={() => handleBlockchainsChange(chain)}
-                              >
-                                <div className="flex items-center">
-                                  <img
-                                    className="w-[22px] h-[22px] max-h-[22px] max-w-[22px] rounded-full mr-[7.5px]"
-                                    src={
-                                      blockchainsContent[chain]?.logo ||
-                                      "/icon/unknown.png"
-                                    }
-                                    alt={chain + " logo"}
-                                  />
-                                  <SmallFont>{chain}</SmallFont>
-                                </div>
-                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
-                                  {(state?.filters?.blockchains || []).some(
-                                    (item) => item === chain
+                          <div className="flex flex-wrap w-full max-h-[255px] overflox-y-scroll">
+                            {newDefault
+                              ?.sort((entry) =>
+                                state.filters?.categories?.includes(entry)
+                                  ? -1
+                                  : 1
+                              )
+                              .filter((_, idx) => idx < 5)
+                              .map((categorie) => (
+                                <button
+                                  className={`flex items-center px-2.5 rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
+                                    state.filters.categories?.includes(
+                                      categorie
+                                    )
+                                      ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                                      : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                                  } border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100`}
+                                  onClick={() =>
+                                    handleCategoryChange(categorie)
+                                  }
+                                  key={categorie}
+                                >
+                                  <SmallFont>{categorie}</SmallFont>
+                                  {state.filters.categories?.includes(
+                                    categorie
                                   ) ? (
-                                    <BsCheckLg className="text-blue text-[14px]" />
+                                    <CloseIcon fontSize="9px" ml="5px" />
                                   ) : null}
                                 </button>
-                              </div>
-                            ))}
-                          </div>
-                          <div className="flex pt-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary mb-2.5">
+                              ))}
                             <Button
-                              extraCss="mr-[5px] w-1/2"
-                              onClick={() => {
-                                dispatch({
-                                  type: ACTIONS.DESELECT_ALL_BLOCKCHAINS,
-                                });
-                              }}
+                              extraCss="rounded-2xl mr-[7.5px] mt-[7.5px] h-[30px]"
+                              onClick={() => setShowCategories(true)}
                             >
-                              Deselect All
-                            </Button>
-                            <Button
-                              extraCss="ml-[5px] w-1/2"
-                              onClick={() => {
-                                dispatch({
-                                  type: ACTIONS.RESET_BLOCKCHAINS,
-                                });
-                              }}
-                            >
-                              Select All
+                              <SmallFont>See all</SmallFont>
                             </Button>
                           </div>
                         </div>
-                      ) : null}
-                      {filter.title !== "Blockchains" &&
-                      filter.title !== "Categories" ? (
-                        <div className="flex flex-col w-full">
-                          <div className="flex w-full mb-2.5">
-                            <div className="flex flex-col w-1/2 mr-[5px]">
-                              <SmallFont extraCss="mb-[5px]">From</SmallFont>
-                              <Input
-                                placeholder={
-                                  state.filters?.[filter.name]?.from || 0
-                                }
-                                name={filter.name}
-                                type="number"
-                                // value={state.filters[filter.name].from}
-                                onChange={(e) => handleInputChange(e, "from")}
-                              />
-                            </div>
-                            <div className="flex flex-col w-1/2 ml-[5px]">
-                              <SmallFont extraCss="mb-[5px]">To</SmallFont>
-                              <Input
-                                placeholder={
-                                  state.filters?.[filter.name]?.to === maxValue
-                                    ? "Any"
-                                    : state.filters?.[filter.name]?.to || "Any"
-                                }
-                                name={filter.name}
-                                type="number"
-                                onChange={(e) => handleInputChange(e, "to")}
-                                // value={state.filters[filter.name].to}
-                              />
-                            </div>
-                          </div>
-                          {state.filters?.[filter.name]?.from !== 0 ||
-                          state.filters?.[filter.name]?.to !== maxValue ? (
-                            <button
-                              className="text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center mr-auto mb-2.5"
-                              onClick={() => {
-                                dispatch({
-                                  type: ACTIONS.RESET_FILTER,
-                                  payload: { name: filter.name },
-                                });
-                              }}
-                            >
-                              <CloseIcon fontSize="8.5px" mr="7px" />
-                              Reset {filter.title}
-                            </button>
-                          ) : null}
-                        </div>
-                      ) : null}
-                      {filter.title === "Categories" ? (
-                        <div className="flex flex-col w-full">
-                          <div className="flex flex-col w-full">
-                            <div className="flex flex-wrap w-full max-h-[255px] overflox-y-scroll">
-                              {newDefault
-                                ?.sort((entry) =>
-                                  state.filters?.categories?.includes(entry)
-                                    ? -1
-                                    : 1
-                                )
-                                .filter((_, idx) => idx < 5)
-                                .map((categorie) => (
-                                  <button
-                                    className={`flex items-center px-2.5 rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
-                                      state.filters.categories?.includes(
-                                        categorie
-                                      )
-                                        ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-                                        : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                                    } border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100`}
-                                    onClick={() =>
-                                      handleCategoryChange(categorie)
-                                    }
-                                    key={categorie}
-                                  >
-                                    <SmallFont>{categorie}</SmallFont>
-                                    {state.filters.categories?.includes(
-                                      categorie
-                                    ) ? (
-                                      <CloseIcon fontSize="9px" ml="5px" />
-                                    ) : null}
-                                  </button>
-                                ))}
-                              <Button
-                                extraCss="rounded-2xl mr-[7.5px] mt-[7.5px] h-[30px]"
-                                onClick={() => setShowCategories(true)}
-                              >
-                                <SmallFont>See all</SmallFont>
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  }
-                />
+                      </div>
+                    ) : null}
+                  </div>
+                </AccordionCustom>
               ))}
             </div>
           )}

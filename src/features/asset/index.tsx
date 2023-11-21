@@ -19,6 +19,7 @@ import { TradeFiltersPopup } from "./components/popup/trade-filters";
 import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
 import { Essentials } from "./components/widgets/essentials";
+import { Fundraising } from "./components/widgets/fundraising";
 import { Market } from "./components/widgets/market";
 import { Vesting } from "./components/widgets/vesting";
 import { BaseAssetContext } from "./context-manager";
@@ -442,7 +443,7 @@ export const Assets = () => {
             >
               <Tokenomic />
             </div>
-          ) : null}
+          ) : null}*/}
           {activeTab === "Fundraising" ? (
             <div
               style={{
@@ -452,7 +453,7 @@ export const Assets = () => {
             >
               <Fundraising />
             </div>
-          ) : null}*/}
+          ) : null}
           {activeTab === "Vesting" ? (
             <div
               style={{

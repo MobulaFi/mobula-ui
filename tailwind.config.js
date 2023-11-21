@@ -125,6 +125,7 @@ module.exports = {
       orange: "#ff7849",
       green: "#13ce66",
       yellow: "#ffc82c",
+      gray: "#6B6E70",
     },
   },
   plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],

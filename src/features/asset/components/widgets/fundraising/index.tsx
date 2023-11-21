@@ -1,46 +1,22 @@
-import {Flex} from "@chakra-ui/react";
-import {Allocation} from "./allocation";
-import {FundraisingStats} from "./fundraising-stats";
-import {Investors} from "./investors";
-import {Rounds} from "./rounds";
+import { Allocation } from "./allocation";
+import { LaunchDate } from "./launch-date";
+import { Rounds } from "./rounds";
 
 export const Fundraising = () => (
-  //   const {text80, boxBg3, boxBg6, borders, hover, text40, borders2x} =
-  //     useColors();
-  //   const {baseAsset} = useContext(BaseAssetContext);
-  <Flex
-    mt={["0px", "0px", "0px", "20px"]}
-    mx="auto"
-    w={["95%", "95%", "100%", "100%"]}
-    direction={["column-reverse", "column-reverse", "column-reverse", "row"]}
-  >
-    <Flex
-      direction="column"
-      maxW="990px"
-      w={["100%", "100%", "100%", "calc(100% - 345px)"]}
-      mr={["0px", "0px", "0px", "25px"]}
-    >
+  <div className="flex mt-5 lg:mt-0 mx-auto w-full md:w-[95%] flex-row lg:flex-col-reverse">
+    <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] lg:mr-0">
       <Rounds />
-      <Investors />
-      <Flex
-        direction="column"
-        display={["flex", "flex", "flex", "none"]}
-        mt="10px"
-      >
-        {/* <LaunchDate /> */}
+      {/* <Investors /> */}
+      <div className="flex-col hidden lg:flex mt-2.5">
+        <LaunchDate />
         <Allocation />
-        <FundraisingStats />
-      </Flex>
-    </Flex>
-    <Flex
-      direction="column"
-      display={["none", "none", "none", "flex"]}
-      maxW="320px"
-      w="100%"
-    >
-      {/* <LaunchDate /> */}
+        {/* <FundraisingStats /> */}
+      </div>
+    </div>
+    <div className="flex-col flex lg:hidden max-w-[345px] w-full">
+      <LaunchDate />
       <Allocation />
-      <FundraisingStats />
-    </Flex>
-  </Flex>
+      {/* <FundraisingStats /> */}
+    </div>
+  </div>
 );

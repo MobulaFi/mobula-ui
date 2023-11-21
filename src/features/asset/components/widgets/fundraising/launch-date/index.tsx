@@ -1,22 +1,16 @@
-import {Flex, Text, useColorMode} from "@chakra-ui/react";
-import {useContext} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {TextLandingSmall, TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {getDate} from "../../../../../../User/Portfolio/utils";
-import {BaseAssetContext} from "../../../../context-manager";
+import React, { useContext } from "react";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { getDate, getFormattedAmount } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
 
 export const LaunchDate = () => {
-  const {borders, boxBg3, text60, text80} = useColors();
-  const {unformattedHistoricalData} = useContext(BaseAssetContext);
-  const launchDate = unformattedHistoricalData?.price?.ALL?.[0]?.[0];
+  const { unformattedHistoricalData } = useContext(BaseAssetContext);
+  const launchDate = unformattedHistoricalData?.price?.ALL?.[0]?.[0] as number;
   const oneWeekLater = launchDate + 1 * 24 * 60 * 60 * 1000;
-  const {colorMode} = useColorMode();
-  const isDark = colorMode === "dark";
-  const bordersColor = isDark
-    ? "3px solid rgba(255,255,255,0.2)"
-    : "3px solid rgba(0,0,0,0.2)";
-  const bgLine = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
 
   const getDifferenceDate = () => {
     const date = new Date();
@@ -27,7 +21,7 @@ export const LaunchDate = () => {
 
   const getFirstWeekData = () => {
     const data = unformattedHistoricalData?.price?.ALL?.filter(
-      item => item[0] <= oneWeekLater,
+      (item) => item[0] <= oneWeekLater
     );
     return data;
   };
@@ -37,117 +31,77 @@ export const LaunchDate = () => {
   const dataOfFirstWeek = getFirstWeekData();
   const sortedAmounts = dataOfFirstWeek?.sort((a, b) => a[1] - b[1]);
   const ATH = getFormattedAmount(
-    sortedAmounts?.[sortedAmounts.length - 1]?.[1] || 0,
-  );
-  const ATL = getFormattedAmount(sortedAmounts?.[0]?.[1] || 0);
+    sortedAmounts?.[sortedAmounts.length - 1]?.[1] || 0
+  ) as number;
+  const ATL = getFormattedAmount(sortedAmounts?.[0]?.[1] || 0) as number;
   const listingPrice = getFormattedAmount(dataOfFirstWeek?.[0]?.[1] || 0);
 
-  const getPercentage = price => {
+  const getPercentage = (price: number) => {
     const percentage = (100 / (ATH - ATL)) * (price - ATL);
     return percentage.toFixed(2);
   };
 
-  const listingPricePercentage = getPercentage(listingPrice);
+  const listingPricePercentage = getPercentage(listingPrice as number);
 
   return (
-    <Flex
-      p="20px"
-      borderRadius="16px"
-      border={borders}
-      bg={boxBg3}
-      mb="10px"
-      w="100%"
-      mx="auto"
-      direction="column"
-      mt={["10px", "0px"]}
+    <div
+      className="flex p-5 rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary 
+    border border-light-border-primary dark:border-dark-border-primary mb-2.5 
+    w-full mx-auto flex-col mt-0 sm:mt-2.5"
     >
-      <Flex justify="space-between">
-        <Text
-          fontSize={["16px", "16px", "16px", "18px"]}
-          fontWeight="500"
-          color={text80}
-          mb="10px"
-        >
-          Launch Stats
-        </Text>{" "}
-      </Flex>
-      <Flex justify="center" direction="column" mb="15px">
-        <TextSmall color={text80} fontWeight="600" mb="0px" fontSize="14px">
+      <div className="flex justify-between">
+        <LargeFont extraCss="mb-2.5">Launch Stats</LargeFont>{" "}
+      </div>
+      <div className="flex justify-center flex-col mb-[15px]">
+        <SmallFont extreCss="font-bold mb-0 text-sm">
           {launchDate ? date : "--/--/--"}
-        </TextSmall>{" "}
-        <TextSmall color={text60} fontWeight="500" mb="0px" fontSize="14px">
+        </SmallFont>{" "}
+        <SmallFont extreCss="font-medium mb-0 text-sm text-light-font-60 dark:text-dark-font-60">
           {daysAgo} days ago
-        </TextSmall>{" "}
-      </Flex>
-      <TextLandingSmall
-        fontWeight="500"
-        fontSize={["14px", "14px", "14px", "16px"]}
-        color={text80}
+        </SmallFont>{" "}
+      </div>
+      <MediumFont>Volatility</MediumFont>
+      <div
+        className="flex h-[20px] mt-5 relative rounded border-r-[3px] border-l-[3px]
+       border-light-border-primary dark:border-dark-border-primary items-center"
       >
-        Volatility
-      </TextLandingSmall>
-      <Flex
-        h="20px"
-        mt="20px"
-        position="relative"
-        borderRadius="3px"
-        borderRight={bordersColor}
-        borderLeft={bordersColor}
-        align="center"
-      >
-        <Flex
-          bg="blue"
-          w="3px"
-          h="20px"
-          position="absolute"
-          left={`${listingPricePercentage}%`}
-          borderRadius="4px"
+        <div
+          className="flex bg-blue dark:bg-blue w-[3px] h-5 absolute rounded"
+          style={{
+            left: `${listingPricePercentage}%`,
+          }}
         />
-        <Flex
-          bg="grey"
-          w="3px"
-          h="20px"
-          position="absolute"
-          left="0%"
-          borderRadius="4px"
-        />
-        <Flex
-          bg="grey"
-          w="3px"
-          h="20px"
-          position="absolute"
-          left="100%"
-          borderRadius="4px"
-        />
-        <Flex bg={bgLine} w="100%" h="3px" />
-      </Flex>
-      <Flex justify="space-between" mt="10px">
-        <Flex justify="center" direction="column">
-          <TextSmall color={text80} textAlign="start" fontWeight="500" mb="0px">
-            ATL (24h after listing):
-          </TextSmall>{" "}
-          <TextSmall color={text80} textAlign="start" fontWeight="500" mb="0px">
-            {ATL ? `$${ATL}` : "--"}
-          </TextSmall>
-        </Flex>
-        <Flex justify="center" direction="column">
-          <TextSmall color={text80} textAlign="start" fontWeight="500" mb="0px">
-            ATH (24h after listing):
-          </TextSmall>{" "}
-          <TextSmall color={text80} textAlign="start" fontWeight="500" mb="0px">
-            {ATH ? `$${ATH}` : "--"}
-          </TextSmall>
-        </Flex>
+        <div className="flex bg-gray dark:bg-gray w-[3px] h-5 absolute rounded left-0" />
+        <div className="flex bg-gray dark:bg-gray w-[3px] h-5 absolute rounded left-[100%" />
 
-        <Flex justify="center" direction="column">
-          <TextSmall color={text80} textAlign="start" fontWeight="500" mb="0px">
+        <div className="flex w-full h-[3px] bg-light-font-10 dark:bg-dark-font-10" />
+      </div>
+      <div className="flex justify-between mt-2.5">
+        <div className="flex justify-centr flex-col">
+          <SmallFont extraCss="text-start font-medium mb-0">
+            ATL (24h after listing):
+          </SmallFont>{" "}
+          <SmallFont extraCss="text-start font-medium mb-0">
+            {ATL ? `$${ATL}` : "--"}
+          </SmallFont>
+        </div>
+        <div className="flex justify-centr flex-col">
+          <SmallFont extraCss="text-start font-medium mb-0">
+            ATH (24h after listing):
+          </SmallFont>{" "}
+          <SmallFont extraCss="text-start font-medium mb-0">
+            {ATH ? `$${ATH}` : "--"}
+          </SmallFont>
+        </div>
+        <div className="flex justify-centr flex-col">
+          <SmallFont extraCss="text-start font-medium mb-0">
             Listing Price:
-          </TextSmall>{" "}
-          <TextSmall color={text80} textAlign="start" fontWeight="500" mb="0px">
+          </SmallFont>{" "}
+          <SmallFont extraCss="text-start font-medium mb-0">
             {`$${listingPrice}` || "--"}
-          </TextSmall>
-        </Flex>
-      </Flex>
-    </Flex>
+          </SmallFont>
+        </div>
+      </div>
+    </div>
   );
 };
