@@ -1,35 +1,24 @@
-import {
-  Flex,
-  Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {useContext, useState} from "react";
-import {TextLandingMedium, TextSmall} from "../../../../../../../UI/Text";
-import {Ths} from "../../../../../../../UI/Ths";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {Tds} from "../../../ui/td";
+import React, { useContext, useState } from "react";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { Tds, Ths } from "../../../../../../components/table";
+import { BaseAssetContext } from "../../../../context-manager";
+import { Investors as InvestorProps } from "../../../../models";
 
 export const Investors = () => {
-  const {text80, hover, boxBg6, shadow, borders} = useColors();
-  const {baseAsset} = useContext(BaseAssetContext);
+  const { baseAsset } = useContext(BaseAssetContext);
   const [isHover, setIsHover] = useState("");
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 
-  const investorsPerSales = baseAsset?.sales?.map(sale => ({
+  const investorsPerSales = baseAsset?.sales?.map((sale) => ({
     name: sale.name,
     investors: sale.investors,
   }));
 
-  const getStageForInvestors = investorID => {
-    const investors = [];
-    investorsPerSales.forEach(sale => {
-      sale?.investors?.forEach(investor => {
+  const getStageForInvestors = (investorID: string) => {
+    const investors: string[] = [];
+    investorsPerSales.forEach((sale) => {
+      sale?.investors?.forEach((investor) => {
         if (investorID === investor.name) {
           investors.push(sale.name);
         }
@@ -38,7 +27,7 @@ export const Investors = () => {
     return investors;
   };
 
-  const getNameTypeFormatted = type => {
+  const getNameTypeFormatted = (type: string) => {
     if (!isMobile) return type;
     switch (type) {
       case "Ventures Capital":
@@ -54,180 +43,105 @@ export const Investors = () => {
 
   return (
     <>
-      <TextLandingMedium color={text80} mb="15px" mt="20px">
-        Investors
-      </TextLandingMedium>
-      <TableContainer className="scroll">
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Ths
-                px={["5px", "10px", "20px"]}
-                textAlign="center"
-                maxW="50px"
-                pr="0px"
-                pl="0px"
-                display={["none", "none", "table-cell"]}
-              >
-                Rank
-              </Ths>
-              <Ths px={["5px", "10px", "20px"]}>Name</Ths>
-              <Ths px={["5px", "10px", "20px"]} textAlign="start">
-                Tier
-              </Ths>
-              <Ths px={["10px", "10px", "20px"]}>Type</Ths>
-              <Ths px={["5px", "10px", "20px"]}>Stage</Ths>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {baseAsset?.investors
-              ?.sort((a, b) => b.rating - a.rating)
-              ?.map((investor, i) => {
-                const stages = getStageForInvestors(investor.name);
-                const hasMoreThanOneStage = stages?.length > 1;
-                const typeFormatted = getNameTypeFormatted(investor.type);
-                return (
-                  <Tr>
-                    <Tds
-                      borderBottom={borders}
-                      maxW="100px"
-                      pr="0px"
-                      py="14px"
-                      pl="0px"
-                      display={["none", "none", "table-cell"]}
+      <LargeFont extraCss="mb-[15px] mt-5">Investors</LargeFont>
+      <table>
+        <thead>
+          <tr>
+            <Ths extraCss="text-center max-w-[50px] px-0 table-cell md:hidden">
+              Rank
+            </Ths>
+            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px]">Name</Ths>
+            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px] text-start">Tier</Ths>
+            <Ths extraCss="px-5 md:px-2.5">Type</Ths>
+            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px]">Stage</Ths>
+          </tr>
+        </thead>
+        <tbody>
+          {baseAsset?.investors
+            ?.sort((a, b) => b.rating - a.rating)
+            ?.map((investor: InvestorProps, i: number) => {
+              const stages = getStageForInvestors(investor.name);
+              const hasMoreThanOneStage = stages?.length > 1;
+              const typeFormatted = getNameTypeFormatted(investor.type);
+              return (
+                <tr key={investor.name}>
+                  <Tds extraCss="px-0 py-[14px] max-w-[100px] table-cell md:hidden">
+                    <SmallFont extraCss="text-center w-full">{i + 1}</SmallFont>
+                  </Tds>
+                  <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px]">
+                    <div className="flex items-center">
+                      <div className="flex relative w-fit h-fit">
+                        <img
+                          className="w-[30px] h-[30px] md:w-[25px] md:h-[25px] rounded-full mr-[7.5px] md:mr-2.5 min-w-[25px]"
+                          src={investor.image || "/icon/unknown.png"}
+                          alt={`${investor.name} logo`}
+                        />
+                        <img
+                          src={investor?.country?.flag}
+                          className="w-[14px] h-[14px] rounded-full absolute z-[1] -bottom-[5px] right-[5px]
+                           hidden md:flex border border-light-border-primary dark:border-dark-border-primary"
+                          alt={`${investor.name} flag`}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <SmallFont extraCss="font-medium min-w-auto sm:min-w-[110px] whitespace-pre-wrap">
+                          {investor.name}
+                        </SmallFont>
+                        <SmallFont extraCss="flex md:hidden text-xs lg:text-[11px] md:text-[10px] text-light-font-60 dark:text-dark-font-60">
+                          {investor?.country?.name}
+                        </SmallFont>
+                      </div>
+                    </div>
+                  </Tds>
+                  <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px] text-end">
+                    <SmallFont extraCss="font-medium text-start">
+                      {investor.tier || "--"}
+                    </SmallFont>
+                  </Tds>
+                  <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px]">
+                    <SmallFont extraCss="font-medium text-start md:text-center">
+                      {typeFormatted}
+                    </SmallFont>
+                  </Tds>
+                  <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px]">
+                    <div
+                      className={`${
+                        hasMoreThanOneStage
+                          ? "cursor-pointer"
+                          : "cursor-default"
+                      } bg-light-bg-terciary 
+                    dark:bg-dark-bg-terciary px-2 rounded font-medium flex items-center justify-center w-fit text-sm lg:text-[13px] md:text-xs 
+                    text-light-font-100 dark:text-dark-font-100 relative border border-light-border-primary dark:border-dark-border-primary`}
+                      onMouseLeave={() => setIsHover("")}
+                      onMouseEnter={() => {
+                        if (hasMoreThanOneStage) setIsHover(investor.name);
+                      }}
                     >
-                      <TextSmall textAlign="center" w="100%">
-                        {i + 1}
-                      </TextSmall>
-                    </Tds>
-                    <Tds
-                      borderBottom={borders}
-                      py="14px"
-                      px={["5px", "10px", "20px"]}
-                    >
-                      <Flex align="center">
-                        <Flex
-                          position="relative"
-                          w="fit-content"
-                          h="fit-content"
+                      {hasMoreThanOneStage
+                        ? `${stages?.length || 0} Rounds`
+                        : stages?.[0] || "--"}
+                      {isHover === investor.name ? (
+                        <div
+                          className="absolute z-[1] bg-light-bg-hover dark:bg-dark-bg-hover shadow-md border
+                         border-light-border-primary dark:border-dark-border-primary rounded px-2.5 
+                         py-[5px] max-w-fit min-w-fit w-full flex flex-col"
+                          style={{ top: "calc(100% + 5px)" }}
+                          onMouseLeave={() => setIsHover("")}
                         >
-                          <Image
-                            src={investor.image}
-                            fallbackSrc="/icon/unknown.png"
-                            boxSize={["25px", "25px", "30px"]}
-                            borderRadius="full"
-                            minW={["25px"]}
-                            mr={["10px", "10px", "7.5px"]}
-                          />
-                          <Image
-                            src={investor?.country?.flag}
-                            boxSize="14px"
-                            borderRadius="full"
-                            bottom="-5px"
-                            position="absolute"
-                            display={["flex", "flex", "none"]}
-                            right="5px"
-                            border={borders}
-                            zIndex={1}
-                          />
-                        </Flex>
-                        <Flex direction="column">
-                          <TextSmall
-                            fontWeight="500"
-                            minW={["110px", "auto"]}
-                            whiteSpace="pre-wrap"
-                          >
-                            {investor.name}
-                          </TextSmall>
-                          <TextSmall
-                            fontSize={["10px", "10px", "11px", "12px"]}
-                            display={["none", "none", "flex"]}
-                          >
-                            {investor?.country?.name}
-                          </TextSmall>
-                        </Flex>
-                      </Flex>
-                    </Tds>
-                    <Tds
-                      borderBottom={borders}
-                      py="14px"
-                      isNumeric
-                      px={["5px", "10px", "20px"]}
-                    >
-                      <TextSmall fontWeight="500" textAlign="start">
-                        {investor.tier || "--"}
-                      </TextSmall>
-                    </Tds>
-                    <Tds
-                      borderBottom={borders}
-                      py="14px"
-                      px={["10px", "10px", "20px"]}
-                    >
-                      <TextSmall
-                        fontWeight="500"
-                        textAlign={["center", "start"]}
-                      >
-                        {typeFormatted}
-                      </TextSmall>
-                    </Tds>
-                    <Tds
-                      borderBottom={borders}
-                      py="14px"
-                      px={["5px", "10px", "20px"]}
-                    >
-                      <Flex
-                        bg={boxBg6}
-                        px="8px"
-                        borderRadius="8px"
-                        fontWeight="500"
-                        fontSize={["12px", "12px", "13px", "14px"]}
-                        color={text80}
-                        align="center"
-                        justify="center"
-                        w="fit-content"
-                        position="relative"
-                        cursor={hasMoreThanOneStage ? "pointer" : "default"}
-                        border={borders}
-                        onMouseEnter={() => {
-                          if (hasMoreThanOneStage) setIsHover(investor.name);
-                        }}
-                        onMouseLeave={() => setIsHover("")}
-                      >
-                        {hasMoreThanOneStage
-                          ? `${stages?.length || 0} Rounds`
-                          : stages?.[0] || "--"}
-                        {isHover === investor.name ? (
-                          <Flex
-                            position="absolute"
-                            top="calc(100% + 5px)"
-                            zIndex={1}
-                            bg={hover}
-                            boxShadow={shadow}
-                            border={borders}
-                            px="10px"
-                            py="5px"
-                            borderRadius="8px"
-                            maxW="fit-content"
-                            minW="fit-content"
-                            w="100%"
-                            direction="column"
-                            onMouseLeave={() => setIsHover("")}
-                            fontWeight="500"
-                            fontSize={["12px", "12px", "13px", "14px"]}
-                          >
-                            {stages?.map(entry => (
-                              <TextSmall>{entry}</TextSmall>
-                            ))}
-                          </Flex>
-                        ) : null}
-                      </Flex>
-                    </Tds>
-                  </Tr>
-                );
-              })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+                          {stages?.map((entry) => (
+                            <SmallFont extraCss="font-medium" key={entry}>
+                              {entry}
+                            </SmallFont>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  </Tds>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
     </>
   );
 };
