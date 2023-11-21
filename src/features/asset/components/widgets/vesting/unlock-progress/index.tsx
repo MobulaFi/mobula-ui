@@ -1,20 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable consistent-return */
-import {Flex} from "@chakra-ui/react";
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
+import { cn } from "../../../../../../@/lib/utils";
+import {
+  LargeFont,
+  SmallFont,
+  TextSmall,
+} from "../../../../../../components/fonts";
 import {
   getFormattedAmount,
   getTokenPercentage,
-} from "../../../../../../../../utils/helpers/formaters";
-import {TextLandingMedium, TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {colors} from "../../../../constant";
-import {BaseAssetContext} from "../../../../context-manager";
-import {calculateDaysRemaining} from "../../../../utils";
+} from "../../../../../../utils/formaters";
+import { colors } from "../../../../constant";
+import { BaseAssetContext } from "../../../../context-manager";
+import { calculateDaysRemaining } from "../../../../utils";
 
-export const UnlockProgress = ({...props}) => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text80, shadow, borders, hover, text60} = useColors();
+interface UnlockProgressProps {
+  extraCss?: string;
+}
+
+export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
+  const { baseAsset } = useContext(BaseAssetContext);
   const [isHovering, setIsHovering] = useState("");
 
   const getTotalAmountUnlock = () => {
@@ -22,16 +26,17 @@ export const UnlockProgress = ({...props}) => {
     let totalUnlock = 0;
     let totalLock = 0;
     const now = new Date().getTime();
-    baseAsset?.release_schedule?.forEach(entry => {
+    baseAsset?.release_schedule?.forEach((entry) => {
       if (entry[0] <= now) totalUnlock += entry[1];
       if (entry[0] > now) totalLock += entry[1];
       total += entry[1];
     });
-    return {totalUnlock, totalLock, total};
+    return { totalUnlock, totalLock, total };
   };
 
-  const getPercentage = (amount, totalAmount) => (amount * 100) / totalAmount;
-  const {totalUnlock, total} = getTotalAmountUnlock();
+  const getPercentage = (amount: number, totalAmount: number) =>
+    (amount * 100) / totalAmount;
+  const { totalUnlock, total } = getTotalAmountUnlock();
 
   const getAmountForEachDistribution = () => {
     const seen = new Set();
@@ -39,7 +44,7 @@ export const UnlockProgress = ({...props}) => {
     const typeUnlock = {};
     const typeLock = {};
     const now = new Date().getTime();
-    baseAsset?.release_schedule?.forEach(entry => {
+    baseAsset?.release_schedule?.forEach((entry) => {
       if (entry[0] <= now) {
         const entries = Object.entries(entry[2]);
         entries.forEach(([key, value]) => {
@@ -63,24 +68,24 @@ export const UnlockProgress = ({...props}) => {
         });
       }
     });
-    return {typeUnlock, typeLock};
+    return { typeUnlock, typeLock };
   };
 
   const daysRemaining = calculateDaysRemaining(baseAsset?.release_schedule);
-  const {typeUnlock: distribution, typeLock: distributionLocked} =
+  const { typeUnlock: distribution, typeLock: distributionLocked } =
     getAmountForEachDistribution();
 
   const getSameColors = () => {
     const fusionArr = Object.entries(distribution).concat(
-      Object.entries(distributionLocked),
+      Object.entries(distributionLocked)
     );
     const extractNames = [];
-    fusionArr.forEach(entry => {
+    fusionArr.forEach((entry) => {
       if (!extractNames.includes(entry[0])) extractNames.push(entry[0]);
     });
     const colorsForRound = {};
     extractNames.forEach((entry, i) => {
-      colorsForRound[entry] = colors[i];
+      colorsForRound[entry] = `bg-[${colors[i]}] dark:bg-[${colors[i]}]`;
     });
 
     return colorsForRound;
@@ -113,243 +118,168 @@ export const UnlockProgress = ({...props}) => {
       };
   };
 
-  const getBorderRadius = i => {
+  const getBorderRadius = (i: number) => {
     if (!hasLockedDistribution && Object.keys(distribution).length - 1 === i)
-      return "0px 4px 4px 0px";
-    if (i === 0) return "4px 0px 0px 4px";
+      return "rounded-r";
+    if (i === 0) return "rounded-l";
 
-    return "0px";
+    return "rounded-0";
   };
 
   return (
-    <Flex w="100%" mx="auto" direction="column" mb="30px" {...props}>
-      <TextLandingMedium color={text80} mb="10px">
-        Unlock Progress
-      </TextLandingMedium>
-      <Flex pr={["0px", "0px", "0px", "20px"]} direction="column">
-        <Flex align="center" justify="space-between" mb="7.5px">
-          <TextSmall fontWeight="500">
+    <div className={cn(`flex w-full mx-auto flex-col mb-[30px]`, extraCss)}>
+      <LargeFont extraCss="mb-2.5">Unlock Progress</LargeFont>
+      <div className="flex pr-5 lg:pr-0 flex-col w-full">
+        <div className="flex items-center justify-between mb-[7.5px]">
+          <SmallFont extraCss="font-medium">
             {getTokenPercentage(getPercentage(totalUnlock, total))}%
-          </TextSmall>
+          </SmallFont>
           {daysRemaining[0] < 0 ? (
-            <TextSmall fontWeight="500">
+            <SmallFont extraCss="font-medium">
               {Math.abs(daysRemaining[0])} days ago
-            </TextSmall>
+            </SmallFont>
           ) : (
-            <TextSmall fontWeight="500">{daysRemaining[0]} days left</TextSmall>
+            <SmallFont extraCss="font-medium">
+              {daysRemaining[0]} days left
+            </SmallFont>
           )}
-        </Flex>
-        <Flex
-          w="100%"
-          h="25px"
-          borderRadius="4px"
-          bg={hover}
-          position="relative"
-          border={borders}
-        >
+        </div>
+        <div className="flex w-full h-[25px] rounded bg-light-bg-hover dark:bg-dark-bg-hover relative border border-light-border-primary dark:border-dark-border-primary">
           {Object.entries(distribution).map(([key, value], i) => (
-            <Flex
-              bg={newColors[key]}
-              h="100%"
-              borderRadius={getBorderRadius(i)}
-              borderRight={borders}
-              position="relative"
+            <div
+              className={`${newColors[key]} h-full ${getBorderRadius(
+                i
+              )} border-r
+             border-light-border-primary dark:border-dark-border-primary relative 
+             cursor-pointer`}
+              style={{ width: `${getPercentage(value, total)}%` }}
+              key={key}
               onMouseEnter={() => setIsHovering(key)}
               onMouseLeave={() => setIsHovering("")}
-              cursor="pointer"
-              w={`${getPercentage(value, total)}%`}
             >
               {isHovering === key ? (
-                <Flex
-                  w="fit-content"
-                  h="auto"
-                  p="7px 10px"
-                  borderRadius="4px"
-                  bg={hover}
-                  maxW="300px"
-                  position="absolute"
-                  top="calc(100% + 7.5px)"
-                  left={getPositionOfTooltip(i, true)?.left}
-                  right={getPositionOfTooltip(i, true)?.right}
-                  border={borders}
-                  boxShadow={shadow}
-                  direction="column"
-                  zIndex="2"
+                <div
+                  className="flex w-fit h-auto px-2.5 py-[7px] rounded bg-light-bg-hover dark:bg-dark-bg-hover 
+                max-w-[300px] absolute border border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2"
+                  style={{
+                    top: "calc(100% + 7.5px)",
+                    left: getPositionOfTooltip(i, true)?.left,
+                    right: getPositionOfTooltip(i, true)?.right,
+                  }}
                 >
-                  <Flex align="center" mb="5px">
-                    <Flex
-                      w="10px"
-                      h="10px"
-                      borderRadius="full"
-                      bg={newColors[key]}
-                      mr="5px"
-                      minW="10px"
+                  <div className="flex items-center mb-[5px]">
+                    <div
+                      className={`flex w-2.5 h-2.5 rounded-full mr-[5px] min-w-2.5 ${newColors[key]}`}
                     />
-                    <TextSmall
-                      color={text80}
-                      fontWeight="500"
-                      whiteSpace="pre-wrap"
-                    >
+                    <SmallFont extraCss="whitespace-pre-wrap font-medium">
                       {key}
-                    </TextSmall>
-                  </Flex>
-                  <Flex
-                    align="center"
-                    justify="space-between"
-                    w="100%"
-                    mr="15px"
-                  >
-                    <TextSmall color={text60} whiteSpace="nowrap">
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center justify-center w-full mr-[15px]">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       % Unlocked:
-                    </TextSmall>
-                    <TextSmall color={text80} fontWeight="500">
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
                       {getTokenPercentage(getPercentage(value, total))}%
-                    </TextSmall>
-                  </Flex>
-
-                  <Flex
-                    align="center"
-                    mr="15px"
-                    justify="space-between"
-                    w="100%"
-                  >
-                    <TextSmall color={text60} whiteSpace="nowrap">
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center mr-[15px] justify-between w-full">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       Amount Unlocked:
-                    </TextSmall>
-                    <TextSmall color={text80} fontWeight="500">
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
                       {getFormattedAmount(value)}
-                    </TextSmall>
-                  </Flex>
-                  <Flex
-                    align="center"
-                    mr="15px"
-                    justify="space-between"
-                    w="100%"
-                  >
-                    <TextSmall color={text60} whiteSpace="nowrap">
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center mr-[15px] justify-between w-full">
+                    <TextSmall extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       Amount USD:
                     </TextSmall>
-                    <TextSmall color={text80} fontWeight="500">
+                    <TextSmall extraCss="font-medium">
                       $
                       {getFormattedAmount(
-                        Number(value) * (baseAsset?.price || 0),
+                        Number(value) * (baseAsset?.price || 0)
                       )}
                     </TextSmall>
-                  </Flex>
-                </Flex>
+                  </div>
+                </div>
               ) : null}
-            </Flex>
+            </div>
           ))}
           {getPercentage(totalUnlock, total) !== 100 ? (
-            <Flex
-              position="absolute"
-              top="-2.5px"
-              left={`${getPercentage(totalUnlock, total)}%`}
-              h="125%"
-              w="2px"
-              zIndex={1}
-              borderRadius="full"
-              bg={text60}
+            <div
+              className="flex absolute top-[-2.5px] h-[125%] w-0.5 z-[1] rounded-full bg-light-font-60 dark:bg-dark-font-60"
+              style={{
+                left: `${getPercentage(totalUnlock, total)}%`,
+              }}
             />
           ) : null}
           {Object.entries(distributionLocked).map(([key, value], i) => (
-            <Flex
-              bg={newColors[key]}
-              h="100%"
-              borderRadius={
-                i === Object.entries(distributionLocked).length - 1
-                  ? "0px 4px 4px 0px"
-                  : "0px"
-              }
-              borderRight={borders}
-              position="relative"
+            <div
+              className={`flex ${
+                newColors[key]
+              } h-full border-r border-light-border-primary 
+            dark:border-dark-border-primary relative cursor-pointer z-[3] ${
+              i === Object.entries(distributionLocked).length - 1
+                ? "rounded-r"
+                : ""
+            } ${isHovering === key + value ? "opacity-100" : "opacity-30"}`}
+              key={key}
               onMouseEnter={() => setIsHovering(key + value)}
               onMouseLeave={() => setIsHovering("")}
-              cursor="pointer"
-              zIndex={3}
-              opacity={isHovering === key + value ? 1 : 0.3}
-              w={`${getPercentage(value, total)}%`}
+              style={{ width: `${getPercentage(value, total)}%` }}
             >
               {isHovering === key + value ? (
-                <Flex
-                  w="fit-content"
-                  h="auto"
-                  p="7px 10px"
-                  borderRadius="4px"
-                  bg={hover}
-                  position="absolute"
-                  top="calc(100% + 7.5px)"
-                  left={getPositionOfTooltip(i, false)?.left}
-                  right={getPositionOfTooltip(i, false)?.right}
-                  border={borders}
-                  boxShadow={shadow}
-                  direction="column"
-                  zIndex="2"
+                <div
+                  className="flex w-fit h-auto px-2.5 py-[7px] rounded bg-light-bg-hover dark:bg-dark-bg-hover absolute border 
+                border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2]"
+                  style={{
+                    top: "calc(100% + 7.5px)",
+                    left: getPositionOfTooltip(i, false)?.left,
+                    right: getPositionOfTooltip(i, false)?.right,
+                  }}
                 >
-                  <Flex align="center" mb="5px">
-                    <Flex
-                      w="10px"
-                      h="10px"
-                      borderRadius="full"
-                      bg={newColors[key]}
-                      mr="5px"
+                  <div className="flex items-center mb-[5px]">
+                    <div
+                      className={`flex w-2.5 h-2.5 rounded-full mr-[5px] ${newColors[key]}`}
                     />
-                    <TextSmall
-                      color={text80}
-                      fontWeight="500"
-                      whiteSpace="nowrap"
-                    >
+                    <SmallFont extraCss="whitespace-nowrap font-medium">
                       {key}
-                    </TextSmall>
-                  </Flex>
-                  <Flex
-                    align="center"
-                    justify="space-between"
-                    w="100%"
-                    mr="15px"
-                  >
-                    <TextSmall color={text60} whiteSpace="nowrap">
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center justify-between w-full mr-[15px]">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       % Locked:
-                    </TextSmall>
-                    <TextSmall color={text80} fontWeight="500">
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
                       {getTokenPercentage(getPercentage(value, total))}%
-                    </TextSmall>
-                  </Flex>
-                  <Flex
-                    align="center"
-                    mr="15px"
-                    justify="space-between"
-                    w="100%"
-                  >
-                    <TextSmall color={text60} whiteSpace="nowrap">
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center justify-between w-full mr-[15px]">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       Amount Locked:
-                    </TextSmall>
-                    <TextSmall color={text80} fontWeight="500">
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
                       {getFormattedAmount(value)}
-                    </TextSmall>
-                  </Flex>
-                  <Flex
-                    align="center"
-                    mr="15px"
-                    justify="space-between"
-                    w="100%"
-                  >
-                    <TextSmall color={text60} whiteSpace="nowrap">
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center justify-between w-full mr-[15px]">
+                    <TextSmall extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       Amount USD:
                     </TextSmall>
-                    <TextSmall color={text80} fontWeight="500">
+                    <TextSmall extraCss="font-medium">
                       $
                       {getFormattedAmount(
-                        Number(value) * (baseAsset?.price || 0),
+                        Number(value) * (baseAsset?.price || 0)
                       )}
                     </TextSmall>
-                  </Flex>
-                </Flex>
+                  </div>
+                </div>
               ) : null}
-            </Flex>
+            </div>
           ))}
-        </Flex>
-      </Flex>
-    </Flex>
+        </div>
+      </div>
+    </div>
   );
 };

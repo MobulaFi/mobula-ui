@@ -1,43 +1,40 @@
-import {Flex} from "@chakra-ui/react";
-import {useContext} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
+import React, { useContext } from "react";
 import {
-  TextLandingMedium,
-  TextLandingSmall,
-  TextSmall,
-} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {calculateDaysRemaining} from "../../../../utils";
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { calculateDaysRemaining } from "../../../../utils";
 
 export const CalendarEvent = () => {
-  const {text80, hover, borders, text60, text40} = useColors();
-  const {baseAsset} = useContext(BaseAssetContext);
+  const { baseAsset } = useContext(BaseAssetContext);
 
   const getNextEvents = () => {
     const now = new Date().getTime();
     const nextEvent = baseAsset?.release_schedule?.filter(
-      entry => entry[0] >= now,
+      (entry) => entry[0] >= now
     );
     const newEvents = nextEvent?.filter((_, i) => i < 7);
     if (newEvents?.length > 0) return newEvents;
     const prevEvents = baseAsset?.release_schedule?.filter(
-      entry => entry[0] <= now,
+      (entry) => entry[0] <= now
     );
     return prevEvents;
   };
 
-  const getDate = timestamp => {
+  const getDate = (timestamp: number) => {
     const date = new Date(timestamp);
     const day = date.getDate();
-    const month = date.toLocaleString("default", {month: "short"});
+    const month = date.toLocaleString("default", { month: "short" });
     const year = date.getFullYear();
-    return {day, month, year};
+    return { day, month, year };
   };
 
   const sevenNextEvents = getNextEvents();
 
-  const getTextFromDayLeft = daysLeft => {
+  const getTextFromDayLeft = (daysLeft: number) => {
     if (daysLeft < 0) return `${Math.abs(daysLeft)} days ago`;
     if (daysLeft < 1) return "Today";
     if (daysLeft === 1) return "Tomorrow";
@@ -46,17 +43,15 @@ export const CalendarEvent = () => {
 
   return (
     <>
-      <TextLandingMedium color={text80} mt="25px" mb="20px">
-        Unlocking Events
-      </TextLandingMedium>
+      <LargeFont extraCss="mt-[25px] mb-5">Unlocking Events</LargeFont>
       {sevenNextEvents?.map(([timestamp, value, type]) => {
-        const {day, month, year} = getDate(timestamp);
+        const { day, month, year } = getDate(timestamp);
         const daysRemaining = calculateDaysRemaining(timestamp);
         const key = Object.keys(type)[0];
         const typeValue = Object.values(type)[0];
         const percentageOfSupply =
           ((typeValue as number) * 100) / (baseAsset.total_supply || 0);
-        const formattedPercentage = percentage =>
+        const formattedPercentage = (percentage) =>
           percentage.toString().includes("00")
             ? percentage.toFixed(3)
             : percentage.toFixed(2);
@@ -64,76 +59,53 @@ export const CalendarEvent = () => {
           formattedPercentage(percentageOfSupply);
         const amountInPrice = value * (baseAsset?.price || 0);
         const percentageOfMC = formattedPercentage(
-          (amountInPrice * 100) / (baseAsset?.market_cap || 0),
+          (amountInPrice * 100) / (baseAsset?.market_cap || 0)
         );
         const dayLeftText = getTextFromDayLeft(daysRemaining);
         return (
-          <Flex
-            direction="column"
-            py="10px"
-            borderTop={borders}
-            borderBottom={borders}
+          <div
+            key={timestamp}
+            className="flex flex-col py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary"
           >
-            <Flex align="center">
-              <Flex
-                bg={hover}
-                borderRadius="8px"
-                direction="column"
-                align="center"
-                justify="center"
-                py="10px"
-                minH={["60px", "60px", "80px"]}
-                minW={["60px", "60px", "80px"]}
+            <div className="flex items-center">
+              <div
+                className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded flex-col 
+              justify-center items-center py-2.5 min-w-[80px] md:min-w-[60px] min-h-[80px] md:min-h-[60px]"
               >
-                <TextSmall color={text60}>{month}</TextSmall>
-                <TextLandingSmall color={text80} fontWeight="600">
-                  {day}
-                </TextLandingSmall>
-                <TextSmall color={text40}>{year}</TextSmall>
-              </Flex>
-              <Flex
-                ml={["10px", "10px", "20px"]}
-                justify="space-between"
-                h="100%"
-                w="100%"
-                align="center"
-              >
-                <Flex direction="column">
-                  <TextLandingSmall color={text80}>
-                    Unlock of {getFormattedAmount(typeValue)}{" "}
+                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                  {month}
+                </SmallFont>
+                <MediumFont extraCss="font-bold">{day}</MediumFont>
+                <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+                  {year}
+                </SmallFont>
+              </div>
+              <div className="flex ml-5 md:ml-2.5 justify-between h-full w-full items-center">
+                <div className="flex flex-col">
+                  <MediumFont>
+                    Unlock of {getFormattedAmount(typeValue as number)}{" "}
                     {baseAsset?.symbol} - {percentageOfSupplyFormatted}% of
                     Total Supply
-                  </TextLandingSmall>
-                  <TextSmall color={text60}>
+                  </MediumFont>
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                    {" "}
                     ${getFormattedAmount(amountInPrice)} ({percentageOfMC}% of
                     M.Cap)
-                  </TextSmall>
-                  <Flex
-                    align="center"
-                    h={["22px", "22px", "26px"]}
-                    bg={hover}
-                    px="8px"
-                    borderRadius="full"
-                    w="fit-content"
-                    fontSize="12px"
-                    fontWeight="500"
-                    mt="10px"
-                    color={text80}
+                  </SmallFont>
+
+                  <div
+                    className="flex items-center h-[26px] md:h-[22px] bg-light-bg-hover dark:bg-dark-bg-hover 
+                  px-2 rounded-full w-fit text-xs font-medium mt-2.5 text-light-font-100 dark:text-dark-font-100"
                   >
                     {key}
-                  </Flex>
-                </Flex>
-                <TextLandingSmall
-                  fontWeight="500"
-                  color={text80}
-                  mr="10px"
-                  textAlign="end"
-                >
+                  </div>
+                </div>
+                <MediumFont extraCss="text-end mr-2.5 font-medium">
                   {dayLeftText}
-                </TextLandingSmall>
-              </Flex>
-            </Flex>
-          </Flex>
+                </MediumFont>
+              </div>
+            </div>
+          </div>
         );
       })}
     </>

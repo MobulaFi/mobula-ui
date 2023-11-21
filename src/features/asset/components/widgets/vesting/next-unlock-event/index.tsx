@@ -1,23 +1,16 @@
-import {Button, Flex, Text} from "@chakra-ui/react";
-import {useCallback, useContext, useEffect} from "react";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {
-  TextExtraSmall,
-  TextLandingSmall,
-  TextSmall,
-} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
+import { getFormattedAmount } from "@utils/formaters";
+import { LargeFont, MediumFont, SmallFont } from "components/fonts";
+import { useCallback, useContext, useEffect } from "react";
+import { BaseAssetContext } from "../../../../context-manager";
 
 export const NextUnlockEvent = () => {
-  const {text80, boxBg3, text60, borders, hover} = useColors();
-  const {baseAsset, setTimeRemaining, timeRemaining} =
+  const { baseAsset, setTimeRemaining, timeRemaining } =
     useContext(BaseAssetContext);
 
   const getNextUnlock = useCallback(() => {
     const now = new Date().getTime();
     const nextEvent = baseAsset?.release_schedule?.find(
-      entry => entry[0] > now,
+      (entry) => entry[0] > now
     );
     if (nextEvent) {
       return {
@@ -36,18 +29,9 @@ export const NextUnlockEvent = () => {
     };
   }, [baseAsset?.release_schedule, baseAsset?.total_supply]);
 
-  const {totalAmount, date, percentageOfSupply} = getNextUnlock();
-
-  const timeBoxStyle = {
-    align: "center",
-    justify: "center",
-    w: "57.5px",
-    h: "50px",
-    borderRadius: "8px",
-    bg: hover,
-    mb: "5px",
-    fontWeight: "500",
-  };
+  const { totalAmount, date, percentageOfSupply } = getNextUnlock();
+  const timeBoxStyle =
+    "flex items-center justify-center w-[57.5px] h-[50px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-lg mb-[5px] font-medium text-sm";
 
   const getPercentageFromMarketCap = () => {
     const amountUSD = totalAmount * (baseAsset?.price || 0);
@@ -56,7 +40,7 @@ export const NextUnlockEvent = () => {
   };
 
   const percentageOfMC = getPercentageFromMarketCap();
-  const getZero = number => (number < 10 ? `0${number}` : number);
+  const getZero = (number: number) => (number < 10 ? `0${number}` : number);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -67,21 +51,21 @@ export const NextUnlockEvent = () => {
         clearInterval(intervalId);
       } else {
         const days = getZero(
-          Math.floor(timeDifference / (1000 * 60 * 60 * 24)),
+          Math.floor(timeDifference / (1000 * 60 * 60 * 24))
         );
         const hours = getZero(
           Math.floor(
-            (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-          ),
+            (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          )
         );
         const minutes = getZero(
-          Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)),
+          Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60))
         );
         const seconds = getZero(
-          Math.floor((timeDifference % (1000 * 60)) / 1000),
+          Math.floor((timeDifference % (1000 * 60)) / 1000)
         );
 
-        setTimeRemaining({days, hours, minutes, seconds});
+        setTimeRemaining({ days, hours, minutes, seconds });
       }
     }, 1000);
 
@@ -90,87 +74,60 @@ export const NextUnlockEvent = () => {
 
   if (date)
     return (
-      <Flex
-        p="20px"
-        borderRadius={["16px"]}
-        border={[borders]}
-        bg={boxBg3}
-        mb="10px"
-        w="100%"
-        mx="auto"
-        mt={["10px", "10px", "10px", "0px"]}
-        direction="column"
+      <div
+        className="p-5 rounded-2xl border border-light-border-primary dark:border-dark-border-primary 
+      bg-light-bg-secondary dark:bg-dark-bg-secondary mb-2.5 w-full mx-auto mt-0 lg:mt-2.5 flex-col"
       >
-        <Flex direction="column">
-          <Flex direction="column">
-            <Text
-              fontSize={["16px", "16px", "16px", "18px"]}
-              fontWeight="500"
-              color={text80}
-              textAlign={["center", "center", "center", "left"]}
-            >
+        <div className="flex flex-col">
+          <div className="flex flex-col">
+            <LargeFont extraCss="text-left lg:text-center">
               Next Unlock Event
-            </Text>
-          </Flex>
-          <Flex
-            align="center"
-            w="100%"
-            justify="space-between"
-            maxW="300px"
-            mx="auto"
-            mt="15px"
-          >
-            <Flex direction="column">
-              <Flex {...timeBoxStyle}>{timeRemaining.days}</Flex>
-              <TextExtraSmall textAlign="center">Days</TextExtraSmall>
-            </Flex>
-            <Flex direction="column">
-              <Flex {...timeBoxStyle}>{timeRemaining.hours}</Flex>
-              <TextExtraSmall textAlign="center">Hours</TextExtraSmall>
-            </Flex>
-            <Flex direction="column">
-              <Flex {...timeBoxStyle}>{timeRemaining.minutes}</Flex>
-              <TextExtraSmall textAlign="center">Min</TextExtraSmall>
-            </Flex>
-            <Flex direction="column">
-              <Flex {...timeBoxStyle}>{timeRemaining.seconds}</Flex>
-              <TextExtraSmall textAlign="center">Sec</TextExtraSmall>
-            </Flex>
-          </Flex>
-        </Flex>
-        <TextLandingSmall
-          fontWeight="500"
-          color={text80}
-          mt="10px"
-          textAlign={["center", "center", "center", "left"]}
-        >
+            </LargeFont>
+          </div>
+          <div className="flex items-center w-full justify-between max-w-[300px] mx-auto mt-[15px]">
+            <div className="flex flex-col">
+              <div className={timeBoxStyle}>{timeRemaining.days}</div>
+              <p className="text-center text-xs lg:text-[11px] md:text-[10px] text-light-font-100 dark:text-dark-font-100">
+                Days
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className={timeBoxStyle}>{timeRemaining.hours}</div>
+              <p className="text-center text-xs lg:text-[11px] md:text-[10px] text-light-font-100 dark:text-dark-font-100">
+                Hours
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className={timeBoxStyle}>{timeRemaining.minutes}</div>
+              <p className="text-center text-xs lg:text-[11px] md:text-[10px] text-light-font-100 dark:text-dark-font-100">
+                Min
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className={timeBoxStyle}>{timeRemaining.seconds}</div>
+              <p className="text-center text-xs lg:text-[11px] md:text-[10px] text-light-font-100 dark:text-dark-font-100">
+                Sec
+              </p>
+            </div>
+          </div>
+        </div>
+        <MediumFont extraCss="mt-2.5 text-left lg:text-center">
           Unlock of {getFormattedAmount(totalAmount)} {baseAsset?.symbol} (
           {percentageOfSupply}% of Total Supply)
-        </TextLandingSmall>
-        <TextSmall
-          mt="5px"
-          color={text60}
-          textAlign={["center", "center", "center", "left"]}
-        >
+        </MediumFont>
+        <SmallFont extraCss="mt-[5px] text-left lg:text-center text-light-font-60 dark:text-dark-font-60">
           ${getFormattedAmount(totalAmount * (baseAsset?.price || 0))} (
           {percentageOfMC}% of M.Cap)
-        </TextSmall>
-        <Button
-          bg={hover}
-          w="100%"
-          h="40px"
-          borderRadius="4px"
-          mt="20px"
-          color={text80}
-          fontWeight="500"
-          border={borders}
-          maxW="300px"
-          isDisabled
-          mx="auto"
+        </SmallFont>
+        <button
+          className="bg-light-bg-hover dark:bg-dark-bg-hover w-full h-[40px] rounded mt-5 text-light-font-100 
+        dark:text-dark-font-100 font-medium border border-light-border-primary dark:border-dark-border-primary 
+        max-w-[300px] mx-auto opacity-50 cursor-not-allowed"
+          disabled
         >
           Set an alert for this event
-        </Button>
-      </Flex>
+        </button>
+      </div>
     );
   return null;
 };

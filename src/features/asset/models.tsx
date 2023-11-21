@@ -97,10 +97,10 @@ export interface IBasetAssetContext {
 }
 
 export interface TimeRemaining {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  days: number | string;
+  hours: number | string;
+  minutes: number | string;
+  seconds: number | string;
 }
 export interface ICategory {
   id: number;

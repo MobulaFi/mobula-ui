@@ -20,6 +20,7 @@ import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
 import { Essentials } from "./components/widgets/essentials";
 import { Market } from "./components/widgets/market";
+import { Vesting } from "./components/widgets/vesting";
 import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
@@ -451,7 +452,7 @@ export const Assets = () => {
             >
               <Fundraising />
             </div>
-          ) : null}
+          ) : null}*/}
           {activeTab === "Vesting" ? (
             <div
               style={{
@@ -462,7 +463,7 @@ export const Assets = () => {
               <Vesting />
             </div>
           ) : null}
-          {activeTab === "Buy" ? (
+          {/*  {activeTab === "Buy" ? (
             <div
               style={{
                 animation: getAnimation("Buy"),
