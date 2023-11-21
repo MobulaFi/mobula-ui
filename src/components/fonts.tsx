@@ -151,3 +151,20 @@ export const LargeFont = ({ extraCss, children, ...props }: defaultProps) => {
     </p>
   );
 };
+
+export const ExtraLargeFont = ({
+  extraCss,
+  children,
+  ...props
+}: defaultProps) => {
+  return (
+    <p
+      className={cn(
+        "text-light-font-100 dark:text-dark-font-100 text-3xl lg:text-2xl md:text-xl font-bold ",
+        extraCss
+      )}
+    >
+      {children}
+    </p>
+  );
+};

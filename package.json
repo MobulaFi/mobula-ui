@@ -30,6 +30,8 @@
     "echarts": "^5.4.3",
     "framer-motion": "^10.16.4",
     "fs": "^0.0.1-security",
+    "image-conversion": "^2.1.1",
+    "ipfs-api": "^26.1.2",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.292.0",
     "mobula-lite": "^1.0.40",
