@@ -1,30 +1,19 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
+import { Input } from "@chakra-ui/react";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { useEffect, useRef, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
 import {
-  Button,
-  Flex,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useEffect, useRef, useState} from "react";
-import {
-  TextExtraSmall,
-  TextLandingMedium,
-  TextLandingSmall,
-  TextSmall,
-} from "../../../../../UI/Text";
-import {InfoPopup} from "../../../../../common/components/popup-hover";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {ACTIONS} from "../../reducer";
-import {inputStyle} from "../../styles";
-import {getDateError} from "../../utils";
+  ExtraSmallFont,
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../components/fonts";
+import { Menu } from "../../../../../components/menu";
+import { ACTIONS } from "../../reducer";
+import { inputStyle } from "../../styles";
+import { getDateError } from "../../utils";
 
-export const Launch = ({dispatch, state}) => {
-  const {boxBg6, borders, boxBg3, text60, bordersActive, hover, text80} =
-    useColors();
+export const Launch = ({ dispatch, state }) => {
   const dateRef = useRef<HTMLInputElement>(null);
   const hoursRef = useRef<HTMLInputElement>(null);
   const [date, setDate] = useState({
@@ -46,15 +35,8 @@ export const Launch = ({dispatch, state}) => {
     },
   ];
 
-  const addButtonStyle = {
-    w: "120px",
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    fontSize: ["12px", "12px", "14px", "16px"],
-  };
+  const addButtonStyle =
+    "w-[120px]h-[35px] mt-2.5 text-base lg:text-sm md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
 
   const ISOtoTimestamp = () => {
     const fullDate = `${date.date ? date.date : "27/06/2023"} ${
@@ -66,7 +48,7 @@ export const Launch = ({dispatch, state}) => {
     const timestamp = newDate.getTime();
     dispatch({
       type: ACTIONS.SET_LAUNCH,
-      payload: {name: "date", value: timestamp},
+      payload: { name: "date", value: timestamp },
     });
   };
 
@@ -76,7 +58,7 @@ export const Launch = ({dispatch, state}) => {
 
   const getNameFromSelector = (
     name: string,
-    selector: {[key: string]: any},
+    selector: { [key: string]: any }
   ) => {
     if (name === "vsToken")
       return `${state.symbol}/${state.tokenomics.launch[selector.name]}`;
@@ -93,51 +75,52 @@ export const Launch = ({dispatch, state}) => {
 
   return (
     <>
-      <TextLandingMedium mt="20px">Launch Details</TextLandingMedium>
-      <TextLandingSmall mt="20px" mb="10px">
-        Public launch date & hour
-      </TextLandingSmall>
-      <Flex align="center">
-        <Input
-          {...inputStyle(boxBg3, text80)}
+      <LargeFont extraCss="mt-5">Launch Details</LargeFont>
+      <MediumFont extraCss="mt-5 mb-2.5">Public launch date & hour</MediumFont>
+      <div className="flex items-center">
+        <input
+          className={`${inputStyle} mr-2.5 w-[135px] border ${
+            getDateError(dateRef)
+              ? "border-red dark:border-red"
+              : "border-light-border-primary dark:border-dark-border-primary"
+          }`}
           ref={dateRef}
-          border={getDateError(dateRef) ? "1px solid red" : borders}
-          w="135px"
-          mr="10px"
           placeholder="DD/MM/YYYY"
-          onChange={e => setDate(prev => ({...prev, date: e.target.value}))}
+          onChange={(e) =>
+            setDate((prev) => ({ ...prev, date: e.target.value }))
+          }
         />
-        <Input
-          {...inputStyle(boxBg3, text80)}
-          border={getHoursError() ? "1px solid red" : borders}
-          w="100px"
-          mr="10px"
+        <input
+          className={`${inputStyle} mr-2.5 w-[100px] border ${
+            getHoursError()
+              ? "border-red dark:border-red"
+              : "border-light-border-primary dark:border-dark-border-primary"
+          }`}
           ref={hoursRef}
           placeholder="HH:MM"
-          onChange={e => setDate(prev => ({...prev, time: e.target.value}))}
+          onChange={(e) =>
+            setDate((prev) => ({ ...prev, time: e.target.value }))
+          }
         />
-        <TextSmall color={text80}>UTC</TextSmall>
-      </Flex>
+        <SmallFont>UTC</SmallFont>
+      </div>
       {getDateError(dateRef) ? (
-        <TextExtraSmall mt="3px" color="red">
+        <ExtraSmallFont extraCss="mt-[3px] text-red dark:text-red">
           Correct format: DD/MM/YYYY
-        </TextExtraSmall>
+        </ExtraSmallFont>
       ) : null}
       {getHoursError() ? (
-        <TextExtraSmall mt="3px" color="red">
+        <ExtraSmallFont extraCss="mt-[3px] text-red dark:text-red">
           Correct format: HH:MM
-        </TextExtraSmall>
+        </ExtraSmallFont>
       ) : null}
-      <TextLandingSmall mt="20px" mb="10px">
-        Floating Time
-      </TextLandingSmall>
-      <Flex align="center">
+      <MediumFont extraCss="mt-5 mb-2.5">Floating Time</MediumFont>
+      <div className="flex items-center">
         <Input
-          {...inputStyle(boxBg3, text80)}
+          className={`${inputStyle} w-[100px]`}
           type="number"
-          w="100px"
           placeholder="2 (Default)"
-          onChange={e =>
+          onChange={(e) =>
             dispatch({
               type: ACTIONS.SET_LAUNCH,
               payload: {
@@ -147,67 +130,49 @@ export const Launch = ({dispatch, state}) => {
             })
           }
         />
-        <TextSmall ml="10px" color={text80}>
-          Hours
-        </TextSmall>
-        <InfoPopup
+        <SmallFont extraCss="ml-2.5">Hours</SmallFont>
+        {/* <InfoPopup
           mb="4px"
           info="What's the range from launch date (hours) you expect for your launch"
-        />
-      </Flex>
-      {selectors?.map(selector => (
+        /> */}
+      </div>
+      {selectors?.map((selector) => (
         <>
-          <TextLandingSmall mt="20px">{selector.title}</TextLandingSmall>
-          <Menu matchWidth>
-            <MenuButton
-              {...addButtonStyle}
-              bg={boxBg6}
-              w="fit-content"
-              px="12px"
-              isDisabled={!state.contracts[0].address}
-              fontSize={["12px", "12px", "14px", "16px"]}
-              border={borders}
-              _hover={{bg: hover, border: bordersActive}}
-              as={Button}
-            >
-              {state.tokenomics.launch[selector.name]
-                ? getNameFromSelector(selector.name, selector)
-                : `Select a ${selector.button_name}`}
-              <ChevronDownIcon ml="10px" />
-            </MenuButton>
-            <MenuList
-              fontSize={["12px", "12px", "14px", "16px"]}
-              color={text80}
-              fontWeight="400"
-              bg={boxBg3}
-              border={borders}
-              boxShadow="none"
-              borderRadius="8px"
-              zIndex={2}
-            >
-              {selector?.select?.map(item => (
-                <MenuItem
-                  bg={boxBg3}
-                  _hover={{bg: hover}}
-                  onClick={() => {
-                    dispatch({
-                      type: ACTIONS.SET_LAUNCH,
-                      payload: {
-                        name: selector.name,
-                        value: item.name,
-                      },
-                    });
-                  }}
-                >
-                  {selector.title === "Exchange" ? item.name : item.symbol}
-                </MenuItem>
-              ))}
-            </MenuList>
+          <MediumFont extraCss="mt-5">{selector.title}</MediumFont>
+          <Menu
+            disabled={!state.contracts[0].address}
+            titleCss={`${addButtonStyle} hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary px-3 w-fit text-base lg:text-sm md:text-xs border border-light-border-primary dark:border-dark-border-primary`}
+            title={
+              <>
+                {state.tokenomics.launch[selector.name]
+                  ? getNameFromSelector(selector.name, selector)
+                  : `Select a ${selector.button_name}`}
+                <BsChevronDown className="ml-2.5 text-light-font-100 dark:text-dark-font-100" />
+              </>
+            }
+          >
+            {selector?.select?.map((item) => (
+              <button
+                key={item.name}
+                className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                onClick={() => {
+                  dispatch({
+                    type: ACTIONS.SET_LAUNCH,
+                    payload: {
+                      name: selector.name,
+                      value: item.name,
+                    },
+                  });
+                }}
+              >
+                {selector.title === "Exchange" ? item.name : item.symbol}
+              </button>
+            ))}
           </Menu>
           {state.contracts[0].address ? null : (
-            <TextExtraSmall mt="5px" color={text60}>
+            <ExtraSmallFont extraCss="mt-[5px] text-light-font-60 dark:text-dark-font-60">
               Please enter an contract address to unlock this{" "}
-            </TextExtraSmall>
+            </ExtraSmallFont>
           )}
         </>
       ))}

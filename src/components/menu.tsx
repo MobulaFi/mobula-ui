@@ -6,6 +6,7 @@ interface MenuProps {
   extraCss?: string;
   titleCss?: string;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
 export const Menu = ({
@@ -13,12 +14,16 @@ export const Menu = ({
   extraCss,
   titleCss,
   children,
-  ...props
+  disabled = false,
 }: MenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="flex relative">
-      <button className={titleCss} onClick={() => setIsOpen((prev) => !prev)}>
+      <button
+        className={titleCss}
+        disabled={disabled}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         {title}
       </button>
       {isOpen ? (
