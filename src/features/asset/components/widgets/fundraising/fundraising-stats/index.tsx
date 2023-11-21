@@ -1,89 +1,75 @@
-import {Flex, Text} from "@chakra-ui/react";
-import {useContext} from "react";
+import { useContext } from "react";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import {
   getFormattedAmount,
   getTokenPercentage,
-} from "../../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
+} from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
 
 export const FundraisingStats = () => {
-  const {text80, boxBg3, borders, text60, hover} = useColors();
-  const {baseAsset} = useContext(BaseAssetContext);
+  const { baseAsset } = useContext(BaseAssetContext);
   const reduceResult = baseAsset?.sales
-    ?.filter(entry => entry.date)
-    ?.map(sale => ({
+    ?.filter((entry) => entry.date)
+    ?.map((sale) => ({
       token_sold: sale.amount,
       raised: sale.raised,
     }));
   const tokensSold = reduceResult.reduce(
     (acc, curr) => acc + Number(curr.token_sold),
-    0,
+    0
   );
   const amountRaised = reduceResult.reduce(
     (acc, curr) => acc + Number(curr.raised),
-    0,
+    0
   );
 
   const percentage = getFormattedAmount(
-    (tokensSold / (baseAsset?.total_supply || 0)) * 100,
+    (tokensSold / (baseAsset?.total_supply || 0)) * 100
   );
 
   return (
-    <Flex
-      p="20px"
-      borderRadius="16px"
-      border={borders}
-      bg={boxBg3}
-      mb="10px"
-      w="100%"
-      mx="auto"
-      direction="column"
+    <div
+      className="flex p-5 rounded-2xl border border-light-border-primary dark:border-dark-border-primary 
+    mb-2.5 w-full mx-auto flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary"
     >
-      <Text
-        fontSize={["16px", "16px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="0px"
+      <LargeFont>Fundraising Stats</LargeFont>{" "}
+      <div className="flex items-center border-b border-light-border-primary dark:border-dark-border-primary py-2.5 mt-[5px] justify-between">
+        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+          {" "}
+          Tokens Sold:
+        </SmallFont>
+        <SmallFont extraCss="font-medium">
+          {getFormattedAmount(tokensSold)}
+        </SmallFont>
+      </div>
+      <div
+        className="flex items-center border-b border-light-border-primary dark:border-dark-border-primary 
+      py-2.5 justify-between"
       >
-        Fundraising Stats
-      </Text>{" "}
-      <Flex
-        align="center"
-        borderBottom={borders}
-        py="10px"
-        mt="5px"
-        justify="space-between"
-      >
-        <TextSmall color={text60}> Tokens Sold:</TextSmall>
-        <TextSmall fontWeight="500">{getFormattedAmount(tokensSold)}</TextSmall>
-      </Flex>
-      <Flex
-        align="center"
-        borderBottom={borders}
-        py="10px"
-        justify="space-between"
-      >
-        <TextSmall color={text60}>Amount Raised:</TextSmall>
-        <TextSmall fontWeight="500">
+        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+          Amount Raised:
+        </SmallFont>
+        <SmallFont extraCss="font-medium">
           ${getFormattedAmount(amountRaised)}
-        </TextSmall>
-      </Flex>
-      <Flex
-        align="center"
-        borderBottom={borders}
-        py="10px"
-        justify="space-between"
+        </SmallFont>
+      </div>
+      <div
+        className="flex items-center border-b border-light-border-primary dark:border-dark-border-primary 
+         py-2.5 justify-between"
       >
-        <TextSmall fontWeight="500">Total % for sale</TextSmall>
-        <TextSmall fontWeight="500">
-          {getTokenPercentage(percentage)}%
-        </TextSmall>
-      </Flex>
-      <Flex h="8px" w="100%" borderRadius="full" bg={hover}>
-        <Flex bg="blue" w={`${percentage}%`} h="100%" borderRadius="full" />
-      </Flex>
-    </Flex>
+        <SmallFont extraCss="font-medium">Total % for sale</SmallFont>
+        <SmallFont extraCss="font-medium">
+          {getTokenPercentage(percentage as number)}%
+        </SmallFont>
+      </div>
+      <div className="flex h-2 w-full rounded-full bg-light-bg-hover dark:bg-dark-bg-hover">
+        <div
+          className="flex bg-blue dark:bg-blue h-full rounded-full"
+          style={{
+            width: `${percentage}%`,
+          }}
+        />
+      </div>
+    </div>
   );
 };

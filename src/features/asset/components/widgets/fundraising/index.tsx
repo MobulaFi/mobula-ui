@@ -1,4 +1,5 @@
 import { Allocation } from "./allocation";
+import { FundraisingStats } from "./fundraising-stats";
 import { LaunchDate } from "./launch-date";
 import { Rounds } from "./rounds";
 
@@ -10,13 +11,13 @@ export const Fundraising = () => (
       <div className="flex-col hidden lg:flex mt-2.5">
         <LaunchDate />
         <Allocation />
-        {/* <FundraisingStats /> */}
+        <FundraisingStats />
       </div>
     </div>
     <div className="flex-col flex lg:hidden max-w-[345px] w-full">
       <LaunchDate />
       <Allocation />
-      {/* <FundraisingStats /> */}
+      <FundraisingStats />
     </div>
   </div>
 );
