@@ -13,7 +13,6 @@ import {
 import {useContext} from "react";
 import {SwapContext} from "../../..";
 import {ColorsContext} from "../../../../../../../pages/iframe/swap";
-import {TextLandingMedium} from "../../../../../../UI/Text";
 import {useColors} from "../../../../../utils/color-mode";
 import {InputLines} from "./components/input-line";
 

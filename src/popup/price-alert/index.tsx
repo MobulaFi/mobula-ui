@@ -12,12 +12,13 @@ import { Input } from "../../components/input";
 import { ModalContainer } from "../../components/modal-container";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { UserContext } from "../../contexts/user";
+import { BaseAssetContext } from "../../features/asset/context-manager";
 import { Asset } from "../../interfaces/assets";
 import { useColors } from "../../lib/chakra/colorMode";
 import { pushData } from "../../lib/mixpanel";
 import { GET } from "../../utils/fetch";
 import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
-import { PopupTelegram } from "../telegram-connect/telegram-connect";
+import { PopupTelegram } from "../telegram-connect";
 
 export const PriceAlertPopup = ({
   show,

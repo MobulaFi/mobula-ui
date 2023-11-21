@@ -78,7 +78,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
         <div className="p-2.5 flex flex-col relative">
           <SmallSwapLine
             setSelectVisible={setSelectVisible}
-            inputRef={inputInRef}
+            inputRef={inputInRef as never}
             position="in"
           />
           <button

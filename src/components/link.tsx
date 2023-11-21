@@ -27,7 +27,10 @@ export const NextChakraLink = ({
   if (!href)
     return (
       <div
-        className={cn("text-light-font-100 dark:text-dark-font-100", extraCss)}
+        className={cn(
+          "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",
+          extraCss
+        )}
         {...props}
       >
         {children}
@@ -43,7 +46,10 @@ export const NextChakraLink = ({
       onMouseLeave={onMouseLeave}
     >
       <div
-        className={cn("text-light-font-100 dark:text-dark-font-100", extraCss)}
+        className={cn(
+          "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",
+          extraCss
+        )}
         {...props}
       >
         {children}

@@ -18,7 +18,7 @@ export const Popover = ({
 }: PopoverProps) => {
   return (
     <div
-      className="flex relative z-[99]"
+      className="flex relative z-[99] pb-2.5"
       onMouseEnter={() => onToggle()}
       onMouseLeave={() => onToggle()}
     >
@@ -26,7 +26,7 @@ export const Popover = ({
       {isOpen ? (
         <div
           className={cn(
-            "absolute z-[11] border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary p-2.5 w-fit shadow-md",
+            "absolute z-[11] border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-medium p-2.5 w-fit shadow-md",
             extraCss
           )}
         >
