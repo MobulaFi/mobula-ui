@@ -1,41 +1,16 @@
-import {CloseIcon} from "@chakra-ui/icons";
-import {Button, Flex, Input, InputGroup} from "@chakra-ui/react";
-import {useRef} from "react";
-import {isAddress} from "viem";
-import {
-  TextExtraSmall,
-  TextLandingMedium,
-  TextLandingSmall,
-} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {ACTIONS} from "../../reducer";
-import {inputStyle} from "../../styles";
+import React, { useRef } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { isAddress } from "viem";
+import { Button } from "../../../../../components/button";
+import { LargeFont, MediumFont } from "../../../../../components/fonts";
+import { ACTIONS } from "../../reducer";
+import { inputStyle } from "../../styles";
 
-export const Distribution = ({dispatch, state}) => {
-  const {boxBg6, borders, bordersActive, boxBg3, hover, text80} = useColors();
+export const Distribution = ({ dispatch, state }) => {
   const amountRef = useRef<HTMLInputElement>(null);
-  const deleteButtonStyle = {
-    w: "40px",
-    ml: "10px",
-    bg: boxBg6,
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    fontSize: ["12px", "12px", "14px", "16px"],
-    mt: "10px",
-    _hover: {bg: hover, border: bordersActive},
-    border: borders,
-  };
-  const addButtonStyle = {
-    w: "120px",
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    fontSize: ["12px", "12px", "14px", "16px"],
-  };
+  const deleteButtonStyle =
+    "w-[40px] ml-2.5 rounded text-base lg:text-sm md:text-xs mt-2.5";
+  const addButtonStyle = "w-[120px] mt-2.5 text-base lg:text-sm md:text-xs";
 
   const pushAddress = async (address: string, i: number, j: number) => {
     const newAddressObject = {
@@ -44,62 +19,54 @@ export const Distribution = ({dispatch, state}) => {
     if (!state.tokenomics.distribution[i].addresses[0].address)
       dispatch({
         type: ACTIONS.REMOVE_DISTRIBUTION_ADDRESS,
-        payload: {j, i},
+        payload: { j, i },
       });
     dispatch({
       type: ACTIONS.ADD_DISTRIBUTION_ADDRESS,
-      payload: {address: newAddressObject, i, j},
+      payload: { address: newAddressObject, i, j },
     });
   };
   return (
     <>
-      <TextLandingMedium mt="40px">Token distribution</TextLandingMedium>
-
+      <LargeFont extraCss="mt-[40px]">Token distribution</LargeFont>
       {state.tokenomics.distribution.map((d, i) => (
         <>
-          <Flex direction="column" mt="20px">
-            <Button
-              w="fit-content"
-              ml="auto"
+          <div className="flex flex-col mt-5">
+            <button
+              className="w-fit ml-auto"
               onClick={() =>
                 dispatch({
                   type: ACTIONS.REMOVE_ELEMENT_TOKENOMICS,
-                  payload: {i, object: "distribution"},
+                  payload: { i, object: "distribution" },
                 })
               }
             >
-              <CloseIcon fontSize="12px" color={text80} />
-            </Button>
-            <TextLandingSmall mb="10px">Name</TextLandingSmall>
-            <Input
-              {...inputStyle(boxBg3, text80)}
-              mb="20px"
-              minH="35px"
+              <AiOutlineClose className="text-xs text-light-font-100 dark:text-dark-font-100" />
+            </button>
+            <MediumFont extraCss="mb-2.5">Name</MediumFont>
+            <input
+              className={`${inputStyle} mb-5 min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
               name="name"
               placeholder="Type a name "
-              border={borders}
-              onChange={e =>
+              onChange={(e) =>
                 dispatch({
                   type: ACTIONS.SET_DISTRIBUTION,
-                  payload: {name: e.target.name, value: e.target.value, i},
+                  payload: { name: e.target.name, value: e.target.value, i },
                 })
               }
-            />{" "}
-            <TextLandingSmall mb="10px">Amount (%)</TextLandingSmall>
-            <Input
-              {...inputStyle(boxBg3, text80)}
+            />
+            <MediumFont extraCss="mb-2.5">Amount (%)</MediumFont>
+            <input
+              className={`${inputStyle} min-h-[35px] ${
+                parseFloat(amountRef?.current?.value as string) > 100 || 0
+                  ? "border border-red dark:border-red"
+                  : "border border-light-border-primary dark:border-dark-border-primary"
+              } w-[100px]`}
               name="percentage"
-              minH="35px"
-              border={
-                parseFloat(amountRef?.current?.value) > 100 || 0
-                  ? "1px solid var(--chakra-colors-red)"
-                  : borders
-              }
-              w="100px"
               placeholder="12"
               type="number"
               ref={amountRef}
-              onChange={e =>
+              onChange={(e) =>
                 dispatch({
                   type: ACTIONS.SET_DISTRIBUTION,
                   payload: {
@@ -110,39 +77,21 @@ export const Distribution = ({dispatch, state}) => {
                 })
               }
             />
-            {parseFloat(amountRef?.current?.value) > 100 || 0 ? (
-              <TextExtraSmall color="red" mt="3px">
+            {parseFloat(amountRef?.current?.value as string) > 100 || 0 ? (
+              <p className="text-[10px] lg:text-[9px] md:text-[8px] text-red dark:text-red mt-[3px]">
                 The amount should be less than 100%
-              </TextExtraSmall>
+              </p>
             ) : null}
-            <TextLandingSmall mt="20px">Address</TextLandingSmall>
+            <MediumFont extraCss="mt-5">Address</MediumFont>
             {state.tokenomics.distribution[i].addresses?.map((a, j) => (
-              <Flex mt="10px">
-                <InputGroup
-                  {...inputStyle(boxBg3, text80)}
-                  border={borders}
-                  h="35px"
-                  minH="35px"
-                  maxH="35px"
+              <div className="flex mt-2.5" key={a}>
+                <div
+                  className={`flex items-center ${inputStyle} border border-light-border-primary dark:border-dark-border-primary h-[35px] min-h-[35px] max-h-[35px]`}
                 >
-                  {/* <InputLeftElement h="100%" ml="10px">
-                    <Image
-                      boxSize="20px"
-                      src={
-                        blockchainsContent[a.blockchain]?.logo ||
-                        "/icon/unknown.png"
-                      }
-                    />
-                  </InputLeftElement> */}
-                  <Input
-                    w="100%"
-                    pr="10px"
-                    h="100%"
-                    overflow="scroll"
-                    textOverflow="ellipsis"
+                  <input
+                    className="bg-light-bg-secondary dark:bg-dark-bg-secondary w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100"
                     placeholder="0x77A8...459135"
-                    color={text80}
-                    onChange={e => {
+                    onChange={(e) => {
                       if (
                         isAddress(e.target.value) &&
                         a.address !== e.target.value
@@ -150,10 +99,9 @@ export const Distribution = ({dispatch, state}) => {
                         pushAddress(e.target.value, i, j);
                     }}
                   />
-                </InputGroup>
+                </div>
                 <Button
-                  {...deleteButtonStyle}
-                  mt="0px"
+                  className={`${deleteButtonStyle} mt-0`}
                   onClick={() => {
                     dispatch({
                       type: ACTIONS.REMOVE_DISTRIBUTION_ADDRESS,
@@ -164,21 +112,17 @@ export const Distribution = ({dispatch, state}) => {
                     });
                   }}
                 >
-                  <CloseIcon fontSize="12px" color={text80} />
+                  <AiOutlineClose className="text-xs text-light-font-100 dark:text-dark-font-100" />
                 </Button>
-              </Flex>
+              </div>
             ))}
-          </Flex>
+          </div>
           <Button
-            {...addButtonStyle}
-            w="220px"
-            bg={boxBg6}
-            border={borders}
-            _hover={{bg: hover, border: bordersActive}}
+            extraCss={`${addButtonStyle} w-[220px]`}
             onClick={() =>
               dispatch({
                 type: ACTIONS.ADD_DISTRIBUTION_INPUT_ADDRESS,
-                payload: {i},
+                payload: { i },
               })
             }
           >
@@ -187,14 +131,8 @@ export const Distribution = ({dispatch, state}) => {
         </>
       ))}
       <Button
-        {...addButtonStyle}
-        mt="20px"
-        onClick={() => dispatch({type: ACTIONS.ADD_DISTRIBUTION})}
-        w="fit-content"
-        px="12px"
-        bg={boxBg6}
-        border={borders}
-        _hover={{bg: hover, border: bordersActive}}
+        extraCss={`${addButtonStyle} w-fit mt-5 px-3`}
+        onClick={() => dispatch({ type: ACTIONS.ADD_DISTRIBUTION })}
       >
         + Add distribution recipient
       </Button>
