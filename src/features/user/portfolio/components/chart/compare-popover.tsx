@@ -86,7 +86,7 @@ export const ComparePopover = ({
     <Popover
       visibleContent={
         <Button
-          extraCss={`${extraCss} mr-2.5 ml-auto h-[30px] z-[1] px-2`}
+          extraCss={`${extraCss} mr-2.5 ml-auto h-[30px] z-[1] px-2 flex items-center justify-center whitespace-nowrap`}
           onClick={() => {
             setShowCompare((prev) => !prev);
             pushData("Portfolio Compare Clicked");

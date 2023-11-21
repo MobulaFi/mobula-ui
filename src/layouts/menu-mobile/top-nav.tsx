@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { Dispatch, Key, SetStateAction } from "react";
+import { Dispatch, Key, SetStateAction } from "react";
 
 interface NavProps {
   list: string[] | { name: string; url: string }[];

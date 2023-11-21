@@ -1,0 +1,127 @@
+import {useColorMode} from "@chakra-ui/react";
+import {BarChart, LineChart} from "echarts/charts";
+import {
+  DataZoomComponent,
+  GraphicComponent,
+  GridComponent,
+  LegendComponent,
+  MarkLineComponent,
+  TitleComponent,
+  TooltipComponent,
+} from "echarts/components";
+import * as echarts from "echarts/core";
+import {CanvasRenderer} from "echarts/renderers";
+import {useCallback, useEffect, useMemo, useRef} from "react";
+import {v4 as uuid} from "uuid";
+import {useColors} from "../../../../../../../common/utils/color-mode";
+import {TimeSelected} from "../../../../models";
+import {useDefault} from "./multi-options";
+
+interface EChartProps {
+  data: [number, number][];
+  options?: echarts.EChartsCoreOption;
+  width: number;
+  height: number;
+  extraSeries?: any;
+  timeframe: TimeSelected;
+  type?: string;
+  unit?: string;
+  leftMargin?: string[];
+}
+
+echarts.use([
+  CanvasRenderer,
+  LineChart,
+  BarChart,
+  TooltipComponent,
+  TitleComponent,
+  GridComponent,
+  DataZoomComponent,
+  GraphicComponent,
+  MarkLineComponent,
+  LegendComponent,
+]);
+
+const EChart: React.FC<EChartProps> = ({
+  data,
+  options,
+  // height,
+  width,
+  extraSeries = [],
+  timeframe,
+  type,
+  unit,
+  leftMargin = ["13%", "4.5%"],
+}) => {
+  const parentRef = useRef<HTMLDivElement>(null);
+  const {bgMain} = useColors();
+  const {colorMode} = useColorMode();
+  const id = useMemo(() => uuid(), []);
+  const isMobile =
+    (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
+  const {tooltip, xAxis, yAxis, dataZoom, series} = useDefault({
+    data,
+    timeframe,
+    isMobile,
+    type,
+    unit,
+  });
+
+  const createInstance = useCallback(() => {
+    const instance = echarts.getInstanceByDom(document.getElementById(id));
+
+    return (
+      instance ||
+      echarts.init(document.getElementById(id), null, {
+        renderer: "canvas",
+      })
+    );
+  }, [id]);
+
+  useEffect(() => {
+    const chart = createInstance();
+    if (chart)
+      chart.setOption({
+        backgroundColor: bgMain,
+        textStyle: {
+          color:
+            colorMode === "dark" ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)",
+        },
+        grid: {
+          bottom: "15%", // Distance from bottom to grid, for the zoom slider
+          left: isMobile ? leftMargin[0] : leftMargin[1],
+          right: "0.5%",
+        },
+        tooltip,
+        xAxis,
+        yAxis,
+        dataZoom,
+        ...options,
+        series: [...series, ...extraSeries],
+      });
+  }, [data, options, timeframe]);
+
+  useEffect(() => {
+    const chart = createInstance();
+    window.onresize = function () {
+      chart.resize();
+    };
+
+    const parent = parentRef.current;
+    if (parent) {
+      parent.addEventListener("touchend", () => {
+        chart.dispatchAction({
+          type: "hideTip",
+        });
+
+        chart.dispatchAction({type: "showTip", seriesIndex: 0, dataIndex: 1});
+      });
+    }
+  }, []);
+
+  return (
+    <div ref={parentRef} id={id} style={{height: "500px", width: "100%"}} />
+  );
+};
+
+export default EChart;

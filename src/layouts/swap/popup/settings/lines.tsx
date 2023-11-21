@@ -29,7 +29,8 @@ export const InputLines = ({
            dark:border-dark-border-primary rounded h-[30px] md:h-[25px] min-w-[50px] bg-light-bg-terciary dark:bg-dark-bg-terciary`}
       >
         <input
-          className="text-light-font-80 dark:text-dark-font-80 text-sm text-normal border-none bg-transparent w-[50px] h-full pl-2.5 pr-1.5 flex items-center"
+          className="text-light-font-80 dark:text-dark-font-80 text-sm text-normal border-none
+           bg-light-bg-secondary dark:bg-dark-bg-secondary w-[50px] h-full pl-2.5 pr-1.5 flex items-center"
           type="number"
           value={settings?.[title]}
           name={title}

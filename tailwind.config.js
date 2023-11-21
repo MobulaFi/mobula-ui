@@ -25,6 +25,7 @@ module.exports = {
         "calc-1/3-10": "calc(33% - 10px)",
         "calc-1/3-8": "calc(33% - 8px)",
         "calc-1/5-10": "calc(20% - 10px)",
+        "calc-full-345": "calc(100% - 345px)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
@@ -117,11 +118,14 @@ module.exports = {
       blue: "#5c7df9",
       darkblue: "rgba(43, 58, 117, 1)",
       telegram: "#30A7DE",
+      twitter: "#1C97EA",
+      discord: "#5062F0",
       purple: "#7e5bef",
       pink: "#ff49db",
       orange: "#ff7849",
       green: "#13ce66",
       yellow: "#ffc82c",
+      gray: "#6B6E70",
     },
   },
   plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],

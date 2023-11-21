@@ -38,13 +38,12 @@ export function formatAmount(amount: number | string, decimals = 2) {
 }
 
 export function getFormattedAmount(
-  price: any,
+  price: number | string,
   lessPrecision = 0,
   settings = { minifyZeros: true, minifyBigNumbers: true }
 ) {
   try {
     if (price) {
-      // Making sure we're getting a number without e-7 etc..
       price = parseFloat(String(price)).toFixed(
         Math.min(
           String(price).includes("-")
@@ -66,10 +65,20 @@ export function getFormattedAmount(
         if (!settings.minifyZeros) {
           // const last
         }
-        const exp = price.match(/0\.0+[1-9]/)?.[0] || "";
-        return `${price.split(".")[0]}.0..0${price
-          .split(exp.slice(0, exp.length - 2))[1]
-          .slice(1, 5 - lessPrecision)}`;
+        const priceString = price.toString();
+        const newPrice = [];
+        const arr = priceString.split(".");
+        const decimals = arr[1]?.split("");
+        decimals.forEach((digit, index) => {
+          if (newPrice.some((digit) => digit !== "0")) return;
+          if (digit === "0") newPrice.push(digit);
+          if (decimals[index - 1] == "0" && digit !== "0") {
+            newPrice.push(digit);
+            newPrice.push(decimals[index + 1]);
+            newPrice.push(decimals[index + 2]);
+          }
+        });
+        return `${arr[0]}.${newPrice.join("")}`;
       }
       if (Math.abs(parseFloat(price)) < 0.01) {
         return price.slice(0, 8 - lessPrecision);
@@ -79,7 +88,7 @@ export function getFormattedAmount(
         price = price.slice(0, 5 - lessPrecision);
       return price;
     }
-    if (isNaN(price)) {
+    if (Number.isNaN(price)) {
       return "--";
     }
     return 0;
