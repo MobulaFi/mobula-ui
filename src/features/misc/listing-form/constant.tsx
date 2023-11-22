@@ -1,4 +1,4 @@
-import {Icon} from "@chakra-ui/react";
+import React from "react";
 import {
   BsDiscord,
   BsGithub,
@@ -9,15 +9,25 @@ import {
 
 export const usdcMaticABI = [
   {
-    inputs: [{internalType: "address", name: "_proxyTo", type: "address"}],
+    inputs: [{ internalType: "address", name: "_proxyTo", type: "address" }],
     stateMutability: "nonpayable",
     type: "constructor",
   },
   {
     anonymous: false,
     inputs: [
-      {indexed: false, internalType: "address", name: "_new", type: "address"},
-      {indexed: false, internalType: "address", name: "_old", type: "address"},
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_new",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_old",
+        type: "address",
+      },
     ],
     name: "ProxyOwnerUpdate",
     type: "event",
@@ -25,50 +35,52 @@ export const usdcMaticABI = [
   {
     anonymous: false,
     inputs: [
-      {indexed: true, internalType: "address", name: "_new", type: "address"},
-      {indexed: true, internalType: "address", name: "_old", type: "address"},
+      { indexed: true, internalType: "address", name: "_new", type: "address" },
+      { indexed: true, internalType: "address", name: "_old", type: "address" },
     ],
     name: "ProxyUpdated",
     type: "event",
   },
-  {stateMutability: "payable", type: "fallback"},
+  { stateMutability: "payable", type: "fallback" },
   {
     inputs: [],
     name: "IMPLEMENTATION_SLOT",
-    outputs: [{internalType: "bytes32", name: "", type: "bytes32"}],
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "OWNER_SLOT",
-    outputs: [{internalType: "bytes32", name: "", type: "bytes32"}],
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "implementation",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "proxyOwner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "proxyType",
-    outputs: [{internalType: "uint256", name: "proxyTypeId", type: "uint256"}],
+    outputs: [
+      { internalType: "uint256", name: "proxyTypeId", type: "uint256" },
+    ],
     stateMutability: "pure",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "newOwner", type: "address"}],
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferProxyOwnership",
     outputs: [],
     stateMutability: "nonpayable",
@@ -76,8 +88,8 @@ export const usdcMaticABI = [
   },
   {
     inputs: [
-      {internalType: "address", name: "_newProxyTo", type: "address"},
-      {internalType: "bytes", name: "data", type: "bytes"},
+      { internalType: "address", name: "_newProxyTo", type: "address" },
+      { internalType: "bytes", name: "data", type: "bytes" },
     ],
     name: "updateAndCall",
     outputs: [],
@@ -85,21 +97,21 @@ export const usdcMaticABI = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "_newProxyTo", type: "address"}],
+    inputs: [{ internalType: "address", name: "_newProxyTo", type: "address" }],
     name: "updateImplementation",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
-  {stateMutability: "payable", type: "receive"},
+  { stateMutability: "payable", type: "receive" },
 ];
 
 export const usdcBnbABI = [
   {
     inputs: [
-      {internalType: "address", name: "logic", type: "address"},
-      {internalType: "address", name: "admin", type: "address"},
-      {internalType: "bytes", name: "data", type: "bytes"},
+      { internalType: "address", name: "logic", type: "address" },
+      { internalType: "address", name: "admin", type: "address" },
+      { internalType: "bytes", name: "data", type: "bytes" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -136,16 +148,16 @@ export const usdcBnbABI = [
     name: "Upgraded",
     type: "event",
   },
-  {stateMutability: "payable", type: "fallback"},
+  { stateMutability: "payable", type: "fallback" },
   {
     inputs: [],
     name: "admin",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "newAdmin", type: "address"}],
+    inputs: [{ internalType: "address", name: "newAdmin", type: "address" }],
     name: "changeAdmin",
     outputs: [],
     stateMutability: "nonpayable",
@@ -154,13 +166,13 @@ export const usdcBnbABI = [
   {
     inputs: [],
     name: "implementation",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "address", name: "newImplementation", type: "address"},
+      { internalType: "address", name: "newImplementation", type: "address" },
     ],
     name: "upgradeTo",
     outputs: [],
@@ -169,15 +181,15 @@ export const usdcBnbABI = [
   },
   {
     inputs: [
-      {internalType: "address", name: "newImplementation", type: "address"},
-      {internalType: "bytes", name: "data", type: "bytes"},
+      { internalType: "address", name: "newImplementation", type: "address" },
+      { internalType: "bytes", name: "data", type: "bytes" },
     ],
     name: "upgradeToAndCall",
     outputs: [],
     stateMutability: "payable",
     type: "function",
   },
-  {stateMutability: "payable", type: "receive"},
+  { stateMutability: "payable", type: "receive" },
 ];
 
 export const usdtBnbABI = [
@@ -190,14 +202,24 @@ export const usdtBnbABI = [
   {
     anonymous: false,
     inputs: [
-      {indexed: true, internalType: "address", name: "owner", type: "address"},
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
       {
         indexed: true,
         internalType: "address",
         name: "spender",
         type: "address",
       },
-      {indexed: false, internalType: "uint256", name: "value", type: "uint256"},
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
     ],
     name: "Approval",
     type: "event",
@@ -224,9 +246,14 @@ export const usdtBnbABI = [
   {
     anonymous: false,
     inputs: [
-      {indexed: true, internalType: "address", name: "from", type: "address"},
-      {indexed: true, internalType: "address", name: "to", type: "address"},
-      {indexed: false, internalType: "uint256", name: "value", type: "uint256"},
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
     ],
     name: "Transfer",
     type: "event",
@@ -235,7 +262,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "_decimals",
-    outputs: [{internalType: "uint8", name: "", type: "uint8"}],
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -244,7 +271,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "_name",
-    outputs: [{internalType: "string", name: "", type: "string"}],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -253,7 +280,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "_symbol",
-    outputs: [{internalType: "string", name: "", type: "string"}],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -261,11 +288,11 @@ export const usdtBnbABI = [
   {
     constant: true,
     inputs: [
-      {internalType: "address", name: "owner", type: "address"},
-      {internalType: "address", name: "spender", type: "address"},
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "address", name: "spender", type: "address" },
     ],
     name: "allowance",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -273,29 +300,29 @@ export const usdtBnbABI = [
   {
     constant: false,
     inputs: [
-      {internalType: "address", name: "spender", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "approve",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: true,
-    inputs: [{internalType: "address", name: "account", type: "address"}],
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
     name: "balanceOf",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
     constant: false,
-    inputs: [{internalType: "uint256", name: "amount", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "burn",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
@@ -304,7 +331,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "decimals",
-    outputs: [{internalType: "uint8", name: "", type: "uint8"}],
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -312,11 +339,11 @@ export const usdtBnbABI = [
   {
     constant: false,
     inputs: [
-      {internalType: "address", name: "spender", type: "address"},
-      {internalType: "uint256", name: "subtractedValue", type: "uint256"},
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "subtractedValue", type: "uint256" },
     ],
     name: "decreaseAllowance",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
@@ -325,7 +352,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "getOwner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -333,20 +360,20 @@ export const usdtBnbABI = [
   {
     constant: false,
     inputs: [
-      {internalType: "address", name: "spender", type: "address"},
-      {internalType: "uint256", name: "addedValue", type: "uint256"},
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "addedValue", type: "uint256" },
     ],
     name: "increaseAllowance",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: false,
-    inputs: [{internalType: "uint256", name: "amount", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "mint",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
@@ -355,7 +382,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "name",
-    outputs: [{internalType: "string", name: "", type: "string"}],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -364,7 +391,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "owner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -382,7 +409,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "symbol",
-    outputs: [{internalType: "string", name: "", type: "string"}],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -391,7 +418,7 @@ export const usdtBnbABI = [
     constant: true,
     inputs: [],
     name: "totalSupply",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
     stateMutability: "view",
     type: "function",
@@ -399,11 +426,11 @@ export const usdtBnbABI = [
   {
     constant: false,
     inputs: [
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "transfer",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
@@ -411,19 +438,19 @@ export const usdtBnbABI = [
   {
     constant: false,
     inputs: [
-      {internalType: "address", name: "sender", type: "address"},
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "transferFrom",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: false,
-    inputs: [{internalType: "address", name: "newOwner", type: "address"}],
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
     payable: false,
@@ -434,15 +461,25 @@ export const usdtBnbABI = [
 
 export const usdtMaticABI = [
   {
-    inputs: [{internalType: "address", name: "_proxyTo", type: "address"}],
+    inputs: [{ internalType: "address", name: "_proxyTo", type: "address" }],
     stateMutability: "nonpayable",
     type: "constructor",
   },
   {
     anonymous: false,
     inputs: [
-      {indexed: false, internalType: "address", name: "_new", type: "address"},
-      {indexed: false, internalType: "address", name: "_old", type: "address"},
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_new",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_old",
+        type: "address",
+      },
     ],
     name: "ProxyOwnerUpdate",
     type: "event",
@@ -450,36 +487,38 @@ export const usdtMaticABI = [
   {
     anonymous: false,
     inputs: [
-      {indexed: true, internalType: "address", name: "_new", type: "address"},
-      {indexed: true, internalType: "address", name: "_old", type: "address"},
+      { indexed: true, internalType: "address", name: "_new", type: "address" },
+      { indexed: true, internalType: "address", name: "_old", type: "address" },
     ],
     name: "ProxyUpdated",
     type: "event",
   },
-  {stateMutability: "payable", type: "fallback"},
+  { stateMutability: "payable", type: "fallback" },
   {
     inputs: [],
     name: "implementation",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "proxyOwner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "proxyType",
-    outputs: [{internalType: "uint256", name: "proxyTypeId", type: "uint256"}],
+    outputs: [
+      { internalType: "uint256", name: "proxyTypeId", type: "uint256" },
+    ],
     stateMutability: "pure",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "newOwner", type: "address"}],
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferProxyOwnership",
     outputs: [],
     stateMutability: "nonpayable",
@@ -487,8 +526,8 @@ export const usdtMaticABI = [
   },
   {
     inputs: [
-      {internalType: "address", name: "_newProxyTo", type: "address"},
-      {internalType: "bytes", name: "data", type: "bytes"},
+      { internalType: "address", name: "_newProxyTo", type: "address" },
+      { internalType: "bytes", name: "data", type: "bytes" },
     ],
     name: "updateAndCall",
     outputs: [],
@@ -496,87 +535,89 @@ export const usdtMaticABI = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "_newProxyTo", type: "address"}],
+    inputs: [{ internalType: "address", name: "_newProxyTo", type: "address" }],
     name: "updateImplementation",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
-  {stateMutability: "payable", type: "receive"},
+  { stateMutability: "payable", type: "receive" },
 ];
 
 export const listingAbi = [
   {
     inputs: [
-      {internalType: "address", name: "gateway_", type: "address"},
-      {internalType: "address", name: "_owner", type: "address"},
-      {internalType: "address", name: "_mobulaToken", type: "address"},
+      { internalType: "address", name: "gateway_", type: "address" },
+      { internalType: "address", name: "_owner", type: "address" },
+      { internalType: "address", name: "_mobulaToken", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
   {
     inputs: [
-      {internalType: "address", name: "voter", type: "address"},
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-      {internalType: "uint256", name: "listingPhase", type: "uint256"},
+      { internalType: "address", name: "voter", type: "address" },
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+      { internalType: "uint256", name: "listingPhase", type: "uint256" },
     ],
     name: "AlreadyVoted",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "address", name: "contractAddress", type: "address"},
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "contractAddress", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "ERC20WithdrawFailed",
     type: "error",
   },
   {
-    inputs: [{internalType: "address", name: "recipient", type: "address"}],
+    inputs: [{ internalType: "address", name: "recipient", type: "address" }],
     name: "ETHTransferFailed",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "protocolBalance", type: "uint256"},
-      {internalType: "uint256", name: "amountToWithdraw", type: "uint256"},
+      { internalType: "uint256", name: "protocolBalance", type: "uint256" },
+      { internalType: "uint256", name: "amountToWithdraw", type: "uint256" },
     ],
     name: "InsufficientProtocolBalance",
     type: "error",
   },
-  {inputs: [], name: "InvalidAddress", type: "error"},
+  { inputs: [], name: "InvalidAddress", type: "error" },
   {
     inputs: [
-      {internalType: "string", name: "sourceChain", type: "string"},
-      {internalType: "string", name: "sourceAddress", type: "string"},
+      { internalType: "string", name: "sourceChain", type: "string" },
+      { internalType: "string", name: "sourceAddress", type: "string" },
     ],
     name: "InvalidAxelarContract",
     type: "error",
   },
-  {inputs: [], name: "InvalidPaymentAmount", type: "error"},
+  { inputs: [], name: "InvalidPaymentAmount", type: "error" },
   {
-    inputs: [{internalType: "address", name: "paymentToken", type: "address"}],
+    inputs: [
+      { internalType: "address", name: "paymentToken", type: "address" },
+    ],
     name: "InvalidPaymentToken",
     type: "error",
   },
   {
-    inputs: [{internalType: "uint256", name: "percentage", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "percentage", type: "uint256" }],
     name: "InvalidPercentage",
     type: "error",
   },
-  {inputs: [], name: "InvalidScoreValue", type: "error"},
+  { inputs: [], name: "InvalidScoreValue", type: "error" },
   {
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         internalType: "struct Token",
         name: "token",
@@ -587,54 +628,58 @@ export const listingAbi = [
         name: "currentStatus",
         type: "uint8",
       },
-      {internalType: "enum ListingStatus", name: "targetStatus", type: "uint8"},
+      {
+        internalType: "enum ListingStatus",
+        name: "targetStatus",
+        type: "uint8",
+      },
     ],
     name: "InvalidStatusUpdate",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "address", name: "sender", type: "address"},
-      {internalType: "address", name: "submitter", type: "address"},
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "address", name: "submitter", type: "address" },
     ],
     name: "InvalidUpdatingUser",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "userRank", type: "uint256"},
-      {internalType: "uint256", name: "minimumRankNeeded", type: "uint256"},
+      { internalType: "uint256", name: "userRank", type: "uint256" },
+      { internalType: "uint256", name: "minimumRankNeeded", type: "uint256" },
     ],
     name: "InvalidUserRank",
     type: "error",
   },
   {
-    inputs: [{internalType: "uint256", name: "fromRank", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "fromRank", type: "uint256" }],
     name: "NoDemotionYet",
     type: "error",
   },
   {
-    inputs: [{internalType: "uint256", name: "toRank", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "toRank", type: "uint256" }],
     name: "NoPromotionYet",
     type: "error",
   },
-  {inputs: [], name: "NotApprovedByGateway", type: "error"},
+  { inputs: [], name: "NotApprovedByGateway", type: "error" },
   {
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         internalType: "struct Token",
         name: "token",
         type: "tuple",
       },
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
     ],
     name: "NotSortingListing",
     type: "error",
@@ -643,18 +688,18 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         internalType: "struct Token",
         name: "token",
         type: "tuple",
       },
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
     ],
     name: "NotUpdatingListing",
     type: "error",
@@ -663,45 +708,45 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         internalType: "struct Token",
         name: "token",
         type: "tuple",
       },
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
     ],
     name: "NotValidationListing",
     type: "error",
   },
   {
-    inputs: [{internalType: "address", name: "claimer", type: "address"}],
+    inputs: [{ internalType: "address", name: "claimer", type: "address" }],
     name: "NothingToClaim",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "userRank", type: "uint256"},
-      {internalType: "uint256", name: "minCurrentRank", type: "uint256"},
+      { internalType: "uint256", name: "userRank", type: "uint256" },
+      { internalType: "uint256", name: "minCurrentRank", type: "uint256" },
     ],
     name: "RankDemotionImpossible",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "userRank", type: "uint256"},
-      {internalType: "uint256", name: "maxCurrentRank", type: "uint256"},
+      { internalType: "uint256", name: "userRank", type: "uint256" },
+      { internalType: "uint256", name: "maxCurrentRank", type: "uint256" },
     ],
     name: "RankPromotionImpossible",
     type: "error",
   },
   {
-    inputs: [{internalType: "address", name: "submitter", type: "address"}],
+    inputs: [{ internalType: "address", name: "submitter", type: "address" }],
     name: "SubmitterInCooldown",
     type: "error",
   },
@@ -709,12 +754,12 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         internalType: "struct Token",
         name: "token",
@@ -725,14 +770,14 @@ export const listingAbi = [
     type: "error",
   },
   {
-    inputs: [{internalType: "uint256", name: "tokenId", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
     name: "TokenNotFound",
     type: "error",
   },
   {
     inputs: [
-      {internalType: "address", name: "paymentToken", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "paymentToken", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "TokenPaymentFailed",
     type: "error",
@@ -741,16 +786,16 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "enum MobulaMethod", name: "method", type: "uint8"},
-          {internalType: "address", name: "sender", type: "address"},
+          { internalType: "enum MobulaMethod", name: "method", type: "uint8" },
+          { internalType: "address", name: "sender", type: "address" },
           {
             internalType: "address",
             name: "paymentTokenAddress",
             type: "address",
           },
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "tokenId", type: "uint256"},
-          {internalType: "uint256", name: "paymentAmount", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "tokenId", type: "uint256" },
+          { internalType: "uint256", name: "paymentAmount", type: "uint256" },
         ],
         internalType: "struct MobulaPayload",
         name: "payload",
@@ -809,12 +854,12 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct Token",
@@ -899,19 +944,24 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct Token",
         name: "token",
         type: "tuple",
       },
-      {indexed: false, internalType: "address", name: "voter", type: "address"},
+      {
+        indexed: false,
+        internalType: "address",
+        name: "voter",
+        type: "address",
+      },
       {
         indexed: false,
         internalType: "enum ListingVote",
@@ -945,12 +995,12 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct Token",
@@ -964,26 +1014,35 @@ export const listingAbi = [
   {
     anonymous: false,
     inputs: [
-      {indexed: true, internalType: "address", name: "funder", type: "address"},
+      {
+        indexed: true,
+        internalType: "address",
+        name: "funder",
+        type: "address",
+      },
       {
         components: [
           {
             components: [
-              {internalType: "string", name: "ipfsHash", type: "string"},
-              {internalType: "uint256", name: "id", type: "uint256"},
-              {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-              {internalType: "uint256", name: "utilityScore", type: "uint256"},
-              {internalType: "uint256", name: "socialScore", type: "uint256"},
-              {internalType: "uint256", name: "trustScore", type: "uint256"},
+              { internalType: "string", name: "ipfsHash", type: "string" },
+              { internalType: "uint256", name: "id", type: "uint256" },
+              { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+              {
+                internalType: "uint256",
+                name: "utilityScore",
+                type: "uint256",
+              },
+              { internalType: "uint256", name: "socialScore", type: "uint256" },
+              { internalType: "uint256", name: "trustScore", type: "uint256" },
             ],
             internalType: "struct Token",
             name: "token",
             type: "tuple",
           },
-          {internalType: "uint256", name: "coeff", type: "uint256"},
-          {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-          {internalType: "address", name: "submitter", type: "address"},
-          {internalType: "uint256", name: "statusIndex", type: "uint256"},
+          { internalType: "uint256", name: "coeff", type: "uint256" },
+          { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+          { internalType: "address", name: "submitter", type: "address" },
+          { internalType: "uint256", name: "statusIndex", type: "uint256" },
           {
             internalType: "uint256",
             name: "accruedUtilityScore",
@@ -994,8 +1053,12 @@ export const listingAbi = [
             name: "accruedSocialScore",
             type: "uint256",
           },
-          {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-          {internalType: "uint256", name: "phase", type: "uint256"},
+          {
+            internalType: "uint256",
+            name: "accruedTrustScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "phase", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct TokenListing",
@@ -1025,21 +1088,25 @@ export const listingAbi = [
         components: [
           {
             components: [
-              {internalType: "string", name: "ipfsHash", type: "string"},
-              {internalType: "uint256", name: "id", type: "uint256"},
-              {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-              {internalType: "uint256", name: "utilityScore", type: "uint256"},
-              {internalType: "uint256", name: "socialScore", type: "uint256"},
-              {internalType: "uint256", name: "trustScore", type: "uint256"},
+              { internalType: "string", name: "ipfsHash", type: "string" },
+              { internalType: "uint256", name: "id", type: "uint256" },
+              { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+              {
+                internalType: "uint256",
+                name: "utilityScore",
+                type: "uint256",
+              },
+              { internalType: "uint256", name: "socialScore", type: "uint256" },
+              { internalType: "uint256", name: "trustScore", type: "uint256" },
             ],
             internalType: "struct Token",
             name: "token",
             type: "tuple",
           },
-          {internalType: "uint256", name: "coeff", type: "uint256"},
-          {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-          {internalType: "address", name: "submitter", type: "address"},
-          {internalType: "uint256", name: "statusIndex", type: "uint256"},
+          { internalType: "uint256", name: "coeff", type: "uint256" },
+          { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+          { internalType: "address", name: "submitter", type: "address" },
+          { internalType: "uint256", name: "statusIndex", type: "uint256" },
           {
             internalType: "uint256",
             name: "accruedUtilityScore",
@@ -1050,8 +1117,12 @@ export const listingAbi = [
             name: "accruedSocialScore",
             type: "uint256",
           },
-          {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-          {internalType: "uint256", name: "phase", type: "uint256"},
+          {
+            internalType: "uint256",
+            name: "accruedTrustScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "phase", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct TokenListing",
@@ -1067,12 +1138,12 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct Token",
@@ -1126,19 +1197,24 @@ export const listingAbi = [
     inputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         indexed: false,
         internalType: "struct Token",
         name: "token",
         type: "tuple",
       },
-      {indexed: false, internalType: "address", name: "voter", type: "address"},
+      {
+        indexed: false,
+        internalType: "address",
+        name: "voter",
+        type: "address",
+      },
       {
         indexed: false,
         internalType: "enum ListingVote",
@@ -1175,63 +1251,63 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "badSortingVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "badValidationVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "user", type: "address"}],
+    inputs: [{ internalType: "address", name: "user", type: "address" }],
     name: "claimRewards",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "demoted", type: "address"}],
+    inputs: [{ internalType: "address", name: "demoted", type: "address" }],
     name: "demote",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "demoteVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "editCoeffMultiplier",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "demoted", type: "address"}],
+    inputs: [{ internalType: "address", name: "demoted", type: "address" }],
     name: "emergencyDemote",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{internalType: "uint256", name: "tokenId", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
     name: "emergencyKillRequest",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "promoted", type: "address"}],
+    inputs: [{ internalType: "address", name: "promoted", type: "address" }],
     name: "emergencyPromote",
     outputs: [],
     stateMutability: "nonpayable",
@@ -1239,8 +1315,8 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
     ],
     name: "emergencyUpdateListingStatus",
     outputs: [],
@@ -1249,10 +1325,10 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "bytes32", name: "commandId", type: "bytes32"},
-      {internalType: "string", name: "sourceChain", type: "string"},
-      {internalType: "string", name: "sourceAddress", type: "string"},
-      {internalType: "bytes", name: "payload", type: "bytes"},
+      { internalType: "bytes32", name: "commandId", type: "bytes32" },
+      { internalType: "string", name: "sourceChain", type: "string" },
+      { internalType: "string", name: "sourceAddress", type: "string" },
+      { internalType: "bytes", name: "payload", type: "bytes" },
     ],
     name: "execute",
     outputs: [],
@@ -1261,12 +1337,12 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "bytes32", name: "commandId", type: "bytes32"},
-      {internalType: "string", name: "sourceChain", type: "string"},
-      {internalType: "string", name: "sourceAddress", type: "string"},
-      {internalType: "bytes", name: "payload", type: "bytes"},
-      {internalType: "string", name: "tokenSymbol", type: "string"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "bytes32", name: "commandId", type: "bytes32" },
+      { internalType: "string", name: "sourceChain", type: "string" },
+      { internalType: "string", name: "sourceAddress", type: "string" },
+      { internalType: "bytes", name: "payload", type: "bytes" },
+      { internalType: "string", name: "tokenSymbol", type: "string" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "executeWithToken",
     outputs: [],
@@ -1277,7 +1353,7 @@ export const listingAbi = [
     inputs: [],
     name: "gateway",
     outputs: [
-      {internalType: "contract IAxelarGateway", name: "", type: "address"},
+      { internalType: "contract IAxelarGateway", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
@@ -1290,21 +1366,25 @@ export const listingAbi = [
         components: [
           {
             components: [
-              {internalType: "string", name: "ipfsHash", type: "string"},
-              {internalType: "uint256", name: "id", type: "uint256"},
-              {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-              {internalType: "uint256", name: "utilityScore", type: "uint256"},
-              {internalType: "uint256", name: "socialScore", type: "uint256"},
-              {internalType: "uint256", name: "trustScore", type: "uint256"},
+              { internalType: "string", name: "ipfsHash", type: "string" },
+              { internalType: "uint256", name: "id", type: "uint256" },
+              { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+              {
+                internalType: "uint256",
+                name: "utilityScore",
+                type: "uint256",
+              },
+              { internalType: "uint256", name: "socialScore", type: "uint256" },
+              { internalType: "uint256", name: "trustScore", type: "uint256" },
             ],
             internalType: "struct Token",
             name: "token",
             type: "tuple",
           },
-          {internalType: "uint256", name: "coeff", type: "uint256"},
-          {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-          {internalType: "address", name: "submitter", type: "address"},
-          {internalType: "uint256", name: "statusIndex", type: "uint256"},
+          { internalType: "uint256", name: "coeff", type: "uint256" },
+          { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+          { internalType: "address", name: "submitter", type: "address" },
+          { internalType: "uint256", name: "statusIndex", type: "uint256" },
           {
             internalType: "uint256",
             name: "accruedUtilityScore",
@@ -1315,8 +1395,12 @@ export const listingAbi = [
             name: "accruedSocialScore",
             type: "uint256",
           },
-          {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-          {internalType: "uint256", name: "phase", type: "uint256"},
+          {
+            internalType: "uint256",
+            name: "accruedTrustScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "phase", type: "uint256" },
         ],
         internalType: "struct TokenListing[]",
         name: "",
@@ -1334,21 +1418,25 @@ export const listingAbi = [
         components: [
           {
             components: [
-              {internalType: "string", name: "ipfsHash", type: "string"},
-              {internalType: "uint256", name: "id", type: "uint256"},
-              {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-              {internalType: "uint256", name: "utilityScore", type: "uint256"},
-              {internalType: "uint256", name: "socialScore", type: "uint256"},
-              {internalType: "uint256", name: "trustScore", type: "uint256"},
+              { internalType: "string", name: "ipfsHash", type: "string" },
+              { internalType: "uint256", name: "id", type: "uint256" },
+              { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+              {
+                internalType: "uint256",
+                name: "utilityScore",
+                type: "uint256",
+              },
+              { internalType: "uint256", name: "socialScore", type: "uint256" },
+              { internalType: "uint256", name: "trustScore", type: "uint256" },
             ],
             internalType: "struct Token",
             name: "token",
             type: "tuple",
           },
-          {internalType: "uint256", name: "coeff", type: "uint256"},
-          {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-          {internalType: "address", name: "submitter", type: "address"},
-          {internalType: "uint256", name: "statusIndex", type: "uint256"},
+          { internalType: "uint256", name: "coeff", type: "uint256" },
+          { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+          { internalType: "address", name: "submitter", type: "address" },
+          { internalType: "uint256", name: "statusIndex", type: "uint256" },
           {
             internalType: "uint256",
             name: "accruedUtilityScore",
@@ -1359,8 +1447,12 @@ export const listingAbi = [
             name: "accruedSocialScore",
             type: "uint256",
           },
-          {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-          {internalType: "uint256", name: "phase", type: "uint256"},
+          {
+            internalType: "uint256",
+            name: "accruedTrustScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "phase", type: "uint256" },
         ],
         internalType: "struct TokenListing[]",
         name: "",
@@ -1372,7 +1464,7 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
     ],
     name: "getTokenListingsWithStatus",
     outputs: [
@@ -1380,21 +1472,25 @@ export const listingAbi = [
         components: [
           {
             components: [
-              {internalType: "string", name: "ipfsHash", type: "string"},
-              {internalType: "uint256", name: "id", type: "uint256"},
-              {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-              {internalType: "uint256", name: "utilityScore", type: "uint256"},
-              {internalType: "uint256", name: "socialScore", type: "uint256"},
-              {internalType: "uint256", name: "trustScore", type: "uint256"},
+              { internalType: "string", name: "ipfsHash", type: "string" },
+              { internalType: "uint256", name: "id", type: "uint256" },
+              { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+              {
+                internalType: "uint256",
+                name: "utilityScore",
+                type: "uint256",
+              },
+              { internalType: "uint256", name: "socialScore", type: "uint256" },
+              { internalType: "uint256", name: "trustScore", type: "uint256" },
             ],
             internalType: "struct Token",
             name: "token",
             type: "tuple",
           },
-          {internalType: "uint256", name: "coeff", type: "uint256"},
-          {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-          {internalType: "address", name: "submitter", type: "address"},
-          {internalType: "uint256", name: "statusIndex", type: "uint256"},
+          { internalType: "uint256", name: "coeff", type: "uint256" },
+          { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+          { internalType: "address", name: "submitter", type: "address" },
+          { internalType: "uint256", name: "statusIndex", type: "uint256" },
           {
             internalType: "uint256",
             name: "accruedUtilityScore",
@@ -1405,8 +1501,12 @@ export const listingAbi = [
             name: "accruedSocialScore",
             type: "uint256",
           },
-          {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-          {internalType: "uint256", name: "phase", type: "uint256"},
+          {
+            internalType: "uint256",
+            name: "accruedTrustScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "phase", type: "uint256" },
         ],
         internalType: "struct TokenListing[]",
         name: "",
@@ -1424,21 +1524,25 @@ export const listingAbi = [
         components: [
           {
             components: [
-              {internalType: "string", name: "ipfsHash", type: "string"},
-              {internalType: "uint256", name: "id", type: "uint256"},
-              {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-              {internalType: "uint256", name: "utilityScore", type: "uint256"},
-              {internalType: "uint256", name: "socialScore", type: "uint256"},
-              {internalType: "uint256", name: "trustScore", type: "uint256"},
+              { internalType: "string", name: "ipfsHash", type: "string" },
+              { internalType: "uint256", name: "id", type: "uint256" },
+              { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+              {
+                internalType: "uint256",
+                name: "utilityScore",
+                type: "uint256",
+              },
+              { internalType: "uint256", name: "socialScore", type: "uint256" },
+              { internalType: "uint256", name: "trustScore", type: "uint256" },
             ],
             internalType: "struct Token",
             name: "token",
             type: "tuple",
           },
-          {internalType: "uint256", name: "coeff", type: "uint256"},
-          {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-          {internalType: "address", name: "submitter", type: "address"},
-          {internalType: "uint256", name: "statusIndex", type: "uint256"},
+          { internalType: "uint256", name: "coeff", type: "uint256" },
+          { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+          { internalType: "address", name: "submitter", type: "address" },
+          { internalType: "uint256", name: "statusIndex", type: "uint256" },
           {
             internalType: "uint256",
             name: "accruedUtilityScore",
@@ -1449,8 +1553,12 @@ export const listingAbi = [
             name: "accruedSocialScore",
             type: "uint256",
           },
-          {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-          {internalType: "uint256", name: "phase", type: "uint256"},
+          {
+            internalType: "uint256",
+            name: "accruedTrustScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "phase", type: "uint256" },
         ],
         internalType: "struct TokenListing[]",
         name: "",
@@ -1461,100 +1569,100 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "goodSortingVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "goodValidationVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "membersToDemoteFromRankI",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "membersToDemoteFromRankII",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "membersToPromoteToRankI",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "membersToPromoteToRankII",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "owedRewards",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "owner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "paidRewards",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "pendingOwner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "promoted", type: "address"}],
+    inputs: [{ internalType: "address", name: "promoted", type: "address" }],
     name: "promote",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "promoteVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "protocolAPI",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "rank",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -1566,76 +1674,76 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "sortingAcceptances",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "sortingMaxVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "sortingMinAcceptancesPct",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "sortingMinModificationsPct",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "uint256", name: "", type: "uint256"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     name: "sortingModifications",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "uint256", name: "", type: "uint256"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     name: "sortingRejections",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "address", name: "", type: "address"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "address", name: "", type: "address" },
     ],
     name: "sortingVotesPhase",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "submitFloorPrice",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "string", name: "ipfsHash", type: "string"},
-      {internalType: "address", name: "paymentTokenAddress", type: "address"},
-      {internalType: "uint256", name: "paymentAmount", type: "uint256"},
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
+      { internalType: "string", name: "ipfsHash", type: "string" },
+      { internalType: "address", name: "paymentTokenAddress", type: "address" },
+      { internalType: "uint256", name: "paymentAmount", type: "uint256" },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
     ],
     name: "submitToken",
     outputs: [],
@@ -1643,30 +1751,30 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "tokenListings",
     outputs: [
       {
         components: [
-          {internalType: "string", name: "ipfsHash", type: "string"},
-          {internalType: "uint256", name: "id", type: "uint256"},
-          {internalType: "uint256", name: "lastUpdate", type: "uint256"},
-          {internalType: "uint256", name: "utilityScore", type: "uint256"},
-          {internalType: "uint256", name: "socialScore", type: "uint256"},
-          {internalType: "uint256", name: "trustScore", type: "uint256"},
+          { internalType: "string", name: "ipfsHash", type: "string" },
+          { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "uint256", name: "lastUpdate", type: "uint256" },
+          { internalType: "uint256", name: "utilityScore", type: "uint256" },
+          { internalType: "uint256", name: "socialScore", type: "uint256" },
+          { internalType: "uint256", name: "trustScore", type: "uint256" },
         ],
         internalType: "struct Token",
         name: "token",
         type: "tuple",
       },
-      {internalType: "uint256", name: "coeff", type: "uint256"},
-      {internalType: "enum ListingStatus", name: "status", type: "uint8"},
-      {internalType: "address", name: "submitter", type: "address"},
-      {internalType: "uint256", name: "statusIndex", type: "uint256"},
-      {internalType: "uint256", name: "accruedUtilityScore", type: "uint256"},
-      {internalType: "uint256", name: "accruedSocialScore", type: "uint256"},
-      {internalType: "uint256", name: "accruedTrustScore", type: "uint256"},
-      {internalType: "uint256", name: "phase", type: "uint256"},
+      { internalType: "uint256", name: "coeff", type: "uint256" },
+      { internalType: "enum ListingStatus", name: "status", type: "uint8" },
+      { internalType: "address", name: "submitter", type: "address" },
+      { internalType: "uint256", name: "statusIndex", type: "uint256" },
+      { internalType: "uint256", name: "accruedUtilityScore", type: "uint256" },
+      { internalType: "uint256", name: "accruedSocialScore", type: "uint256" },
+      { internalType: "uint256", name: "accruedTrustScore", type: "uint256" },
+      { internalType: "uint256", name: "phase", type: "uint256" },
     ],
     stateMutability: "view",
     type: "function",
@@ -1674,15 +1782,15 @@ export const listingAbi = [
   {
     inputs: [],
     name: "tokensPerVote",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "address", name: "paymentTokenAddress", type: "address"},
-      {internalType: "uint256", name: "paymentAmount", type: "uint256"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "address", name: "paymentTokenAddress", type: "address" },
+      { internalType: "uint256", name: "paymentAmount", type: "uint256" },
     ],
     name: "topUpToken",
     outputs: [],
@@ -1690,7 +1798,7 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "newOwner", type: "address"}],
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
@@ -1698,7 +1806,11 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "_editCoeffMultiplier", type: "uint256"},
+      {
+        internalType: "uint256",
+        name: "_editCoeffMultiplier",
+        type: "uint256",
+      },
     ],
     name: "updateEditCoeffMultiplier",
     outputs: [],
@@ -1758,7 +1870,9 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "_protocolAPI", type: "address"}],
+    inputs: [
+      { internalType: "address", name: "_protocolAPI", type: "address" },
+    ],
     name: "updateProtocolAPIAddress",
     outputs: [],
     stateMutability: "nonpayable",
@@ -1766,7 +1880,7 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "_sortingMaxVotes", type: "uint256"},
+      { internalType: "uint256", name: "_sortingMaxVotes", type: "uint256" },
     ],
     name: "updateSortingMaxVotes",
     outputs: [],
@@ -1801,7 +1915,7 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "_submitFloorPrice", type: "uint256"},
+      { internalType: "uint256", name: "_submitFloorPrice", type: "uint256" },
     ],
     name: "updateSubmitFloorPrice",
     outputs: [],
@@ -1810,8 +1924,8 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "string", name: "ipfsHash", type: "string"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "string", name: "ipfsHash", type: "string" },
     ],
     name: "updateToken",
     outputs: [],
@@ -1820,7 +1934,7 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "_tokensPerVote", type: "uint256"},
+      { internalType: "uint256", name: "_tokensPerVote", type: "uint256" },
     ],
     name: "updateTokensPerVote",
     outputs: [],
@@ -1829,7 +1943,7 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "_validationMaxVotes", type: "uint256"},
+      { internalType: "uint256", name: "_validationMaxVotes", type: "uint256" },
     ],
     name: "updateValidationMaxVotes",
     outputs: [],
@@ -1863,7 +1977,9 @@ export const listingAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "uint256", name: "_voteCooldown", type: "uint256"}],
+    inputs: [
+      { internalType: "uint256", name: "_voteCooldown", type: "uint256" },
+    ],
     name: "updateVoteCooldown",
     outputs: [],
     stateMutability: "nonpayable",
@@ -1923,7 +2039,11 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "_whitelistedCooldown", type: "uint256"},
+      {
+        internalType: "uint256",
+        name: "_whitelistedCooldown",
+        type: "uint256",
+      },
     ],
     name: "updateWhitelistedCooldown",
     outputs: [],
@@ -1932,79 +2052,79 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "uint256", name: "", type: "uint256"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     name: "validationAcceptances",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "validationMaxVotes",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "validationMinAcceptancesPct",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "validationMinModificationsPct",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "uint256", name: "", type: "uint256"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     name: "validationModifications",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "uint256", name: "", type: "uint256"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     name: "validationRejections",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "", type: "uint256"},
-      {internalType: "address", name: "", type: "address"},
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "address", name: "", type: "address" },
     ],
     name: "validationVotesPhase",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "voteCooldown",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "enum ListingVote", name: "vote", type: "uint8"},
-      {internalType: "uint256", name: "utilityScore", type: "uint256"},
-      {internalType: "uint256", name: "socialScore", type: "uint256"},
-      {internalType: "uint256", name: "trustScore", type: "uint256"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "enum ListingVote", name: "vote", type: "uint8" },
+      { internalType: "uint256", name: "utilityScore", type: "uint256" },
+      { internalType: "uint256", name: "socialScore", type: "uint256" },
+      { internalType: "uint256", name: "trustScore", type: "uint256" },
     ],
     name: "voteSorting",
     outputs: [],
@@ -2013,11 +2133,11 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "enum ListingVote", name: "vote", type: "uint8"},
-      {internalType: "uint256", name: "utilityScore", type: "uint256"},
-      {internalType: "uint256", name: "socialScore", type: "uint256"},
-      {internalType: "uint256", name: "trustScore", type: "uint256"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "enum ListingVote", name: "vote", type: "uint8" },
+      { internalType: "uint256", name: "utilityScore", type: "uint256" },
+      { internalType: "uint256", name: "socialScore", type: "uint256" },
+      { internalType: "uint256", name: "trustScore", type: "uint256" },
     ],
     name: "voteValidation",
     outputs: [],
@@ -2027,36 +2147,36 @@ export const listingAbi = [
   {
     inputs: [],
     name: "votesNeededToRankIDemotion",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "votesNeededToRankIIDemotion",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "votesNeededToRankIIPromotion",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "votesNeededToRankIPromotion",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "string", name: "_sourceChain", type: "string"},
-      {internalType: "string", name: "_sourceAddress", type: "string"},
-      {internalType: "bool", name: "whitelisted", type: "bool"},
+      { internalType: "string", name: "_sourceChain", type: "string" },
+      { internalType: "string", name: "_sourceAddress", type: "string" },
+      { internalType: "bool", name: "whitelisted", type: "bool" },
     ],
     name: "whitelistAxelarContract",
     outputs: [],
@@ -2065,8 +2185,8 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "address", name: "_stableAddress", type: "address"},
-      {internalType: "bool", name: "whitelisted", type: "bool"},
+      { internalType: "address", name: "_stableAddress", type: "address" },
+      { internalType: "bool", name: "whitelisted", type: "bool" },
     ],
     name: "whitelistStable",
     outputs: [],
@@ -2075,8 +2195,8 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "address", name: "_submitter", type: "address"},
-      {internalType: "bool", name: "whitelisted", type: "bool"},
+      { internalType: "address", name: "_submitter", type: "address" },
+      { internalType: "bool", name: "whitelisted", type: "bool" },
     ],
     name: "whitelistSubmitter",
     outputs: [],
@@ -2085,47 +2205,47 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "string", name: "", type: "string"},
-      {internalType: "string", name: "", type: "string"},
+      { internalType: "string", name: "", type: "string" },
+      { internalType: "string", name: "", type: "string" },
     ],
     name: "whitelistedAxelarContract",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "whitelistedCooldown",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "whitelistedLastSubmit",
-    outputs: [{internalType: "uint256", name: "", type: "uint256"}],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "whitelistedStable",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "whitelistedSubmitter",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
-      {internalType: "address", name: "contractAddress", type: "address"},
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "contractAddress", type: "address" },
     ],
     name: "withdrawERC20Funds",
     outputs: [],
@@ -2134,8 +2254,8 @@ export const listingAbi = [
   },
   {
     inputs: [
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "withdrawFunds",
     outputs: [],
@@ -2147,32 +2267,34 @@ export const listingAbi = [
 export const listingAxelarAbi = [
   {
     inputs: [
-      {internalType: "address", name: "gateway_", type: "address"},
-      {internalType: "address", name: "gasReceiver_", type: "address"},
+      { internalType: "address", name: "gateway_", type: "address" },
+      { internalType: "address", name: "gasReceiver_", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
   {
     inputs: [
-      {internalType: "address", name: "contractAddress", type: "address"},
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "contractAddress", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "ERC20WithdrawFailed",
     type: "error",
   },
-  {inputs: [], name: "InvalidAddress", type: "error"},
+  { inputs: [], name: "InvalidAddress", type: "error" },
   {
-    inputs: [{internalType: "address", name: "paymentToken", type: "address"}],
+    inputs: [
+      { internalType: "address", name: "paymentToken", type: "address" },
+    ],
     name: "InvalidPaymentToken",
     type: "error",
   },
-  {inputs: [], name: "NotApprovedByGateway", type: "error"},
+  { inputs: [], name: "NotApprovedByGateway", type: "error" },
   {
     inputs: [
-      {internalType: "address", name: "paymentToken", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "address", name: "paymentToken", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "TokenPaymentFailed",
     type: "error",
@@ -2199,23 +2321,23 @@ export const listingAxelarAbi = [
   {
     inputs: [],
     name: "destinationAddress",
-    outputs: [{internalType: "string", name: "", type: "string"}],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "destinationChain",
-    outputs: [{internalType: "string", name: "", type: "string"}],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "bytes32", name: "commandId", type: "bytes32"},
-      {internalType: "string", name: "sourceChain", type: "string"},
-      {internalType: "string", name: "sourceAddress", type: "string"},
-      {internalType: "bytes", name: "payload", type: "bytes"},
+      { internalType: "bytes32", name: "commandId", type: "bytes32" },
+      { internalType: "string", name: "sourceChain", type: "string" },
+      { internalType: "string", name: "sourceAddress", type: "string" },
+      { internalType: "bytes", name: "payload", type: "bytes" },
     ],
     name: "execute",
     outputs: [],
@@ -2224,12 +2346,12 @@ export const listingAxelarAbi = [
   },
   {
     inputs: [
-      {internalType: "bytes32", name: "commandId", type: "bytes32"},
-      {internalType: "string", name: "sourceChain", type: "string"},
-      {internalType: "string", name: "sourceAddress", type: "string"},
-      {internalType: "bytes", name: "payload", type: "bytes"},
-      {internalType: "string", name: "tokenSymbol", type: "string"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
+      { internalType: "bytes32", name: "commandId", type: "bytes32" },
+      { internalType: "string", name: "sourceChain", type: "string" },
+      { internalType: "string", name: "sourceAddress", type: "string" },
+      { internalType: "bytes", name: "payload", type: "bytes" },
+      { internalType: "string", name: "tokenSymbol", type: "string" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "executeWithToken",
     outputs: [],
@@ -2240,7 +2362,7 @@ export const listingAxelarAbi = [
     inputs: [],
     name: "gasService",
     outputs: [
-      {internalType: "contract IAxelarGasService", name: "", type: "address"},
+      { internalType: "contract IAxelarGasService", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
@@ -2249,7 +2371,7 @@ export const listingAxelarAbi = [
     inputs: [],
     name: "gateway",
     outputs: [
-      {internalType: "contract IAxelarGateway", name: "", type: "address"},
+      { internalType: "contract IAxelarGateway", name: "", type: "address" },
     ],
     stateMutability: "view",
     type: "function",
@@ -2257,7 +2379,7 @@ export const listingAxelarAbi = [
   {
     inputs: [],
     name: "owner",
-    outputs: [{internalType: "address", name: "", type: "address"}],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
@@ -2270,8 +2392,8 @@ export const listingAxelarAbi = [
   },
   {
     inputs: [
-      {internalType: "string", name: "_destinationChain", type: "string"},
-      {internalType: "string", name: "_destinationAddress", type: "string"},
+      { internalType: "string", name: "_destinationChain", type: "string" },
+      { internalType: "string", name: "_destinationAddress", type: "string" },
     ],
     name: "setDestination",
     outputs: [],
@@ -2280,10 +2402,10 @@ export const listingAxelarAbi = [
   },
   {
     inputs: [
-      {internalType: "string", name: "ipfsHash", type: "string"},
-      {internalType: "address", name: "paymentTokenAddress", type: "address"},
-      {internalType: "uint256", name: "paymentAmount", type: "uint256"},
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
+      { internalType: "string", name: "ipfsHash", type: "string" },
+      { internalType: "address", name: "paymentTokenAddress", type: "address" },
+      { internalType: "uint256", name: "paymentAmount", type: "uint256" },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
     ],
     name: "submitTokenAxelar",
     outputs: [],
@@ -2292,9 +2414,9 @@ export const listingAxelarAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "address", name: "paymentTokenAddress", type: "address"},
-      {internalType: "uint256", name: "paymentAmount", type: "uint256"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "address", name: "paymentTokenAddress", type: "address" },
+      { internalType: "uint256", name: "paymentAmount", type: "uint256" },
     ],
     name: "topUpTokenAxelar",
     outputs: [],
@@ -2302,7 +2424,7 @@ export const listingAxelarAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "newOwner", type: "address"}],
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
@@ -2310,8 +2432,8 @@ export const listingAxelarAbi = [
   },
   {
     inputs: [
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
-      {internalType: "string", name: "ipfsHash", type: "string"},
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
+      { internalType: "string", name: "ipfsHash", type: "string" },
     ],
     name: "updateTokenAxelar",
     outputs: [],
@@ -2320,8 +2442,8 @@ export const listingAxelarAbi = [
   },
   {
     inputs: [
-      {internalType: "address", name: "_stableAddress", type: "address"},
-      {internalType: "bool", name: "whitelisted", type: "bool"},
+      { internalType: "address", name: "_stableAddress", type: "address" },
+      { internalType: "bool", name: "whitelisted", type: "bool" },
     ],
     name: "whitelistStable",
     outputs: [],
@@ -2329,17 +2451,17 @@ export const listingAxelarAbi = [
     type: "function",
   },
   {
-    inputs: [{internalType: "address", name: "", type: "address"}],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "whitelistedStable",
-    outputs: [{internalType: "bool", name: "", type: "bool"}],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {internalType: "address", name: "recipient", type: "address"},
-      {internalType: "uint256", name: "amount", type: "uint256"},
-      {internalType: "address", name: "contractAddress", type: "address"},
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "contractAddress", type: "address" },
     ],
     name: "withdrawERC20Funds",
     outputs: [],
@@ -2400,10 +2522,10 @@ export const balanceOfAbi = [
 export const submitTokenABI = [
   {
     inputs: [
-      {internalType: "string", name: "ipfsHash", type: "string"},
-      {internalType: "address", name: "paymentTokenAddress", type: "address"},
-      {internalType: "uint256", name: "paymentAmount", type: "uint256"},
-      {internalType: "uint256", name: "tokenId", type: "uint256"},
+      { internalType: "string", name: "ipfsHash", type: "string" },
+      { internalType: "address", name: "paymentTokenAddress", type: "address" },
+      { internalType: "uint256", name: "paymentAmount", type: "uint256" },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
     ],
     name: "submitToken",
     outputs: [],
@@ -2412,18 +2534,13 @@ export const submitTokenABI = [
   },
 ];
 
-export const getLinks = text80 => [
+export const links = [
   {
     name: "website",
     title: "Website",
     placeholder: "https://mobula.fi",
     icon: (
-      <Icon
-        as={BsGlobe}
-        color={text80}
-        mr="7.5px"
-        fontSize={["16px", "16px", "18px", "20px"]}
-      />
+      <BsGlobe className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xl md:text-base lg:text-lg" />
     ),
   },
   {
@@ -2431,12 +2548,7 @@ export const getLinks = text80 => [
     title: "Twitter",
     placeholder: "https://twitter.com/MobulaFi",
     icon: (
-      <Icon
-        as={BsTwitter}
-        color="#1DA1F2"
-        mr="7.5px"
-        fontSize={["16px", "16px", "18px", "20px"]}
-      />
+      <BsTwitter className="text-twitter dark:text-twitter mr-[7.5px] text-xl md:text-base lg:text-lg" />
     ),
   },
   {
@@ -2444,12 +2556,7 @@ export const getLinks = text80 => [
     title: "Discord",
     placeholder: "https://discord.com/invite/2a8hqNzkzN",
     icon: (
-      <Icon
-        as={BsDiscord}
-        color="#7289da"
-        mr="7.5px"
-        fontSize={["16px", "16px", "18px", "20px"]}
-      />
+      <BsDiscord className="text-discord dark:text-discord mr-[7.5px] text-xl md:text-base lg:text-lg" />
     ),
   },
   {
@@ -2457,12 +2564,7 @@ export const getLinks = text80 => [
     title: "Telegram",
     placeholder: "https://t.me/MobulaFi",
     icon: (
-      <Icon
-        as={BsTelegram}
-        color="#0088cc"
-        mr="7.5px"
-        fontSize={["16px", "16px", "18px", "20px"]}
-      />
+      <BsTelegram className="text-telegram dark:text-telegram mr-[7.5px] text-xl md:text-base lg:text-lg" />
     ),
   },
   {
@@ -2470,12 +2572,7 @@ export const getLinks = text80 => [
     title: "Github",
     placeholder: "https://github.com",
     icon: (
-      <Icon
-        as={BsGithub}
-        color={text80}
-        mr="7.5px"
-        fontSize={["16px", "16px", "18px", "20px"]}
-      />
+      <BsGithub className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xl md:text-base lg:text-lg" />
     ),
   },
 ];

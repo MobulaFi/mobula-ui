@@ -1,34 +1,31 @@
-import {ArrowBackIcon, CloseIcon} from "@chakra-ui/icons";
-import {Button, Flex, Icon, Input} from "@chakra-ui/react";
-import {useContext, useState} from "react";
-import {BsShieldFillCheck} from "react-icons/bs";
-import {MdVisibility} from "react-icons/md";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import React, { useContext, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsShieldFillCheck } from "react-icons/bs";
+import { MdVisibility } from "react-icons/md";
 import {
-  TextLandingLarge,
-  TextLandingMedium,
-  TextLandingSmall,
-} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {getLinks} from "../../constant";
-import {ListingContext} from "../../context-manager";
-import {ACTIONS} from "../../reducer";
-import {inputStyle} from "../../styles";
-import {getIconFromMemberTitle} from "../../utils";
-import {InputTemplate} from "../ui/inputs-template";
+  ExtraLargeFont,
+  LargeFont,
+  MediumFont,
+} from "../../../../../components/fonts";
+import { links } from "../../constant";
+import { ListingContext } from "../../context-manager";
+import { ACTIONS } from "../../reducer";
+import { addButtonStyle, inputStyle } from "../../styles";
+import { getIconFromMemberTitle } from "../../utils";
+import { InputTemplate } from "../ui/inputs-template";
 
-export const SocialInformation = ({dispatch, state}) => {
-  const {boxBg6, boxBg3, borders, bordersActive, hover, text80} = useColors();
-  const [inputs, setInputs] = useState([{id: 1}]);
-  const [inputsKyc, setInputsKyc] = useState([{id: 1}]);
-  const [inputsTeam, setInputsTeam] = useState([{id: 1}]);
-  const links = getLinks(text80);
-  const {actualPage, setActualPage} = useContext(ListingContext);
+export const SocialInformation = ({ dispatch, state }) => {
+  const [inputs, setInputs] = useState([{ id: 1 }]);
+  const [inputsKyc, setInputsKyc] = useState([{ id: 1 }]);
+  const [inputsTeam, setInputsTeam] = useState([{ id: 1 }]);
+  const { actualPage, setActualPage } = useContext(ListingContext);
 
-  const addInput = type => {
+  const addInput = (type) => {
     if (type === "kyc") {
       setInputsKyc([
         ...inputsKyc,
-        {id: inputsKyc[inputsKyc.length - 1].id + 1},
+        { id: inputsKyc[inputsKyc.length - 1].id + 1 },
       ]);
       dispatch({
         type: ACTIONS.ADD_TO_ARRAY,
@@ -41,10 +38,10 @@ export const SocialInformation = ({dispatch, state}) => {
     if (type === "team")
       setInputsTeam([
         ...inputsTeam,
-        {id: inputsTeam[inputsTeam.length - 1].id + 1},
+        { id: inputsTeam[inputsTeam.length - 1].id + 1 },
       ]);
     if (type === "audit") {
-      setInputs([...inputs, {id: inputs[inputs.length - 1].id + 1}]);
+      setInputs([...inputs, { id: inputs[inputs.length - 1].id + 1 }]);
       dispatch({
         type: ACTIONS.ADD_TO_ARRAY,
         payload: {
@@ -65,10 +62,11 @@ export const SocialInformation = ({dispatch, state}) => {
         },
       });
       if (name === "kyc")
-        setInputsKyc(inputsKyc.filter(input => input.id !== id));
-      if (name === "audits") setInputs(inputs.filter(input => input.id !== id));
+        setInputsKyc(inputsKyc.filter((input) => input.id !== id));
+      if (name === "audits")
+        setInputs(inputs.filter((input) => input.id !== id));
     } else {
-      setInputsTeam(inputsTeam.filter(input => input.id !== id));
+      setInputsTeam(inputsTeam.filter((input) => input.id !== id));
       dispatch({
         type: ACTIONS.REMOVE_ELEMENT,
         payload: {
@@ -107,43 +105,21 @@ export const SocialInformation = ({dispatch, state}) => {
     }
   };
 
-  const deleteButtonStyle = {
-    w: "40px",
-    ml: "10px",
-    bg: boxBg6,
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    _hover: {bg: hover, border: bordersActive},
-    border: borders,
-  };
-
-  const addButtonStyle = {
-    w: "120px",
-    bg: boxBg6,
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    _hover: {bg: hover, border: bordersActive},
-    border: borders,
-  };
+  const deleteButtonStyle =
+    "w-[40px] h-[35px] ml-2.5 rounded text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   return (
-    <Flex direction="column" mb="20px">
-      <Flex align="center">
-        <Button
-          display={["flex", "flex", "none"]}
+    <div className="flex flex-col mb-5">
+      <div className="flex items-center">
+        <button
+          className="text-light-font-100 dark:text-dark-font-100 hidden md:flex"
           onClick={() => setActualPage(actualPage - 1)}
         >
-          <Icon as={ArrowBackIcon} mr="5px" />
-        </Button>
-        <TextLandingLarge>Social Information</TextLandingLarge>
-      </Flex>
-      {links.map(link => (
+          <ArrowBackIcon className="mr-[5px]" />
+        </button>
+        <ExtraLargeFont>Social Information</ExtraLargeFont>
+      </div>
+      {links.map((link) => (
         <InputTemplate
           name={link.name}
           dispatch={dispatch}
@@ -152,120 +128,99 @@ export const SocialInformation = ({dispatch, state}) => {
           icon={link.icon}
           placeholder={link.placeholder}
           isWebsite
-          w={["100%", "100%", "400px"]}
+          extraCss="w-[400px] md:w-full"
+          key={link.name}
         />
       ))}
-      <Flex direction="column" w={["100%", "100%", "400px"]}>
-        <Flex direction="column" mt="20px">
-          <Flex align="center">
-            <Icon
-              as={BsShieldFillCheck}
-              color={text80}
-              mr="7.5px"
-              fontSize={["16px", "16px", "18px", "20px"]}
-            />
-            <TextLandingMedium>Audits</TextLandingMedium>
-          </Flex>
+      <div className="flex flex-col w-[400px] md:w-full">
+        <div className="flex flex-col mt-5">
+          <div className="flex items-center">
+            <BsShieldFillCheck className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xl lg:text-lg md:text-base" />
+            <LargeFont>Audits</LargeFont>
+          </div>
           {inputs.map((input, i) => (
-            <Flex>
-              <Input
-                {...inputStyle(boxBg3, text80)}
-                border={borders}
+            <div className="flex" key={input.id}>
+              <input
+                className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mt-2.5`}
                 name="audits"
-                mt="10px"
                 key={input.id}
                 placeholder="www.certik.com/audit"
-                onChange={e => handleArrayChange(e, i)}
+                onChange={(e) => handleArrayChange(e, i)}
               />
-              <Button
-                {...deleteButtonStyle}
-                display={i > 0 ? "flex" : "none"}
+              <button
+                className={`${deleteButtonStyle} ${i > 0 ? "flex" : "hidden"}`}
                 onClick={() => removeInput(input.id, i, "audits")}
               >
-                <CloseIcon fontSize="12px" color={text80} />
-              </Button>
-            </Flex>
+                <AiOutlineClose className="text-xs" />
+              </button>
+            </div>
           ))}
-          <Button {...addButtonStyle} onClick={() => addInput("audit")}>
+          <button className={addButtonStyle} onClick={() => addInput("audit")}>
             Add more
-          </Button>
-        </Flex>
-        <Flex direction="column" mt="20px">
-          <Flex align="center">
-            <Icon
-              as={MdVisibility}
-              color={text80}
-              mr="7.5px"
-              fontSize={["16px", "16px", "18px", "20px"]}
-            />
-            <TextLandingMedium>KYCs</TextLandingMedium>
-          </Flex>
+          </button>
+        </div>
+        <div className="flex flex-col mt-5">
+          <div className="flex items-center">
+            <MdVisibility className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xl lg:text-lg md:text-base" />
+            <LargeFont>KYCs</LargeFont>
+          </div>
           {inputsKyc.map((input, i) => (
-            <Flex>
-              <Input
-                {...inputStyle(boxBg3, text80)}
-                border={borders}
+            <div className="flex" key={input.id}>
+              <input
+                className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mt-2.5 w-full`}
                 name="kycs"
-                mt="10px"
                 key={input.id}
                 value={state.links.kycs[i]}
                 placeholder="www.certik.com/kyc"
-                onChange={e => handleArrayChange(e, i)}
+                onChange={(e) => handleArrayChange(e, i)}
               />
-              <Button
-                {...deleteButtonStyle}
-                display={i > 0 ? "flex" : "none"}
+              <button
+                className={`${deleteButtonStyle} ${i > 0 ? "flex" : "hidden"}`}
                 onClick={() => removeInput(input.id, i, "kycs")}
               >
-                <CloseIcon fontSize="12px" color={text80} />
-              </Button>
-            </Flex>
+                <AiOutlineClose className="text-xs" />
+              </button>
+            </div>
           ))}
-          <Button {...addButtonStyle} onClick={() => addInput("kyc")}>
+          <button className={addButtonStyle} onClick={() => addInput("kyc")}>
             Add more
-          </Button>
-        </Flex>
-        <Flex direction="column" mt="30px" pt="20px" borderTop={borders}>
-          <TextLandingMedium>Team member(s)</TextLandingMedium>
+          </button>
+        </div>
+        <div className="flex flex-col mt-[30px] pt-5 border-t border-light-border-primary dark:border-dark-border-primary">
+          <LargeFont>Team member(s)</LargeFont>
           {state.team.map((member, i) => (
-            <Flex
-              mt={i !== 0 ? "50px" : "0px"}
-              direction="column"
-              w="100%"
-              // eslint-disable-next-line react/no-array-index-key
+            <div
+              className={`${i !== 0 ? "mt-[50px]" : ""} w-full flex flex-col`}
               key={member.name + i}
             >
-              <Button
-                w="fit-content"
-                ml="auto"
+              <button
+                className="text-light-font-100 dark:text-dark-font-100 w-fit ml-auto"
                 onClick={() =>
                   dispatch({
                     type: ACTIONS.REMOVE_ELEMENT,
-                    payload: {i, object: "team"},
+                    payload: { i, object: "team" },
                   })
                 }
               >
-                <CloseIcon fontSize="12px" color={text80} />
-              </Button>
-              {Object.keys(member).map(key => (
+                <AiOutlineClose className="text-xs" />
+              </button>
+              {Object.keys(member).map((key) => (
                 <>
-                  <Flex align="center" mb="10px">
-                    {getIconFromMemberTitle(key, text80)}
-                    <TextLandingSmall>
+                  <div className="flex items-center mb-2.5">
+                    {getIconFromMemberTitle(key)}
+                    <MediumFont>
                       {key.slice(0, 1)[0].toUpperCase() +
                         key.slice(1, key.length)}
-                    </TextLandingSmall>{" "}
-                  </Flex>
-                  <Input
+                    </MediumFont>{" "}
+                  </div>
+                  <input
+                    className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mb-5`}
                     key={key}
-                    {...inputStyle(boxBg3, text80)}
                     value={member[key]}
-                    border={borders}
-                    mb="20px"
                     placeholder={`${
                       key.slice(0, 1).toLocaleUpperCase() + key.slice(1)
                     } of team member`}
-                    onChange={e =>
+                    onChange={(e) =>
                       dispatch({
                         type: ACTIONS.SET_ELEMENT,
                         payload: {
@@ -279,11 +234,10 @@ export const SocialInformation = ({dispatch, state}) => {
                   />
                 </>
               ))}
-            </Flex>
+            </div>
           ))}
-          <Button
-            {...addButtonStyle}
-            w="170px"
+          <button
+            className={`${addButtonStyle} w-[170px]`}
             onClick={() => {
               addInput("team");
               dispatch({
@@ -302,9 +256,9 @@ export const SocialInformation = ({dispatch, state}) => {
             }}
           >
             + Add team member
-          </Button>
-        </Flex>
-      </Flex>
-    </Flex>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };

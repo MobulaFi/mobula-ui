@@ -10,7 +10,7 @@ import {
 } from "../../../../../components/fonts";
 import { Menu } from "../../../../../components/menu";
 import { ACTIONS } from "../../reducer";
-import { inputStyle } from "../../styles";
+import { addButtonStyle, inputStyle } from "../../styles";
 import { getDateError } from "../../utils";
 
 export const Launch = ({ dispatch, state }) => {
@@ -34,9 +34,6 @@ export const Launch = ({ dispatch, state }) => {
       button_name: "Add Pair",
     },
   ];
-
-  const addButtonStyle =
-    "w-[120px]h-[35px] mt-2.5 text-base lg:text-sm md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
 
   const ISOtoTimestamp = () => {
     const fullDate = `${date.date ? date.date : "27/06/2023"} ${

@@ -8,6 +8,7 @@ import {
 } from "../../../../../components/fonts";
 import { ListingContext } from "../../context-manager";
 import { ACTIONS } from "../../reducer";
+import { addButtonStyle } from "../../styles";
 import { Distribution } from "../distribution";
 import { Launch } from "../launch";
 import { Sales } from "../sales";
@@ -16,8 +17,6 @@ import { MultiInputTemplate } from "../ui/multi-input-template";
 export const ContractInformation = ({ dispatch, state }) => {
   const { isLaunched, setIsLaunched, actualPage, setActualPage } =
     useContext(ListingContext);
-  const addButtonStyle =
-    "w-[120px] h-[35px] rounded text-light-font-100 dark:text-dark-font-100 mt-2.5 text-base lg:text-sm md:text-xs";
 
   return (
     <div className="flex flex-col mb-5 w-[400px] md:w-full">

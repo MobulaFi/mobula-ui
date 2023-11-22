@@ -4,13 +4,12 @@ import { isAddress } from "viem";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { ACTIONS } from "../../reducer";
-import { inputStyle } from "../../styles";
+import { addButtonStyle, inputStyle } from "../../styles";
 
 export const Distribution = ({ dispatch, state }) => {
   const amountRef = useRef<HTMLInputElement>(null);
   const deleteButtonStyle =
     "w-[40px] ml-2.5 rounded text-base lg:text-sm md:text-xs mt-2.5";
-  const addButtonStyle = "w-[120px] mt-2.5 text-base lg:text-sm md:text-xs";
 
   const pushAddress = async (address: string, i: number, j: number) => {
     const newAddressObject = {

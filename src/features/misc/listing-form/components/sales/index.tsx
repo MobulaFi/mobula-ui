@@ -6,7 +6,7 @@ import { Menu } from "../../../../../components/menu";
 import { ILaunchpad } from "../../../../../interfaces/launchpads";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { ACTIONS } from "../../reducer";
-import { inputStyle } from "../../styles";
+import { addButtonStyle, inputStyle } from "../../styles";
 import { getInfoFromIndex, getNameFromNumber } from "../../utils";
 
 export const Sales = ({ dispatch, state }) => {
@@ -14,9 +14,6 @@ export const Sales = ({ dispatch, state }) => {
   const [activePlateform, setActivePlateform] = useState<ILaunchpad>(
     {} as ILaunchpad
   );
-
-  const addButtonStyle =
-    "flex items-center w-[120px]h-[35px] mt-2.5 text-base hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover  lg:text-sm md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
 
   function formatDate(timestamp: number) {
     return new Date(timestamp).getTime();

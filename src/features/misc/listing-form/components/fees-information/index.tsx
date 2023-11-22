@@ -8,13 +8,12 @@ import {
 } from "../../../../../components/fonts";
 import { ListingContext } from "../../context-manager";
 import { ACTIONS } from "../../reducer";
+import { addButtonStyle } from "../../styles";
 import { FeeBreakdown } from "./fee-breakdown";
 
 export const FeesInformation = ({ dispatch, state }) => {
   const [sellFees, setSellFees] = useState("");
   const { actualPage, setActualPage } = useContext(ListingContext);
-  const addButtonStyle =
-    "w-[120px]h-[35px] mt-2.5 text-base lg:text-sm md:text-xs";
 
   return (
     <div className="flex flex-col mb-5 w-[400px] md:w-full">
