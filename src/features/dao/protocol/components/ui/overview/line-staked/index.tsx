@@ -1,30 +1,29 @@
-import {Flex, Icon, Box, Text} from "@chakra-ui/react";
 import React from "react";
-// import {IconType} from "react-icons/lib";
-import {useColors} from "../../../../../../../common/utils/color-mode";
+import { cn } from "../../../../../../../@/lib/utils";
+
+interface StakedLineProps {
+  title: string;
+  value: string;
+  icon: any;
+  extraCss?: string;
+}
 
 export const StakedLine = ({
   title,
   value,
   icon,
-  ...props
-}: {
-  title: string;
-  value: string;
-  // icon: IconType;
-  [key: string]: any;
-}) => {
-  const {text80, text60} = useColors();
+  extraCss,
+}: StakedLineProps) => {
   return (
-    <Flex align="center" mb="10px" {...props}>
-      <Icon as={icon} boxSize="18px" mt="1px" mr="10px" color={text80} />
-      <Text color={text60} fontSize="14px" fontWeight="400">
+    <div className={cn("flex items-center mb-2.5", extraCss)}>
+      {icon}
+      <p className="text-sm text-light-font-60 dark:text-dark-font-60">
         {" "}
         {title}
-        <Box as="span" ml="5px" color={text80}>
+        <span className="ml-[5px] text-light-font-100 dark:text-dark-font-100">
           {value}
-        </Box>
-      </Text>
-    </Flex>
+        </span>
+      </p>
+    </div>
   );
 };

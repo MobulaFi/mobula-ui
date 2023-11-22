@@ -1,20 +1,20 @@
-import {Flex, FlexProps} from "@chakra-ui/react";
 import React from "react";
-import {useColors} from "../../../../../common/utils/color-mode";
+import { cn } from "../../../../../@/lib/utils";
 
-export const BoxContainer: React.FC<FlexProps> = ({children, ...props}) => {
-  const {boxBg3, borders, text80} = useColors();
+interface BoxContainerProps {
+  children: React.ReactNode;
+  extraCss?: string;
+}
+
+export const BoxContainer = ({ children, extraCss }: BoxContainerProps) => {
   return (
-    <Flex
-      direction="column"
-      borderRadius="16px"
-      bg={boxBg3}
-      w="100%"
-      border={borders}
-      color={text80}
-      {...props}
+    <div
+      className={cn(
+        "flex flex-col rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary w-full border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100",
+        extraCss
+      )}
     >
       {children}
-    </Flex>
+    </div>
   );
 };

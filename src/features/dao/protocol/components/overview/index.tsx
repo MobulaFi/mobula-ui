@@ -1,34 +1,33 @@
-import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
-import {Box, Button, Flex} from "@chakra-ui/react";
-import {useContext, useEffect, useState} from "react";
-import {BsKey} from "react-icons/bs";
-import {RiWallet3Line} from "react-icons/ri";
-import {useAccount} from "wagmi";
+import { useEffect, useState } from "react";
+import { BsCheckLg, BsKey } from "react-icons/bs";
+import { RiWallet3Line } from "react-icons/ri";
+import { useAccount } from "wagmi";
 
 // eslint-disable-next-line import/no-cycle
-import {OverviewContext} from "../../../../../../pages/dao/protocol/overview";
-import {TextLandingSmall, TextSmall} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {TitleContainer} from "../../../../Misc/Dex/components/ui/container-title";
-import {BoxContainer} from "../../../common/components/box-container";
-import {MainContainer} from "../../../common/components/container-main";
-import {RightContainer} from "../../../common/components/container-right";
-import {MetricsLine} from "../../../common/components/line-metric";
-import {LeftNavigation} from "../../../common/components/nav-left";
-import {LeftNavigationMobile} from "../../../common/components/nav-left-mobile";
-import {TimeBox} from "../../../governance/components/ui/staking-time";
-import {useClaim} from "../../hooks/use-claim";
-import {useInitValues} from "../../hooks/use-initValue";
-import {useNonValueToken} from "../../hooks/use-nonValueToken";
-import {HistoryListing} from "../../models";
-import {RankBox} from "../ui/overview/box-rank";
-import {StakedLine} from "../ui/overview/line-staked";
+import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { Button } from "../../../../../components/button";
+import { Container } from "../../../../../components/container";
+import { MediumFont, SmallFont } from "../../../../../components/fonts";
+import { TitleContainer } from "../../../../../components/title";
+import { BoxContainer } from "../../../common/components/box-container";
+import { RightContainer } from "../../../common/components/container-right";
+import { MetricsLine } from "../../../common/components/line-metric";
+import { LeftNavigation } from "../../../common/components/nav-left";
+import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
+import { TimeBox } from "../../../common/components/time-box";
+import { useClaim } from "../../hooks/use-claim";
+import { useInitValues } from "../../hooks/use-initValue";
+import { useNonValueToken } from "../../hooks/use-nonValueToken";
+import { HistoryListing } from "../../models";
+import { RankBox } from "../ui/overview/box-rank";
+import { StakedLine } from "../ui/overview/line-staked";
 
 export const Overview = () => {
-  const {recentlyAdded} = useNonValueToken();
-  const {countdown, tokensOwed, goodDecisions, badDecisions, claimed} =
+  const { recentlyAdded } = useNonValueToken();
+  const { countdown, tokensOwed, goodDecisions, badDecisions, claimed } =
     useContext(OverviewContext);
-  const {address} = useAccount();
+  const { address } = useAccount();
   const [moreHistory, setMoreHistory] = useState(10);
   const [showMore, setShowMore] = useState(false);
   const [days, setDays] = useState(0);
@@ -37,7 +36,6 @@ export const Overview = () => {
   const [seconds, setSeconds] = useState(0);
   const initValues = useInitValues();
   const claim = useClaim();
-  const {text80, borders, text10, bordersActive, hover} = useColors();
 
   useEffect(() => {
     if (address) {
@@ -57,10 +55,10 @@ export const Overview = () => {
     if (countdown) {
       setInterval(() => {
         const now = new Date().getTime();
-        const distance = countdown ? countdown - now : 0;
+        const distance = countdown - now;
         setDays(Math.floor(distance / (1000 * 60 * 60 * 24)));
         setHours(
-          Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
         );
         setMinutes(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
         setSeconds(Math.floor((distance % (1000 * 60)) / 1000));
@@ -69,104 +67,64 @@ export const Overview = () => {
   }, [countdown]);
 
   return (
-    <MainContainer>
-      <Box display={["none", "none", "none", "block"]}>
+    <Container>
+      <div className="block lg:hidden">
         <LeftNavigation page="protocol" />
-      </Box>
-      <Box display={["block", "block", "block", "none"]}>
+      </div>
+      <div className="hidden lg:block">
         <LeftNavigationMobile page="protocol" />
-      </Box>
+      </div>
       <RightContainer>
         {/* RANK BOXS */}
-        <Flex
-          align="center"
-          direction={["column", "column", "row", "row"]}
-          mt="12px"
-        >
+        <div className="flex items-center flex-row md:flex-col mt-3">
           <RankBox
             goodChoice={goodDecisions}
             badChoice={badDecisions}
             tokensOwed={tokensOwed}
           />
-        </Flex>
+        </div>
         {/* MATIC FAUCET */}
-        <BoxContainer
-          justify="space-between"
-          direction="column"
-          mb={["0px", "0px", "20px", "20px"]}
-          h="auto"
-          p="0px"
-          align={["flex-start", "flex-start", "center", "center"]}
-        >
-          <TitleContainer w="100%" px="15px">
-            <TextLandingSmall color={text80}>MATIC Faucet</TextLandingSmall>
+        <BoxContainer extraCss="justify-between flex-col mb-5 md:mb-0 h-auto p-0 items-center md:items-start">
+          <TitleContainer extraCss="w-full px-[15px]">
+            <MediumFont>MATIC Faucet</MediumFont>
           </TitleContainer>
-          <Flex
-            align="center"
-            justify="space-between"
-            w="100%"
-            p={["20px", "20px", "0px"]}
-            direction={["column", "row"]}
-          >
-            <Flex
-              p={["5px 5px 5px 5px", "5px 5px 5px 5px", "20px", "20px"]}
-              direction="column"
-              align="flex-start"
-            >
+          <div className="flex items-center justify-between w-full p-0 md:p-5 flex-row sm:flex-col">
+            <div className="flex flex-col items-start p-5 md:p-[5px]">
               <StakedLine
                 title="Already claimed:"
                 value={`${claimed} MATIC`}
-                icon={RiWallet3Line}
-                mb={["10px", "10px", "20px"]}
+                icon={
+                  <RiWallet3Line className="text-light-font-100 dark:text-dark-font-100 text-lg mt-[1px] mr-2.5" />
+                }
+                extraCss="mb-5 md:mb-2.5"
               />
               <StakedLine
                 title="Next claim:"
                 value={days ? `${days} Days` : "0 Days"}
-                icon={BsKey}
+                icon={
+                  <BsKey className="text-light-font-100 dark:text-dark-font-100 text-lg mt-[1px] mr-2.5" />
+                }
               />
-            </Flex>
-            <Flex
-              pl={["20px", "20px", "0px", "0px"]}
-              justify="center"
-              p={["5px 5px 5px 5px", "5px 5px 5px 5px", "20px", "20px"]}
-              direction="column"
-              align="flex-start"
-            >
-              <Flex>
+            </div>
+            <div className="pl-0 md:pl-5 flex items-start justify-center p-5 md:p-[5px] flex-col">
+              <div className="flex">
                 <TimeBox timeframe="Days" number={days} />
                 <TimeBox timeframe="Hours" number={hours} />
                 <TimeBox timeframe="Min" number={minutes} />
                 <TimeBox timeframe="Sec" number={seconds} />
-              </Flex>
-              <Button
-                variant="outlined"
-                mt="15px"
-                maxWidth="auto"
-                w="100%"
-                border={borders}
-                onClick={claim}
-                color={text80}
-                _hover={{bg: hover, border: bordersActive}}
-                fontWeight="400"
-                fontSize={["12px", "12px", "13px", "14px"]}
-              >
+              </div>
+              <Button extraCss="mt-[15px] max-w-auto w-full" onClick={claim}>
                 Claim
               </Button>
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         </BoxContainer>
         {/* METRICS */}
-        <BoxContainer
-          border={borders}
-          mb="20px"
-          mt={["20px", "20px", "20px", "0px"]}
-          direction="column"
-          h="fit-content"
-        >
-          <TitleContainer px="15px">
-            <TextLandingSmall color={text80}>History</TextLandingSmall>
+        <BoxContainer extraCss="mb-5 flex-col h-fit">
+          <TitleContainer extraCss="px-[15px]">
+            <MediumFont>History</MediumFont>
           </TitleContainer>
-          <Flex direction="column" w="100%">
+          <div className="flex flex-col w-full">
             {recentlyAdded.map((history: HistoryListing, i: number) => {
               const date = new Date(history.timestamp * 1000);
               const second = date.getTime();
@@ -177,7 +135,7 @@ export const Overview = () => {
               };
               // TODO : if else under do not work if in a fonction ( see in utils.tsx)
               if (postedDate < 60) {
-                format = {timeframe: "seconds", time: postedDate};
+                format = { timeframe: "seconds", time: postedDate };
               } else if (postedDate >= 60 && postedDate < 120) {
                 format = {
                   timeframe: "minute",
@@ -209,79 +167,69 @@ export const Overview = () => {
                   time: Math.floor(postedDate / 86400),
                 };
               }
-              if (
-                i < moreHistory &&
-                history.token_data.symbol !== "chibre token"
-              ) {
+              if (i < moreHistory) {
                 return (
                   <MetricsLine
                     keys={history.token_data.name}
                     history={history}
                     logo={history.token_data.logo}
+                    key={history.token_data.name}
                   >
-                    <Flex w={["60%", "auto", "60%"]} justify="space-between">
-                      <TextSmall whiteSpace="nowrap" display={["none", "flex"]}>
+                    <div className="flex w-[60%] md:w-auto sm:w-[60%] justify-between">
+                      <SmallFont extraCss="whitespace-nowrap flex sm:hidden">
                         {format.time} {format.timeframe} ago
-                      </TextSmall>
-                      <TextSmall whiteSpace="nowrap" ml="20px">
+                      </SmallFont>
+                      <SmallFont extraCss="whitespace-nowrap ml-5">
                         {history.final_decision === true
                           ? "Final Validation"
                           : "First Sort"}
-                      </TextSmall>
-                      <Flex align="center" ml="20px">
+                      </SmallFont>
+                      <div className="flex items-center ml-5">
                         {history.validated ? (
-                          <CheckIcon fontSize="13" color="green" mr="10px" />
+                          <BsCheckLg className="text-[13px] text-green dark:text-green mr-2.5" />
                         ) : (
-                          <CloseIcon fontSize="13" color="red" mr="10px" />
+                          <AiOutlineClose className="text-[13px] text-red dark:text-red mr-2.5" />
                         )}
-                        <TextSmall whiteSpace="nowrap">
+                        <SmallFont extraCss="whitespace-nowrap">
                           {history?.votes.length} VOTES
-                        </TextSmall>
-                      </Flex>
-                    </Flex>
+                        </SmallFont>
+                      </div>
+                    </div>
                   </MetricsLine>
                 );
               }
               return null;
             })}
-          </Flex>
-          <Flex align="center" justify="center" w="100%">
+          </div>
+          <div className="flex items-center justify-center w-full">
             {showMore && (
               <>
-                <Button
-                  mx="15px"
-                  my={["15px", "15px", "20px", "20px"]}
-                  fontSize={["13px", "13px", "15px", "15px"]}
-                  fontWeight="400"
-                  color={text80}
-                  _focus={{boxShadow: "none"}}
+                <button
+                  className="mx-[15px] my-5 md:mt-[15px] flex items-center justify-center text-light-font-100 
+                  dark:text-dark-font-100 text-[15px] md:text-[13px]"
                   onClick={() => {
                     setShowMore(false);
                     setMoreHistory(10);
                   }}
                 >
                   Show less
-                </Button>
-                <Flex w="2px" h="15px" bg={text10} borderRadius="full" />
+                </button>
+                <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary rounded-full" />
               </>
             )}
-            <Button
-              mx="15px"
-              my="15px"
-              fontWeight="400"
-              color={text80}
-              fontSize={["13px", "13px", "15px", "15px"]}
-              _focus={{boxShadow: "none"}}
+            <button
+              className="m-[15px] flex items-center justify-center text-light-font-100 
+            dark:text-dark-font-100 text-[15px] md:text-[13px]"
               onClick={() => {
                 setShowMore(true);
                 setMoreHistory(moreHistory + 10);
               }}
             >
               See more
-            </Button>
-          </Flex>
+            </button>
+          </div>
         </BoxContainer>
       </RightContainer>
-    </MainContainer>
+    </Container>
   );
 };
