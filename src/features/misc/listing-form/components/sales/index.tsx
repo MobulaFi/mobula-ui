@@ -1,101 +1,79 @@
-import {ChevronDownIcon, CloseIcon} from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Image,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
-import {useEffect, useState} from "react";
-import {createSupabaseDOClient} from "../../../../../../utils/supabase";
-import {
-  TextLandingMedium,
-  TextLandingSmall,
-  TextMedium,
-} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {ILaunchpad} from "../../../../Data/Ico/models";
-import {ACTIONS} from "../../reducer";
-import {inputStyle} from "../../styles";
-import {getInfoFromIndex, getNameFromNumber} from "../../utils";
+import React, { useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsChevronDown } from "react-icons/bs";
+import { LargeFont, MediumFont } from "../../../../../components/fonts";
+import { Menu } from "../../../../../components/menu";
+import { ILaunchpad } from "../../../../../interfaces/launchpads";
+import { createSupabaseDOClient } from "../../../../../lib/supabase";
+import { ACTIONS } from "../../reducer";
+import { inputStyle } from "../../styles";
+import { getInfoFromIndex, getNameFromNumber } from "../../utils";
 
-export const Sales = ({dispatch, state}) => {
-  const {boxBg6, borders, boxBg3, bordersActive, hover, text80} = useColors();
+export const Sales = ({ dispatch, state }) => {
   const [launchpads, setLaunchpads] = useState<ILaunchpad[]>([]);
   const [activePlateform, setActivePlateform] = useState<ILaunchpad>(
-    {} as ILaunchpad,
+    {} as ILaunchpad
   );
 
-  function formatDate(timestamp) {
+  const addButtonStyle =
+    "flex items-center w-[120px]h-[35px] mt-2.5 text-base hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover  lg:text-sm md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
+
+  function formatDate(timestamp: number) {
     return new Date(timestamp).getTime();
   }
-
-  const addButtonStyle = {
-    w: "120px",
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    fontSize: ["12px", "12px", "14px", "16px"],
-  };
 
   useEffect(() => {
     const supabase = createSupabaseDOClient();
     supabase
       .from("launchpads")
       .select("*")
-      .then(({data, error}) => {
+      .then(({ data, error }) => {
         if (error) console.error(error);
         else
-          setLaunchpads([...data, {name: "Other", logo: "/icon/unknown.png"}]);
+          setLaunchpads([
+            ...data,
+            { name: "Other", logo: "/icon/unknown.png" },
+          ]);
       });
   }, []);
 
   return (
     <>
-      <TextLandingMedium mt="30px" pt="20x">
-        Presale(s)
-      </TextLandingMedium>
+      <LargeFont extraCss="mt-[30px] pt-5">Presale(s)</LargeFont>
       {state.tokenomics.sales.map((d, i) => (
         <>
-          <Flex justify="space-between" mt={i !== 0 ? "50px" : "20px"}>
-            <TextMedium>
+          <div
+            className={`flex justify-between ${i !== 0 ? "mt-[50px]" : "mt-5"}`}
+          >
+            <MediumFont>
               {getNameFromNumber(i + 1)} Round Sale Information
-            </TextMedium>
-            <Button
-              color={text80}
+            </MediumFont>
+            <button
+              className="flex items-center justify-center text-light-font-100 dark:text-dark-font-100"
               onClick={() =>
                 dispatch({
                   type: ACTIONS.REMOVE_ELEMENT_TOKENOMICS,
-                  payload: {object: "sales", i},
+                  payload: { object: "sales", i },
                 })
               }
             >
-              <CloseIcon fontSize="12px" />
-            </Button>
-          </Flex>
-
-          <Flex direction="column" mt="20px">
+              <AiOutlineClose className="text-xs" />
+            </button>
+          </div>
+          <div className="flex flex-col mt-5">
             {Object.keys(d).map((entry, j) => {
-              const {placeholder, title, type} = getInfoFromIndex(j);
-
+              const { placeholder, title, type } = getInfoFromIndex(j);
               return (
                 <>
-                  <TextLandingSmall mb="10px">{title}</TextLandingSmall>
+                  <MediumFont extraCss="mb-2.5">{title}</MediumFont>
                   {j !== Object.keys(d).length - 1 ? (
-                    <Input
-                      {...inputStyle(boxBg3, text80)}
-                      mb="20px"
-                      minH="35px"
+                    <input
+                      className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mb-5 min-h-[35px]`}
                       name={entry}
-                      border={borders}
                       type={type}
                       placeholder={placeholder}
-                      onChange={e => {
+                      value={d[entry]}
+                      onChange={(e) => {
                         let value: string | number = "";
                         if (
                           entry === "valuation" ||
@@ -104,7 +82,7 @@ export const Sales = ({dispatch, state}) => {
                         )
                           value = parseFloat(e.target.value);
                         else if (entry === "date")
-                          value = formatDate(e.target.value);
+                          value = formatDate(Number(e.target.value));
                         else value = e.target.value;
                         dispatch({
                           type: ACTIONS.SET_ELEMENT_TOKENOMICS,
@@ -116,83 +94,59 @@ export const Sales = ({dispatch, state}) => {
                           },
                         });
                       }}
-                      value={d[entry]}
                     />
                   ) : (
-                    <Menu matchWidth>
-                      <MenuButton
-                        {...addButtonStyle}
-                        bg={boxBg6}
-                        w="fit-content"
-                        px="12px"
-                        mt="0px"
-                        mb="10px"
-                        fontSize={["12px", "12px", "14px", "16px"]}
-                        border={borders}
-                        _hover={{bg: hover, border: bordersActive}}
-                        as={Button}
-                      >
-                        <Flex h="100%" align="center">
+                    <Menu
+                      titleCss={`${addButtonStyle} w-fit px-3 mb-2.5 mt-0`}
+                      title={
+                        <div className="flex items-center h-full">
                           {d.platform ? (
-                            <Image
+                            <img
+                              className="mr-[7.5px] w-5 h-5 md:w-[18px] md:h-[18px] rounded-full"
                               src={activePlateform.logo || "/icon/unknown.png"}
-                              boxSize={["18px", "18px", "20px"]}
-                              mr="7.5px"
-                              borderRadius="full"
+                              alt={`${activePlateform.name} logo`}
                             />
                           ) : null}
                           {d.platform ? d.platform : "Select a Platform"}{" "}
-                          <ChevronDownIcon ml="10px" />
-                        </Flex>
-                      </MenuButton>
-                      <MenuList
-                        fontSize={["12px", "12px", "14px", "16px"]}
-                        color={text80}
-                        fontWeight="400"
-                        bg={boxBg3}
-                        border={borders}
-                        boxShadow="none"
-                        borderRadius="8px"
-                        zIndex={2}
-                      >
-                        {launchpads.map(launchpad => (
-                          <MenuItem
-                            bg={boxBg3}
-                            _hover={{bg: hover}}
-                            onClick={() => {
-                              setActivePlateform(launchpad);
-                              dispatch({
-                                type: ACTIONS.SET_ELEMENT_TOKENOMICS,
-                                payload: {
-                                  object: "sales",
-                                  name: "platform",
-                                  value: launchpad.name,
-                                  i,
-                                },
-                              });
-                            }}
-                          >
-                            <Image
-                              src={launchpad.logo || "/icon/unknown.png"}
-                              boxSize={["18px", "18px", "22px"]}
-                              mr="7.5px"
-                              borderRadius="full"
-                            />
-                            {launchpad.name}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
+                          <BsChevronDown className="ml-2.5" />
+                        </div>
+                      }
+                    >
+                      {launchpads.map((launchpad) => (
+                        <button
+                          key={launchpad.logo}
+                          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                          onClick={() => {
+                            setActivePlateform(launchpad);
+                            dispatch({
+                              type: ACTIONS.SET_ELEMENT_TOKENOMICS,
+                              payload: {
+                                object: "sales",
+                                name: "platform",
+                                value: launchpad.name,
+                                i,
+                              },
+                            });
+                          }}
+                        >
+                          <img
+                            className="mr-[7.5px] w-5 h-5 md:w-[18px] md:h-[18px] rounded-full"
+                            src={launchpad.logo || "/icon/unknown.png"}
+                            alt={`${launchpad.name} logo`}
+                          />
+                          {launchpad.name}
+                        </button>
+                      ))}
                     </Menu>
                   )}
                 </>
               );
             })}
-          </Flex>
+          </div>
         </>
       ))}
-      <Button
-        {...addButtonStyle}
-        mt="10px"
+      <button
+        className={`${addButtonStyle} mt-2.5 w-fit px-3 `}
         onClick={() =>
           dispatch({
             type: ACTIONS.ADD_ELEMENT_TOKENOMICS,
@@ -209,14 +163,9 @@ export const Sales = ({dispatch, state}) => {
             },
           })
         }
-        w="fit-content"
-        px="12px"
-        bg={boxBg6}
-        border={borders}
-        _hover={{bg: hover, border: bordersActive}}
       >
         + Add {getNameFromNumber(state.tokenomics.sales.length + 1)} Presale
-      </Button>
+      </button>
     </>
   );
 };
