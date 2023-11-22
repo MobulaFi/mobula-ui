@@ -1,44 +1,43 @@
-import {
-  ArrowBackIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  CloseIcon,
-  ExternalLinkIcon,
-} from "@chakra-ui/icons";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Flex,
-  Icon,
   Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Slider,
   SliderFilledTrack,
   SliderMark,
   SliderThumb,
   SliderTrack,
-  Spinner,
   Text,
-  useColorMode,
 } from "@chakra-ui/react";
 import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import {useCallback, useContext, useEffect, useState} from "react";
-import {useAlert} from "react-alert";
-import {BsTwitter} from "react-icons/bs";
-import {FiShoppingCart} from "react-icons/fi";
-import {erc20ABI, useAccount, useNetwork} from "wagmi";
+import { useTheme } from "next-themes";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+// import { useAlert } from "react-alert";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
+import { FiExternalLink, FiShoppingCart } from "react-icons/fi";
+import { erc20ABI, useAccount, useNetwork } from "wagmi";
 import {
   readContract,
   switchNetwork,
   waitForTransaction,
   writeContract,
 } from "wagmi/actions";
+import { Button } from "../../../../../components/button";
+import {
+  ExtraLargeFont,
+  LargeFont,
+  MediumFont,
+  SmallFont,
+  TextMedium,
+} from "../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../components/link";
+import { Menu } from "../../../../../components/menu";
+import { Spinner } from "../../../../../components/spinner";
 import {
   PROTOCOL_ADDRESS,
   PROTOCOL_BNB_ADDRESS,
@@ -46,35 +45,28 @@ import {
   USDC_MATIC_ADDRESS,
   USDT_BNB_ADDRESS,
   USDT_MATIC_ADDRESS,
-} from "../../../../../../utils/constants";
-import {getUrlFromName} from "../../../../../../utils/helpers/formaters";
-import {
-  TextLandingLarge,
-  TextLandingMedium,
-  TextLandingSmall,
-  TextMedium,
-  TextSmall,
-} from "../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../common/components/links";
+} from "../../../../../constants";
+import { useIPFS } from "../../../../../hooks/ipfs";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { pushData } from "../../../../../lib/mixpanel";
+import { getUrlFromName } from "../../../../../utils/formaters";
 import {
   allowanceAbi,
   balanceOfAbi,
-} from "../../../../../common/components/popup/fast-track/abi";
+  listingAbi,
+  listingAxelarAbi,
+} from "../../constant";
+import { ListingContext } from "../../context-manager";
 import {
+  addButtonStyle,
   buttonsOption,
-  imageOption,
+  imageStyle,
   labelStyles,
   markOption,
-} from "../../../../../common/components/popup/fast-track/option";
-import {PopupUpdateContext} from "../../../../../common/context-manager/popup";
-import {pushData} from "../../../../../common/data/utils";
-import {useIPFS} from "../../../../../common/hooks/ipfs";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {listingAbi, listingAxelarAbi} from "../../constant";
-import {ListingContext} from "../../context-manager";
-import {cleanFee, cleanVesting} from "../../utils";
+} from "../../styles";
+import { cleanFee, cleanVesting } from "../../utils";
 
-export const Submit = ({state}) => {
+export const Submit = ({ state }) => {
   const {
     hover,
     text10,
@@ -88,27 +80,27 @@ export const Submit = ({state}) => {
     borders2x,
   } = useColors();
   const [pending, setPending] = useState(false);
-  const {address} = useAccount();
+  const { address } = useAccount();
   const [isPayingNow, setIsPayingNow] = useState(true);
   const [fastTrack, setFastTrack] = useState(100);
-  const {colorMode} = useColorMode();
+  const { theme } = useTheme();
   const [hasPaid, setHasPaid] = useState(false);
-  const isDarkMode = colorMode === "light";
-  const {chain} = useNetwork();
-  const alert = useAlert();
-  const {actualPage, setActualPage, isLaunched} = useContext(ListingContext);
+  const isDarkMode = theme === "light";
+  const { chain } = useNetwork();
+  // const alert = useAlert();
+  const { actualPage, setActualPage, isLaunched } = useContext(ListingContext);
   const ipfs = useIPFS();
   const [blockchainSelected, setBlockchainSelected] = useState<string>(
-    blockchainsContent.Polygon.name,
+    blockchainsContent.Polygon.name
   );
   const [balance, setBalance] = useState({
     usdt: {
       owned: 0,
       approved: 0,
     },
-    usdc: {owned: 0, approved: 0},
+    usdc: { owned: 0, approved: 0 },
   });
-  const {setShowSwitchNetwork, setConnect} = useContext(PopupUpdateContext);
+  const { setShowSwitchNetwork, setConnect } = useContext(PopupUpdateContext);
 
   const getRewardFromTypeOfListing = () => {
     if (fastTrack < 300)
@@ -139,16 +131,6 @@ export const Submit = ({state}) => {
     };
   };
 
-  const addButtonStyle = {
-    w: "120px",
-    h: ["30px", "30px", "35px"],
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    fontSize: ["12px", "12px", "14px", "16px"],
-  };
-
   useEffect(() => {
     if (chain?.id === blockchainsContent[chain?.name]?.chainId) {
       setBlockchainSelected(chain?.name);
@@ -156,7 +138,7 @@ export const Submit = ({state}) => {
   }, [chain]);
 
   useEffect(() => {
-    if (chain?.id !== 137 && chain?.id !== 56) switchNetwork({chainId: 137});
+    if (chain?.id !== 137 && chain?.id !== 56) switchNetwork({ chainId: 137 });
   }, [chain]);
 
   const getBalance = useCallback(async () => {
@@ -177,7 +159,7 @@ export const Submit = ({state}) => {
         args: [address],
       });
 
-    const getDecimals = contract =>
+    const getDecimals = (contract) =>
       readContract({
         address: contract as `0x${string}`,
         abi: erc20ABI as never,
@@ -262,7 +244,7 @@ export const Submit = ({state}) => {
     }
 
     // setLoading(true);
-    const {hash} = await writeContract({
+    const { hash } = await writeContract({
       address: contractAddress as never,
       abi: erc20ABI as never,
       functionName: "approve" as never,
@@ -272,13 +254,13 @@ export const Submit = ({state}) => {
       ] as never,
     });
     try {
-      alert.info(`Transaction to approve ${symbol} is pending...`);
-      await waitForTransaction({hash});
-      alert.success(`${symbol} approved successfully.`);
+      // alert.info(`Transaction to approve ${symbol} is pending...`);
+      await waitForTransaction({ hash });
+      // alert.success(`${symbol} approved successfully.`);
       getBalance();
       // setLoading(false);
     } catch (e) {
-      alert.error(`Something went wrong while trying to allow ${symbol}.`);
+      // alert.error(`Something went wrong while trying to allow ${symbol}.`);
       getBalance();
       // setLoading(false);
     }
@@ -291,19 +273,19 @@ export const Submit = ({state}) => {
 
     const dateToSend = {
       ...state,
-      contracts: state.contracts.filter(contract => contract.address !== ""),
+      contracts: state.contracts.filter((contract) => contract.address !== ""),
       excludedFromCirculationAddresses:
         state.excludedFromCirculationAddresses.filter(
-          newAddress => newAddress && newAddress.address,
+          (newAddress) => newAddress && newAddress.address
         ),
       tokenomics: {
         ...state.tokenomics,
-        sales: state.tokenomics.sales.filter(sale => sale.name !== ""),
+        sales: state.tokenomics.sales.filter((sale) => sale.name !== ""),
         vestingSchedule: state.tokenomics.vestingSchedule
-          .filter(vesting => vesting[0])
+          .filter((vesting) => vesting[0])
           .map(cleanVesting),
         fees: state.tokenomics.fees
-          .filter(fee => fee.name !== "")
+          .filter((fee) => fee.name !== "")
           .map(cleanFee),
       },
       logo: state.image.logo,
@@ -318,22 +300,23 @@ export const Submit = ({state}) => {
       type: "text/plain",
     });
 
-    const bufferFile = await new Promise<ArrayBuffer>(resolve => {
+    const bufferFile = await new Promise<ArrayBuffer>((resolve) => {
       const fileReader = new FileReader();
-      fileReader.onload = event => resolve(event.target.result as ArrayBuffer);
+      fileReader.onload = (event) =>
+        resolve(event.target.result as ArrayBuffer);
       fileReader.readAsArrayBuffer(JSONFile);
     });
 
     const fileReader = new FileReader();
     fileReader.readAsBinaryString(JSONFile);
 
-    const hash = await new Promise(resolve => {
+    const hash = await new Promise((resolve) => {
       ipfs.files.add(Buffer.from(bufferFile), (err, file) => {
         resolve(file[0].hash);
       });
     });
 
-    const getDecimals = contract =>
+    const getDecimals = (contract) =>
       readContract({
         address: contract as `0x${string}`,
         abi: erc20ABI as never,
@@ -372,14 +355,14 @@ export const Submit = ({state}) => {
       setHasPaid(true);
       setPending(false);
     } catch (e) {
-      if (e.data && e.data.message)
-        alert.error(`Something went wrong:${e.data.message}`);
-      else if (e.toString().includes("rejected"))
-        alert.error("Transaction cancelled.");
-      else {
-        alert.error("Something went wrong.");
-        console.log(e);
-      }
+      // if (e.data && e.data.message)
+      //   alert.error(`Something went wrong:${e.data.message}`);
+      // else if (e.toString().includes("rejected"))
+      //   alert.error("Transaction cancelled.");
+      // else {
+      //   alert.error("Something went wrong.");
+      //   console.log(e);
+      // }
 
       pushData("Listing Form Submit Error", {
         chain: blockchainsIdContent[chain?.id]?.name,
@@ -395,116 +378,95 @@ export const Submit = ({state}) => {
     return "Buy USDC";
   };
 
+  const fallbackMessage = getFallBack();
+
   return hasPaid ? (
-    <Flex direction="column" w={["100%", "100%", "450px"]}>
-      <TextLandingLarge>Congratulations!</TextLandingLarge>
-      <Flex mt="20px" borderBottom={borders2x} pb="20px" align="center">
-        <Image
+    <div className="flex flex-col w-[450px] md:w-full">
+      <ExtraLargeFont>Congratulations!</ExtraLargeFont>
+      <div className="flex mt-5 border-b-2 border-light-border-primary dark:border-dark-border-primary pb-5 items-center">
+        <img
+          className="w-7 h-7 md:w-[22px] md:h-[22px] rounded-full border border-light-border-primary dark:border-dark-border-primary"
           src={state.image.logo}
-          boxSize={["22px", "22px", "28px"]}
-          borderRadius="full"
-          border={bordersActive}
+          alt={`${state.name} logo`}
         />
-        <TextLandingSmall ml="10px" color={text80}>
-          <Box as="span" fontWeight="bold">
-            {state.name}
-          </Box>{" "}
-          has been sent to be reviewed by the protocol DAO
-        </TextLandingSmall>
-      </Flex>
-      <Flex mt="20px" borderBottom={borders2x} pb="20px" direction="column">
-        <TextLandingSmall ml="10px" color={text80}>
-          ⚡️ Wanna boost{" "}
-          <Box as="span" fontWeight="bold">
-            {state.name}
-          </Box>{" "}
-          ?
-        </TextLandingSmall>
-        <TextSmall color={text60} mt="10px">
+        <MediumFont extraCss="ml-2.5">
+          <span className="font-bold">{state.name}</span> has been sent to be
+          reviewed by the protocol DAO
+        </MediumFont>
+      </div>
+      <div className="flex mt-5 border-b-2 border-light-border-primary dark:border-dark-border-primary pb-5 flex-col">
+        <MediumFont extraCss="ml-2.5">
+          ⚡️ Wanna boost <span className="font-bold">{state.name}</span> ?
+        </MediumFont>
+        <SmallFont extraCss="mt-2.5 text-light-font-60 dark:text-dark-font-60">
           Get exclusive access to Mobula Bot, our APIs, win-win deals etc.
-        </TextSmall>
+        </SmallFont>
         <Button
-          variant="outlined"
-          color={text80}
-          mt={["10px", "10px", "20px"]}
-          w="fit-content"
+          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-5 md:mt-2.5 w-fit"
           onClick={() => {
             window.open("https://t.me/MobulaPartnerBot?start=Token", "_blank");
             window.focus();
           }}
         >
           Get in-touch
-          <ExternalLinkIcon color={text40} mb="1px" ml="5px" />
+          <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 mb-[1px] ml-[5px]" />
         </Button>
-      </Flex>
+      </div>
       <Button
-        variant="outlined"
-        color={text80}
-        mt="20px"
-        w="fit-content"
-        border={borders}
-        bg={boxBg6}
-        _hover={{border: bordersActive, bg: hover}}
+        extraCss="mt-5 md:mt-2.5 w-fit"
         onClick={() => {
           window.open(
             `https://mobula.fi/dao/protocol/sort/${getUrlFromName(state.name)}`,
-            "_blank",
+            "_blank"
           );
           window.focus();
         }}
       >
         Follow the listing process (takes 2 minutes to complete)
-        <ExternalLinkIcon color={text40} mb="1px" ml="5px" />
+        <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 mb-[1px] ml-[5px]" />
       </Button>
-    </Flex>
+    </div>
   ) : (
-    <Flex direction="column" w={["100%", "100%", "450px"]}>
-      <Flex align="center">
-        <Button
-          display={["flex", "flex", "none"]}
+    <div className="flex flex-col w-[450px] md:w-full">
+      <div className="flex items-center">
+        <button
+          className="hidden md:flex"
           onClick={() => {
             if (isLaunched || state.type === "nft") setActualPage(2);
             else setActualPage(actualPage - 1);
           }}
         >
-          <Icon as={ArrowBackIcon} mr="5px" />
-        </Button>
-        <TextLandingLarge>Submit</TextLandingLarge>
-      </Flex>
-      <Flex mt={["0px", "0px", "10px", "20px"]}>
-        <Button
-          {...addButtonStyle}
-          border={isPayingNow ? bordersActive : borders}
-          bg={isPayingNow ? hover : boxBg6}
-          px="12px"
-          w="fit-content"
-          mr="10px"
+          <ArrowBackIcon className="text-light-font-100 dark:text-dark-font-100 mr-[5px]" />
+        </button>
+        <LargeFont>Submit</LargeFont>
+      </div>
+      <div className="flex mt-5 lg:mt-2.5 md:mt-0">
+        <button
+          className={`${addButtonStyle} px-3 w-fit mr-2.5 ${
+            isPayingNow
+              ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+              : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          }`}
           onClick={() => setIsPayingNow(true)}
         >
           Normal Listing
-        </Button>
-        <Button
-          {...addButtonStyle}
-          px="12px"
-          w="fit-content"
-          border={!isPayingNow ? bordersActive : borders}
-          bg={!isPayingNow ? hover : boxBg6}
+        </button>
+        <button
+          className={`${addButtonStyle} px-3 w-fit mr-2.5 ${
+            !isPayingNow
+              ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+              : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          }`}
           onClick={() => setIsPayingNow(false)}
         >
           Ask community to pay
-        </Button>
-      </Flex>
+        </button>
+      </div>
       {isPayingNow ? (
-        <Flex w="100%" direction="column">
-          <Flex
-            align="flex-end"
-            wrap="wrap"
-            mt={["15px", "15px", "15px", "20px"]}
-          >
-            <TextLandingMedium color={text80}>
-              How fast do you want to be listed?{" "}
-            </TextLandingMedium>
-          </Flex>
+        <div className="flex w-full flex-col">
+          <div className="flex items-end flex-wrap mt-5 lg:mt-[15px]">
+            <LargeFont>How fast do you want to be listed? </LargeFont>
+          </div>
           {/* DO NOT DELETE */}
           {/* <Flex
             border="1px solid var(--chakra-colors-blue)"
@@ -527,10 +489,10 @@ export const Submit = ({state}) => {
               </Flex>
             </NextChakraLink>
           </Flex> */}
-          <Box mt={["40px", "40px", "50px"]} position="relative">
+          <div className="mt-[50px] md:mt-[40px] relative">
             <Slider
               aria-label="slider-ex-6"
-              onChange={val => setFastTrack(val)}
+              onChange={(val) => setFastTrack(val)}
               value={fastTrack}
               min={30}
               max={1000}
@@ -590,103 +552,78 @@ export const Submit = ({state}) => {
                 />
               </SliderThumb>
             </Slider>
-          </Box>
-          <TextLandingSmall mt="10px" fontWeight="400" color={text80}>
+          </div>
+          <MediumFont extraCss="mt-2.5">
             You must pay{" "}
-            <Box as="span" fontWeight={500} color={text80}>
+            <span className="font-medium">
               ${fastTrack} USD on {blockchainSelected}
-            </Box>
-          </TextLandingSmall>
-          <TextLandingSmall mt="20px" mb="10px" fontWeight="400" color={text80}>
+            </span>
+          </MediumFont>
+          <MediumFont extraCss="mt-5 mb-2.5">
             You will get{" "}
-            <Box as="span" color={text40}>
+            <span className="text-light-font-40 dark:text-dark-font-40">
               ({getRewardFromTypeOfListing().name} Listing)
-            </Box>
-          </TextLandingSmall>
-          <Flex align="center" mb="5px">
-            <TextLandingSmall color={text80}>
-              {getRewardFromTypeOfListing().rewards.type}
-            </TextLandingSmall>
-            <CheckIcon color="blue" ml="7.5px" />
-          </Flex>
-          <Flex align="center" mb="5px">
-            <TextLandingSmall color={text80}>
+            </span>
+          </MediumFont>
+          <div className="flex items-center mb-[5px]">
+            <MediumFont>{getRewardFromTypeOfListing().rewards.type}</MediumFont>
+            <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
+          </div>
+          <div className="flex items-center mb-[5px]">
+            <MediumFont>
               {getRewardFromTypeOfListing().rewards.medal}
-              <CheckIcon color="blue" ml="7.5px" />
-            </TextLandingSmall>
-          </Flex>
-          <Flex align="center">
-            <Icon as={BsTwitter} ml="3px" mr="9px" color="#1DA1F2" />
-            <TextLandingSmall color={text80}>
+              <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
+            </MediumFont>
+          </div>
+          <div className="flex items-center">
+            <BsTwitter className="ml-[3px] mr-[9px] text-twitter dark:text-twitter" />
+            <MediumFont>
               An exclusive Tweet from{" "}
               <NextChakraLink
                 href="https://twitter.com/MobulaFi"
-                isExternal
-                color="blue"
+                target="_blank"
+                rel="noopener noreferrer"
+                extraCss="text-blue dark:text-blue"
               >
                 @MobulaFI
               </NextChakraLink>
-            </TextLandingSmall>
+            </MediumFont>
             {getRewardFromTypeOfListing().rewards.twitter ? (
-              <CheckIcon color="blue" ml="7.5px" />
+              <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
             ) : (
-              <CloseIcon color="red" ml="7.5px" />
+              <AiOutlineClose className="text-red dark:text-red ml-[7.5px]" />
             )}
-          </Flex>
-          <Flex
-            direction={["column", "column", "row"]}
-            mt="20px"
-            mb="20px"
-            wrap="wrap"
-          >
-            <Menu matchWidth>
-              <MenuButton
-                {...addButtonStyle}
-                bg={boxBg6}
-                px={["8px", "8px", "12px"]}
-                fontSize={["12px", "12px", "14px", "16px"]}
-                border={borders}
-                w="fit-content"
-                _hover={{bg: hover, border: bordersActive}}
-                as={Button}
-              >
-                <Flex w="100%" align="center">
-                  <Image
+          </div>
+          <div className="flex flex-row md:flex-col my-5 flex-wrap">
+            <Menu
+              titleCss={`${addButtonStyle} px-3 md:px-2 w-fit`}
+              title={
+                <div className="flex w-full items-center">
+                  <img
+                    className="w-5 h-5 md:h-[18px] md:w-[18px] rounded-full mr-2.5 md:mr-[7.5px]"
+                    alt={`${blockchainSelected} logo`}
                     src={
                       blockchainsContent[blockchainSelected]?.logo ||
                       blockchainsContent.Polygon.logo
                     }
-                    boxSize={["18px", "18px", "20px"]}
-                    borderRadius="full"
-                    mr={["7.5px", "7.5px", "10px"]}
                   />
                   {blockchainSelected === "BNB Smart Chain (BEP20)"
                     ? "Binance Chain"
                     : blockchainSelected}
-                  <ChevronDownIcon ml="10px" />
-                </Flex>
-              </MenuButton>
-              <MenuList
-                fontSize={["12px", "12px", "14px", "16px"]}
-                color={text80}
-                fontWeight="400"
-                bg={boxBg3}
-                border={borders}
-                boxShadow="none"
-                borderRadius="8px"
-                zIndex={2}
-                maxH="300px"
-              >
+                  <BsChevronDown className="ml-2.5" />
+                </div>
+              }
+            >
+              <div className="max-h-[300px] overflow-y-auto">
                 {Object.keys(blockchainsContent)
                   .filter(
-                    entry =>
-                      entry === "BNB Smart Chain (BEP20)" ||
-                      entry === "Polygon",
+                    (entry) =>
+                      entry === "BNB Smart Chain (BEP20)" || entry === "Polygon"
                   )
-                  .map(blockchain => (
-                    <MenuItem
-                      bg={boxBg3}
-                      _hover={{bg: hover}}
+                  .map((blockchain) => (
+                    <div
+                      key={blockchain}
+                      className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
                       onClick={() => {
                         switchNetwork({
                           chainId: blockchainsContent[blockchain].chainId,
@@ -703,23 +640,17 @@ export const Submit = ({state}) => {
                       "BNB Smart Chain (BEP20)"
                         ? "Binance Chain"
                         : blockchainsContent[blockchain].name}
-                    </MenuItem>
+                    </div>
                   ))}
-              </MenuList>
+              </div>
             </Menu>
-            <Flex mt="10px" ml={["0px", "0px", "10px"]}>
+            <div className="flex mt-2.5 ml-2.5 md:ml-0">
               {balance.usdt.owned >= fastTrack ||
               balance.usdc.owned >= fastTrack ? (
                 <>
-                  {" "}
                   {balance.usdt.owned >= fastTrack && (
                     <Button
-                      sx={buttonsOption}
-                      variant="outlined"
-                      color={text80}
-                      maxW="fit-content"
-                      h={["30px", "30px", "35px"]}
-                      fontSize={["12px", "12px", "13px", "14px"]}
+                      extraCss={`${buttonsOption} max-w-fit border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
                       onClick={() => {
                         setPending(true);
                         if (balance.usdt.approved < fastTrack) approve("USDT");
@@ -730,29 +661,26 @@ export const Submit = ({state}) => {
                         }
                       }}
                     >
-                      <Flex align="center" w="100%">
-                        {pending && <Spinner h="10px" w="10px" ml="5px" />}
-                        <Image
+                      <div className="flex items-center w-full">
+                        {pending && (
+                          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
+                        )}
+                        <img
+                          className={imageStyle}
                           src="/logo/usdt.webp"
                           alt="usdt logo"
-                          sx={imageOption}
                         />
                         {balance.usdt.approved < fastTrack ? "Approve" : "Pay"}{" "}
                         with USDT
-                        {pending && <Spinner h="10px" w="10px" ml="5px" />}
-                      </Flex>
+                        {pending && (
+                          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
+                        )}
+                      </div>
                     </Button>
                   )}
                   {balance.usdc.owned >= fastTrack && (
                     <Button
-                      {...buttonsOption}
-                      variant="outlined"
-                      color={text80}
-                      maxW="fit-content"
-                      h={["30px", "30px", "35px"]}
-                      mt="0px"
-                      fontSize={["12px", "12px", "13px", "14px"]}
-                      ml="0px"
+                      extraCss={`${buttonsOption} max-w-fit mt-0 ml-0 border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
                       onClick={() => {
                         if (balance.usdc.approved < fastTrack) approve("USDC");
                         else if (chain?.id === 137) {
@@ -762,24 +690,24 @@ export const Submit = ({state}) => {
                         }
                       }}
                     >
-                      <Flex align="center" w="100%">
+                      <div className="flex items-center w-full">
                         <Image
                           src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png"
                           alt="usdc logo"
-                          sx={imageOption}
+                          className={imageStyle}
                         />
                         {balance.usdc.approved < fastTrack ? "Approve" : "Pay"}{" "}
                         with USDC
-                        {pending && <Spinner h="10px" w="10px" ml="5px" />}
-                      </Flex>
+                        {pending && (
+                          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
+                        )}
+                      </div>
                     </Button>
                   )}
                 </>
               ) : (
                 <Button
-                  sx={buttonsOption}
-                  variant="outlined"
-                  color={text80}
+                  extraCss={`${buttonsOption} border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
                   onClick={() => {
                     switch (getFallBack()) {
                       case "Connect your wallet":
@@ -799,43 +727,31 @@ export const Submit = ({state}) => {
                     }
                   }}
                 >
-                  <Flex align="center" w="100%">
-                    <Icon
-                      as={FiShoppingCart}
-                      minW="20px"
-                      fontSize="18px"
-                      mr="5px"
-                    />
-                    {getFallBack()}
-                  </Flex>
+                  <div className="flex items-center w-full">
+                    <FiShoppingCart className="min-w-5 text-lg mr-[5px]" />
+                    {fallbackMessage}
+                  </div>
                 </Button>
               )}
-            </Flex>
-          </Flex>
-        </Flex>
+            </div>
+          </div>
+        </div>
       ) : (
-        <Flex direction="column">
+        <div className="flex flex-col">
           <TextMedium my={["10px", "10px", "10px", "20px"]}>
             Community members will be able to pay for the listing granularly.
           </TextMedium>
           <Button
-            {...buttonsOption}
-            variant="outlined"
-            color={text80}
-            maxW="fit-content"
-            h={["30px", "30px", "35px"]}
-            fontSize={["12px", "12px", "13px", "14px"]}
+            extraCss={`${buttonsOption} max-w-fit border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
             onClick={() => {
               if (chain?.id === 137) submit(USDC_MATIC_ADDRESS, 0);
               else submit(USDC_BNB_ADDRESS, 0);
             }}
           >
-            <Flex align="center" w="100%">
-              Submit
-            </Flex>
+            <div className="flex items-center w-full">Submit</div>
           </Button>
-        </Flex>
+        </div>
       )}
-    </Flex>
+    </div>
   );
 };

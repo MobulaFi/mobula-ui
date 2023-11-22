@@ -29,21 +29,12 @@ export const buttonStyle = (
   return style;
 };
 
-export const buttonsOption = {
-  fontWeight: 400,
-  w: ["100%", "100%", "fit-content"],
-  px: "13px",
-  fontSize: "14px",
-  mt: ["10px", "10px", "0px"],
-  mr: "10px",
-};
-export const imageOption = {
-  minW: "20px",
-  boxSize: "20px",
-  h: "20px",
-  borderRadius: "full",
-  mr: "5px",
-};
+export const buttonsOption =
+  "text-sm mt-0 md:mt-2.5 mr-2.5 px-3 w-fit md:w-full";
+
+export const imageStyle =
+  "min-w-[20px] w-[20px] h-[20px] rounded-full mr-[5px]";
+
 export const labelStyles = {
   mt: "-10",
   ml: "-5",
