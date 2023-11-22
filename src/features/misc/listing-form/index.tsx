@@ -1,3 +1,4 @@
+"use client";
 import { useContext, useReducer } from "react";
 // import {useAlert} from "react-alert";
 import React from "react";
@@ -17,7 +18,6 @@ import { INITIAL_STATE, reducer } from "./reducer";
 export const Listing = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { actualPage, setActualPage } = useContext(ListingContext);
-  // const {boxBg6, hover, borders, text80, bordersActive} = useColors();
   // const alert = useAlert();
 
   const getAccessToNextPage = () => {

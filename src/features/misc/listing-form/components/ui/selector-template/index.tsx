@@ -1,23 +1,29 @@
-import {Button, Flex} from "@chakra-ui/react";
-import {TextLandingMedium} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {inputStyle} from "../../../styles";
+import React from "react";
+import { cn } from "../../../../../../@/lib/utils";
+import { LargeFont } from "../../../../../../components/fonts";
+import { inputStyle } from "../../../styles";
 
-export const SelectorTemplate = ({dispatch, action, title, name, ...props}) => {
-  const {boxBg6, text80} = useColors();
-  const handleChange = e => {
-    dispatch({type: action, payload: e.target.value});
+export const SelectorTemplate = ({
+  dispatch,
+  action,
+  extraCss,
+  title,
+  name,
+  ...props
+}) => {
+  const handleChange = (e) => {
+    dispatch({ type: action, payload: e.target.value });
   };
   return (
-    <Flex direction="column" mb="20px" {...props}>
-      <TextLandingMedium mb="10px">{title}</TextLandingMedium>
-      <Button
-        {...inputStyle(boxBg6, text80)}
+    <div className={cn("flex flex-col mb-5", extraCss)} {...props}>
+      <LargeFont mb="10px">{title}</LargeFont>
+      <button
+        className={inputStyle}
         name={name}
-        onChange={e => handleChange(e)}
+        onChange={(e) => handleChange(e)}
       >
         {" "}
-      </Button>
-    </Flex>
+      </button>
+    </div>
   );
 };

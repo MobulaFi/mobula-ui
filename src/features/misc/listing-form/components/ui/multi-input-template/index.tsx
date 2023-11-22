@@ -1,20 +1,22 @@
-import {CloseIcon} from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Image,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {ChangeEvent} from "react";
-import {isAddress} from "viem";
-import {TextLandingMedium, TextMedium} from "../../../../../../UI/Text";
-import {fetchContract} from "../../../../../../common/providers/swap/utils";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {ACTIONS} from "../../../reducer";
-import {inputStyle} from "../../../styles";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { ChangeEvent } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { isAddress } from "viem";
+import { LargeFont, MediumFont } from "../../../../../../components/fonts";
+import { fetchContract } from "../../../../../../layouts/swap/utils";
+import { ACTIONS } from "../../../reducer";
+import { inputStyle } from "../../../styles";
+
+interface MultiInputTemplateProps {
+  dispatch: any;
+  state: any;
+  name: string;
+  template: { [key: string]: any };
+  title: string;
+  placeholder: string;
+  hasLogo?: boolean;
+  text?: string;
+}
 
 export const MultiInputTemplate = ({
   dispatch,
@@ -25,48 +27,14 @@ export const MultiInputTemplate = ({
   hasLogo,
   placeholder,
   text,
-}: {
-  dispatch: any;
-  state: any;
-  name: string;
-  template: {[key: string]: any};
-  title: string;
-  placeholder: string;
-  hasLogo?: boolean;
-  text?: string;
-}) => {
-  const {boxBg6, boxBg3, borders, text80, bordersActive, hover} = useColors();
-  const deleteButtonStyle = {
-    w: "40px",
-    ml: "10px",
-    bg: boxBg6,
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    _hover: {bg: hover, border: bordersActive},
-    border: borders,
-    transition: "all 250ms ease-in-out",
-    fontSize: ["12px", "12px", "14px", "16px"],
-  };
-  const addButtonStyle = {
-    w: "120px",
-    bg: boxBg6,
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    _hover: {bg: hover, border: bordersActive},
-    border: borders,
-    transition: "all 250ms ease-in-out",
-    fontSize: ["12px", "12px", "14px", "16px"],
-  };
+}: MultiInputTemplateProps) => {
+  const deleteButtonStyle =
+    "w-[40px] h-[35px] ml-2.5 rounded text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
     i: string,
-    object: string,
+    object: string
   ) => {
     if (isAddress(e.target.value)) {
       dispatch({
@@ -80,8 +48,8 @@ export const MultiInputTemplate = ({
       });
       const getBlockchain = async (address: string) => {
         const fetchResults = await Promise.all(fetchContract(address));
-        const {blockchain: blockchainBuffer} =
-          fetchResults.filter(entry => entry)[0] || {};
+        const { blockchain: blockchainBuffer } =
+          fetchResults.filter((entry) => entry)[0] || {};
         dispatch({
           type: ACTIONS.SET_ELEMENT,
           payload: {
@@ -91,7 +59,7 @@ export const MultiInputTemplate = ({
             object,
           },
         });
-        const {chainId} = blockchainsContent[blockchainBuffer];
+        const { chainId } = blockchainsContent[blockchainBuffer];
         dispatch({
           type: ACTIONS.SET_ELEMENT,
           payload: {
@@ -117,90 +85,70 @@ export const MultiInputTemplate = ({
   };
 
   return (
-    <Flex direction="column" w="100%" mt="20px">
-      <TextLandingMedium>{title}</TextLandingMedium>{" "}
-      {text && <TextMedium mb="15px">{text}</TextMedium>}
+    <div className="flex flex-col w-full mt-5">
+      <LargeFont>{title}</LargeFont>{" "}
+      {text && <MediumFont extraCss="mb-[15px]">{text}</MediumFont>}
       {state[name].map((contract, i) => (
-        <Flex
-          direction="column"
-          w="100%"
-          // eslint-disable-next-line react/no-array-index-key
-          key={contract.name + i}
-        >
-          <Flex align="center" mb="10px">
-            <InputGroup
-              {...inputStyle(boxBg3, text80)}
-              border={borders}
-              h="35px"
+        <div className="flex flex-col w-full" key={contract.name + i}>
+          <div className="flex items-center mb-2.5">
+            <div
+              className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary w-full h-[35px]`}
             >
               {hasLogo ? (
                 <>
-                  <InputLeftElement h="100%" ml="10px">
-                    <Image
-                      boxSize="20px"
+                  <div className="flex items-center justify-center h-full ml-2.5">
+                    <img
+                      className="w-5 h-5"
                       src={
                         blockchainsContent[state.contracts[i]?.blockchain]
                           ?.logo || "/icon/unknown.png"
                       }
+                      alt={`${state.contracts[i]?.blockchain} logo`}
                     />
-                  </InputLeftElement>
-                  <Input
-                    pl="30px"
-                    w="100%"
-                    pr="10px"
-                    h="100%"
+                  </div>
+                  <input
+                    className="pl-[30px] w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-secondary dark:bg-dark-bg-secondary"
                     placeholder={placeholder}
-                    overflow="scroll"
-                    textOverflow="ellipsis"
-                    onChange={e => {
+                    onChange={(e) => {
                       handleNewContract(e, i, name);
                     }}
                   />
                 </>
               ) : (
-                <Input
-                  pl="5px"
-                  w="100%"
-                  pr="10px"
-                  h="100%"
-                  overflow="scroll"
+                <input
+                  className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-secondary dark:bg-dark-bg-secondary"
                   placeholder={placeholder}
-                  textOverflow="ellipsis"
-                  color={text80}
-                  onChange={e => {
+                  onChange={(e) => {
                     handleNewContract(e, i, name);
                     if (title === "Contracts")
                       if (state.totalSupplyContracts.length === 0)
-                        dispatch({type: ACTIONS.ADD_FIRST_CONTRACT});
+                        dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
                   }}
                 />
               )}
-            </InputGroup>
-
+            </div>
             {i > 0 ? (
-              <Button
-                {...deleteButtonStyle}
-                mt="0px"
+              <button
+                className={`${deleteButtonStyle} mt-0`}
                 onClick={() => {
                   dispatch({
                     type: ACTIONS.REMOVE_ELEMENT,
-                    payload: {i, object: name},
+                    payload: { i, object: name },
                   });
-                  dispatch({type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS});
+                  dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
                   if (state.totalSupplyContracts.length === 1)
-                    dispatch({type: ACTIONS.ADD_FIRST_CONTRACT});
-                  else dispatch({type: ACTIONS.ADD_ALL_CONTRACTS});
+                    dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
+                  else dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
                 }}
               >
-                <CloseIcon fontSize="12px" color={text80} />
-              </Button>
+                <AiOutlineClose className="text-xs" />
+              </button>
             ) : null}
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       ))}
-      <Button
-        {...addButtonStyle}
-        w="170px"
+      <button
+        className={`${deleteButtonStyle} w-[170px]`}
         onClick={() =>
           dispatch({
             type: ACTIONS.ADD_ELEMENT,
@@ -212,7 +160,7 @@ export const MultiInputTemplate = ({
         }
       >
         + Add contract
-      </Button>
-    </Flex>
+      </button>
+    </div>
   );
 };
