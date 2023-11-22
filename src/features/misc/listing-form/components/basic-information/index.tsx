@@ -1,7 +1,7 @@
 import { Search2Icon } from "@chakra-ui/icons";
 import axios from "axios";
 import * as imageConversion from "image-conversion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiUpload } from "react-icons/fi";
 import { Button } from "../../../../../components/button";
@@ -167,7 +167,7 @@ export const BasicInformation = ({ state, dispatch }) => {
       <div className="flex flex-col mb-5">
         <LargeFont extraCss="mb-2.5">Upload a logo</LargeFont>
         <div
-          className="flex w-[100px] h-[100px] rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary 
+          className="flex w-[100px] h-[100px] rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
         relative border border-light-border-primary dark:border-dark-border-primary"
           onMouseEnter={() => setIsImageHover(true)}
           onMouseLeave={() => setIsImageHover(false)}
@@ -176,12 +176,12 @@ export const BasicInformation = ({ state, dispatch }) => {
             className={`flex w-full h-full ${
               isImageHover ? "opacity-100" : "opacity-0"
             } 
-          transition-all duration-250 rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary 
+          transition-all duration-250 rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
           items-center absolute justify-center cursor-pointer`}
           >
             {!state.image.loading ? (
               <input
-                className="cursor-pointer w-full h-full bg-light-bg-secondary dark:bg-dark-bg-secondary opacity-0 rounded-full text-ellipsis"
+                className="cursor-pointer w-full h-full bg-light-bg-terciary dark:bg-dark-bg-terciary opacity-0 rounded-full text-ellipsis"
                 type="file"
                 id="file"
                 name="file"
@@ -268,7 +268,7 @@ export const BasicInformation = ({ state, dispatch }) => {
             <Search2Icon className="text-light-font-100 dark:text-dark-font-100" />
           </div>
           <input
-            className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-full w-full pl-[35px] "
+            className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full w-full pl-[35px] "
             placeholder="Search"
             onChange={(e) => setSearchTerm(e.target.value)}
           />

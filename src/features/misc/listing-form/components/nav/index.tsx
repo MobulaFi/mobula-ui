@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import {
   ExtraSmallFont,
@@ -40,7 +40,7 @@ export const Nav = ({ state }) => {
   return (
     <div>
       <div
-        className="flex rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary 
+        className="flex rounded-xl bg-light-bg-terciary dark:bg-dark-bg-terciary 
       mr-[25px] flex-col w-[235px] pb-[25px] items-center border border-light-border-primary 
       dark:border-dark-border-primary md:hidden"
       >
@@ -79,7 +79,7 @@ export const Nav = ({ state }) => {
                     className={`flex border-l ${
                       i < actualPage
                         ? "border-l border-blue dark:border-blue"
-                        : "outline-dashed border-l border-light-border-secondary dark:border-dark-border-secondary"
+                        : "outline-dashed border-l border-light-border-terciary dark:border-dark-border-terciary"
                     } h-[30px] w-0.5 ml-3`}
                   />
                 )}

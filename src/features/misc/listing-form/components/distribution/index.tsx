@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { isAddress } from "viem";
 import { Button } from "../../../../../components/button";
@@ -88,7 +88,7 @@ export const Distribution = ({ dispatch, state }) => {
                   className={`flex items-center ${inputStyle} border border-light-border-primary dark:border-dark-border-primary h-[35px] min-h-[35px] max-h-[35px]`}
                 >
                   <input
-                    className="bg-light-bg-secondary dark:bg-dark-bg-secondary w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100"
+                    className="bg-light-bg-terciary dark:bg-dark-bg-terciary w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100"
                     placeholder="0x77A8...459135"
                     onChange={(e) => {
                       if (

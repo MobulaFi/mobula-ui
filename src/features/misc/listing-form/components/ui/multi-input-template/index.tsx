@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { isAddress } from "viem";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
@@ -107,7 +107,7 @@ export const MultiInputTemplate = ({
                     />
                   </div>
                   <input
-                    className="pl-[30px] w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                    className="pl-[30px] w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
                     placeholder={placeholder}
                     onChange={(e) => {
                       handleNewContract(e, i, name);
@@ -116,7 +116,7 @@ export const MultiInputTemplate = ({
                 </>
               ) : (
                 <input
-                  className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                  className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   placeholder={placeholder}
                   onChange={(e) => {
                     handleNewContract(e, i, name);
