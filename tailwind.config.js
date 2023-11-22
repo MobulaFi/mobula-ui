@@ -120,6 +120,7 @@ module.exports = {
       telegram: "#30A7DE",
       twitter: "#1C97EA",
       discord: "#5062F0",
+      linkedin: "#0077b5",
       purple: "#7e5bef",
       pink: "#ff49db",
       orange: "#ff7849",

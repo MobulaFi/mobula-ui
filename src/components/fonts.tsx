@@ -113,7 +113,7 @@ export const LandingTitle = ({ title, subtitle }: TitleProps) => (
   </Flex>
 );
 
-export const SmallFont = ({ extraCss, children, ...props }: defaultProps) => {
+export const SmallFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
@@ -126,7 +126,7 @@ export const SmallFont = ({ extraCss, children, ...props }: defaultProps) => {
   );
 };
 
-export const MediumFont = ({ extraCss, children, ...props }: defaultProps) => {
+export const MediumFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
@@ -139,11 +139,37 @@ export const MediumFont = ({ extraCss, children, ...props }: defaultProps) => {
   );
 };
 
-export const LargeFont = ({ extraCss, children, ...props }: defaultProps) => {
+export const LargeFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
         "text-light-font-100 dark:text-dark-font-100 text-lg lg:text-base font-bold ",
+        extraCss
+      )}
+    >
+      {children}
+    </p>
+  );
+};
+
+export const ExtraLargeFont = ({ extraCss, children }: defaultProps) => {
+  return (
+    <p
+      className={cn(
+        "text-light-font-100 dark:text-dark-font-100 text-3xl lg:text-2xl md:text-xl font-bold ",
+        extraCss
+      )}
+    >
+      {children}
+    </p>
+  );
+};
+
+export const ExtraSmallFont = ({ extraCss, children }: defaultProps) => {
+  return (
+    <p
+      className={cn(
+        "text-light-font-100 dark:text-dark-font-100 text-[10px] lg:text-[9px] md:text-[8px] font-medium ",
         extraCss
       )}
     >
