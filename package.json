@@ -33,6 +33,7 @@
     "image-conversion": "^2.1.1",
     "ipfs-api": "^26.1.2",
     "js-cookie": "^3.0.5",
+    "js-levenshtein": "^1.1.6",
     "lucide-react": "^0.292.0",
     "mobula-lite": "^1.0.40",
     "mobula-utils": "^1.1.24",

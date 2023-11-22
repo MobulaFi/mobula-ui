@@ -1,0 +1,131 @@
+.best::before,
+.best::after {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ffff00,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00,
+    #fb0094,
+    #0000ff,
+    #00ff00,
+    #ffff00
+  );
+  position: absolute;
+  left: -20px;
+  top: -15px;
+  z-index: -1;
+  background-size: 400%;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  animation: animate 20s linear infinite;
+}
+
+.best::after {
+  filter: blur(4px);
+}
+
+.good::before,
+.good::after {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #2b3a75,
+    #5c7df9,
+    rgba(100, 209, 255, 1),
+    #4855a1,
+    #2b3a75,
+    #5c7df9,
+    rgba(100, 209, 255, 1),
+    #4855a1
+  );
+  position: absolute;
+  left: -20px;
+  top: -15px;
+  z-index: -1;
+  background-size: 400%;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  animation: animate 25s linear infinite;
+}
+
+@media screen and (max-width: 991px) {
+  .good::before,
+  .good::after {
+    content: "";
+    background: linear-gradient(
+      45deg,
+      #2b3a75,
+      #5c7df9,
+      rgba(100, 209, 255, 1),
+      #4855a1,
+      #2b3a75,
+      #5c7df9,
+      rgba(100, 209, 255, 1),
+      #4855a1
+    );
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    z-index: -1;
+    background-size: 400%;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    animation: animate 25s linear infinite;
+  }
+
+  .best::before,
+  .best::after {
+    content: "";
+    background: linear-gradient(
+      45deg,
+      #ffff00,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00,
+      #fb0094,
+      #0000ff,
+      #00ff00,
+      #ffff00
+    );
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    z-index: -1;
+    background-size: 400%;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    animation: animate 20s linear infinite;
+  }
+}
+
+.good::after {
+  filter: blur(4px);
+}
+
+@keyframes animate {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
