@@ -1,44 +1,32 @@
-/* eslint-disable no-param-reassign */
-import {ArrowBackIcon, CloseIcon} from "@chakra-ui/icons";
-import {Button, Flex, Icon, Input} from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import {useContext, useRef} from "react";
+import React, { useContext, useRef } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { FaArrowLeft } from "react-icons/fa6";
 import {
-  TextExtraSmall,
-  TextLandingLarge,
-  TextLandingMedium,
-  TextLandingSmall,
-  TextMedium,
-} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {ListingContext} from "../../context-manager";
-import {ACTIONS} from "../../reducer";
-import {inputStyle} from "../../styles";
-import {getDateError} from "../../utils";
+  ExtraLargeFont,
+  ExtraSmallFont,
+  LargeFont,
+  MediumFont,
+} from "../../../../../components/fonts";
+import { ListingContext } from "../../context-manager";
+import { ACTIONS } from "../../reducer";
+import { addButtonStyle, inputStyle } from "../../styles";
+import { getDateError } from "../../utils";
 
-const EChart = dynamic(() => import("../../../../../common/charts/EChart"), {
+const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
 });
 
-export const VestingInformation = ({dispatch, state}) => {
-  const {boxBg6, borders, boxBg3, bordersActive, hover, text80} = useColors();
+export const VestingInformation = ({ dispatch, state }) => {
   const dateRef = useRef<HTMLInputElement>(null);
-  const {actualPage, setActualPage} = useContext(ListingContext);
-  const addButtonStyle = {
-    w: "120px",
-    h: "35px",
-    borderRadius: "8px",
-    color: text80,
-    fontWeight: "400",
-    mt: "10px",
-    fontSize: ["12px", "12px", "14px", "16px"],
+  const { actualPage, setActualPage } = useContext(ListingContext);
+
+  const addItem = (template) => {
+    dispatch({ type: ACTIONS.ADD_VESTING, payload: template });
   };
 
-  const addItem = template => {
-    dispatch({type: ACTIONS.ADD_VESTING, payload: template});
-  };
-
-  const updateItem = (index, changes) => {
+  const updateItem = (index: number, changes) => {
     const item = state.tokenomics.vestingSchedule[index];
     const newItem = [
       "timestamp" in changes ? changes.timestamp : item[0],
@@ -46,25 +34,25 @@ export const VestingInformation = ({dispatch, state}) => {
       changes.breakdown ? changes.breakdown : item[2],
     ];
 
-    dispatch({type: ACTIONS.UPDATE_VESTING, index, payload: newItem});
+    dispatch({ type: ACTIONS.UPDATE_VESTING, index, payload: newItem });
   };
 
-  const deleteItem = index => {
-    dispatch({type: ACTIONS.DELETE_VESTING, index});
+  const deleteItem = (index: number) => {
+    dispatch({ type: ACTIONS.DELETE_VESTING, index });
   };
 
-  const isoToTimestamp = (date, i) => {
+  const isoToTimestamp = (date: string, i: number) => {
     const fullDate = date || "27/06/2023";
     const parts = fullDate.split("/");
     const jsDateStr = `${parts[1]}/${parts[0]}/${parts[2]}`;
     const newDate = new Date(jsDateStr);
     const timestamp = newDate.getTime();
-    updateItem(i, {timestamp});
+    updateItem(i, { timestamp });
   };
 
   const formatVesting = () => {
     const vesting: [number, number][] = state.tokenomics.vestingSchedule.map(
-      v => [v[0], v[1]],
+      (v: [number, number]) => [v[0], v[1]]
     );
 
     vesting.reduce((acc, curr) => {
@@ -76,78 +64,70 @@ export const VestingInformation = ({dispatch, state}) => {
     return vesting;
   };
 
+  const vestingFormatted = formatVesting();
+
   return (
-    <Flex direction="column" mb="20px" w={["100%", "100%", "400px"]}>
-      <Flex align="center">
-        <Button
-          display={["flex", "flex", "none"]}
+    <div className="flex flex-col mb-5 w-[400px] md:w-full">
+      <div className="flex items-center">
+        <button
+          className="hidden items-center md:flex text-light-font-100 dark:text-dark-font-100 text-sm"
           onClick={() => setActualPage(actualPage - 1)}
         >
-          <Icon as={ArrowBackIcon} mr="5px" />
-        </Button>
-        <TextLandingLarge>Vesting Details</TextLandingLarge>
-      </Flex>
-      <TextMedium>
+          <FaArrowLeft className="mr-[5px]" />
+        </button>
+        <ExtraLargeFont>Vesting Details</ExtraLargeFont>
+      </div>
+      <MediumFont>
         If the asset has a vesting schedule, you can add the unlock events here.
         If not, simply click Next.
-      </TextMedium>
-
+      </MediumFont>
       {state.tokenomics.vestingSchedule.map((d, i) => (
-        <Flex direction="column" mt={i !== 0 ? "30px" : "20px"}>
-          <Button
-            mb="-20px"
-            ml="auto"
-            color={text80}
+        <div
+          key={d}
+          className={`flex flex-col ${i !== 0 ? "mt-[30px]" : "mt-5"}`}
+        >
+          <button
+            className="-mb-5 ml-auto text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs"
             onClick={() => deleteItem(i)}
           >
-            <CloseIcon fontSize="12px" />
-          </Button>
-          <Flex justify="space-between">
-            <TextLandingMedium mb="10px">Date</TextLandingMedium>
-          </Flex>
-          <Input
-            {...inputStyle(boxBg3, text80)}
-            mb={getDateError(dateRef) ? "0px" : "20px"}
-            minH="35px"
-            w="100%"
-            ref={dateRef}
-            border={
+            <AiOutlineClose className="text-xs" />
+          </button>
+          <div className="flex justify-between">
+            <LargeFont mb="10px">Date</LargeFont>
+          </div>
+          <input
+            className={`${inputStyle} min-h-[35px] w-full border ${
               getDateError(dateRef)
-                ? "1px solid var(--chakra-colors-red)"
-                : borders
-            }
+                ? "mb-0 border-red dark:border-red"
+                : "mb-5 border-light-border-primary dark:border-dark-border-primary"
+            }`}
+            ref={dateRef}
             type="text"
             placeholder="DD/MM/YYYY"
-            onChange={e => isoToTimestamp(e.target.value, i)}
+            onChange={(e) => isoToTimestamp(e.target.value, i)}
           />
           {getDateError(dateRef) ? (
-            <TextExtraSmall color="red" mb="20px" mt="3px">
+            <ExtraSmallFont className="text-red dark:text-red mb-5 mt-[3px]">
               Correct format: DD/MM/YYYY
-            </TextExtraSmall>
+            </ExtraSmallFont>
           ) : null}
-          <TextLandingMedium mb="10px">Amount</TextLandingMedium>
-          <Input
-            {...inputStyle(boxBg3, text80)}
-            mb="20px"
-            minH="35px"
-            w="100%"
-            border={borders}
+          <LargeFont extraCss="mb-2.5">Amount</LargeFont>
+          <input
+            className={`${inputStyle} mb-5 w-full min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
             type="number"
             placeholder="10000.00"
-            onChange={e => updateItem(i, {value: parseFloat(e.target.value)})}
+            onChange={(e) =>
+              updateItem(i, { value: parseFloat(e.target.value) })
+            }
           />
-          <TextLandingMedium mb="10px">Breakdown</TextLandingMedium>
+          <LargeFont extraCss="mb-2.5">Breakdown</LargeFont>
           {d[2].map((_, j) => (
-            <Flex>
-              <Input
-                {...inputStyle(boxBg3, text80)}
-                minH="35px"
-                w="100%"
-                border={borders}
+            <div className="flex" key={i}>
+              <input
+                className={`${inputStyle} mr-2.5 w-full min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
                 placeholder="1,000.00"
-                mr="10px"
                 type="number"
-                onChange={e => {
+                onChange={(e) => {
                   const newBreakdown = [...d[2]];
                   newBreakdown[j] = {
                     ...newBreakdown[j],
@@ -160,14 +140,10 @@ export const VestingInformation = ({dispatch, state}) => {
                 }}
               />
               <Input
-                {...inputStyle(boxBg3, text80)}
-                minH="35px"
-                w="150px"
-                border={borders}
+                className={`${inputStyle} mb-2.5 w-[150px] min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
                 type="text"
                 placeholder="Role"
-                mb="10px"
-                onChange={e => {
+                onChange={(e) => {
                   const newBreakdown = [...d[2]];
                   newBreakdown[j] = {
                     ...newBreakdown[j],
@@ -179,28 +155,20 @@ export const VestingInformation = ({dispatch, state}) => {
                   });
                 }}
               />
-            </Flex>
+            </div>
           ))}
-          <Button
-            {...addButtonStyle}
+          <button
+            className={`${addButtonStyle} px-3 mb-5 mt-0 w-fit`}
             onClick={() =>
-              updateItem(i, {breakdown: [...d[2], {name: "", amount: ""}]})
+              updateItem(i, { breakdown: [...d[2], { name: "", amount: "" }] })
             }
-            w="fit-content"
-            px="12px"
-            bg={boxBg6}
-            border={borders}
-            _hover={{bg: hover, border: bordersActive}}
-            mb="20px"
-            mt="0px"
           >
             + Add breakdown
-          </Button>
-        </Flex>
+          </button>
+        </div>
       ))}
-      <Button
-        {...addButtonStyle}
-        mt={["0px", "0px", "0px"]}
+      <button
+        className={`${addButtonStyle} px-3 w-fit mt-0`}
         onClick={() =>
           addItem([
             "",
@@ -213,37 +181,26 @@ export const VestingInformation = ({dispatch, state}) => {
             ],
           ])
         }
-        w="fit-content"
-        px="12px"
-        bg={boxBg6}
-        border={borders}
-        _hover={{bg: hover, border: bordersActive}}
       >
         + Add unlock event
-      </Button>
-      <Flex w="100%" position="relative">
-        {formatVesting().length >= 2 &&
-        formatVesting()?.[1][0] &&
-        formatVesting()?.[1][1] ? (
+      </button>
+      <div className="flex w-full relative">
+        {vestingFormatted.length >= 2 &&
+        vestingFormatted?.[1][0] &&
+        vestingFormatted?.[1][1] ? (
           <>
-            <TextLandingSmall
-              position="absolute"
-              left="0px"
-              top="20px"
-              zIndex={1}
-            >
+            <MediumFont extraCss="absolute left-0 top-5 z-[1]">
               Token Vesting Schedule
-            </TextLandingSmall>
-
+            </MediumFont>
             <EChart
-              data={formatVesting()}
+              data={vestingFormatted}
               leftMargin={["0%", "0%"]}
               height={300}
               timeframe="ALL"
             />
           </>
-        ) : null}{" "}
-      </Flex>
-    </Flex>
+        ) : null}
+      </div>
+    </div>
   );
 };
