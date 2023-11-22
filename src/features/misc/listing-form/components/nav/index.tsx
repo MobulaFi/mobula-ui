@@ -1,18 +1,15 @@
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {Box, Button, Flex, Image} from "@chakra-ui/react";
-import {useContext} from "react";
+import React, { useContext } from "react";
+import { FiExternalLink } from "react-icons/fi";
 import {
-  TextExtraSmall,
-  TextLandingMedium,
-  TextLandingSmall,
-} from "../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../common/components/links";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {ListingContext} from "../../context-manager";
+  ExtraSmallFont,
+  LargeFont,
+  MediumFont,
+} from "../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../components/link";
+import { ListingContext } from "../../context-manager";
 
-export const Nav = ({state}) => {
-  const {text80, boxBg6, hover, text40, boxBg3, borders} = useColors();
-  const {actualPage, setActualPage} = useContext(ListingContext);
+export const Nav = ({ state }) => {
+  const { actualPage, setActualPage } = useContext(ListingContext);
 
   const infos = [
     {
@@ -41,102 +38,82 @@ export const Nav = ({state}) => {
   ];
 
   return (
-    <Box>
-      <Flex
-        borderRadius="12px"
-        mr="25px"
-        direction="column"
-        w="235px"
-        pb="25px"
-        align="center"
-        bg={boxBg3}
-        border={borders}
-        display={["none", "none", "flex"]}
+    <div>
+      <div
+        className="flex rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary 
+      mr-[25px] flex-col w-[235px] pb-[25px] items-center border border-light-border-primary 
+      dark:border-dark-border-primary md:hidden"
       >
-        <Image
-          mt="30px"
+        <img
+          className="mt-[30px] mb-2.5 rounded-full w-[87px] h-[87px]"
           src={
             state.image.logo ||
             state.image.uploaded_logo ||
             "/mobula/mobula-logo.svg"
           }
-          borderRadius="full"
-          boxSize="87px"
-          mb="10px"
+          alt="token logo"
         />
-        <TextLandingMedium mb="30px">Listing Form</TextLandingMedium>
-        <Flex direction="column" w="100%" mb="20px" position="relative">
-          <Flex
-            direction="column"
-            w="100%"
-            align="flex-start"
-            position="relative"
-          >
+        <LargeFont extraCss="mb-[30px]">Listing Form</LargeFont>
+        <div className="flex flex-col w-full mb-5 relative">
+          <div className="flex flex-col w-full items-start relative">
             {infos.map((info, i) => (
-              <Flex w="100%" direction="column" pl="30px" key={info.name}>
-                <Flex align="center">
-                  <Button
-                    boxSize="24px"
-                    borderRadius="full"
-                    fontWeight="400"
-                    color={text80}
-                    transition="all 250ms ease-in-out"
-                    border={
-                      i <= actualPage
-                        ? "1px solid var(--chakra-colors-blue)"
-                        : borders
-                    }
-                    bg={i <= actualPage ? hover : boxBg6}
-                    _hover={{bg: hover}}
-                    fontSize="14px"
+              <div className="w-full flex-col flex pl-[30px]" key={info.name}>
+                <div className="flex items-center">
+                  <button
+                    className={`w-6 h-6 rounded-full text-light-font-100 dark:text-dark-font-100 
+                  transition-all duration-250 text-sm border ${
+                    i <= actualPage
+                      ? "border-blue dark:border-blue bg-light-bg-hover dark:bg-light-bg-hover"
+                      : "border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-light-bg-hover"
+                  }`}
                     onClick={() => {
                       if (i <= actualPage) setActualPage(i);
                     }}
                   >
                     {i + 1}
-                  </Button>
-                  <TextLandingSmall ml="10px">{info.name}</TextLandingSmall>
-                </Flex>
+                  </button>
+                  <MediumFont extraCss="ml-2.5">{info.name}</MediumFont>
+                </div>
                 {infos.length - 1 === i ? null : (
-                  <Flex
-                    borderLeft={
+                  <div
+                    className={`flex border-l ${
                       i < actualPage
-                        ? "1px dashed var(--chakra-colors-blue)"
-                        : "1px dashed var(--chakra-colors-borders-1)"
-                    }
-                    h="30px"
-                    transition="all 250ms ease-in-out"
-                    w="2px"
-                    ml="12px"
+                        ? "border-l border-blue dark:border-blue"
+                        : "outline-dashed border-l border-light-border-secondary dark:border-dark-border-secondary"
+                    } h-[30px] w-0.5 ml-3`}
                   />
                 )}
-              </Flex>
+              </div>
             ))}
-          </Flex>
-        </Flex>
-        <TextExtraSmall ml="25px" mr="auto">
+          </div>
+        </div>
+        <div className="flex items-center">
           <NextChakraLink
-            color="blue"
+            extraCss="text-blue dark:text-blue text-[10px] lg:text-[9px] md:text-[8px] font-medium"
             href="https://docs.mobula.fi/"
-            isExternal
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Read here{" "}
           </NextChakraLink>{" "}
-          the documentation
-        </TextExtraSmall>
-        <Flex align="center" ml="25px" mr="auto">
+          <ExtraSmallFont extraCss="ml-[25px] mr-auto">
+            the documentation
+          </ExtraSmallFont>
+        </div>
+        <div className="flex items-center ml-[25px] mr-auto">
           <NextChakraLink
             href="https://t.me/MobulaPartnerBot?start=Form_Help"
-            isExternal
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <TextExtraSmall textDecoration="underline" color={text40}>
+            <ExtraSmallFont extraCss="text-light-font-40 dark:text-dark-font-40 underline">
               {" "}
               Get in touch with core-team
-              <ExternalLinkIcon ml="5px" fontSize="11px" color={text40} />
-            </TextExtraSmall>
+              <FiExternalLink className="ml-[5px] text-[11px] text-light-font-40 dark:text-dark-font-40" />
+            </ExtraSmallFont>
           </NextChakraLink>
-        </Flex>
-      </Flex>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 };
