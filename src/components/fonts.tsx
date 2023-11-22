@@ -177,3 +177,18 @@ export const ExtraSmallFont = ({ extraCss, children }: defaultProps) => {
     </p>
   );
 };
+
+export const Title = ({ title, subtitle, extraCss }) => {
+  return (
+    <div className={cn("flex flex-col mx-auto w-full sm:w-[95%]", extraCss)}>
+      <h1 className="text-xl lg:text-lg md:text-lg text-light-font-100 dark:text-dark-font-100 font-bold mb-3">
+        {title}
+      </h1>
+      <div>
+        <SmallFont className="text-light-font-60 dark:text-dark-font-60">
+          {subtitle}
+        </SmallFont>
+      </div>
+    </div>
+  );
+};
