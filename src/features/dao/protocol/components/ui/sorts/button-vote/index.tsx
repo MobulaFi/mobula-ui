@@ -1,113 +1,94 @@
-import {CheckIcon} from "@chakra-ui/icons";
-import {Button, Flex, Icon} from "@chakra-ui/react";
-import {useContext, useState} from "react";
-import {useAlert} from "react-alert";
-import {AiOutlineWarning} from "react-icons/ai";
-import {TextExtraSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {ButtonOutlined} from "../../../../../common/components/button-outlined";
-import {ReasonVoteContext} from "../../../../context-manager/reason-vote";
-import {VoteContext} from "../../../../context-manager/vote";
-import {useVote} from "../../../../hooks/use-vote";
-import {TokenDivs} from "../../../../models";
+import { useContext, useState } from "react";
+// import {useAlert} from "react-alert";
+import React from "react";
+import { AiOutlineWarning } from "react-icons/ai";
+import { BsCheckLg } from "react-icons/bs";
+import { Button } from "../../../../../../../components/button";
+import { ExtraSmallFont } from "../../../../../../../components/fonts";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { ButtonOutlined } from "../../../../../common/components/button-outlined";
+import { ReasonVoteContext } from "../../../../context-manager/reason-vote";
+import { VoteContext } from "../../../../context-manager/vote";
+import { useVote } from "../../../../hooks/use-vote";
 
-export const ButtonVote = ({token}: {token: TokenDivs}) => {
+interface ButtonVoteProps {
+  token: Asset;
+}
+
+export const ButtonVote = ({ token }: ButtonVoteProps) => {
   const vote = useContext(VoteContext);
-  const {reasonSocial, reasonTrust, reasonUtility} =
+  const { reasonSocial, reasonTrust, reasonUtility } =
     useContext(ReasonVoteContext);
-  const alert = useAlert();
+  // const alert = useAlert();
   const hasVoted = reasonSocial && reasonTrust && reasonUtility !== 0;
   const voteToken = useVote();
-  const {text80, bordersActive} = useColors();
   const [isAbleToSubmit, setIsAbleToSubmit] = useState(false);
 
+  const buttonOutlined =
+    "w-full flex items-center justify-center h-[42px] lg:h-[40px] md:h-[35px] max-w-full text-light-font-100 dark:text-dark-font-100 rounded text-sm lg:text-[13px] md:text-xs mr-[5px] border";
+
   return (
-    <Flex direction="column" w="100%">
-      <Flex align="center" mb="15px">
-        <Flex align="center" mr="10px">
-          <Icon as={AiOutlineWarning} color="yellow" mr="5px" />
-          <TextExtraSmall>
+    <div className="flex flex-col w-full">
+      <div className="flex items-center mb-[15px]">
+        <div className="flex items-center mr-2.5">
+          <AiOutlineWarning className="text-yellow dark:text-yellow mr-[5px]" />
+          <ExtraSmallFont>
             I correctly checked if every single information is valid. I&apos;m
             aware of the consequences if I made a mistake
-          </TextExtraSmall>
-        </Flex>
+          </ExtraSmallFont>
+        </div>
         <Button
-          border={bordersActive}
-          boxSize="15px"
-          ml="auto"
-          mt="-2px"
-          minW="15px"
-          borderRadius="4px"
-          onClick={() => setIsAbleToSubmit(prev => !prev)}
+          extraCss="ml-auto w-[15px] h-[15px] min-w-[15px] -mt-0.5 bg-inherit dark:bg-inherit 
+        hover:bg-inherit hover:dark:bg-inherit border-light-border-secondary dark:border-dark-border-secondary"
+          onClick={() => setIsAbleToSubmit((prev) => !prev)}
         >
           {isAbleToSubmit ? (
-            <CheckIcon color={text80} fontSize="8px" ml="1px" mb="1px" />
+            <BsCheckLg className="ml-[1px] mb-[1px] text-[8px]" />
           ) : null}
         </Button>
-      </Flex>
-      <Flex w="100%">
-        <ButtonOutlined
-          w="100%"
-          h={["35px", "35px", "40px", "42px"]}
-          maxW="100%"
-          color={text80}
-          borderRadius="8px"
-          fontSize={["12px", "12px", "13px", "14px"]}
-          mr="5px"
-          border={
+      </div>
+      <div className="flex w-full">
+        <button
+          className={`${buttonOutlined} ${
             token.alreadyVoted
-              ? "1px solid var(--chakra-colors-borders-1)"
-              : "1px solid var(--chakra-colors-green)"
-          }
-          _hover={{
-            border: token.alreadyVoted
-              ? "1px solid var(--chakra-colors-borders-1)"
-              : "1px solid var(--chakra-colors-green)",
-          }}
+              ? "border-light-border-secondary dark:border-dark-border-secondary"
+              : "border-green dark:border-green"
+          }`}
           onClick={() => {
             if (isAbleToSubmit) {
               if (hasVoted || !token.isListing) {
-                const {utilityScore, socialScore, trustScore} = vote;
+                const { utilityScore, socialScore, trustScore } = vote;
                 voteToken(token, 0, utilityScore, socialScore, trustScore);
-              } else {
-                alert.error(
-                  "You must select a reason for the score you assign to this asset.",
-                );
               }
-            } else {
-              alert.error("You must check the box to submit your vote.");
+              // else {
+              //   alert.error(
+              //     "You must select a reason for the score you assign to this asset."
+              //   );
+              // }
             }
+            // else {
+            //   alert.error("You must check the box to submit your vote.");
+            // }
           }}
         >
           Validate Listing
-        </ButtonOutlined>
+        </button>
         <ButtonOutlined
-          maxW="100%"
-          color={text80}
-          borderRadius="8px"
-          fontSize={["12px", "12px", "13px", "14px"]}
-          ml="5px"
-          border={
+          className={`${buttonOutlined} ${
             token.alreadyVoted
-              ? "1px solid var(--chakra-colors-borders-1)"
-              : "1px solid var(--chakra-colors-red)"
-          }
-          h={["35px", "35px", "40px", "42px"]}
-          _hover={{
-            border: token.alreadyVoted
-              ? "1px solid var(--chakra-colors-borders-1)"
-              : "1px solid var(--chakra-colors-red)",
-          }}
+              ? "border-light-border-secondary dark:border-dark-border-secondary"
+              : "border-red dark:border-red"
+          }`}
           onClick={() => {
             if (isAbleToSubmit) {
-              const {utilityScore, socialScore, trustScore} = vote;
+              const { utilityScore, socialScore, trustScore } = vote;
               voteToken(token, 1, utilityScore, socialScore, trustScore);
             }
           }}
         >
           Reject Listing
         </ButtonOutlined>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

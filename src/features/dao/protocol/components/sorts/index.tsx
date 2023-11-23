@@ -1,39 +1,38 @@
-import {Box, Flex, useColorMode} from "@chakra-ui/react";
-import {useRouter} from "next/router";
-import {useContext, useEffect} from "react";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {MainContainer} from "../../../common/components/container-main";
-import {RightContainer} from "../../../common/components/container-right";
-import {LeftNavigation} from "../../../common/components/nav-left";
-import {LeftNavigationMobile} from "../../../common/components/nav-left-mobile";
-import {SortContext} from "../../context-manager";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import React, { useContext, useEffect } from "react";
+import { Container } from "../../../../../components/container";
+import { Asset } from "../../../../../interfaces/assets";
+import { RightContainer } from "../../../common/components/container-right";
+import { LeftNavigation } from "../../../common/components/nav-left";
+import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
+import { SortContext } from "../../context-manager";
 import {
   ReasonVoteContext,
   ShowReasonContext,
 } from "../../context-manager/reason-vote";
-import {useSort} from "../../hooks/use-sort";
-import {ReasonVote} from "../reason-vote";
-import {BoxPreVote} from "../ui/sorts/box-prevote";
-import {VoteBox} from "../ui/sorts/box-vote";
-import {ButtonVote} from "../ui/sorts/button-vote";
-import {ChangeTemplate} from "../ui/sorts/change-template";
-import {ContractInformation} from "../ui/sorts/contract-information";
-import {Countdown} from "../ui/sorts/countdown";
-import {Distribution} from "../ui/sorts/distribution";
-import {LaunchInformation} from "../ui/sorts/launch-information";
-import {SalesInformation} from "../ui/sorts/sales-information";
-import {SimiliratyCheck} from "../ui/sorts/similarity-check";
-import {TeamMembers} from "../ui/sorts/team-members";
-import {TokenFees} from "../ui/sorts/token-fees";
-import {VestingInformation} from "../ui/sorts/vesting-information";
+import { useSort } from "../../hooks/use-sort";
+import { ReasonVote } from "../reason-vote";
+import { BoxPreVote } from "../ui/sorts/box-prevote";
+import { VoteBox } from "../ui/sorts/box-vote";
+import { ButtonVote } from "../ui/sorts/button-vote";
+import { ChangeTemplate } from "../ui/sorts/change-template";
+import { ContractInformation } from "../ui/sorts/contract-information";
+import { Countdown } from "../ui/sorts/countdown";
+import { Distribution } from "../ui/sorts/distribution";
+import { LaunchInformation } from "../ui/sorts/launch-information";
+import { SalesInformation } from "../ui/sorts/sales-information";
+import { SimiliratyCheck } from "../ui/sorts/similarity-check";
+import { TeamMembers } from "../ui/sorts/team-members";
+import { TokenFees } from "../ui/sorts/token-fees";
+import { VestingInformation } from "../ui/sorts/vesting-information";
 
 export const Sort = () => {
-  const router = useRouter();
-  const {tokenDivs, displayedToken, displayedPool, setVotes, isFirstSort} =
+  const { tokenDivs, displayedToken, displayedPool, setVotes, isFirstSort } =
     useContext(SortContext);
-  const {boxBg1, borders} = useColors();
-  const {colorMode} = useColorMode();
-  const isWhiteMode = colorMode === "light";
+  const pathname = usePathname();
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "light";
   const {
     reasonUtility,
     setReasonUtility,
@@ -42,23 +41,24 @@ export const Sort = () => {
     reasonTrust,
     setReasonTrust,
   } = useContext(ReasonVoteContext);
-  const {showSocial, showTrust, showUtility} = useContext(ShowReasonContext);
+  const { showSocial, showTrust, showUtility } = useContext(ShowReasonContext);
   useSort();
 
   useEffect(() => {
     if (localStorage.getItem("votes")) {
       setVotes(
         JSON.parse(
-          localStorage.getItem(isFirstSort ? "votes" : "votesFinal")!,
-        ) || [],
+          localStorage.getItem(isFirstSort ? "votes" : "votesFinal")!
+        ) || []
       );
     }
   }, []);
 
-  const renderNonListingToken = token => (
-    <Box opacity={token.alreadyVoted ? 0.5 : 1}>
-      {token.edits?.map(edit => (
+  const renderNonListingToken = (token: Asset) => (
+    <div className={token.alreadyVoted ? "opacity-50" : "opacity-100"}>
+      {token.edits?.map((edit) => (
         <ChangeTemplate
+          key={edit}
           oldImage={token.oldToken.logo || "/icon/unknown.png"}
           newImage={token.logo || "/icon/unknown.png"}
           type={edit}
@@ -66,14 +66,14 @@ export const Sort = () => {
           newValue={token[edit]}
         />
       ))}
-      <Countdown token={token} mt="20px" />
-      <Flex p="20px" bg={boxBg1} border={borders} direction="column">
+      <Countdown extraCss="mt-5" token={token} />
+      <div className="p-5 flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-borde-primary">
         <ButtonVote token={token} />
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 
-  const renderToken = token => (
+  const renderToken = (token: Asset) => (
     <>
       <BoxPreVote token={token} />
       {token.isListing ? (
@@ -93,49 +93,49 @@ export const Sort = () => {
       )}
     </>
   );
-  console.log(tokenDivs);
+
   const renderTokens = () => {
     if (tokenDivs?.length > 0) {
       if (displayedToken || displayedPool) {
         return tokenDivs
           .filter(
-            entry =>
-              entry.name === displayedToken || entry.name === displayedPool,
+            (entry) =>
+              entry.name === displayedToken || entry.name === displayedPool
           )
-          .map(token => renderToken(token));
+          .map((token) => renderToken(token as never));
       }
       return tokenDivs
         .sort((a, b) => Number(b.coeff) - Number(a.coeff))
-        .map(token => <BoxPreVote token={token} />);
+        .map((token) => <BoxPreVote key={token.name} token={token as never} />);
     }
     return (
       <BoxPreVote
-        token={{
-          name: "Come back later!",
-          description: "No new listings are currently available :(",
-          logo: isWhiteMode
-            ? "/mobula/mobula-logo-light.svg"
-            : "/mobula/mobula-logo.svg",
-        }}
+        token={
+          {
+            name: "Come back later!",
+            description: "No new listings are currently available :(",
+            logo: isWhiteMode
+              ? "/mobula/mobula-logo-light.svg"
+              : "/mobula/mobula-logo.svg",
+          } as Asset
+        }
         isFakeToken
       />
     );
   };
 
   return (
-    <MainContainer>
-      <Box w="fit-content" display={["none", "none", "none", "block"]}>
+    <Container>
+      <div className="w-fit block lg:hidden">
         <LeftNavigation
-          page={
-            router.pathname.includes("protocol") ? "protocol" : "governance"
-          }
+          page={pathname.includes("protocol") ? "protocol" : "governance"}
         />
-      </Box>
-      <Box display={["block", "block", "block", "none"]}>
+      </div>
+      <div className="hidden lg:block">
         <LeftNavigationMobile page="protocol" />
-      </Box>
+      </div>
       <RightContainer>
-        <Box mt={["0px", "0px", "0px", "12px"]}>{renderTokens()}</Box>
+        <div className="mt-3 lg:mt-0">{renderTokens()}</div>
       </RightContainer>
       {showUtility && (
         <ReasonVote
@@ -158,6 +158,6 @@ export const Sort = () => {
           setReason={setReasonTrust}
         />
       )}
-    </MainContainer>
+    </Container>
   );
 };

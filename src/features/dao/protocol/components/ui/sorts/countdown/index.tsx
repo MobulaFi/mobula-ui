@@ -1,14 +1,16 @@
-import {Box, BoxProps, Flex, Icon} from "@chakra-ui/react";
-import {useState} from "react";
-import {FaHourglassEnd, FaHourglassHalf} from "react-icons/fa";
-import {TextLandingSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {TokenDivs} from "../../../../models";
+import React, { useState } from "react";
+import { FaHourglassEnd, FaHourglassHalf } from "react-icons/fa";
+import { MediumFont } from "../../../../../../../components/fonts";
+import { Asset } from "../../../../../../../interfaces/assets";
 
-export const Countdown = ({token, ...props}: {token: TokenDivs} & BoxProps) => {
+interface CountdownProps {
+  token: Asset;
+  extraCss?: string;
+}
+
+export const Countdown = ({ token, extraCss }: CountdownProps) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const {text80} = useColors();
 
   setInterval(() => {
     const now = Date.now();
@@ -18,42 +20,26 @@ export const Countdown = ({token, ...props}: {token: TokenDivs} & BoxProps) => {
   }, 1000);
 
   return (
-    <Box {...props}>
-      <Flex align="center" justify="space-between" px="20px" pt="15px">
-        <TextLandingSmall
-          color={text80}
-          fontWeight="500"
-          fontSize={["14px", "14px", "16px"]}
-        >
-          Cast your vote
-        </TextLandingSmall>
-        <Flex align="center" ml="auto">
+    <div className={extraCss}>
+      <div className="flex items-center justify-between px-5 pt-[15px]">
+        <MediumFont>Cast your vote</MediumFont>
+        <div className="flex items-center ml-auto">
           {seconds + minutes === 0 ||
           (Number.isNaN(minutes) && Number.isNaN(seconds)) ? (
             <>
-              <Icon
-                as={FaHourglassEnd}
-                mr="10px"
-                fontSize="14px"
-                color={text80}
-              />
-              <TextLandingSmall color={text80}>Vote now</TextLandingSmall>
+              <FaHourglassEnd className="text-light-font-100 dark:text-dark-font-100 text-sm mr-2.5" />
+              <MediumFont>Vote now</MediumFont>
             </>
           ) : (
             <>
-              <Icon
-                as={FaHourglassHalf}
-                mr="10px"
-                fontSize="14px"
-                color={text80}
-              />
-              <TextLandingSmall color={text80}>
+              <FaHourglassHalf className="text-light-font-100 dark:text-dark-font-100 text-sm mr-2.5" />
+              <MediumFont>
                 {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
-              </TextLandingSmall>
+              </MediumFont>
             </>
           )}
-        </Flex>
-      </Flex>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 };

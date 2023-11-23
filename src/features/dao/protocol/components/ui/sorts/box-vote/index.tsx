@@ -1,123 +1,107 @@
-import {Button, Flex, Icon} from "@chakra-ui/react";
-import {useContext} from "react";
-import {Eye} from "react-feather";
-import {TextLandingSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {getScores} from "../../../../constants/sorts";
-import {ShowReasonContext} from "../../../../context-manager/reason-vote";
-import {VoteContext} from "../../../../context-manager/vote";
-import {TokenDivs} from "../../../../models";
-import {ButtonVote} from "../button-vote";
-import {Countdown} from "../countdown";
+import React, { useContext } from "react";
+import { AiOutlineEye } from "react-icons/ai";
+import { MediumFont } from "../../../../../../../components/fonts";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { getScores } from "../../../../constants/sorts";
+import { ShowReasonContext } from "../../../../context-manager/reason-vote";
+import { VoteContext } from "../../../../context-manager/vote";
+import { ButtonVote } from "../button-vote";
+import { Countdown } from "../countdown";
 
-export const VoteBox = ({
-  typeVote,
-  token,
-}: {
-  token: TokenDivs;
+interface VoteBoxProps {
+  token: Asset;
   typeVote: string;
-}) => {
+}
+
+export const VoteBox = ({ typeVote, token }: VoteBoxProps) => {
   const scores = getScores();
   const grades = [1, 2, 3, 4, 5];
-  const {text80, borders, boxBg3, hover, text60} = useColors();
-  const {setShowUtility, setShowSocial, setShowTrust} =
+  const { setShowUtility, setShowSocial, setShowTrust } =
     useContext(ShowReasonContext);
   const context = useContext(VoteContext);
 
-  const getColorFromGrad = (bad, good, neutral) => {
-    if (bad) return "red";
-    if (good) return "green";
-    if (neutral) return "yellow";
-    return text80;
+  const getColorFromGrad = (bad: boolean, good: boolean, neutral: boolean) => {
+    if (bad) return "text-red dark:text-red";
+    if (good) return "text-green dark:text-green";
+    if (neutral) return "text-yellow dark:text-yellow";
+    return "text-light-font-100 dark:text-dark-font-100";
   };
 
-  const getBorderFromGrad = (bad, good, neutral) => {
-    if (bad) return "var(--chakra-colors-red)";
-    if (good) return "var(--chakra-colors-green)";
-    if (neutral) return "var(--chakra-colors-yellow)";
-    return "1px solid invisible";
+  const getBorderFromGrad = (bad: boolean, good: boolean, neutral: boolean) => {
+    if (bad) return "border border-red dark:border-red";
+    if (good) return "border border-green dark:border-green";
+    if (neutral) return "border border-yellow dark:border-yellow";
+    return "";
+  };
+
+  const bar = (score: number) => {
+    switch (score) {
+      case 0:
+        return 0;
+      case 1:
+        return 0;
+      case 2:
+        return 25;
+      case 3:
+        return 48;
+      case 4:
+        return 68;
+      case 5:
+        return 88;
+      default:
+        return 0;
+    }
   };
 
   return (
-    <Flex
-      direction="column"
-      borderRadius={["0px", "16px"]}
-      bg={boxBg3}
-      w="100%"
-      border={borders}
-      mt={typeVote ? "10px" : "0px"}
-      opacity={token.alreadyVoted ? 0.5 : 1}
+    <div
+      className={`flex flex-col rounded-2xl sm:rounded-0 bg-light-bg-secondary dark:bg-dark-bg-secondary w-full
+    border border-light-border-primary dark:border-dark-border-primary ${
+      typeVote ? "mt-2.5" : ""
+    } ${token.alreadyVoted ? "opacity-50" : "opacity-100"}`}
     >
       <Countdown token={token} />
-      <Flex direction="column" p="5px 0px">
-        {scores.map(entry => {
+      <div className="flex flex-col py-[5px]">
+        {scores.map((entry) => {
           const {
             [`${entry.title.toLowerCase()}Score`]: score,
             [`set${entry.title}Score`]: setScore,
           } = context;
-          const bar = (() => {
-            switch (score) {
-              case 0:
-                return 0;
-              case 1:
-                return 0;
-              case 2:
-                return 25;
-              case 3:
-                return 48;
-              case 4:
-                return 68;
-              case 5:
-                return 88;
-              default:
-                return 0;
-            }
-          })();
           return (
-            <Flex p={["10px", "15px", "15px 20px"]} align="center">
-              <TextLandingSmall color={text80} w="100px">
-                {entry.title}
-              </TextLandingSmall>
-              <Flex
-                w="100%"
-                justify="space-between"
-                align="center"
-                position="relative"
-                pl="20px"
-              >
-                <Flex
-                  bg={hover}
-                  color={text80}
-                  position="absolute"
-                  transition="all 300ms ease-in-out"
-                  top="3px"
-                  left="20px"
-                  borderRadius="8px"
-                  h="30px"
-                  w={`${bar}%`}
+            <div
+              key={entry.title}
+              className="flex items-center py-[15px] px-5 lg:px-[15px] md:p-2.5"
+            >
+              <MediumFont extraCss="w-[100px]">{entry.title}</MediumFont>
+              <div className="flex w-full justify-between items-center relative pl-5">
+                <div
+                  className="flex absolute top-[3px] left-5 rounded h-[30px] text-light-font-100 
+                dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover transition-all duration-250"
+                  style={{
+                    width: `${bar(score)}%`,
+                  }}
                 />
-                {grades.map(grade => {
+                {grades.map((grade) => {
                   const badNote = score === grade && score < 3;
                   const goodNote = score === grade && score > 3;
                   const neutralNote = score === grade;
                   return (
-                    <Button
-                      w="70px"
-                      bg={score === grade ? hover : "none"}
-                      transition="all 300ms ease-in-out"
-                      border={`1px solid ${getBorderFromGrad(
+                    <button
+                      key={grade}
+                      className={`flex items-center w-[70px] justify-center transition-all duration-250 rounded-xl h-[34px] 
+                      ${
+                        score === grade
+                          ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                          : ""
+                      } ${getBorderFromGrad(
                         badNote,
                         goodNote,
-                        neutralNote,
-                      )}`}
-                      color={getColorFromGrad(badNote, goodNote, neutralNote)}
-                      h="34px"
-                      borderRadius="12px"
+                        neutralNote
+                      )} ${getColorFromGrad(badNote, goodNote, neutralNote)}`}
                       onClick={() => {
                         setScore(grade);
                         if (grade) {
                           setTimeout(() => {
-                            // eslint-disable-next-line default-case
                             switch (entry.title) {
                               case "Utility":
                                 setShowUtility(true);
@@ -132,28 +116,23 @@ export const VoteBox = ({
                         }
                       }}
                     >
-                      <Flex
-                        fontSize={["12px", "12px", "14px", "14px"]}
-                        justify="space-around"
-                        w="70%"
-                        align="center"
-                      >
+                      <div className="flex justify-around w-[70%] items-center text-sm lg:text-[13px] md:text-xs">
                         {grade}
-                        {true && typeVote === "review" && (
-                          <Icon ml="5px" color={text60} as={Eye} />
+                        {typeVote === "review" && (
+                          <AiOutlineEye className="text-light-font-60 dark:text-dark-font-60 ml-[5px]" />
                         )}
-                      </Flex>
-                    </Button>
+                      </div>
+                    </button>
                   );
                 })}
-              </Flex>
-            </Flex>
+              </div>
+            </div>
           );
         })}
-      </Flex>
-      <Flex p="0px 20px 20px 20px" direction="column" mt="10px">
+      </div>
+      <div className="pb-5 px-5 flex flex-col mt-2.5">
         <ButtonVote token={token} />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
