@@ -1,28 +1,25 @@
-import {
-  Flex,
-  Icon,
-  Table,
-  TableContainer,
-  Tbody,
-  Text,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {SiConvertio} from "react-icons/si";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {Tds} from "../../../../../../../UI/Tds";
-import {Ths} from "../../../../../../../UI/Ths";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BoxContainer} from "../../../../../common/components/box-container";
+import React from "react";
+import { SiConvertio } from "react-icons/si";
+import { MediumFont } from "../../../../../../../components/fonts";
+import { Tds, Ths } from "../../../../../../../components/table";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { getFormattedAmount } from "../../../../../../../utils/formaters";
+import { BoxContainer } from "../../../../../common/components/box-container";
+import { thStyles } from "../../../../style";
 
-export const SalesInformation = ({token}) => {
-  const {borders} = useColors();
+interface SalesInformationProps {
+  token: Asset;
+}
+
+export const SalesInformation = ({ token }: SalesInformationProps) => {
   const getDisplay = () => {
     const sales = token?.tokenomics?.sales;
     if (sales.length > 0) return "flex";
-    return "none";
+    return "hidden";
   };
-  function formatDate(timestamp) {
+  const display = getDisplay();
+
+  const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
     const day = `0${date.getDate()}`.slice(-2);
     const month = `0${date.getMonth() + 1}`.slice(-2);
@@ -30,72 +27,47 @@ export const SalesInformation = ({token}) => {
     if (Number.isNaN(day) || Number.isNaN(month) || Number.isNaN(year))
       return "N/A";
     return `${day}/${month}/${year}`;
-  }
+  };
   return (
     <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-      display={getDisplay()}
+      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <Flex align="center" pb={["10px", "10px", "15px", "20px"]}>
-        <Icon as={SiConvertio} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Sales Information
-        </Text>
-      </Flex>
-      <TableContainer mt="0px">
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Name
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Amount Sold
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Price
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Platform
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Valuation
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders} isNumeric>
-                Date
-              </Ths>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {token?.tokenomics.sales?.map(sale => (
-              <Tr key={sale}>
-                <Tds px="10px" py="15px">
-                  {sale.name}
-                </Tds>
-                <Tds px="10px" py="15px">
+      <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5">
+        <SiConvertio className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5"> Sales Information</MediumFont>
+      </div>
+      <div className="w-full overflow-x-scroll scroll">
+        <table>
+          <thead>
+            <tr>
+              <Ths extraCss={thStyles}>Name</Ths>
+              <Ths extraCss={thStyles}>Amount Sold</Ths>
+              <Ths extraCss={thStyles}>Price</Ths>
+              <Ths extraCss={thStyles}>Platform</Ths>
+              <Ths extraCss={thStyles}>Valuation</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Date</Ths>
+            </tr>
+          </thead>
+          <tbody>
+            {token?.tokenomics.sales?.map((sale) => (
+              <tr key={sale}>
+                <Tds extraCss="px-2.5 py-[15px]">{sale.name}</Tds>
+                <Tds extraCss="px-2.5 py-[15px]">
                   {`${sale.amount} ${token.symbol}`}
                 </Tds>
-                <Tds px="10px" py="15px">
+                <Tds extraCss="px-2.5 py-[15px]">
                   ${getFormattedAmount(sale.price)}
                 </Tds>
-                <Tds px="10px" py="15px">
-                  {sale.platform}
-                </Tds>
-                <Tds px="10px" py="15px">
-                  {sale.valuation}%
-                </Tds>
-                <Tds px="10px" py="15px" isNumeric>
+                <Tds extraCss="px-2.5 py-[15px]">{sale.platform}</Tds>
+                <Tds extraCss="px-2.5 py-[15px]">{sale.valuation}%</Tds>
+                <Tds extraCss="px-2.5 py-[15px] text-end">
                   {formatDate(sale.date)}
                 </Tds>
-              </Tr>
+              </tr>
             ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
     </BoxContainer>
   );
 };

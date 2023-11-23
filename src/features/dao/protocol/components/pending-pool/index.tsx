@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { Container } from "../../../../../components/container";
 import { Asset } from "../../../../../interfaces/assets";
@@ -55,13 +55,15 @@ export const PendingPool = () => {
     }
     return (
       <BoxPreVote
-        token={{
-          name: "Come back later!",
-          description: "No new listings are currently available :(",
-          logo: isWhiteMode
-            ? "/mobula/mobula-logo-light.svg"
-            : "/mobula/mobula-logo.svg",
-        }}
+        token={
+          {
+            name: "Come back later!",
+            description: "No new listings are currently available :(",
+            logo: isWhiteMode
+              ? "/mobula/mobula-logo-light.svg"
+              : "/mobula/mobula-logo.svg",
+          } as Asset
+        }
         isFakeToken
       />
     );
