@@ -12,15 +12,17 @@ import {
 } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { TokenDivs } from "../../../../models";
+import { thStyles } from "../../../../style";
 import { getClosestSimilarToken } from "../../../../utils";
+
+interface SimilarityCheckProps {
+  token: Asset;
+}
 
 const REQUEST_SELECT =
   "name,symbol,volume,liquidity,logo,market_cap,contracts,blockchains";
 
-const thStyles =
-  "py-[15px] px-2.5 border-t border-light-border-primary dark:border-dark-border-primary";
-
-export const SimiliratyCheck = ({ token }: Asset) => {
+export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
   const [similarTokens, setSimilarTokens] = useState({
     name: {} as TokenDivs,
     symbol: {} as TokenDivs,

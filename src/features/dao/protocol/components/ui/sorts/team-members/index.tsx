@@ -1,126 +1,120 @@
-import {ExternalLinkIcon} from "@chakra-ui/icons";
-import {
-  Flex,
-  Icon,
-  Table,
-  TableContainer,
-  Tbody,
-  Text,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {RiTeamFill} from "react-icons/ri";
-import {Tds} from "../../../../../../../UI/Tds";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {Ths} from "../../../../../../../UI/Ths";
-import {NextChakraLink} from "../../../../../../../common/components/links";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BoxContainer} from "../../../../../common/components/box-container";
+import React from "react";
+import { FiExternalLink } from "react-icons/fi";
+import { RiTeamFill } from "react-icons/ri";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../../../components/link";
+import { Tds, Ths } from "../../../../../../../components/table";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { BoxContainer } from "../../../../../common/components/box-container";
+import { thStyles } from "../../../../style";
 
-export const TeamMembers = ({token}) => {
-  const {borders, text40} = useColors();
+interface TeamMembersProps {
+  token: Asset;
+}
 
+export const TeamMembers = ({ token }: TeamMembersProps) => {
   const getDisplay = () => {
     if (token?.team?.length > 0) return "flex";
-    return "none";
+    return "hidden";
   };
+  const display = getDisplay();
 
   return (
     <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-      display={getDisplay()}
+      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <Flex align="center">
-        <Icon as={RiTeamFill} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Team members
-        </Text>
-      </Flex>
-      <TableContainer
-        mt={["10px", "10px", "15px", "20px"]}
-        overflowX="scroll"
-        className="scroll"
-      >
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Role
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Name
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Telegram
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Twitter
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Linkedin
-              </Ths>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {token?.team?.map(member => {
+      <div className="flex items-center">
+        <RiTeamFill className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5">Team members</MediumFont>
+      </div>
+      <div className="w-full mt-5 lg:mt-[15px] md:mt-2.5 overflow-x-scroll scroll">
+        <table>
+          <thead>
+            <tr>
+              <Ths extraCss={thStyles}>Role</Ths>
+              <Ths extraCss={thStyles}>Name</Ths>
+              <Ths extraCss={thStyles}>Telegram</Ths>
+              <Ths extraCss={thStyles}>Twitter</Ths>
+              <Ths extraCss={thStyles}>Contract</Ths>
+              <Ths extraCss={thStyles}>Linkedin</Ths>
+            </tr>
+          </thead>
+          <tbody>
+            {token?.team?.map((member) => {
               console.log(member.linkedin.split("/in/")[1]);
               console.log(member.twitter.split("twitter.com/")[1]);
               return (
-                <Tr key={member}>
-                  <Tds px="10px" py="15px">
-                    <Flex align="center">
-                      <TextSmall>{member.role}</TextSmall>
-                    </Flex>
+                <tr key={member}>
+                  <Tds extraCss="px-2.5 py-[25px]">
+                    <div className="flex items-center">
+                      <SmallFont>{member.role}</SmallFont>
+                    </div>
                   </Tds>
-                  <Tds px="10px" py="15px">
-                    {member.name}
-                  </Tds>{" "}
-                  <Tds px="10px" py="15px">
+                  <Tds extraCss="px-2.5 py-[25px]">{member.name}</Tds>
+                  <Tds extraCss="px-2.5 py-[25px]">
                     <NextChakraLink
                       href={member.telegram}
-                      isExternal
-                      color={member.telegram ? "blue" : text40}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      extraCss={`${
+                        member.telegram
+                          ? "text-blue dark:text-blue"
+                          : "text-light-font-40 dark:text-dark-font-40"
+                      }`}
                     >
-                      {member.telegram?.split("t.me/")[1] || "--"}
-                      {member.telegram ? (
-                        <ExternalLinkIcon color={text40} ml="7.5px" mb="2px" />
-                      ) : null}
+                      <div className="flex items-center">
+                        {member.telegram?.split("t.me/")[1] || "--"}
+                        {member.telegram ? (
+                          <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
+                        ) : null}
+                      </div>
                     </NextChakraLink>
                   </Tds>
-                  <Tds px="10px" py="15px">
+                  <Tds extraCss="px-2.5 py-[25px]">
                     <NextChakraLink
                       href={member.twitter}
-                      isExternal
-                      color={member.twitter ? "blue" : text40}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      extraCss={`${
+                        member.twitter
+                          ? "text-blue dark:text-blue"
+                          : "text-light-font-40 dark:text-dark-font-40"
+                      }`}
                     >
-                      {member.twitter.split("twitter.com/")[1] || "--"}
-                      {member.twitter ? (
-                        <ExternalLinkIcon color={text40} ml="7.5px" mb="2px" />
-                      ) : null}
+                      <div className="flex items-center">
+                        {member.twitter.split("twitter.com/")[1] || "--"}
+                        {member.twitter ? (
+                          <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
+                        ) : null}
+                      </div>
                     </NextChakraLink>
                   </Tds>
-                  <Tds px="10px" py="15px">
+                  <Tds extraCss="px-2.5 py-[25px]">
+                    <div className="flex items-center"></div>
                     <NextChakraLink
                       href={member.linkedin}
-                      isExternal
-                      color={member.linkedin ? "blue" : text40}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      extraCss={`${
+                        member.linkedin
+                          ? "text-blue dark:text-blue"
+                          : "text-light-font-40 dark:text-dark-font-40"
+                      }`}
                     >
-                      {member.linkedin?.split("/in/")[1] || "--"}
-                      {member.linkedin ? (
-                        <ExternalLinkIcon color={text40} ml="7.5px" mb="2px" />
-                      ) : null}
+                      <div className="flex items-center">
+                        {member.linkedin?.split("/in/")[1] || "--"}
+                        {member.linkedin ? (
+                          <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
+                        ) : null}
+                      </div>
                     </NextChakraLink>
                   </Tds>
-                </Tr>
+                </tr>
               );
             })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
     </BoxContainer>
   );
 };

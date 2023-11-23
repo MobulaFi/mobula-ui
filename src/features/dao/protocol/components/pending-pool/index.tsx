@@ -2,6 +2,7 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { Container } from "../../../../../components/container";
+import { Asset } from "../../../../../interfaces/assets";
 import { RightContainer } from "../../../common/components/container-right";
 import { LeftNavigation } from "../../../common/components/nav-left";
 import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
@@ -25,7 +26,7 @@ export const PendingPool = () => {
   const isWhiteMode = theme === "dark";
   useSort();
 
-  const renderToken = (token) => (
+  const renderToken = (token: Asset) => (
     <>
       <BoxPreVote token={token} />
       <SimiliratyCheck token={token} />

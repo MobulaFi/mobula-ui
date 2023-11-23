@@ -16,17 +16,17 @@ import { ModalContainer } from "../../../../../../../components/modal-container"
 import { Popover } from "../../../../../../../components/popover";
 import { Skeleton } from "../../../../../../../components/skeleton";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
+import { Asset } from "../../../../../../../interfaces/assets";
 import { getUrlFromName } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
-import { TokenDivs } from "../../../../models";
 import { getPricing } from "../../../../utils";
 import { CommunityPopup } from "../popup-community";
 import styles from "./Prevote.module.scss";
 
 interface BoxPreVoteProps {
-  token: Partial<TokenDivs>;
+  token: Asset;
   isFakeToken?: boolean;
 }
 
