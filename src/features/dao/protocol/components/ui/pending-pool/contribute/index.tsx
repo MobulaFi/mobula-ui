@@ -1,26 +1,20 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
 import {
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Slider,
   SliderFilledTrack,
   SliderMark,
   SliderThumb,
   SliderTrack,
-  Text,
 } from "@chakra-ui/react";
-import {useCallback, useEffect, useState} from "react";
-import {useAlert} from "react-alert";
-import {SiConvertio} from "react-icons/si";
-import {erc20ABI, useAccount, useNetwork} from "wagmi";
-import {readContract, waitForTransaction, writeContract} from "wagmi/actions";
+import React, { useCallback, useEffect, useState } from "react";
+// import { useAlert } from "react-alert";
+import { BsChevronDown } from "react-icons/bs";
+import { SiConvertio } from "react-icons/si";
+import { erc20ABI, useAccount, useNetwork } from "wagmi";
+import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
+import { Button } from "../../../../../../../components/button";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { Input } from "../../../../../../../components/input";
+import { Menu } from "../../../../../../../components/menu";
 import {
   PROTOCOL_ADDRESS,
   PROTOCOL_BNB_ADDRESS,
@@ -28,29 +22,31 @@ import {
   USDC_MATIC_ADDRESS,
   USDT_BNB_ADDRESS,
   USDT_MATIC_ADDRESS,
-} from "../../../../../../../../utils/constants";
-import {createSupabaseDOClient} from "../../../../../../../../utils/supabase";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {InfoPopup} from "../../../../../../../common/components/popup-hover";
-import {useColors} from "../../../../../../../common/utils/color-mode";
+} from "../../../../../../../constants";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { createSupabaseDOClient } from "../../../../../../../lib/supabase";
+import { allowanceAbi, balanceOfAbi } from "../../../../../../../utils/abi";
 import {
-  allowanceAbi,
-  balanceOfAbi,
   listingAbi,
   listingAxelarAbi,
-} from "../../../../../../Misc/Listing/constant";
-import {BoxContainer} from "../../../../../common/components/box-container";
-import {TokenDivs, TokenToBuyWith} from "../../../../models";
-import {getPricing} from "../../../../utils";
+} from "../../../../../../misc/listing-form/constant";
+import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenToBuyWith } from "../../../../models";
+import { getPricing } from "../../../../utils";
 
-export const Contribute = ({token}: {token: TokenDivs}) => {
-  const {borders, text80, text40, bordersActive, hover, boxBg6} = useColors();
+interface ContributeProps {
+  token: Asset;
+}
+
+export const Contribute = ({ token }: ContributeProps) => {
+  const text80 = "#8C8C8C";
+  const hover = "fjirf";
   const [tokenToBuyWith, setTokenToBuyWith] = useState({} as any);
   const [amount, setAmount] = useState(0);
-  const {address} = useAccount();
-  const {chain} = useNetwork();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
   const [contributeAmount, setContributeAmount] = useState(
-    getPricing(token?.coeff),
+    getPricing(token?.coeff)
   );
   const [balance, setBalance] = useState({
     usdt: {
@@ -62,14 +58,13 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
       approved: 0,
     },
   });
-  const alert = useAlert();
+  // const alert = useAlert();
   const [buyWith, setBuyWith] = useState({
     usdt: {} as TokenToBuyWith,
     usdc: {} as TokenToBuyWith,
   });
 
   const getBalance = useCallback(async () => {
-    // TODO
     const getApproval = (contractAddress: string, protocolAddress: string) =>
       readContract({
         address: contractAddress as `0x${string}`,
@@ -86,7 +81,7 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
         args: [address],
       });
 
-    const getDecimals = contract =>
+    const getDecimals = (contract) =>
       readContract({
         address: contract as `0x${string}`,
         abi: erc20ABI as never,
@@ -171,7 +166,7 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
     }
 
     // setLoading(true);
-    const {hash} = await writeContract({
+    const { hash } = await writeContract({
       address: contractAddress as never,
       abi: erc20ABI as never,
       functionName: "approve" as never,
@@ -181,19 +176,19 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
       ] as never,
     });
     try {
-      alert.info(`Transaction to approve ${symbol} is pending...`);
-      await waitForTransaction({hash});
-      alert.success(`${symbol} approved successfully.`);
+      // alert.info(`Transaction to approve ${symbol} is pending...`);
+      await waitForTransaction({ hash });
+      // alert.success(`${symbol} approved successfully.`);
       getBalance();
       // setLoading(false);
     } catch (e) {
-      alert.error(`Something went wrong while trying to allow ${symbol}.`);
+      // alert.error(`Something went wrong while trying to allow ${symbol}.`);
       getBalance();
       // setLoading(false);
     }
   };
 
-  const contributeToListing = async stable => {
+  const contributeToListing = async (stable) => {
     let newAddress = "";
     if (chain?.id === 137) {
       if (stable === "USDT") newAddress = USDT_MATIC_ADDRESS;
@@ -217,7 +212,7 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
           functionName: "topUpToken" as never,
           args: [token.voteId, newAddress, amount] as never,
         });
-        alert.success("The vote has been taken in account");
+        // alert.success("The vote has been taken in account");
       } catch (e) {
         console.log(e);
       }
@@ -231,7 +226,7 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
           args: [token.id, newAddress, amount] as never,
           value: BigInt(0.01 * 10 ** decimal) as never,
         });
-        alert.success("The vote has been taken in account");
+        // alert.success("The vote has been taken in account");
       } catch (e) {
         console.log(e);
       }
@@ -245,15 +240,15 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
       .from("assets")
       .select("name,contracts,symbol,logo,decimals,blockchains")
       .eq("symbol", "USDT")
-      .then(({data}) => {
-        if (data) setBuyWith(prev => ({...prev, usdt: data[0]}));
+      .then(({ data }) => {
+        if (data) setBuyWith((prev) => ({ ...prev, usdt: data[0] }));
       });
     supabase
       .from("assets")
       .select("name,contracts,symbol,logo,decimals,blockchains")
       .eq("symbol", "USDC")
-      .then(({data}) => {
-        if (data) setBuyWith(prev => ({...prev, usdc: data[0]}));
+      .then(({ data }) => {
+        if (data) setBuyWith((prev) => ({ ...prev, usdc: data[0] }));
       });
   }, []);
 
@@ -272,25 +267,12 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
   };
 
   return (
-    <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px 20px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-    >
-      <Flex
-        align="center"
-        pb={["10px", "10px", "15px", "20px"]}
-        borderBottom={borders}
-      >
-        <Icon as={SiConvertio} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Contribute to the listing
-        </Text>
-        <InfoPopup mb="3px" />
-      </Flex>
-      <Flex w="100%" mt="50px" pb="60px">
+    <BoxContainer extraCss="mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0">
+      <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
+        <SiConvertio className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5">Distribution</MediumFont>
+      </div>
+      <div className="flex w-full mt-[50px] pb-[60px]">
         <Slider
           aria-label="slider-ex-1"
           defaultValue={contributeAmount || 0}
@@ -300,26 +282,12 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
         >
           <SliderMark value={30} {...labelStyles} position="relative">
             30$
-            <Flex
-              h="8px"
-              position="absolute"
-              bottom="-29px"
-              left="20px"
-              bg={text40}
-              zIndex="1"
-              w="4px"
-            />
-            <TextSmall
-              position="absolute"
-              bottom="-80px"
-              left="-12.5px"
-              textAlign="center"
-              zIndex="1"
-            >
+            <div className="flex h-2 absolute bottom-[-29px] left-5 bg-light-font-40 dark:bg-dark-font-40 z-[1] w-1" />
+            <SmallFont extraCss="absolute bottom-[-80px] left-[-12.5px] text-center z-[1]">
               Required
               <br />
               (Standard)
-            </TextSmall>
+            </SmallFont>
           </SliderMark>
           <SliderMark
             textAlign="center"
@@ -328,24 +296,10 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
             position="relative"
           >
             100$
-            <Flex
-              h="8px"
-              position="absolute"
-              bottom="-29px"
-              left="20px"
-              bg={text40}
-              zIndex="1"
-              w="4px"
-            />
-            <TextSmall
-              position="absolute"
-              bottom="-80px"
-              left="-7.5px"
-              textAlign="center"
-              zIndex="1"
-            >
+            <div className="flex h-2 absolute bottom-[-29px] left-5 bg-light-font-40 dark:bg-dark-font-40 z-[1] w-1" />
+            <SmallFont extraCss="absolute bottom-[-80px] left-[-7.5px] text-center z-[1]">
               Fast Listing
-            </TextSmall>
+            </SmallFont>
           </SliderMark>
           <SliderMark
             value={500}
@@ -354,24 +308,10 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
             position="relative"
           >
             500$
-            <Flex
-              h="8px"
-              position="absolute"
-              bottom="-29px"
-              left="30px"
-              bg={text40}
-              zIndex="1"
-              w="4px"
-            />
-            <TextSmall
-              position="absolute"
-              bottom="-80px"
-              left="-7.5px"
-              textAlign="center"
-              zIndex="1"
-            >
+            <div className="flex h-2 absolute bottom-[-29px] left-[30px] bg-light-font-40 dark:bg-dark-font-40 z-[1] w-1" />
+            <SmallFont extraCss="absolute bottom-[-80px] left-[-7.5px] text-center z-[1]">
               Ultra Fast
-            </TextSmall>
+            </SmallFont>
           </SliderMark>
 
           <SliderMark
@@ -393,75 +333,56 @@ export const Contribute = ({token}: {token: TokenDivs}) => {
             border="2px solid var(--chakra-colors-blue)"
           />
         </Slider>
-      </Flex>
-      <TextSmall mt="15px" color={text80} fontWeight="500">
+      </div>
+      <SmallFont extraCss="mt-[15px] text-light-font-100 dark:text-dark-font-100 font-medium">
         Enter an amount
-      </TextSmall>
-      <Flex mt="10px">
+      </SmallFont>
+      <div className="mt-2.5 flex">
         <Input
-          h="35px"
-          borderRadius="8px"
-          w="200px"
-          border={borders}
-          bg={boxBg6}
-          color={text80}
+          extraCss="w-[200px]"
           placeholder="10"
-          onChange={e => {
+          onChange={(e) => {
             setAmount(parseInt(e.target.value, 10));
             if (parseInt(e.target.value, 10) < 500)
               setContributeAmount(
-                getPricing(token?.coeff) + parseInt(e.target.value, 10),
+                getPricing(token?.coeff) + parseInt(e.target.value, 10)
               );
           }}
         />
-        <Menu>
-          <MenuButton
-            border={borders}
-            bg={boxBg6}
-            as={Button}
-            fontWeight="400"
-            w="fit-content"
-            px="12px"
-            borderRadius="8px"
-            ml="10px"
-            _hover={{bg: hover, border: bordersActive}}
-            transition="all 250ms ease-in-out"
-            rightIcon={<ChevronDownIcon />}
-          >
-            <Flex align="center">
-              <Image
+        <Menu
+          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded ml-2.5 transition-all duration-250
+        border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+        bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          title={
+            <div className="flex items-center">
+              <img
+                className="w-5 h-5 rounded-full mr-2.5"
                 src={tokenToBuyWith?.logo || "/icon/unknown.png"}
-                boxSize="20px"
-                borderRadius="full"
-                mr="10px"
+                alt="token to buy logo"
               />
               {tokenToBuyWith?.symbol || "Select"}
-            </Flex>
-          </MenuButton>
-          <MenuList bg={boxBg6} border={borders} borderRadius="8px">
-            {Object.keys(buyWith).map(key => (
-              <MenuItem
-                bg={boxBg6}
-                _hover={{bg: hover}}
-                transition="all 250ms ease-in-out"
-                onClick={() => setTokenToBuyWith(buyWith[key])}
-              >
-                <Image
-                  src={buyWith[key]?.logo || "/icon/unknown.png"}
-                  boxSize="20px"
-                  borderRadius="full"
-                  mr="10px"
-                />
-                {buyWith[key].symbol}
-              </MenuItem>
-            ))}
-          </MenuList>
+              <BsChevronDown />
+            </div>
+          }
+        >
+          {Object.keys(buyWith).map((key) => (
+            <div
+              key={key}
+              className="flex items-center w-full bg-light-bg-terciary dark:bg-dark-bg-terciary transition-all duration-250 text-light-font-100 dark:text-dark-font-100"
+              onClick={() => setTokenToBuyWith(buyWith[key])}
+            >
+              <img
+                className="w-5 h-5 rounded-full mr-2.5"
+                src={buyWith[key]?.logo || "/empty/unknown.png"}
+                alt={buyWith[key]?.symbol || "unknown"}
+              />
+              {buyWith[key].symbol}
+            </div>
+          ))}
         </Menu>
-      </Flex>
+      </div>
       <Button
-        variant="outlined"
-        h={["35px", "35px", "40px"]}
-        mt="20px"
+        extraCss="mt-5 h-[40px] md:h-[35px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
         onClick={() => {
           if (tokenToBuyWith.symbol === "USDC") {
             if (balance.usdc.approved < amount) approve("USDC");
