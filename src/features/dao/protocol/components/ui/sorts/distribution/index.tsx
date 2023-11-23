@@ -35,7 +35,7 @@ export const Distribution = ({ token }: DistributionProps) => {
     <BoxContainer
       extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <div className="flex items-center px-5 lg:px-[15px] md:px-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
+      <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
         <SiConvertio className="text-blue dark:text-blue" />
         <MediumFont extraCss="ml-2.5">Distribution</MediumFont>
       </div>
