@@ -1,74 +1,60 @@
-import {CheckIcon, CopyIcon} from "@chakra-ui/icons";
-import {Button, Flex, Icon, Image, Text} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useState} from "react";
-import {HiOutlineNewspaper} from "react-icons/hi";
-import {TextLandingSmall, TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {addressSlicer} from "../../../../../../../common/utils/user";
-import {BoxContainer} from "../../../../../common/components/box-container";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { useState } from "react";
+import { BiCopy } from "react-icons/bi";
+import { BsCheckLg } from "react-icons/bs";
+import { HiOutlineNewspaper } from "react-icons/hi";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { addressSlicer } from "../../../../../../../utils/formaters";
+import { BoxContainer } from "../../../../../common/components/box-container";
 
-export const ContractInformation = ({token}) => {
-  const {borders, boxBg6, text80} = useColors();
+interface ContractInformationProps {
+  token: Asset;
+}
+
+export const ContractInformation = ({ token }: ContractInformationProps) => {
   const [isCopied, setIsCopied] = useState(false);
-  const copyToClipboard = text => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
   return (
-    <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-    >
-      <Flex
-        align="center"
-        borderBottom={borders}
-        pb={["10px", "10px", "15px", "20px"]}
-      >
-        <Icon as={HiOutlineNewspaper} color={text80} />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Contract & Information
-        </Text>
-      </Flex>
-      {token?.excludedFromCirculationAddresses.filter(entry => entry.address)
+    <BoxContainer extraCss="mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0">
+      <div className="flex items-center border-b border-light-border-primary dark:border-dark-border-primary pb-5 lg:pb-[15px] md:pb-2.5">
+        <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100" />
+        <MediumFont extraCss="ml-2.5">Contract & Information</MediumFont>
+      </div>
+      {token?.excludedFromCirculationAddresses.filter((entry) => entry.address)
         .length > 0 ? (
-        <Flex mt="15px" direction={["column", "column", "row"]}>
-          <Flex direction="column" w="100%">
-            <TextSmall mb="10px" fontWeight="500">
+        <div className="flex mt-[15px] flex-row md:flew-col">
+          <div className="flex flex-col w-full">
+            <SmallFont extraCss="mb-2.5 font-medium">
               Excluded Addresses
-            </TextSmall>
-            <Flex wrap="wrap">
+            </SmallFont>
+            <div className="flex flex-wrap">
               {token?.excludedFromCirculationAddresses?.map(
-                ({address, blockchain}, i) => (
-                  <Flex
-                    h="35px"
-                    bg={boxBg6}
-                    border={borders}
-                    color={text80}
-                    borderRadius="8px"
-                    align="center"
-                    mb="7.5px"
-                    w={["100%", "100%", "calc(50% - 10px)"]}
-                    mr={["0px", "0px", i % 2 !== 0 ? "0px" : "5px"]}
-                    ml={["0px", "0px", i % 2 !== 0 ? "5px" : "0px"]}
-                    px="7.5px"
+                ({ address, blockchain }, i: number) => (
+                  <div
+                    className={`flex h-[35px] rounded items-center bg-light-bg-terciary dark:bg-dark-bg-terciary 
+                  border border-light-border-primary dark:border-dark-border-primary mb-[7.5px] text-light-font-100 
+                  dark:text-dark-font-100 w-calc-half-10 md:w-full px-[7.5px] ${
+                    i % 2 !== 0
+                      ? "mr-0 ml-[5px] md:ml-0"
+                      : "ml-[5px] md:ml-0 mr-0"
+                  }`}
+                    key={i}
                   >
-                    <Image
+                    <img
+                      className="w-[22px] h-[22px] rounded-full mr-[7.5px]"
+                      alt={`${blockchain} logo`}
                       src={
                         blockchainsContent[blockchain]?.logo ||
                         "/icon/unknown.png"
                       }
-                      boxSize="22px"
-                      borderRadius="full"
-                      mr="7.5px"
                     />
-                    <TextLandingSmall>
-                      {addressSlicer(address)}
-                    </TextLandingSmall>
-                    <Button
+                    <MediumFont>{addressSlicer(address)}</MediumFont>
+                    <button
+                      className="flex items-center justify-center opacity-60 hover:opacity-100 ml-auto w-fit transition-all duration-250"
                       onClick={() => {
                         copyToClipboard(address);
                         setIsCopied(true);
@@ -76,46 +62,38 @@ export const ContractInformation = ({token}) => {
                           setIsCopied(false);
                         }, 2000);
                       }}
-                      opacity={0.6}
-                      _hover={{opacity: 1}}
-                      w="fit-content"
-                      ml="auto"
                     >
                       {!isCopied ? (
-                        <CopyIcon color={text80} ml="auto" />
+                        <BiCopy className="text-light-font-100 dark:text-dark-font-100 ml-auto" />
                       ) : (
-                        <CheckIcon color="green" ml="auto" />
+                        <BsCheckLg className="text-green dark:text-green ml-auto" />
                       )}
-                    </Button>
-                  </Flex>
-                ),
+                    </button>
+                  </div>
+                )
               )}{" "}
-            </Flex>
-          </Flex>
-        </Flex>
+            </div>
+          </div>
+        </div>
       ) : null}
-      <TextSmall
-        mt={["15px", "15px", "20px", "30px"]}
-        mb="10px"
-        fontWeight="500"
-      >
+      <SmallFont extraCss="mb-2.5 mt-[30px] lg:mt-5 md:mt-[15px] font-medium">
         Total supply details
-      </TextSmall>
+      </SmallFont>
       {token?.totalSupplyContracts[0]?.address ===
       token?.contracts[0]?.address ? (
-        <Flex align="center" mb="10px">
-          <TextSmall>
+        <div className="flex items-center mb-2.5">
+          <SmallFont>
             Total supply is the supply of the first contract
-          </TextSmall>
-          <CheckIcon color="green" ml="10px" />
-        </Flex>
+          </SmallFont>
+          <BsCheckLg className="text-green dark:text-green ml-2.5" />
+        </div>
       ) : (
-        <Flex align="center" mb="10px">
-          <TextSmall mb="10px">
+        <div className="flex items-center mb-2.5">
+          <SmallFont extraCss="mb-2.5">
             Total supply us a sum of all contracts
-          </TextSmall>
-          <CheckIcon color="green" ml="10px" />
-        </Flex>
+          </SmallFont>
+          <BsCheckLg className="text-green dark:text-green ml-2.5" />
+        </div>
       )}
     </BoxContainer>
   );
