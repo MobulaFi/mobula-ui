@@ -1,11 +1,6 @@
 import React from "react";
 import { Sort } from "../../../../features/dao/protocol/components/sorts";
-import { SortProvider } from "../../../../features/dao/protocol/context-manager";
-import {
-  ReasonVoteProvider,
-  ShowReasonProvider,
-} from "../../../../features/dao/protocol/context-manager/reason-vote";
-import { VoteProvider } from "../../../../features/dao/protocol/context-manager/vote";
+import GeneralLayout from "../layout";
 
 export default function ValidationPage() {
   return (
@@ -34,15 +29,9 @@ export default function ValidationPage() {
         <meta name="author" content="Mobula" />
         <meta name="copyright" content="Mobula" />
         <meta name="robots" content="index, follow" /> */}
-      <SortProvider isFirstSort={false}>
-        <ShowReasonProvider>
-          <ReasonVoteProvider>
-            <VoteProvider>
-              <Sort />
-            </VoteProvider>
-          </ReasonVoteProvider>
-        </ShowReasonProvider>
-      </SortProvider>
+      <GeneralLayout>
+        <Sort />
+      </GeneralLayout>
     </>
   );
 }

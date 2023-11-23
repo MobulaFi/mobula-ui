@@ -1,5 +1,6 @@
+"use client";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useContext } from "react";
 import { Container } from "../../../../../components/container";
 import { Asset } from "../../../../../interfaces/assets";
@@ -20,7 +21,7 @@ import { TokenFees } from "../ui/sorts/token-fees";
 import { VestingInformation } from "../ui/sorts/vesting-information";
 
 export const PendingPool = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const { tokenDivs, displayedPool } = useContext(SortContext);
   const { theme } = useTheme();
   const isWhiteMode = theme === "dark";
@@ -70,12 +71,10 @@ export const PendingPool = () => {
   };
 
   return (
-    <Container>
+    <Container extraCss="flex-row lg:flex-col">
       <div className="w-fit block lg:hidden">
         <LeftNavigation
-          page={
-            router.pathname.includes("protocol") ? "protocol" : "governance"
-          }
+          page={pathname.includes("protocol") ? "protocol" : "governance"}
         />
       </div>
       <div className="hidden lg:block">

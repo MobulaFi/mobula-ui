@@ -4,6 +4,7 @@ import { cn } from "../../../../../@/lib/utils";
 interface BoxContainerProps {
   children: React.ReactNode;
   extraCss?: string;
+  [key: string]: any;
 }
 
 export const BoxContainer = ({
