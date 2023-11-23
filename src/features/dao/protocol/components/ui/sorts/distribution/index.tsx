@@ -1,112 +1,84 @@
-import {ChevronDownIcon} from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Icon,
-  Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Text,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useState} from "react";
-import {SiConvertio} from "react-icons/si";
-import {Tds} from "../../../../../../../UI/Tds";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {Ths} from "../../../../../../../UI/Ths";
-import {InfoPopup} from "../../../../../../../common/components/popup-hover";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {addressSlicer} from "../../../../../../../common/utils/user";
-import {BoxContainer} from "../../../../../common/components/box-container";
-import {colors} from "../../../../constants";
-import {PopupAddress} from "../../popup-address";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
+import { SiConvertio } from "react-icons/si";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { Tds, Ths } from "../../../../../../../components/table";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { addressSlicer } from "../../../../../../../utils/formaters";
+import { BoxContainer } from "../../../../../common/components/box-container";
+import { colors } from "../../../../constants";
+import { thStyles } from "../../../../style";
+import { PopupAddress } from "../../popup-address";
 
-export const Distribution = ({token}) => {
-  const {borders, text40} = useColors();
+interface DistributionProps {
+  token: Asset;
+}
+
+export const Distribution = ({ token }: DistributionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const getDisplay = () => {
     if (token?.tokenomics?.distribution?.length > 0) return "flex";
-    return "none";
+    return "hidden";
   };
-  const getRadiusFromIndex = index => {
-    if (index === 0) return "8px  0 0 8px";
+  const display = getDisplay();
+
+  const getRadiusFromIndex = (index: number) => {
+    if (index === 0) return "rounded-l";
     if (index === (token?.tokenomics?.distribution?.length || 1) - 1)
-      return "0px 8px 8px 0px";
-    return "0";
+      return "rounded-r";
+    return "";
   };
 
   return (
     <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-      display={getDisplay()}
+      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <Flex
-        align="center"
-        pb={["10px", "10px", "15px", "20px"]}
-        borderBottom={borders}
-      >
-        <Icon as={SiConvertio} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Distribution
-        </Text>
-        <InfoPopup mb="3px" />
-      </Flex>
-      <TableContainer mt="0px">
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Ths py="15px" px="10px" w="33%" borderTop={borders}>
-                Name
-              </Ths>
-              <Ths py="15px" px="10px" w="33%" borderTop={borders}>
-                Percentage
-              </Ths>
-              <Ths py="15px" px="10px" w="33%" borderTop={borders} isNumeric>
-                Address
-              </Ths>
-            </Tr>
-          </Thead>
-          <Tbody>
+      <div className="flex items-center px-5 lg:px-[15px] md:px-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
+        <SiConvertio className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5">Distribution</MediumFont>
+      </div>
+      <div className="w-full overflow-x-scroll scroll">
+        <table>
+          <thead>
+            <tr>
+              <Ths extraCss={`${thStyles} w-[33%]`}>Name</Ths>
+              <Ths extraCss={`${thStyles} w-[33%]`}>Percentage</Ths>
+              <Ths extraCss={`${thStyles} w-[33%] text-end`}>Address</Ths>
+            </tr>
+          </thead>
+          <tbody>
             {token?.tokenomics.distribution?.map((distribution, i) => (
-              <Tr key={distribution}>
-                <Tds px="10px" py="15px" w="33%">
+              <tr key={distribution}>
+                <Tds extraCss="px-2.5 py-[1(px] w-[33%]">
                   {distribution.name}
                 </Tds>
-                <Tds px="10px" py="15px" w="33%%">
+                <Tds extraCss="px-2.5 py-[1(px] w-[33%]">
                   {distribution.percentage}%
                 </Tds>
-                <Tds px="10px" py="15px" pr="0px" isNumeric w="33%">
-                  <Button
-                    mr="10px"
-                    px="0px"
+                <Tds extraCss="px-2.5 py-[1(px] w-[33%] pr-0 text-end">
+                  <button
+                    className="mr-2.5 px-0 text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs"
                     onClick={() => {
                       if (distribution.addresses?.[0]?.address)
                         setIsOpen(distribution.name);
                     }}
                   >
-                    <Image
+                    <img
+                      className="rounded-full w-4 h-4 mr-[7.5px]"
                       src={
                         blockchainsContent[
                           distribution.addresses?.[0]?.blockchain
                         ]?.logo || "/icon/unkown.png"
                       }
-                      borderRadius="full"
-                      mr="7.5px"
-                      boxSize="16px"
-                    />{" "}
+                      alt="blockchain logo"
+                    />
                     {addressSlicer(distribution.addresses?.[0]?.address)}
                     {distribution.addresses?.[0]?.address ? (
-                      <ChevronDownIcon fontSize="15px" ml="5px" />
+                      <FiChevronDown className="text-[15px] ml-[5px]" />
                     ) : null}
-                  </Button>
+                  </button>
                   <PopupAddress
                     isOpen={isOpen === distribution.name}
                     setIsOpen={setIsOpen}
@@ -117,48 +89,40 @@ export const Distribution = ({token}) => {
                         : null
                     }
                   />
-                  <Flex justify="end" align="center" />
+                  <div className="flex justify-end items-center" />
                 </Tds>
-              </Tr>
+              </tr>
             ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-      <TextSmall mt={["15px", "15px", "20px"]} mb="15px" fontWeight="500">
+          </tbody>
+        </table>
+      </div>
+      <SmallFont extraCss="mt-5 md:mt-[15px] mb-[15px] font-medium">
         Supply repartition
-      </TextSmall>
-      <Flex
-        align="center"
-        w="100%"
-        h={["10px", "12px", "15px"]}
-        borderRadius="8px"
-      >
-        {token?.tokenomics?.distribution?.map(({percentage}, i) => (
-          <Flex
-            w={`${percentage}%`}
-            h="100%"
-            bg={colors[i]}
-            borderRadius={getRadiusFromIndex(i)}
+      </SmallFont>
+      <div className="flex items-center w-full h-[15px] lg:h-3 md:h-2.5 rounded">
+        {token?.tokenomics?.distribution?.map(({ percentage }, i: number) => (
+          <div
+            key={percentage + i}
+            className={`h-full ${colors[i]} ${getRadiusFromIndex(i)}`}
+            style={{
+              width: `${percentage}%`,
+            }}
           />
         ))}
-      </Flex>
-      <Flex align="center" wrap="wrap">
-        {token?.tokenomics?.distribution?.map(({name, percentage}, i) => (
-          <Flex align="center" mt="10px">
-            <Flex
-              borderRadius="full"
-              boxSize="12px"
-              minW="12px"
-              bg={colors[i]}
-              mr="5px"
+      </div>
+      <div className="flex items-center flex-wrap">
+        {token?.tokenomics?.distribution?.map(({ name, percentage }, i) => (
+          <div className="flex items-center mt-2.5" key={name}>
+            <div
+              className={`rounded-full w-3 h-3 min-w-3 ${colors[i]} mr-[5px]`}
             />
-            <TextSmall mr="5px" color={text40}>
+            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 mr-[5px]">
               {name}:
-            </TextSmall>
-            <TextSmall mr="20px">{percentage}%</TextSmall>
-          </Flex>
+            </SmallFont>
+            <SmallFont extraCss="mr-5">{percentage}%</SmallFont>
+          </div>
         ))}
-      </Flex>
+      </div>
     </BoxContainer>
   );
 };
