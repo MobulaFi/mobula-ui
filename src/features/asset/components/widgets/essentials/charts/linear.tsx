@@ -1,6 +1,5 @@
-/* eslint-disable react/no-unescaped-entities */
 import dynamic from "next/dynamic";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { cn } from "../../../../../../@/lib/utils";
@@ -9,7 +8,6 @@ import { MediumFont } from "../../../../../../components/fonts";
 import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
 import { TransactionResponse } from "../../../../../../interfaces/transactions";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { GET } from "../../../../../../utils/fetch";
 import { colors } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -23,6 +21,7 @@ const EChart = dynamic(() => import("../../../../../../lib/echart/line"), {
 interface ChartLiteProps {
   isBalanceHide?: boolean;
   extraCss?: string;
+  [key: string]: any;
 }
 
 export const ChartLite = ({
@@ -40,22 +39,13 @@ export const ChartLite = ({
     setTransactions,
     comparedEntities,
   } = useContext(BaseAssetContext);
-  const {
-    text60,
-    boxBg6,
-    text80,
-    boxBg3,
-    boxBg1,
-    hover,
-    borders,
-    bordersActive,
-  } = useColors();
+
   const [isTracked, setIsTracked] = useState(false);
   const [countdown, setCountdown] = useState<Countdown | null>(
     getInitalCountdown(baseAsset.launch?.date)
   );
-  const searchParams = useSearchParams();
-  const assetQuery = searchParams.get("asset");
+  const params = useParams();
+  const assetQuery = params.asset;
 
   const { user } = useContext(UserContext);
   const router = useRouter();

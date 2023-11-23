@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 // import {useAlert} from "react-alert";
 import { useContractWrite, useNetwork, useSwitchNetwork } from "wagmi";
@@ -17,11 +17,12 @@ export const useVote = () => {
   // const alert = useAlert();
   const router = useRouter();
   const [tokenID, setTokenID] = useState(0);
+  const pathname = usePathname();
 
   const { isSuccess, error, write } = useContractWrite<any, any, any>({
     address: PROTOCOL_ADDRESS as never,
     abi: listingAbi as never,
-    functionName: router.pathname.includes("validation")
+    functionName: pathname.includes("validation")
       ? ("voteValidation" as never)
       : ("voteSorting" as never),
   });

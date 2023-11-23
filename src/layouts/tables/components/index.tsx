@@ -1,6 +1,5 @@
-/* eslint-disable no-param-reassign */
 import { TableContainerProps } from "@chakra-ui/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { PopupStateContext } from "../../../contexts/popup";
@@ -162,8 +161,8 @@ export function AssetsTable({
     (activeView?.name === "Portfolio" && isMobile);
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const params = useParams();
+  const page = params.page;
 
   return (
     <TableContext.Provider value={value}>

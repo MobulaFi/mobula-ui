@@ -1,6 +1,6 @@
 "use client";
 import { Box, Icon, Spinner } from "@chakra-ui/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillStar, AiOutlineStar, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -33,26 +33,28 @@ import { PriceSegment } from "./segments/price";
 import { VolumeSegment } from "./segments/volume";
 import { TokenInfo } from "./ui/token";
 
+interface EntryProps {
+  token: TableAsset;
+  index: number;
+  isTop100?: boolean;
+  isMobile?: boolean;
+  showRank?: boolean;
+}
+
 export const Entry = ({
   token: tokenBuffer,
   index,
   isTop100,
   isMobile,
   showRank = false,
-}: {
-  token: TableAsset;
-  index: number;
-  isTop100?: boolean;
-  isMobile?: boolean;
-  showRank?: boolean;
-}) => {
+}: EntryProps) => {
   const entryRef = useRef<HTMLTableSectionElement>(null);
   const router = useRouter();
   const [token, setToken] = useState<TableAsset>(tokenBuffer);
   const [isHover, setIsHover] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const params = useParams();
+  const page = params.page;
   const isBalance =
     Object.keys(token).includes("balance") &&
     (pathname === "/" || pathname === "/?page=" + page);

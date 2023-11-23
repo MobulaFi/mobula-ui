@@ -1,7 +1,8 @@
+"use client";
 import { Search2Icon } from "@chakra-ui/icons";
 import { Collapse } from "@chakra-ui/react";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { FaLink } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
@@ -63,10 +64,10 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   const router = useRouter();
   const [tokenPerVote, setTokenPerVote] = useState(0);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const sortQuery = searchParams.get("sort");
-  const validationQuery = searchParams.get("validation");
-  const poolQuery = searchParams.get("pool");
+  const params = useParams();
+  const sortQuery = params.sort;
+  const validationQuery = params.validation;
+  const poolQuery = params.pool;
   const [showPopover, setShowPopover] = useState({
     kyc: false,
     audit: false,
@@ -159,7 +160,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       token?.alreadyVoted ? "cursor-not-allowed" : "cursor-pointer"
     }`}
       onClick={() => {
-        if (token?.name !== "Come back later!" && !token.alreadyVoted) {
+        if (true) {
           if (!isPendingPool) {
             if (pathname.includes("/sort"))
               router.push(`/dao/protocol/sort/${getUrlFromName(token.name)}`);
@@ -194,7 +195,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
             <Skeleton extraCss="w-[120px] h-[18px] lg:h-[17px] md:h-[16px] rounded-full mr-2.5" />
           )}
           {token ? (
-            <MediumFont extraCss="text-light-font-40 dark:text-dark-fon-40 ml-2.5">
+            <MediumFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-2.5">
               {token?.symbol}
             </MediumFont>
           ) : (

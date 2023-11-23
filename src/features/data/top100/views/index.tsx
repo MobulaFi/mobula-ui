@@ -3,7 +3,7 @@
 import { Flex } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, {
   useCallback,
   useContext,
@@ -20,7 +20,6 @@ import { SmallFont } from "../../../../components/fonts";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
 import { Asset } from "../../../../interfaces/assets";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../lib/mixpanel";
 import { GET } from "../../../../utils/fetch";
 import { PopoverTrade } from "../components/popup/popover";
@@ -32,12 +31,11 @@ import { ACTIONS, INITIAL_VALUE, maxValue, reducer } from "../reducer";
 import { filterFromType, unformatActiveView } from "../utils";
 
 export const Views = ({ cookieTop100, actualView, setResultsData }) => {
-  const { text80, text60, borders, bgTable, hover, boxBg6 } = useColors();
   const [typePopup, setTypePopup] = useState("");
   const { user } = useContext(UserContext);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const params = useParams();
+  const page = params.page;
   const {
     activeView,
     setActiveView,
