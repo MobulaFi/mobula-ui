@@ -1,35 +1,35 @@
-import {Button, Circle, Flex, Text} from "@chakra-ui/react";
-import React from "react";
-import {useColors} from "../../../../../../common/utils/color-mode";
+import React, { Dispatch, SetStateAction } from "react";
 
-export const Lines = ({idx, setReason, texts, reason}) => {
-  const {text80, borders, text10, text40} = useColors();
+interface LinesProps {
+  idx: number;
+  setReason: Dispatch<SetStateAction<number>>;
+  texts: { code: string; name: string };
+  reason: number;
+}
+
+export const Lines = ({ idx, setReason, texts, reason }: LinesProps) => {
   return (
-    <Flex
-      align="center"
-      borderBottom={borders}
-      py="20px"
-      justify="space-between"
+    <div
+      className="flex items-center border-b border-light-border-primary
+     dark:border-dark-border-primary py-5 justify-between"
     >
-      <Flex direction="column">
-        <Text color={text80} fontSize="13px" fontWeight="500">
+      <div className="flex flex-col">
+        <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] text-medium">
           {texts.code}
-        </Text>
-        <Text maxWidth="280px" fontSize="11px" color={text40} fontWeight="500">
+        </p>
+        <p className="text-light-font-40 dark:text-dark-font-40 text-[11px] text-medium max-w-[280px]">
           {texts.name}
-        </Text>
-      </Flex>
-      <Button
-        onClick={() => {
-          setReason(idx + 1);
-        }}
-      >
-        <Circle
-          mt="0px"
-          size="16px"
-          bg={reason === idx + 1 ? "blue" : text10}
+        </p>
+      </div>
+      <button onClick={() => setReason(idx + 1)}>
+        <div
+          className={`mt-0 w-4 h-4 rounded-full ${
+            reason === idx + 1
+              ? "bg-blue dark:bg-blue"
+              : "bg-light-border-primary dark:bg-dark-border-primary"
+          }`}
         />
-      </Button>
-    </Flex>
+      </button>
+    </div>
   );
 };

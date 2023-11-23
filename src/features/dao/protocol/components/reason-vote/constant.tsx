@@ -1,11 +1,11 @@
 export const possibilities = {
   Utility: [
     [
-      {name: "Token not related to the product", code: "U1A"},
-      {name: "No product at all, even in the roadmap", code: "U1B"},
+      { name: "Token not related to the product", code: "U1A" },
+      { name: "No product at all, even in the roadmap", code: "U1B" },
     ],
     [
-      {name: "Product in the roadmap but nothing shipped", code: "U2A"},
+      { name: "Product in the roadmap but nothing shipped", code: "U2A" },
       {
         name: "Product shipped but extremely unstable (unusable)",
         code: "U2B",

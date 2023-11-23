@@ -1,77 +1,61 @@
-import {
-  Box,
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  Text,
-} from "@chakra-ui/react";
-import {useContext, useState} from "react";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {ShowReasonContext} from "../../context-manager/reason-vote";
-import {VoteContext} from "../../context-manager/vote";
-import {possibilities} from "./constants/possibilities";
-import {Lines} from "./lines";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import { ModalContainer } from "../../../../../components/modal-container";
+import { ShowReasonContext } from "../../context-manager/reason-vote";
+import { VoteContext } from "../../context-manager/vote";
+import { possibilities } from "./constant";
+import { Lines } from "./lines";
 
-export const ReasonVote = ({type, setReason, reason}) => {
+interface ReasonVoteProps {
+  type: string;
+  setReason: Dispatch<SetStateAction<number>>;
+  reason: number;
+}
+
+export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
   const [invisible, setInvisible] = useState(false);
   const showContext = useContext(ShowReasonContext);
   const voteContext = useContext(VoteContext);
-  const {text80, borders, boxBg1} = useColors();
-  const {[`${type.toLowerCase()}Score`]: score} = voteContext;
-  const {[`setShow${type}`]: setShowType} = showContext;
+  const { [`${type.toLowerCase()}Score`]: score } = voteContext;
+  const { [`setShow${type}`]: setShowType } = showContext;
   const texts = possibilities[type]?.[score - 1 || 0];
+
   const getColor = () => {
-    if (score === 3) return "yellow";
-    if (score > 3) return "green";
-    return "red";
+    if (score === 3) return "text-yellow dark:text-yellow";
+    if (score > 3) return "text-green dark:text-green";
+    return "text-red dark:text-red";
   };
+  const color = getColor();
 
   return (
-    <Modal motionPreset="none" isOpen={!invisible} onClose={setShowType}>
-      <ModalOverlay />
-      <ModalContent borderRadius="20px">
-        <ModalCloseButton color={text80} />
-        <ModalBody p="20px" borderRadius="16px" bg={boxBg1} border={borders}>
-          {type !== "Reject" ? (
-            <Text fontSize="15px" color={text80} fontWeight="600" mb="5px">
-              Why this {type} Score ? (
-              <Box as="span" color={getColor()}>
-                {score}/5
-              </Box>
-              )
-            </Text>
-          ) : (
-            <Text fontSize="15px" color={text80} fontWeight="600" mb="5px">
-              Why are you rejecting?
-            </Text>
-          )}
-          {texts.map((entry, idx) => (
-            <Lines
-              texts={entry}
-              idx={idx}
-              setReason={setReason}
-              reason={reason}
-            />
-          ))}
-          <Button
-            w="100%"
-            py="8px"
-            borderRadius="8px"
-            fontSize="12px"
-            fontWeight="500"
-            color={text80}
-            border="1px solid var(--chakra-colors-blue)"
-            onClick={() => {
-              if (reason !== 0) setInvisible(true);
-            }}
-          >
-            OK
-          </Button>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+    <ModalContainer isOpen={!invisible} onClose={() => setShowType(false)}>
+      {type !== "Reject" ? (
+        <p className="text-[15px] text-light-font-100 dark:text-dark-font-100 font-bold mb-[5px]">
+          Why this {type} Score ? (<span className={color}>{score}/5</span>)
+        </p>
+      ) : (
+        <p className="text-[15px] text-light-font-100 dark:text-dark-font-100 font-bold mb-[5px]">
+          Why are you rejecting?
+        </p>
+      )}
+      {texts.map((entry: { code: string; name: string }, idx: number) => (
+        <Lines
+          key={entry.code}
+          texts={entry}
+          idx={idx}
+          setReason={setReason}
+          reason={reason}
+        />
+      ))}
+      <button
+        className="w-full py-2 rounded text-xs text-light-font-100 dark:text-dark-font-100 
+      border border-darkblue dark:border-darblue hover:border-blue hover:dark:border-blue 
+      transition-all duration-250"
+        onClick={() => {
+          if (reason !== 0) setInvisible(true);
+        }}
+      >
+        OK
+      </button>
+    </ModalContainer>
   );
 };
