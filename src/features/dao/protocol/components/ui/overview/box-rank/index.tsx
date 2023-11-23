@@ -12,6 +12,7 @@ import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
 import { PopupUpdateContext } from "../../../../../../../contexts/popup";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { BoxTime } from "../../../../../common/components/box-time";
+import { OverviewContext } from "../../../../context-manager/overview";
 
 interface RankBoxProps {
   goodChoice: number;

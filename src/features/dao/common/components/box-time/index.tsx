@@ -1,23 +1,16 @@
-import {Flex} from "@chakra-ui/react";
 import React from "react";
-import {useColors} from "../../../../../common/utils/color-mode";
 
-export const BoxTime = ({children}: {children: number | JSX.Element}) => {
-  const {boxBg6} = useColors();
+interface BoxTimeProps {
+  children: React.ReactNode;
+}
+
+export const BoxTime = ({ children }: BoxTimeProps) => {
   return (
-    <Flex
-      align="center"
-      justify="center"
-      fontSize="15px"
-      fontWeight="400"
-      bg={boxBg6}
-      minW={["40px", "40px", "50px"]}
-      h={["35px", "35px", "40px"]}
-      borderRadius="8px"
-      px="10px"
-      w="fit-content"
+    <div
+      className="flex items-center justify-center text-[15px] bg-light-bg-terciary
+     dark:bg-dark-bg-terciary rounded px-2.5 w-fit h-[40px] md:h-[35px] min-w-[50px] md:min-w-[40px]"
     >
       {children}
-    </Flex>
+    </div>
   );
 };

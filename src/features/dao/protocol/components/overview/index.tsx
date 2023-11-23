@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsKey } from "react-icons/bs";
 import { RiWallet3Line } from "react-icons/ri";
 import { useAccount } from "wagmi";
-
-// eslint-disable-next-line import/no-cycle
-import React from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "../../../../../components/button";
 import { Container } from "../../../../../components/container";
 import { MediumFont, SmallFont } from "../../../../../components/fonts";
@@ -16,6 +14,7 @@ import { MetricsLine } from "../../../common/components/line-metric";
 import { LeftNavigation } from "../../../common/components/nav-left";
 import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
 import { TimeBox } from "../../../common/components/time-box";
+import { OverviewContext } from "../../context-manager/overview";
 import { useClaim } from "../../hooks/use-claim";
 import { useInitValues } from "../../hooks/use-initValue";
 import { useNonValueToken } from "../../hooks/use-nonValueToken";
@@ -67,7 +66,7 @@ export const Overview = () => {
   }, [countdown]);
 
   return (
-    <Container>
+    <Container extraCss="flex-row">
       <div className="block lg:hidden">
         <LeftNavigation page="protocol" />
       </div>

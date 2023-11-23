@@ -2,9 +2,13 @@
 import React, { createContext, useMemo, useState } from "react";
 import { IReasonVoteContext, IShowReasonContext } from "../models";
 
+interface ShowReasonProviderProps {
+  children: React.ReactNode;
+}
+
 export const ShowReasonContext = createContext({} as IShowReasonContext);
 
-export const ShowReasonProvider = ({ children }) => {
+export const ShowReasonProvider = ({ children }: ShowReasonProviderProps) => {
   const [showUtility, setShowUtility] = useState(false);
   const [showTrust, setShowTrust] = useState(false);
   const [showSocial, setShowSocial] = useState(false);

@@ -6,6 +6,7 @@ import { useAccount } from "wagmi";
 import { PROTOCOL_ADDRESS, VAULT_ADDRESS } from "../../../../constants";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
 import { PROTOCOL_ABI, VAULT_ABI } from "../constants/abi";
+import { OverviewContext } from "../context-manager/overview";
 
 export const useInitValues = () => {
   const { address } = useAccount();

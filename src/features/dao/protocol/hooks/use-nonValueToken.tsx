@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
+import { OverviewContext } from "../context-manager/overview";
 import { Member } from "../models";
 
 export const useNonValueToken = () => {

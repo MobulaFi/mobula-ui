@@ -2,17 +2,19 @@
 import React, { createContext, useMemo, useState } from "react";
 import { ISortContext, TokenDivs } from "../models";
 
+interface SortProviderProps {
+  children: React.ReactNode;
+  isFirstSort?: boolean;
+  isPendingPool?: boolean;
+}
+
 export const SortContext = createContext({} as ISortContext);
 
 export const SortProvider = ({
   children,
   isFirstSort,
   isPendingPool,
-}: {
-  children: React.ReactNode;
-  isFirstSort?: boolean;
-  isPendingPool?: boolean;
-}) => {
+}: SortProviderProps) => {
   const [tokenDivs, setTokenDivs] = useState<TokenDivs[]>([]);
   const [displayedToken, setDisplayedToken] = useState("");
   const [displayedPool, setDisplayedPool] = useState("");

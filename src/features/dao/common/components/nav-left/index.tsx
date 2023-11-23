@@ -70,7 +70,10 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
           </button>
         </div>
       </div>
-      <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[500px] w-[235px] flex items-center flex-col mr-5 rounded-xl">
+      <div
+        className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[500px] w-[235px] 
+      flex items-center flex-col mr-5 rounded-xl border border-light-border-primary dark:border-dark-border-primary"
+      >
         <img
           className="mt-[30px] w-[87px] h-[87px]"
           alt="mobula logo"
