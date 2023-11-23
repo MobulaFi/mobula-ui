@@ -466,15 +466,13 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         </div>
       ) : null}
       {isFakeToken && displayedToken !== token.name ? (
-        <div className="flex items-center">
-          <p className="text-light-font-40 dark:text-dark-font-40 text-sm mr-[5px]">
-            Earn up to 100 $MOBL for pushing token creator to list their asset
-            on Mobula! Learn more about it at{" "}
-          </p>
+        <p className="text-light-font-40 dark:text-dark-font-40 text-sm mr-[5px]">
+          Earn up to 100 $MOBL for pushing token creator to list their asset on
+          Mobula! Learn more about it at{" "}
           <NextChakraLink href="https://docs.mobula.fi">
             docs.mobula.fi
           </NextChakraLink>
-        </div>
+        </p>
       ) : null}
       {token?.alreadyVoted ? (
         <div

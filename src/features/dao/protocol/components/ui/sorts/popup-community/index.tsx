@@ -1,13 +1,16 @@
-import {CheckIcon, CopyIcon, ExternalLinkIcon} from "@chakra-ui/icons";
-import {Flex, Image, Text} from "@chakra-ui/react";
-import {useState} from "react";
-import {NextChakraLink} from "../../../../../../../common/components/links";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {SocialSort, TokenDivs} from "../../../../models";
+import React, { useState } from "react";
+import { BiCopy } from "react-icons/bi";
+import { BsCheckLg } from "react-icons/bs";
+import { FiExternalLink } from "react-icons/fi";
+import { NextChakraLink } from "../../../../../../../components/link";
+import { SocialSort, TokenDivs } from "../../../../models";
 
-export const CommunityPopup = ({token}: {token: Partial<TokenDivs>}) => {
+interface CommunityPopupProps {
+  token: TokenDivs;
+}
+
+export const CommunityPopup = ({ token }: CommunityPopupProps) => {
   const [hasCopied, setHasCopied] = useState<string[]>([]);
-  const {text80, borders, text100, boxBg6, text40, hover} = useColors();
   const socials: SocialSort[] = [
     {
       logo: "/social/discord.png",
@@ -27,61 +30,43 @@ export const CommunityPopup = ({token}: {token: Partial<TokenDivs>}) => {
   ];
 
   return (
-    <Flex
-      w="100%"
-      direction="column"
-      h="auto"
-      zIndex="2"
-      maxW="auto"
-      cursor="default"
-      fontSize="12px"
-    >
+    <div className="flex w-full flex-col h-auto z-[2] max-w-auto text-xs">
       {socials
-        .filter(entry => entry.url)
+        .filter((entry) => entry.url)
         .map((entry, i) => (
-          <Flex
-            align="center"
-            position="relative"
-            justify="space-between"
-            borderRadius="8px"
-            border={borders}
-            bg={boxBg6}
-            px="10px"
-            _hover={{bg: hover}}
-            transition="all 250ms ease-in-out"
-            h="30px"
-            w="100%"
-            mb={
-              i !== socials.filter(social => social.url).length - 1
-                ? "10px"
-                : "0px"
-            }
+          <div
+            key={entry.url}
+            className={`flex items-center relative justify-between rounded border border-light-border-primary 
+          dark:border-dark-border-primary px-2.5 h-[30px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+          transition-all duration-250 w-full bg-light-bg-terciary dark:bg-dark-bg-terciary ${
+            i !== socials.filter((social) => social.url).length - 1
+              ? "mb-2.5"
+              : ""
+          }`}
           >
-            <Flex align="center">
-              <Image
+            <div className="flex items-center">
+              <img
+                className="w-[17px] h-[17px] mr-2.5"
                 src={entry.logo}
-                w="17px"
                 alt={`${entry.alt} logo`}
-                mr="10px"
               />
-              <Text fontSize="12px" mr="10px" color={text80} w="100%">
+              <p className="text-xs mr-2.5 w-full text-light-font-100 dark:text-dark-font-100">
                 {entry.url}
-              </Text>
-            </Flex>
-            <Flex align="center">
+              </p>
+            </div>
+            <div className="flex items-center">
               {hasCopied.includes(entry.alt) ? (
-                <CheckIcon ml="10px" color="green" />
+                <BsCheckLg className="ml-2.5 text-green dark:text-green" />
               ) : (
-                <CopyIcon
-                  cursor="pointer"
-                  color={text80}
+                <BiCopy
+                  className="cursor-pointer text-light-font-100 dark:text-dark-font-100 "
                   onClick={() => {
                     if (entry.url) {
                       navigator.clipboard.writeText(entry.url);
-                      setHasCopied(prev => [...prev, entry.alt]);
+                      setHasCopied((prev) => [...prev, entry.alt]);
                       setTimeout(() => {
                         setHasCopied(
-                          hasCopied.filter(copy => copy !== entry.alt),
+                          hasCopied.filter((copy) => copy !== entry.alt)
                         );
                       }, 3000);
                     }
@@ -92,15 +77,13 @@ export const CommunityPopup = ({token}: {token: Partial<TokenDivs>}) => {
                 href={entry?.url}
                 target="_blank"
                 rel="norefferer"
-                cursor="pointer"
-                _hover={{color: text100}}
-                isExternal
+                extraCss="cursor-pointer"
               >
-                <ExternalLinkIcon ml="10px" fontSize="14px" color={text40} />
+                <FiExternalLink className="ml-2.5 text-sm text-light-font-40 dark:text-dark-font-40" />
               </NextChakraLink>
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         ))}
-    </Flex>
+    </div>
   );
 };

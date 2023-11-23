@@ -70,7 +70,7 @@ export const MetricsLine = ({
       className={`flex w-full items-center justify-between transition-all duration-250
      ${
        isUrl
-         ? "cursor-pointer hover:bg-light-bg-hover dark:bg-dark-bg-hover"
+         ? "cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
          : ""
      } 
      border-b border-light-border-primary dark:border-dark-border-primary py-[15px] px-5 sm:px-2.5`}

@@ -66,7 +66,7 @@ export const Overview = () => {
   }, [countdown]);
 
   return (
-    <Container extraCss="flex-row">
+    <Container extraCss="flex-row lg:flex-col">
       <div className="block lg:hidden">
         <LeftNavigation page="protocol" />
       </div>
@@ -204,8 +204,8 @@ export const Overview = () => {
             {showMore && (
               <>
                 <button
-                  className="mx-[15px] my-5 md:mt-[15px] flex items-center justify-center text-light-font-100 
-                  dark:text-dark-font-100 text-[15px] md:text-[13px]"
+                  className="mx-[15px] my-[15px] md:mt-[15px] flex items-center justify-center text-light-font-100 
+                  dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-250"
                   onClick={() => {
                     setShowMore(false);
                     setMoreHistory(10);
@@ -218,7 +218,7 @@ export const Overview = () => {
             )}
             <button
               className="m-[15px] flex items-center justify-center text-light-font-100 
-            dark:text-dark-font-100 text-[15px] md:text-[13px]"
+            dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-250"
               onClick={() => {
                 setShowMore(true);
                 setMoreHistory(moreHistory + 10);

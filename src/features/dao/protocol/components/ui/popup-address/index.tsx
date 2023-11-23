@@ -1,64 +1,35 @@
-import {
-  Flex,
-  Image,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {TextSmall} from "../../../../../../UI/Text";
-import {useColors} from "../../../../../../common/utils/color-mode";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React from "react";
+import { SmallFont } from "../../../../../../components/fonts";
+import { ModalContainer } from "../../../../../../components/modal-container";
 
-export const PopupAddress = ({isOpen, setIsOpen, distribution}) => {
-  const {boxBg3, text80, borders} = useColors();
+export const PopupAddress = ({ isOpen, setIsOpen, distribution }) => {
+  console.log("DISTRIB", distribution);
   return (
-    <Modal motionPreset="none" isOpen={isOpen} onClose={() => setIsOpen(false)}>
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg3}
-        boxShadow="none"
-        borderRadius="16px"
-        w={["90%", "90%", "100%"]}
-        maxW="490px"
-        border={borders}
-      >
-        <ModalHeader
-          pb="0px"
-          color={text80}
-          fontSize={["16px", "16px", "18px", "20px"]}
+    <ModalContainer
+      title={distribution?.name || "Distribution"}
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+    >
+      {distribution?.addresses?.map(({ address, blockchain }, i) => (
+        <div
+          key={address}
+          className={`flex items-center ${i !== 0 ? "mt-2.5" : ""} ${
+            distribution.addresses.length - 1 === i ? "pb-2.5" : "pb-[5px]"
+          }`}
         >
-          {distribution?.name || "Distribution"}
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p={["10px 20px 20px 20px", "15px 20px 20px 20px", "20px"]}>
-          {distribution?.addresses?.map(({address, blockchain}, i) => (
-            <Flex
-              align="center"
-              pt={[i === 0 ? "10px" : "5px"]}
-              pb={[distribution.addresses.length - 1 === i ? "10px" : "5px"]}
-            >
-              {blockchain && (
-                <Image
-                  src={blockchainsContent[blockchain].logo}
-                  borderRadius="full"
-                  mr="7.5px"
-                  boxSize={["16px", "16px", "20px"]}
-                />
-              )}
-              <TextSmall
-                overflowX="pre-wrap"
-                whiteSpace="pre-wrap"
-                wordBreak="break-all"
-              >
-                {address}
-              </TextSmall>
-            </Flex>
-          ))}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          {blockchain && (
+            <img
+              src={blockchainsContent[blockchain].logo}
+              className="w-5 h-5 rounded-full mr-[7.5px] md:h-4 md:w-4"
+              alt={`${blockchain} logo`}
+            />
+          )}
+          <SmallFont extraCss="word-break-all whitespace-pre-wrap">
+            {address}
+          </SmallFont>
+        </div>
+      ))}
+    </ModalContainer>
   );
 };

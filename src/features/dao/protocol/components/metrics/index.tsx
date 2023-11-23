@@ -30,7 +30,7 @@ export const Metrics = ({
     return usernames.indexOf(valeur.username) === index;
   });
   return (
-    <Container extraCss="flex-row">
+    <Container extraCss="flex-row lg:flex-col">
       <div className="block lg:hidden">
         <LeftNavigation
           page={pathname.includes("protocol") ? "protocol" : "governance"}

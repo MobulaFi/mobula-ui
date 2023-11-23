@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect } from "react";
@@ -125,7 +126,7 @@ export const Sort = () => {
   };
 
   return (
-    <Container>
+    <Container extraCss="flex-row lg:flex-col">
       <div className="w-fit block lg:hidden">
         <LeftNavigation
           page={pathname.includes("protocol") ? "protocol" : "governance"}
