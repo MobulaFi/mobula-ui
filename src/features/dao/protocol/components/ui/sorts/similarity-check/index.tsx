@@ -1,34 +1,26 @@
+import { Flex, Image } from "@chakra-ui/react";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import React, { useEffect, useState } from "react";
+import { SiConvertio } from "react-icons/si";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { Tds, Ths } from "../../../../../../../components/table";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { createSupabaseDOClient } from "../../../../../../../lib/supabase";
 import {
-  Flex,
-  Icon,
-  Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Text,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
-import {useEffect, useState} from "react";
-import {SiConvertio} from "react-icons/si";
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {createSupabaseDOClient} from "../../../../../../../../utils/supabase";
-import {Tds} from "../../../../../../../UI/Tds";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {Ths} from "../../../../../../../UI/Ths";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {addressSlicer} from "../../../../../../../common/utils/user";
-import {BoxContainer} from "../../../../../common/components/box-container";
-import {TokenDivs} from "../../../../models";
-import {getClosestSimilarToken} from "../../../../utils";
+  addressSlicer,
+  getFormattedAmount,
+} from "../../../../../../../utils/formaters";
+import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
+import { getClosestSimilarToken } from "../../../../utils";
 
 const REQUEST_SELECT =
   "name,symbol,volume,liquidity,logo,market_cap,contracts,blockchains";
 
-export const SimiliratyCheck = ({token}) => {
-  console.log(token);
-  const {borders, text40} = useColors();
+const thStyles =
+  "py-[15px] px-2.5 border-t border-light-border-primary dark:border-dark-border-primary";
+
+export const SimiliratyCheck = ({ token }: Asset) => {
   const [similarTokens, setSimilarTokens] = useState({
     name: {} as TokenDivs,
     symbol: {} as TokenDivs,
@@ -38,7 +30,7 @@ export const SimiliratyCheck = ({token}) => {
   const supabase = createSupabaseDOClient();
 
   const verifySimilarity = async (field, value, callback) => {
-    const {data} = await supabase
+    const { data } = await supabase
       .from("assets")
       .select(REQUEST_SELECT)
       .ilike(field, `%${value}%`);
@@ -46,145 +38,120 @@ export const SimiliratyCheck = ({token}) => {
   };
 
   const verifyContracts = async (newToken, callback) => {
-    const contracts = newToken.contracts.filter(entry => entry.address);
-    const {data, error} = await supabase.rpc("find_token_contract", {
+    const contracts = newToken.contracts.filter((entry) => entry.address);
+    const { data, error } = await supabase.rpc("find_token_contract", {
       contract_addresses: [contracts],
     });
-    console.log("data", error);
     callback(data);
   };
 
   useEffect(() => {
-    verifySimilarity("name", token?.name, data =>
-      getClosestSimilarToken(data, setSimilarTokens, "name", token),
+    verifySimilarity("name", token?.name, (data) =>
+      getClosestSimilarToken(data, setSimilarTokens, "name", token)
     );
-    verifySimilarity("symbol", token?.symbol, data =>
-      getClosestSimilarToken(data, setSimilarTokens, "symbol", token),
+    verifySimilarity("symbol", token?.symbol, (data) =>
+      getClosestSimilarToken(data, setSimilarTokens, "symbol", token)
     );
-    verifyContracts(token, data =>
-      getClosestSimilarToken(data, setSimilarTokens, "contracts", token),
+    verifyContracts(token, (data) =>
+      getClosestSimilarToken(data, setSimilarTokens, "contracts", token)
     );
   }, []);
 
   const getDisplay = () => {
-    const newArr = [];
+    const newArr: boolean[] = [];
     for (let i = 0; i < Object.values(similarTokens).length; i += 1) {
       if (Object.values(similarTokens)[i]?.name) newArr.push(true);
       else newArr.push(false);
     }
-    return newArr.some(arr => arr === true) ? "flex" : "none";
+    return newArr.some((arr) => arr === true) ? "flex" : "hidden";
   };
+  const display = getDisplay();
 
   return (
     <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-      display={getDisplay()}
+      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <Flex align="center">
-        <Icon as={SiConvertio} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Similarity check
-        </Text>
-      </Flex>
-      <TableContainer
-        mt={["10px", "10px", "15px", "20px"]}
-        overflowX="scroll"
-        className="scroll"
-      >
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Ths py="15px" px="10px" borderTop={borders}>
-                Name
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders} isNumeric>
-                Market Cap
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders} isNumeric>
-                24h Volume
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders} isNumeric>
-                Liquidity
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders} isNumeric>
-                Contract
-              </Ths>
-              <Ths py="15px" px="10px" borderTop={borders} isNumeric>
-                Mobula Listed
-              </Ths>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {Object.keys(similarTokens).map(key => {
+      <div className="flex items-center">
+        <SiConvertio className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5">Similarity check</MediumFont>
+      </div>
+      <div className="w-full mt-5 lg:mt-[15px] md:mt-2.5 overflow-x-scroll scroll">
+        <table>
+          <thead>
+            <tr>
+              <Ths extraCss={`${thStyles}`}>Name</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Market Cap</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>24h Volume</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Liquidity</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Contract</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Mobula Listed</Ths>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(similarTokens).map((key) => {
               if (similarTokens[key].name)
                 return (
-                  <Tr key={key}>
-                    <Tds px="10px" py="15px">
+                  <tr key={key}>
+                    <Tds extraCss="px-2.5 py-[15px]">
                       <Flex align="center">
-                        <Image
+                        <img
+                          className="w-6 h-6 mr-2.5 rounded-full"
                           src={similarTokens[key]?.logo}
-                          boxSize="24px"
-                          mr="10px"
-                          borderRadius="full"
+                          alt={similarTokens[key]?.name}
                         />
-                        <Flex direction="column">
-                          <TextSmall maxW="130px" whiteSpace="pre-wrap">
+                        <div className="flex flex-col">
+                          <SmallFont extraCss="max-w-[130px] whitespace-pre-wrap">
                             {similarTokens[key]?.name}
-                          </TextSmall>
-                          <TextSmall color={text40}>
+                          </SmallFont>
+                          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
                             {similarTokens[key].symbol}
-                          </TextSmall>
-                        </Flex>
+                          </SmallFont>
+                        </div>
                       </Flex>
                     </Tds>
-                    <Tds px="10px" py="15px" isNumeric>
+                    <Tds extraCss="px-2.5 py-[15px] text-end">
                       {getFormattedAmount(similarTokens[key].market_cap)}
                     </Tds>
-                    <Tds px="10px" py="15px" isNumeric>
+                    <Tds extraCss="px-2.5 py-[15px] text-end">
                       ${getFormattedAmount(similarTokens[key].volume)}
                     </Tds>
-                    <Tds px="10px" py="15px" isNumeric>
+                    <Tds extraCss="px-2.5 py-[15px] text-end">
                       ${getFormattedAmount(similarTokens[key].liquidity)}
                     </Tds>
-                    <Tds px="10px" py="15px" isNumeric>
-                      <Flex align="center" w="100%" justify="end">
+                    <Tds extraCss="px-2.5 py-[15px] text-end">
+                      <div className="flex items-center w-full justify-end">
                         {blockchainsContent[similarTokens[key].blockchains?.[0]]
                           ?.logo ? (
-                          <Image
-                            boxSize="16px"
-                            borderRadius="full"
-                            mr="7.5px"
+                          <img
+                            className="rounded-full mr-[7.5px] w-4 h-4"
                             src={
                               blockchainsContent[
                                 similarTokens[key].blockchains?.[0]
-                              ]?.logo || "/icon/unknown.png"
+                              ]?.logo || "/empty/unknown.png"
                             }
+                            alt={similarTokens[key].blockchains}
                           />
                         ) : null}
                         {addressSlicer(similarTokens[key].contracts?.[0])}
-                      </Flex>
+                      </div>
                     </Tds>
-                    <Tds px="10px" py="15px" isNumeric>
-                      <Flex align="center" w="100%" justify="end">
+                    <Tds extraCss="px-2.5 py-[15px] text-end">
+                      <div className="flex items-center w-full justify-end">
                         <Image
-                          mr="10px"
+                          className="rounded-full mr-2.5 w-5 h-5"
                           src="/mobula/coinMobula.png"
-                          boxSize="20px"
+                          alt="mobula logo"
                         />
                         Yes
-                      </Flex>
+                      </div>
                     </Tds>
-                  </Tr>
+                  </tr>
                 );
               return null;
             })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
     </BoxContainer>
   );
 };
