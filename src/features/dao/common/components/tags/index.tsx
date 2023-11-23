@@ -1,27 +1,22 @@
-import {Flex} from "@chakra-ui/react";
 import React from "react";
-import {useColors} from "../../../../../common/utils/color-mode";
+import { cn } from "../../../../../@/lib/utils";
 
-export const Tags = ({children, ...props}) => {
-  const {text80, borders, boxBg6} = useColors();
+interface TagsProps {
+  children: React.ReactNode;
+  extraCss?: string;
+  [key: string]: any;
+}
+
+export const Tags = ({ children, extraCss, ...props }: TagsProps) => {
   return (
-    <Flex
-      border={borders}
-      opacity={1}
-      color={text80}
-      bg={boxBg6}
-      h="28px"
-      px="12px"
-      minW="50px"
-      justify="center"
-      fontSize="13px"
-      fontWeight="400"
-      align="center"
-      py="0px"
-      borderRadius="full"
+    <div
+      className={cn(
+        "flex border border-light-border-primary dark:border-dark-border-primary h-[28px] text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary px-3 min-w-[50px] justify-center items-center text-[13px] font-medium rounded-full",
+        extraCss
+      )}
       {...props}
     >
       {children}
-    </Flex>
+    </div>
   );
 };

@@ -364,4 +364,7 @@ export interface Member {
   username: string;
   good_decisions: number;
   bad_decisions: number;
+  discord_id: number | null;
+  created_at: Date | string;
+  users: User;
 }

@@ -1,3 +1,4 @@
+"use client";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ import { usePathnameInfo } from "../../hooks/use-pathname-info";
 
 interface ILeftNavigation {
   page: string;
+  [key: string]: any;
 }
 
 export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
@@ -68,7 +70,7 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
           </button>
         </div>
       </div>
-      <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[460px] w-[235px] flex items-center flex-col mr-5 rounded-xl">
+      <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[500px] w-[235px] flex items-center flex-col mr-5 rounded-xl">
         <img
           className="mt-[30px] w-[87px] h-[87px]"
           alt="mobula logo"

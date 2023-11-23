@@ -1,28 +1,26 @@
-import {Button} from "@chakra-ui/react";
-import {useColors} from "../../../../../common/utils/color-mode";
+import React, { ReactNode } from "react";
+import { cn } from "../../../../../@/lib/utils";
+
+interface ButtonOutlinedProps {
+  children: ReactNode;
+  extraCss?: string;
+  [key: string]: any;
+}
 
 export const ButtonOutlined = ({
   children,
+  extraCss,
   ...props
-}: {
-  children: JSX.Element | JSX.Element[] | string;
-  [key: string]: any;
-}) => {
-  const {text80} = useColors();
+}: ButtonOutlinedProps) => {
   return (
-    <Button
-      fontSize="14px"
-      fontWeight="400"
-      h={["30px", "30px", "32px", "35px"]}
-      w="100%"
-      maxWidth="110px"
-      color={text80}
-      variant="outlined"
-      transition="all 250ms ease-in-out"
-      borderRadius="8px"
+    <button
+      className={cn(
+        "text-sm h-[35px] lg:h-[32px] md:h-[30px] w-full flex items-center max-w-[110px] text-light-font-100 dark:text-dark-font-100 transition-all  duration-250 rounded bg-light-bg-terciary dark:bg-dark-bg-terciary border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue",
+        extraCss
+      )}
       {...props}
     >
       {children}
-    </Button>
+    </button>
   );
 };

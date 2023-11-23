@@ -1,3 +1,4 @@
+"use client";
 import { Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -10,15 +11,26 @@ import { MetricsLine } from "../../../common/components/line-metric";
 import { LeftNavigation } from "../../../common/components/nav-left";
 import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
 import { Tags } from "../../../common/components/tags";
+import { Member } from "../../models";
 
-export const Metrics = ({ total_mobulers, dao_members, total_proposals }) => {
+interface MetricsProps {
+  total_mobulers: Member[];
+  dao_members: Member[];
+  total_proposals: { id: number }[];
+}
+
+export const Metrics = ({
+  total_mobulers,
+  dao_members,
+  total_proposals,
+}: MetricsProps) => {
   const pathname = usePathname();
   const filteredArr = dao_members?.filter((valeur, index, self) => {
     const usernames = self.map((obj) => obj.username);
     return usernames.indexOf(valeur.username) === index;
   });
   return (
-    <Container>
+    <Container extraCss="flex-row">
       <div className="block lg:hidden">
         <LeftNavigation
           page={pathname.includes("protocol") ? "protocol" : "governance"}

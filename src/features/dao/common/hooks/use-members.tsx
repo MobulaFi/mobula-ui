@@ -1,26 +1,26 @@
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {createSupabaseDOClient} from "../../../../../utils/supabase";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { createSupabaseDOClient } from "../../../../lib/supabase";
 
 export const useMember = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const supabase = createSupabaseDOClient();
   const [membersQuantity, setMembersQuantity] = useState<any>();
 
   useEffect(() => {
-    if (router.pathname.includes("governance")) {
+    if (pathname.includes("governance")) {
       supabase
         .from("users")
-        .select("id", {count: "exact"})
+        .select("id", { count: "exact" })
         .gt("stacked_mobl", 0)
-        .then(r => {
+        .then((r) => {
           setMembersQuantity(r.count);
         });
     } else {
       supabase
         .from("members")
-        .select("id", {count: "exact"})
-        .then(r => {
+        .select("id", { count: "exact" })
+        .then((r) => {
           setMembersQuantity(r.count);
         });
     }

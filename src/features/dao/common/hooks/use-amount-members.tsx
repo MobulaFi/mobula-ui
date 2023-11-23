@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {createSupabaseDOClient} from "../../../../../utils/supabase";
+import { useEffect, useState } from "react";
+import { createSupabaseDOClient } from "../../../../lib/supabase";
 
 export const useAmountMobulers = (isGovernance: boolean) => {
   const [amount, setAmount] = useState(0);
@@ -8,9 +8,9 @@ export const useAmountMobulers = (isGovernance: boolean) => {
     if (isGovernance) {
       supabase
         .from("users")
-        .select("id", {count: "exact"})
+        .select("id", { count: "exact" })
         .gt("voting_power", 0)
-        .then(r => {
+        .then((r) => {
           if (r.count) setAmount(r.count);
         });
     }

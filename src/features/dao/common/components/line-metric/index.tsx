@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { AddressAvatar } from "../../../../../components/avatar";

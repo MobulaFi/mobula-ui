@@ -1,40 +1,35 @@
-import {Box, Button, Flex, Image, Text} from "@chakra-ui/react";
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
-import {useThemeValue} from "../../../../../../utils/chakra";
-import {TextLandingSmall} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
-import {useMember} from "../../hooks/use-members";
-import {usePathnameInfo} from "../../hooks/use-pathname-info";
-import {ButtonOutlined} from "../button-outlined";
+"use client";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { MediumFont } from "../../../../../components/fonts";
+import { useMember } from "../../hooks/use-members";
+import { usePathnameInfo } from "../../hooks/use-pathname-info";
+import { ButtonOutlined } from "../button-outlined";
 
-export const LeftNavigationMobile = ({page}) => {
-  const theme = useThemeValue();
+interface LeftNavigationMobileProps {
+  page: string;
+}
+
+export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
+  const pathname = usePathname();
   const [selectedSection, setSelectedSection] = useState("");
   const router = useRouter();
-  const infos = usePathnameInfo(page);
+  const infos = usePathnameInfo();
   const membersQuantity = useMember();
-  const {text80, text40, text60, text10} = useColors();
 
   const getActiveButtonFromPath = () => {
-    if (router.pathname.includes("/protocol/overview"))
-      setSelectedSection("Overview");
-    if (router.pathname.includes("/protocol/sort"))
-      setSelectedSection("First Sort");
-    if (router.pathname.includes("/protocol/validation"))
+    if (pathname.includes("/protocol/overview")) setSelectedSection("Overview");
+    if (pathname.includes("/protocol/sort")) setSelectedSection("First Sort");
+    if (pathname.includes("/protocol/validation"))
       setSelectedSection("Final Validation");
-    if (router.pathname.includes("/protocol/metrics"))
-      setSelectedSection("Sorts");
-    if (router.pathname.includes("/protocol/pool"))
-      setSelectedSection("Pending Pool");
-    if (router.pathname.includes("/governance/new"))
+    if (pathname.includes("/protocol/metrics")) setSelectedSection("Sorts");
+    if (pathname.includes("/protocol/pool")) setSelectedSection("Pending Pool");
+    if (pathname.includes("/governance/new"))
       setSelectedSection("New Proposal");
-    if (router.pathname.includes("/governance/overview"))
+    if (pathname.includes("/governance/overview"))
       setSelectedSection("Overview");
-    if (router.pathname.includes("/governance/staking"))
-      setSelectedSection("Staking");
-    if (router.pathname.includes("/governance/metrics"))
-      setSelectedSection("Stats");
+    if (pathname.includes("/governance/staking")) setSelectedSection("Staking");
+    if (pathname.includes("/governance/metrics")) setSelectedSection("Stats");
   };
 
   useEffect(() => {
@@ -42,87 +37,70 @@ export const LeftNavigationMobile = ({page}) => {
   }, []);
 
   return (
-    <Flex direction="column" w="100%" mt={["0px", "0px", "28px", "28px"]}>
-      <Box mb="20px" ml="10px">
-        <Text fontSize="20px" fontWeight="600" color={text80}>
-          {" "}
+    <div className="flex flex-col w-full mt-[28px] md:mt-0">
+      <div className="mb-5 ml-2.5">
+        <p className="text-light-font-100 dark:text-dark-font-100 text-xl font-bold">
           Mobula DAOs
-        </Text>
-        <Flex align="center" mt="20px">
-          <Button
-            fontSize="13px"
-            fontWeight="500"
-            _focus={{boxShadow: "none"}}
+        </p>
+        <div className="flex items-center mt-5">
+          <button
+            className={`text-[13px] font-medium ${
+              pathname.includes("governance")
+                ? "text-light-font-100 dark:text-dark-font-100"
+                : "text-light-font-40 dark:text-dark-font-40"
+            }`}
             onClick={() => router.push("/dao/governance/overview")}
-            color={router.pathname.includes("governance") ? text80 : text40}
           >
             Governance
-          </Button>
-          <Box h="16px" w="2px" bg={text10} mx="10px" />
-          <Button
-            fontSize="13px"
-            fontWeight="500"
-            color={router.pathname.includes("protocol") ? text80 : text40}
-            _focus={{boxShadow: "none"}}
+          </button>
+          <div className="h-4 w-0.5 bg-light-border-primary dark:bg-dark-border-primary mx-2.5" />
+          <button
+            className={`text-[13px] font-medium ${
+              pathname.includes("protocol")
+                ? "text-light-font-100 dark:text-dark-font-100"
+                : "text-light-font-40 dark:text-dark-font-40"
+            }`}
             onClick={() => router.push("/dao/protocol/overview")}
           >
             Protocol
-          </Button>
-        </Flex>
-      </Box>
-      <Flex align="center" ml="10px">
-        <Image
+          </button>
+        </div>
+      </div>
+      <div className="flex items-center ml-2.5">
+        <img
           src={
-            router.pathname.includes("governance")
+            pathname.includes("governance")
               ? "/header/new/governance.svg"
               : "/header/new/protocol.svg"
           }
-          boxSize="50px"
-          mr="15px"
+          className="w-[50px] h-[50px] mr-[15px]"
         />
-        <Box mr="20px">
-          <Text fontSize="22px" color={text80} fontWeight="400">
+        <div className="mr-5">
+          <p className="text-light-font-100 dark:text-dark-font-100 text-[22px]">
             {infos.title}
-          </Text>
-          <Text color={text60} fontSize="15px" fontWeight="400">
+          </p>
+          <p className="text-light-font-60 dark:text-dark-font-60 text-[15px]">
             {membersQuantity} {infos.subtitle}
-          </Text>
-        </Box>
+          </p>
+        </div>
         <ButtonOutlined
-          border="1px solid var(--chakra-colors-blue)"
-          w="90px"
-          h="25px"
-          fontSize={["12px", "12px", "13px"]}
-          fontWeight="400"
-          color={text80}
-          onClick={() => {
-            router.push(`/discover/${page}`);
-          }}
+          extraCss="w-[90px] h-[25px] text-[13px] md:text-xs font-medium"
+          onClick={() => router.push(`/discover/${page}`)}
         >
           Join
         </ButtonOutlined>
-      </Flex>
-      <Flex
-        align="center"
-        pb="0px"
-        mt="10px"
-        overflowX="scroll"
-        position="relative"
-        className="scroll"
-        borderBottom={`1px solid ${theme.border} !important`}
-      >
-        {infos.list.map(info => {
+      </div>
+      <div className="flex items-center pb-0 mt-2.5 overflow-x-scroll relative scroll border-b border-light-border-primary dark:border-dark-border-primary">
+        {infos.list.map((info) => {
           const isActive = selectedSection === info?.name;
           return (
-            <Box key={info.id}>
-              <Button
-                py="10px"
-                pb="20px"
-                px="15px"
-                borderRadius="0px"
-                borderBottom={
-                  isActive ? "1px solid var(--chakra-colors-blue)" : "none"
-                }
+            <div key={info.id}>
+              <button
+                className={`py-2.5 pb-5 px-[15px] ${
+                  isActive
+                    ? "border-b border-blue dark:border-blue"
+                    : "border-0"
+                }`}
                 onClick={() => {
                   if (info.url === "validation")
                     router.push("/dao/protocol/validation");
@@ -131,14 +109,18 @@ export const LeftNavigationMobile = ({page}) => {
                   else router.push(`/dao${info.url}`);
                 }}
               >
-                <TextLandingSmall color={isActive ? text80 : text40}>
+                <MediumFont
+                  extraCss={`${
+                    isActive ? "" : "text-light-font-40 dark:text-dark-font-40"
+                  }`}
+                >
                   {info?.name}
-                </TextLandingSmall>
-              </Button>
-            </Box>
+                </MediumFont>
+              </button>
+            </div>
           );
         })}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
