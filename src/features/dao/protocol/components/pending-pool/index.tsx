@@ -1,31 +1,31 @@
-import {Box, useColorMode} from "@chakra-ui/react";
-import {useRouter} from "next/router";
-import {useContext} from "react";
-import {MainContainer} from "../../../common/components/container-main";
-import {RightContainer} from "../../../common/components/container-right";
-import {LeftNavigation} from "../../../common/components/nav-left";
-import {LeftNavigationMobile} from "../../../common/components/nav-left-mobile";
-import {SortContext} from "../../context-manager";
-import {useSort} from "../../hooks/use-sort";
-import {Contribute} from "../ui/pending-pool/contribute";
-import {BoxPreVote} from "../ui/sorts/box-prevote";
-import {ContractInformation} from "../ui/sorts/contract-information";
-import {Distribution} from "../ui/sorts/distribution";
-import {LaunchInformation} from "../ui/sorts/launch-information";
-import {SalesInformation} from "../ui/sorts/sales-information";
-import {SimiliratyCheck} from "../ui/sorts/similarity-check";
-import {TeamMembers} from "../ui/sorts/team-members";
-import {TokenFees} from "../ui/sorts/token-fees";
-import {VestingInformation} from "../ui/sorts/vesting-information";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { Container } from "../../../../../components/container";
+import { RightContainer } from "../../../common/components/container-right";
+import { LeftNavigation } from "../../../common/components/nav-left";
+import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
+import { SortContext } from "../../context-manager";
+import { useSort } from "../../hooks/use-sort";
+import { Contribute } from "../ui/pending-pool/contribute";
+import { BoxPreVote } from "../ui/sorts/box-prevote";
+import { ContractInformation } from "../ui/sorts/contract-information";
+import { Distribution } from "../ui/sorts/distribution";
+import { LaunchInformation } from "../ui/sorts/launch-information";
+import { SalesInformation } from "../ui/sorts/sales-information";
+import { SimiliratyCheck } from "../ui/sorts/similarity-check";
+import { TeamMembers } from "../ui/sorts/team-members";
+import { TokenFees } from "../ui/sorts/token-fees";
+import { VestingInformation } from "../ui/sorts/vesting-information";
 
 export const PendingPool = () => {
   const router = useRouter();
-  const {tokenDivs, displayedPool} = useContext(SortContext);
-  const {colorMode} = useColorMode();
-  const isWhiteMode = colorMode === "dark";
+  const { tokenDivs, displayedPool } = useContext(SortContext);
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "dark";
   useSort();
 
-  const renderToken = token => (
+  const renderToken = (token) => (
     <>
       <BoxPreVote token={token} />
       <SimiliratyCheck token={token} />
@@ -45,12 +45,12 @@ export const PendingPool = () => {
     if (tokenDivs?.length > 0) {
       if (displayedPool) {
         return tokenDivs
-          .filter(entry => entry.name === displayedPool)
-          .map(token => renderToken(token));
+          .filter((entry) => entry.name === displayedPool)
+          .map((token) => renderToken(token));
       }
       return tokenDivs
         .sort((a, b) => Number(b.coeff) - Number(a.coeff))
-        .map(token => <BoxPreVote token={token} />);
+        .map((token) => <BoxPreVote key={token.id} token={token} />);
     }
     return (
       <BoxPreVote
@@ -67,20 +67,20 @@ export const PendingPool = () => {
   };
 
   return (
-    <MainContainer>
-      <Box w="fit-content" display={["none", "none", "none", "block"]}>
+    <Container>
+      <div className="w-fit block lg:hidden">
         <LeftNavigation
           page={
             router.pathname.includes("protocol") ? "protocol" : "governance"
           }
         />
-      </Box>
-      <Box display={["block", "block", "block", "none"]}>
+      </div>
+      <div className="hidden lg:block">
         <LeftNavigationMobile page="protocol" />
-      </Box>
+      </div>
       <RightContainer>
-        <Box mt={["0px", "0px", "0px", "12px"]}>{renderTokens()}</Box>
+        <div className="mt-3 lg:mt-0">{renderTokens()}</div>
       </RightContainer>
-    </MainContainer>
+    </Container>
   );
 };
