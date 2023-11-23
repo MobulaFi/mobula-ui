@@ -156,7 +156,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
     <BoxContainer
       extraCss={`mb-5 relative min-h-[210px] md:min-h-auto transition-all duration-250 py-[15px] px-5 lg:px-[15px] 
     rounded-2xl sm:rounded-0 ${
-      token?.alreadyVoted ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+      token?.alreadyVoted ? "cursor-not-allowed" : "cursor-pointer"
     }`}
       onClick={() => {
         if (token?.name !== "Come back later!" && !token.alreadyVoted) {
