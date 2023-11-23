@@ -1,12 +1,12 @@
-import {useContext, useEffect} from "react";
-import {createPublicClient, getContract, http} from "viem";
-import {polygon} from "viem/chains";
-import {useAccount} from "wagmi";
-import {PROTOCOL_ADDRESS, getIPFSUrl} from "../../../../../utils/constants";
-import {listingAbi} from "../../../Misc/Listing/constant";
-import {SortContext} from "../context-manager";
-import {TokenDivs} from "../models";
-import {fetchOldData} from "../utils";
+import { useContext, useEffect } from "react";
+import { createPublicClient, getContract, http } from "viem";
+import { polygon } from "viem/chains";
+import { useAccount } from "wagmi";
+import { PROTOCOL_ADDRESS, getIPFSUrl } from "../../../../constants";
+import { listingAbi } from "../../../misc/listing-form/constant";
+import { SortContext } from "../context-manager";
+import { TokenDivs } from "../models";
+import { fetchOldData } from "../utils";
 
 export interface IListingDataToken {
   id: bigint;
@@ -29,8 +29,8 @@ export interface IListingData {
 }
 
 export const useSort = () => {
-  const {address: account} = useAccount();
-  const {setTokenDivs, isFirstSort, isPendingPool} = useContext(SortContext);
+  const { address: account } = useAccount();
+  const { setTokenDivs, isFirstSort, isPendingPool } = useContext(SortContext);
 
   function getSorts() {
     const client = createPublicClient({
@@ -54,8 +54,6 @@ export const useSort = () => {
       .getTokenListings()
       // .catch(() => [])
       .then(async (listings: IListingData[]) => {
-        // TODO: check this
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let fails = 0;
         console.log(listings);
         listings.forEach(async (listing: IListingData, index) => {
@@ -75,7 +73,7 @@ export const useSort = () => {
           }
 
           let oldResponse: Response | undefined;
-          if (hashResult.status === "fulfilled" && hashResult.value[0]) {
+          if (hashResult.status === "fulfilled" && hashResult?.value?.[0]) {
             try {
               oldResponse = await fetch(getIPFSUrl(hashResult.value[0]));
             } catch (e) {
@@ -90,7 +88,7 @@ export const useSort = () => {
               : undefined;
             const edits: string[] = [];
 
-            Object.keys(JSONrep).forEach(key => {
+            Object.keys(JSONrep).forEach((key) => {
               // compare old and new JSON
               if (
                 oldJSONrep &&
@@ -119,7 +117,7 @@ export const useSort = () => {
             JSONrep.voteId = index;
             JSONrep.lastUpdate = Number(listing.token.lastUpdated);
             if (JSONrep.contracts) {
-              setTokenDivs(tokenDivs => [...tokenDivs, JSONrep]);
+              setTokenDivs((tokenDivs) => [...tokenDivs, JSONrep]);
             } else {
               fails += 1;
             }

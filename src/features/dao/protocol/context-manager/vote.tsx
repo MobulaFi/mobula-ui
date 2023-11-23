@@ -1,5 +1,6 @@
-import React, {createContext, useRef, useState, useMemo} from "react";
-import {IVoteContext} from "../models";
+"use client";
+import React, { createContext, useMemo, useRef, useState } from "react";
+import { IVoteContext } from "../models";
 
 export const VoteContext = createContext({
   utilityScore: 0,
@@ -7,7 +8,7 @@ export const VoteContext = createContext({
   trustScore: 0,
 } as IVoteContext);
 
-export const VoteProvider = ({children}: {children: React.ReactNode}) => {
+export const VoteProvider = ({ children }: { children: React.ReactNode }) => {
   const [utilityScore, setUtilityScore] = useState(0);
   const [socialScore, setSocialScore] = useState(0);
   const [trustScore, setTrustScore] = useState(0);
@@ -31,7 +32,7 @@ export const VoteProvider = ({children}: {children: React.ReactNode}) => {
       trustScore,
       setTrustScore,
       complete,
-    ],
+    ]
   );
 
   return <VoteContext.Provider value={value}>{children}</VoteContext.Provider>;

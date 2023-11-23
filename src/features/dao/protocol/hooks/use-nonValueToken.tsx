@@ -1,8 +1,7 @@
-import {useContext, useEffect, useState} from "react";
-import {useAccount} from "wagmi";
-import {OverviewContext} from "../../../../../pages/dao/protocol/overview";
-import {createSupabaseDOClient} from "../../../../../utils/supabase";
-import {Member} from "../models";
+import { useContext, useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { createSupabaseDOClient } from "../../../../lib/supabase";
+import { Member } from "../models";
 
 export const useNonValueToken = () => {
   const {
@@ -13,7 +12,7 @@ export const useNonValueToken = () => {
     setGoodDecisions,
     setBadDecisions,
   } = useContext(OverviewContext);
-  const {address} = useAccount();
+  const { address } = useAccount();
   const [validated, setValidated] = useState(bufferValidated || []);
   const [daoMembers, setDaoMembers] = useState(bufferDaoMembers || []);
   const [rejected, setRejected] = useState(bufferRejected || []);
@@ -23,31 +22,31 @@ export const useNonValueToken = () => {
     supabase
       .from("history_dao")
       .select("*")
-      .match({protocol_version: 3})
-      .order("created_at", {ascending: false})
+      .match({ protocol_version: 3 })
+      .order("created_at", { ascending: false })
 
-      .then(r => {
+      .then((r) => {
         setRecentlyAdded(r.data);
       });
     supabase
       .from("history_dao")
       .select("*")
-      .order("created_at", {ascending: false})
+      .order("created_at", { ascending: false })
       .filter("validated", "eq", "true")
-      .match({protocol_version: 3})
+      .match({ protocol_version: 3 })
       .limit(10)
-      .then(r => {
+      .then((r) => {
         setValidated(r.data);
       });
 
     supabase
       .from("history_dao")
       .select("*")
-      .order("created_at", {ascending: false})
+      .order("created_at", { ascending: false })
       .filter("validated", "eq", "false")
-      .match({protocol_version: 3})
+      .match({ protocol_version: 3 })
       .limit(10)
-      .then(r => {
+      .then((r) => {
         setRejected(r.data);
       });
   }, []);
@@ -57,9 +56,9 @@ export const useNonValueToken = () => {
     supabase
       .from<Member>("members")
       .select("*")
-      .match({address})
+      .match({ address })
       .single()
-      .then(r => {
+      .then((r) => {
         if (r.data) {
           setGoodDecisions(r.data.good_decisions);
           setBadDecisions(r.data.bad_decisions);
@@ -67,5 +66,5 @@ export const useNonValueToken = () => {
       });
   }, [address]);
 
-  return {recentlyAdded, rejected, validated, daoMembers};
+  return { recentlyAdded, rejected, validated, daoMembers };
 };

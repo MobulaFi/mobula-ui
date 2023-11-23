@@ -1,9 +1,10 @@
-import React, {createContext, useState, useMemo} from "react";
-import {IReasonVoteContext, IShowReasonContext} from "../models";
+"use client";
+import React, { createContext, useMemo, useState } from "react";
+import { IReasonVoteContext, IShowReasonContext } from "../models";
 
 export const ShowReasonContext = createContext({} as IShowReasonContext);
 
-export const ShowReasonProvider = ({children}) => {
+export const ShowReasonProvider = ({ children }) => {
   const [showUtility, setShowUtility] = useState(false);
   const [showTrust, setShowTrust] = useState(false);
   const [showSocial, setShowSocial] = useState(false);
@@ -28,7 +29,7 @@ export const ShowReasonProvider = ({children}) => {
       setShowTrust,
       showReject,
       setShowReject,
-    ],
+    ]
   );
 
   return (
@@ -40,7 +41,7 @@ export const ShowReasonProvider = ({children}) => {
 
 export const ReasonVoteContext = createContext({} as IReasonVoteContext);
 
-export const ReasonVoteProvider = ({children}) => {
+export const ReasonVoteProvider = ({ children }) => {
   const [reasonUtility, setReasonUtility] = useState(0);
   const [reasonTrust, setReasonTrust] = useState(0);
   const [reasonSocial, setReasonSocial] = useState(0);
@@ -65,7 +66,7 @@ export const ReasonVoteProvider = ({children}) => {
       setReasonTrust,
       reasonReject,
       setReasonReject,
-    ],
+    ]
   );
 
   return (

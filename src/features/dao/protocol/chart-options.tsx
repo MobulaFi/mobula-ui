@@ -1,11 +1,11 @@
-import {colors} from "./constants";
+import { colors } from "./constants";
 
-export const DoughnutsChart = ({token, whiteMode}) => {
-  const formatFees = side => {
+export const DoughnutsChart = ({ token, whiteMode }) => {
+  const formatFees = (side) => {
     const filteredFees = token?.tokenomics?.fees?.filter(
-      fee => fee.side === side,
+      (fee) => fee.side === side
     );
-    const fees = filteredFees?.map(fee => ({
+    const fees = filteredFees?.map((fee) => ({
       name: fee.name,
       value: fee.percentage,
     }));
@@ -35,7 +35,7 @@ export const DoughnutsChart = ({token, whiteMode}) => {
       itemWidth: 10,
       itemHeight: 10,
       formatter(name): any {
-        const {data} = options1.series[0];
+        const { data } = options1.series[0];
         let target;
         for (let i = 0, l = data.length; i < l; i += 1) {
           if (data[i].name === name) target = data[i].value;
@@ -93,7 +93,7 @@ export const DoughnutsChart = ({token, whiteMode}) => {
       itemWidth: 10,
       itemHeight: 10,
       formatter(name): any {
-        const {data} = options2.series[0];
+        const { data } = options2.series[0];
         let target;
         for (let i = 0, l = data.length; i < l; i += 1) {
           if (data[i].name === name) target = data[i].value;
@@ -133,5 +133,5 @@ export const DoughnutsChart = ({token, whiteMode}) => {
     ],
   };
 
-  return {options1, options2};
+  return { options1, options2 };
 };

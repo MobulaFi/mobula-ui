@@ -1,17 +1,15 @@
-import {useContext} from "react";
-import {createPublicClient, formatEther, getContract, http} from "viem";
-import {useAccount} from "wagmi";
-// eslint-disable-next-line import/no-cycle
-import {blockchainsIdContent} from "mobula-lite/lib/chains/constants";
-import {polygon} from "viem/chains";
-import {OverviewContext} from "../../../../../pages/dao/protocol/overview";
-import {PROTOCOL_ADDRESS, VAULT_ADDRESS} from "../../../../../utils/constants";
-import {createSupabaseDOClient} from "../../../../../utils/supabase";
-import {PROTOCOL_ABI, VAULT_ABI} from "../constants/abi";
+import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { useContext } from "react";
+import { createPublicClient, formatEther, getContract, http } from "viem";
+import { polygon } from "viem/chains";
+import { useAccount } from "wagmi";
+import { PROTOCOL_ADDRESS, VAULT_ADDRESS } from "../../../../constants";
+import { createSupabaseDOClient } from "../../../../lib/supabase";
+import { PROTOCOL_ABI, VAULT_ABI } from "../constants/abi";
 
 export const useInitValues = () => {
-  const {address} = useAccount();
-  const {setTokensOwed, setCountdown, setClaimed, setUserRank} =
+  const { address } = useAccount();
+  const { setTokensOwed, setCountdown, setClaimed, setUserRank } =
     useContext(OverviewContext);
 
   const initValues = async () => {
@@ -50,12 +48,12 @@ export const useInitValues = () => {
 
       const tokensPerVote = parseInt(
         formatEther(tokenPerVoteRead as never),
-        10,
+        10
       );
 
       setTokensOwed(
         ((Number(owedRewardRead) - Number(paidRewardsRead)) * tokensPerVote) /
-          1000,
+          1000
       );
 
       setClaimed(Number(totalClaimRead));
@@ -71,11 +69,11 @@ export const useInitValues = () => {
       supabase
         .from("members")
         .select("address")
-        .order("good_decisions", {ascending: false})
-        .then(r => {
+        .order("good_decisions", { ascending: false })
+        .then((r) => {
           if (r.data) {
             setUserRank(
-              r.data.map(entry => entry.address).indexOf(address) + 1,
+              r.data.map((entry) => entry.address).indexOf(address) + 1
             );
           }
         });

@@ -1,5 +1,6 @@
-import React, {createContext, useMemo, useState} from "react";
-import {ISortContext, TokenDivs} from "../models";
+"use client";
+import React, { createContext, useMemo, useState } from "react";
+import { ISortContext, TokenDivs } from "../models";
 
 export const SortContext = createContext({} as ISortContext);
 
@@ -46,7 +47,7 @@ export const SortProvider = ({
       isPendingPool,
       setDisplayedPool,
       displayedPool,
-    ],
+    ]
   );
 
   return <SortContext.Provider value={value}>{children}</SortContext.Provider>;
