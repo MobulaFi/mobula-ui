@@ -9,7 +9,7 @@ interface RightContainerProps {
 export const RightContainer = ({ children, extraCss }: RightContainerProps) => (
   <div
     className={cn(
-      "mt-[75px] lg:mt-5 w-full max-w-[800px] lg:max-w-auto",
+      "mt-[37px] lg:mt-5 w-full max-w-[800px] lg:max-w-auto",
       extraCss
     )}
   >

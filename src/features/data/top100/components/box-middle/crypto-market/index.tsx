@@ -11,22 +11,21 @@ const EChart = dynamic(() => import("../../../../../../lib/echart/line"), {
 
 interface CryptoMarketProps {
   showPage: number;
-  height: string;
 }
 
-export const CryptoMarket = ({ showPage, height }: CryptoMarketProps) => {
+export const CryptoMarket = ({ showPage }: CryptoMarketProps) => {
   const { totalMarketCap, marketCapChange } = useTop100();
   return (
     <div
-      className={`flex flex-col transition-all duration-250 w-[200px] min-w-full`}
+      className={`flex flex-col relative px-2.5 transition-all duration-250 w-[200px] min-w-full`}
       style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
-      <div className="flex flex-col absolute z-[1] w-[94%] top-2.5">
+      <div className="flex flex-col z-[1]">
         <div className="w-full flex justify-between">
-          <MediumFont extraCss="ml-[15px]">Crypto Market Cap</MediumFont>
+          <MediumFont>Crypto Market Cap</MediumFont>
         </div>
-        <div className="flex">
-          <LargeFont extraCss="mt-[-2px] ml-[15px]">
+        <div className="flex mt-1">
+          <LargeFont extraCss="mt-[-2px]">
             $
             {getFormattedAmount(
               totalMarketCap?.[totalMarketCap.length - 1 || 0]?.[1]
@@ -40,13 +39,12 @@ export const CryptoMarket = ({ showPage, height }: CryptoMarketProps) => {
           </div>
         </div>
       </div>
-      <div className="w-full mt-3 h-full justify-center mb-2.5 px-[15px]">
+      <div className="w-full h-full justify-center absolute top-5 lg:top-3">
         <EChart
           data={(totalMarketCap as []) || []}
           timeframe="24H"
-          width="100%"
           leftMargin={["0%", "0%"]}
-          height={height}
+          height="100%"
           bg="transparent"
           type="Total MC"
           noDataZoom

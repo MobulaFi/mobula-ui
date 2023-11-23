@@ -156,8 +156,8 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   return (
     <div
       className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
-       border-light-border-primary dark:border-dark-border-primary flex-col py-2.5 px-3.5 relative overflow-hidden
-        min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 ${
+       border-light-border-primary dark:border-dark-border-primary flex-col p-2.5  relative overflow-hidden
+        min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 md:overflow-visible ${
           showPageMobile === 0 ? "z-[3]" : "z-[1]"
         }]`}
       style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
@@ -225,12 +225,11 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               </LargeFont>
             )}
           </div>
-          <div className="w-full mt-[3px] h-full justify-center mb-2.5">
+          <div className="w-full h-full justify-center absolute top-5 lg:top-3">
             {!isLoading && wallet?.estimated_balance_history?.length > 0 ? (
               <EChart
                 data={wallet.estimated_balance_history}
                 timeframe="ALL"
-                width="100%"
                 leftMargin={["0%", "0%"]}
                 height={
                   // eslint-disable-next-line no-nested-ternary

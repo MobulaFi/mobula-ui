@@ -19,6 +19,7 @@ import { Skeleton } from "../../../../../../../components/skeleton";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
 import { Asset } from "../../../../../../../interfaces/assets";
 import { getUrlFromName } from "../../../../../../../utils/formaters";
+import { Contracts } from "../../../../../../asset/components/contracts";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
@@ -232,7 +233,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
             {getPricing(token?.coeff) < 30
               ? `$${30 - getPricing(token?.coeff)} Left`
               : "Full"}
-            <div className="flex h-4 rounded bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
+            <div className="flex h-2 rounded bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
               <div
                 className="rounded h-full bg-blue dark:bg-blue"
                 style={{
@@ -301,7 +302,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 </button>
               }
               hiddenContent={token.contracts?.map(
-                (contract, index: number) =>
+                (contract: any, index: number) =>
                   contract.blockchain && (
                     <div
                       className={`text-light-font-100 dark:text-dark-font-100 ${

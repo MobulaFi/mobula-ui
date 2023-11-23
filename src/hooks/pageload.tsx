@@ -34,7 +34,7 @@ export const usePageLoad = () => {
     if (ref) {
       localStorage.setItem("ref", String(ref));
     }
-  }, [query]);
+  }, [ref]);
 
   useEffect(() => {
     if (

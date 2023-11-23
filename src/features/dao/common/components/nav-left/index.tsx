@@ -40,11 +40,12 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
 
   return (
     <div {...props}>
-      <div className="mb-5 pl-5">
-        <p className="text-xl text-light-font-100 dark:text-dark-font-100 text-bold">
+      {/* pl-5 */}
+      <div className="mb-5 ">
+        <p className="text-xl text-light-font-100 dark:text-dark-font-100 font-bold">
           Mobula DAO
         </p>
-        <div className="flex items-center mt-5">
+        {/* <div className="flex items-center mt-5">
           <button
             className={`text-[13px] font-medium ${
               pathname.includes("governance")
@@ -68,7 +69,7 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
           >
             Protocol
           </button>
-        </div>
+        </div> */}
       </div>
       <div
         className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[500px] w-[235px] 
@@ -115,7 +116,7 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
                   extraCss={`${
                     selectedSection === info?.name
                       ? "text-light-font-100 dark:text-dark-font-100"
-                      : "text-dark-font-40 dark:text-dark-font-40"
+                      : "text-light-font-40 dark:text-dark-font-40"
                   }`}
                 >
                   {info?.name}{" "}
