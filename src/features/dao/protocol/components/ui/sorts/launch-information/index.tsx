@@ -1,15 +1,17 @@
-import {Flex, Icon, Text} from "@chakra-ui/react";
-import React, {useEffect, useState} from "react";
-import {SiConvertio} from "react-icons/si";
-import {TextLandingSmall, TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BoxContainer} from "../../../../../common/components/box-container";
+import React, { useEffect, useState } from "react";
+import { SiConvertio } from "react-icons/si";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { BoxContainer } from "../../../../../common/components/box-container";
 
-function getCountdown(targetDate) {
+interface LaunchInformationProps {
+  token: Asset;
+}
+
+function getCountdown(targetDate: number) {
   const target = new Date(targetDate);
   const now = new Date();
   const difference = target.getTime() - now.getTime();
-
   return {
     days: Math.floor(difference / (1000 * 60 * 60 * 24)),
     hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
@@ -18,106 +20,76 @@ function getCountdown(targetDate) {
   };
 }
 
-export const LaunchInformation = ({token}) => {
-  const {text80, boxBg6, borders, text40} = useColors();
-
+export const LaunchInformation = ({ token }: LaunchInformationProps) => {
   const [timeLeft, setTimeLeft] = useState(
-    getCountdown(token?.tokenomics?.launch?.date),
+    getCountdown(token?.tokenomics?.launch?.date)
   );
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(getCountdown(token?.tokenomics?.launch?.date));
     }, 1000);
-
     return () => clearTimeout(timer);
   });
 
-  const timeBoxStyle = {
-    h: ["35px", "35px", "40px"],
-    px: ["8px", "12px"],
-    w: "fit-content",
-    bg: boxBg6,
-    border: borders,
-    borderRadius: "8px",
-    align: "center",
-    justify: "center",
-    minW: ["40px", "45px", "55px"],
-  };
+  const timeBoxStyle =
+    "mr-2.5 h-[40px] md:h-[35px] min-w-[55px] md:min-w-[45px] sm:min-w-[40px] px-3 sm:px-2 w-fit bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded flex items-center justify-center";
 
   const getDisplay = () => {
     if (token?.tokenomics.launch?.vsToken || token?.tokenomics.launch?.exchange)
       return "flex";
-    return "none";
+    return "hidden";
   };
+  const display = getDisplay();
 
   return (
     <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-      display={getDisplay()}
+      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <Flex
-        align="center"
-        pb={["10px", "10px", "15px", "20px"]}
-        borderBottom={borders}
+      <div
+        className="flex items-center px-5 lg:px-[15px] md:px-2.5 border-b
+       border-light-border-primary dark:border-dark-border-primary"
       >
-        <Icon as={SiConvertio} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Launch Information
-        </Text>
-      </Flex>
-      <Flex align="center" justify="space-between" mt="20px" mb="20px">
-        <Flex w="fit-content" direction="column" h="fit-content">
-          <Flex
-            align={["start", "center"]}
-            direction={["column", "row"]}
-            mb="15px"
-          >
-            <TextLandingSmall mr="5px" color={text40}>
+        <SiConvertio className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5">Launch Information</MediumFont>
+      </div>
+      <div className="flex items-center justify-between my-5">
+        <div className="flex w-fit flex-col h-fit">
+          <div className="flex items-center sm:items-start flex-row sm:flex-col mb-[15px]">
+            <MediumFont extraCss="mr-[5px] text-light-font-40 dark:text-dark-font-40">
               Exchange:
-            </TextLandingSmall>
-            <TextLandingSmall color={text80} fontWeight="500">
+            </MediumFont>
+            <MediumFont extraCss="font-medium">
               {token?.tokenomics.launch?.exchange}
-            </TextLandingSmall>
-          </Flex>
-          <Flex align={["start", "center"]} direction={["column", "row"]}>
-            <TextLandingSmall mr="5px" color={text40}>
+            </MediumFont>
+          </div>
+          <div className="flex items-center sm:items-start flex-row sm:flex-col">
+            <MediumFont extraCss="mr-[5px] text-light-font-40 dark:text-dark-font-40">
               Pair:
-            </TextLandingSmall>
-            <TextLandingSmall color={text80} fontWeight="500">
+            </MediumFont>
+            <MediumFont extraCss="font-medium">
               {`${token?.symbol}/${token?.tokenomics.launch?.vsToken}`}
-            </TextLandingSmall>
-          </Flex>
-        </Flex>
-        <Flex
-          w={["fit-content", "fit-content", "50%"]}
-          direction="column"
-          align="center"
-        >
-          <TextLandingSmall color={text80} fontWeight="500" mb="15px">
-            Launch in:
-          </TextLandingSmall>
-          <Flex>
-            <Flex {...timeBoxStyle} mr="10px">
-              <TextSmall>{timeLeft.days}d</TextSmall>
-            </Flex>
-
-            <Flex {...timeBoxStyle} mr="10px">
-              <TextSmall>{timeLeft.hours}h</TextSmall>
-            </Flex>
-            <Flex {...timeBoxStyle} mr="10px">
-              <TextSmall>{timeLeft.minutes}m</TextSmall>
-            </Flex>
-            <Flex {...timeBoxStyle} mr="10px">
-              <TextSmall>{timeLeft.seconds}s</TextSmall>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
+            </MediumFont>
+          </div>
+        </div>
+        <div className="flex flex-col items-center w-2/4 md:w-fit">
+          <MediumFont extraCss="mb-[15px]">Launch in:</MediumFont>
+          <div className="flex">
+            <div className={`${timeBoxStyle} flex`}>
+              <SmallFont>{timeLeft.days}d</SmallFont>
+            </div>
+            <div className={`${timeBoxStyle} flex`}>
+              <SmallFont>{timeLeft.hours}h</SmallFont>
+            </div>
+            <div className={`${timeBoxStyle} flex`}>
+              <SmallFont>{timeLeft.minutes}m</SmallFont>
+            </div>
+            <div className={`${timeBoxStyle} flex`}>
+              <SmallFont>{timeLeft.seconds}s</SmallFont>
+            </div>
+          </div>
+        </div>
+      </div>
     </BoxContainer>
   );
 };
