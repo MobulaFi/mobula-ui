@@ -1,23 +1,25 @@
-import {Flex, Icon, Text, useColorMode} from "@chakra-ui/react";
 import * as echarts from "echarts";
-import {useCallback, useEffect, useMemo} from "react";
-import {AiOutlinePieChart} from "react-icons/ai";
-import {v4 as uuid} from "uuid";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BoxContainer} from "../../../../../common/components/box-container";
-import {DoughnutsChart} from "../../../../chart-options";
+import { useTheme } from "next-themes";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { AiOutlinePieChart } from "react-icons/ai";
+import { v4 as uuid } from "uuid";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { Asset } from "../../../../../../../interfaces/assets";
+import { BoxContainer } from "../../../../../common/components/box-container";
+import { DoughnutsChart } from "../../../../chart-options";
 
-export const TokenFees = ({token}) => {
-  console.log(token);
-  const {borders} = useColors();
-  const {colorMode} = useColorMode();
-  const whiteMode = colorMode === "light";
+interface TokenFeesProps {
+  token: Asset;
+}
+
+export const TokenFees = ({ token }: TokenFeesProps) => {
+  const { theme } = useTheme();
+  const whiteMode = theme === "light";
 
   const id = useMemo(() => uuid(), []);
-  const {options1, options2} = DoughnutsChart({token, whiteMode});
+  const { options1, options2 } = DoughnutsChart({ token, whiteMode });
   const createInstance = useCallback(
-    newId => {
+    (newId) => {
       const instance = echarts.getInstanceByDom(document.getElementById(newId));
       return (
         instance ||
@@ -26,7 +28,7 @@ export const TokenFees = ({token}) => {
         })
       );
     },
-    [id],
+    [id]
   );
 
   useEffect(() => {
@@ -39,46 +41,28 @@ export const TokenFees = ({token}) => {
 
   const getDisplay = () => {
     if (token?.tokenomics?.fees.length > 0) return "flex";
-    return "none";
+    return "hidden";
   };
+  const display = getDisplay();
 
   return (
     <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-      display={getDisplay()}
+      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
-      <Flex
-        align="center"
-        borderBottom={borders}
-        pb={["10px", "10px", "15px", "20px"]}
-      >
-        <Icon as={AiOutlinePieChart} color="yellow" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Token Fees
-        </Text>
-      </Flex>
-      <Flex
-        mt="15px"
-        direction={["column", "column", "column", "row"]}
-        w="100%"
-      >
-        <Flex w={["100%", "100%", "100%", "50%"]} direction="column">
-          <TextSmall mb="-20px" fontWeight="500" ml="10px">
-            Buy Fees
-          </TextSmall>
-          <Flex id="chart1" style={{height: "250px", width: "100%"}} />
-        </Flex>
-        <Flex w={["100%", "100%", "100%", "50%"]} direction="column">
-          <TextSmall mb="-20px" fontWeight="500" ml="10px">
-            Sell Fees
-          </TextSmall>
-          <Flex id="chart2" w="100%" h="250px" />
-        </Flex>
-      </Flex>
+      <div className="flex items-center border-b border-light-border-primary dark:border-dark-border-primary pb-5 lg:pb-[15px] md:pb-2.5">
+        <AiOutlinePieChart className="text-yellow dark:text-yellow" />
+        <MediumFont extraCss="ml-2.5">Token Fees</MediumFont>
+      </div>
+      <div className="flex mt-[15px] flex-row lg:flex-col w-full">
+        <div className="flex w-2/4 lg:w-full flex-col">
+          <SmallFont extraCss="font-medium ml-2.5 -mb-5">Buy Fees</SmallFont>
+          <div id="chart1" style={{ height: "250px", width: "100%" }} />
+        </div>
+        <div className="flex w-2/4 lg:w-full flex-col">
+          <SmallFont extraCss="font-medium ml-2.5 -mb-5">Sell Fees</SmallFont>
+          <div id="chart2" style={{ height: "250px", width: "100%" }} />
+        </div>
+      </div>
     </BoxContainer>
   );
 };
