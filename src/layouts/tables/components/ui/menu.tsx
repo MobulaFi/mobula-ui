@@ -1,23 +1,26 @@
-import { Flex, Icon, Spinner, useColorMode } from "@chakra-ui/react";
+import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useState } from "react";
-
-import { WatchlistContext } from "contexts/pages/watchlist";
-import { PopupStateContext, PopupUpdateContext } from "contexts/popup";
-import { SettingsMetricContext } from "contexts/settings";
-import { UserContext } from "contexts/user";
-import { Asset } from "interfaces/assets";
-import { IWatchlist } from "interfaces/pages/watchlist";
-import { Coin } from "interfaces/swap";
-import { useColors } from "lib/chakra/colorMode";
-import { pushData } from "lib/mixpanel";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import React, { useContext, useState } from "react";
 import { TbBellRinging } from "react-icons/tb";
 import { VscArrowSwap } from "react-icons/vsc";
+import { Drawer } from "../../../../components/drawer";
+import { WatchlistContext } from "../../../../contexts/pages/watchlist";
+import {
+  PopupStateContext,
+  PopupUpdateContext,
+} from "../../../../contexts/popup";
+import { SettingsMetricContext } from "../../../../contexts/settings";
+import { UserContext } from "../../../../contexts/user";
+import { IWatchlist } from "../../../../interfaces/pages/watchlist";
+import { useColors } from "../../../../lib/chakra/colorMode";
+import { pushData } from "../../../../lib/mixpanel";
+import { Asset, Coin } from "../../../swap/model";
 import { useWatchlist } from "../../hooks/watchlist";
+import { WatchlistAdd } from "./watchlist";
 
-export const MenuCommom = () => {
-  const { showMenuTableMobileForToken } = useContext(PopupStateContext);
+export const MenuCommun = () => {
+  const { showMenuTableMobileForToken, showMenuTableMobile } =
+    useContext(PopupStateContext);
   const { user } = useContext(UserContext);
   const pathname = usePathname();
   const {
@@ -30,14 +33,18 @@ export const MenuCommom = () => {
   const { setShowBuyDrawer } = useContext(SettingsMetricContext);
   const watchlist = user?.main_watchlist as IWatchlist;
   const router = useRouter();
-  const { colorMode } = useColorMode();
+  const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
-  const isDarkMode = colorMode === "dark";
+  const lineStyle =
+    "p-[15px] cursor-pointer flex items-center font-medium border-b border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 ease-in-out";
+
+  const isDarkMode = theme === "dark";
   const { inWatchlist, handleAddWatchlist } = useWatchlist(
     showMenuTableMobileForToken.id
   );
+  const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
 
   const addOrRemoveFromWatchlist = async () => {
     if (pathname.includes("watchlist")) {
@@ -73,101 +80,68 @@ export const MenuCommom = () => {
   };
 
   return (
-    <>
-      <Flex
-        position="fixed"
-        w="100vw"
-        h="100vh"
-        left="50%"
-        zIndex={12}
-        transform="translateX(-50%)"
-        top="0%"
-        display={showMenuTableMobileForToken?.name ? "flex" : "none"}
-        bg={isDarkMode ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)"}
+    <Drawer
+      isOpen={showMenuTableMobile}
+      position="bottom"
+      onClose={() => {
+        setShowMenuTableMobile(false);
+        setShowMenuTableMobileForToken(null);
+      }}
+    >
+      <div
+        className={lineStyle}
         onClick={() => {
+          addOrRemoveFromWatchlist();
           setShowMenuTableMobileForToken(null);
           setShowMenuTableMobile(false);
         }}
-      />
-      <Flex
-        direction="column"
-        position="fixed"
-        display={showMenuTableMobileForToken?.name ? "flex" : "none"}
-        bottom={showMenuTableMobileForToken?.name ? "0px" : "-100%"}
-        w="100vw"
-        bg={boxBg3}
-        borderTop={borders2x}
-        zIndex={13}
-        left="0px"
-        transition="all 300ms ease-in-out"
       >
-        <Flex
-          p="15px"
-          borderBottom={borders}
-          _hover={{ bg: hover }}
-          transition="all 250ms ease-in-out"
-          onClick={() => {
-            addOrRemoveFromWatchlist();
-            setShowMenuTableMobileForToken(null);
-            setShowMenuTableMobile(false);
-          }}
-        >
-          <Flex bg={hover} p="4px" borderRadius="6px" mr="10px">
-            {isLoading ? (
-              <Spinner size="sm" />
-            ) : (
-              <>
-                {inWatchlist ? (
-                  <Icon as={AiFillStar} color="yellow" />
-                ) : (
-                  <Icon as={AiOutlineStar} color={text60} />
-                )}
-              </>
-            )}
-          </Flex>
-          {inWatchlist ? "Remove from " : "Add to "} Watchlist
-        </Flex>
-        {showMenuTableMobileForToken.contracts &&
-          showMenuTableMobileForToken.contracts.length > 0 && (
-            <Flex
-              p="15px"
-              borderBottom={borders}
-              _hover={{ bg: hover }}
-              transition="all 250ms ease-in-out"
-              onClick={() => {
-                setShowBuyDrawer(showMenuTableMobileForToken as Coin | Asset);
-                setShowMenuTableMobileForToken(null);
-                setShowMenuTableMobile(false);
-              }}
-            >
-              <Flex bg={hover} p="4px" borderRadius="6px" mr="10px">
-                <Icon as={VscArrowSwap} />
-              </Flex>
-              {`Buy  & Sell ${showMenuTableMobileForToken.symbol}`}
-            </Flex>
-          )}
-        <Flex
-          p="15px"
-          borderBottom={borders}
-          _hover={{ bg: hover }}
-          transition="all 250ms ease-in-out"
-          onClick={() => {
-            setShowAlert(showMenuTableMobileForToken?.name);
-            pushData("Interact", {
-              name: "Alert Asset",
-              from_page: pathname,
-              asset: showMenuTableMobileForToken?.name,
-            });
-            setShowMenuTableMobileForToken(null);
-            setShowMenuTableMobile(false);
-          }}
-        >
-          <Flex bg={hover} p="4px" borderRadius="6px" mr="10px">
-            <Icon as={TbBellRinging} color={text60} />
-          </Flex>
-          Set a Price Alert
-        </Flex>
-      </Flex>
-    </>
+        <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] h-[30px] items-center justify-center flex">
+          <WatchlistAdd
+            addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+            setAddedToWatchlist={setAddedToWatchlist}
+            addedToWatchlist={addedToWatchlist}
+            token={showMenuTableMobileForToken}
+            noRank
+            showMobile
+          />
+        </div>
+        {inWatchlist ? "Remove from " : "Add to "} Watchlist
+      </div>
+      {showMenuTableMobileForToken.contracts &&
+        showMenuTableMobileForToken.contracts.length > 0 && (
+          <div
+            className={lineStyle}
+            onClick={() => {
+              setShowBuyDrawer(showMenuTableMobileForToken as Coin | Asset);
+              setShowMenuTableMobileForToken(null);
+              setShowMenuTableMobile(false);
+            }}
+          >
+            <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] h-[30px] items-center justify-center flex">
+              <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-md" />
+            </div>
+            {`Buy  & Sell ${showMenuTableMobileForToken.symbol}`}
+          </div>
+        )}
+      <div
+        className={lineStyle}
+        onClick={() => {
+          setShowAlert(showMenuTableMobileForToken?.name);
+          pushData("Interact", {
+            name: "Alert Asset",
+            from_page: pathname,
+            asset: showMenuTableMobileForToken?.name,
+          });
+          setShowMenuTableMobileForToken(null);
+          setShowMenuTableMobile(false);
+        }}
+      >
+        <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] h-[30px] items-center justify-center flex">
+          <TbBellRinging className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+        </div>
+        Set a Price Alert
+      </div>
+    </Drawer>
   );
 };

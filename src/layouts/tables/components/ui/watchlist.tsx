@@ -14,12 +14,18 @@ export const WatchlistAdd = ({
   setAddedToWatchlist,
   addedToWatchlist,
   token,
+  noRank = false,
+  showMobile = false,
 }) => {
   const { isLoading } = useTop100();
   const { inWatchlist } = useWatchlist(token.id);
   const [isHover, setIsHover] = useState(false);
   return (
-    <div className="flex items-center justify-center md:hidden">
+    <div
+      className={`flex items-center justify-center ${
+        showMobile ? "" : "md:hidden"
+      } `}
+    >
       {isLoading ? (
         <Spinner extraCss="w-[15px] h-[15px]" />
       ) : (
@@ -45,9 +51,11 @@ export const WatchlistAdd = ({
           )}
         </>
       )}
-      <div className="ml-[5px] text-light-font-80 dark:text-dark-font-80 font-medium">
-        {token.rank}
-      </div>
+      {noRank ? null : (
+        <div className="ml-[5px] text-light-font-80 dark:text-dark-font-80 font-medium">
+          {token.rank}
+        </div>
+      )}
     </div>
   );
 };

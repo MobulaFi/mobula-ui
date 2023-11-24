@@ -108,7 +108,7 @@ export const Entry = ({
 
   const lastComponent = {
     Chart: token.id ? (
-      <div className="w-[135px] h-[45px]">
+      <div className="w-[135px] h-[45px] min-w-[135px]">
         <NextImageFallback
           width={135}
           height={45}

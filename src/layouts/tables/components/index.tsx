@@ -1,4 +1,3 @@
-import { TableContainerProps } from "@chakra-ui/react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
@@ -17,23 +16,9 @@ import { OrderBy, TableAsset } from "../model";
 import { Entry } from "./entry-test";
 import { SkeletonTable } from "./skeletons";
 import { TableHeaderEntry } from "./table-header-entry";
-import { MenuCommom } from "./ui/menu";
+import { MenuCommun } from "./ui/menu";
 
-export function AssetsTable({
-  resultsData,
-  setResultsData,
-  lastColumn = "Chart",
-  automatedSkeletons = true,
-  displaySkeletons = false,
-  orderBy,
-  setOrderBy,
-  hideDEXVolume = false,
-  filters = null,
-  isTop100,
-  isMobile,
-  showRank = false,
-  ...props
-}: {
+interface AssetsTable {
   resultsData: { data: TableAsset[]; count: number };
   setResultsData: React.Dispatch<
     React.SetStateAction<{ data: TableAsset[]; count: number }>
@@ -49,7 +34,23 @@ export function AssetsTable({
   filters?: Query[] | null;
   isMobile?: boolean;
   showRank?: boolean;
-} & TableContainerProps) {
+}
+
+export function AssetsTable({
+  resultsData,
+  setResultsData,
+  lastColumn = "Chart",
+  automatedSkeletons = true,
+  displaySkeletons = false,
+  orderBy,
+  setOrderBy,
+  hideDEXVolume = false,
+  filters = null,
+  isTop100,
+  isMobile,
+  showRank = false,
+  ...props
+}: AssetsTable) {
   const { text60, borders, bgMain, bgTable } = useColors();
   const headerRef = useRef(null);
   const router = useRouter();
@@ -57,6 +58,9 @@ export function AssetsTable({
   const isBalance = resultsData?.data?.find((entry) => entry.amount_usd);
   const { activeView, setIsLoading, isLoading } = useTop100();
   const { isConnected } = useAccount();
+  const pathname = usePathname();
+  const params = useParams();
+  const page = params.page;
   const { showMenuTableMobileForToken, showMenuTableMobile } =
     useContext(PopupStateContext);
 
@@ -162,10 +166,6 @@ export function AssetsTable({
       JSON.stringify(activeView?.filters) ===
         JSON.stringify(defaultTop100.filters)) ||
     (activeView?.name === "Portfolio" && isMobile);
-
-  const pathname = usePathname();
-  const params = useParams();
-  const page = params.page;
 
   return (
     <TableContext.Provider value={value}>
@@ -367,7 +367,7 @@ export function AssetsTable({
       </div>
       <DexDrawer />
       {showMenuTableMobileForToken && showMenuTableMobile ? (
-        <MenuCommom />
+        <MenuCommun />
       ) : null}
     </TableContext.Provider>
   );
