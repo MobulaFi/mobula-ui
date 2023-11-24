@@ -1,12 +1,12 @@
 import React from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
-import { Asset } from "../../../../interfaces/assets";
 import { getFormattedAmount } from "../../../../utils/formaters";
+import { TableAsset } from "../../model";
 import { Segment } from "../segment";
 
 interface VolumeSegmentProps {
-  token: Asset;
+  token: TableAsset;
   display: string;
   metricsChanges: {
     market_cap: boolean | null;

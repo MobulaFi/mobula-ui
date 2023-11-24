@@ -1,7 +1,7 @@
 "use client";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { AiFillStar, AiOutlineStar, AiOutlineSwap } from "react-icons/ai";
+import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { TbBellRinging } from "react-icons/tb";
 import { NextImageFallback } from "../../../components/image";
@@ -13,13 +13,11 @@ import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { Asset } from "../../../interfaces/assets";
 import { IWatchlist } from "../../../interfaces/pages/watchlist";
-import { useColors } from "../../../lib/chakra/colorMode";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
 import React from "react";
 import { Button } from "../../../components/button";
-import { Spinner } from "../../../components/spinner";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { getUrlFromName } from "../../../utils/formaters";
 import { EntryContext, TableContext } from "../context-manager";
@@ -33,6 +31,7 @@ import { MarketCapSegment } from "./segments/market_cap";
 import { PriceSegment } from "./segments/price";
 import { VolumeSegment } from "./segments/volume";
 import { TokenInfo } from "./ui/token";
+import { WatchlistAdd } from "./ui/watchlist";
 
 interface EntryProps {
   token: TableAsset;
@@ -59,19 +58,6 @@ export const Entry = ({
   const isBalance =
     Object.keys(token).includes("balance") &&
     (pathname === "/" || pathname === "/?page=" + page);
-
-  const {
-    text60,
-    borders,
-    boxBg3,
-    bgMain,
-    bgTable,
-    hover,
-    boxBg6,
-    bordersActive,
-    text80,
-    text40,
-  } = useColors();
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const isVisible = useIsInViewport(entryRef);
@@ -326,34 +312,12 @@ export const Entry = ({
               extraCss={`pl-2.5 pr-0 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[20px] lg:py-[5px] ${background}`}
               noLink
             >
-              <div className="flex items-center justify-center md:hidden">
-                {isLoading ? (
-                  <Spinner extraCss="w-[15px] h-[15px]" />
-                ) : (
-                  <>
-                    {inWatchlist || addedToWatchlist ? (
-                      <AiFillStar
-                        className="text-yellow dark:text-yellow text-sm"
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    ) : (
-                      <AiOutlineStar
-                        className="text-light-font-40 dark:text-dark-font-40 text-sm"
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-                <div className="ml-[5px] opacity-60 text-light-font-100 dark:text-dark-font-100">
-                  {token.rank}
-                </div>
-              </div>
+              <WatchlistAdd
+                addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+                setAddedToWatchlist={setAddedToWatchlist}
+                addedToWatchlist={addedToWatchlist}
+                token={token}
+              />
               <div className="w-fit hidden md:block">
                 <Button
                   className="px-[5px] py-2"
@@ -407,34 +371,12 @@ export const Entry = ({
               extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[5px] ${background}`}
               noLink
             >
-              <div className="items-center justify-center flex md:hidden">
-                {isLoading ? (
-                  <Spinner extraCss="w-[15px] h-[15px]" />
-                ) : (
-                  <>
-                    {inWatchlist || addedToWatchlist ? (
-                      <AiFillStar
-                        className="text-yellow dark:text-yellow text-sm"
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    ) : (
-                      <AiOutlineStar
-                        className="text-light-font-60 dark:text-dark-font-60 text-sm"
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-                <div className="ml-[5px] opacity-60 text-light-font-100 dark:text-dark-font-100">
-                  {token.rank}
-                </div>
-              </div>
+              <WatchlistAdd
+                addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+                setAddedToWatchlist={setAddedToWatchlist}
+                addedToWatchlist={addedToWatchlist}
+                token={token}
+              />
               <div className="w-fit hidden md:block">
                 <Button
                   extraCss="h-full px-[5px] py-2"

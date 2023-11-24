@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
-import { Asset } from "../../../../interfaces/assets";
+import { TableAsset } from "../../../../interfaces/assets";
 import {
   formatAmount,
   getFormattedAmount,
@@ -10,7 +10,7 @@ import {
 import { Segment } from "../segment";
 
 interface MarketCapSegmentProps {
-  token: Asset;
+  token: TableAsset;
   display: string;
   metricsChanges: {
     market_cap: boolean | null;

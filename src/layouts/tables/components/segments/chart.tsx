@@ -1,10 +1,10 @@
 import React from "react";
 import { NextImageFallback } from "../../../../components/image";
-import { Asset } from "../../../../interfaces/assets";
+import { TableAsset } from "../../../../interfaces/assets";
 import { Segment } from "../segment";
 
 interface ChartSegmentProps {
-  token: Asset;
+  token: TableAsset;
 }
 
 export const ChartSegment = ({ token }: ChartSegmentProps) => (

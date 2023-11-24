@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
-import { Asset } from "../../../../interfaces/assets";
+import { TableAsset } from "../../../../interfaces/assets";
 import { getFormattedAmount } from "../../../../utils/formaters";
 import { separator } from "../../utils";
 import { Segment } from "../segment";
 
 interface PriceSegmentProps {
-  token: Asset;
+  token: TableAsset;
   display: string;
   metricsChanges: {
     market_cap: boolean | null;
@@ -39,13 +39,13 @@ export const PriceSegment = ({
     if (mainCurrenciesPrices?.eth && mainCurrenciesPrices?.btc && token.price) {
       if (display === "Price ETH") {
         return `${getFormattedAmount(
-          token.price / (mainCurrenciesPrices.eth || 0)
+          (token?.price as number) / (mainCurrenciesPrices.eth || 0)
         )} ETH`;
       }
 
       if (display === "Price BTC") {
         return `${getFormattedAmount(
-          token.price / (mainCurrenciesPrices.btc || 0)
+          (token?.price as number) / (mainCurrenciesPrices.btc || 0)
         )} BTC`;
       }
     }
