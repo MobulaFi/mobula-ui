@@ -4,6 +4,7 @@ import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
 import { Container } from "../../../components/container";
+import { DexDrawer } from "../../../drawer/dex";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -150,7 +151,7 @@ export const Top100 = ({
           />
         </Container>
       </div>
-
+      <DexDrawer />
       {/* {resultsData.count > 100 && (
         <Pagination maxPage={Math.floor(resultsData.count / 100)} />
       )} */}

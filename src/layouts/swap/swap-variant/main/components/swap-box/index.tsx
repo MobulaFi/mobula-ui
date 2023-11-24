@@ -1,41 +1,27 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  PlacementWithLogical,
-  ResponsiveValue,
-  Skeleton,
-  Text,
-} from "@chakra-ui/react";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
-import { SwapContext } from "../../../../..";
-// eslint-disable-next-line import/no-cycle
-import { ColorsContext } from "../../../../../../../../../pages/iframe/swap/index";
+import { SwapContext } from "../../../..";
+import { SmallFont } from "../../../../../../components/fonts";
+import { Skeleton } from "../../../../../../components/skeleton";
+import { pushData } from "../../../../../../lib/mixpanel";
 import {
   getFormattedAmount,
   getRightPrecision,
-} from "../../../../../../../../../utils/helpers/formaters";
-import { TextSmall } from "../../../../../../../../UI/Text";
-import { InfoPopup } from "../../../../../../../components/popup-hover";
-import { pushData } from "../../../../../../../data/utils";
-import { useColors } from "../../../../../../../utils/color-mode";
-import { ISwapContext } from "../../../../../model";
-import { Select } from "../../../../../popup/select";
-import { cleanNumber } from "../../../../../utils";
-import { BlockchainSelector } from "../../popup/blockchain-selector";
+} from "../../../../../../utils/formaters";
+import { ISwapContext } from "../../../../model";
+import { BlockchainSelector } from "../../../../popup/blockchain-selector";
+import { Select } from "../../../../popup/select";
+import { cleanNumber } from "../../../../utils";
 import { BlockchainChanger } from "../blockchain-changer";
 import { SelectedToken } from "../selected-token";
-import { FlexBoxs } from "../ui";
+import { ContainerInOut } from "../ui";
 
-export const SwapBox = ({
-  position,
-  isDex,
-}: {
+interface SwapBoxProps {
   position: "in" | "out";
   isDex?: boolean;
-}) => {
+}
+
+export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
   const {
     tokenIn,
     tokenOut,
@@ -49,11 +35,8 @@ export const SwapBox = ({
   } = useContext<ISwapContext>(SwapContext);
   const [select, setSelect]: [string | boolean, any] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const { text40, borders, text80, boxBg6, hover } = useColors();
   const [showBlockchainSelector, setShowBlockchainSelector] =
     useState<boolean>(false);
-  const { bgBox, fontSecondary, fontMain, borderColor } =
-    useContext(ColorsContext);
   const { chain } = useNetwork();
   const { data: gasData } = useFeeData({
     chainId: chainNeeded || chain?.id || 1,
@@ -81,75 +64,45 @@ export const SwapBox = ({
   };
 
   return (
-    <FlexBoxs
-      direction="column"
-      bg={bgBox || boxBg6}
-      border={borderColor || borders}
-      position="relative"
-      h={[
-        isDex ? "130px" : "105px",
-        isDex ? "130px" : "105px",
-        isDex ? "130px" : "115px",
-      ]}
-      borderRadius={isDex ? "12px" : "12px"}
-      p="15px"
-      mb={position === "in" ? "5px" : "0px"}
-      mt={position === "out" ? "5px" : "0px"}
+    <ContainerInOut
+      extraCss={`${isDex ? "h-[130px]" : "h-[115px] md:h-[105px]"} ${
+        position === "in" ? "mb-[5px]" : ""
+      } ${position === "out" ? "mb-[5px]" : ""}`}
     >
       <BlockchainSelector
         showBlockchainSelector={showBlockchainSelector}
         setShowBlockchainSelector={setShowBlockchainSelector}
         isFrom={isFrom}
       />
-      <Flex align="flex-start" justify="space-between" w="100%">
+      <div className="flex items-start justify-between w-full">
         {isFrom ? (
-          <Flex align="center">
-            <TextSmall
-              mr="10px"
-              color={fontSecondary || text40}
-              whiteSpace="nowrap"
-              fontWeight="500"
-              mt="-2px"
-            >
+          <div className="flex items-center">
+            <SmallFont extraCss="mr-2.5 whitespace-nowrap font-medium -mt-0.5 text-light-font-40 dark:text-dark-font-40">
               Chain:
-            </TextSmall>
+            </SmallFont>
             <BlockchainChanger
               setShowBlockchainSelector={setShowBlockchainSelector}
             />
-          </Flex>
+          </div>
         ) : (
-          <Flex align="center">
-            <TextSmall
-              mr="10px"
-              fontWeight="500"
-              color={fontSecondary || text40}
-              mt="-2px"
-            >
+          <div className="flex items-center">
+            <SmallFont extraCss="mr-2.5 whitespace-nowrap font-medium -mt-0.5 text-light-font-40 dark:text-dark-font-40">
               Chain:
-            </TextSmall>
+            </SmallFont>
             <BlockchainChanger
               setShowBlockchainSelector={setShowBlockchainSelector}
               selector={false}
             />
-          </Flex>
+          </div>
         )}
         {tokenIn && tokenIn.balance !== null && isFrom && (
-          <Flex
-            align="flex-end"
-            direction="column"
-            ml="10px"
-            wrap="wrap"
-            justify="flex-end"
-          >
-            <Text
-              color={fontSecondary || text40}
-              fontSize="12px"
-              fontWeight="400"
-            >
+          <div className="flex items-end flex-col ml-2.5 flex-wrap justify-end">
+            <p className="text-xs text-light-font-40 dark:text-dark-font-40">
               Balance: {getFormattedAmount(tokenIn?.balance)}
-            </Text>
-            <Flex>
-              <Button
+            </p>
+            <div className="flex">
+              <button
+                className="text-xs ml-2.5 text-light-font-100 dark:text-dark-font-100 font-medium"
                 onClick={() => {
                   pushData("Trade Interact", {
                     type: "Max Balance",
@@ -162,38 +115,32 @@ export const SwapBox = ({
                       : tokenIn.balance!
                   );
                 }}
-                fontSize="12px"
-                color={fontMain || text80}
-                ml="10px"
-                fontWeight="500"
               >
                 MAX
-              </Button>
-              <InfoPopup
+              </button>
+              {/* <InfoPopup
                 info="Inputs your maximum holdings minus gas fees, which could go to 0 if you have a low balance."
                 position={
                   "bottom" as PlacementWithLogical & ResponsiveValue<any>
                 }
                 noClose
-                mb="5px"
-              />
-            </Flex>
-          </Flex>
+                extraCss="mb-[5px]"
+              /> */}
+            </div>
+          </div>
         )}
-      </Flex>
-      <Flex align="center" w="100%">
+      </div>
+      <div className="flex items-center w-full">
         {((buttonStatus !== "Loading best price..." || isFrom) &&
           !Number.isNaN(parseFloat(amount)) &&
           !Number.isNaN(getRightPrecision(amount))) ||
         amount === "" ? (
-          <Input
+          <input
+            className="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
             placeholder="0"
             ref={inputRef}
             type="number"
             lang="en"
-            color={fontMain || text80}
-            _placeholder={{ color: fontMain || text80 }}
-            fontSize="16px"
             onChange={(e) => {
               if (
                 (!Number.isNaN(parseFloat(e.target.value)) ||
@@ -207,15 +154,15 @@ export const SwapBox = ({
               typeof window !== "undefined" &&
               inputRef.current === document?.activeElement
                 ? amount
-                : getRightPrecision(amount)
+                : (getRightPrecision(amount) as never)
             }
           />
         ) : (
-          <Box w="100%">
-            <Skeleton w="70px" h="22px" startColor={boxBg6} endColor={hover} />
-          </Box>
+          <div className="w-full">
+            <Skeleton extraCss="w-[70px] h-[22px]" />
+          </div>
         )}
-        <Button
+        <button
           onClick={() => {
             if (isFrom && select !== "tokenIn") setSelect("tokenIn");
             else if (isFrom) setSelect("");
@@ -231,11 +178,11 @@ export const SwapBox = ({
           )}
           {/* OUT */}
           {renderSelectedToken()}
-        </Button>
-      </Flex>
+        </button>
+      </div>
       {select && (
         <Select visible={!!select} setVisible={setSelect} position={position} />
       )}
-    </FlexBoxs>
+    </ContainerInOut>
   );
 };
