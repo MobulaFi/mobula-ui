@@ -1,5 +1,4 @@
 "use client";
-import { Box, Icon, Spinner } from "@chakra-ui/react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillStar, AiOutlineStar, AiOutlineSwap } from "react-icons/ai";
@@ -18,7 +17,9 @@ import { useColors } from "../../../lib/chakra/colorMode";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
+import React from "react";
 import { Button } from "../../../components/button";
+import { Spinner } from "../../../components/spinner";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { getUrlFromName } from "../../../utils/formaters";
 import { EntryContext, TableContext } from "../context-manager";
@@ -117,12 +118,11 @@ export const Entry = ({
   useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
   useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
   useEffect(() => updateMetricsChange("rank"), [token?.rank]);
-
   const url = `/asset/${getUrlFromName(token.name)}`;
 
   const lastComponent = {
     Chart: token.id ? (
-      <Box w="135px" h="45px">
+      <div className="w-[135px] h-[45px]">
         <NextImageFallback
           width={135}
           height={45}
@@ -135,27 +135,20 @@ export const Entry = ({
           priority={index < 4}
           unoptimized
         />
-      </Box>
+      </div>
     ) : (
       isBalance && (
-        <Button
-          ml={["0%", "0%", "30px"]}
-          color={text80}
-          borderRadius="8px"
-          w={["100%", "100%", "80%"]}
-          h="30px"
-          fontSize="xs"
-          border={borders}
-          fontWeight="400"
-          bg={boxBg6}
-          _hover={{ bg: hover, border: bordersActive }}
-          transition="all 250ms ease-in-out"
+        <button
+          className="ml-[30px] md:ml-0 w-[80%] md:w-full text-xs transition-all duration-250 ease-in-out border
+           border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary 
+           dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+           text-light-font-100 dark:text-dark-font-100 font-medium"
           onClick={() =>
             router.push(token.name !== "Mobula" ? "/list" : "/earn")
           }
         >
           {token.name !== "Mobula" ? "List this asset" : "Earn MOBL"}
-        </Button>
+        </button>
       )
     ),
     Added: getCountdown(Date.now() - new Date(token.created_at).getTime()),
@@ -335,28 +328,20 @@ export const Entry = ({
             >
               <div className="flex items-center justify-center md:hidden">
                 {isLoading ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    emptyColor={boxBg3}
-                    color="blue"
-                    size="xs"
-                  />
+                  <Spinner extraCss="w-[15px] h-[15px]" />
                 ) : (
                   <>
                     {inWatchlist || addedToWatchlist ? (
-                      <Icon
-                        as={AiFillStar}
-                        color="yellow"
+                      <AiFillStar
+                        className="text-yellow dark:text-yellow text-sm"
                         onClick={() => {
                           addOrRemoveFromWatchlist();
                           setAddedToWatchlist(!addedToWatchlist);
                         }}
                       />
                     ) : (
-                      <Icon
-                        as={AiOutlineStar}
-                        color={text60}
+                      <AiOutlineStar
+                        className="text-light-font-40 dark:text-dark-font-40 text-sm"
                         onClick={() => {
                           addOrRemoveFromWatchlist();
                           setAddedToWatchlist(!addedToWatchlist);
@@ -377,11 +362,7 @@ export const Entry = ({
                     setShowMenuTableMobileForToken(token);
                   }}
                 >
-                  <Icon
-                    as={BsThreeDotsVertical}
-                    color={text40}
-                    fontSize="18px"
-                  />
+                  <BsThreeDotsVertical className="text-light-font-40 dark:text-dark-font-40 text-lg" />
                 </Button>
               </div>
             </Segment>
@@ -428,28 +409,20 @@ export const Entry = ({
             >
               <div className="items-center justify-center flex md:hidden">
                 {isLoading ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    emptyColor={boxBg3}
-                    color="blue"
-                    size="xs"
-                  />
+                  <Spinner extraCss="w-[15px] h-[15px]" />
                 ) : (
                   <>
                     {inWatchlist || addedToWatchlist ? (
-                      <Icon
-                        as={AiFillStar}
-                        color="yellow"
+                      <AiFillStar
+                        className="text-yellow dark:text-yellow text-sm"
                         onClick={() => {
                           addOrRemoveFromWatchlist();
                           setAddedToWatchlist(!addedToWatchlist);
                         }}
                       />
                     ) : (
-                      <Icon
-                        as={AiOutlineStar}
-                        color={text60}
+                      <AiOutlineStar
+                        className="text-light-font-60 dark:text-dark-font-60 text-sm"
                         onClick={() => {
                           addOrRemoveFromWatchlist();
                           setAddedToWatchlist(!addedToWatchlist);
@@ -470,11 +443,7 @@ export const Entry = ({
                     setShowMenuTableMobileForToken(token);
                   }}
                 >
-                  <Icon
-                    as={BsThreeDotsVertical}
-                    color={text40}
-                    fontSize="18px"
-                  />
+                  <BsThreeDotsVertical className="text-light-font-40 dark:text-dark-font-40 text-lg" />
                 </Button>
               </div>
             </Segment>
@@ -488,7 +457,7 @@ export const Entry = ({
                 index={index}
               />
             </Segment>
-            {activeView?.display?.length > 0 &&
+            {(activeView?.display?.length || 0) > 0 &&
             (pathname === "/" || pathname === "/?page=" + page) ? (
               renderSegments()
             ) : (
@@ -519,7 +488,6 @@ export const Entry = ({
             {pathname !== "/" && pathname !== `/?page=${page}` ? (
               <Segment>{lastComponent[lastColumn]}</Segment>
             ) : null}
-
             <Segment extraCss="table-cell" noLink>
               <div className="flex items-center justify-end">
                 <Button
@@ -533,7 +501,7 @@ export const Entry = ({
                     });
                   }}
                 >
-                  <Icon as={TbBellRinging} color={text60} fontSize="18px" />
+                  <TbBellRinging className="text-light-font-60 dark:text-dark-font-60 text-lg" />
                 </Button>
                 {token.contracts && token.contracts.length > 0 && (
                   <Button
@@ -547,12 +515,7 @@ export const Entry = ({
                       });
                     }}
                   >
-                    <Icon
-                      as={AiOutlineSwap}
-                      transform="rotate(90deg)"
-                      color={text60}
-                      fontSize="18px"
-                    />
+                    <AiOutlineSwap className="text-light-font-60 dark:text-dark-font-60 text-lg rotate-90" />
                   </Button>
                 )}
               </div>
