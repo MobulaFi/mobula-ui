@@ -1,19 +1,35 @@
-import { Flex, Text } from "@chakra-ui/react";
-import { getFormattedAmount } from "@utils/formaters";
-import { useColors } from "lib/chakra/colorMode";
+import React from "react";
+import { SmallFont } from "../../../../components/fonts";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
+import { Asset } from "../../../../interfaces/assets";
+import { getFormattedAmount } from "../../../../utils/formaters";
 import { Segment } from "../segment";
 
-export const VolumeSegment = ({ token, display, metricsChanges }) => {
-  const { text80, text60 } = useColors();
+interface VolumeSegmentProps {
+  token: Asset;
+  display: string;
+  metricsChanges: {
+    market_cap: boolean | null;
+    price: boolean | null;
+    rank: boolean | null;
+    volume: boolean | null;
+  };
+}
+
+export const VolumeSegment = ({
+  token,
+  display,
+  metricsChanges,
+}: VolumeSegmentProps) => {
   const { activeView } = useTop100();
   const isBalance = activeView?.name === "Portfolio";
 
   const getColorFromVolume = () => {
-    if (metricsChanges.volume === true) return "green";
-    if (metricsChanges.volume === false) return "red";
-    return text80;
+    if (metricsChanges.volume === true) return "text-green dark:text-green";
+    if (metricsChanges.volume === false) return "text-red dark:text-red";
+    return "text-light-font-100 dark:text-dark-font-100";
   };
+  const volumeColor = getColorFromVolume();
 
   const getVolumeOrBalance = () => {
     if (display === "24h Volume" && token.global_volume)
@@ -24,34 +40,32 @@ export const VolumeSegment = ({ token, display, metricsChanges }) => {
       return `$${getFormattedAmount(token.global_volume_1m)}`;
     return "-";
   };
+  const renderVolumeOrBalance = getVolumeOrBalance();
+
   return (
     <Segment>
-      <Flex
-        align="center"
-        justify="flex-end"
-        fontWeight="500"
-        color={isBalance ? text80 : getColorFromVolume()}
+      <div
+        className={`flex items-center justify-end font-medium ${
+          isBalance
+            ? "text-light-font-100 dark:text-dark-font-100"
+            : volumeColor
+        }`}
       >
         {isBalance ? (
-          <Flex direction="column" pr={["10px", "0px"]}>
-            <Text
-              fontSize={["12px", "13px", "14px", "14px"]}
-              color={text80}
-              fontWeight="500"
-            >{`${getFormattedAmount(token.amount)} ${token.symbol.slice(
-              0,
-              10
-            )}${token.symbol.length > 10 ? "..." : ""}`}</Text>
-            <Text
-              fontSize={["12px", "12px", "13px", "13px"]}
-              color={text60}
-              fontWeight="500"
-            >{`${getFormattedAmount(token.amount_usd)} USD`}</Text>
-          </Flex>
+          <div className="flex flex-col pr-0 sm:pr-2.5">
+            <SmallFont extraCsss="font-medium">{`${getFormattedAmount(
+              token.amount
+            )} ${token.symbol.slice(0, 10)}${
+              token.symbol.length > 10 ? "..." : ""
+            }`}</SmallFont>
+            <SmallFont extraCsss="font-medium">{`${getFormattedAmount(
+              token.amount_usd
+            )} USD`}</SmallFont>
+          </div>
         ) : (
-          getVolumeOrBalance()
+          renderVolumeOrBalance
         )}
-      </Flex>
+      </div>
     </Segment>
   );
 };

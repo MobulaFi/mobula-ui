@@ -69,7 +69,7 @@ export const MarketCapSegment = ({
             extraCss="min-w-[200px] top-[40px] left-1/2 -translate-x-1/2"
             visibleContent={
               <div className="flex flex-col items-end h-full w-full">
-                <SmallFont extraCss={`${marketColor} mb-[5px]`}>
+                <SmallFont extraCss={`${marketColor} mb-[5px] font-medium`}>
                   {`${marketCapFromType} ${token?.symbol}`}
                 </SmallFont>
                 {(percentage || 0) > 0 &&
@@ -149,7 +149,9 @@ export const MarketCapSegment = ({
           />
         </div>
       ) : (
-        <SmallFont extraCss={marketColor}>{marketCapFromType}</SmallFont>
+        <SmallFont extraCss={`${marketColor} font-medium`}>
+          {marketCapFromType}
+        </SmallFont>
       )}
     </Segment>
   );
