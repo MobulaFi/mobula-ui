@@ -156,15 +156,17 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   return (
     <div
       className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
-       border-light-border-primary dark:border-dark-border-primary flex-col p-2.5  relative overflow-hidden
-        min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 md:overflow-visible ${
+       border-light-border-primary dark:border-dark-border-primary flex-col relative overflow-hidden
+        min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 sm:w-full transition duration-500 md:overflow-visible ${
           showPageMobile === 0 ? "z-[3]" : "z-[1]"
-        }]`}
+        }] py-2.5`}
       style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
     >
       {isConnected ? (
-        <>
-          <div className="flex flex-col absolute z-[1] top-2.5 w-[94%]">
+        <div
+          className={`min-w-full  flex flex-col w-[200px] transition-all duration-250`}
+        >
+          <div className="flex flex-col z-[1] top-2.5 px-2.5">
             <div className="flex justify-between w-full mb-0.5">
               <div
                 className="flex flex-col cursor-pointer"
@@ -184,7 +186,10 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     isHover
                       ? "border-light-font-100 dark:border-dark-font-100"
                       : "border-light-bg-secondary dark:border-dark-bg-secondary"
-                  } w-[${isHover ? "100" : "0"}%] transition-all `}
+                  } transition-all duration-250 ease-in-out`}
+                  style={{
+                    width: isHover ? "100%" : "0%",
+                  }}
                 />
               </div>
               {wallet?.estimated_balance_history?.length === 0 ||
@@ -225,7 +230,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               </LargeFont>
             )}
           </div>
-          <div className="w-full h-full justify-center absolute top-5 lg:top-3">
+          <div className="w-full h-full justify-center absolute top-5 lg:top-3  px-2.5">
             {!isLoading && wallet?.estimated_balance_history?.length > 0 ? (
               <EChart
                 data={wallet.estimated_balance_history}
@@ -233,11 +238,12 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 leftMargin={["0%", "0%"]}
                 height={
                   // eslint-disable-next-line no-nested-ternary
-                  typeof showPageMobile === "number"
-                    ? "165px"
-                    : tablet
-                    ? "175px"
-                    : "190px"
+                  // typeof showPageMobile === "number"
+                  //   ? "165px"
+                  //   : tablet
+                  //   ? "175px"
+                  //   : "180px"
+                  "100%"
                 }
                 bg="transparent"
                 // bg={isDarkMode ? "#151929" : "#F7F7F7"}
@@ -314,7 +320,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               </div>
             ) : null}
           </div>
-        </>
+        </div>
       ) : null}
       {isDisconnected && !isLoading ? (
         <>

@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
-import { ArrowBackIcon, CloseIcon } from "@chakra-ui/icons";
-import { Icon, IconProps, Spinner } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, {
@@ -15,20 +14,18 @@ import React, {
 } from "react";
 import { AiFillStar, AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTrash3 } from "react-icons/bs";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { PiDotsNineBold } from "react-icons/pi";
 import { ReactSortable } from "react-sortablejs";
 import { useAccount } from "wagmi";
 import { Accordion as AccordionCustom } from "../../../../../../components/accordion";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
-import {
-  Input,
-  Input as InputCustom,
-} from "../../../../../../components/input";
+import { Input } from "../../../../../../components/input";
 import { ModalContainer } from "../../../../../../components/modal-container";
+import { Spinner } from "../../../../../../components/spinner";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserContext } from "../../../../../../contexts/user";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET, POST } from "../../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
@@ -45,7 +42,6 @@ import { View } from "../../../models";
 import { ACTIONS, INITIAL_VALUE } from "../../../reducer";
 import { unformatActiveView } from "../../../utils";
 import { Tutorial } from "../tuto";
-import { ColorPopover } from "./ui/color-popover";
 
 const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => (
   <div ref={ref} style={{ display: "flex", flexWrap: "wrap" }}>
@@ -70,16 +66,6 @@ export const ViewPopup = ({
   activeDisplay,
   setActiveDisplay,
 }: ViewPopupProps) => {
-  const {
-    boxBg3,
-    borders,
-    bordersActive,
-    text40,
-    text60,
-    boxBg6,
-    hover,
-    text80,
-  } = useColors();
   const [isStarHover, setIsStarHover] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const [showTuto, setShowTuto] = useState(false);
@@ -108,13 +94,13 @@ export const ViewPopup = ({
   );
 
   useEffect(() => {
-    if (type === "edit" && user?.views?.length > 0)
+    if (type === "edit" && (user?.views?.length || 0) > 0)
       dispatch({
         type: ACTIONS.SET_USER_VALUE,
         payload: { value: activeView },
       });
     if (
-      (type === "create" && user?.views?.length > 0) ||
+      (type === "create" && (user?.views?.length || 0) > 0) ||
       (type === "create" && activeView?.name === "All")
     )
       dispatch({
@@ -133,24 +119,24 @@ export const ViewPopup = ({
       return {
         fill: 0,
         outline: 1,
-        color: text80,
+        color: "text-light-font-100 dark:text-dark-font-100",
       };
     if (!isStarHover && state.is_favorite)
       return {
         fill: 1,
         outline: 0,
-        color: "yellow",
+        color: "text-yellow dark:text-yellow",
       };
     if (isStarHover && !state.is_favorite)
       return {
         fill: 1,
         outline: 0,
-        color: "yellow",
+        color: "text-yellow dark:text-yellow",
       };
     return {
       fill: 0,
       outline: 1,
-      color: text80,
+      color: "text-light-font-100 dark:text-dark-font-100",
     };
   };
 
@@ -189,7 +175,7 @@ export const ViewPopup = ({
   };
 
   const handleBlockchainsChange = (chain: string) => {
-    if (!state.filters.blockchains.includes(chain))
+    if (!state?.filters?.blockchains?.includes(chain))
       dispatch({
         type: ACTIONS.ADD_BLOCKCHAINS,
         payload: { value: chain },
@@ -218,10 +204,13 @@ export const ViewPopup = ({
           return;
           //  alert.error(r.error);
         } else {
-          setUser((prev) => ({
-            ...prev,
-            views: [...(user?.views || []), r.view[0]],
-          }));
+          setUser(
+            (prev) =>
+              ({
+                ...prev,
+                views: [...(user?.views || []), r.view[0]],
+              } as never)
+          );
           setActiveView(r.view[0]);
           setType("");
           setIsViewsLoading(false);
@@ -257,15 +246,18 @@ export const ViewPopup = ({
           return;
           // alert.error(r.error);
         } else {
-          setUser((prev) => ({
-            ...prev,
-            views: [
-              ...(prev.views?.filter(
-                (entry) => entry.name !== activeView?.name
-              ) || []),
-              r.view[0],
-            ],
-          }));
+          setUser(
+            (prev) =>
+              ({
+                ...prev,
+                views: [
+                  ...(prev?.views?.filter(
+                    (entry) => entry.name !== activeView?.name
+                  ) || []),
+                  r.view[0],
+                ],
+              } as never)
+          );
           setIsViewsLoading(false);
         }
       });
@@ -280,7 +272,7 @@ export const ViewPopup = ({
     if (user)
       GET("/views/remove", {
         account: user.address,
-        id,
+        id: id as number,
       })
         .then((r) => r.json())
         .then((r) => {
@@ -288,12 +280,15 @@ export const ViewPopup = ({
             return;
             //  alert.error(r.error);
           } else {
-            setUser((prev) => ({
-              ...prev,
-              views: user?.views.filter(
-                (entry) => entry.name !== activeView?.name
-              ),
-            }));
+            setUser(
+              (prev) =>
+                ({
+                  ...prev,
+                  views: user?.views.filter(
+                    (entry) => entry.name !== activeView?.name
+                  ),
+                } as never)
+            );
             setType("");
             setActiveView(
               JSON.stringify(user?.views[0]) !== JSON.stringify(activeView)
@@ -312,7 +307,7 @@ export const ViewPopup = ({
   };
 
   const getRenderForFilters = useCallback(
-    (filter: { name: string; title: string; icon: IconProps }) => {
+    (filter: { name: string; title: string; icon: any }) => {
       if (filter.name === "blockchains") {
         return (
           <div className="flex items-center h-fit">
@@ -382,16 +377,6 @@ export const ViewPopup = ({
     return false;
   };
 
-  const resetButtonStyle = {
-    w: "fit-content",
-    mt: "10px",
-    fontSize: ["12px", "12px", "13px", "14px"],
-    fontWeight: "400",
-    color: { text40 },
-    transition: "all 250ms ease-in-out",
-    _hover: { color: text80 },
-  };
-
   const handleCategoryChange = (category: string) => {
     if (!state.filters.categories?.includes(category))
       dispatch({
@@ -429,6 +414,35 @@ export const ViewPopup = ({
   const newDefault = [...defaultCategories];
   const ReactSortableAny = ReactSortable as any;
 
+  const createButtonHandler = () => {
+    pushData("View popup", {
+      action: type === "create" ? "create" : "edit",
+    });
+    if (isConnected) {
+      if (!checkSameNameExist()) {
+        if (!state.name) {
+          // alert.show('Please add a name for your view');
+          return;
+        }
+        if (activeView?.name === "All" && type !== "create") {
+          setIsLoading(true);
+          setActiveView({ ...state, isFirst: false });
+          if (!user || !activeView) return;
+          const activeViewStr = formatDataForFilters(activeView, state);
+          Cookies.set(`view-${address}`, activeViewStr, {
+            secure: process.env.NODE_ENV !== "development",
+            sameSite: "strict",
+          });
+          setType("");
+        } else if (activeView?.name !== "All" || type === "create") {
+          setIsLoading(true);
+          if (type === "edit") editView();
+          else createView();
+        }
+      }
+    } else setConnect(true);
+  };
+
   return (
     <ModalContainer
       title={
@@ -457,12 +471,13 @@ export const ViewPopup = ({
               className="flex items-center"
               onClick={() => setShowCategories(false)}
             >
-              <Icon as={ArrowBackIcon} mr="7.5px" />
+              <FaArrowLeftLong className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
               <MediumFont extraCss="text-bold">
                 Categories ({filteredCategories.length})
               </MediumFont>{" "}
             </button>
-            <InputCustom
+            <Input
+              extraCss="border-0"
               type="text"
               placeholder="Search a category"
               onChange={(e) => setSearchCategorie(e.target.value)}
@@ -528,7 +543,8 @@ export const ViewPopup = ({
                    border-light-border-primary dark:border-dark-border-primary w-full"
                 >
                   <input
-                    className="w-full px-2.5 h-full text-light-font-100 dark:text-dark-font-100 rounded"
+                    className="w-full px-2.5 h-full text-light-font-100 dark:text-dark-font-100 rounded
+                     bg-light-bg-terciary dark:bg-dark-bg-terciary"
                     maxLength={25}
                     // isDisabled={activeView?.name === "All" && type === "edit"}
                     onChange={(e) => handleBasicInputChange(e)}
@@ -537,146 +553,93 @@ export const ViewPopup = ({
                     }
                   />
                   <button
-                    className="flex items-center pr-2.5"
-                    onClick={() => setShowColorPopover(true)}
+                    className="flex items-center pr-2.5 relative"
+                    onClick={() => setShowColorPopover((prev) => !prev)}
                   >
                     <div
                       className={`w-2.5 h-2.5 rounded-full mr-2`}
                       style={{ background: defaultColor }}
                     />
                     <BsChevronDown className="text-[10px]" />
+                    {showColorPopover ? (
+                      <div
+                        className="flex max-w-[200px] flex-wrap z-[2] p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
+                      rounded-xl border border-light-border-primary dark:border-dark-border-primary shadow-md absolute
+                       w-[200px] right-0 top-[28px]"
+                      >
+                        {colors.map((color) => (
+                          <button
+                            key={color}
+                            className="m-1.5 h-[12px] w-[12px] flex justify-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                            onClick={() =>
+                              dispatch({
+                                type: ACTIONS.SET_COLOR,
+                                payload: { value: color },
+                              })
+                            }
+                          >
+                            <div
+                              className="min-h-[12px] w-[12px] h-[12px] max-w-[12px] min-w-[12px] rounded-full"
+                              style={{ background: color }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
                   </button>
                 </div>
-                {/* <InputGroup
-                  borderRadius="8px"
-                  h="35px"
-                  bg={boxBg6}
-                  border={borders}
-                  color={text80}
-                  zIndex="2"
-                >
-                  <Input
-                    w="100%"
-                    px="10px"
-                    h="100%"
-                    placeholder={
-                      type === "create" ? "View name" : activeView?.name
-                    }
-                    color={text80}
-                    isDisabled={activeView?.name === "All" && type === "edit"}
-                    _placeholder={{ color: text80 }}
-               
-                  /> */}
-
-                {/* <InputRightElement h="100%" mr="10px" zIndex="2">
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      h="90%"
-                      rightIcon={<ChevronDownIcon />}
-                    >
-                      <Flex
-                        boxSize="10px"
-                        bg={defaultColor}
-                        borderRadius="full"
-                      />
-                    </MenuButton>
-                    <MenuList
-                      display="flex"
-                      maxW="200px"
-                      flexWrap="wrap"
-                      zIndex="2"
-                      p="10px"
-                      bg={boxBg6}
-                      borderRadius="16px"
-                      border={borders}
-                      boxShadow="none"
-                    >
-                      {colors.map((color) => (
-                        <MenuItem
-                          mx="2.5px"
-                          mb="2.5px"
-                          bg={boxBg6}
-                          h="20px"
-                          w="12px"
-                          key={color}
-                          display="flex"
-                          justifyContent="center"
-                          onClick={() =>
-                            dispatch({
-                              type: ACTIONS.SET_COLOR,
-                              payload: { value: color },
-                            })
-                          }
-                        >
-                          <Flex
-                            bg={color}
-                            minH="12px"
-                            w="12px"
-                            h="12px"
-                            maxW="12px"
-                            minW="12px"
-                            borderRadius="full"
-                          />
-                        </MenuItem>
-                      ))}
-                    </MenuList>
-                  </Menu>
-                </InputRightElement> */}
-
-                {/* </InputGroup> */}
                 <Button
                   extraCss="relative ml-2.5 h-[35px] w-[35px] min-w-[35px] flex items-center justify-center"
                   onMouseEnter={() => setIsStarHover(true)}
                   onMouseLeave={() => setIsStarHover(false)}
                   onClick={() => dispatch({ type: ACTIONS.SET_FAVORITE })}
                 >
-                  <Icon
-                    opacity={getStarIconFromActiveView().outline}
-                    as={AiOutlineStar}
-                    position="absolute"
-                    fontSize="16px"
-                    transition="all 250ms ease-in-out"
+                  <AiOutlineStar
+                    className={`absolute text-base transition-all duration-250 ${
+                      getStarIconFromActiveView().outline
+                    }`}
                   />
-                  <Icon
-                    opacity={getStarIconFromActiveView().fill}
-                    as={AiFillStar}
-                    position="absolute"
-                    color="yellow"
-                    fontSize="16px"
-                    transition="all 250ms ease-in-out"
+                  <AiFillStar
+                    className={`absolute text-base text-yellow dark:text-yellow transition-all duration-250 ${
+                      getStarIconFromActiveView().fill
+                    }`}
                   />
                 </Button>
                 {type !== "create" ? (
                   <Button extraCss="ml-2.5" onClick={() => removeView()}>
-                    <Icon as={BsTrash3} fontSize="16px" />
+                    <BsTrash3 className="text-base text-light-font-100 dark:text-dark-font-100" />
                   </Button>
                 ) : null}
               </div>
             </>
           )}
-          <div className="flex items-center relative bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-lg mt-2.5 p-0.5 border border-light-border-primary dark:border-dark-border-primary">
+          <div
+            className="flex items-center relative bg-light-bg-terciary dark:bg-dark-bg-terciary rounded
+           mt-2.5 p-0.5 border border-light-border-primary dark:border-dark-border-primary"
+          >
             <div
               className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] md:h-[30px] w-1/2 ${
                 showTuto ? "z-[3]" : "z-[auto]"
-              } ${
-                activeDisplay === "display"
-                  ? "left-[calc(0% + 2px)]"
-                  : "left-[calc(50% - 2px)]"
-              } rounded-lg transition-all duration-250 `}
+              } rounded transition-all duration-250 `}
+              style={{
+                left:
+                  activeDisplay === "display"
+                    ? "calc(0% + 2px)"
+                    : "calc(50% - 2px)",
+              }}
             />
             <button
-              className={`w-1/2 font-normal ${
+              className={`w-1/2 font-medium ${
                 activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] sm:h-[30px] font-normal text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
+              } h-[35px] sm:h-[30px] text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
               onClick={() => setActiveDisplay("display")}
             >
               Display
             </button>
             <button
-              className={`w-1/2 font-normal ${
+              className={`w-1/2 font-medium ${
                 activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] sm:h-[30px] font-normal text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
+              } h-[35px] sm:h-[30px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
               onClick={() => setActiveDisplay("filters")}
             >
               Filters
@@ -695,10 +658,13 @@ export const ViewPopup = ({
             >
               {dragNdrop?.map((entry) => (
                 <div
-                  className="flex items-center px-2.5 sm:px-[7.5px] mr-[7.5px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-full w-fit h-[30px] md:h-[25px] mt-[7.5px] border border-light-border-primary dark:border-dark-border-primary cursor-pointer text-sm md:text-xs"
+                  className="flex items-center px-2.5 sm:px-[7.5px] mr-[7.5px] bg-light-bg-hover
+                   dark:bg-dark-bg-hover rounded-full w-fit h-[30px] md:h-[25px] mt-[7.5px] 
+                   border border-light-border-primary dark:border-dark-border-primary cursor-pointer 
+                   text-sm md:text-xs"
                   key={entry.id}
                 >
-                  <Icon as={PiDotsNineBold} mr="7.5px" />
+                  <PiDotsNineBold className="mr-[7.5px]" />
                   <SmallFont>{entry.value}</SmallFont>
                 </div>
               ))}
@@ -730,7 +696,7 @@ export const ViewPopup = ({
                         >
                           <SmallFont>{entry}</SmallFont>
                           {isInDisplay ? (
-                            <CloseIcon fontSize="9px" ml="5px" />
+                            <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 ml-[5px] text-[10px]" />
                           ) : null}
                         </button>
                       );
@@ -744,7 +710,11 @@ export const ViewPopup = ({
               {filters.map((filter, i) => (
                 <AccordionCustom
                   key={filter.name}
-                  extraCss={`${i === 0 ? "border-b" : "border-t"}`}
+                  extraCss={`${
+                    i === 0
+                      ? "border-b dark:border-dark:-border-primary border-light-border-primary"
+                      : "border-t border-light-border-primary dark:border-dark-border-primary"
+                  }`}
                   visibleContent={
                     <>
                       <MediumFont>{filter.title}</MediumFont>
@@ -887,7 +857,7 @@ export const ViewPopup = ({
                                   {state.filters.categories?.includes(
                                     categorie
                                   ) ? (
-                                    <CloseIcon fontSize="9px" ml="5px" />
+                                    <AiOutlineClose className="text-[10px] ml-[5px]" />
                                   ) : null}
                                 </button>
                               ))}
@@ -922,50 +892,10 @@ export const ViewPopup = ({
             </Button>
             <Button
               extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-blue"
-              onClick={() => {
-                pushData("View popup", {
-                  action: type === "create" ? "create" : "edit",
-                });
-                if (isConnected) {
-                  if (!checkSameNameExist()) {
-                    if (!state.name) {
-                      // alert.show('Please add a name for your view');
-                      return;
-                    }
-                    if (activeView?.name === "All" && type !== "create") {
-                      setIsLoading(true);
-                      setActiveView({ ...state, isFirst: false });
-                      if (!user || !activeView) return;
-                      const activeViewStr = formatDataForFilters(
-                        activeView,
-                        state
-                      );
-                      Cookies.set(`view-${address}`, activeViewStr, {
-                        secure: process.env.NODE_ENV !== "development",
-                        sameSite: "strict",
-                      });
-                      setType("");
-                    } else if (
-                      activeView?.name !== "All" ||
-                      type === "create"
-                    ) {
-                      setIsLoading(true);
-                      if (type === "edit") editView();
-                      else createView();
-                    }
-                  }
-                } else setConnect(true);
-              }}
+              onClick={createButtonHandler}
             >
               {isViewsLoading ? (
-                <Spinner
-                  thickness="2px"
-                  speed="0.65s"
-                  emptyColor={boxBg3}
-                  color="blue"
-                  size="xs"
-                  mr="7.5px"
-                />
+                <Spinner extraCss="w-[15px] h-[15px] mr-[7.5px]" />
               ) : null}
               {type === "create"
                 ? `Create ${state.name}`
@@ -974,7 +904,6 @@ export const ViewPopup = ({
           </div>
         </>
       )}
-      {showColorPopover ? <ColorPopover dispatch={dispatch} /> : null}
     </ModalContainer>
   );
 };

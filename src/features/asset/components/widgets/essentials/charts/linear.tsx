@@ -125,8 +125,6 @@ export const ChartLite = ({
     return "a few minutes ago";
   };
 
-  console.log(unformattedHistoricalData);
-
   const renderChartMessage = () => {
     if (
       unformattedHistoricalData?.[type]?.[timeSelected]?.length === undefined

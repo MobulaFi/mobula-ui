@@ -17,19 +17,21 @@ import { useTop100 } from "../../../context-manager";
 import { View } from "../../../models";
 import { ACTIONS, maxValue } from "../../../reducer";
 
+interface PopoverTradeProps {
+  state: View;
+  dispatch: React.Dispatch<unknown>;
+  children: JSX.Element[] | JSX.Element | string;
+  name: string;
+  setTypePopup: React.Dispatch<React.SetStateAction<string>>;
+}
+
 export const PopoverTrade = ({
   dispatch,
   children,
   state,
   name,
   setTypePopup,
-}: {
-  state: View;
-  dispatch: React.Dispatch<unknown>;
-  children: JSX.Element[] | JSX.Element | string;
-  name: string;
-  setTypePopup: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+}: PopoverTradeProps) => {
   const { activeView, setIsLoading, setShowCategories, setActiveView } =
     useTop100();
   const { user, setUser } = useContext(UserContext);
@@ -104,8 +106,6 @@ export const PopoverTrade = ({
 
   const newDefault = [...defaultCategories];
 
-  console.log(isPopoverOpen, "isPopoverOpen");
-
   return (
     <Popover
       extraCss="left-0 top-[100%]"
@@ -173,7 +173,9 @@ export const PopoverTrade = ({
                           }
                           alt={`${chain} logo`}
                         />
-                        <SmallFont extraCss="mr-2.5">{chain}</SmallFont>
+                        <SmallFont extraCss="mr-2.5 whitespace-nowrap">
+                          {chain}
+                        </SmallFont>
                       </div>
                     );
                   })}

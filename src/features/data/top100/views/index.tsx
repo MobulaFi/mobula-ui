@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import { Flex } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
@@ -239,7 +238,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
   const getButtonTemplate = (): View[] => {
     const template: View[] = [
       {
-        color: "blue",
+        color: "bg-blue dark:bg-blue",
         name: "Portfolio",
         filters: {
           tokens: portfolio as Asset[],
@@ -380,7 +379,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             setTypePopup={setTypePopup}
           >
             <Button extraCss="mr-2.5 my-2.5">
-              <SmallFont extraCss="mr-[7.5px] text-light-font-80 dark:text-dark-font-80 text-medium">
+              <SmallFont extraCss="mr-[7.5px] text-light-font-100 dark:text-dark-font-100 font-medium">
                 {formatName(key)}
               </SmallFont>
               |
@@ -402,7 +401,11 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
               <Button
                 extraCss={`${
                   i === (buttonTemplate?.length || 1) - 1 ? "me-0" : "me-2.5"
-                } mt-2.5`}
+                } mt-2.5 font-medium ${
+                  activeView?.name === content.name
+                    ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
+                    : ""
+                }`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
                 onClick={() => {
                   setIsLoading(true);
@@ -433,13 +436,14 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                   }
                 }}
               >
-                <Flex
-                  bg={content?.color || "grey"}
-                  boxSize="10px"
-                  minW="10px"
-                  borderRadius="full"
-                  mr="7.5px"
-                />
+                {content.name === "Portfolio" ? null : (
+                  <div
+                    className="w-2.5 h-2.5 min-w-2.5 rounded-full mr-[7.5px]"
+                    style={{
+                      background: content?.color || "grey",
+                    }}
+                  />
+                )}
                 {content?.name}
               </Button>
             ))}
