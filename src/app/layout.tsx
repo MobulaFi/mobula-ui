@@ -4,6 +4,7 @@ import React from "react";
 import { GeneralContext } from "../contexts";
 import { PopupProvider } from "../contexts/popup";
 import { PortfolioV2Provider } from "../features/user/portfolio/context-manager";
+import { AccountHeaderProvider } from "../layouts/header/context-manager";
 import Layout from "../layouts/layout";
 import { ThemeProvider } from "../lib/next-theme";
 import { SearchbarProvider } from "../popup/searchbar/context-manager";
@@ -31,11 +32,13 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
           <GeneralContext>
             <PortfolioV2Provider isMobile={isMobile}>
               <SearchbarProvider>
-                <PopupProvider>
-                  {/* <Providers> */}
-                  <Layout>{children}</Layout>
-                  {/* </Providers> */}
-                </PopupProvider>
+                <AccountHeaderProvider>
+                  <PopupProvider>
+                    {/* <Providers> */}
+                    <Layout>{children}</Layout>
+                    {/* </Providers> */}
+                  </PopupProvider>{" "}
+                </AccountHeaderProvider>
               </SearchbarProvider>
             </PortfolioV2Provider>
           </GeneralContext>
