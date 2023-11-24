@@ -27,9 +27,15 @@ export const DexDrawer = () => {
   if (showBuyDrawer)
     return (
       <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm">
-        <button onClick={() => setShowBuyDrawer(null)}>OPEN</button>
         <div
-          className="flex flex-col fixed top-0 w-[400px] h-[100vh] border-l border-light-border-primary
+          className="sm:w-0 h-screen"
+          style={{
+            width: "calc(100vw - 400px)",
+          }}
+          onClick={() => setShowBuyDrawer(null)}
+        />
+        <div
+          className="flex flex-col fixed top-0 w-[400px] sm:w-full h-[100vh] border-l border-light-border-primary
          dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary 
          transition-all duration-500 ease-in-out "
           style={{
