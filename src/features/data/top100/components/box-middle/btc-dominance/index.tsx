@@ -17,15 +17,15 @@ export const BtcDominance = ({ showPage, height }: BtcDominanceProps) => {
   const { btcDominance } = useTop100();
   return (
     <div
-      className={`min-w-full flex flex-col w-[200px] transition-all duration-250`}
+      className={`min-w-full px-2.5 flex flex-col w-[200px] transition-all duration-250`}
       style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
-      <div className="flex flex-col absolute z-[1] w-[94%] top-2.5">
+      <div className="flex flex-col absolute z-[1]">
         <div className="flex justify-between w-full">
-          <MediumFont extraCss="ml-[15px]">Bitcoin Dominance</MediumFont>
+          <MediumFont>Bitcoin Dominance</MediumFont>
         </div>
-        <div className="flex">
-          <MediumFont extraCss="flex ml-[15px] mt-[-2px]">
+        <div className="flex mt-1">
+          <MediumFont extraCss="flex mt-[-2px] font-bold">
             {getTokenPercentage(
               btcDominance?.[(btcDominance?.length || 1) - 1]?.[1] || 0
             )}
@@ -39,16 +39,13 @@ export const BtcDominance = ({ showPage, height }: BtcDominanceProps) => {
           </div>
         </div>
       </div>
-      <div className="w-full mt-3 h-full justify-center mb-2.5 px-[15px]">
+      <div className="w-full h-full justify-center absolute top-5 lg:top-3">
         <EChart
           data={btcDominance || []}
           timeframe="24H"
-          width="98%"
-          //   leftMargin={["20%", "12%"]}
           leftMargin={["0%", "0%"]}
-          height={height}
+          height={"100%"}
           bg="transparent"
-          // bg={isDarkMode ? "#151929" : "#F7F7F7"}
           type="BTC Dominance %"
           noDataZoom
           noAxis

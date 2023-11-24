@@ -26,7 +26,7 @@ export const NextChakraLink = ({
 }: NextChakraLinkProps) => {
   if (!href)
     return (
-      <div
+      <span
         className={cn(
           "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",
           extraCss
@@ -34,7 +34,7 @@ export const NextChakraLink = ({
         {...props}
       >
         {children}
-      </div>
+      </span>
     );
   return (
     <NextLink
@@ -45,7 +45,7 @@ export const NextChakraLink = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div
+      <span
         className={cn(
           "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",
           extraCss
@@ -53,7 +53,7 @@ export const NextChakraLink = ({
         {...props}
       >
         {children}
-      </div>
+      </span>
     </NextLink>
   );
 };

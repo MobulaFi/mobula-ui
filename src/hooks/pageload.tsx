@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
@@ -22,8 +22,8 @@ export const usePageLoad = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { address } = useAccount();
-  const query = useSearchParams();
-  const ref = query.get("ref");
+  const params = useParams();
+  const ref = params.ref;
 
   useEffect(() => {
     if (pathToUrl(pathname))
@@ -34,7 +34,7 @@ export const usePageLoad = () => {
     if (ref) {
       localStorage.setItem("ref", String(ref));
     }
-  }, [query]);
+  }, [ref]);
 
   useEffect(() => {
     if (

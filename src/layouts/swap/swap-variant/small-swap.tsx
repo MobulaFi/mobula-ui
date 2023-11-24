@@ -9,7 +9,7 @@ import { Spinner } from "../../../components/spinner";
 import { BaseAssetContext } from "../../../contexts/asset";
 import { Asset } from "../../../interfaces/swap";
 import { pushData } from "../../../lib/mixpanel";
-import { SmallSwapLine } from "../components/small-swap-line";
+import { SmallSwapLine } from "../common/popup/settings/components/small-swap-line";
 import { useLoadToken } from "../hooks/useLoadToken";
 import { InfoPopupQuotes } from "../popup/quotes";
 import { Select } from "../popup/select";
@@ -148,6 +148,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
         <Select
           visible={!!selectVisible}
           setVisible={setSelectVisible as never}
+          position={"in"}
         />
       )}
     </div>

@@ -1,16 +1,16 @@
-import { useColorMode } from "@chakra-ui/react";
+import { useTheme } from "next-themes";
 import React from "react";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
+
+interface CryptoFearAndGreedChartProps {
+  fearLevel: number;
+  fearClassification: string;
+}
 
 const CryptoFearAndGreedChart = ({
   fearLevel,
   fearClassification,
-}: {
-  fearLevel: number;
-  fearClassification: string;
-}) => {
-  const { text80 } = useColors();
-  const { colorMode } = useColorMode();
+}: CryptoFearAndGreedChartProps) => {
+  const { theme } = useTheme();
   const radius = 88;
   const centerX = radius;
   const centerY = radius;
@@ -115,7 +115,7 @@ const CryptoFearAndGreedChart = ({
         textAnchor="middle"
         fontSize="30"
         fontWeight="bold"
-        fill="var(--chakra-colors-text_primary)"
+        fill={theme === "light" ? "rgab(0,0,0,0.95)" : "rgba(255,255,255,0.95)"}
       >
         {fearLevel}
       </text>
@@ -125,7 +125,7 @@ const CryptoFearAndGreedChart = ({
         textAnchor="middle"
         fontSize="14"
         fontWeight="500"
-        fill="var(--chakra-colors-text_primary)"
+        fill={theme === "light" ? "rgab(0,0,0,0.95)" : "rgba(255,255,255,0.95)"}
       >
         {fearClassification || "Neutral"}
       </text>

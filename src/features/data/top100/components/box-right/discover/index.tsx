@@ -39,12 +39,12 @@ export const Discover = ({ showPage, info }) => {
 
   return (
     <div
-      className={`flex flex-col w-[200px] transition-all duration-250 pt-2.5 py-[15px] pb-0`}
+      className={`flex flex-col w-[200px] px-3.5 transition-all duration-250 pt-2.5 pb-0 min-w-full`}
       style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <MediumFont>{info.title}</MediumFont>
       <div
-        className={`flex cursor-pointer mt-5 lg:mt-[7.5px] w-full h-[130px] lg:h-[123px] rounded-2xl relative border ${
+        className={`flex flex-col cursor-pointer mt-2.5 lg:mt-[7.5px] w-full h-[140px] lg:h-[123px] rounded-2xl relative border ${
           isHover
             ? "border-light-border-secondary dark:border-dark-border-secondary"
             : "border-light-border-primary dark:border-dark-border-primary"
@@ -62,14 +62,14 @@ export const Discover = ({ showPage, info }) => {
             </div>
           ) : null}
           {!isCopied && isReferral ? (
-            <SmallFont extraCss="text-bold"> Copy</SmallFont>
+            <SmallFont extraCss="font-bold"> Copy</SmallFont>
           ) : null}
         </div>
-        <SmallFont className="absolute bottom-[25px] left-[15px] text-medium">
+        <div className="absolute w-[90%] mx-auto top-[55px] left-[15px] text-sm lg:text-[13px] sm:text-xs font-medium whitespace-pre-wrap break-words">
           {info.description}
-        </SmallFont>
+        </div>
         <img
-          className="w-full h-[130px]"
+          className="w-full h-[160px]"
           src={info.image}
           alt="Discovery banner of Mobula features"
         />

@@ -33,7 +33,7 @@ export const ModalContainer = ({
             <div className="flex justify-between items-center mb-2.5">
               <LargeFont>{title}</LargeFont>
               <button onClick={() => onClose()}>
-                <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-md" />
+                <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-xl" />
               </button>
             </div>
           ) : null}

@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import { IWatchlist } from "../interfaces/pages/watchlist";
@@ -14,8 +14,8 @@ export const UserProvider = ({ children }) => {
   const [watchlist, setWatchlist] = useState<IWatchlist>();
   const [watchlists, setWatchlists] = useState<IWatchlist[]>([]);
   // const alert = useAlert();
-  const searchParams = useSearchParams();
-  const query = searchParams.get("r");
+  const params = useParams();
+  const query = params.r;
   const pathname = usePathname();
 
   useEffect(() => {

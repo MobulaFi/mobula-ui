@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { SwapContext } from "../..";
-import { SmallFont } from "../../../../components/fonts";
-import { getRightPrecision } from "../../../../utils/formaters";
+import { SwapContext } from "../../../../..";
+import { SmallFont } from "../../../../../../../components/fonts";
+import { getRightPrecision } from "../../../../../../../utils/formaters";
 
 interface SmallSwapLineProps {
   position?: "in" | "out";

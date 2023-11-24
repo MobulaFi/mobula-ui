@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import { Flex } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, {
   useCallback,
   useContext,
@@ -20,7 +19,6 @@ import { SmallFont } from "../../../../components/fonts";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
 import { Asset } from "../../../../interfaces/assets";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../lib/mixpanel";
 import { GET } from "../../../../utils/fetch";
 import { PopoverTrade } from "../components/popup/popover";
@@ -32,12 +30,11 @@ import { ACTIONS, INITIAL_VALUE, maxValue, reducer } from "../reducer";
 import { filterFromType, unformatActiveView } from "../utils";
 
 export const Views = ({ cookieTop100, actualView, setResultsData }) => {
-  const { text80, text60, borders, bgTable, hover, boxBg6 } = useColors();
   const [typePopup, setTypePopup] = useState("");
   const { user } = useContext(UserContext);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const params = useParams();
+  const page = params.page;
   const {
     activeView,
     setActiveView,
@@ -241,7 +238,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
   const getButtonTemplate = (): View[] => {
     const template: View[] = [
       {
-        color: "blue",
+        color: "bg-blue dark:bg-blue",
         name: "Portfolio",
         filters: {
           tokens: portfolio as Asset[],
@@ -382,7 +379,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             setTypePopup={setTypePopup}
           >
             <Button extraCss="mr-2.5 my-2.5">
-              <SmallFont extraCss="mr-[7.5px] text-light-font-80 dark:text-dark-font-80 text-medium">
+              <SmallFont extraCss="mr-[7.5px] text-light-font-100 dark:text-dark-font-100 font-medium">
                 {formatName(key)}
               </SmallFont>
               |
@@ -404,7 +401,11 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
               <Button
                 extraCss={`${
                   i === (buttonTemplate?.length || 1) - 1 ? "me-0" : "me-2.5"
-                } mt-2.5`}
+                } mt-2.5 font-medium ${
+                  activeView?.name === content.name
+                    ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
+                    : ""
+                }`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
                 onClick={() => {
                   setIsLoading(true);
@@ -435,13 +436,14 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                   }
                 }}
               >
-                <Flex
-                  bg={content?.color || "grey"}
-                  boxSize="10px"
-                  minW="10px"
-                  borderRadius="full"
-                  mr="7.5px"
-                />
+                {content.name === "Portfolio" ? null : (
+                  <div
+                    className="w-2.5 h-2.5 min-w-2.5 rounded-full mr-[7.5px]"
+                    style={{
+                      background: content?.color || "grey",
+                    }}
+                  />
+                )}
                 {content?.name}
               </Button>
             ))}
