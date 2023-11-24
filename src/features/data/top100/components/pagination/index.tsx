@@ -1,7 +1,7 @@
 "use client";
 import { Box, Button, Flex, Spacer, VStack } from "@chakra-ui/react";
 import { Next, Previous } from "chakra-paginator";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { NextChakraLink } from "../../../../../components/link";
@@ -20,8 +20,8 @@ export const Pagination = ({
   const router = useRouter();
   const { setIsLoading } = useTop100();
   const { text60, text80, hover, borders, bgTable } = useColors();
-  const searchParams = useSearchParams();
-  const pageNumber = searchParams.get("page");
+  const params = useParams();
+  const pageNumber = params.page;
   const page = pageNumber
     ? Math.min(parseInt(pageNumber as string, 10), parseInt(maxPage, 10))
     : 1;

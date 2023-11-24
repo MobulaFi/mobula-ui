@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../../../../../components/button";
 import { BtcDominance } from "./btc-dominance";
 import { CryptoMarket } from "./crypto-market";
@@ -44,19 +44,19 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     />,
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowPage((prevPage) => (prevPage + 1) % 3);
-    }, 12000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setShowPage((prevPage) => (prevPage + 1) % 3);
+  //   }, 12000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   return (
     <div
       className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
-      border-light-border-primary dark:border-dark-border-primary py-2.5 px-2.5 relative overflow-hidden 
+      border-light-border-primary dark:border-dark-border-primary py-2.5 relative overflow-hidden 
       min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 ${
         showPageMobile === 1 ? "z-[3]" : "z-[1]"
       }] mx-2.5 md:mx-0`}

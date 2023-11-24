@@ -15,8 +15,9 @@ import {
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 // import { useAlert } from "react-alert";
+import { PopupUpdateContext } from "contexts/popup";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
 import { FiExternalLink, FiShoppingCart } from "react-icons/fi";

@@ -1,7 +1,6 @@
-/* eslint-disable no-nested-ternary */
 import { Icon, Skeleton, Text, useColorMode } from "@chakra-ui/react";
 import Cookies from "js-cookie";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, {
   Dispatch,
   RefObject,
@@ -109,8 +108,8 @@ export const UserSection = ({ addressFromCookie }) => {
   const { isConnecting, isDisconnected } = useAccount();
   const { userBalance, setUserBalance } = useUserBalance();
   const [balanceMOBL, setBalanceMOBL] = useState<number | null>(null);
-  const query = useSearchParams();
-  const isMagicLoading = query.get("state");
+  const params = useParams();
+  const isMagicLoading = params.state;
   const isWhiteMode = colorMode === "light";
   useBalance();
 

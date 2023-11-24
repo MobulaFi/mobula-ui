@@ -1,6 +1,5 @@
-/* eslint-disable no-param-reassign */
 import { TableContainerProps } from "@chakra-ui/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { PopupStateContext } from "../../../contexts/popup";
@@ -10,6 +9,8 @@ import { Query } from "../../../interfaces/pages/top100";
 import { useColors } from "../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { DrawerDex } from "../../../components/drawer/dex";
+import { SettingsMetricContext } from "../../../contexts/settings";
+import { DexDrawer } from "../../../drawer/dex";
 import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
 import { TableContext } from "../context-manager";
 import { OrderBy, TableAsset } from "../model";
@@ -52,6 +53,7 @@ export function AssetsTable({
   const { text60, borders, bgMain, bgTable } = useColors();
   const headerRef = useRef(null);
   const router = useRouter();
+  const { showBuyDrawer } = useContext(SettingsMetricContext);
   const isBalance = resultsData?.data?.find((entry) => entry.amount_usd);
   const { activeView, setIsLoading, isLoading } = useTop100();
   const { isConnected } = useAccount();
@@ -162,8 +164,8 @@ export function AssetsTable({
     (activeView?.name === "Portfolio" && isMobile);
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const params = useParams();
+  const page = params.page;
 
   return (
     <TableContext.Provider value={value}>
@@ -363,7 +365,7 @@ export function AssetsTable({
           )}
         </table>
       </div>
-      {/* <DrawerDex /> */}
+      <DexDrawer />
       {showMenuTableMobileForToken && showMenuTableMobile ? (
         <MenuCommom />
       ) : null}

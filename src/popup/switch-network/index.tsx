@@ -41,7 +41,7 @@ export const SwitchNetworkPopup = () => {
         title="Need to Switch!"
         isOpen={!!showSwitchNetwork}
         onClose={() => setShowSwitchNetwork(false)}
-        extraCss="max-w-[350px]"
+        extraCss="max-w-[350px] z-[111]"
       >
         <img
           className="w-[86px] h-[86px] mx-auto rounded-full border-2 border-light-border-primary dark:border-dark-border-primary mt-4"

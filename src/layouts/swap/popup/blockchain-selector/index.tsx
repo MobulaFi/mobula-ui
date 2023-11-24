@@ -35,6 +35,7 @@ export const BlockchainSelector = ({
       title="Select a chain"
       isOpen={showBlockchainSelector}
       onClose={() => setShowBlockchainSelector(false)}
+      extraCss="max-w-[450px]"
     >
       <div className="flex flex-wrap flex-col" {...props}>
         <div className="flex flex-wrap">
@@ -62,12 +63,12 @@ export const BlockchainSelector = ({
                 <img
                   src={blockchain.logo || "/empty/unknown.png"}
                   alt={blockchain.name}
-                  className="w-[17px] h-[17px] md:h-[14px] md:w-[14px] rounded-full"
+                  className="w-[17px] h-[17px] md:h-[14px] md:w-[14px] rounded-full mr-[7.5px]"
                 />
                 <SmallFont
                   className={`ml-[7.55px] transition-all ${
                     isFrom ? "opacity-100" : "opacity-20"
-                  }`}
+                  } font-medium`}
                 >
                   {entry}
                 </SmallFont>

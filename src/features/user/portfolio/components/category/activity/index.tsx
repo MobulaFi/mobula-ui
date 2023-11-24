@@ -1,6 +1,6 @@
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
@@ -52,8 +52,8 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
   const { address } = useAccount();
   const [isLoadingFetch, setIsLoadingFetch] = useState(false);
   const isMounted = useRef(false);
-  const searchParams = useSearchParams();
-  const assetQuery = searchParams.get("asset");
+  const params = useParams();
+  const assetQuery = params.asset;
   const pathname = usePathname();
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";

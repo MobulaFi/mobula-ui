@@ -1,6 +1,6 @@
 "use client";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { SetStateAction, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { OrderBy } from "../../../../interfaces/assets";
@@ -17,8 +17,8 @@ interface IUseFilter {
 export const useFilter = ({ setFilters, orderBy }: IUseFilter) => {
   const { activeView, setIsLoading } = useTop100();
   const { isConnected } = useAccount();
-  const searchParams = useSearchParams();
-  const page = searchParams.get("page");
+  const params = useParams();
+  const page = params.page;
 
   const getFilter = () => {
     if (isConnected === false) return [...defaultFilter];

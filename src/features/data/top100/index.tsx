@@ -17,17 +17,7 @@ import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
 import { Views } from "./views";
 
-register();
-
-export const Top100 = ({
-  tokens: bufferTokens,
-  count,
-  metrics,
-  cookieTop100,
-  defaultFilter,
-  actualView,
-  marketCapTotal,
-}: {
+interface Top100Props {
   tokens: TableAsset[];
   count: number;
   cookieTop100: View;
@@ -42,7 +32,19 @@ export const Top100 = ({
     btc_dominance_history: [number, number][];
     market_cap_change_24h: number;
   };
-}) => {
+}
+
+register();
+
+export const Top100 = ({
+  tokens: bufferTokens,
+  count,
+  metrics,
+  cookieTop100,
+  defaultFilter,
+  actualView,
+  marketCapTotal,
+}: Top100Props) => {
   const { bgTable, bgMain } = useColors();
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "market_cap",
