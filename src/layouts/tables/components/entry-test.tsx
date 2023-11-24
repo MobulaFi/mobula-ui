@@ -93,7 +93,7 @@ export const Entry = ({
   } = useContext(PopupUpdateContext);
   const { inWatchlist, handleAddWatchlist } = useWatchlist(token.id);
   const { lastColumn } = useContext(TableContext);
-  const { setShowBuyDrawer } = useContext(SettingsMetricContext);
+  const { showBuyDrawer, setShowBuyDrawer } = useContext(SettingsMetricContext);
   const { activeView } = useTop100();
   const [show, setShow] = useState(false);
 

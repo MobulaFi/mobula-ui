@@ -27,7 +27,9 @@ export const SelectedToken = ({ isTokenIn, isDefault }: SelectedTokenProps) => {
           alt={`${token?.name} logo`}
         />
       ) : null}
-      <SmallFont extraCss={`${isDefault ? "" : "ml-[7.5px]"} mr-[3px]`}>
+      <SmallFont
+        extraCss={`${isDefault ? "" : "ml-[7.5px]"} mr-[3px] whitespace-nowrap`}
+      >
         {isDefault ? "Select a token" : buffer?.symbol || token?.symbol}
       </SmallFont>
       {!tokenOutBuffer || isTokenIn || isDefault ? (

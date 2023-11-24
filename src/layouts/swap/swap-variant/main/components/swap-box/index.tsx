@@ -67,7 +67,7 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
     <ContainerInOut
       extraCss={`${isDex ? "h-[130px]" : "h-[115px] md:h-[105px]"} ${
         position === "in" ? "mb-[5px]" : ""
-      } ${position === "out" ? "mb-[5px]" : ""}`}
+      } ${position === "out" ? "mt-[5px]" : ""}`}
     >
       <BlockchainSelector
         showBlockchainSelector={showBlockchainSelector}
@@ -136,7 +136,7 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
           !Number.isNaN(getRightPrecision(amount))) ||
         amount === "" ? (
           <input
-            className="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
+            className="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100 w-full pl-2.5"
             placeholder="0"
             ref={inputRef}
             type="number"

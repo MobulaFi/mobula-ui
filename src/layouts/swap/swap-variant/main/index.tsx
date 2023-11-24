@@ -10,6 +10,7 @@ import { SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
 import { Spinner } from "../../../../components/spinner";
 import { pushData } from "../../../../lib/mixpanel";
+import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { DISABLED_STATUS } from "../../constants";
 import { useLoadToken } from "../../hooks/useLoadToken";
 import { ISwapContext } from "../../model";
@@ -73,8 +74,8 @@ export const MainSwap = ({
 
   return (
     <div className="w-full rounded">
-      <div className="flex items-center w-full mb-5 justify-between">
-        <p className="text-light-font-100 dark:text-dark-font-100 text-xl font-medium">
+      <div className="flex items-center w-full justify-between p-5 pb-1.5">
+        <p className="text-light-font-100 dark:text-dark-font-100 text-lg font-medium">
           Swap
         </p>
         <div className="flex">
@@ -100,13 +101,14 @@ export const MainSwap = ({
           </button>
         </div>
       </div>
-      <div className="flex p-5 items-start bg-light-bg-secondary dark:bg-dark-bg-secondary flex-col w-full">
+      <div className="flex p-5 pt-2.5 items-start bg-light-bg-secondary dark:bg-dark-bg-secondary flex-col w-full">
         {/* IN */}
         <div className="flex flex-col relative w-full">
           <SwapBox position="in" isDex={isDex} />
           {/* ARROW */}
           <Button
-            extraCss="mx-auto absolute rounded-full top-1/2 left-1/2 -translate-1/2 z-[2]"
+            extraCss="mx-auto absolute rounded-full top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-[2] 
+            bg-light-bg-secondary dark:bg-dark-bg-secondary"
             onClick={() => {
               if (tokenOutBuffer) setTokenOutBuffer(undefined);
               if (tokenIn && tokenOut && !tokenOutBuffer && !tokenInBuffer) {
@@ -130,35 +132,19 @@ export const MainSwap = ({
           </Button>
           <div
             className="flex w-2.5 h-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary
-           absolute top-1/2 left-1/2 z-[3] -translate-y-[200%] -translate-x-1/2"
+           absolute top-1/2 left-1/2 z-10 -translate-y-[50%] translate-x-[80%]"
           />
           <div
             className="flex w-2.5 h-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary
-          absolute top-1/2 left-1/2 z-[3] -translate-y-[100%] -translate-x-1/2"
+          absolute top-1/2 left-[43%] z-[3] -translate-y-[50%]"
           />
           {/* OUT */}
           <SwapBox position="out" isDex={isDex} />
         </div>
-        <button
-          className={`flex items-center justify-center w-full text-sm lg:text-[13px] md:text-xs font-medium 
-          border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue 
-          mt-[15px] text-light-font-100 dark:text-dark-font-100 ${
-            !!buttonLoading || DISABLED_STATUS.includes(buttonStatus)
-              ? "cursor-not-allowed"
-              : "cursor-pointer"
-          } ${isDex ? "h-[40px] md:h-[35px]" : "h-[35px] md:h-[30px]"} rounded`}
-          onClick={() => handleButtonClick()}
-          id={`trade-${buttonStatus.toLowerCase()}`}
-        >
-          {(buttonLoading || isFeesLoading) && (
-            <Spinner extraCss="w-[15px] h-[15px] mr-[15px]" />
-          )}{" "}
-          {buttonStatus}
-        </button>
         <div
           className={`flex ${
             isDex ? "items-start flex-col" : "items-center flex-row"
-          } mt-[15px]`}
+          } `}
         >
           <SmallFont
             extraCss={`
@@ -199,6 +185,24 @@ export const MainSwap = ({
             </div>
           </SmallFont>
         </div>
+        <button
+          className={`flex items-center justify-center w-full text-sm lg:text-[13px] md:text-xs font-medium 
+          border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue 
+           text-light-font-100 dark:text-dark-font-100 ${
+             !!buttonLoading || DISABLED_STATUS.includes(buttonStatus)
+               ? "cursor-not-allowed"
+               : "cursor-pointer"
+           } ${
+            isDex ? "h-[40px] md:h-[35px]" : "h-[35px] md:h-[30px]"
+          } rounded`}
+          onClick={() => handleButtonClick()}
+          id={`trade-${buttonStatus.toLowerCase()}`}
+        >
+          {(buttonLoading || isFeesLoading) && (
+            <Spinner extraCss="w-[15px] h-[15px] mr-[15px]" />
+          )}{" "}
+          {buttonStatus}
+        </button>
         {isWidget ? (
           <div className="flex items-center mt-[15px]">
             <img
@@ -219,6 +223,7 @@ export const MainSwap = ({
           </div>
         ) : null}
         <Settings visible={settingsVisible} setVisible={setSettingsVisible} />
+        <SwitchNetworkPopup />
       </div>
     </div>
   );
