@@ -2,7 +2,7 @@ import { cookies, headers } from "next/headers";
 import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
-export async function fetchNewAssets() {
+async function fetchNewAssets() {
   const settings = {
     liquidity: 0,
     volume: 0,

@@ -1,26 +1,25 @@
 import { unformatFilters } from "features/asset/utils";
 import { cookies } from "next/headers";
 import React, { ReactNode } from "react";
-import { BaseAssetProvider } from "../../../features/asset/context-manager";
-import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
-import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
-import { Asset } from "../../../interfaces/assets";
-import { ILaunchpad } from "../../../interfaces/launchpads";
-import { Trade } from "../../../interfaces/trades";
+import { BaseAssetProvider } from "../../features/asset/context-manager";
+import { ShowMoreProvider } from "../../features/asset/context-manager/navActive";
+import { NavActiveProvider } from "../../features/asset/context-manager/showMore";
+import { Asset } from "../../interfaces/assets";
+import { ILaunchpad } from "../../interfaces/launchpads";
+import { Trade } from "../../interfaces/trades";
 
-export interface AssetProps {
-  asset: Asset;
+type AssetProps = {
+  asset?: Asset;
   tradHistory?: Trade[];
-  launchpads: ILaunchpad[];
-  key: number;
-}
+  launchpads?: ILaunchpad[];
+  key?: number;
+};
 
 interface LayoutProps {
   children: ReactNode;
-  props: AssetProps;
+  params: AssetProps;
 }
-
-const AssetLayout: React.FC<LayoutProps> = ({ props, children }) => {
+export default function AssetLayout({ params, children }: LayoutProps) {
   const cookieStore = cookies();
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
   const pref = cookieStore.get("pref") || "";
@@ -29,10 +28,10 @@ const AssetLayout: React.FC<LayoutProps> = ({ props, children }) => {
 
   return (
     <BaseAssetProvider
-      token={props?.asset}
+      token={params?.asset || ({} as Asset)}
       pref={"Candlestick" as never}
-      tradHistory={props?.tradHistory || []}
-      launchpad={props?.launchpads}
+      tradHistory={params?.tradHistory || []}
+      launchpad={params?.launchpads}
       hideTxCookie={hideTxCookie}
       tradeCookie={tradeCookie}
     >
@@ -41,6 +40,4 @@ const AssetLayout: React.FC<LayoutProps> = ({ props, children }) => {
       </ShowMoreProvider>
     </BaseAssetProvider>
   );
-};
-
-export default AssetLayout;
+}

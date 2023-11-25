@@ -3,7 +3,7 @@ import React from "react";
 import Trendings from "../../features/data/trending";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
-export async function fetchTrendingsAssets() {
+async function fetchTrendingsAssets() {
   const supabase = createSupabaseDOClient();
   const cookieStore = cookies();
   const userAgent: string = headers().get("user-agent") || "";

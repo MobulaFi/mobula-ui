@@ -38,7 +38,7 @@ export const useVote = () => {
         // alert.success("Your vote has been successfully registered.");
         // eslint-disable-next-line no-promise-executor-return
         await new Promise((resolve) => setTimeout(resolve, 3000));
-        router.reload();
+        router.refresh();
       } else if (error) {
         console.error(error);
         // alert.error(

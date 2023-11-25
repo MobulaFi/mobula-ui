@@ -1,9 +1,9 @@
 import React from "react";
 import { Overview } from "../../../../features/dao/protocol/components/overview";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
-import Layout from "./layout";
+import Layout from "../../layout";
 
-export async function fetchOverviewData() {
+async function fetchOverviewData() {
   const supabase = createSupabaseDOClient();
   const q1 = supabase
     .from("history_dao")
@@ -54,7 +54,7 @@ export default async function OverviewPage() {
   const data = await fetchOverviewData();
   return (
     <Layout
-      props={{
+      params={{
         recentlyAdded: data?.recentlyAdded,
         daoMembers: data?.daoMembers,
         validated: data?.validated,

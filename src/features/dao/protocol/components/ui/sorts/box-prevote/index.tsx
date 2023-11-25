@@ -24,8 +24,9 @@ import { BoxContainer } from "../../../../../common/components/box-container";
 import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
+// @ts-ignore
+import styles from "../box-prevote/Prevote.module.css";
 import { CommunityPopup } from "../popup-community";
-import styles from "./Prevote.module.scss";
 
 interface BoxPreVoteProps {
   token: Asset;
@@ -92,10 +93,10 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       transport: http(blockchainsIdContent[137].rpcs[0]),
     });
 
-    const contract = getContract({
+    const contract: any = getContract({
       abi: PROTOCOL_ABI,
       address: PROTOCOL_ADDRESS as never,
-      publicClient: client,
+      publicClient: client as any,
     });
 
     const rawTokensPerVote = (await contract.read.tokensPerVote()) as bigint;
@@ -280,7 +281,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                   <BsChevronDown className="text-[15px] ml-[5px]" />
                 </button>
               }
-              hiddenContent={<CommunityPopup token={token} />}
+              hiddenContent={<CommunityPopup token={token as any} />}
               onToggle={() =>
                 setShowPopover((prev) => ({
                   ...prev,

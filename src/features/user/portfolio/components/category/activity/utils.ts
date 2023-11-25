@@ -7,7 +7,13 @@ import {
   http,
 } from "viem";
 import { erc20ABI } from "wagmi";
+import { MultichainAsset } from "../../../../../../interfaces/holdings";
+import { Coin } from "../../../../../../interfaces/swap";
+import { Results } from "../../../../../../layouts/swap/popup/select/model";
+import { createSupabaseDOClient } from "../../../../../../lib/supabase";
+import { idToWagmiChain } from "../../../../../../utils/chains";
 import { toNumber } from "../../../../../../utils/formaters";
+import { Asset } from "../../../../../asset/models";
 
 export const wordingFromMethodId = {
   "0xa140ae23": "Mint",
@@ -90,10 +96,10 @@ export const fetchContract = (search: string) => {
             transport: http(blockchain.rpcs[0]),
           });
 
-          const contract = getContract({
+          const contract: any = getContract({
             address: search as never,
             abi: erc20ABI,
-            publicClient,
+            publicClient: publicClient as any,
           });
 
           const symbol = await contract.read.symbol();
@@ -138,13 +144,13 @@ export const formatAsset = (
     logo: asset.logo || "/icon/unknown.png",
     address:
       asset.address ||
-      asset.contracts[asset.blockchain.indexOf(chainName)] ||
+      asset.contracts[asset?.blockchain?.indexOf(chainName) as any] ||
       asset.contracts[0],
     blockchain:
       (asset.blockchain as BlockchainName) ||
       chainName ||
-      (asset.blockchain[0] as BlockchainName),
-  };
+      (asset?.blockchain?.[0] as BlockchainName),
+  } as any;
 };
 
 export const getAmountOut = (
@@ -227,7 +233,7 @@ export const generateTxError = (
 
   return {
     title: "Transaction failed",
-    hint: `Error message: ${error.message.split("(")[0] || "Unknown error"}`,
+    hint: `Error message: ${error?.message?.split("(")[0] || "Unknown error"}`,
   };
 };
 

@@ -101,7 +101,7 @@ export type Asset = {
   social_score: number;
   decimals: number;
   blockchains: BlockchainName[];
-  contracts: string[];
+  contracts: string[] | any;
   trade_history: Trade[];
   created_at: string;
   symbol: string;

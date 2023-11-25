@@ -62,10 +62,10 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
       transport: http(blockchainsIdContent[137].rpcs[0]),
     });
 
-    const contract = getContract({
+    const contract: any = getContract({
       abi: API_ABI,
       address: API_ADDRESS as never,
-      publicClient: client,
+      publicClient: client as any,
     });
 
     contract.read
@@ -75,13 +75,13 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
       })
       .then((res) => {
         console.log(res, "res");
-        r(res);
+        r(res as any);
       });
   });
 
 export const getClosestSimilarToken = (data, setData, name, token) => {
   if (data.length > 0) {
-    const arr = [];
+    const arr: any = [];
     for (let i = 0; i < data.length; i += 1) {
       const distance = levenshtein(token[name], data[i][name]);
       arr.push({ distance, token: data[i] });

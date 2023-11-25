@@ -328,8 +328,8 @@ export const AddTransactionPopup = () => {
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
               type="number"
               lang="en"
-              value={getFormattedAmount(settings.price)}
-              placeholder={getFormattedAmount(settings.price)}
+              value={getFormattedAmount(settings.price as any)}
+              placeholder={getFormattedAmount(settings.price as any) as any}
               readOnly={activePrice !== "Custom Price"}
               onChange={(e) => {
                 setSettings((prev) => ({

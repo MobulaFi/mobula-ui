@@ -53,8 +53,8 @@ export const Assets = () => {
 
   useLiteStreamMarketDataModule(
     baseAsset,
-    marketMetrics as never,
-    setMarketMetrics as never,
+    marketMetrics as any,
+    setMarketMetrics as any,
     filters,
     setIsMarketMetricsLoading,
     shouldInstantLoad
@@ -75,7 +75,7 @@ export const Assets = () => {
         market_cap: baseAsset.market_cap,
         trade_history: (filters.length > 0
           ? []
-          : baseAsset?.trade_history) as never,
+          : baseAsset?.trade_history) as any,
       });
   }, [baseAsset]);
 
@@ -412,7 +412,7 @@ export const Assets = () => {
                 position: activeTab === "Essentials" ? "static" : "absolute",
               }}
             >
-              <Essentials marketMetrics={marketMetrics} />
+              <Essentials marketMetrics={marketMetrics as any} />
             </div>
           ) : null}
           {activeTab === "Market" ? (
