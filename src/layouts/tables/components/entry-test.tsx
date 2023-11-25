@@ -18,6 +18,7 @@ import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
 import { Button } from "../../../components/button";
 import { useIsInViewport } from "../../../hooks/viewport";
+import { PriceAlertPopup } from "../../../popup/price-alert";
 import { getUrlFromName } from "../../../utils/formaters";
 import { EntryContext, TableContext } from "../context-manager";
 import { useWatchlist } from "../hooks/watchlist";
@@ -463,13 +464,13 @@ export const Entry = ({
           </tr>
         </tbody>
       )}
-      {/* {show || (isMobile && showAlert === token?.name) ? (
+      {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}
           setShow={setShow}
           asset={token as Asset}
         />
-      ) : null} */}
+      ) : null}
     </EntryContext.Provider>
   );
 };

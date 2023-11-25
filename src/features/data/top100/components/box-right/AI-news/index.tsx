@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import React, { useEffect } from "react";
 import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
@@ -63,6 +64,8 @@ const formatNewsSummary = (news: INewsGeneral) => {
 
 export const AINews = ({ showPage }: AINewsProps) => {
   const { news, setNews } = useTop100();
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   useEffect(() => {
     if (news === undefined) {
@@ -100,11 +103,9 @@ export const AINews = ({ showPage }: AINewsProps) => {
         <div className="flex items-center">
           <img
             src={
-              // TODO ADD Dark Mode
-              // isDarkMode
-              // ? "/mobula/mobula-logo.svg"
-              // :"/mobula/mobula-light-logo.svg"
-              "/mobula/mobula-logo.svg"
+              isDarkMode
+                ? "/mobula/mobula-logo.svg"
+                : "/mobula/mobula-light-logo.svg"
             }
             className="mr-[7.5px] rounded-full w-[15px] h-[15px]"
             alt="Mobula AI logo"

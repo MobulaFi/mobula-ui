@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
@@ -449,8 +449,8 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             ))}
             <div className="mt-2.5 sticky right-0 pl-2.5 flex bg-light-bg-table dark:bg-dark-bg-table">
               <Button
-                isDisabled={!isConnected && activeView?.name !== "All"}
-                extraCss="w-[35px] h-[35px] p-0"
+                disabled={!isConnected && activeView?.name !== "All"}
+                extraCss="w-[32px] h-[32px] md:w-[28px] md:h-[28px] p-0"
                 onClick={() => {
                   if (isConnected) setTypePopup("create");
                   else setConnect(true);
@@ -471,7 +471,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
           <div className="flex w-fit ml-2.5 mt-2.5">
             {activeView?.name !== "Portfolio" ? (
               <Button
-                extraCss="px-3 sm:px-2"
+                extraCss="px-3 sm:px-2 whitespace-nowrap"
                 onClick={() => {
                   pushData("Edit View clicked");
                   if (isConnected) setTypePopup("edit");

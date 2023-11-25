@@ -1,4 +1,3 @@
-import React from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
 import { getFormattedAmount } from "../../../../utils/formaters";
@@ -53,12 +52,12 @@ export const VolumeSegment = ({
       >
         {isBalance ? (
           <div className="flex flex-col pr-0 sm:pr-2.5">
-            <SmallFont extraCsss="font-medium">{`${getFormattedAmount(
+            <SmallFont extraCss="font-medium">{`${getFormattedAmount(
               token.amount
             )} ${token.symbol.slice(0, 10)}${
               token.symbol.length > 10 ? "..." : ""
             }`}</SmallFont>
-            <SmallFont extraCsss="font-medium">{`${getFormattedAmount(
+            <SmallFont extraCss="font-medium">{`${getFormattedAmount(
               token.amount_usd
             )} USD`}</SmallFont>
           </div>
