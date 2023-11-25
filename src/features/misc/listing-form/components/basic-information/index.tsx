@@ -1,7 +1,7 @@
 import { Search2Icon } from "@chakra-ui/icons";
 import axios from "axios";
 import * as imageConversion from "image-conversion";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiUpload } from "react-icons/fi";
 import { Button } from "../../../../../components/button";

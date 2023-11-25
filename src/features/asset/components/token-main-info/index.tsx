@@ -1,5 +1,5 @@
 import { Tooltip } from "@chakra-ui/react";
-import { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { TbBellRinging } from "react-icons/tb";
 import { Button } from "../../../../components/button";
@@ -9,6 +9,7 @@ import { Popover } from "../../../../components/popover";
 import { Spinner } from "../../../../components/spinner";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
+import { useWatchlist } from "../../../../layouts/tables/hooks/watchlist";
 import { useColors } from "../../../../lib/chakra/colorMode";
 import {
   getClosest,
@@ -34,9 +35,7 @@ export const TokenMainInfo = () => {
     setShowSwap,
     showSwap,
   } = useContext(BaseAssetContext);
-  // const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
-  const handleAddWatchlist = () => {};
-  const inWatchlist = false;
+  const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const { marketMetrics } = useMarketMetrics(baseAsset);

@@ -367,7 +367,7 @@ export interface MarketMetrics {
   volume: number;
   market_cap: number;
   price: number;
-  priceChange: boolean;
+  priceChange: boolean | null;
   volumeChange: boolean | null;
-  trade_history: TradeHistory[];
+  trade_history: TradeHistory[] | null;
 }

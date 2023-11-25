@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { TradeHistory } from "../features/asset/models";
 import { Asset } from "../interfaces/assets";
 import { Trade } from "../interfaces/trades";
 import { createSupabaseDOClient } from "../lib/supabase";
@@ -32,7 +33,7 @@ export interface MarketMetricsNullable {
   volume: number | null;
   volumeChange: boolean | null;
   market_cap: number | null;
-  trade_history: Trade[];
+  trade_history: TradeHistory[];
 }
 export interface Query {
   action: string;

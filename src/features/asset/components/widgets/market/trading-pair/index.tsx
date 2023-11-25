@@ -166,7 +166,7 @@ export const TradingPairs = () => {
         </div>
       </div>
       <div className="max-h-[500px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
-        <table className="relative w-full" ref={containerRef}>
+        <table className="relative w-full" ref={containerRef as never}>
           <thead>
             <tr>
               {titles
@@ -212,7 +212,7 @@ export const TradingPairs = () => {
                 {((pairs?.length || 0) > 0
                   ? pairs?.sort((a, b) => b.liquidity - a.liquidity)
                   : Array.from({ length: 8 })
-                )?.map((pair: IPairs, i: number) => {
+                )?.map((pair: IPairs | any, i: number) => {
                   const geckoId =
                     blockchainsContent[pair?.blockchain]?.geckoterminalChain;
                   const geckoUrl = geckoId

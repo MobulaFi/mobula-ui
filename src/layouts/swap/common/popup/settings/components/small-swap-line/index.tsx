@@ -7,7 +7,7 @@ import { getRightPrecision } from "../../../../../../../utils/formaters";
 interface SmallSwapLineProps {
   position?: "in" | "out";
   setSelectVisible?: Dispatch<SetStateAction<string | boolean | undefined>>;
-  inputRef?: HTMLInputElement | null;
+  inputRef?: HTMLInputElement | any;
 }
 
 export const SmallSwapLine = ({

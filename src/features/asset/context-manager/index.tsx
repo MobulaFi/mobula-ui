@@ -23,7 +23,6 @@ interface BaseAssetProviderProps {
   token: Asset;
   children: React.ReactNode;
   pref: Pref;
-  cookies: any;
   tradHistory: Trade[];
   launchpad?: ILaunchpad[];
   hideTxCookie: string;
@@ -36,7 +35,6 @@ export const BaseAssetProvider = ({
   token,
   children,
   pref,
-  cookies,
   tradHistory,
   launchpad,
   hideTxCookie,

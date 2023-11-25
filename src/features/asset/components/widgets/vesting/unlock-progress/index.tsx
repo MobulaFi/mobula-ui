@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   LargeFont,
   SmallFont,
@@ -81,11 +81,12 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
     );
     const extractNames = [];
     fusionArr.forEach((entry) => {
-      if (!extractNames.includes(entry[0])) extractNames.push(entry[0]);
+      if (!extractNames.includes(entry?.[0] as never))
+        extractNames.push(entry?.[0] as never);
     });
     const colorsForRound = {};
     extractNames.forEach((entry, i) => {
-      colorsForRound[entry] = `bg-[${colors[i]}] dark:bg-[${colors[i]}]`;
+      colorsForRound?.[entry] = `bg-[${colors[i]}] dark:bg-[${colors[i]}]`;
     });
 
     return colorsForRound;
@@ -152,7 +153,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
               )} border-r
              border-light-border-primary dark:border-dark-border-primary relative 
              cursor-pointer`}
-              style={{ width: `${getPercentage(value, total)}%` }}
+              style={{ width: `${getPercentage(value as number, total)}%` }}
               key={key}
               onMouseEnter={() => setIsHovering(key)}
               onMouseLeave={() => setIsHovering("")}
@@ -180,7 +181,10 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
                       % Unlocked:
                     </SmallFont>
                     <SmallFont extraCss="font-medium">
-                      {getTokenPercentage(getPercentage(value, total))}%
+                      {getTokenPercentage(
+                        getPercentage(value as number, total)
+                      )}
+                      %
                     </SmallFont>
                   </div>
                   <div className="flex items-center mr-[15px] justify-between w-full">
@@ -188,7 +192,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
                       Amount Unlocked:
                     </SmallFont>
                     <SmallFont extraCss="font-medium">
-                      {getFormattedAmount(value)}
+                      {getFormattedAmount(value as number)}
                     </SmallFont>
                   </div>
                   <div className="flex items-center mr-[15px] justify-between w-full">
@@ -227,7 +231,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
               key={key}
               onMouseEnter={() => setIsHovering(key + value)}
               onMouseLeave={() => setIsHovering("")}
-              style={{ width: `${getPercentage(value, total)}%` }}
+              style={{ width: `${getPercentage(value as number, total)}%` }}
             >
               {isHovering === key + value ? (
                 <div
@@ -252,7 +256,10 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
                       % Locked:
                     </SmallFont>
                     <SmallFont extraCss="font-medium">
-                      {getTokenPercentage(getPercentage(value, total))}%
+                      {getTokenPercentage(
+                        getPercentage(value as number, total)
+                      )}
+                      %
                     </SmallFont>
                   </div>
                   <div className="flex items-center justify-between w-full mr-[15px]">
@@ -260,7 +267,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
                       Amount Locked:
                     </SmallFont>
                     <SmallFont extraCss="font-medium">
-                      {getFormattedAmount(value)}
+                      {getFormattedAmount(value as number)}
                     </SmallFont>
                   </div>
                   <div className="flex items-center justify-between w-full mr-[15px]">
