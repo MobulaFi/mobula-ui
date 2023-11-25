@@ -556,7 +556,7 @@ export const BaseAssetProvider = ({
   ]);
 
   return (
-    <BaseAssetContext.Provider value={value}>
+    <BaseAssetContext.Provider value={value as never}>
       {children}
     </BaseAssetContext.Provider>
   );
