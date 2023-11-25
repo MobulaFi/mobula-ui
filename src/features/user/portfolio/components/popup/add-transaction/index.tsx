@@ -9,6 +9,10 @@ import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import Calendar from "react-widgets/Calendar";
 import { useAccount } from "wagmi";
+import { LargeFont } from "../../../../../../components/fonts";
+import { Asset } from "../../../../../../interfaces/assets";
+import { HistoryData } from "../../../../../../interfaces/pages/asset";
+import { pushData } from "../../../../../../lib/mixpanel";
 import {
   Select,
   SelectContent,
@@ -16,11 +20,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../../../@/components/ui/select";
-import { LargeFont } from "../../../../../../components/fonts";
-import { Asset } from "../../../../../../interfaces/assets";
-import { HistoryData } from "../../../../../../interfaces/pages/asset";
-import { pushData } from "../../../../../../lib/mixpanel";
+} from "../../../../../../lib/shadcn/components/ui/select";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import {
@@ -328,8 +328,8 @@ export const AddTransactionPopup = () => {
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
               type="number"
               lang="en"
-              value={getFormattedAmount(settings.price)}
-              placeholder={getFormattedAmount(settings.price)}
+              value={getFormattedAmount(settings.price as any)}
+              placeholder={getFormattedAmount(settings.price as any) as any}
               readOnly={activePrice !== "Custom Price"}
               onChange={(e) => {
                 setSettings((prev) => ({

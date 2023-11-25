@@ -1,9 +1,14 @@
-import { Flex } from "@chakra-ui/react";
-import { getTokenPercentage } from "@utils/formaters";
-import { TagPercentage } from "components/tag-percentage";
+import { TagPercentage } from "../../../../components/tag-percentage";
+import { getTokenPercentage } from "../../../../utils/formaters";
+import { TableAsset } from "../../model";
 import { Segment } from "../segment";
 
-export const ChangeSegment = ({ token, display }) => {
+interface ChangeSegmentProps {
+  token: TableAsset;
+  display: string;
+}
+
+export const ChangeSegment = ({ token, display }: ChangeSegmentProps) => {
   const getChangeFromType = () => {
     switch (display) {
       case "1h %":
@@ -24,15 +29,16 @@ export const ChangeSegment = ({ token, display }) => {
         return 0;
     }
   };
+  const changeForType = getChangeFromType();
 
   return (
-    <Segment>
-      <Flex align="center" justify="flex-end" fontWeight="400" pr="5px">
+    <Segment extraCss="sm:px-[5px]">
+      <div className="flex items-center justify-end pr-[5px]">
         <TagPercentage
-          percentage={Number(getChangeFromType())}
-          isUp={Number(getChangeFromType()) > 0}
+          percentage={Number(changeForType)}
+          isUp={Number(changeForType) > 0}
         />
-      </Flex>
+      </div>
     </Segment>
   );
 };

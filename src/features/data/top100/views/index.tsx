@@ -378,12 +378,12 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             state={state}
             setTypePopup={setTypePopup}
           >
-            <Button extraCss="mr-2.5 my-2.5">
-              <SmallFont extraCss="mr-[7.5px] text-light-font-100 dark:text-dark-font-100 font-medium">
+            <Button extraCss="mb-2.5 mr-2.5">
+              <SmallFont extraCss="mr-[7.5px] text-light-font-100 dark:text-dark-font-100 font-medium whitespace-nowrap">
                 {formatName(key)}
               </SmallFont>
               |
-              <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60">
+              <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60  whitespace-nowrap">
                 {filterFromType(key, filter)}
               </SmallFont>
             </Button>
@@ -405,7 +405,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                   activeView?.name === content.name
                     ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
                     : ""
-                }`}
+                } whitespace-nowrap`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
                 onClick={() => {
                   setIsLoading(true);
@@ -449,8 +449,8 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             ))}
             <div className="mt-2.5 sticky right-0 pl-2.5 flex bg-light-bg-table dark:bg-dark-bg-table">
               <Button
-                isDisabled={!isConnected && activeView?.name !== "All"}
-                extraCss="w-[35px] h-[35px] p-0"
+                disabled={!isConnected && activeView?.name !== "All"}
+                extraCss="w-[32px] h-[32px] sm:w-[28px] sm:h-[28px] p-0"
                 onClick={() => {
                   if (isConnected) setTypePopup("create");
                   else setConnect(true);
@@ -471,7 +471,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
           <div className="flex w-fit ml-2.5 mt-2.5">
             {activeView?.name !== "Portfolio" ? (
               <Button
-                extraCss="px-3 sm:px-2"
+                extraCss="px-3 sm:px-2 whitespace-nowrap"
                 onClick={() => {
                   pushData("Edit View clicked");
                   if (isConnected) setTypePopup("edit");
@@ -486,12 +486,12 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
       </div>
       {activeView && activeView?.name !== "Portfolio" ? (
         <div className="max-w-[1300px] w-[90%] md:w-[95%] sm:w-[97%] mx-auto flex justify-between ">
-          <div className="flex w-fit items-center">
+          <div className="flex w-fit items-center flex-wrap pt-2.5">
             {callBackPopoverFilters()}
             {JSON.stringify(defaultTop100.filters) !==
               JSON.stringify(state.filters) && isConnected ? (
               <Button
-                extraCss="my-2.5 mr-2.5"
+                extraCss="mb-2.5 mr-2.5"
                 onClick={() => {
                   setActiveDisplay("filters");
                   setTypePopup("edit");

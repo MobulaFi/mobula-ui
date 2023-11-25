@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
 import { getDiscoverInfos } from "../../constants";
 import { AINews } from "./AI-news";
@@ -10,8 +11,8 @@ interface BoxRightProps {
 
 export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
   const [showPage, setShowPage] = useState(0);
-  // TODO: isDark is always true
-  const isDark = true;
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const render = [
     <AINews showPage={showPage} key="AiNews" />,

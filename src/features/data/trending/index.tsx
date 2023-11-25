@@ -56,7 +56,6 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
           />
           <div className="mt-2.5">
             <AssetsTable
-              title="Advanced Settings"
               resultsData={resultsData}
               setResultsData={setResultsData}
               filters={filters}

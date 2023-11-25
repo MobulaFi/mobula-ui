@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { TradeHistory } from "../features/asset/models";
 import { Asset } from "../interfaces/assets";
-import { Trade } from "../interfaces/trades";
+import { MarketMetrics } from "../interfaces/trades";
 import { createSupabaseDOClient } from "../lib/supabase";
 
 // const notV2Pairs = [
@@ -15,16 +16,6 @@ import { createSupabaseDOClient } from "../lib/supabase";
 //   sleep?: number;
 // }
 
-export interface MarketMetrics {
-  price: number;
-  priceChange: boolean | null;
-  liquidity: number;
-  volume: number;
-  volumeChange: boolean | null;
-  market_cap: number;
-  trade_history: Trade[];
-}
-
 export interface MarketMetricsNullable {
   price: number | null;
   priceChange: boolean | null;
@@ -32,7 +23,7 @@ export interface MarketMetricsNullable {
   volume: number | null;
   volumeChange: boolean | null;
   market_cap: number | null;
-  trade_history: Trade[];
+  trade_history: TradeHistory[];
 }
 export interface Query {
   action: string;
@@ -52,7 +43,7 @@ export const useLiteStreamMarketData = (
     volume: baseAsset.volume,
     volumeChange: null,
     market_cap: baseAsset.market_cap,
-    trade_history: baseAsset?.trade_history || [],
+    trade_history: (baseAsset?.trade_history as any) || [],
   });
 
   useEffect(() => {
@@ -118,8 +109,8 @@ export const useLiteStreamMarketData = (
 
 export const useLiteStreamMarketDataModule = (
   baseAsset: Asset,
-  marketMetrics: MarketMetricsNullable,
-  setMarketMetrics: Dispatch<SetStateAction<MarketMetricsNullable>>,
+  marketMetrics: MarketMetrics,
+  setMarketMetrics: Dispatch<SetStateAction<MarketMetrics>>,
   filters?: Query[] | null,
   setIsLoading?: Dispatch<SetStateAction<boolean>>,
   shouldInstantLoad?: boolean

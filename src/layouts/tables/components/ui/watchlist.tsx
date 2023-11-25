@@ -1,44 +1,48 @@
-import { Box, Flex, Icon, Spinner } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { Spinner } from "../../../../components/spinner";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import { useWatchlist } from "../../hooks/watchlist";
+
+interface WatchlistAdd {
+  addOrRemoveFromWatchlist: Function;
+  setAddedToWatchlist;
+}
 
 export const WatchlistAdd = ({
   addOrRemoveFromWatchlist,
   setAddedToWatchlist,
   addedToWatchlist,
   token,
+  noRank = false,
+  showMobile = false,
 }) => {
   const { isLoading } = useTop100();
-  const { boxBg3, text60, text80 } = useColors();
   const { inWatchlist } = useWatchlist(token.id);
+  const [isHover, setIsHover] = useState(false);
   return (
-    <Flex align="center" justify="center" display={["none", "none", "flex"]}>
+    <div
+      className={`flex items-center justify-center ${
+        showMobile ? "" : "md:hidden"
+      } `}
+    >
       {isLoading ? (
-        <Spinner
-          thickness="2px"
-          speed="0.65s"
-          emptyColor={boxBg3}
-          color="blue"
-          size="xs"
-        />
+        <Spinner extraCss="w-[15px] h-[15px]" />
       ) : (
         <>
-          {inWatchlist || addedToWatchlist ? (
-            <Icon
-              as={AiFillStar}
-              color="yellow"
+          {inWatchlist || addedToWatchlist || isHover ? (
+            <AiFillStar
+              className="text-yellow dark:text-yellow text-lg transition-all duration-250 ease-in-out"
+              onMouseLeave={() => setIsHover(false)}
               onClick={() => {
                 addOrRemoveFromWatchlist();
                 setAddedToWatchlist(!addedToWatchlist);
               }}
             />
           ) : (
-            <Icon
-              as={AiOutlineStar}
-              color={text60}
+            <AiOutlineStar
+              className="text-light-font-80 dark:text-dark-font-80 text-lg transition-all duration-250 ease-in-out"
+              onMouseEnter={() => setIsHover(true)}
               onClick={() => {
                 addOrRemoveFromWatchlist();
                 setAddedToWatchlist(!addedToWatchlist);
@@ -47,9 +51,11 @@ export const WatchlistAdd = ({
           )}
         </>
       )}
-      <Box marginLeft="5px" opacity="0.6" color={text80}>
-        {token.rank}
-      </Box>
-    </Flex>
+      {noRank ? null : (
+        <div className="ml-[5px] text-light-font-80 dark:text-dark-font-80 font-medium">
+          {token.rank}
+        </div>
+      )}
+    </div>
   );
 };

@@ -1,6 +1,6 @@
-import { MarketMetrics } from "features/asset/models";
 import { useTheme } from "next-themes";
 import React, { useContext, useEffect } from "react";
+import { MarketMetrics } from "../../../../../interfaces/trades";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import { BaseAssetContext } from "../../../context-manager";

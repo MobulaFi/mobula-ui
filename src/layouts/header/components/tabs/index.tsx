@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { BsChevronRight } from "react-icons/bs";
+import { NextChakraLink } from "../../../../components/link";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,9 +11,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "../../../../@/components/ui/navigation-menu";
-import { cn } from "../../../../@/lib/utils";
-import { NextChakraLink } from "../../../../components/link";
+} from "../../../../lib/shadcn/components/ui/navigation-menu";
+import { cn } from "../../../../lib/shadcn/lib/utils";
 import { navigation } from "../../constants";
 
 export function Tabs() {

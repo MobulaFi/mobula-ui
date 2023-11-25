@@ -1,13 +1,14 @@
 import { cookies } from "next/headers";
+import React from "react";
 import { Assets } from "../../../features/asset";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
 import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
-import { Layout } from "./layout";
+import AssetLayout from "../layout";
 
-export const fetchAssetData = async ({ params, searchParams }) => {
+async function fetchAssetData({ params, searchParams }) {
   const cookieStore = cookies();
   try {
     const cache: Asset = await memoryCache.get(`COIN_${params.asset}`);
@@ -16,7 +17,6 @@ export const fetchAssetData = async ({ params, searchParams }) => {
         asset: cache,
         key: cache.id,
         tradeHistory: cache.trade_history ?? [],
-        cookies: cookieStore ?? "",
       };
     }
 
@@ -64,7 +64,6 @@ export const fetchAssetData = async ({ params, searchParams }) => {
         asset: rightAsset,
         key: rightAsset.id,
         tradHistory: tradeHistory ?? [],
-        cookies: cookieStore ?? "",
         launchpads: launchpads ?? [],
       };
     }
@@ -73,7 +72,6 @@ export const fetchAssetData = async ({ params, searchParams }) => {
       error: true,
       holdings: [],
       tradeHistory: [],
-      cookies: cookieStore ?? "",
       launchpads: launchpads ?? [],
     };
   } catch (e) {
@@ -82,16 +80,13 @@ export const fetchAssetData = async ({ params, searchParams }) => {
       asset: "",
       error: true,
       tradeHistory: [],
-      cookies: cookieStore ?? "",
       launchpads: [],
     };
   }
-};
+}
 
-export const AssetPage = async ({ params, searchParams }) => {
+async function AssetPage({ params, searchParams }) {
   const data = await fetchAssetData({ params, searchParams });
-
-  const { asset, key, tradeHistory, cookies, launchpads } = data;
 
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
@@ -148,14 +143,12 @@ export const AssetPage = async ({ params, searchParams }) => {
   //     return null;
   //   }
 
-  console.log("data", data);
-
   return (
-    <Layout props={data as never}>
+    <AssetLayout params={data as never}>
       <Assets />
-    </Layout>
+    </AssetLayout>
   );
-};
+}
 
 // {/* <Head>
 //   <title>{title}</title>

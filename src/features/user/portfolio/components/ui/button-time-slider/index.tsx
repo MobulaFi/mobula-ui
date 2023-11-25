@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@chakra-ui/react";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { Button } from "../../../../../../components/button";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { PortfolioV2Context } from "../../../context-manager";
 
 interface ButtonTimeSliderProps {
@@ -38,7 +38,7 @@ export const ButtonTimeSlider = ({
       />
       {timeframes.map((time) => (
         <Button
-          className={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
+          extraCss={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
             timeframe === time
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"

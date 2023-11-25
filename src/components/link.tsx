@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "lib/shadcn/lib/utils";
 import NextLink from "next/link";
 import React from "react";
 

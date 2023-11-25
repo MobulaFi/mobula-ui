@@ -1,8 +1,7 @@
 "use client";
-import { Box, Icon, Spinner } from "@chakra-ui/react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { AiFillStar, AiOutlineStar, AiOutlineSwap } from "react-icons/ai";
+import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { TbBellRinging } from "react-icons/tb";
 import { NextImageFallback } from "../../../components/image";
@@ -14,12 +13,12 @@ import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { Asset } from "../../../interfaces/assets";
 import { IWatchlist } from "../../../interfaces/pages/watchlist";
-import { useColors } from "../../../lib/chakra/colorMode";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
 import { Button } from "../../../components/button";
 import { useIsInViewport } from "../../../hooks/viewport";
+import { PriceAlertPopup } from "../../../popup/price-alert";
 import { getUrlFromName } from "../../../utils/formaters";
 import { EntryContext, TableContext } from "../context-manager";
 import { useWatchlist } from "../hooks/watchlist";
@@ -32,6 +31,7 @@ import { MarketCapSegment } from "./segments/market_cap";
 import { PriceSegment } from "./segments/price";
 import { VolumeSegment } from "./segments/volume";
 import { TokenInfo } from "./ui/token";
+import { WatchlistAdd } from "./ui/watchlist";
 
 interface EntryProps {
   token: TableAsset;
@@ -58,19 +58,6 @@ export const Entry = ({
   const isBalance =
     Object.keys(token).includes("balance") &&
     (pathname === "/" || pathname === "/?page=" + page);
-
-  const {
-    text60,
-    borders,
-    boxBg3,
-    bgMain,
-    bgTable,
-    hover,
-    boxBg6,
-    bordersActive,
-    text80,
-    text40,
-  } = useColors();
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const isVisible = useIsInViewport(entryRef);
@@ -96,7 +83,6 @@ export const Entry = ({
   const { showBuyDrawer, setShowBuyDrawer } = useContext(SettingsMetricContext);
   const { activeView } = useTop100();
   const [show, setShow] = useState(false);
-
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
@@ -117,12 +103,11 @@ export const Entry = ({
   useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
   useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
   useEffect(() => updateMetricsChange("rank"), [token?.rank]);
-
   const url = `/asset/${getUrlFromName(token.name)}`;
 
   const lastComponent = {
     Chart: token.id ? (
-      <Box w="135px" h="45px">
+      <div className="w-[135px] h-[45px] min-w-[135px]">
         <NextImageFallback
           width={135}
           height={45}
@@ -135,27 +120,20 @@ export const Entry = ({
           priority={index < 4}
           unoptimized
         />
-      </Box>
+      </div>
     ) : (
       isBalance && (
-        <Button
-          ml={["0%", "0%", "30px"]}
-          color={text80}
-          borderRadius="8px"
-          w={["100%", "100%", "80%"]}
-          h="30px"
-          fontSize="xs"
-          border={borders}
-          fontWeight="400"
-          bg={boxBg6}
-          _hover={{ bg: hover, border: bordersActive }}
-          transition="all 250ms ease-in-out"
+        <button
+          className="ml-[30px] md:ml-0 w-[80%] md:w-full text-xs transition-all duration-250 ease-in-out border
+           border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary 
+           dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+           text-light-font-100 dark:text-dark-font-100 font-medium"
           onClick={() =>
             router.push(token.name !== "Mobula" ? "/list" : "/earn")
           }
         >
           {token.name !== "Mobula" ? "List this asset" : "Earn MOBL"}
-        </Button>
+        </button>
       )
     ),
     Added: getCountdown(Date.now() - new Date(token.created_at).getTime()),
@@ -306,7 +284,6 @@ export const Entry = ({
           return (
             <ChartSegment
               token={token}
-              display="Chart"
               key={`chart-${token.id}-${entry.value}`}
             />
           );
@@ -333,42 +310,12 @@ export const Entry = ({
               extraCss={`pl-2.5 pr-0 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[20px] lg:py-[5px] ${background}`}
               noLink
             >
-              <div className="flex items-center justify-center md:hidden">
-                {isLoading ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    emptyColor={boxBg3}
-                    color="blue"
-                    size="xs"
-                  />
-                ) : (
-                  <>
-                    {inWatchlist || addedToWatchlist ? (
-                      <Icon
-                        as={AiFillStar}
-                        color="yellow"
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    ) : (
-                      <Icon
-                        as={AiOutlineStar}
-                        color={text60}
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-                <div className="ml-[5px] opacity-60 text-light-font-100 dark:text-dark-font-100">
-                  {token.rank}
-                </div>
-              </div>
+              <WatchlistAdd
+                addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+                setAddedToWatchlist={setAddedToWatchlist}
+                addedToWatchlist={addedToWatchlist}
+                token={token}
+              />
               <div className="w-fit hidden md:block">
                 <Button
                   className="px-[5px] py-2"
@@ -377,16 +324,12 @@ export const Entry = ({
                     setShowMenuTableMobileForToken(token);
                   }}
                 >
-                  <Icon
-                    as={BsThreeDotsVertical}
-                    color={text40}
-                    fontSize="18px"
-                  />
+                  <BsThreeDotsVertical className="text-light-font-40 dark:text-dark-font-40 text-lg" />
                 </Button>
               </div>
             </Segment>
             <Segment
-              extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px] ${background}`}
+              extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px]  sm:px-[5px] ${background}`}
             >
               <TokenInfo
                 token={token as Asset}
@@ -426,61 +369,27 @@ export const Entry = ({
               extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[5px] ${background}`}
               noLink
             >
-              <div className="items-center justify-center flex md:hidden">
-                {isLoading ? (
-                  <Spinner
-                    thickness="2px"
-                    speed="0.65s"
-                    emptyColor={boxBg3}
-                    color="blue"
-                    size="xs"
-                  />
-                ) : (
-                  <>
-                    {inWatchlist || addedToWatchlist ? (
-                      <Icon
-                        as={AiFillStar}
-                        color="yellow"
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    ) : (
-                      <Icon
-                        as={AiOutlineStar}
-                        color={text60}
-                        onClick={() => {
-                          addOrRemoveFromWatchlist();
-                          setAddedToWatchlist(!addedToWatchlist);
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-                <div className="ml-[5px] opacity-60 text-light-font-100 dark:text-dark-font-100">
-                  {token.rank}
-                </div>
-              </div>
+              <WatchlistAdd
+                addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+                setAddedToWatchlist={setAddedToWatchlist}
+                addedToWatchlist={addedToWatchlist}
+                token={token}
+              />
               <div className="w-fit hidden md:block">
-                <Button
-                  extraCss="h-full px-[5px] py-2"
+                <button
+                  className="h-full px-[5px] py-2"
                   onClick={() => {
                     setShowMenuTableMobile(true);
                     setShowMenuTableMobileForToken(token);
                   }}
                 >
-                  <Icon
-                    as={BsThreeDotsVertical}
-                    color={text40}
-                    fontSize="18px"
-                  />
-                </Button>
+                  <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+                </button>
               </div>
             </Segment>
             <Segment
               // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-              extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[32px] z-[1] ${background}`}
+              extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[42px] z-[1] ${background} md:pl-0`}
             >
               <TokenInfo
                 token={token as Asset}
@@ -488,7 +397,7 @@ export const Entry = ({
                 index={index}
               />
             </Segment>
-            {activeView?.display?.length > 0 &&
+            {(activeView?.display?.length || 0) > 0 &&
             (pathname === "/" || pathname === "/?page=" + page) ? (
               renderSegments()
             ) : (
@@ -512,15 +421,14 @@ export const Entry = ({
                 {pathname === "/" ||
                 pathname === `/?page=${page}` ||
                 isBalance ? (
-                  <ChartSegment token={token} display="Chart" />
+                  <ChartSegment token={token} />
                 ) : null}
               </>
             )}
             {pathname !== "/" && pathname !== `/?page=${page}` ? (
               <Segment>{lastComponent[lastColumn]}</Segment>
             ) : null}
-
-            <Segment extraCss="table-cell" noLink>
+            <Segment extraCss="table-cell md:hidden" noLink>
               <div className="flex items-center justify-end">
                 <Button
                   extraCss="px-0 w-[28px] h-[28px] mr-[5px]"
@@ -533,7 +441,7 @@ export const Entry = ({
                     });
                   }}
                 >
-                  <Icon as={TbBellRinging} color={text60} fontSize="18px" />
+                  <TbBellRinging className="text-light-font-60 dark:text-dark-font-60 text-lg" />
                 </Button>
                 {token.contracts && token.contracts.length > 0 && (
                   <Button
@@ -547,12 +455,7 @@ export const Entry = ({
                       });
                     }}
                   >
-                    <Icon
-                      as={AiOutlineSwap}
-                      transform="rotate(90deg)"
-                      color={text60}
-                      fontSize="18px"
-                    />
+                    <AiOutlineSwap className="text-light-font-60 dark:text-dark-font-60 text-lg rotate-90" />
                   </Button>
                 )}
               </div>
@@ -560,13 +463,13 @@ export const Entry = ({
           </tr>
         </tbody>
       )}
-      {/* {show || (isMobile && showAlert === token?.name) ? (
+      {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}
           setShow={setShow}
           asset={token as Asset}
         />
-      ) : null} */}
+      ) : null}
     </EntryContext.Provider>
   );
 };
