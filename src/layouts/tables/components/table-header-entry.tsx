@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
 import { TableColumnHeaderProps } from "@chakra-ui/react";
+
+import { cn } from "lib/shadcn/lib/utils";
 import { useContext } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { useTop100 } from "../../../features/data/top100/context-manager";
@@ -11,6 +12,7 @@ interface TableHeaderEntryProps extends TableColumnHeaderProps {
   smaller?: string | null;
   canOrder?: boolean;
   extraCss?: string;
+  titleCssPosition?: string;
 }
 
 export const TableHeaderEntry = ({
@@ -18,6 +20,7 @@ export const TableHeaderEntry = ({
   smaller = null,
   canOrder = false,
   extraCss,
+  titleCssPosition = "justify-end",
 }: TableHeaderEntryProps) => {
   const { orderBy, setOrderBy } = useContext(TableContext);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
@@ -47,7 +50,9 @@ export const TableHeaderEntry = ({
   return (
     <th
       className={cn(
-        `border border-light-border-primary dark:border-dark-border-primary tracking-normal whitespace-nowrap font-medium text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 py-[17.5px] px-5 w-fit h-[30px] sticky ${
+        `border-t border-y border-light-border-primary dark:border-dark-border-primary tracking-normal 
+        whitespace-nowrap font-medium text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 
+        py-[17.5px] px-5 w-fit h-[30px] sticky ${
           shouldUseOrderBy() ? "cursor-pointer" : "cursor-default"
         } top-0 left-0 z-[101] text-end`,
         extraCss
@@ -73,17 +78,17 @@ export const TableHeaderEntry = ({
       }}
     >
       {!isLoading ? (
-        <>
+        <div className={cn("flex items-center", titleCssPosition)}>
           {smaller && isMobile ? smaller : title}
           {canOrder &&
             (titleToDBKey[title] === orderBy?.type ? (
               <FaArrowUp
-                className={`text-light-font-100 dark:text-dark-font-100 ml-[5px] transition-all duration-250 ease-in-out ${
+                className={`text-light-font-100 dark:text-dark-font-100 ml-[5px] text-xs transition-all duration-250 ease-in-out ${
                   !orderBy?.ascending ? "rotate-180" : "rotate-0"
                 }`}
               />
             ) : null)}{" "}
-        </>
+        </div>
       ) : null}
     </th>
   );

@@ -132,14 +132,10 @@ export const Top100 = ({
           cookieTop100={cookieTop100}
           setResultsData={setResultsData}
         />
-        <Container
-          // w={["100%", "95%", "90%", "90%"]}
-          extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden mb-20 "
-        >
+        <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden mb-20 lg:mt-0">
           <AssetsTable
             resultsData={resultsData}
             setResultsData={setResultsData}
-            bg={bgTable}
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             filters={filters}

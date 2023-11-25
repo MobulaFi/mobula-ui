@@ -1,34 +1,41 @@
-import {
-  Flex,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-
+import { useState } from "react";
+import { SmallFont } from "../../../../components/fonts";
+import { Popover } from "../../../../components/popover";
+import { TableAsset } from "../../../../interfaces/assets";
 import {
   formatAmount,
   getFormattedAmount,
   getTokenPercentage,
-} from "@utils/formaters";
-import { TextSmall } from "components/fonts";
-import { useColors } from "lib/chakra/colorMode";
+} from "../../../../utils/formaters";
 import { Segment } from "../segment";
 
-export const MarketCapSegment = ({ token, display, metricsChanges }) => {
-  const { text80, text10, text60, text20, borders, hover } = useColors();
-  const { onToggle, onClose, isOpen } = useDisclosure();
+interface MarketCapSegmentProps {
+  token: TableAsset;
+  display: string;
+  metricsChanges: {
+    market_cap: boolean | null;
+    price: boolean | null;
+    rank?: boolean | null;
+    volume: boolean | null;
+  };
+}
+
+export const MarketCapSegment = ({
+  token,
+  display,
+  metricsChanges,
+}: MarketCapSegmentProps) => {
+  const [isVisible, setIsVisible] = useState(false);
 
   const marketMoveColor = () => {
     if (display === "Market Cap") {
-      if (metricsChanges.market_cap === true) return "green";
-      if (metricsChanges.market_cap === false) return "red";
+      if (metricsChanges.market_cap === true)
+        return "text-green dark:text-green";
+      if (metricsChanges.market_cap === false) return "text-red dark:text-red";
     }
-    return text80;
+    return "text-light-font-100 dark:text-dark-font-100";
   };
+  const marketColor = marketMoveColor();
 
   const getMarketCapFromType = () => {
     if (display === "Market Cap" && token.market_cap)
@@ -41,9 +48,10 @@ export const MarketCapSegment = ({ token, display, metricsChanges }) => {
       return `$${getFormattedAmount(token.liquidity)}`;
     return "-";
   };
+  const marketCapFromType = getMarketCapFromType();
 
   const getPercentage = () => {
-    const parsedCirculating = parseFloat(token?.circulating_supply);
+    const parsedCirculating = parseFloat(token?.circulating_supply as never);
     const parsedMax = parseFloat(token?.max_supply);
     if (parsedCirculating && parsedMax) {
       const percentage = (parsedCirculating / parsedMax) * 100;
@@ -51,131 +59,99 @@ export const MarketCapSegment = ({ token, display, metricsChanges }) => {
     }
     return 0;
   };
+  const percentage = getPercentage();
 
   return (
-    <Segment>
+    <Segment extraCss="text-end">
       {display === "Circ. Supply" ? (
-        <Popover
-          isOpen={isOpen}
-          onClose={onClose}
-          placement="bottom"
-          closeOnBlur={false}
-        >
-          <PopoverTrigger>
-            <Flex
-              direction="column"
-              align="end"
-              w="100%"
-              h="100%"
-              onMouseEnter={() => {
-                if (token?.circulating_supply < token?.max_supply) onToggle();
-              }}
-              onMouseLeave={() => onClose()}
-            >
-              <TextSmall color={marketMoveColor()} mb="5px">
-                {`${getMarketCapFromType()} ${token?.symbol}`}
-              </TextSmall>
-              {(getPercentage() || 0) > 0 &&
-              token?.circulating_supply < token?.max_supply ? (
-                <Flex w="100%" bg={text10} h="6px" borderRadius="full">
-                  <Flex
-                    w={`${getPercentage()}%`}
-                    bg={text20}
-                    h="100%"
-                    borderRadius="full"
-                  />
-                </Flex>
-              ) : null}{" "}
-            </Flex>
-          </PopoverTrigger>
-          <PopoverContent
-            borderRadius="8px"
-            border={borders}
-            bg={hover}
-            w="fit-content"
-          >
-            <PopoverArrow bg={hover} />
-            <PopoverBody>
-              <Flex direction="column" align="center">
-                <Flex justify="space-between" align="center" w="100%">
-                  <Text
-                    color={text80}
-                    mb="5px"
-                    fontSize="13px"
-                    fontWeight="500"
-                    mr="10px"
-                  >
+        <div className="w-full items-center justify-end">
+          <Popover
+            extraCss="min-w-[200px] top-[40px] left-1/2 -translate-x-1/2"
+            visibleContent={
+              <div className="flex flex-col items-end h-full w-full">
+                <SmallFont extraCss={`${marketColor} mb-[5px] font-medium`}>
+                  {`${marketCapFromType} ${token?.symbol}`}
+                </SmallFont>
+                {(percentage || 0) > 0 &&
+                token?.circulating_supply < token?.max_supply ? (
+                  <div className="w-full flex bg-light-font-10 dark:bg-dark-font-10 h-1.5 rounded-full">
+                    <div
+                      className="bg-light-font-20 dark:bg-dark-font-20 h-full rounded-full"
+                      style={{
+                        width: `${percentage}%`,
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            }
+            hiddenContent={
+              <div className="flex flex-col items-center w-full">
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 text-start whitespace-nowrap font-medium  mr-5 mb-[5px]">
                     Circulating supply
-                  </Text>
-                  <Text color={text60} mb="5px" fontSize="13px">
+                  </p>
+                  <p className="text-[13px] text-light-font-60 dark:text-dark-font-60 mb-[5px] text-end whitespace-nowrap">
                     {`${formatAmount(token?.circulating_supply)} ${
                       token?.symbol
                     }`}
-                  </Text>
-                </Flex>
-                <Flex justify="space-between" align="center" w="100%">
-                  <Text
-                    color={text80}
-                    mb="5px"
-                    fontSize="13px"
-                    fontWeight="500"
-                    mr="10px"
-                  >
+                  </p>
+                </div>
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-[13px] text-start whitespace-nowrap text-light-font-100 dark:text-dark-font-100 font-medium mr-5 mb-[5px]">
                     Max supply
-                  </Text>
-                  <Text color={text60} mb="5px" fontSize="13px">
+                  </p>
+                  <p className="text-[13px] text-light-font-60 dark:text-dark-font-60 mb-[5px] text-end whitespace-nowrap">
                     {`${formatAmount(token?.max_supply)} ${token?.symbol}`}
-                  </Text>
-                </Flex>
+                  </p>
+                </div>
                 {token?.total_supply !== token?.max_supply ? (
-                  <Flex justify="space-between" align="center" w="100%">
-                    <Text
-                      color={text80}
-                      mb="5px"
-                      fontSize="13px"
-                      fontWeight="500"
-                      mr="10px"
-                    >
+                  <div className="flex justify-between items-center w-full">
+                    <p className="text-[13px] text-start whitespace-nowrap text-light-font-100 dark:text-dark-font-100 font-medium mr-5 mb-[5px]">
                       Total supply
-                    </Text>
-                    <Text color={text60} mb="5px" fontSize="13px">
+                    </p>
+                    <p className="text-[13px] text-light-font-60 dark:text-dark-font-60 mb-[5px] text-end whitespace-nowrap">
                       {`${formatAmount(token?.total_supply)} ${token?.symbol}`}
-                    </Text>
-                  </Flex>
+                    </p>
+                  </div>
                 ) : null}
-                <Flex h="1px" w="100%" bg={text10} my="5px" />
-                <Flex justify="space-between" align="center" w="100%">
-                  <Text
-                    color={text80}
-                    mb="5px"
-                    fontSize="13px"
-                    fontWeight="500"
-                  >
+                <div className="h-[1px] w-full bg-light-border-primary dark:bg-dark-border-primary my-[5px]" />
+                <div className="flex justify-between items-center w-full">
+                  <p className="text-[13px] text-start whitespace-nowrap text-light-font-100 dark:text-dark-font-100 font-medium  mb-[5px]">
                     Percentage
-                  </Text>
-                  <Text color={text60} mb="5px" fontSize="13px">
+                  </p>
+                  <p className="text-[13px] text-light-font-60 dark:text-dark-font-60 mb-[5px]">
                     {`${getTokenPercentage(
                       ((token?.circulating_supply || 0) * 100) /
                         (token?.max_supply || 0)
                     )}%`}
-                  </Text>
-                </Flex>
-                <Flex w="100%" bg={text10} h="6px" borderRadius="full">
-                  <Flex
-                    w={`${getPercentage()}%`}
-                    bg={text20}
-                    h="100%"
-                    borderRadius="full"
+                  </p>
+                </div>
+                <div className="h-1.5 w-full bg-light-border-primary dark:bg-dark-border-primary rounded-full">
+                  <div
+                    className="bg-light-font-20 dark:bg-dark-font-20 h-full rounded-full"
+                    style={{
+                      width: `${percentage}%`,
+                    }}
                   />
-                </Flex>
-              </Flex>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+                </div>
+              </div>
+            }
+            isOpen={isVisible && token?.circulating_supply < token?.max_supply}
+            onToggle={() => {
+              if (
+                token?.circulating_supply < token?.max_supply &&
+                isVisible === false
+              )
+                setIsVisible((prev) => !prev);
+              else setIsVisible((prev) => !prev);
+            }}
+          />
+        </div>
       ) : (
-        <TextSmall color={marketMoveColor()} fontWeight="500">
-          {getMarketCapFromType()}
-        </TextSmall>
+        <SmallFont extraCss={`${marketColor} font-medium`}>
+          {marketCapFromType}
+        </SmallFont>
       )}
     </Segment>
   );

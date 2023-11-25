@@ -1,6 +1,6 @@
 import React from "react";
-import { cn } from "../../../../../../@/lib/utils";
 import { LargeFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { inputStyle } from "../../../styles";
 
 export const SelectorTemplate = ({

@@ -3,8 +3,8 @@ import * as echarts from "echarts";
 import { useTheme } from "next-themes";
 import { useCallback, useContext, useEffect, useMemo } from "react";
 import { v4 as uuid } from "uuid";
-import { cn } from "../../../../../../@/lib/utils";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { colors, nonMatchingColors } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
 

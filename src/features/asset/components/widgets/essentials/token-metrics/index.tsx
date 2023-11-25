@@ -1,11 +1,11 @@
 import { Collapse, useMediaQuery } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
-import { cn } from "../../../../../../@/lib/utils";
 import { Button } from "../../../../../../components/button";
 import { SmallFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { formatAmount } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Metrics } from "../../../../models";

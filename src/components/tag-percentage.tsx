@@ -31,10 +31,11 @@ export const TagPercentage = ({
     <Skeleton extraCss="h-[23px] lg:h-[21.5px] md:h-[20px] w-[60px] rounded-lg ml-2.5" />
   ) : (
     <div
-      className={`${h || "h-[23px] lg:h-[21.5px] md:h-[20px]"} w-fit px-1.5 
-    rounded-lg ml-2.5 ${
-      isUp ? "text-green bg-darkgreen" : "text-red bg-darkred"
-    } ${fs || "text-sm lg:text-[13px] md:text-xs"} font-medium text-center`}
+      className={`flex items-center justify-center${
+        h || "h-[23px] lg:h-[21.5px] md:h-[20px]"
+      } w-fit px-1.5 rounded ml-2.5 ${
+        isUp ? "text-green bg-darkgreen" : "text-red bg-darkred"
+      } ${fs || "text-sm lg:text-[13px] md:text-xs"} font-medium text-center`}
     >
       {finalPercentage}
     </div>

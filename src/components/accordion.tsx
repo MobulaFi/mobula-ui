@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "lib/shadcn/lib/utils";
 import React, { useState } from "react";
 
 interface AccordionProps {

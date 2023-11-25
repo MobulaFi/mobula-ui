@@ -2,7 +2,7 @@
 import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { ILaunchpad } from "../../interfaces/launchpads";
-import { MarketMetrics, TradeFilter } from "../../interfaces/trades";
+import { TradeFilter } from "../../interfaces/trades";
 import { PublicTransaction } from "../../interfaces/transactions";
 import {
   ComparedEntity,
@@ -367,7 +367,7 @@ export interface MarketMetrics {
   volume: number;
   market_cap: number;
   price: number;
-  priceChange: boolean;
+  priceChange: boolean | null;
   volumeChange: boolean | null;
-  trade_history: TradeHistory[];
+  trade_history: TradeHistory[] | null;
 }

@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import React, { useContext } from "react";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { PortfolioV2Context } from "../../../context-manager";
 import { getPositionOfSwitcherButton } from "../../../utils";
 

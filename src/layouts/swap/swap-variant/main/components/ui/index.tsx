@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { cn } from "../../../../../../@/lib/utils";
+import { ReactNode } from "react";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 
 interface ContainerInOutProps {
   children: ReactNode;

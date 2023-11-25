@@ -349,7 +349,7 @@ export const TokenTrades = () => {
           {(isMyTrades
             ? userTrades?.filter((entry) => entry.amount > 0)
             : marketMetrics?.trade_history
-          )?.map((trade: Trade | UserTrade) => {
+          )?.map((trade: Trade | UserTrade | any) => {
             const isSell = trade.type === "sell";
             const date: number = isMyTrades
               ? (trade?.timestamp as number)

@@ -330,7 +330,7 @@ export function getShortenedAmount(
   if (Math.abs(number) > 100000 || (Math.abs(number) >= 1000 && strict)) {
     return formatBigAmount(number, precision);
   }
-  return getFormattedAmount(number, lessPrecision);
+  return getFormattedAmount(number, lessPrecision) as never;
 }
 
 export function fromUrlToName(name: string) {

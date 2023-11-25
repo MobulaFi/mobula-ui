@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
 import { MediumFont, SmallFont } from "components/fonts";
 import { NextChakraLink } from "components/link";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../../context-manager";
 import { FlexBorderBox } from "../../../../style";
 import { formatISODate } from "../../../../utils";

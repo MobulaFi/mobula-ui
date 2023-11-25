@@ -5,10 +5,10 @@ import {
   ResolutionString,
   Timezone,
 } from "../../../../../../../public/static/charting_library";
-import { cn } from "../../../../../../@/lib/utils";
 import { Spinner } from "../../../../../../components/spinner";
 import { MarketMetrics } from "../../../../../../interfaces/trades";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Asset, Bar, HistoryData } from "../../../../models";
 
