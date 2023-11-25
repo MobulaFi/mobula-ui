@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { CloseIcon } from "@chakra-ui/icons";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
