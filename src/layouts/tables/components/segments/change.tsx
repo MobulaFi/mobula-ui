@@ -1,4 +1,3 @@
-import React from "react";
 import { TagPercentage } from "../../../../components/tag-percentage";
 import { getTokenPercentage } from "../../../../utils/formaters";
 import { TableAsset } from "../../model";
@@ -33,7 +32,7 @@ export const ChangeSegment = ({ token, display }: ChangeSegmentProps) => {
   const changeForType = getChangeFromType();
 
   return (
-    <Segment>
+    <Segment extraCss="sm:px-[5px]">
       <div className="flex items-center justify-end pr-[5px]">
         <TagPercentage
           percentage={Number(changeForType)}

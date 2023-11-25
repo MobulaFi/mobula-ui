@@ -19,7 +19,7 @@ export const Segment = ({
   return (
     <td
       className={cn(
-        "font-medium text-sm md:text-[13px] py-[15px] min-h-[76px] text-end px-5 text-light-font-100 dark:text-dark-font-100",
+        "font-medium border-b border-light-border-primary dark:border-dark-border-primary text-sm md:text-[13px] py-[15px] min-h-[76px] text-end px-5 text-light-font-100 dark:text-dark-font-100",
         extraCss
       )}
     >

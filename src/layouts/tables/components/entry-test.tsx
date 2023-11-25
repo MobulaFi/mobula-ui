@@ -329,7 +329,7 @@ export const Entry = ({
               </div>
             </Segment>
             <Segment
-              extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px] ${background}`}
+              extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px]  sm:px-[5px] ${background}`}
             >
               <TokenInfo
                 token={token as Asset}

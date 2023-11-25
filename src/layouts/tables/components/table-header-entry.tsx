@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { TableColumnHeaderProps } from "@chakra-ui/react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { titleToDBKey } from "../constants";
@@ -82,7 +82,7 @@ export const TableHeaderEntry = ({
           {canOrder &&
             (titleToDBKey[title] === orderBy?.type ? (
               <FaArrowUp
-                className={`text-light-font-100 dark:text-dark-font-100 ml-[5px] transition-all duration-250 ease-in-out ${
+                className={`text-light-font-100 dark:text-dark-font-100 ml-[5px] text-xs transition-all duration-250 ease-in-out ${
                   !orderBy?.ascending ? "rotate-180" : "rotate-0"
                 }`}
               />

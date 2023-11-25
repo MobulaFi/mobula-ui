@@ -170,7 +170,7 @@ export function AssetsTable({
   return (
     <TableContext.Provider value={value}>
       <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px]">
-        <table className="scroll mb-[28px] max-w-[1300px] cursor-pointer my-0 mx-auto relative w-full md:w-auto overflow-x-scroll">
+        <table className="scroll mb-[28px] max-w-[1300px] cursor-pointer my-0 mx-auto relative w-full md:w-full overflow-x-scroll">
           <thead
             className="border-t border-light-border-primary dark:border-dark-border-primary text-light-font-80 dark:text-dark-font-80 sticky top-0 "
             ref={headerRef}
@@ -206,7 +206,7 @@ export function AssetsTable({
               />
               <TableHeaderEntry
                 title="Name"
-                extraCss={`text-start w-[170px] z-10 ${
+                extraCss={`text-start w-[170px] z-[100] ${
                   isTop100
                     ? "bg-light-bg-table dark:bg-dark-bg-table"
                     : "bg-light-bg-primary dark:bg-dark-bg-primary"
@@ -225,43 +225,54 @@ export function AssetsTable({
                       canOrder
                       extraCss={`${
                         entry.value === "24h Chart" ? "text-center" : "text-end"
-                      }`}
+                      } static`}
                     />
                   ))}
 
                   <TableHeaderEntry
-                    extraCss="w-[89px] table-cell md:hidden"
+                    extraCss="w-[89px] table-cell md:hidden static"
                     title="Interact"
                   />
                 </>
               ) : (
                 <>
                   <TableHeaderEntry
-                    extraCss="w-[140px] text-end"
+                    extraCss="w-[140px] text-end static"
                     title="Price"
                     canOrder
                   />
-                  <TableHeaderEntry title="24h (%)" canOrder />
-                  <TableHeaderEntry title="Market Cap" canOrder />
                   <TableHeaderEntry
-                    extraCss="w-[162.41px]"
+                    extraCss="static"
+                    title="24h (%)"
+                    canOrder
+                  />
+                  <TableHeaderEntry
+                    extraCss="static"
+                    title="Market Cap"
+                    canOrder
+                  />
+                  <TableHeaderEntry
+                    extraCss="w-[162.41px] static"
                     title={isBalance ? "Balance" : "Volume (24h)"}
                     canOrder
                   />
                   {pathname !== "/" && pathname !== `/?page=${page}` ? (
-                    <TableHeaderEntry extraCss="w-[175px]" title={lastColumn} />
+                    <TableHeaderEntry
+                      extraCss="w-[175px] static"
+                      title={lastColumn}
+                    />
                   ) : null}
                   {pathname === "/" ||
                   pathname === `/?page=${page}` ||
                   isBalance ? (
                     <TableHeaderEntry
-                      extraCss="w-[89px] table-cell md:hidden text-center"
+                      extraCss="w-[89px] table-cell md:hidden text-center static"
                       title="Chart 24h"
                     />
                   ) : null}
                   <TableHeaderEntry
                     title="Interact"
-                    extraCss="w-[89px] table-cell md:hidden"
+                    extraCss="w-[89px] table-cell md:hidden static"
                   />
                 </>
               )}
@@ -307,9 +318,8 @@ export function AssetsTable({
                       canOrder
                     />
                   ))}
-
                   <TableHeaderEntry
-                    extraCss="w-[89px] table-cell md:hidden"
+                    extraCss="w-[89px] table-cell md:hidden static"
                     title="Interact"
                   />
                 </>
@@ -317,7 +327,7 @@ export function AssetsTable({
                 <>
                   <TableHeaderEntry
                     title="Rank"
-                    className={`z-10 w-[86px] table-cell md:hidden ${
+                    extraCss={`z-10 w-[86px] table-cell md:hidden ${
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
@@ -335,15 +345,16 @@ export function AssetsTable({
                   />
                   <TableHeaderEntry
                     title="Name"
-                    className={`${
+                    extraCss={`${
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
                     } text-start w-[170px] z-10 left-[88px] md:left-[24px]`}
                     titleCssPosition="justify-start"
                   />
-                  <TableHeaderEntry title="Price" canOrder />
+                  <TableHeaderEntry extraCss="static" title="Price" canOrder />
                   <TableHeaderEntry
+                    extraCss="static"
                     title={
                       activeView?.name === "Portfolio" ? "Balance" : "24h %"
                     }
