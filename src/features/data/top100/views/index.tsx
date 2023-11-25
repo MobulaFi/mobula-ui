@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
-import {
+import React, {
   useCallback,
   useContext,
   useEffect,
@@ -405,7 +405,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
                   activeView?.name === content.name
                     ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
                     : ""
-                }`}
+                } whitespace-nowrap`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
                 onClick={() => {
                   setIsLoading(true);
@@ -450,7 +450,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             <div className="mt-2.5 sticky right-0 pl-2.5 flex bg-light-bg-table dark:bg-dark-bg-table">
               <Button
                 disabled={!isConnected && activeView?.name !== "All"}
-                extraCss="w-[32px] h-[32px] md:w-[28px] md:h-[28px] p-0"
+                extraCss="w-[32px] h-[32px] sm:w-[28px] sm:h-[28px] p-0"
                 onClick={() => {
                   if (isConnected) setTypePopup("create");
                   else setConnect(true);

@@ -120,13 +120,13 @@ export const BaseAssetProvider = ({
   tradeCookie?.forEach((filter) => {
     const value = filter.value?.[1];
 
-    if (filter.value[0] === "trade_history.type") {
+    if ((filter?.value?.[0] as never) === "trade_history.type") {
       tradeFromCookie = {
         ...tradeFromCookie,
         type: filter.value[1],
       };
     }
-    if (filter.value[0] === "trade_history.token_amount") {
+    if ((filter.value[0] as never) === "trade_history.token_amount") {
       const amounts = [0, 1_000_000_000_000];
       const toArr = returnName("", filter, amounts, value, "Any Amount");
       const min = toArr.split(" - ")[0];
@@ -136,7 +136,7 @@ export const BaseAssetProvider = ({
         token_amount: [Number(min), Number(max)],
       };
     }
-    if (filter.value[0] === "trade_history.value_usd") {
+    if ((filter.value[0] as never) === "trade_history.value_usd") {
       const amounts = [0, 1_000_000_000_000];
       const toArr = returnName("", filter, amounts, value, "Any Value");
       const min = toArr.split(" - ")[0];

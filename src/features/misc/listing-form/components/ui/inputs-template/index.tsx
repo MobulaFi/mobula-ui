@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { cn } from "../../../../../../@/lib/utils";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { inputStyle } from "../../../styles";
 
 const WEBSITE_MIN_LENGTH = 8;

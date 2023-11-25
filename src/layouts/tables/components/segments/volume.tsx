@@ -10,7 +10,7 @@ interface VolumeSegmentProps {
   metricsChanges: {
     market_cap: boolean | null;
     price: boolean | null;
-    rank: boolean | null;
+    rank?: boolean | null;
     volume: boolean | null;
   };
 }

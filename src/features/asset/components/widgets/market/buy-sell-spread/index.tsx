@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { cn } from "../../../../../../@/lib/utils";
 import {
   LargeFont,
   MediumFont,
   SmallFont,
 } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";

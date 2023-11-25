@@ -2,7 +2,7 @@
 import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { ILaunchpad } from "../../interfaces/launchpads";
-import { MarketMetrics, TradeFilter } from "../../interfaces/trades";
+import { TradeFilter } from "../../interfaces/trades";
 import { PublicTransaction } from "../../interfaces/transactions";
 import {
   ComparedEntity,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
 import { TableAsset } from "../../../../interfaces/assets";
@@ -15,7 +15,7 @@ interface MarketCapSegmentProps {
   metricsChanges: {
     market_cap: boolean | null;
     price: boolean | null;
-    rank: boolean | null;
+    rank?: boolean | null;
     volume: boolean | null;
   };
 }

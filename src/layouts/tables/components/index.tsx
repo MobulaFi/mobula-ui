@@ -1,6 +1,7 @@
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
+import { Ths } from "../../../components/table";
 import { PopupStateContext } from "../../../contexts/popup";
 import { SettingsMetricContext } from "../../../contexts/settings";
 import { DexDrawer } from "../../../drawer/dex";
@@ -169,169 +170,38 @@ export function AssetsTable({
   return (
     <TableContext.Provider value={value}>
       <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px] lg:mt-0">
-        <table className="scroll mb-[28px] max-w-[1300px] cursor-pointer my-0 mx-auto relative w-full md:w-full overflow-x-scroll">
+        <table className="scroll mb-[28px] max-w-[1300px] cursor-pointer my-0 mx-auto relative w-full overflow-x-scroll">
           <thead
             className="border-t border-light-border-primary dark:border-dark-border-primary text-light-font-80 dark:text-dark-font-80 sticky top-0 "
             ref={headerRef}
           >
-            <tr
-              className={`text-left sticky top-0 table-row ${
-                pathname === "/" || pathname === `/?page=${page}`
-                  ? "lg:hidden"
-                  : "lg:table-row"
-              } ${
-                pathname !== "/" && pathname !== `/?page=${page}`
-                  ? "md:table-row"
-                  : "md:hidden"
-              }`}
-            >
-              <TableHeaderEntry
-                title="Rank"
-                canOrder
-                extraCss={`${
-                  isTop100
-                    ? "bg-light-bg-table dark:bg-dark-bg-table"
-                    : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                } w-[86px] z-10 table-cell md:hidden`}
-                titleCssPosition="justify-start"
-              />
-              <TableHeaderEntry
-                title=""
-                extraCss={`z-10 hidden md:table-cell ${
-                  isTop100
-                    ? "bg-light-bg-table dark:bg-dark-bg-table"
-                    : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                }`}
-              />
-              <TableHeaderEntry
-                title="Name"
-                extraCss={`text-start w-[170px] z-[100] ${
-                  isTop100
-                    ? "bg-light-bg-table dark:bg-dark-bg-table"
-                    : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                } left-[73px] md:left-[24px]`}
-                titleCssPosition="justify-start"
-              />
-              {activeView?.display &&
-              (pathname === "/" || pathname === `/?page=${page}`) ? (
-                <>
-                  {activeView?.display?.map((entry) => (
-                    <TableHeaderEntry
-                      key={entry.value}
-                      title={
-                        entry.value === "Price USD" ? "Price" : entry.value
-                      }
-                      canOrder
-                      extraCss={`${
-                        entry.value === "24h Chart" ? "text-center" : "text-end"
-                      } static`}
-                    />
-                  ))}
-
-                  <TableHeaderEntry
-                    extraCss="w-[89px] table-cell md:hidden static"
-                    title="Interact"
-                  />
-                </>
-              ) : (
-                <>
-                  <TableHeaderEntry
-                    extraCss="w-[140px] text-end static"
-                    title="Price"
-                    canOrder
-                  />
-                  <TableHeaderEntry
-                    extraCss="static"
-                    title="24h (%)"
-                    canOrder
-                  />
-                  <TableHeaderEntry
-                    extraCss="static"
-                    title="Market Cap"
-                    canOrder
-                  />
-                  <TableHeaderEntry
-                    extraCss="w-[162.41px] static"
-                    title={isBalance ? "Balance" : "Volume (24h)"}
-                    canOrder
-                  />
-                  {pathname !== "/" && pathname !== `/?page=${page}` ? (
-                    <TableHeaderEntry
-                      extraCss="w-[175px] static"
-                      title={lastColumn}
-                    />
-                  ) : null}
-                  {pathname === "/" ||
-                  pathname === `/?page=${page}` ||
-                  isBalance ? (
-                    <TableHeaderEntry
-                      extraCss="w-[89px] table-cell md:hidden text-center static"
-                      title="Chart 24h"
-                    />
-                  ) : null}
-                  <TableHeaderEntry
-                    title="Interact"
-                    extraCss="w-[89px] table-cell md:hidden static"
-                  />
-                </>
-              )}
-            </tr>
-            <tr
-              className={`text-left sticky top-0 hidden ${
-                pathname === "/" || pathname === `/?page=${page}`
-                  ? "lg:table-row"
-                  : "lg:hidden"
-              } ${
-                pathname !== "/" && pathname !== `/?page=${page}`
-                  ? "md:hidden"
-                  : "md:table-row"
-              }`}
-            >
-              {!showMinimalMobile &&
-              (pathname === "/" || pathname === `/?page=${page}`) ? (
-                <>
-                  <TableHeaderEntry
-                    title=""
-                    extraCss={`z-10 hidden lg:table-cell ${
-                      isTop100
-                        ? "bg-light-bg-table dark:bg-dark-bg-table"
-                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } md:left-0`}
-                  />
-                  <TableHeaderEntry
-                    title="Name"
-                    extraCss={`z-10 w-[170px] text-start left-[88px] md:left-[42px] ${
-                      isTop100
-                        ? "bg-light-bg-table dark:bg-dark-bg-table"
-                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    }  md:pl-0`}
-                    titleCssPosition="justify-start"
-                  />
-                  {activeView?.display?.map((entry) => (
-                    <TableHeaderEntry
-                      extraCss="static"
-                      key={entry.value as Key}
-                      title={
-                        entry.value === "Price USD" ? "Price" : entry.value
-                      }
-                      canOrder
-                    />
-                  ))}
-                  <TableHeaderEntry
-                    extraCss="w-[89px] table-cell md:hidden static"
-                    title="Interact"
-                  />
-                </>
-              ) : (
-                <>
+            {isLoading ? (
+              <tr className="text-left table-row">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <Ths extraCss="px-5 md:px-2.5" children={undefined} />
+                ))}
+              </tr>
+            ) : (
+              <>
+                <tr
+                  className={`text-left sticky top-0 table-row ${
+                    pathname === "/" || pathname === `/?page=${page}`
+                      ? "lg:hidden"
+                      : "lg:table-row"
+                  } ${
+                    pathname !== "/" && pathname !== `/?page=${page}`
+                      ? "md:table-row"
+                      : "md:hidden"
+                  }`}
+                >
                   <TableHeaderEntry
                     title="Rank"
-                    extraCss={`z-10 w-[86px] table-cell md:hidden ${
+                    canOrder
+                    extraCss={`${
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    }`}
-                    canOrder
+                    } w-[86px] z-10 table-cell md:hidden`}
                     titleCssPosition="justify-start"
                   />
                   <TableHeaderEntry
@@ -344,24 +214,171 @@ export function AssetsTable({
                   />
                   <TableHeaderEntry
                     title="Name"
-                    extraCss={`${
+                    extraCss={`text-start w-[170px] z-[100] ${
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } text-start w-[170px] z-10 left-[88px] md:left-[24px]`}
+                    } left-[73px] md:left-[24px]`}
                     titleCssPosition="justify-start"
                   />
-                  <TableHeaderEntry extraCss="static" title="Price" canOrder />
-                  <TableHeaderEntry
-                    extraCss="static"
-                    title={
-                      activeView?.name === "Portfolio" ? "Balance" : "24h %"
-                    }
-                    canOrder
-                  />
-                </>
-              )}
-            </tr>
+                  {activeView?.display &&
+                  (pathname === "/" || pathname === `/?page=${page}`) ? (
+                    <>
+                      {activeView?.display?.map((entry) => (
+                        <TableHeaderEntry
+                          key={entry.value}
+                          title={
+                            entry.value === "Price USD" ? "Price" : entry.value
+                          }
+                          canOrder
+                          extraCss={`${
+                            entry.value === "24h Chart"
+                              ? "text-center"
+                              : "text-end"
+                          } static`}
+                        />
+                      ))}
+
+                      <TableHeaderEntry
+                        extraCss="w-[89px] table-cell md:hidden static"
+                        title="Interact"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <TableHeaderEntry
+                        extraCss="w-[140px] text-end static"
+                        title="Price"
+                        canOrder
+                      />
+                      <TableHeaderEntry
+                        extraCss="static"
+                        title="24h (%)"
+                        canOrder
+                      />
+                      <TableHeaderEntry
+                        extraCss="static"
+                        title="Market Cap"
+                        canOrder
+                      />
+                      <TableHeaderEntry
+                        extraCss="w-[162.41px] static"
+                        title={isBalance ? "Balance" : "Volume (24h)"}
+                        canOrder
+                      />
+                      {pathname !== "/" && pathname !== `/?page=${page}` ? (
+                        <TableHeaderEntry
+                          extraCss="w-[175px] static"
+                          title={lastColumn}
+                        />
+                      ) : null}
+                      {pathname === "/" ||
+                      pathname === `/?page=${page}` ||
+                      isBalance ? (
+                        <TableHeaderEntry
+                          extraCss="w-[89px] table-cell md:hidden text-center static"
+                          title="Chart 24h"
+                        />
+                      ) : null}
+                      <TableHeaderEntry
+                        title="Interact"
+                        extraCss="w-[89px] table-cell md:hidden static"
+                      />
+                    </>
+                  )}
+                </tr>
+                <tr
+                  className={`text-left sticky top-0 hidden ${
+                    pathname === "/" || pathname === `/?page=${page}`
+                      ? "lg:table-row"
+                      : "lg:hidden"
+                  } ${
+                    pathname !== "/" && pathname !== `/?page=${page}`
+                      ? "md:hidden"
+                      : "md:table-row"
+                  }`}
+                >
+                  {!showMinimalMobile &&
+                  (pathname === "/" || pathname === `/?page=${page}`) ? (
+                    <>
+                      <TableHeaderEntry
+                        title=""
+                        extraCss={`z-10 hidden lg:table-cell ${
+                          isTop100
+                            ? "bg-light-bg-table dark:bg-dark-bg-table"
+                            : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                        } md:left-0`}
+                      />
+                      <TableHeaderEntry
+                        title="Name"
+                        extraCss={`z-10 w-[170px] text-start left-[88px] md:left-[42px] ${
+                          isTop100
+                            ? "bg-light-bg-table dark:bg-dark-bg-table"
+                            : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                        }  md:pl-0`}
+                        titleCssPosition="justify-start"
+                      />
+                      {activeView?.display?.map((entry) => (
+                        <TableHeaderEntry
+                          extraCss="static"
+                          key={entry.value as Key}
+                          title={
+                            entry.value === "Price USD" ? "Price" : entry.value
+                          }
+                          canOrder
+                        />
+                      ))}
+                      <TableHeaderEntry
+                        extraCss="w-[89px] table-cell md:hidden static"
+                        title="Interact"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <TableHeaderEntry
+                        title="Rank"
+                        extraCss={`z-10 w-[86px] table-cell md:hidden ${
+                          isTop100
+                            ? "bg-light-bg-table dark:bg-dark-bg-table"
+                            : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                        }`}
+                        canOrder
+                        titleCssPosition="justify-start"
+                      />
+                      <TableHeaderEntry
+                        title=""
+                        extraCss={`z-10 hidden md:table-cell ${
+                          isTop100
+                            ? "bg-light-bg-table dark:bg-dark-bg-table"
+                            : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                        }`}
+                      />
+                      <TableHeaderEntry
+                        title="Name"
+                        extraCss={`${
+                          isTop100
+                            ? "bg-light-bg-table dark:bg-dark-bg-table"
+                            : "bg-light-bg-primary dark:bg-dark-bg-primary"
+                        } text-start w-[170px] z-10 left-[88px] md:left-[24px]`}
+                        titleCssPosition="justify-start"
+                      />
+                      <TableHeaderEntry
+                        extraCss="static"
+                        title="Price"
+                        canOrder
+                      />
+                      <TableHeaderEntry
+                        extraCss="static"
+                        title={
+                          activeView?.name === "Portfolio" ? "Balance" : "24h %"
+                        }
+                        canOrder
+                      />
+                    </>
+                  )}
+                </tr>
+              </>
+            )}
           </thead>
           {((automatedSkeletons && resultsData?.data?.length > 0) ||
             (!automatedSkeletons && !displaySkeletons)) &&

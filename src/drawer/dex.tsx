@@ -1,5 +1,6 @@
+import { Asset } from "interfaces/assets";
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Button } from "../components/button";
 import { Drawer } from "../components/drawer";
 import { LargeFont } from "../components/fonts";
@@ -14,7 +15,7 @@ export const DexDrawer = () => {
   const { showBuyDrawer, setShowBuyDrawer } = useContext(SettingsMetricContext);
   const { setShowCard } = useContext(PopupUpdateContext);
   const router = useRouter();
-  const token = {
+  const token: Asset | any = {
     ...showBuyDrawer,
     blockchain: showBuyDrawer?.blockchains?.[0],
     address:
@@ -37,7 +38,7 @@ export const DexDrawer = () => {
             <LargeFont>Buy or Sell {token ? token?.symbol : ""}</LargeFont>
           </>
         }
-        isOpen={showBuyDrawer}
+        isOpen={showBuyDrawer as never}
         onClose={() => setShowBuyDrawer(null)}
       >
         <SwapProvider tokenOutBuffer={token} lockToken={["out"]}>

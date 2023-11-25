@@ -3,9 +3,9 @@
 /* eslint-disable block-scoped-var */
 import React, { Dispatch, SetStateAction } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { cn } from "../../../../../@/lib/utils";
 import { Button } from "../../../../../components/button";
 import { Spinner } from "../../../../../components/spinner";
+import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { colors } from "../../constants";
 import { ComparedEntity } from "../../models";
 

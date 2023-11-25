@@ -315,7 +315,7 @@ export const ViewPopup = ({
               ?.filter((_, i) => i < 7)
               ?.map((item) => (
                 <img
-                  className="w-[20px] h-[20px] rounded-full ml-[-5px] bg-light-bg-hover dark:bg-dark-bg-hover"
+                  className="w-[20px] h-[20px] min-w-[20px] rounded-full ml-[-5px] bg-light-bg-hover dark:bg-dark-bg-hover"
                   key={item}
                   alt={blockchainsContent[item]?.name}
                   src={
@@ -333,7 +333,7 @@ export const ViewPopup = ({
       }
       if (filter.name === "categories") {
         return (
-          <SmallFont className="text-blue text-medium">
+          <SmallFont className="text-blue dark:text-blue font-medium">
             {state.filters[filter.name]?.length} categories
           </SmallFont>
         );
@@ -349,7 +349,7 @@ export const ViewPopup = ({
 
       if (to !== maxValue || from !== 0)
         return (
-          <SmallFont className="text-blue text-medium">
+          <SmallFont className="text-blue dark:text-blue font-medium">
             {getFormattedAmount(from)} - {valueMax}
           </SmallFont>
         );
@@ -537,7 +537,7 @@ export const ViewPopup = ({
               <MediumFont className="font-bold">Name</MediumFont>
               <div className="mt-2.5 flex">
                 <div
-                  className="flex items-center h-[35px] md:h-[30px]
+                  className="flex items-center h-[35px] 
                  bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-lg z-[2]
                   text-light-font-100 dark:text-dark-font-100 border
                    border-light-border-primary dark:border-dark-border-primary w-full"
@@ -606,7 +606,10 @@ export const ViewPopup = ({
                   />
                 </Button>
                 {type !== "create" ? (
-                  <Button extraCss="ml-2.5" onClick={() => removeView()}>
+                  <Button
+                    extraCss="ml-2.5 md:h-[35px]"
+                    onClick={() => removeView()}
+                  >
                     <BsTrash3 className="text-base text-light-font-100 dark:text-dark-font-100" />
                   </Button>
                 ) : null}
@@ -618,7 +621,7 @@ export const ViewPopup = ({
            mt-2.5 p-0.5 border border-light-border-primary dark:border-dark-border-primary"
           >
             <div
-              className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] md:h-[30px] w-1/2 ${
+              className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] w-1/2 ${
                 showTuto ? "z-[3]" : "z-[auto]"
               } rounded transition-all duration-250 `}
               style={{
@@ -631,7 +634,13 @@ export const ViewPopup = ({
             <button
               className={`w-1/2 font-medium ${
                 activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] sm:h-[30px] text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
+              } h-[35px] text-sm md:text-xs 
+              ${
+                activeDisplay === "display"
+                  ? "text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }
+              `}
               onClick={() => setActiveDisplay("display")}
             >
               Display
@@ -639,7 +648,7 @@ export const ViewPopup = ({
             <button
               className={`w-1/2 font-medium ${
                 activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] sm:h-[30px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
+              } h-[35px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
               onClick={() => setActiveDisplay("filters")}
             >
               Filters
@@ -737,10 +746,10 @@ export const ViewPopup = ({
                             >
                               <div className="flex items-center">
                                 <img
-                                  className="w-[22px] h-[22px] max-h-[22px] max-w-[22px] rounded-full mr-[7.5px]"
+                                  className="w-[22px] h-[22px] min-h-[22px] min-w-[22px] rounded-full mr-[7.5px]"
                                   src={
                                     blockchainsContent[chain]?.logo ||
-                                    "/icon/unknown.png"
+                                    "/empty/unknown.png"
                                   }
                                   alt={chain + " logo"}
                                 />
@@ -891,7 +900,7 @@ export const ViewPopup = ({
               Reset
             </Button>
             <Button
-              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-blue"
+              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
               onClick={createButtonHandler}
             >
               {isViewsLoading ? (

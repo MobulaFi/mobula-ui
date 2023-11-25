@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../../../../../components/button";
 import { BtcDominance } from "./btc-dominance";
 import { CryptoMarket } from "./crypto-market";
@@ -20,17 +20,7 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
 
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,
-    <CryptoMarket
-      showPage={showPage}
-      height={
-        typeof showPageMobile === "number"
-          ? "165px"
-          : tablet
-          ? "175px"
-          : "190px"
-      }
-      key="CryptoMarket"
-    />,
+    <CryptoMarket showPage={showPage} key="CryptoMarket" />,
     <BtcDominance
       showPage={showPage}
       height={

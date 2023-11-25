@@ -1,10 +1,10 @@
 import { Collapse } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { cn } from "../../../../../../@/lib/utils";
 import { Button } from "../../../../../../components/button";
 import { LargeFont } from "../../../../../../components/fonts";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
   getFormattedAmount,
   getTokenPercentage,

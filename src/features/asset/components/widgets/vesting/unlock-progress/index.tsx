@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { cn } from "../../../../../../@/lib/utils";
 import {
   LargeFont,
   SmallFont,
   TextSmall,
 } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
   getFormattedAmount,
   getTokenPercentage,

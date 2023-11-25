@@ -284,7 +284,6 @@ export const Entry = ({
           return (
             <ChartSegment
               token={token}
-              display="Chart"
               key={`chart-${token.id}-${entry.value}`}
             />
           );
@@ -422,7 +421,7 @@ export const Entry = ({
                 {pathname === "/" ||
                 pathname === `/?page=${page}` ||
                 isBalance ? (
-                  <ChartSegment token={token} display="Chart" />
+                  <ChartSegment token={token} />
                 ) : null}
               </>
             )}

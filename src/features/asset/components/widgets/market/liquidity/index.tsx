@@ -1,10 +1,16 @@
-import { cn } from "@/lib/utils";
 import * as echarts from "echarts";
 import { useTheme } from "next-themes";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { getTokenPercentage } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { getColorAndLogoFromName } from "../../../../utils";

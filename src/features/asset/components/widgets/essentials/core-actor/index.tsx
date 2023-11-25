@@ -2,8 +2,8 @@
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { cn } from "../../../../../../@/lib/utils";
 import { MediumFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../../context-manager";
 import { FlexBorderBox } from "../../../../style";
 import { ActorsBox } from "../../../ui/actors-box";

@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { TableCellProps } from "@chakra-ui/react";
+import { cn } from "lib/shadcn/lib/utils";
 import React, { useContext } from "react";
 import { NextChakraLink } from "../../../components/link";
 import { EntryContext } from "../context-manager";
