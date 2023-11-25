@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
 import { TableAsset } from "../../../../interfaces/assets";

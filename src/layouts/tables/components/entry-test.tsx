@@ -16,7 +16,6 @@ import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
-import React from "react";
 import { Button } from "../../../components/button";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { getUrlFromName } from "../../../utils/formaters";
@@ -83,7 +82,6 @@ export const Entry = ({
   const { showBuyDrawer, setShowBuyDrawer } = useContext(SettingsMetricContext);
   const { activeView } = useTop100();
   const [show, setShow] = useState(false);
-
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
@@ -378,20 +376,20 @@ export const Entry = ({
                 token={token}
               />
               <div className="w-fit hidden md:block">
-                <Button
-                  extraCss="h-full px-[5px] py-2"
+                <button
+                  className="h-full px-[5px] py-2"
                   onClick={() => {
                     setShowMenuTableMobile(true);
                     setShowMenuTableMobileForToken(token);
                   }}
                 >
-                  <BsThreeDotsVertical className="text-light-font-40 dark:text-dark-font-40 text-lg" />
-                </Button>
+                  <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+                </button>
               </div>
             </Segment>
             <Segment
               // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-              extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[32px] z-[1] ${background}`}
+              extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[42px] z-[1] ${background} md:pl-0`}
             >
               <TokenInfo
                 token={token as Asset}
@@ -430,7 +428,7 @@ export const Entry = ({
             {pathname !== "/" && pathname !== `/?page=${page}` ? (
               <Segment>{lastComponent[lastColumn]}</Segment>
             ) : null}
-            <Segment extraCss="table-cell" noLink>
+            <Segment extraCss="table-cell md:hidden" noLink>
               <div className="flex items-center justify-end">
                 <Button
                   extraCss="px-0 w-[28px] h-[28px] mr-[5px]"

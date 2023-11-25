@@ -194,6 +194,7 @@ export function AssetsTable({
                     ? "bg-light-bg-table dark:bg-dark-bg-table"
                     : "bg-light-bg-primary dark:bg-dark-bg-primary"
                 } w-[86px] z-10 table-cell md:hidden`}
+                titleCssPosition="justify-start"
               />
               <TableHeaderEntry
                 title=""
@@ -210,6 +211,7 @@ export function AssetsTable({
                     ? "bg-light-bg-table dark:bg-dark-bg-table"
                     : "bg-light-bg-primary dark:bg-dark-bg-primary"
                 } left-[73px] md:left-[24px]`}
+                titleCssPosition="justify-start"
               />
               {activeView?.display &&
               (pathname === "/" || pathname === `/?page=${page}`) ? (
@@ -284,18 +286,20 @@ export function AssetsTable({
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    }`}
+                    } md:left-0`}
                   />
                   <TableHeaderEntry
                     title="Name"
-                    extraCss={`z-10 w-[170px] text-start left-[88px] md:left-[24px] ${
+                    extraCss={`z-10 w-[170px] text-start left-[88px] md:left-[42px] ${
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    }`}
+                    }  md:pl-0`}
+                    titleCssPosition="justify-start"
                   />
                   {activeView?.display?.map((entry) => (
                     <TableHeaderEntry
+                      extraCss="static"
                       key={entry.value as Key}
                       title={
                         entry.value === "Price USD" ? "Price" : entry.value
@@ -305,7 +309,7 @@ export function AssetsTable({
                   ))}
 
                   <TableHeaderEntry
-                    className="w-[89px] table-cell md:hidden"
+                    extraCss="w-[89px] table-cell md:hidden"
                     title="Interact"
                   />
                 </>
@@ -319,6 +323,7 @@ export function AssetsTable({
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
                     }`}
                     canOrder
+                    titleCssPosition="justify-start"
                   />
                   <TableHeaderEntry
                     title=""
@@ -335,6 +340,7 @@ export function AssetsTable({
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
                     } text-start w-[170px] z-10 left-[88px] md:left-[24px]`}
+                    titleCssPosition="justify-start"
                   />
                   <TableHeaderEntry title="Price" canOrder />
                   <TableHeaderEntry

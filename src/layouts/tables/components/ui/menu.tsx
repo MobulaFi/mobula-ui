@@ -12,9 +12,7 @@ import {
 import { SettingsMetricContext } from "../../../../contexts/settings";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../lib/mixpanel";
-import { Asset, Coin } from "../../../swap/model";
 import { useWatchlist } from "../../hooks/watchlist";
 import { WatchlistAdd } from "./watchlist";
 
@@ -29,7 +27,6 @@ export const MenuCommun = () => {
     setShowMenuTableMobile,
     setShowAlert,
   } = useContext(PopupUpdateContext);
-  const { borders, boxBg3, text60, borders2x, hover, text80 } = useColors();
   const { setShowBuyDrawer } = useContext(SettingsMetricContext);
   const watchlist = user?.main_watchlist as IWatchlist;
   const router = useRouter();
@@ -39,7 +36,6 @@ export const MenuCommun = () => {
     useContext(WatchlistContext);
   const lineStyle =
     "p-[15px] cursor-pointer flex items-center font-medium border-b border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 ease-in-out";
-
   const isDarkMode = theme === "dark";
   const { inWatchlist, handleAddWatchlist } = useWatchlist(
     showMenuTableMobileForToken.id
@@ -96,7 +92,10 @@ export const MenuCommun = () => {
           setShowMenuTableMobile(false);
         }}
       >
-        <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] h-[30px] items-center justify-center flex">
+        <div
+          className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] 
+        h-[30px] items-center justify-center flex"
+        >
           <WatchlistAdd
             addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
             setAddedToWatchlist={setAddedToWatchlist}
@@ -113,12 +112,15 @@ export const MenuCommun = () => {
           <div
             className={lineStyle}
             onClick={() => {
-              setShowBuyDrawer(showMenuTableMobileForToken as Coin | Asset);
+              setShowBuyDrawer(showMenuTableMobileForToken as never);
               setShowMenuTableMobileForToken(null);
               setShowMenuTableMobile(false);
             }}
           >
-            <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] h-[30px] items-center justify-center flex">
+            <div
+              className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] 
+            h-[30px] items-center justify-center flex"
+            >
               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-md" />
             </div>
             {`Buy  & Sell ${showMenuTableMobileForToken.symbol}`}
@@ -137,7 +139,10 @@ export const MenuCommun = () => {
           setShowMenuTableMobile(false);
         }}
       >
-        <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] h-[30px] items-center justify-center flex">
+        <div
+          className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px]
+         h-[30px] items-center justify-center flex"
+        >
           <TbBellRinging className="text-light-font-100 dark:text-dark-font-100 text-lg" />
         </div>
         Set a Price Alert
