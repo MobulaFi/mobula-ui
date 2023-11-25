@@ -46,6 +46,7 @@
     "react-sortablejs": "^6.1.4",
     "react-swipeable": "^7.0.1",
     "react-widgets": "^5.8.4",
+    "sass": "^1.69.5",
     "sortablejs": "^1.15.0",
     "swiper": "^10.3.1",
     "tailwind-merge": "^2.0.0",
