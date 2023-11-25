@@ -74,7 +74,7 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
           <div class="flex items-center justify-between text-light-font-100 dark:text-dark-font-100 font-medium">
             <div class="flex items-center mr-2.5 w-full">
               <div class="h-[10px] w-[10px] min-w-[10px] rounded-full mr-2.5 ${
-                getFormattedAmount(value) > 0
+                (getFormattedAmount(value) as any) > 0
                   ? "bg-green dark:bg-green"
                   : "bg-red dark:bg-red"
               }" />

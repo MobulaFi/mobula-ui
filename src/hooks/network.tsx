@@ -54,18 +54,18 @@ export const useSafeSwitchNetwork = () => {
         if (e.message?.includes("not configured")) {
           let added = false;
           // Tries to add the network to the wallet
-          if (typeof window.ethereum !== "undefined") {
+          if (typeof (window as any)?.ethereum !== "undefined") {
             try {
               const client = createWalletClient({
                 chain: mainnet,
-                transport: custom(window.ethereum as any),
+                transport: custom((window as any).ethereum as any),
               });
               const wishedBlockchain = Object.values(idToWagmiChain).find(
                 (entry) => entry.id === blockchainsContent[blockchain].chainId
               );
 
               client.addChain({
-                chain: wishedBlockchain,
+                chain: wishedBlockchain as any,
               });
               added = true;
             } catch (error) {

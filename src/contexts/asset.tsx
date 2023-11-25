@@ -39,8 +39,9 @@ export const BaseAssetProvider = ({
 }) => {
   const newCookies = cookies ?? {};
   const [transactions, setTransactions] = useState([]);
-  const hideTxCookie = newCookies.hideTx || "false";
-  const tradeCookie = unformatFilters(newCookies["trade-filters"] || "") || [];
+  const hideTxCookie = newCookies.get("hideTx") || "false";
+  const tradeCookie =
+    unformatFilters(newCookies.get("trade-filters") || "") || [];
   const [baseAsset, setBaseAsset] = useState<Asset>(token);
   const [historyData, setHistoryData] = useState<HistoryData | null>(null);
   const [formattedHistoricalData, setFormattedHistoricalData] =

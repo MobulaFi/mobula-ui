@@ -21,16 +21,16 @@ export const useInitValues = () => {
         transport: http(blockchainsIdContent[137].rpcs[0]),
       });
 
-      const contract = getContract({
+      const contract: any = getContract({
         abi: PROTOCOL_ABI,
         address: PROTOCOL_ADDRESS as never,
-        publicClient: client,
+        publicClient: client as any,
       });
 
-      const vaultContract = getContract({
+      const vaultContract: any = getContract({
         abi: VAULT_ABI,
         address: VAULT_ADDRESS as never,
-        publicClient: client,
+        publicClient: client as any,
       });
 
       const [
@@ -40,8 +40,8 @@ export const useInitValues = () => {
         totalClaimRead,
         lastClaimRead,
       ] = await Promise.all([
-        contract.read.tokensPerVote(),
-        contract.read.owedRewards([address]),
+        contract?.read?.tokensPerVote(),
+        contract?.read.owedRewards([address]),
         contract.read.paidRewards([address]),
         vaultContract.read.totalClaim([address]),
         vaultContract.read.lastClaim([address]),

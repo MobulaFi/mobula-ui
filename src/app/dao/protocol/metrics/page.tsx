@@ -74,7 +74,7 @@ export interface MemberType {
   users: UsersType;
 }
 
-export async function fetchProtocolMetrics() {
+async function fetchProtocolMetrics() {
   const supabase = createSupabaseDOClient();
   const { data: total_proposals } = await supabase
     .from("history_dao")

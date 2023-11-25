@@ -48,11 +48,11 @@ export const PendingPool = () => {
       if (displayedPool) {
         return tokenDivs
           .filter((entry) => entry.name === displayedPool)
-          .map((token) => renderToken(token));
+          .map((token) => renderToken(token as any));
       }
       return tokenDivs
         .sort((a, b) => Number(b.coeff) - Number(a.coeff))
-        .map((token) => <BoxPreVote key={token.id} token={token} />);
+        .map((token) => <BoxPreVote key={token.id} token={token as any} />);
     }
     return (
       <BoxPreVote

@@ -38,10 +38,10 @@ export const useSort = () => {
       transport: http("https://polygon-rpc.com"),
     });
 
-    const protocolContract = getContract({
+    const protocolContract: any = getContract({
       address: PROTOCOL_ADDRESS,
       abi: listingAbi,
-      publicClient: client,
+      publicClient: client as any,
     });
 
     const getNumberFromSort = () => {
@@ -53,7 +53,7 @@ export const useSort = () => {
     protocolContract.read
       .getTokenListings()
       // .catch(() => [])
-      .then(async (listings: IListingData[]) => {
+      .then(async (listings: IListingData[] | any) => {
         let fails = 0;
         console.log(listings);
         listings.forEach(async (listing: IListingData, index) => {

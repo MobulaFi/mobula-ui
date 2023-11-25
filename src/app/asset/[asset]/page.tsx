@@ -6,9 +6,9 @@ import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
 import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
-import AssetLayout from "./layout";
+import AssetLayout from "../layout";
 
-export const fetchAssetData = async ({ params, searchParams }) => {
+async function fetchAssetData({ params, searchParams }) {
   const cookieStore = cookies();
   try {
     const cache: Asset = await memoryCache.get(`COIN_${params.asset}`);
@@ -83,12 +83,10 @@ export const fetchAssetData = async ({ params, searchParams }) => {
       launchpads: [],
     };
   }
-};
+}
 
-export const AssetPage = async ({ params, searchParams }) => {
+async function AssetPage({ params, searchParams }) {
   const data = await fetchAssetData({ params, searchParams });
-
-  const { asset, key, tradeHistory, launchpads } = data;
 
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
@@ -146,11 +144,11 @@ export const AssetPage = async ({ params, searchParams }) => {
   //   }
 
   return (
-    <AssetLayout props={data as never}>
+    <AssetLayout params={data as never}>
       <Assets />
     </AssetLayout>
   );
-};
+}
 
 // {/* <Head>
 //   <title>{title}</title>

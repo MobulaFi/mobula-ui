@@ -65,8 +65,8 @@ export interface IBasetAssetContext {
   showTradeFilters: boolean;
   filters: IFilter[];
   setFilters: Dispatch<SetStateAction<IFilter[]>>;
-  marketMetrics: MarketMetrics | null;
-  setMarketMetrics: Dispatch<SetStateAction<MarketMetrics | null>>;
+  marketMetrics: MarketMetrics;
+  setMarketMetrics: Dispatch<SetStateAction<MarketMetrics>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsMarketMetricsLoading: Dispatch<SetStateAction<boolean>>;

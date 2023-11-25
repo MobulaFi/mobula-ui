@@ -58,7 +58,13 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
             if (isAbleToSubmit) {
               if (hasVoted || !token.isListing) {
                 const { utilityScore, socialScore, trustScore } = vote;
-                voteToken(token, 0, utilityScore, socialScore, trustScore);
+                voteToken(
+                  token as any,
+                  0,
+                  utilityScore,
+                  socialScore,
+                  trustScore
+                );
               }
               // else {
               //   alert.error(
@@ -82,7 +88,7 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
           onClick={() => {
             if (isAbleToSubmit) {
               const { utilityScore, socialScore, trustScore } = vote;
-              voteToken(token, 1, utilityScore, socialScore, trustScore);
+              voteToken(token as any, 1, utilityScore, socialScore, trustScore);
             }
           }}
         >
