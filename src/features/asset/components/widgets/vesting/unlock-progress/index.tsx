@@ -86,7 +86,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
     });
     const colorsForRound = {};
     extractNames.forEach((entry, i) => {
-      colorsForRound?.[entry] = `bg-[${colors[i]}] dark:bg-[${colors[i]}]`;
+      colorsForRound[entry] = `bg-[${colors[i]}] dark:bg-[${colors[i]}]`;
     });
 
     return colorsForRound;
