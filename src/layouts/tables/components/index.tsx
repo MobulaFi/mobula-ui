@@ -2,15 +2,13 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { PopupStateContext } from "../../../contexts/popup";
-import { defaultTop100 } from "../../../features/data/top100/constants";
-import { useTop100 } from "../../../features/data/top100/context-manager";
-import { Query } from "../../../interfaces/pages/top100";
-import { useColors } from "../../../lib/chakra/colorMode";
-import { createSupabaseDOClient } from "../../../lib/supabase";
-// import { DrawerDex } from "../../../components/drawer/dex";
 import { SettingsMetricContext } from "../../../contexts/settings";
 import { DexDrawer } from "../../../drawer/dex";
+import { defaultTop100 } from "../../../features/data/top100/constants";
+import { useTop100 } from "../../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
+import { Query } from "../../../interfaces/pages/top100";
+import { createSupabaseDOClient } from "../../../lib/supabase";
 import { TableContext } from "../context-manager";
 import { OrderBy, TableAsset } from "../model";
 import { Entry } from "./entry-test";
@@ -51,7 +49,6 @@ export function AssetsTable({
   showRank = false,
   ...props
 }: AssetsTable) {
-  const { text60, borders, bgMain, bgTable } = useColors();
   const headerRef = useRef(null);
   const router = useRouter();
   const { showBuyDrawer } = useContext(SettingsMetricContext);
@@ -100,13 +97,15 @@ export function AssetsTable({
   const value = useMemo(
     () => ({
       lastColumn,
-      bg: isTop100 ? bgTable : bgMain,
+      bg: isTop100
+        ? "bg-light-bg-table dark:bg-dark-bg-table"
+        : "bg-light-bg-primary dark:bg-dark-bg-primary",
       orderBy,
       setOrderBy,
       isBalance,
       hideDEXVolume,
     }),
-    [lastColumn, isBalance, props.bg, orderBy, hideDEXVolume]
+    [lastColumn, isBalance, orderBy, hideDEXVolume]
   );
 
   const fetchData = async () => {
@@ -169,7 +168,7 @@ export function AssetsTable({
 
   return (
     <TableContext.Provider value={value}>
-      <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px]">
+      <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px] lg:mt-0">
         <table className="scroll mb-[28px] max-w-[1300px] cursor-pointer my-0 mx-auto relative w-full md:w-full overflow-x-scroll">
           <thead
             className="border-t border-light-border-primary dark:border-dark-border-primary text-light-font-80 dark:text-dark-font-80 sticky top-0 "

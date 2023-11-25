@@ -378,12 +378,12 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             state={state}
             setTypePopup={setTypePopup}
           >
-            <Button extraCss="mr-2.5 my-2.5">
-              <SmallFont extraCss="mr-[7.5px] text-light-font-100 dark:text-dark-font-100 font-medium">
+            <Button extraCss="mb-2.5 mr-2.5">
+              <SmallFont extraCss="mr-[7.5px] text-light-font-100 dark:text-dark-font-100 font-medium whitespace-nowrap">
                 {formatName(key)}
               </SmallFont>
               |
-              <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60">
+              <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60  whitespace-nowrap">
                 {filterFromType(key, filter)}
               </SmallFont>
             </Button>
@@ -486,12 +486,12 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
       </div>
       {activeView && activeView?.name !== "Portfolio" ? (
         <div className="max-w-[1300px] w-[90%] md:w-[95%] sm:w-[97%] mx-auto flex justify-between ">
-          <div className="flex w-fit items-center">
+          <div className="flex w-fit items-center flex-wrap pt-2.5">
             {callBackPopoverFilters()}
             {JSON.stringify(defaultTop100.filters) !==
               JSON.stringify(state.filters) && isConnected ? (
               <Button
-                extraCss="my-2.5 mr-2.5"
+                extraCss="mb-2.5 mr-2.5"
                 onClick={() => {
                   setActiveDisplay("filters");
                   setTypePopup("edit");
