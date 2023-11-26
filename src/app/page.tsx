@@ -7,6 +7,7 @@ import {
 } from "features/data/top100/constants";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { cookies, headers } from "next/headers";
+import React from "react";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
 import {
@@ -237,7 +238,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   return props;
 };
 
-async function HomePage({ searchParams }) {
+const HomePage = async ({ searchParams }) => {
   const url = headers();
   const props = await fetchAssetsAndViews({ searchParams });
 
@@ -289,6 +290,6 @@ async function HomePage({ searchParams }) {
       </Top100Provider>
     </>
   );
-}
+};
 
 export default HomePage;
