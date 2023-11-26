@@ -127,53 +127,8 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     else actualView = { ...(allView as View), disconnected: false };
   }
 
-  // const getViewKey = () => {
-  //   if (!actualView?.filters?.length) return null;
-  //   let VIEW_KEY = `HOMEPAGE_VIEW-${address}-${actualView?.name}`;
-  //   Object.entries(actualView?.filters).forEach(
-  //     ([key, value]: [string, { from: number; to: number }]) => {
-  //       if (
-  //         key !== "blockchains" &&
-  //         key !== "price_change" &&
-  //         key !== "categories" &&
-  //         value.from !== 0 &&
-  //         value.to !== maxValue
-  //       ) {
-  //         VIEW_KEY += `_${key}-${value.from}-${value.to}`;
-  //       }
-  //     }
-  //   );
-  //   console.log(VIEW_KEY, "VIEW_KEY");
-  //   return VIEW_KEY;
-  // };
-
-  // const viewKey = getViewKey();
-  // const viewCache = memoryCache.get(viewKey || 'DEFAULT');
-
-  // if (viewCache) {
-  //   const props = {
-  //     tokens: viewCache[0] || [],
-  //     count: viewCache[1],
-  //     metrics: viewCache[2],
-  //     marketCapTotal: viewCache[3],
-  //     ethPrice: viewCache[4],
-  //     btcPrice: viewCache[5],
-  //     actualView,
-  //     isMobile,
-  //     isTablet,
-  //     cookies: req.headers.cookie ?? '',
-  //     page,
-  //   } as any;
-
-  //   console.log('PHASE AFTER CALL CACHED', new Date(Date.now()));
-  //   return {
-  //     props,
-  //   };
-  // }
-
   try {
     const assetsCache = await kv.hgetall("assets");
-    console.log("assetExemple", assetsCache);
     if (assetsCache) {
       const props = {
         tokens: assetsCache.data || [],
@@ -330,7 +285,6 @@ async function HomePage({ searchParams }) {
           defaultFilter={props.filteredValues}
           actualView={props.actualView as any}
           cookieTop100={props.allView as any}
-          marketCapTotal={props.marketCapTotal}
         />
       </Top100Provider>
     </>

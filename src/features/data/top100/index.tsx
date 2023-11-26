@@ -8,7 +8,6 @@ import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
-import { useColors } from "../../../lib/chakra/colorMode";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
 import { Portfolio } from "./components/portfolio";
@@ -27,11 +26,6 @@ interface Top100Props {
     fear_and_greed_value_classification: string;
   };
   actualView: View;
-  marketCapTotal: {
-    market_cap_history: [number, number][];
-    btc_dominance_history: [number, number][];
-    market_cap_change_24h: number;
-  };
 }
 
 register();
@@ -43,33 +37,19 @@ export const Top100 = ({
   cookieTop100,
   defaultFilter,
   actualView,
-  marketCapTotal,
 }: Top100Props) => {
-  const { bgTable, bgMain } = useColors();
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "market_cap",
     ascending: false,
     first: true,
   });
-  const { isMobile, setTotalMarketCap, setBtcDominance, setMarketCapChange } =
-    useTop100();
+  const { isMobile } = useTop100();
   const [resultsData, setResultsData] = useState({ data: bufferTokens, count });
   const [showPage, setShowPage] = useState(0);
   const [filters, setFilters] = useState<Query[] | null>(
     defaultFilter || [{ action: "", value: [], isFirst: true }]
   );
   useFilter({ setFilters, orderBy });
-
-  useEffect(() => {
-    setTotalMarketCap(marketCapTotal?.market_cap_history || []);
-    setBtcDominance(
-      marketCapTotal?.btc_dominance_history?.map(([time, value]) => [
-        time,
-        value * 100,
-      ]) || []
-    );
-    setMarketCapChange(marketCapTotal?.market_cap_change_24h || 0);
-  }, [marketCapTotal]);
 
   useEffect(() => {
     const swiper = new Swiper(".swiper", {
