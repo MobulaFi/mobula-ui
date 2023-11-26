@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
 import { useTop100 } from "../../context-manager";
 import { BtcDominance } from "./btc-dominance";
@@ -28,17 +28,11 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     (typeof window !== "undefined" ? window.innerWidth : 0) >= 480;
 
   const fetchMetrics = async () => {
-    const test = await fetch(
+    const req = await fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/total`
     );
-    let marketCapTotal = {
-      market_cap_history: [],
-      btc_dominance_history: [],
-      market_cap_change_24h: 0,
-    };
-
     try {
-      const data = await test.json();
+      const data = await req.json();
       setTotalMarketCap(data.market_cap_history);
       setBtcDominance(data.btc_dominance_history);
       setMarketCapChange(data.market_cap_change_24h);
