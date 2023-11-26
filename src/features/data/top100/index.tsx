@@ -61,7 +61,7 @@ export const Top100 = ({
   useFilter({ setFilters, orderBy });
 
   useEffect(() => {
-    setTotalMarketCap(marketCapTotal.market_cap_history || []);
+    setTotalMarketCap(marketCapTotal?.market_cap_history || []);
     setBtcDominance(
       marketCapTotal?.btc_dominance_history?.map(([time, value]) => [
         time,

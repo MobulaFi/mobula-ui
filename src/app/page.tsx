@@ -1,4 +1,5 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { kv } from "@vercel/kv";
 import {
   defaultCategories,
   defaultFilter,
@@ -10,7 +11,6 @@ import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
 import {
   TABLE_ASSETS_QUERY,
-  timeout,
   unformatActiveView,
 } from "../features/data/top100/utils";
 import {
@@ -32,6 +32,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
   const isTablet = /tablet|ipad|playbook|silk/i.test(userAgent);
+  const newCookies = cookies();
 
   let actualView: View | null = null;
   let allView: View | null = null;
@@ -170,6 +171,34 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   //   };
   // }
 
+  try {
+    const assetsCache = await kv.hgetall("assets");
+    console.log("assetExemple", assetsCache);
+    if (assetsCache) {
+      const props = {
+        tokens: assetsCache.data || [],
+        metrics: assetsCache.metrics,
+        count: assetsCache.count,
+        ethPrice: assetsCache.ethPrice,
+        btcPrice: assetsCache.btcPrice,
+        actualView,
+        actualPortfolio,
+        allView,
+        aiNews: assetsCache.aiNews,
+        filteredValues,
+        page,
+        isMobile,
+        isTablet,
+        cookies: newCookies ?? "",
+      };
+
+      console.log("PHASE AFTER CALL CACHED", new Date(Date.now()));
+      return props;
+    }
+  } catch (error) {
+    // Handle errors
+  }
+
   const getViewQuery = async () => {
     const query = supabase
       .from("assets")
@@ -205,10 +234,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
       .match({ id: 1 })
       .single(),
     getViewQuery(),
-    Promise.race([
-      fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/total`),
-      timeout(7000),
-    ]),
     supabase
       .from("assets")
       .select("name,price")
@@ -221,26 +246,23 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   const [
     { data: metrics },
     { data, count },
-    res,
     { data: ethPrice },
     { data: btcPrice },
     { data: aiNews },
   ] = await Promise.all(queries);
 
-  let marketCapTotal = {
-    market_cap_history: [],
-    btc_dominance_history: [],
-    market_cap_change_24h: 0,
-  };
-
   try {
-    marketCapTotal = await res.json();
-  } catch (e) {
-    console.log("ERROR FETCHING MARKET CAP TOTAL", e);
-  }
-  const newCookies = cookies();
+    await kv.hset("assets", {
+      metrics,
+      count,
+      data,
+      ethPrice,
+      btcPrice,
+      aiNews,
+    });
+  } catch (error) {}
+
   const props = {
-    marketCapTotal,
     tokens: data || [],
     metrics,
     count,
@@ -263,8 +285,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
 async function HomePage({ searchParams }) {
   const url = headers();
   const props = await fetchAssetsAndViews({ searchParams });
-
-  console.log("propsprops", props.actualView);
 
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";
