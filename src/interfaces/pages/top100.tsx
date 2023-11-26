@@ -37,7 +37,6 @@ export interface QueryResults {
 export type StaticHomeQueries = [
   PromiseLike<PostgrestSingleResponse<Metrics>>,
   Promise<any>,
-  Promise<any>,
   PromiseLike<PostgrestSingleResponse<Asset>>,
   PromiseLike<PostgrestSingleResponse<Asset>>,
   Promise<PostgrestSingleResponse<INewsGeneral>>
