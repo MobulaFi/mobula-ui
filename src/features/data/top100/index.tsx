@@ -81,7 +81,6 @@ export const Top100 = ({
       centerInsufficientSlides: true,
       longSwipes: false,
     });
-    console.log(swiper);
   }, []);
 
   return (

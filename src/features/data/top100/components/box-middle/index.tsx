@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
+import { useTop100 } from "../../context-manager";
 import { BtcDominance } from "./btc-dominance";
 import { CryptoMarket } from "./crypto-market";
 import { FearGreed } from "./fear-greed";
@@ -14,9 +15,40 @@ interface BoxMiddleProps {
 
 export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   const [showPage, setShowPage] = useState(0);
+  const {
+    setTotalMarketCap,
+    setMarketCapChange,
+    setBtcDominance,
+    btcDominance,
+    totalMarketCap,
+    marketCapChange,
+  } = useTop100();
   const tablet =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 991 &&
     (typeof window !== "undefined" ? window.innerWidth : 0) >= 480;
+
+  const fetchMetrics = async () => {
+    const test = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/total`
+    );
+    let marketCapTotal = {
+      market_cap_history: [],
+      btc_dominance_history: [],
+      market_cap_change_24h: 0,
+    };
+
+    try {
+      const data = await test.json();
+      setTotalMarketCap(data.market_cap_history);
+      setBtcDominance(data.btc_dominance_history);
+      setMarketCapChange(data.market_cap_change_24h);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    if (!totalMarketCap.length || !btcDominance.length || !marketCapChange)
+      fetchMetrics();
+  }, []);
 
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,
