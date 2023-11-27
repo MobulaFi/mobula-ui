@@ -5,14 +5,16 @@ import { Collapse } from "@chakra-ui/react";
 import { Button } from "components/button";
 import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
+import React from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
-import Calendar from "react-widgets/Calendar";
 import { useAccount } from "wagmi";
 import { LargeFont } from "../../../../../../components/fonts";
+import { Menu } from "../../../../../../components/menu";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { Calendar } from "../../../../../../lib/shadcn/components/ui/calendar";
 import {
   Select,
   SelectContent,
@@ -50,11 +52,11 @@ export const AddTransactionPopup = () => {
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
   const [activePrice, setActivePrice] = useState("Market Price");
-  const [date, setDate] = useState(new Date().getTime());
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [typeSelected, setTypeSelected] = useState("Buy");
   const switcherOptions = ["Buy", "Sell", "Transfer"];
   const [isUSDInput, setIsUSDInput] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const switcherPriceOptions = [
     "Market Price",
     "Custom Price",
@@ -154,7 +156,7 @@ export const AddTransactionPopup = () => {
     });
 
     const timestamp =
-      date +
+      (date?.getTime() as number) +
       convertInMillis(hoursRef?.current?.value, minutesRef?.current?.value);
     if (parseFloat(settings.quantity)) {
       GET("/portfolio/addtx", {
@@ -205,6 +207,13 @@ export const AddTransactionPopup = () => {
     loadHistory(tokenTsx);
   }, [tokenTsx]);
 
+  const [selectedDay, setSelectedDay] = useState<Date>();
+
+  const footer = selectedDay ? (
+    <p>You selected {selectedDay}.</p>
+  ) : (
+    <p>Please pick a day.</p>
+  );
   return (
     <ModalContainer
       extraCss="max-w-[380px]"
@@ -374,33 +383,27 @@ export const AddTransactionPopup = () => {
         Date & Time
       </p>
       <div className="flex items-center">
-        <div
-          className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
-               cursor-pointer max-w-full justify-between"
-          onClick={() => setShowCalendar((prev) => !prev)}
+        <Menu
+          title={
+            <div
+              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+                 cursor-pointer max-w-full justify-between"
+              onClick={() => setIsCalendarVisible(true)}
+            >
+              <input
+                className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+                value={getDate(date.getTime())}
+              />
+              <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
+            </div>
+          }
         >
-          <input
-            className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
-            value={getDate(date)}
+          <Calendar
+            className="static p-0 border-0 shadow-none"
+            selectedDay={date}
+            onSelect={setDate}
           />
-          <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
-          {showCalendar ? (
-            <Calendar
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary absolute left-0 top-[110%] w-[345px] md:w-[300px] z-[100]"
-              onMouseLeave={() => setShowCalendar((prev) => !prev)}
-              onChange={(pickedDate) => {
-                const finalDate =
-                  pickedDate.getTime() > new Date().getTime()
-                    ? new Date()
-                    : pickedDate;
-                const dateToMillis = finalDate.getTime();
-                setDate(dateToMillis);
-                setShowCalendar(false);
-              }}
-              value={new Date(date)}
-            />
-          ) : null}
-        </div>
+        </Menu>
         <div className="flex items-center w-fit bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-2.5">
           <input
             placeholder="00"
@@ -452,7 +455,7 @@ export const AddTransactionPopup = () => {
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
               value={(() => {
                 const timestamp =
-                  date +
+                  (date?.getTime() as number) +
                   convertInMillis(
                     hoursRef.current?.value,
                     minutesRef.current?.value
