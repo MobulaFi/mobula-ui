@@ -130,6 +130,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
 
   try {
     const assetsCache = await kv.hgetall("assets");
+    console.log("assetsCache", assetsCache);
     if (assetsCache) {
       const props = {
         tokens: assetsCache.data || [],
@@ -154,6 +155,8 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   } catch (error) {
     // Handle errors
   }
+
+  console.log("TIITITITITIIT");
 
   const getViewQuery = async () => {
     const query = supabase
@@ -279,6 +282,7 @@ const HomePage = async ({ searchParams }) => {
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >
+        {/* <Suspense fallback={<p>Loading feed...</p>}> */}
         <Top100
           tokens={props.tokens}
           metrics={props.metrics as any}
@@ -287,6 +291,7 @@ const HomePage = async ({ searchParams }) => {
           actualView={props.actualView as any}
           cookieTop100={props.allView as any}
         />
+        {/* </Suspense> */}
       </Top100Provider>
     </>
   );
