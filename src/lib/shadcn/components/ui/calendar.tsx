@@ -10,11 +10,10 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 interface CalendarCustomProps {
   className?: string;
-  classNames?: string;
   showOutsideDays?: boolean;
   selectedDay?: Date;
   setSelectedDay?: React.Dispatch<React.SetStateAction<Date>>;
-  footer: React.ReactNode;
+  footer?: React.ReactNode;
   [key: string]: any;
 }
 
@@ -74,7 +73,7 @@ function Calendar({
       }}
       mode="single"
       selected={selectedDay}
-      onSelect={setSelectedDay}
+      onSelect={setSelectedDay as any}
       footer={footer}
       {...props}
     />

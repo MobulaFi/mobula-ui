@@ -207,13 +207,6 @@ export const AddTransactionPopup = () => {
     loadHistory(tokenTsx);
   }, [tokenTsx]);
 
-  const [selectedDay, setSelectedDay] = useState<Date>();
-
-  const footer = selectedDay ? (
-    <p>You selected {selectedDay}.</p>
-  ) : (
-    <p>Please pick a day.</p>
-  );
   return (
     <ModalContainer
       extraCss="max-w-[380px]"
