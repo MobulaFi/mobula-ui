@@ -21,6 +21,10 @@ import {
 } from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
 
+export const config = {
+  runtime: "experimental-edge",
+};
+
 const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
   const supabase = createSupabaseDOClient();
