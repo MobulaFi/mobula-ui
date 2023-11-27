@@ -1,13 +1,13 @@
-import NextImage from "next/legacy/image";
+import Image from "next/legacy/image";
 import React, { useState } from "react";
 
 export function NextImageFallback({
   fallbackSrc,
   ...props
-}: { fallbackSrc: string } & React.ComponentProps<typeof NextImage>) {
+}: { fallbackSrc: string } & React.ComponentProps<typeof Image>) {
   const [imgSrc, setImgSrc] = useState(props.src);
   return (
-    <NextImage
+    <Image
       {...props}
       src={imgSrc}
       onError={() => {
