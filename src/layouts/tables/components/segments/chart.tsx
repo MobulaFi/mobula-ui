@@ -16,7 +16,7 @@ export const ChartSegment = ({ token }: ChartSegmentProps) => (
         alt={`${token.name} sparkline`}
         style={{ zIndex: 0, minWidth: "135px" }}
         src={
-          `https://mobula-assets.s3.eu-west-3.amazonaws.com/sparklines/${token.id}/24h.png` ||
+          // `https://mobula-assets.s3.eu-west-3.amazonaws.com/sparklines/${token.id}/24h.png` ||
           "/404/sparkline.png"
         }
         fallbackSrc="/404/sparkline.png"
