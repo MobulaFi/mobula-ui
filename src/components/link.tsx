@@ -1,5 +1,5 @@
 import { cn } from "lib/shadcn/lib/utils";
-import NextLink from "next/link";
+import Link from "next/link";
 import React from "react";
 
 interface NextChakraLinkProps {
@@ -37,9 +37,9 @@ export const NextChakraLink = ({
       </span>
     );
   return (
-    <NextLink
+    <Link
       href={href}
-      target="_blank"
+      target={target}
       rel={rel}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
@@ -54,6 +54,6 @@ export const NextChakraLink = ({
       >
         {children}
       </span>
-    </NextLink>
+    </Link>
   );
 };
