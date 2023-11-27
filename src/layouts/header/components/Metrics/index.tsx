@@ -1,12 +1,12 @@
-import {Box, Flex, Text} from "@chakra-ui/react";
-import {useEffect, useState} from "react";
-import {useThemeValue} from "../../../../../utils/chakra";
-import {createSupabaseDOClient} from "../../../../../utils/supabase";
-import {NextChakraLink} from "../../../../common/components/links";
-import styles from "./tendance.module.scss";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useThemeValue } from "../../../../../utils/chakra";
+import { createSupabaseDOClient } from "../../../../../utils/supabase";
+import { NextChakraLink } from "../../../../common/components/links";
+import styles from "./tendance.module.css";
 
-function Metrics({...props}) {
-  const {border, text3, textTendance} = useThemeValue();
+function Metrics({ ...props }) {
+  const { border, text3, textTendance } = useThemeValue();
   const [metrics, setMetrics] = useState({
     total_dao_members: 0,
     total_assets: 0,
@@ -22,10 +22,10 @@ function Metrics({...props}) {
     supabase
       .from("metrics")
       .select(
-        "total_assets,total_dao_members,total_dex,7d_listings,total_holders,total_governors",
+        "total_assets,total_dao_members,total_dex,7d_listings,total_holders,total_governors"
       )
-      .match({id: 1})
-      .then(r => {
+      .match({ id: 1 })
+      .then((r) => {
         if (r?.data?.[0]) setMetrics(r.data[0]);
       });
   }, []);
@@ -50,7 +50,7 @@ function Metrics({...props}) {
       <Flex mr="10px" whiteSpace="nowrap">
         <Text
           fontSize={["10px", "10px", "10px", "10px"]}
-          style={{color: text3}}
+          style={{ color: text3 }}
         >
           Crypto:{" "}
           <NextChakraLink href="/">
@@ -67,7 +67,7 @@ function Metrics({...props}) {
 
         <Text
           fontSize={["10px", "10px", "10px", "10px"]}
-          style={{color: text3}}
+          style={{ color: text3 }}
           className={styles["info-text"]}
         >
           Last 7 days new listings:{" "}
@@ -86,7 +86,7 @@ function Metrics({...props}) {
       <Flex>
         <Text
           fontSize={["10px", "10px", "10px", "10px"]}
-          style={{color: text3}}
+          style={{ color: text3 }}
           className={styles["info-text"]}
         >
           MOBL Holders:{" "}
@@ -101,7 +101,7 @@ function Metrics({...props}) {
         </Text>
         <Text
           fontSize={["10px", "10px", "10px", "10px"]}
-          style={{color: text3}}
+          style={{ color: text3 }}
           className={styles["info-text"]}
         >
           Mobulers:{" "}
@@ -118,7 +118,7 @@ function Metrics({...props}) {
         </Text>
         <Text
           fontSize={["10px", "10px", "10px", "10px"]}
-          style={{color: text3}}
+          style={{ color: text3 }}
           className={styles["info-text"]}
         >
           Governors:{" "}

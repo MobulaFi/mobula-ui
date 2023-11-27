@@ -130,7 +130,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
 
   try {
     const assetsCache = await kv.hgetall("assets");
-    console.log("assetsCache", assetsCache);
     if (assetsCache) {
       const props = {
         tokens: assetsCache.data || [],
@@ -243,7 +242,9 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
 
 const HomePage = async ({ searchParams }) => {
   const url = headers();
+  console.log("FETCHIONG", Date.now());
   const props = await fetchAssetsAndViews({ searchParams });
+  console.log("FETCH RESP", Date.now());
 
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";

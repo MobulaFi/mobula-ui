@@ -165,8 +165,6 @@ export const TbodyCryptocurrencies = ({
     }
   };
 
-  console.log("wallet,", asset);
-
   return (
     <>
       <tr className="h-[10px]"></tr>

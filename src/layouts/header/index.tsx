@@ -17,7 +17,6 @@ import { PopupStateContext } from "../../contexts/popup";
 import { NotificationDrawer } from "../../drawer/notif";
 import { usePageLoad } from "../../hooks/pageload";
 import { Tabs } from "./components/tabs";
-import { UserSection } from "./components/user-section";
 import { AccountHeaderContext } from "./context-manager";
 
 export const Header = ({ addressCookie }) => {
@@ -92,7 +91,6 @@ export const Header = ({ addressCookie }) => {
               <Tabs />
               {/* <Tabs /> */}
             </div>
-            <UserSection addressFromCookie={addressFromCookie} />
           </div>
         </div>
         {showNotif ? <NotificationDrawer /> : null}
