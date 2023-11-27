@@ -647,7 +647,11 @@ export const ViewPopup = ({
             <button
               className={`w-1/2 font-medium ${
                 activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs`}
+              } h-[35px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
+                activeDisplay === "filters"
+                  ? "text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }`}
               onClick={() => setActiveDisplay("filters")}
             >
               Filters
@@ -886,7 +890,7 @@ export const ViewPopup = ({
           )}
           <div className="flex mt-2.5">
             <Button
-              extraCss="mr-[5px] w-full max-w-1/2"
+              extraCss="mr-[5px] w-full max-w-1/2 h-[40px] md:h-[35px]"
               onClick={() => {
                 pushData("View popup", {
                   action: "reset",
@@ -899,7 +903,7 @@ export const ViewPopup = ({
               Reset
             </Button>
             <Button
-              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue h-[40px] md:h-[35px]"
               onClick={createButtonHandler}
             >
               {isViewsLoading ? (
