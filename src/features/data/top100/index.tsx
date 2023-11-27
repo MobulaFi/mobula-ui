@@ -8,13 +8,9 @@ import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
-import { BoxMiddle } from "./components/box-middle";
-import { BoxRight } from "./components/box-right";
-import { Portfolio } from "./components/portfolio";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
-import { Views } from "./views";
 
 interface Top100Props {
   tokens: TableAsset[];
@@ -66,7 +62,7 @@ export const Top100 = ({
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
-      <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
+      {/* <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
         <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
           {isMobile ? (
             <Container extraCss="flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 pb-0 overflow-x-scroll w-full">
@@ -103,14 +99,14 @@ export const Top100 = ({
             </Container>
           )}
         </div>
-      </div>
+      </div> */}
 
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
-        <Views
+        {/* <Views
           actualView={actualView}
           cookieTop100={cookieTop100}
           setResultsData={setResultsData}
-        />
+        /> */}
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden mb-20 lg:mt-0">
           <AssetsTable
             resultsData={resultsData}
