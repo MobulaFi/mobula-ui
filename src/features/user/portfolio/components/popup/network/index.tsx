@@ -1,22 +1,9 @@
-import { CheckIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  Img,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
+import { NextImageFallback } from "components/image";
+import { ModalContainer } from "components/modal-container";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
-import {
-  TextLandingMedium,
-  TextSmall,
-} from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
+import { useContext } from "react";
+import { BsCheckLg } from "react-icons/bs";
+import { SmallFont } from "../../../../../../components/fonts";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
 
@@ -28,7 +15,6 @@ export const NetworkPopup = () => {
     setActiveNetworks,
     wallet,
   } = useContext(PortfolioV2Context);
-  const { text80, boxBg6, text40, borders, boxBg1 } = useColors();
 
   const getBlockchainsAmount = () => {
     if (wallet && wallet?.portfolio) {
@@ -45,92 +31,78 @@ export const NetworkPopup = () => {
   };
 
   return (
-    <Modal
+    <ModalContainer
+      title="Active Network"
+      extraCss="max-w-[400px]"
       isOpen={showNetwork}
       onClose={() => {
         setShowNetwork(false);
       }}
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg1}
-        borderRadius="16px"
-        border={borders}
-        p={["15px", "15px", "15px 20px"]}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="400px"
-      >
-        <ModalHeader p="0px" mb="15px">
-          <TextLandingMedium>Active Network</TextLandingMedium>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="0px" maxH="420px" overflowY="scroll">
-          {Object.values(blockchainsContent).map((blockchain, i) => {
-            const isOdds = i % 2 === 0;
-            const isBnb = blockchain.name === "BNB Smart Chain (BEP20)";
-            const isAvax = blockchain.name === "Avalanche C-Chain";
-            const getName = () => {
-              if (isBnb) return "BNB Smart Chain";
-              if (isAvax) return "Avalanche";
-              return blockchain.name;
-            };
-            const isActiveNetwork = activeNetworks.includes(blockchain.name);
+      <div className="w-full p-0 max-h-[420px] overflow-y-scroll">
+        {Object.values(blockchainsContent).map((blockchain, i) => {
+          const isOdds = i % 2 === 0;
+          const isBnb = blockchain.name === "BNB Smart Chain (BEP20)";
+          const isAvax = blockchain.name === "Avalanche C-Chain";
+          const getName = () => {
+            if (isBnb) return "BNB Smart Chain";
+            if (isAvax) return "Avalanche";
+            return blockchain.name;
+          };
+          const isActiveNetwork = activeNetworks.includes(blockchain.name);
 
-            return (
-              <Button
-                w="48%"
-                mr={isOdds ? "5px" : "0px"}
-                h="58px"
-                borderRadius="8px"
-                bg={isActiveNetwork ? boxBg6 : "none"}
-                px="15px"
-                mb="5px"
-                onClick={() => {
-                  if (isActiveNetwork)
-                    setActiveNetworks(
-                      activeNetworks.filter(
-                        (network) => network !== blockchain.name
-                      )
-                    );
-                  else setActiveNetworks([...activeNetworks, blockchain.name]);
-                }}
-              >
-                <Flex align="center" justify="space-between" w="100%">
-                  <Flex direction="column" align="flex-start" w="100%">
-                    <Flex align="center" justify="flex-start">
-                      <Img
-                        src={blockchain.logo}
-                        boxSize="20px"
-                        borderRadius="full"
-                      />
-                      <TextSmall
-                        whiteSpace="pre-wrap"
-                        textAlign="start"
-                        color={text80}
-                        ml="7.5px"
-                      >
-                        {getName()}
-                      </TextSmall>
-                    </Flex>
-                    <TextSmall color={text40} ml="27.5px">
-                      $
-                      {getBlockchainsAmount()[blockchain.name]
-                        ? getFormattedAmount(
-                            getBlockchainsAmount()[blockchain.name]
-                          )
-                        : 0}
-                    </TextSmall>
-                  </Flex>
-                  {isActiveNetwork ? (
-                    <CheckIcon color="blue" ml="10px" />
-                  ) : null}
-                </Flex>
-              </Button>
-            );
-          })}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          return (
+            <button
+              className={`flex items-center justify-center w-[48%] ${
+                isOdds ? "mr-[5px]" : ""
+              } h-[58px] rounded px-[15px] mb-[5px] ${
+                isActiveNetwork
+                  ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                  : ""
+              }`}
+              key={blockchain.name}
+              onClick={() => {
+                if (isActiveNetwork)
+                  setActiveNetworks(
+                    activeNetworks.filter(
+                      (network) => network !== blockchain.name
+                    )
+                  );
+                else setActiveNetworks([...activeNetworks, blockchain.name]);
+              }}
+            >
+              <div className="flex items-center justify-between w-full">
+                <div className="flex flex-col items-start w-full">
+                  <div className="flex items-center jsutify-start">
+                    <NextImageFallback
+                      width={20}
+                      height={20}
+                      className="rounded-full"
+                      src={blockchain.logo}
+                      alt={`${blockchain.name} logo`}
+                      fallbackSrc={""}
+                    />
+                    <SmallFont extraCss="whitespace-pre-wrap text-start ml-[7.5px]">
+                      {getName()}
+                    </SmallFont>
+                  </div>
+                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-[27.5px]">
+                    $
+                    {getBlockchainsAmount()[blockchain.name]
+                      ? getFormattedAmount(
+                          getBlockchainsAmount()[blockchain.name]
+                        )
+                      : 0}
+                  </SmallFont>
+                </div>
+                {isActiveNetwork ? (
+                  <BsCheckLg className="text-blue dark:text-blue ml-2.5" />
+                ) : null}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </ModalContainer>
   );
 };
