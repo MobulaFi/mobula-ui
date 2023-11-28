@@ -1,4 +1,3 @@
-import { CloseIcon } from "@chakra-ui/icons";
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, {
@@ -834,7 +833,7 @@ export const ViewPopup = ({
                               });
                             }}
                           >
-                            <CloseIcon fontSize="8.5px" mr="7px" />
+                            <AiOutlineClose className="text-[10px] mr-[7px]" />
                             Reset {filter.title}
                           </button>
                         ) : null}
@@ -903,7 +902,8 @@ export const ViewPopup = ({
               Reset
             </Button>
             <Button
-              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue h-[40px] md:h-[35px]"
+              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue
+               hover:border-blue hover:dark:border-blue h-[40px] md:h-[35px]"
               onClick={createButtonHandler}
             >
               {isViewsLoading ? (

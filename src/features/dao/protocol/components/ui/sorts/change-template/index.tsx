@@ -1,8 +1,7 @@
-import { ArrowDownIcon } from "@chakra-ui/icons";
-import { useClipboard } from "@chakra-ui/react";
-import React from "react";
+import { useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
+import { FaArrowDownLong } from "react-icons/fa6";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { TitleContainer } from "../../../../../../../components/title";
 import { addressSlicer } from "../../../../../../../utils/formaters";
@@ -16,8 +15,13 @@ export const ChangeTemplate = ({
   newValue,
   type,
 }: EditingTemplate) => {
-  const { onCopy, hasCopied } = useClipboard("");
+  const [hasCopied, setHasCopied] = useState(false);
   const isContract = type === "Contract";
+  const onCopy = () => {
+    navigator.clipboard.writeText(newValue);
+    setHasCopied(true);
+    setTimeout(() => setHasCopied(false), 2000);
+  };
   return (
     <BoxContainer extraCss="mb-5">
       <TitleContainer extraCss="px-[15px]">
@@ -43,7 +47,7 @@ export const ChangeTemplate = ({
             </SmallFont>
           </div>
         </BoxContainer>
-        <ArrowDownIcon fontSize="30px" my="10px" ml="1.1%" color="text.60" />
+        <FaArrowDownLong className="text-[30px] my-2.5 ml-[1.1%] text-light-font-60 dark:text-dark-font-60" />
         <BoxContainer>
           <TitleContainer extraCss="px-[15px]">
             <SmallFont>New {type}</SmallFont>
@@ -67,10 +71,7 @@ export const ChangeTemplate = ({
             ) : null}
             <button
               className="whitespace-pre-wrap cursor-pointer w-fit"
-              onClick={() => {
-                onCopy();
-                navigator.clipboard.writeText(newValue);
-              }}
+              onClick={onCopy}
             >
               {hasCopied ? (
                 <BsCheckLg className="ml-2.5 text-green dark:text-green" />
