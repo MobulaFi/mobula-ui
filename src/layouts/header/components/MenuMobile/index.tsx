@@ -161,7 +161,7 @@ export const MenuMobile = ({
         )}
       </ClientOnly>
       <div className="flex justify-between items-center mt-5">
-        <ToggleColorMode />
+        <ToggleColorMode isMobile />
         <div className="flex mr-[15px]">
           <ChainsChanger
             isMobileVersion

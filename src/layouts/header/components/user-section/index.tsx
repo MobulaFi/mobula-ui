@@ -1,5 +1,5 @@
-import { Icon, Skeleton, Text, useColorMode } from "@chakra-ui/react";
 import Cookies from "js-cookie";
+import { ToggleColorMode } from "layouts/toggle-mode";
 import { useParams, useRouter } from "next/navigation";
 import React, {
   Dispatch,
@@ -11,16 +11,17 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { AiOutlineStar, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineStar, AiOutlineUser } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import { RiHandCoinLine } from "react-icons/ri";
+import { RiHandCoinLine, RiMenu3Line } from "react-icons/ri";
 import { TbBellRinging } from "react-icons/tb";
 import { useAccount } from "wagmi";
 import { disconnect, readContract } from "wagmi/actions";
 import { AddressAvatar } from "../../../../components/avatar";
 import { SmallFont } from "../../../../components/fonts";
+import { Skeleton } from "../../../../components/skeleton";
 import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
 import {
@@ -28,17 +29,18 @@ import {
   PopupUpdateContext,
 } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
 import { SearchBarPopup } from "../../../../popup/searchbar";
 import { SwitchNetworkPopup } from "../../../../popup/switch-network";
+import { PopupTelegram } from "../../../../popup/telegram-connect";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
 import { AccountHeaderContext } from "../../context-manager";
 import { useUserBalance } from "../../context-manager/balance";
 import { useBalance } from "../../hooks/useBalance";
+import { MenuMobile } from "../MenuMobile";
 import { ChainsChanger } from "../chains-changer";
 import { PortfolioButton } from "../portfolio";
 
@@ -81,26 +83,12 @@ export const UserSection = ({ addressFromCookie }) => {
   const { setConnect } = useContext(PopupUpdateContext);
   const { connect, showCard, showConnectSocialPopup } =
     useContext(PopupStateContext);
-
   const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
-  const {
-    text80,
-    text10,
-    borders2x,
-    hover,
-    text100,
-    boxBg6,
-    boxBg3,
-    borders,
-    text60,
-    shadow,
-  } = useColors();
   const { address, isConnected } = useAccount();
   const { user } = useContext(UserContext);
   const { setShowNotif } = useContext(AccountHeaderContext);
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
   useOutsideAlerter(wrapperRef, setTriggerSearch);
-  const { colorMode, toggleColorMode } = useColorMode();
   const [shouldMagicLinkProfile, setShouldMagicLinkProfile] = useState(false);
   const [showTelegramConnector, setShowTelegramConnector] = useState(false);
   const [showInfoPopover, setShowInfoPopover] = useState(false);
@@ -110,7 +98,6 @@ export const UserSection = ({ addressFromCookie }) => {
   const [balanceMOBL, setBalanceMOBL] = useState<number | null>(null);
   const params = useParams();
   const isMagicLoading = params.state;
-  const isWhiteMode = colorMode === "light";
   useBalance();
 
   useEffect(() => {
@@ -351,12 +338,7 @@ export const UserSection = ({ addressFromCookie }) => {
                   ) : null}
                 </>
               ) : (
-                <Skeleton
-                  boxSize="31px"
-                  borderRadius="full"
-                  startColor={boxBg6}
-                  endColor={hover}
-                />
+                <Skeleton extraCss="w-[31px] h-[31px] rounded-full" />
               )
             ) : null}
             {connectMemo}
@@ -409,7 +391,7 @@ export const UserSection = ({ addressFromCookie }) => {
                   onClick={() => getEffectOnClick("watchlist")()}
                 >
                   <div className={squareBox}>
-                    <Icon fontSize="16px" color={text60} as={AiOutlineStar} />{" "}
+                    <AiOutlineStar className="text-base text-light-font-60 dark:text-dark-font-60" />
                   </div>
                   Watchlist
                 </div>
@@ -418,7 +400,7 @@ export const UserSection = ({ addressFromCookie }) => {
                   onClick={() => getEffectOnClick("profile")()}
                 >
                   <div className={squareBox}>
-                    <Icon color={text60} fontSize="16px" as={AiOutlineUser} />
+                    <AiOutlineUser className="text-base text-light-font-60 dark:text-dark-font-60" />
                   </div>
                   My Profile
                 </div>
@@ -427,7 +409,7 @@ export const UserSection = ({ addressFromCookie }) => {
                   onClick={() => getEffectOnClick("earn")()}
                 >
                   <div className={squareBox}>
-                    <Icon color={text60} fontSize="16px" as={RiHandCoinLine} />
+                    <RiHandCoinLine className="text-base text-light-font-60 dark:text-dark-font-60" />
                   </div>
                   Earn Rewards
                 </div>
@@ -436,7 +418,7 @@ export const UserSection = ({ addressFromCookie }) => {
                   onClick={() => getEffectOnClick("notif")()}
                 >
                   <div className={squareBox}>
-                    <Icon color={text60} fontSize="16px" as={TbBellRinging} />
+                    <TbBellRinging className="text-base text-light-font-60 dark:text-dark-font-60" />
                   </div>
                   Notifications
                 </div>
@@ -445,11 +427,9 @@ export const UserSection = ({ addressFromCookie }) => {
                   onClick={() => getEffectOnClick("disconnect")()}
                 >
                   <div className={squareBox}>
-                    <Icon color="red" fontSize="16px" as={BsPower} />
+                    <BsPower className="text-base text-red dark:text-red" />
                   </div>
-                  <Text fontSize="14px" mb="1px">
-                    Log out
-                  </Text>
+                  <p className="text-sm mb-[1px]">Log out</p>
                 </div>
               </div>
             </div>
@@ -464,6 +444,21 @@ export const UserSection = ({ addressFromCookie }) => {
         )}
         <Connect />
         <SwitchNetworkPopup />
+        <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary mx-2.5 flex lg:hidden" />
+        <ToggleColorMode />
+        <button
+          className="hidden lg:flex ml-2.5 lg:ml-0"
+          onClick={() => {
+            setIsMenuMobile(!isMenuMobile);
+          }}
+        >
+          {isMenuMobile ? (
+            <AiOutlineClose className="text-[22px] text-light-font-100 dark:text-dark-font-100" />
+          ) : (
+            <RiMenu3Line className="text-[22px] text-light-font-100 dark:text-dark-font-100" />
+          )}
+        </button>
+
         {/*  {showFeedbackPopup ? (
           <FeedBackPopup
             visible={showFeedbackPopup}
@@ -515,7 +510,7 @@ export const UserSection = ({ addressFromCookie }) => {
           )}
         </Button> */}
       </div>
-      {/* {isMenuMobile && (
+      {isMenuMobile && (
         <MenuMobile
           showChainPopover={showChainPopover}
           setShowChainPopover={setShowChainPopover}
@@ -529,7 +524,7 @@ export const UserSection = ({ addressFromCookie }) => {
           setShowPopup={setShowTelegramConnector}
         />
       ) : null}
-      {showCard && <PayWithCard />} */}
+      {/*     {showCard && <PayWithCard />} */}
     </>
   );
 };
