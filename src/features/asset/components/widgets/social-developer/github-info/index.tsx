@@ -1,98 +1,95 @@
-import {CheckIcon} from "@chakra-ui/icons";
-import {Flex, Icon, Text} from "@chakra-ui/react";
-import {AiOutlineEye, AiOutlineStar} from "react-icons/ai";
-import {BiGitRepoForked} from "react-icons/bi";
-import {BsThreeDots} from "react-icons/bs";
-import {HiOutlineUsers} from "react-icons/hi";
-import {TbArrowsShuffle2} from "react-icons/tb";
+import React from "react";
+import { AiOutlineEye, AiOutlineStar } from "react-icons/ai";
+import { BiGitRepoForked } from "react-icons/bi";
+import { BsCheckLg, BsThreeDots } from "react-icons/bs";
+import { HiOutlineUsers } from "react-icons/hi";
+import { TbArrowsShuffle2 } from "react-icons/tb";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
+import { FlexBorderBox } from "../../../../style";
 
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {FlexBorderBox} from "../../../../style";
-
-export const GithubInfo = ({...props}) => {
-  const {text80, borders, boxBg3, text60} = useColors();
+export const GithubInfo = ({ extraCss }) => {
   //   const {baseAsset} = useContext(BaseAssetContext);
   const metrics = [
     {
       title: "Stars",
       //   value: baseAsset?.assets_social?.github_stars,
       value: 132,
-      icon: <Icon as={AiOutlineStar} color="yellow" />,
+      icon: <AiOutlineStar className="text-yellow dark:text-yellow" />,
     },
     {
       title: "Watchers",
       //   value: baseAsset?.assets_social?.github_watchers,
       value: 43253,
-      icon: <Icon as={AiOutlineEye} color={text80} />,
+      icon: (
+        <AiOutlineEye className="text-light-font-100 dark:text-dark-font-100" />
+      ),
     },
     {
       title: "Forks",
       //   value: baseAsset?.assets_social?.github_forks,
       value: 2340,
-      icon: <Icon as={BiGitRepoForked} color={text80} />,
+      icon: (
+        <BiGitRepoForked className="text-light-font-100 dark:text-dark-font-100" />
+      ),
     },
     {
       title: "Contributors",
       //   value: baseAsset?.assets_social?.github_contributors,
       value: 103,
-      icon: <Icon as={HiOutlineUsers} color="blue" />,
+      icon: <HiOutlineUsers className="text-blue dark:text-blue" />,
     },
     {
       title: "Merged Pull Requests",
       //   value: baseAsset?.assets_social?.github_merged_pull_request,
       value: 3422,
-      icon: <Icon as={TbArrowsShuffle2} color="green" />,
+      icon: <TbArrowsShuffle2 className="text-green dark:text-green" />,
     },
     {
       title: "Closed Issues",
       //   value: baseAsset?.assets_social?.github_closed_issues,
       value: 2344,
-      icon: <Icon as={CheckIcon} color="green" />,
+      icon: <BsCheckLg className="text-green dark:text-green" />,
     },
     {
       title: "Total Issues",
       //   value: baseAsset?.assets_social?.github_total_issues,
       value: 2344,
-      icon: <Icon as={BsThreeDots} color={text80} />,
+      icon: (
+        <BsThreeDots className="text-light-font-100 dark:text-dark-font-100" />
+      ),
     },
   ];
   return (
-    <Flex
-      {...FlexBorderBox}
-      {...props}
-      bg={["none", "none", "none", boxBg3]}
-      border={["none", "none", "none", borders]}
+    <div
+      className={cn(
+        `flex ${FlexBorderBox} bg-light-bg-secondary dark:bg-dark-bg-secondary lg:bg-inherit dark:lg:bg-inherit border border-light-border-primary dark:border-dark-border-primary lg:border-0`,
+        extraCss
+      )}
     >
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="10px"
-        display={["none", "none", "none", "flex"]}
-      >
-        Github Metrics
-      </Text>
+      <MediumFont extraCss="mb-2.5 flex lg:hidden">Github Metrics</MediumFont>
       {metrics.map((entry, i) => (
-        <Flex
-          justify="space-between"
-          borderTop={i === 0 ? "none" : borders}
-          py="10px"
-          pb={metrics.length - 1 === i ? "0px" : "10px"}
+        <div
+          key={entry.title}
+          className={`flex justify-between py-2.5 ${
+            i === 0
+              ? ""
+              : "border border-light-border-primary dark:border-dark-border-primary"
+          } ${metrics.length - 1 === i ? "pb-0" : "pb-2.5"}`}
         >
-          <Flex align="center" mb="5px">
+          <div className="flex items-center mb-[5px]">
             {entry.icon}
-            <TextSmall ml="7.5px" color={text60}>
+            <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60">
               {entry.title}
-            </TextSmall>
-          </Flex>
-          <Flex align="center">
-            <Text fontSize="13px" color={text80}>
+            </SmallFont>
+          </div>
+          <div className="flex items-center">
+            <p className="text-[13px] text-light-font-100 dark:text-dark-font-100">
               {entry.value}
-            </Text>
-          </Flex>
-        </Flex>
+            </p>
+          </div>
+        </div>
       ))}
-    </Flex>
+    </div>
   );
 };
