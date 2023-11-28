@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { ModalContainer } from "../../../../../components/modal-container";
 import { ShowReasonContext } from "../../context-manager/reason-vote";
 import { VoteContext } from "../../context-manager/vote";
@@ -27,16 +27,21 @@ export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
   const color = getColor();
 
   return (
-    <ModalContainer isOpen={!invisible} onClose={() => setShowType(false)}>
-      {type !== "Reject" ? (
-        <p className="text-[15px] text-light-font-100 dark:text-dark-font-100 font-bold mb-[5px]">
-          Why this {type} Score ? (<span className={color}>{score}/5</span>)
-        </p>
-      ) : (
-        <p className="text-[15px] text-light-font-100 dark:text-dark-font-100 font-bold mb-[5px]">
-          Why are you rejecting?
-        </p>
-      )}
+    <ModalContainer
+      isOpen={!invisible}
+      onClose={() => setShowType(false)}
+      extraCss="max-w-[420px]"
+      title={
+        type !== "Reject" ? (
+          <span>
+            Why this {type} Score ? (${<span className={color}>{score}/5</span>}
+            )
+          </span>
+        ) : (
+          "Why are you rejecting?"
+        )
+      }
+    >
       {texts.map((entry: { code: string; name: string }, idx: number) => (
         <Lines
           key={entry.code}
