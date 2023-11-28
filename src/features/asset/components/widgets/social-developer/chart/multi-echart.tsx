@@ -1,5 +1,4 @@
-import {useColorMode} from "@chakra-ui/react";
-import {BarChart, LineChart} from "echarts/charts";
+import { BarChart, LineChart } from "echarts/charts";
 import {
   DataZoomComponent,
   GraphicComponent,
@@ -10,12 +9,12 @@ import {
   TooltipComponent,
 } from "echarts/components";
 import * as echarts from "echarts/core";
-import {CanvasRenderer} from "echarts/renderers";
-import {useCallback, useEffect, useMemo, useRef} from "react";
-import {v4 as uuid} from "uuid";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {TimeSelected} from "../../../../models";
-import {useDefault} from "./multi-options";
+import { CanvasRenderer } from "echarts/renderers";
+import { useTheme } from "next-themes";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { v4 as uuid } from "uuid";
+import { TimeSelected } from "../../../../models";
+import { useDefault } from "./multi-options";
 
 interface EChartProps {
   data: [number, number][];
@@ -45,8 +44,6 @@ echarts.use([
 const EChart: React.FC<EChartProps> = ({
   data,
   options,
-  // height,
-  width,
   extraSeries = [],
   timeframe,
   type,
@@ -54,12 +51,11 @@ const EChart: React.FC<EChartProps> = ({
   leftMargin = ["13%", "4.5%"],
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const {bgMain} = useColors();
-  const {colorMode} = useColorMode();
+  const { theme } = useTheme();
   const id = useMemo(() => uuid(), []);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
-  const {tooltip, xAxis, yAxis, dataZoom, series} = useDefault({
+  const { tooltip, xAxis, yAxis, dataZoom, series } = useDefault({
     data,
     timeframe,
     isMobile,
@@ -68,7 +64,9 @@ const EChart: React.FC<EChartProps> = ({
   });
 
   const createInstance = useCallback(() => {
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
 
     return (
       instance ||
@@ -82,13 +80,13 @@ const EChart: React.FC<EChartProps> = ({
     const chart = createInstance();
     if (chart)
       chart.setOption({
-        backgroundColor: bgMain,
+        backgroundColor:
+          theme === "dark" ? "rgba(19, 22, 39, 1)" : "rgba(255,255,255,1)",
         textStyle: {
-          color:
-            colorMode === "dark" ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)",
+          color: theme === "dark" ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)",
         },
         grid: {
-          bottom: "15%", // Distance from bottom to grid, for the zoom slider
+          bottom: "15%",
           left: isMobile ? leftMargin[0] : leftMargin[1],
           right: "0.5%",
         },
@@ -114,13 +112,13 @@ const EChart: React.FC<EChartProps> = ({
           type: "hideTip",
         });
 
-        chart.dispatchAction({type: "showTip", seriesIndex: 0, dataIndex: 1});
+        chart.dispatchAction({ type: "showTip", seriesIndex: 0, dataIndex: 1 });
       });
     }
   }, []);
 
   return (
-    <div ref={parentRef} id={id} style={{height: "500px", width: "100%"}} />
+    <div ref={parentRef} id={id} style={{ height: "500px", width: "100%" }} />
   );
 };
 

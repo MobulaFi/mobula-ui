@@ -1,5 +1,4 @@
 "use client";
-import { useColorMode } from "@chakra-ui/react";
 import { parse } from "cookie";
 import { useContext, useEffect } from "react";
 // import {AddedToWatchlistPopup} from "../../Pages/User/Watchlist/components/popup/added-to-watchlist";
@@ -9,21 +8,23 @@ import { useContext, useEffect } from "react";
 // import {usePageLoad} from "../../common/hooks/pageload";
 // import {useColors} from "../../common/utils/color-mode";
 // import {CommonPageProvider} from "../common/context-manager";
+import { NextImageFallback } from "components/image";
+import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
 import { NotificationDrawer } from "../../drawer/notif";
 import { usePageLoad } from "../../hooks/pageload";
 import { Tabs } from "./components/tabs";
+import { UserSection } from "./components/user-section";
 import { AccountHeaderContext } from "./context-manager";
 
 export const Header = ({ addressCookie }) => {
   usePageLoad();
   const { showNotif } = useContext(AccountHeaderContext);
   const { showAddedToWatchlist } = useContext(PopupStateContext);
-  const { colorMode } = useColorMode();
+  const { theme } = useTheme();
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
@@ -67,30 +68,40 @@ export const Header = ({ addressCookie }) => {
             <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px]">
               <NextChakraLink
                 href="/"
-                extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px]"
+                extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
               >
-                <img
-                  className="hidden lg:flex w-full h-full"
-                  alt="Mobula logo"
-                  src={
-                    colorMode === "dark"
-                      ? "/mobula/mobula-logo.svg"
-                      : "/mobula/mobula-logo-light.svg"
-                  }
-                />
-                <img
-                  className="flex lg:hidden w-full h-full max-w-[200px]"
-                  src={
-                    colorMode === "dark"
-                      ? "/mobula/mobula-logo-text.svg"
-                      : "/mobula/mobula-logo-text-light.svg"
-                  }
-                  alt="Mobula logo"
-                />
+                <div className="h-fit w-fit hidden lg:flex">
+                  <NextImageFallback
+                    width={35}
+                    height={35}
+                    className="hidden lg:flex w-full h-full"
+                    alt="Mobula logo"
+                    fallbackSrc={""}
+                    src={
+                      theme === "dark"
+                        ? "/mobula/mobula-logo.svg"
+                        : "/mobula/mobula-logo-light.svg"
+                    }
+                  />{" "}
+                </div>
+                <div className="h-full items-center w-fit flex lg:hidden">
+                  <NextImageFallback
+                    width={135}
+                    height={35}
+                    className="w-full h-full max-w-[200px]"
+                    src={
+                      theme === "dark"
+                        ? "/mobula/mobula-logo-text.svg"
+                        : "/mobula/mobula-logo-text-light.svg"
+                    }
+                    alt="Mobula logo"
+                    fallbackSrc={""}
+                  />
+                </div>
               </NextChakraLink>
               <Tabs />
-              {/* <Tabs /> */}
             </div>
+            <UserSection addressFromCookie={addressFromCookie} />
           </div>
         </div>
         {showNotif ? <NotificationDrawer /> : null}

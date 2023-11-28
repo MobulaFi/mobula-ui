@@ -1,27 +1,13 @@
-import {Flex} from "@chakra-ui/react";
-import {useContext} from "react";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../context-manager";
-import {MultiChart} from "./chart/social-chart";
-import {SocialInfo} from "./social-info";
+import React, { useContext } from "react";
+import { BaseAssetContext } from "../../../context-manager";
+import { MultiChart } from "./chart/social-chart";
+import { SocialInfo } from "./social-info";
 
 export const SocialsDeveloper = () => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text60} = useColors();
-
+  const { baseAsset } = useContext(BaseAssetContext);
   return (
-    <Flex
-      mt={["0px", "0px", "0px", "20px"]}
-      w={["95%", "95%", "100%", "100%"]}
-      mx="auto"
-      direction={["column-reverse", "column-reverse", "column-reverse", "row"]}
-    >
-      <Flex
-        direction="column"
-        maxW="990px"
-        w={["100%", "100%", "100%", "calc(100% - 345px)"]}
-        mr={["0px", "0px", "0px", "25px"]}
-      >
+    <div className="flex mt-5 lg:mt-0 w-full md:w-[95%] mx-auto flex-row lg:flex-col-reverse">
+      <div className="max-w-[990px] w-full-345 lg:w-full flex flex-col mr-[25px] lg:mr-0">
         {/* <Charts chartId="github-chart" isGithub /> */}
         {/* <Flex
           w="100%"
@@ -47,11 +33,7 @@ export const SocialsDeveloper = () => {
         {baseAsset?.twitter_history?.length > 0 ? (
           <MultiChart chartId="social-chart" />
         ) : null}
-        <SocialInfo
-          display={["flex", "flex", "flex", "none"]}
-          mt="5px"
-          mb="10px"
-        />
+        <SocialInfo extraCss="hidden lg:flex mt-[5px] mb-2.5" />
         {/* <Flex
           w="100%"
           direction="column"
@@ -67,16 +49,11 @@ export const SocialsDeveloper = () => {
           </TextSmall>
         </Flex>
         <Charts chartId="website-chart" /> */}
-      </Flex>
-      <Flex
-        direction="column"
-        display={["none", "none", "none", "flex"]}
-        maxW="320px"
-        w="100%"
-      >
+      </div>
+      <div className="flex flex-col max-w-[345px] w-full lg:hidden">
         {/* <GithubInfo /> */}
         <SocialInfo />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

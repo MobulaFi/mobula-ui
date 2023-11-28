@@ -1,13 +1,12 @@
-import {useColorMode} from "@chakra-ui/react";
-import {DataZoomComponentOption} from "echarts";
-import {useMemo} from "react";
+import { DataZoomComponentOption } from "echarts";
+import { useTheme } from "next-themes";
+import { useMemo } from "react";
+import { getTimeStampFromTimeFrame } from "../../../../../../lib/echart/line/utils";
 import {
   getFormattedAmount,
   getShortenedAmount,
-} from "../../../../../../../../utils/helpers/formaters";
-import {getTimeStampFromTimeFrame} from "../../../../../../../common/charts/EChart/utils";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {TimeSelected} from "../../../../models";
+} from "../../../../../../utils/formaters";
+import { TimeSelected } from "../../../../models";
 
 interface UseDefaultProps {
   data: [number, number][];
@@ -24,10 +23,9 @@ export const useDefault = ({
   type = "Price",
   unit = "$",
 }: UseDefaultProps) => {
-  const {colorMode} = useColorMode();
-  const {text80, boxBg6, boxBg3} = useColors();
-  const lightMode = colorMode === "light";
-  const {zoomPercentage, chartColor} = useMemo(() => {
+  const { theme } = useTheme();
+  const lightMode = theme === "light";
+  const { zoomPercentage, chartColor } = useMemo(() => {
     // No need to do anything if we want to display all the data
     const coverageNeeded = getTimeStampFromTimeFrame(timeframe);
     const initalTimestamp = data[0]?.[0] || 0;
@@ -61,7 +59,8 @@ export const useDefault = ({
       type: "cross",
       label: {
         shadowBlur: 0,
-        backgroundColor: boxBg6,
+        backgroundColor:
+          theme === "dark" ? "rgba(23, 27, 43, 1)" : "rgba(250, 250, 250, 1)",
         shadowColor: "rgba(0, 0, 0, 0)",
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)",
         // formatter: (axis: any) => {
@@ -70,10 +69,17 @@ export const useDefault = ({
         // },
       },
     },
-    backgroundColor: boxBg6,
-    borderColor: lightMode ? "2px solid white" : boxBg3,
-    color: text80,
-    textStyle: {color: text80},
+    backgroundColor:
+      theme === "dark" ? "rgba(23, 27, 43, 1)" : "rgba(250, 250, 250, 1)",
+    borderColor: lightMode
+      ? "rgba(0, 0, 0, 0.03)"
+      : "rgba(255, 255, 255, 0.03)",
+    color:
+      theme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.95)",
+    textStyle: {
+      color:
+        theme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.95)",
+    },
     borderWidth: 3,
     borderRadius: 8,
     padding: 20,
@@ -91,9 +97,9 @@ export const useDefault = ({
         minute: "2-digit",
       });
       return `${dateFormatter.format(
-        date,
+        date
       )} &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ${timeFormatter.format(
-        date,
+        date
       )}<br>Followers: ${getFormattedAmount(followers, 0, {
         minifyZeros: false,
         minifyBigNumbers: false,
@@ -104,9 +110,9 @@ export const useDefault = ({
   const xAxis = [
     {
       type: "time",
-      axisLine: {show: false},
-      axisTick: {show: false},
-      splitLine: {show: false},
+      axisLine: { show: false },
+      axisTick: { show: false },
+      splitLine: { show: false },
       nameTextStyle: {
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)", // Invisible title
       },
@@ -139,9 +145,9 @@ export const useDefault = ({
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)", // Cela rendra le titre transparent et donc invisible.
       },
       position: "left",
-      axisLine: {show: false},
-      axisTick: {show: false},
-      splitLine: {show: false},
+      axisLine: { show: false },
+      axisTick: { show: false },
+      splitLine: { show: false },
       axisLabel: {
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)",
         formatter: (value: number) => getShortenedAmount(value),
@@ -238,5 +244,5 @@ export const useDefault = ({
     },
   ];
 
-  return {tooltip, xAxis, yAxis, dataZoom, series};
+  return { tooltip, xAxis, yAxis, dataZoom, series };
 };

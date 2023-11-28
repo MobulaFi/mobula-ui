@@ -1,51 +1,44 @@
-import {Button, Image, Flex} from "@chakra-ui/react";
-import {CheckIcon} from "@chakra-ui/icons";
-import {useContext} from "react";
-import {TextExtraSmall, TextSmall} from "../../../../../../UI/Text";
-import {BaseAssetContext} from "../../../context-manager";
-import {useColors} from "../../../../../../common/utils/color-mode";
+import React, { useContext } from "react";
+import { BsCheckLg } from "react-icons/bs";
+import { ExtraSmallFont, SmallFont } from "../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../components/image";
+import { BaseAssetContext } from "../../../context-manager";
 
 export const TradeLiquidityPoolPopup = () => {
-  const {text80, bordersActive, text40} = useColors();
-  const {selectedTradeFilters} = useContext(BaseAssetContext);
+  const { selectedTradeFilters } = useContext(BaseAssetContext);
   return (
-    <Flex direction="column" maxH="400px" overflowY="scroll">
-      {Array.from({length: 5})?.map((entry, i) => (
-        <Flex
-          align="center"
-          mt={i !== 0 ? "7.5px" : "0px"}
-          mb={i === ([1, 2, 3, 4, 5].length || 0) - 1 ? "0px" : "7.5px"}
+    <div className="flex flex-col max-h-[400px] overflow-y-scroll">
+      {Array.from({ length: 5 })?.map((_, i) => (
+        <div
+          key={i}
+          className={`flex items-center ${i !== 0 ? "mt-[7.5px]" : ""} ${
+            i === ([1, 2, 3, 4, 5].length || 0) - 1 ? "" : "mb-[7.5px]"
+          }`}
         >
-          <Button
-            boxSize="16px"
-            borderRadius="4px"
-            border={bordersActive}
-            onClick={() => {}}
-          >
-            <CheckIcon
-              fontSize="11px"
-              color={text80}
-              opacity={
-                selectedTradeFilters.liquidity_pool.includes("entry") ? 1 : 0
-              }
+          <button className="flex items-center justify-center w-4 h-4 rounded border-light-border-secondary dark:border-dark-border-secondary border">
+            <BsCheckLg
+              className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
+                selectedTradeFilters.liquidity_pool.includes("entry")
+                  ? "opacity-100"
+                  : "opacity-0"
+              }`}
             />
-          </Button>
-          <Image
-            ml="15px"
-            borderRadius="full"
+          </button>
+          <NextImageFallback
+            width={25}
+            height={25}
+            className="ml-[15px] rounded-full mr-2.5 min-w-[25px]"
             src="/logo/cardano.png"
-            boxSize="25px"
-            minW="25px"
-            mr="10px"
+            fallbackSrc="/logo/cardano.png"
           />
-          <Flex direction="column">
-            <TextSmall color={text80}>Cardano</TextSmall>
-            <TextExtraSmall color={text40}>
+          <div className="flex flex-col">
+            <SmallFont>Cardano</SmallFont>
+            <ExtraSmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
               Uniswap * Liquidity: $XXM
-            </TextExtraSmall>
-          </Flex>
-        </Flex>
+            </ExtraSmallFont>
+          </div>
+        </div>
       ))}
-    </Flex>
+    </div>
   );
 };

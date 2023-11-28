@@ -1,26 +1,17 @@
 "use client";
-import { Icon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Flex,
-  Image,
-  Skeleton,
-  Tbody,
-  Td,
-  Tr,
-} from "@chakra-ui/react";
+import { User } from "mobula-utils/lib/user/model";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../components/avatar";
-import { TextSmall } from "../../../components/fonts";
+import { SmallFont } from "../../../components/fonts";
+import { NextImageFallback } from "../../../components/image";
+import { Skeleton } from "../../../components/skeleton";
 import { WatchlistContext } from "../../../contexts/pages/watchlist";
 import { UserContext } from "../../../contexts/user";
-import { useColors } from "../../../lib/chakra/colorMode";
+import { Asset } from "../../../interfaces/assets";
+import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { GET } from "../../../utils/fetch";
 import {
@@ -30,15 +21,22 @@ import {
   getUrlFromName,
 } from "../../../utils/formaters";
 
+interface EntryWatchlistProps {
+  watchlist: { id: string; name: string } & IWatchlist;
+  tokens: Asset[];
+  usersOwner: User[];
+  isLoading: boolean;
+  i: number;
+}
+
 export const EntryWatchlist = ({
   watchlist,
   tokens,
   usersOwner,
   isLoading,
   i,
-}) => {
+}: EntryWatchlistProps) => {
   const [isHover, setIsHover] = React.useState(false);
-  const { boxBg3, text80, boxBg6, boxBg1, hover, borders } = useColors();
   const { user, setUser } = useContext(UserContext);
   const { setIsPageUserWatchlist, watchlists, setWatchlists } =
     useContext(WatchlistContext);
@@ -50,7 +48,7 @@ export const EntryWatchlist = ({
     (newUser) => newUser.id === watchlist.user_id
   );
   const assetsOfWatchlist = tokens.filter((token) =>
-    watchlist?.assets?.map((asset) => asset.id).includes(token.id)
+    watchlist?.assets?.map((asset: any) => asset?.id).includes(token.id)
   );
 
   const handleFollowWatchlist = (isAddTo) => {
@@ -68,7 +66,7 @@ export const EntryWatchlist = ({
             watchlist_id: watchlist.id,
           });
           // alert.success("Successfully followed this watchlist.");
-          setUser((userBuffer) => {
+          setUser((userBuffer: any) => {
             if (!userBuffer) return null;
             return {
               ...userBuffer,
@@ -82,7 +80,7 @@ export const EntryWatchlist = ({
         });
     } else if (address && !isAddTo && watchlist?.user_id !== user?.id)
       GET("/watchlist/unfollow", {
-        id: watchlist.id,
+        id: watchlist.id as number,
         account: user ? user.address : "",
       })
         .then((r) => r.json())
@@ -149,27 +147,26 @@ export const EntryWatchlist = ({
 
   const getColorFromAverageScore = () => {
     if (Number(getAverageScore()) > 2 && Number(getAverageScore()) < 4)
-      return "yellow";
-    if (Number(getAverageScore()) <= 2) return "red";
-    if (Number(getAverageScore()) >= 4) return "green";
-    return text80;
+      return "text-yellow dark:text-yellow";
+    if (Number(getAverageScore()) <= 2) return "text-red dark:text-red";
+    if (Number(getAverageScore()) >= 4) return "text-green dark:text-green";
+    return "text-light-font-100 dark:text-dark-font-100";
   };
+  const averageScoreColor = getColorFromAverageScore();
 
   return (
-    <Tbody
+    <tbody
+      className={`text-sm ${
+        isHover ? "bg-light-bg-hover dark:bg-dark-bg-hover" : ""
+      } h-[57px]`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      fontFamily="Inter"
-      fontSize="14px"
-      borderBottom="none"
-      bg={[isHover ? boxBg3 : "none"]}
-      h="57px"
     >
-      <Tr color={text80}>
-        <Td borderBottom={borders} py={["5px", "5px", "5px", "5px", "25px"]}>
-          <Flex align="center" justify="center">
+      <tr>
+        <td className="border-b border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]">
+          <div className="flex items-center justify-center">
             {watchlist && !isLoading ? (
-              <Button
+              <button
                 onClick={() =>
                   handleFollowWatchlist(
                     !user?.watchlists_followed.includes(watchlist.id)
@@ -178,38 +175,21 @@ export const EntryWatchlist = ({
               >
                 {user?.watchlists_followed?.includes(watchlist.id) ||
                 pathname.includes("followed") ? (
-                  <Icon
-                    fontSize="20px"
-                    mx="auto"
-                    color="yellow"
-                    as={AiFillStar}
-                  />
+                  <AiFillStar className="text-yellow dark:text-yellow text-xl mx-auto" />
                 ) : (
-                  <Icon
-                    fontSize="20px"
-                    _hover={{ color: "yellow" }}
-                    transition="all 0.25s ease-in-out"
-                    mx="auto"
-                    color={text80}
-                    as={AiOutlineStar}
+                  <AiOutlineStar
+                    className="text-light-font-100 dark:text-dark-font-100 text-xl
+                   mx-auto transition-all duration-250 ease-in-out hover:text-yellow hover:dark:text-yellow"
                   />
                 )}
-              </Button>
+              </button>
             ) : (
-              <Skeleton
-                borderRadius="full"
-                boxSize="20px"
-                minW="20px"
-                startColor={boxBg6}
-                endColor={hover}
-              />
+              <Skeleton extraCss="w-5 h-5 min-w-5 rounded-full" />
             )}
-          </Flex>
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
-          left="0px"
+          </div>
+        </td>
+        <td
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -218,27 +198,15 @@ export const EntryWatchlist = ({
             );
             setIsPageUserWatchlist(true);
           }}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
         >
           {watchlist && !isLoading ? (
-            <TextSmall>{watchlist.name}</TextSmall>
+            <SmallFont>{watchlist.name}</SmallFont>
           ) : (
-            <Skeleton
-              borderRadius="4px"
-              h={["14px", "14px", "15px", "16px"]}
-              w="100px"
-              startColor={boxBg6}
-              endColor={hover}
-            />
+            <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[100px]" />
           )}
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
-          my="0px"
+        </td>
+        <td
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -247,28 +215,17 @@ export const EntryWatchlist = ({
             );
             setIsPageUserWatchlist(true);
           }}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
         >
           {watchlist && !isLoading ? (
-            <TextSmall>
+            <SmallFont>
               {watchlist.followers ? watchlist.followers : 0}
-            </TextSmall>
+            </SmallFont>
           ) : (
-            <Skeleton
-              borderRadius="4px"
-              h={["14px", "14px", "15px", "16px"]}
-              w="30px"
-              startColor={boxBg6}
-              endColor={hover}
-            />
+            <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[30px]" />
           )}
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
+        </td>
+        <td
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -277,31 +234,20 @@ export const EntryWatchlist = ({
             );
             setIsPageUserWatchlist(true);
           }}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
         >
           {watchlist && !isLoading ? (
-            <TextSmall color={getColorFromAverageScore()}>
+            <SmallFont extraCss={averageScoreColor}>
               {getAverageScore()}
-              <Box as="span" color={text80}>
+              <span className="text-light-font-100 dark:text-dark-font-100">
                 /5
-              </Box>
-            </TextSmall>
+              </span>
+            </SmallFont>
           ) : (
-            <Skeleton
-              borderRadius="4px"
-              h={["14px", "14px", "15px", "16px"]}
-              w="40px"
-              startColor={boxBg6}
-              endColor={hover}
-            />
+            <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[40px]" />
           )}
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
+        </td>
+        <td
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -310,26 +256,15 @@ export const EntryWatchlist = ({
             );
             setIsPageUserWatchlist(true);
           }}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
         >
           {watchlist && !isLoading ? (
-            <TextSmall>${formatAmount(marketCap)}</TextSmall>
+            <SmallFont>${formatAmount(marketCap)}</SmallFont>
           ) : (
-            <Skeleton
-              borderRadius="4px"
-              h={["14px", "14px", "15px", "16px"]}
-              w="140px"
-              startColor={boxBg6}
-              endColor={hover}
-            />
+            <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[140px]" />
           )}
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
+        </td>
+        <td
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -338,85 +273,56 @@ export const EntryWatchlist = ({
             );
             setIsPageUserWatchlist(true);
           }}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
         >
           {watchlist && !isLoading ? (
-            <TextSmall color={percentageAvr > 0 ? "green" : "red"}>
-              {" "}
+            <SmallFont
+              extraCss={
+                percentageAvr > 0
+                  ? "text-green dark:text-green"
+                  : "text-red dark:text-red"
+              }
+            >
               {getTokenPercentage(percentageAvr)}%
-            </TextSmall>
+            </SmallFont>
           ) : (
-            <Skeleton
-              borderRadius="4px"
-              h={["14px", "14px", "15px", "16px"]}
-              w="50px"
-              startColor={boxBg6}
-              endColor={hover}
-            />
+            <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[50px]" />
           )}
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
-        >
+        </td>
+        <td className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]">
           {watchlist && !isLoading ? (
-            <Flex
-              align="center"
-              _hover={{ color: "blue", cursor: "pointer" }}
-              transition="all 0.25s ease-in-out"
+            <div
+              className="flex items-center cursor-pointer hover:text-blue
+             hover:dark:text-blue transition-all duration-250 ease-in-out 
+             text-light-font-100 dark:text-dark-font-100"
               onClick={() =>
                 router.push(`/profile/${userOfWatchlist?.address}`)
               }
             >
               {userOfWatchlist?.profile_pic !== "/mobula/fullicon.png" ? (
-                <Image
-                  src={userOfWatchlist?.profile_pic}
+                <NextImageFallback
+                  className="w-[22px] h-[22px] rounded-full mr-[7.5px]"
+                  src={userOfWatchlist?.profile_pic as string}
                   fallbackSrc="/mobula/mobula-logo.svg"
-                  boxSize="22px"
-                  borderRadius="full"
-                  mr="7.5px"
                 />
               ) : (
                 <AddressAvatar
-                  boxSize="22px"
-                  borderRadius="full"
-                  mr="7.5px"
+                  extraCss="w-[22px] h-[22px] rounded-full mr-[7.5px]"
                   address={userOfWatchlist.address}
                 />
               )}
               {userOfWatchlist?.username
                 ? userOfWatchlist.username
                 : addressSlicer(userOfWatchlist?.address)}
-            </Flex>
+            </div>
           ) : (
-            <Flex align="center">
-              <Skeleton
-                boxSize="22px"
-                startColor={boxBg6}
-                endColor={hover}
-                borderRadius="full"
-                mr="7.5px"
-              />
-              <Skeleton
-                borderRadius="4px"
-                h={["14px", "14px", "15px", "16px"]}
-                w="90px"
-                startColor={boxBg6}
-                endColor={hover}
-              />
-            </Flex>
+            <div className="flex items-center">
+              <Skeleton extraCss="w-[22px] h-[22px] rounded-full mr-[7.5px]" />
+              <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[90px]" />
+            </div>
           )}
-        </Td>
-        <Td
-          borderBottom={borders}
-          py={["5px", "5px", "5px", "5px", "25px"]}
+        </td>
+        <td
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -425,60 +331,46 @@ export const EntryWatchlist = ({
             );
             setIsPageUserWatchlist(true);
           }}
-          _hover={{
-            cursor: "pointer",
-            color: "none",
-          }}
         >
           {watchlist && !isLoading ? (
-            <Flex align="center" justify="flex-end">
-              <AvatarGroup fontSize="12px" spacing="-2" size="xs">
+            <div className="flex items-center justify-end">
+              <div className="flex items-center">
                 {assetsOfWatchlist[i]?.map((token, idx) => {
                   if (idx < 5)
                     return (
-                      <Avatar
-                        bg={boxBg1}
-                        border={borders}
-                        name={token.name}
+                      <img
+                        className="bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary
+                       dark:border-dark-border-primary rounded-full ml-[-5px]"
+                        alt={token.name}
                         src={token.logo}
                       />
                     );
                   return null;
                 })}
-              </AvatarGroup>
+              </div>
               {assetsOfWatchlist[i] ? (
-                <TextSmall ml="7.5px">
+                <SmallFont extraCss="ml-[7.5px]">
                   {assetsOfWatchlist[i].length - 5 > 0
                     ? `+${assetsOfWatchlist[i].length - 5}`
                     : null}
-                </TextSmall>
+                </SmallFont>
               ) : null}
-            </Flex>
+            </div>
           ) : (
-            <Flex align="center" justify="flex-end">
-              <AvatarGroup fontSize="12px" spacing="-2" size="xs">
+            <div className="flex items-center justify-end">
+              <div className="flex items-center">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Skeleton
-                    boxSize="22px"
-                    startColor={boxBg6}
-                    endColor={hover}
-                    borderRadius="full"
+                    extraCss="w-[22px] h-[22px] rounded-full mr-[-5px]"
                     key={i}
                   />
                 ))}
-              </AvatarGroup>
-              <Skeleton
-                ml="7.5px"
-                borderRadius="4px"
-                h={["14px", "14px", "15px", "16px"]}
-                w="36px"
-                startColor={boxBg6}
-                endColor={hover}
-              />
-            </Flex>
+              </div>
+              <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[36px] ml-[7.5px]" />
+            </div>
           )}
-        </Td>
-      </Tr>
-    </Tbody>
+        </td>
+      </tr>
+    </tbody>
   );
 };
