@@ -1,27 +1,28 @@
-import {Button, Flex, FlexProps} from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import {useContext, useEffect} from "react";
-import {
-  TextLandingMedium,
-  TextLandingSmall,
-} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {timestamps} from "../../../../constant";
-import {BaseAssetContext} from "../../../../context-manager";
+import React, { ReactElement, useContext, useEffect } from "react";
+import { LargeFont, MediumFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
+import { timestamps } from "../../../../constant";
+import { BaseAssetContext } from "../../../../context-manager";
 
-const EChart = dynamic(() => import("./multi-echart"), {
+const EChart: ReactElement | any = dynamic(() => import("./multi-echart"), {
   ssr: false,
 });
+
+interface MultiChart {
+  chartId?: string;
+  dividor?: number;
+  extraCss?: string;
+  [key: string]: any;
+}
 
 export const MultiChart = ({
   chartId,
   dividor = 1,
+  extraCss,
   ...props
-}: {
-  chartId?: string;
-  dividor?: number;
-} & FlexProps) => {
-  const {baseAsset} = useContext(BaseAssetContext);
+}: MultiChart) => {
+  const { baseAsset } = useContext(BaseAssetContext);
   const {
     timeSelected,
     chartType,
@@ -29,7 +30,6 @@ export const MultiChart = ({
     shouldLoadHistory,
     loadHistoryData,
   } = useContext(BaseAssetContext);
-  const {borders, text80, hover, boxBg3, text40} = useColors();
   useEffect(() => {
     setTimeSelected("ALL");
   }, []);
@@ -38,47 +38,38 @@ export const MultiChart = ({
   // const discord = [];
 
   return (
-    <Flex direction="column" w="100%" mt="20px">
-      <Flex align="center" justify="space-between" w="100%">
-        <TextLandingMedium mb="10px">Socials Analytics</TextLandingMedium>
-        <Flex
-          h="38px"
-          w="260px"
-          p="2px"
-          borderRadius="8px"
-          bg={boxBg3}
-          position="relative"
-          zIndex={1}
-          border={borders}
+    <div className="flex flex-col w-full mt-5">
+      <div className="flex items-center justify-between w-full">
+        <LargeFont mb="10px">Socials Analytics</LargeFont>
+        <div
+          className="h-[38px] w-[260px] p-0.5 rounded bg-light-bg-secondary
+         dark:bg-dark-bg-secondary relative z-[1] border border-light-border-primary 
+         dark:border-dark-border-primary"
         >
-          <Flex
-            h="90%"
-            top="50%"
-            transform="translateY(-50%)"
-            w="16.66%"
-            transition="all 250ms ease-in-out"
-            borderRadius="8px"
-            position="absolute"
-            bg={hover}
-            left={`${
-              (100 / timestamps.length) * timestamps.indexOf(timeSelected)
-            }%`}
-            ml={timestamps.indexOf(timeSelected) === 0 ? "2px" : "0px"}
-            mr={
+          <div
+            className={`flex h-[90%] top-1/2 -translate-y-1/2 w-[16.66%] transition-all duration-250 
+          ease-in-out rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover ${
+            timestamps.indexOf(timeSelected) === 0 ? "ml-0.5" : ""
+          } ${
               timestamps.indexOf(timeSelected) === timestamps.length - 1
-                ? "2px"
-                : "0px"
-            }
+                ? "mr-0.5"
+                : ""
+            }`}
+            style={{
+              left: `${
+                (100 / timestamps.length) * timestamps.indexOf(timeSelected)
+              }%`,
+            }}
           />
-          {timestamps.map(time => (
-            <Button
-              h="100%"
+          {timestamps.map((time) => (
+            <button
+              className={`h-full font-medium transition-all duration-400 ease-in-out w-[16.66%] ${
+                timeSelected === time
+                  ? "text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }`}
               key={time}
-              isDisabled={time !== "ALL"}
-              color={timeSelected === time ? text80 : text40}
-              fontWeight="400"
-              transition="all 400ms ease-in"
-              w="16.66%"
+              disabled={time !== "ALL"}
               onClick={() => {
                 if (shouldLoadHistory(chartType, time))
                   loadHistoryData(chartType, time);
@@ -87,18 +78,15 @@ export const MultiChart = ({
               }}
             >
               {time}
-            </Button>
+            </button>
           ))}
-        </Flex>
-      </Flex>
-      <Flex
-        justify="center"
-        mt="110px"
-        w="100%"
-        align="center"
-        position="relative"
-        h="310px"
-        mb="100px"
+        </div>
+      </div>
+      <div
+        className={cn(
+          "flex justify-center items-center w-full mt-[110px] mb-[100px] h-[310px] relative",
+          extraCss
+        )}
         {...props}
       >
         <EChart
@@ -107,12 +95,12 @@ export const MultiChart = ({
           data={twitter || []}
           timeframe={timeSelected}
         />
-      </Flex>{" "}
-      <Flex align="center" mt="10px">
-        <Flex align="center" mr="15px">
-          <Flex boxSize="10px" bg="green" borderRadius="full" />
-          <TextLandingSmall ml="7.5px">Twitter followers</TextLandingSmall>
-        </Flex>
+      </div>
+      <div className="flex items-center mt-2.5">
+        <div className="flex items-center mr-[15px]">
+          <div className="w-2.5 h-2.5 bg-green dark:bg-green rounded-full" />
+          <MediumFont ml="7.5px">Twitter followers</MediumFont>
+        </div>
         {/* <Flex align="center" mr="15px">
           <Flex boxSize="10px" bg="#64D1FF" borderRadius="full" />
           <TextLandingSmall ml="7.5px">Telegram users</TextLandingSmall>
@@ -121,7 +109,7 @@ export const MultiChart = ({
           <Flex boxSize="10px" bg="#4055A7" borderRadius="full" />
           <TextLandingSmall ml="7.5px">Discord users</TextLandingSmall>
         </Flex> */}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
