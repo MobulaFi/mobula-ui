@@ -38,7 +38,7 @@ export function formatAmount(amount: number | string, decimals = 2) {
 }
 
 export function getFormattedAmount(
-  price: number | string,
+  price: number | string | undefined,
   lessPrecision = 0,
   settings = { minifyZeros: true, minifyBigNumbers: true }
 ) {

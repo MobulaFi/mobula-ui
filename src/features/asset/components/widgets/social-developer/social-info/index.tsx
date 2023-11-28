@@ -1,72 +1,69 @@
-import {Flex, Icon, Text} from "@chakra-ui/react";
-import {useContext} from "react";
-import {BsDiscord, BsTwitter} from "react-icons/bs";
-import {FaTelegramPlane} from "react-icons/fa";
+import { Icon } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { BsDiscord, BsTwitter } from "react-icons/bs";
+import { FaTelegramPlane } from "react-icons/fa";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../../context-manager";
+import { FlexBorderBox } from "../../../../style";
 
-import {getFormattedAmount} from "../../../../../../../../utils/helpers/formaters";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
-import {FlexBorderBox} from "../../../../style";
-
-export const SocialInfo = ({...props}) => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text80, borders, boxBg3, text60} = useColors();
+export const SocialInfo = ({ extraCss }) => {
+  const { baseAsset } = useContext(BaseAssetContext);
   const metrics = [
     {
       title: "Twitter Followers",
       value: getFormattedAmount(baseAsset?.assets_social?.twitter_members),
-      icon: <Icon as={BsTwitter} color="#33CCFF" />,
+      icon: <BsTwitter className="text-twitter dark:text-twitter" />,
     },
     {
       title: "Telegram Members",
       value: getFormattedAmount(baseAsset?.assets_social?.telegram_members),
-      icon: <Icon as={FaTelegramPlane} color="#3098C8" />,
+      icon: (
+        <Icon
+          as={FaTelegramPlane}
+          className="text-telegram dark:text-telegram"
+        />
+      ),
     },
     {
       title: "Discord Members",
       value: getFormattedAmount(baseAsset?.assets_social?.discord_members),
-      icon: <Icon as={BsDiscord} color="#5865F2" />,
+      icon: <Icon as={BsDiscord} className="text-discord dark:text-discord" />,
     },
   ];
   return (
-    <Flex
-      {...FlexBorderBox}
-      {...props}
-      bg={["none", "none", "none", boxBg3]}
-      border={["none", "none", "none", borders]}
+    <div
+      className={cn(
+        `flex ${FlexBorderBox} bg-light-bg-secondary dark:bg-dark-bg-secondary lg:bg-inherit dark:lg:bg-inherit border border-light-border-primary dark:border-dark-border-primary lg:border-0`,
+        extraCss
+      )}
     >
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="10px"
-        display={["none", "none", "none", "flex"]}
-      >
-        Socials Metrics
-      </Text>
+      <MediumFont extraCss="mb-2.5 flex lg:hidden">Socials Metrics</MediumFont>
       {metrics
-        .filter(entry => entry.value && entry.value !== 0)
+        .filter((entry) => entry.value && entry.value !== 0)
         .map((entry, i) => (
-          <Flex
-            justify="space-between"
-            borderTop={i === 0 ? "none" : borders}
-            py="10px"
-            pb={metrics.length - 1 === i ? "0px" : "10px"}
+          <div
+            key={entry.title}
+            className={`flex justify-between py-2.5 ${
+              i === 0
+                ? ""
+                : "border-t border-light-border-primary dark:border-dark-border-primary"
+            } ${metrics.length - 1 === i ? "pb-0" : "pb-2.5"}`}
           >
-            <Flex align="center" mb="5px">
+            <div className="flex items-center mb-[5px]">
               {entry.icon}
-              <TextSmall ml="7.5px" color={text60}>
+              <SmallFont extraCss="ml-[7.5px] text-light-font-60 dark:text-dark-font-60">
                 {entry.title}
-              </TextSmall>
-            </Flex>
-            <Flex align="center">
-              <Text fontSize="13px" color={text80}>
+              </SmallFont>
+            </div>
+            <div className="flex items-center">
+              <p className="text-[13px] text-light-font-100 dark:text-dark-font-100">
                 {entry.value}
-              </Text>
-            </Flex>
-          </Flex>
+              </p>
+            </div>
+          </div>
         ))}
-    </Flex>
+    </div>
   );
 };

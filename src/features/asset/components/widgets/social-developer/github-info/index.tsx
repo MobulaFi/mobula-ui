@@ -74,7 +74,7 @@ export const GithubInfo = ({ extraCss }) => {
           className={`flex justify-between py-2.5 ${
             i === 0
               ? ""
-              : "border border-light-border-primary dark:border-dark-border-primary"
+              : "border-t border-light-border-primary dark:border-dark-border-primary"
           } ${metrics.length - 1 === i ? "pb-0" : "pb-2.5"}`}
         >
           <div className="flex items-center mb-[5px]">
