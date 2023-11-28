@@ -1,5 +1,5 @@
 "use client";
-
+import { User } from "mobula-utils/lib/user/model";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
@@ -10,6 +10,8 @@ import { NextImageFallback } from "../../../components/image";
 import { Skeleton } from "../../../components/skeleton";
 import { WatchlistContext } from "../../../contexts/pages/watchlist";
 import { UserContext } from "../../../contexts/user";
+import { Asset } from "../../../interfaces/assets";
+import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { GET } from "../../../utils/fetch";
 import {
@@ -19,13 +21,21 @@ import {
   getUrlFromName,
 } from "../../../utils/formaters";
 
+interface EntryWatchlistProps {
+  watchlist: { id: string; name: string } & IWatchlist;
+  tokens: Asset[];
+  usersOwner: User[];
+  isLoading: boolean;
+  i: number;
+}
+
 export const EntryWatchlist = ({
   watchlist,
   tokens,
   usersOwner,
   isLoading,
   i,
-}) => {
+}: EntryWatchlistProps) => {
   const [isHover, setIsHover] = React.useState(false);
   const { user, setUser } = useContext(UserContext);
   const { setIsPageUserWatchlist, watchlists, setWatchlists } =
@@ -38,7 +48,7 @@ export const EntryWatchlist = ({
     (newUser) => newUser.id === watchlist.user_id
   );
   const assetsOfWatchlist = tokens.filter((token) =>
-    watchlist?.assets?.map((asset) => asset.id).includes(token.id)
+    watchlist?.assets?.map((asset: any) => asset?.id).includes(token.id)
   );
 
   const handleFollowWatchlist = (isAddTo) => {
@@ -56,7 +66,7 @@ export const EntryWatchlist = ({
             watchlist_id: watchlist.id,
           });
           // alert.success("Successfully followed this watchlist.");
-          setUser((userBuffer) => {
+          setUser((userBuffer: any) => {
             if (!userBuffer) return null;
             return {
               ...userBuffer,
@@ -70,7 +80,7 @@ export const EntryWatchlist = ({
         });
     } else if (address && !isAddTo && watchlist?.user_id !== user?.id)
       GET("/watchlist/unfollow", {
-        id: watchlist.id,
+        id: watchlist.id as number,
         account: user ? user.address : "",
       })
         .then((r) => r.json())
@@ -291,7 +301,7 @@ export const EntryWatchlist = ({
               {userOfWatchlist?.profile_pic !== "/mobula/fullicon.png" ? (
                 <NextImageFallback
                   className="w-[22px] h-[22px] rounded-full mr-[7.5px]"
-                  src={userOfWatchlist?.profile_pic}
+                  src={userOfWatchlist?.profile_pic as string}
                   fallbackSrc="/mobula/mobula-logo.svg"
                 />
               ) : (
