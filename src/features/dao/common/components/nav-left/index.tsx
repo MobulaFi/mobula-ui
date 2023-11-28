@@ -1,7 +1,9 @@
 "use client";
+import { NextImageFallback } from "components/image";
+import { NextChakraLink } from "components/link";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
 import {
   LargeFont,
@@ -75,14 +77,17 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
         className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[500px] w-[235px] 
       flex items-center flex-col mr-5 rounded-xl border border-light-border-primary dark:border-dark-border-primary"
       >
-        <img
-          className="mt-[30px] w-[87px] h-[87px]"
+        <NextImageFallback
+          className="mt-[30px]"
           alt="mobula logo"
+          width={87}
+          height={87}
           src={
             isWhiteMode
               ? "/mobula/mobula-logo-light.svg"
               : "/mobula/mobula-logo.svg"
           }
+          fallbackSrc={"/mobula/mobula-logo.svg"}
         />
         <LargeFont extraCss="mt-2.5">{infos.title}</LargeFont>
         <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 text-normal">
@@ -107,20 +112,19 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
                     ? "border-l border-blue dark:border-blue"
                     : ""
                 }`}
-                onClick={() => {
-                  setSelectedSection(info?.name);
-                  router.push(`/dao/${info.url}`);
-                }}
+                onClick={() => setSelectedSection(info?.name)}
               >
-                <MediumFont
-                  extraCss={`${
-                    selectedSection === info?.name
-                      ? "text-light-font-100 dark:text-dark-font-100"
-                      : "text-light-font-40 dark:text-dark-font-40"
-                  }`}
-                >
-                  {info?.name}{" "}
-                </MediumFont>
+                <NextChakraLink href={`/dao/${info.url}`}>
+                  <MediumFont
+                    extraCss={`${
+                      selectedSection === info?.name
+                        ? "text-light-font-100 dark:text-dark-font-100"
+                        : "text-light-font-40 dark:text-dark-font-40"
+                    }`}
+                  >
+                    {info?.name}{" "}
+                  </MediumFont>
+                </NextChakraLink>
               </button>
             ))}
           </div>

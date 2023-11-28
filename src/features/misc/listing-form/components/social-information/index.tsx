@@ -1,7 +1,7 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsShieldFillCheck } from "react-icons/bs";
+import { FaArrowLeft } from "react-icons/fa6";
 import { MdVisibility } from "react-icons/md";
 import {
   ExtraLargeFont,
@@ -115,7 +115,7 @@ export const SocialInformation = ({ dispatch, state }) => {
           className="text-light-font-100 dark:text-dark-font-100 hidden md:flex"
           onClick={() => setActualPage(actualPage - 1)}
         >
-          <ArrowBackIcon className="mr-[5px]" />
+          <FaArrowLeft className="mr-[5px]" />
         </button>
         <ExtraLargeFont>Social Information</ExtraLargeFont>
       </div>

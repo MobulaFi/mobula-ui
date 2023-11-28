@@ -1,4 +1,3 @@
-import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -20,6 +19,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { PopupUpdateContext } from "contexts/popup";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
+import { FaArrowLeft } from "react-icons/fa6";
 import { FiExternalLink, FiShoppingCart } from "react-icons/fi";
 import { erc20ABI, useAccount, useNetwork } from "wagmi";
 import {
@@ -437,7 +437,7 @@ export const Submit = ({ state }) => {
             else setActualPage(actualPage - 1);
           }}
         >
-          <ArrowBackIcon className="text-light-font-100 dark:text-dark-font-100 mr-[5px]" />
+          <FaArrowLeft className="text-light-font-100 dark:text-dark-font-100 mr-[5px]" />
         </button>
         <LargeFont>Submit</LargeFont>
       </div>

@@ -1,40 +1,24 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Collapse,
-  Flex,
-  Icon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-} from "@chakra-ui/react";
+import { Collapse } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 // import {useAlert} from "react-alert";
 import React from "react";
 import { BiTimeFive } from "react-icons/bi";
-import DatePicker from "react-widgets/DatePicker";
+import { BsCalendar3, BsChevronDown } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { TextLandingMedium } from "../../../../../../components/fonts";
+import { Button } from "../../../../../../components/button";
+import { Menu } from "../../../../../../components/menu";
+import { ModalContainer } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { Calendar } from "../../../../../../lib/shadcn/components/ui/calendar";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getClosest,
+  getDate,
   getFormattedAmount,
 } from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -59,7 +43,7 @@ export const EditTransactionPopup = () => {
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
   const [activePrice, setActivePrice] = useState("Market Price");
-  const [date, setDate] = useState(new Date().getTime());
+  const [date, setDate] = useState(new Date());
   const [transferType, setTransferType] = useState("Transfer In");
   const [typeSelected, setTypeSelected] = useState("Buy");
   const switcherOptions = ["Buy", "Sell", "Transfer"];
@@ -142,8 +126,6 @@ export const EditTransactionPopup = () => {
       queries
     )) as unknown as [{ data: Asset | null }, { data: HistoryData | null }];
     setHistoricalData(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       (history?.price_history || []).concat(asset?.price_history?.price || [])
     );
   };
@@ -151,7 +133,8 @@ export const EditTransactionPopup = () => {
   const submitTransaction = () => {
     pushData("ADD-TRANSACTION-CONFIRM");
     const timestamp =
-      date + convertInMillis(hoursRef.current.value, minutesRef.current.value);
+      date.getTime() +
+      convertInMillis(hoursRef.current.value, minutesRef.current.value);
 
     if (settings.quantity) {
       GET("/portfolio/edittx", {
@@ -191,357 +174,244 @@ export const EditTransactionPopup = () => {
   }, [tokenTsx]);
 
   return (
-    <Modal
-      isOpen={!!showEditTransaction}
-      onClose={() => setShowEditTransaction(null)}
+    <ModalContainer
+      extraCss="max-w-[380px]"
+      isOpen={showEditTransaction}
+      onClose={() => setShowEditTransaction(false)}
+      title="Edit Transaction"
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg1}
-        borderRadius="16px"
-        border={borders}
-        p={["15px", "15px", "20px"]}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="380px"
-      >
-        <ModalHeader p="0px" mb="15px">
-          <TextLandingMedium color={text80}>Edit Transaction</TextLandingMedium>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="0px">
-          <ButtonSlider
-            switcherOptions={switcherOptions}
-            typeSelected={typeSelected}
-            setTypeSelected={setTypeSelected}
-          />
-          {typeSelected === "Transfer" ? (
-            <Flex direction="column" w="100%">
-              <Text fontSize="14px" fontWeight="400" color={text80} mb="10px">
-                Transfer
-              </Text>
-              <Menu matchWidth>
-                <MenuButton
-                  bg={boxBg6}
-                  borderRadius="8px"
-                  h="35px"
-                  w="100%"
-                  border={borders}
-                  _hover={{ bg: hover, border: bordersActive }}
-                  as={Button}
-                  fontSize={["12px", "12px", "13px", "14px"]}
-                  color={text80}
-                  fontWeight="400"
-                >
-                  <Flex
-                    align="center"
-                    w="100%"
-                    px="10px"
-                    justify="space-between"
-                  >
-                    {transferType}
-                    <Icon
-                      as={ChevronDownIcon}
-                      color={text80}
-                      fontSize={["16px", "16px", "18px", "20px"]}
-                    />
-                  </Flex>
-                </MenuButton>
-                <MenuList
-                  bg={boxBg3}
-                  border={borders}
-                  borderRadius="8px"
-                  color={text80}
-                  py="0px"
-                  boxShadow="1px 2px 13px 3px rgba(0,0,0,0.1)"
-                >
-                  <MenuItem
-                    bg={boxBg3}
-                    fontSize={["12px", "12px", "13px", "14px"]}
-                    _hover={{ bg: hover }}
-                    transition="all 200ms ease-in-out"
-                    borderRadius="8px 8px 0px 0px"
-                    onClick={() => setTransferType("Transfer In")}
-                  >
-                    Transfer In
-                  </MenuItem>
-                  <MenuItem
-                    bg={boxBg3}
-                    borderRadius="0px 0px 8px 8px"
-                    _hover={{ bg: hover }}
-                    transition="all 200ms ease-in-out"
-                    fontSize={["12px", "12px", "13px", "14px"]}
-                    onClick={() => setTransferType("Transfer Out")}
-                  >
-                    Transfer Out
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          ) : null}
-
-          <Text
-            mt="15px"
-            fontSize="14px"
-            fontWeight="400"
-            color={text80}
-            mb="10px"
+      <ButtonSlider
+        switcherOptions={switcherOptions}
+        typeSelected={typeSelected}
+        setTypeSelected={setTypeSelected}
+      />
+      {typeSelected === "Transfer" ? (
+        <div className="flex flex-col w-full">
+          <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5">
+            Transfer
+          </p>
+          <Menu
+            title={
+              <div className="flex items-center justify-between w-full px-2.5">
+                {transferType}
+                <BsChevronDown className="text-light-font-100 dark:text-dark-font-100 text-xl lg:text-lg md:text-base" />
+              </div>
+            }
           >
-            Amount
-          </Text>
-          <InputGroup>
-            <Input
-              bg="box_bg.10"
-              borderRadius="8px"
-              h="35px"
-              type="number"
-              lang="en"
-              value={settings.quantity}
-              placeholder="0.00"
+            <div
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-t transition-all
+                   duration-250 text-sm lg:text-[13px] md:text-xs"
+              onClick={() => setTransferType("Transfer In")}
+            >
+              Transfer In
+            </div>
+            <div
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-b transition-all
+                   duration-250 text-sm lg:text-[13px] md:text-xs"
+              onClick={() => setTransferType("Transfer Out")}
+            >
+              Transfer Out
+            </div>
+          </Menu>
+        </div>
+      ) : null}
+      <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5">
+        Amount
+      </p>
+      <div className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded">
+        <input
+          className="h-full w-full"
+          type="number"
+          lang="en"
+          value={settings.quantity}
+          placeholder="0.00"
+          onChange={(e) => {
+            setSettings((prev) => ({
+              ...prev,
+              quantity: e.target.value,
+            }));
+            setSettings((prev) => ({
+              ...prev,
+              total_spent:
+                parseFloat(e.target.value) * parseFloat(prev.quantity),
+            }));
+          }}
+        />
+        <div className="text-light-font-100 dark:text-dark-font-100 pr-2.5 h-full pl-2.5">
+          {tokenTsx.symbol}
+        </div>
+      </div>
+      <>
+        <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+          Price
+        </p>
+        <div className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded">
+          <input
+            className="h-full w-full"
+            type="number"
+            value={getFormattedAmount(settings.price)}
+            placeholder={JSON.stringify(getFormattedAmount(settings.price))}
+            readOnly={activePrice !== "Custom Price"}
+            onChange={(e) => {
+              setSettings((prev) => ({
+                ...prev,
+                price: parseFloat(e.target.value),
+              }));
+              setSettings((prev) => ({
+                ...prev,
+                total_spent:
+                  parseFloat(e.target.value) * parseFloat(prev.quantity),
+              }));
+            }}
+          />
+          <div className="text-light-font-100 dark:text-dark-font-100 pr-2.5 h-full pl-2.5">
+            {tokenTsx.symbol}
+          </div>
+        </div>
+        {switcherPriceOptions
+          .filter((entry) => entry)
+          .map((name) => {
+            const isActive = activePrice === name;
+            return (
+              <button
+                className={`${buttonMarketPriceStyle} ${
+                  isActive ? "opacity-100" : "opacity-50"
+                }`}
+                key={name}
+                onClick={() => {
+                  setActivePrice(name);
+                  getPriceFromActivePriceOption(name);
+                }}
+              >
+                {name}
+              </button>
+            );
+          })}
+      </>
+
+      <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+        Date & Time
+      </p>
+      <div className="flex items-center">
+        <div className="flex w-auto mr-2.5">
+          <Menu
+            title={
+              <div
+                className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+                 cursor-pointer max-w-full justify-between"
+              >
+                <input
+                  className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+                  value={getDate(date.getTime())}
+                />
+                <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
+              </div>
+            }
+          >
+            <Calendar
+              className="static p-0 border-0 shadow-none"
+              selectedDay={date}
+              onSelect={setDate}
+            />
+          </Menu>
+        </div>
+        <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded h-[35px] flex items-center w-fit pr-2.5">
+          <input
+            className={inputTimeStyle}
+            ref={hoursRef}
+            min="0"
+            max="23"
+            maxLength={23}
+            onInput={(e: React.FormEvent<HTMLInputElement>) => {
+              const target = e.target as HTMLInputElement;
+              if (parseInt(target.value, 10) > 23) {
+                target.value = "23";
+              }
+            }}
+          />
+          <p className="text-sm text-light-font-100 dark:text-dark-font-100">
+            :
+          </p>
+          <input
+            className={inputTimeStyle}
+            ref={minutesRef}
+            step="1"
+            min="0"
+            max="59"
+            maxLength={59}
+            onInput={(e: React.FormEvent<HTMLInputElement>) => {
+              const target = e.target as HTMLInputElement;
+              if (parseInt(target.value, 10) > 59) {
+                target.value = "59";
+              }
+            }}
+          />
+          <BiTimeFive className="text-base text-light-font-60 dark:text-dark-font-60" />
+        </div>
+      </div>
+      <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+        Total
+      </p>
+      <div className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded">
+        <input
+          className="h-full w-full"
+          type="number"
+          value={settings.price * parseFloat(settings.quantity)}
+          readOnly
+        />
+        <div className="text-light-font-100 dark:text-dark-font-100 pr-2.5 h-full pl-2.5">
+          USD
+        </div>
+      </div>
+      <Collapse startingHeight={0} in={showNote}>
+        <div className="flex">
+          <div className="flex flex-col w-[80%] mr-2.5">
+            <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+              Note
+            </p>
+            <input
+              className=" bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded"
+              placeholder="Type a note"
               onChange={(e) => {
-                setSettings((prev) => ({
-                  ...prev,
-                  quantity: e.target.value,
-                }));
-                setSettings((prev) => ({
-                  ...prev,
-                  total_spent:
-                    parseFloat(e.target.value) * parseFloat(prev.quantity),
-                }));
+                setSettings((prev) => ({ ...prev, note: e.target.value }));
               }}
             />
-            <InputRightElement color={text80} h="100%" pr="10px" pl="10px">
-              {tokenTsx.symbol}
-            </InputRightElement>
-          </InputGroup>
-
-          <>
-            <Text
-              fontSize="14px"
-              fontWeight="400"
-              color={text80}
-              mt="15px"
-              mb="10px"
-            >
-              Price
-            </Text>
-            <InputGroup>
-              <Input
-                bg="box_bg.10"
-                borderRadius="8px"
-                h="35px"
+          </div>
+          <div className="flex flex-col w-[70px]">
+            <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
+              Fee
+            </p>
+            <div className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded">
+              <input
+                className="pr-[25px] w-full h-full"
+                placeholder="0.5"
                 type="number"
-                value={getFormattedAmount(settings.price)}
-                placeholder={JSON.stringify(getFormattedAmount(settings.price))}
-                isReadOnly={activePrice !== "Custom Price"}
                 onChange={(e) => {
                   setSettings((prev) => ({
                     ...prev,
-                    price: parseFloat(e.target.value),
-                  }));
-                  setSettings((prev) => ({
-                    ...prev,
-                    total_spent:
-                      parseFloat(e.target.value) * parseFloat(prev.quantity),
+                    fee: e.target.value,
                   }));
                 }}
               />
-              <InputRightElement color={text80} h="100%" pr="10px" pl="10px">
-                {tokenTsx.symbol}
-              </InputRightElement>
-            </InputGroup>
-            {switcherPriceOptions
-              .filter((entry) => entry)
-              .map((name) => {
-                const isActive = activePrice === name;
-                return (
-                  <Button
-                    onClick={() => {
-                      setActivePrice(name);
-                      getPriceFromActivePriceOption(name);
-                    }}
-                    sx={buttonMarketPriceStyle}
-                    opacity={isActive ? 1 : 0.5}
-                  >
-                    {name}
-                  </Button>
-                );
-              })}
-          </>
-
-          <Text
-            fontSize="14px"
-            fontWeight="400"
-            color={text80}
-            mt="15px"
-            mb="10px"
-          >
-            Date & Time
-          </Text>
-          <Flex align="center">
-            <Flex w="auto" mr="10px">
-              <DatePicker
-                onChange={(pickedDate) => {
-                  const finalDate =
-                    pickedDate.getTime() > new Date().getTime()
-                      ? new Date()
-                      : pickedDate;
-                  const dateToMillis = finalDate.getTime();
-                  setDate(dateToMillis);
-                }}
-                value={new Date(date)}
-              />
-            </Flex>
-
-            <Flex
-              bg="box_bg.10"
-              borderRadius="8px"
-              h="35px"
-              align="center"
-              w="fit-content"
-              pr="10px"
-            >
-              <Input
-                {...inputTimeStyle}
-                ref={hoursRef}
-                min="0"
-                max="23"
-                maxLength={23}
-                onInput={(e: React.FormEvent<HTMLInputElement>) => {
-                  const target = e.target as HTMLInputElement;
-                  if (parseInt(target.value, 10) > 23) {
-                    target.value = "23";
-                  }
-                }}
-              />
-              <Text>:</Text>
-              <Input
-                {...inputTimeStyle}
-                ref={minutesRef}
-                step="1"
-                min="0"
-                max="59"
-                maxLength={59}
-                onInput={(e: React.FormEvent<HTMLInputElement>) => {
-                  const target = e.target as HTMLInputElement;
-                  if (parseInt(target.value, 10) > 59) {
-                    target.value = "59";
-                  }
-                }}
-              />
-              <Icon as={BiTimeFive} fontSize="16px" color="text.70" />
-            </Flex>
-          </Flex>
-          <Text
-            fontSize="14px"
-            fontWeight="400"
-            color={text80}
-            mt="15px"
-            mb="10px"
-          >
-            Total
-          </Text>
-          <InputGroup>
-            <Input
-              bg="box_bg.10"
-              borderRadius="8px"
-              h="35px"
-              type="number"
-              value={settings.price * parseFloat(settings.quantity)}
-              isReadOnly
-            />
-            <InputRightElement color={text80} h="100%" pr="10px" pl="10px">
-              USD
-            </InputRightElement>
-          </InputGroup>
-          <Collapse startingHeight={0} in={showNote}>
-            <Flex>
-              <Flex direction="column" w="80%" mr="10px">
-                <Text
-                  fontSize="14px"
-                  fontWeight="400"
-                  color={text80}
-                  mt="15px"
-                  mb="10px"
-                >
-                  Note
-                </Text>
-                <Input
-                  bg="box_bg.10"
-                  placeholder="Type a note"
-                  borderRadius="8px"
-                  h="35px"
-                  onChange={(e) => {
-                    setSettings((prev) => ({ ...prev, note: e.target.value }));
-                  }}
-                />
-              </Flex>
-              <Flex direction="column" w="70px">
-                <Text
-                  fontSize="14px"
-                  fontWeight="400"
-                  color={text80}
-                  mt="15px"
-                  mb="10px"
-                >
-                  Fee
-                </Text>
-                <InputGroup>
-                  <Input
-                    bg="box_bg.10"
-                    borderRadius="8px"
-                    h="35px"
-                    pr="25px"
-                    placeholder="0.5"
-                    type="number"
-                    onChange={(e) => {
-                      setSettings((prev) => ({
-                        ...prev,
-                        fee: e.target.value,
-                      }));
-                    }}
-                  />
-                  <InputRightElement
-                    color={text80}
-                    h="100%"
-                    pr="10px"
-                    pl="10px"
-                  >
-                    %
-                  </InputRightElement>
-                </InputGroup>
-              </Flex>
-            </Flex>
-          </Collapse>
-          <Flex direction="column">
-            <Button
-              mt="20px"
-              variant="outlined"
-              borderRadius="8px"
-              fontSize={["12px", "12px", "13px", "14px"]}
-              fontWeight="400"
-              color={text80}
-              border={borders}
-              _hover={{ border: "1px solid var(--chakra-colors-borders-1)" }}
-              onClick={() => setShowNote(!showNote)}
-            >
-              {showNote ? "Hide Fee and Note" : "Fee, Note"}
-            </Button>
-            <Button
-              mt="10px"
-              borderRadius="8px"
-              variant="outlined"
-              fontSize={["12px", "12px", "13px", "14px"]}
-              fontWeight="400"
-              color={text80}
-              onClick={() => submitTransaction()}
-              isDisabled={!historicalData}
-            >
-              Add Transaction
-            </Button>
-          </Flex>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+              <div className="text-light-font-100 dark:text-dark-font-100 pr-2.5 h-full pl-2.5">
+                %
+              </div>
+            </div>
+          </div>
+        </div>
+      </Collapse>
+      <div className="flex flex-col">
+        <Button extraCss="mt-5" onClick={() => setShowNote(!showNote)}>
+          {showNote ? "Hide Fee and Note" : "Fee, Note"}
+        </Button>
+        <Button
+          extraCss="mt-2.5 border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+          onClick={() => submitTransaction()}
+          disabled={!historicalData}
+        >
+          Add Transaction
+        </Button>
+      </div>
+    </ModalContainer>
   );
 };

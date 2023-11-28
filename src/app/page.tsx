@@ -7,7 +7,6 @@ import {
 } from "features/data/top100/constants";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { cookies, headers } from "next/headers";
-import React from "react";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
 import {
@@ -53,7 +52,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
         const defaultValue = { from: 0, to: maxValue };
         const defaultFilterValue = JSON.stringify(defaultValue);
         const isPriceChange = key === "price_change";
-
         if (
           JSON.stringify(value) !== defaultFilterValue &&
           key !== "blockchains"

@@ -1,29 +1,24 @@
-import {Flex} from "@chakra-ui/react";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
+import React from "react";
+import { SmallFont } from "../../../../../../components/fonts";
 
-export const Lines = ({
-  title,
-  value,
-  odd,
-}: {
+interface LinesProps {
   title: string;
   value: number | string;
   odd?: boolean;
-}) => {
-  const {text80, text60, borders} = useColors();
+}
+
+export const Lines = ({ title, value, odd }: LinesProps) => {
   return (
-    <Flex
-      align="center"
-      justify="space-between"
-      w={["100%", "100%", "50%"]}
-      borderRight={odd ? borders : "none"}
-      py="10px"
-      borderBottom={borders}
-      px="15px"
+    <div
+      className={`flex justify-between items-center w-2/4 md:w-full py-2.5 px-[15px]
+     border-b border-light-border-primary dark:border-dark-border-primary ${
+       odd ? "border-r" : ""
+     }`}
     >
-      <TextSmall color={text80}>{title}</TextSmall>
-      <TextSmall color={text60}>{value}</TextSmall>
-    </Flex>
+      <SmallFont>{title}</SmallFont>
+      <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+        {value}
+      </SmallFont>
+    </div>
   );
 };
