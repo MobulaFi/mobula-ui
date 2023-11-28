@@ -1,26 +1,17 @@
-import { CheckIcon, CopyIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Skeleton,
-  Spinner,
-} from "@chakra-ui/react";
+import { Button } from "components/button";
+import { NextImageFallback } from "components/image";
+import { ModalContainer } from "components/modal-container";
+import { Skeleton } from "components/skeleton";
+import { Spinner } from "components/spinner";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useState } from "react";
+import { BiCopy } from "react-icons/bi";
+import { BsCheckLg } from "react-icons/bs";
+import { FiExternalLink } from "react-icons/fi";
 import { useAccount, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
-import { TextLandingSmall, TextSmall } from "../../../../components/fonts";
+import { MediumFont, SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import {
   getFormattedAmount,
   getFormattedDate,
@@ -52,7 +43,6 @@ export const TransactionReceipt = () => {
   const [hasCopied, setHasCopied] = useState(false);
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const { text10, borders, text80, boxBg3, boxBg6, text60 } = useColors();
 
   // Syntaxic sugar
   let finalGasUsed = 0;
@@ -68,7 +58,11 @@ export const TransactionReceipt = () => {
   }
 
   return (
-    <Modal
+    <ModalContainer
+      title={
+        txError?.title ||
+        (completedTx ? "Successful Transaction!" : "Transaction summary")
+      }
       isOpen={showSummary}
       onClose={() => {
         setShowSummary(false);
@@ -76,246 +70,211 @@ export const TransactionReceipt = () => {
         setTxError(undefined);
       }}
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg3}
-        boxShadow="none"
-        borderRadius="16px"
-        w={["90%", "90%", "100%"]}
-        maxW="400px"
-        border={borders}
-      >
-        <ModalHeader
-          fontWeight="500"
-          pb="0px"
-          color={text80}
-          fontSize={["16px", "16px", "18px", "20px"]}
-        >
-          {txError?.title ||
-            (completedTx ? "Successful Transaction!" : "Transaction summary")}
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p={["10px 20px 20px 20px", "15px 20px 20px 20px", "20px"]}>
-          {txError && (
-            <TextLandingSmall color={text80} mb="10px">
-              {txError?.hint}
+      {txError && (
+        <MediumFont extraCss="mb-2.5">
+          {txError?.hint}
+          <NextChakraLink
+            extraCss="ml-[5px]"
+            href="https://discord.gg/2a8hqNzkzN"
+            target="_blank"
+          >
+            Help: Discord
+          </NextChakraLink>
+        </MediumFont>
+      )}{" "}
+      {(!completedTx || !txError) && (
+        <>
+          <div
+            className="rounded py-2.5 px-[15px] flex-col bg-light-bg-terciary
+           dark:bg-dark-bg-terciary border border-light-border-primary
+            dark:border-dark-border-primary"
+          >
+            <div className="flex items-center">
+              {tokenIn !== null ? (
+                <Skeleton extraCss="w-[34px] h-[34px] mr-[15px] rounded-full" />
+              ) : (
+                <NextImageFallback
+                  width={34}
+                  height={34}
+                  className="rounded-full"
+                  src={tokenIn?.logo}
+                  alt={`${tokenIn?.symbol} logo`}
+                  fallbackSrc="/empty/unknown.png"
+                />
+              )}
+
+              <div>
+                <SmallFont>{completedTx ? "Spent" : "Spend"}</SmallFont>
+                {tokenIn !== null ? (
+                  <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px]" />
+                ) : (
+                  <MediumFont>
+                    {`${getFormattedAmount(amountIn)} ${tokenIn?.symbol}`}
+                  </MediumFont>
+                )}
+              </div>
+            </div>
+            <div className="my-2.5 h-[1px] w-full bg-light-border-primary dark:bg-dark-border-primary" />
+            <div className="flex items-center">
+              {tokenIn !== null ? (
+                <Skeleton extraCss="w-[34px] h-[34px] mr-[15px] rounded-full" />
+              ) : (
+                <NextImageFallback
+                  width={34}
+                  height={34}
+                  className="rounded-full"
+                  src={tokenOut?.logo}
+                  alt={`${tokenOut?.symbol} logo`}
+                  fallbackSrc="/empty/unknown.png"
+                />
+              )}
+              <div>
+                <SmallFont>{completedTx ? "Received" : "Receive"}</SmallFont>
+                {tokenIn !== null ? (
+                  <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px] rounded-full" />
+                ) : (
+                  <MediumFont>
+                    {`${
+                      completedTx
+                        ? getFormattedAmount(
+                            getAmountOut(
+                              completedTx,
+                              address,
+                              "address" in tokenOut
+                                ? tokenOut.address
+                                : blockchainsIdContent[chain?.id || 1].eth
+                                    .address,
+                              tokenOut?.decimals
+                            )
+                          )
+                        : amountOut
+                    } ${tokenOut?.symbol}`}
+                  </MediumFont>
+                )}
+              </div>
+            </div>
+          </div>
+          <Lines
+            title="Rate"
+            extraCss="mt-5 border-b border-light-border-primary dark:border-dark-border-primary"
+          >
+            <MediumFont>
+              {`1 ${tokenIn?.symbol} = ${
+                // Get the
+                getFormattedAmount(
+                  (completedTx
+                    ? getAmountOut(
+                        completedTx,
+                        address!,
+                        "address" in tokenOut
+                          ? tokenOut.address
+                          : blockchainsIdContent[chain?.id || 1].eth.address,
+                        tokenOut?.decimals
+                      )
+                    : parseFloat(amountOut)) / parseFloat(amountIn)
+                )
+              } ${tokenOut?.symbol}`}
+            </MediumFont>
+          </Lines>
+        </>
+      )}
+      {completedTx ? (
+        <>
+          <Lines
+            title="Gas fee"
+            extraCss="mt-2.5 border-b border-light-border-primary dark:border-dark-border-primary"
+          >
+            <MediumFont>
+              {`${getFormattedAmount(finalGasUsed)} ${
+                blockchainsIdContent[chain?.id || 1].eth.symbol
+              }`}
+            </MediumFont>
+          </Lines>
+          <Lines
+            title="Timestamp"
+            extraCss="mt-2.5 border-b border-light-border-primary dark:border-dark-border-primary"
+          >
+            <MediumFont>
+              {`${getFormattedDate(
+                new Date(completedTx.timestamp).getTime()
+              )} ${getFormattedHours(
+                new Date(completedTx.timestamp).getTime()
+              )}`}
+            </MediumFont>
+          </Lines>
+          <Lines title="Tx Hash" extraCss="mt-0 pb-0">
+            <div className="flex items-center">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(completedTx.transactionHash);
+                  setHasCopied(true);
+                }}
+              >
+                {hasCopied ? (
+                  <BsCheckLg className="text-green dark:text-green mr-[5px]" />
+                ) : (
+                  <BiCopy className="text-light-font-60 dark:text-dark-font-60 mr-[5px]" />
+                )}
+              </button>
+              <MediumFont>
+                {`${completedTx.transactionHash.slice(
+                  0,
+                  6
+                )}...${completedTx.transactionHash.slice(-4)}`}
+              </MediumFont>
               <NextChakraLink
-                extraCss="ml-[5px]"
-                href="https://discord.gg/2a8hqNzkzN"
+                href={`${blockchainsIdContent[chain?.id || 1].explorer}/tx/${
+                  completedTx.transactionHash
+                }`}
                 target="_blank"
               >
-                Help: Discord
+                <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 ml-[5px]" />
               </NextChakraLink>
-            </TextLandingSmall>
-          )}{" "}
-          {(!completedTx || !txError) && (
-            <>
-              <Flex
-                borderRadius="8px"
-                p="10px 15px"
-                direction="column"
-                bg={boxBg6}
-                border={borders}
-              >
-                <Flex align="center">
-                  <Skeleton
-                    isLoaded={tokenIn !== null}
-                    boxSize="34px"
-                    mr="15px"
-                    borderRadius="full"
-                  >
-                    <Image
-                      src={tokenIn?.logo}
-                      alt={`${tokenIn?.symbol} logo`}
-                      boxSize="34px"
-                      borderRadius="full"
-                      fallbackSrc="/icon/unknown.png"
-                    />
-                  </Skeleton>
-                  <Box>
-                    <TextSmall color={text80}>
-                      {completedTx ? "Spent" : "Spend"}
-                    </TextSmall>
-                    <Skeleton isLoaded={tokenIn !== null} h="fit-content">
-                      <TextLandingSmall color={text80}>
-                        {`${getFormattedAmount(amountIn)} ${tokenIn?.symbol}`}
-                      </TextLandingSmall>
-                    </Skeleton>
-                  </Box>
-                </Flex>
-                <Flex my="10px" h="1px" w="100%" bg={text10} />
-                <Flex align="center">
-                  <Skeleton
-                    isLoaded={tokenIn !== null}
-                    boxSize="34px"
-                    mr="15px"
-                    borderRadius="full"
-                  >
-                    <Image
-                      src={tokenOut?.logo}
-                      alt={`${tokenOut?.symbol} logo`}
-                      boxSize="34px"
-                      borderRadius="full"
-                      fallbackSrc="/icon/unknown.png"
-                    />
-                  </Skeleton>
-                  <Box>
-                    <TextSmall color={text80}>
-                      {completedTx ? "Received" : "Receive"}
-                    </TextSmall>
-                    <Skeleton
-                      borderRadius="full"
-                      isLoaded={tokenIn !== null}
-                      h="fit-content"
-                    >
-                      <TextLandingSmall color={text80}>
-                        {`${
-                          completedTx
-                            ? getFormattedAmount(
-                                getAmountOut(
-                                  completedTx,
-                                  address,
-                                  "address" in tokenOut
-                                    ? tokenOut.address
-                                    : blockchainsIdContent[chain?.id || 1].eth
-                                        .address,
-                                  tokenOut?.decimals
-                                )
-                              )
-                            : amountOut
-                        } ${tokenOut?.symbol}`}
-                      </TextLandingSmall>
-                    </Skeleton>
-                  </Box>
-                </Flex>
-              </Flex>
-
-              <Lines title="Rate" mt="20px" borderBottom={borders}>
-                <TextLandingSmall color={text80}>
-                  {`1 ${tokenIn?.symbol} = ${
-                    // Get the
-                    getFormattedAmount(
-                      (completedTx
-                        ? getAmountOut(
-                            completedTx,
-                            address!,
-                            "address" in tokenOut
-                              ? tokenOut.address
-                              : blockchainsIdContent[chain?.id || 1].eth
-                                  .address,
-                            tokenOut?.decimals
-                          )
-                        : parseFloat(amountOut)) / parseFloat(amountIn)
-                    )
-                  } ${tokenOut?.symbol}`}
-                </TextLandingSmall>
-              </Lines>
-            </>
+            </div>
+          </Lines>
+        </>
+      ) : (
+        <>
+          <Lines
+            title="Max Slippage"
+            extraCss={`${
+              slippageTokenIn + slippageTokenOut > 0.5
+                ? "border-b border-light-border-primary dark:border-dark-border-primary"
+                : ""
+            } mt-2.5`}
+          >
+            <div className="flex items-center">
+              <MediumFont>{settings.slippage}%</MediumFont>
+            </div>
+          </Lines>
+          {slippageTokenIn > 0.25 && (
+            <Lines title={`${tokenIn?.symbol} Fees`} mt="10px">
+              <div className="flex items-center">
+                <MediumFont>{(slippageTokenIn - 0.25) / 1.1}%</MediumFont>
+              </div>
+            </Lines>
           )}
-          {completedTx ? (
-            <>
-              {" "}
-              <Lines title="Gas fee" mt="10px" borderBottom={borders}>
-                <TextLandingSmall color={text80}>
-                  {`${getFormattedAmount(finalGasUsed)} ${
-                    blockchainsIdContent[chain?.id || 1].eth.symbol
-                  }`}
-                </TextLandingSmall>
-              </Lines>
-              <Lines title="Timestamp" mt="10px">
-                <TextLandingSmall color={text80}>
-                  {`${getFormattedDate(
-                    new Date(completedTx.timestamp).getTime()
-                  )} ${getFormattedHours(
-                    new Date(completedTx.timestamp).getTime()
-                  )}`}
-                </TextLandingSmall>
-              </Lines>
-              <Lines title="Tx Hash" mt="0px" pb="0px">
-                <Flex align="center">
-                  <Button
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        completedTx.transactionHash
-                      );
-                      setHasCopied(true);
-                    }}
-                  >
-                    {hasCopied ? (
-                      <CheckIcon mr="5px" color="green" />
-                    ) : (
-                      <CopyIcon mr="5px" color={text60} />
-                    )}
-                  </Button>
-                  <TextLandingSmall color={text80}>
-                    {`${completedTx.transactionHash.slice(
-                      0,
-                      6
-                    )}...${completedTx.transactionHash.slice(-4)}`}
-                  </TextLandingSmall>
-                  <Link
-                    href={`${
-                      blockchainsIdContent[chain?.id || 1].explorer
-                    }/tx/${completedTx.transactionHash}`}
-                    target="_blank"
-                  >
-                    <ExternalLinkIcon ml="5px" color={text60} />
-                  </Link>
-                </Flex>
-              </Lines>
-            </>
-          ) : (
-            <>
-              <Lines
-                title="Max Slippage"
-                mt="10px"
-                borderBottom={
-                  slippageTokenIn + slippageTokenOut > 0.5 && { borders }
-                }
-              >
-                <Flex align="center">
-                  <TextLandingSmall color={text80}>
-                    {settings.slippage}%
-                  </TextLandingSmall>
-                </Flex>
-              </Lines>
-              {slippageTokenIn > 0.25 && (
-                <Lines title={`${tokenIn?.symbol} Fees`} mt="10px">
-                  <Flex align="center">
-                    <TextLandingSmall color={text80}>
-                      {(slippageTokenIn - 0.25) / 1.1}%
-                    </TextLandingSmall>
-                  </Flex>
-                </Lines>
-              )}
-              {slippageTokenOut > 0.25 && (
-                <Lines title={`${tokenOut?.symbol} Fees`} mt="10px">
-                  <Flex align="center">
-                    <TextLandingSmall color={text80}>
-                      {(slippageTokenOut - 0.25) / 1.1}%
-                    </TextLandingSmall>
-                  </Flex>
-                </Lines>
-              )}
-              <Button
-                mt="20px"
-                color={text80}
-                fontWeight="400"
-                variant="outlined"
-                h={["35px", "35px", "40px"]}
-                fontSize={["12px", "12px", "14px"]}
-                id={`trade-${buttonStatus.toLowerCase()}`}
-                onClick={() => handleButtonClick()}
-              >
-                {(buttonLoading || isFeesLoading) && (
-                  <Spinner width="15px" height="15px" mr={15} />
-                )}{" "}
-                {buttonStatus}
-              </Button>
-            </>
+          {slippageTokenOut > 0.25 && (
+            <Lines title={`${tokenOut?.symbol} Fees`} mt="10px">
+              <div className="flex items-center">
+                <MediumFont>{(slippageTokenOut - 0.25) / 1.1}%</MediumFont>
+              </div>
+            </Lines>
           )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          <Button
+            extraCss="mt-5 text-light-font-100 dark:text-dark-font-100 h-[40px]
+           md:h-[35px] border-darkblue dark:border-darkblue hover:border-blue
+            hover:dark:border-blue"
+            id={`trade-${buttonStatus.toLowerCase()}`}
+            onClick={() => handleButtonClick()}
+          >
+            {(buttonLoading || isFeesLoading) && (
+              <Spinner extraCss="mr-[15px] w-[15px] h-[15px]" />
+            )}
+            {buttonStatus}
+          </Button>
+        </>
+      )}
+    </ModalContainer>
   );
 };

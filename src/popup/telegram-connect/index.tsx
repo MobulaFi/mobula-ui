@@ -1,6 +1,4 @@
-import { CheckIcon } from "@chakra-ui/icons";
-import { Spinner, useClipboard } from "@chakra-ui/react";
-import React, {
+import {
   Dispatch,
   SetStateAction,
   useContext,
@@ -8,6 +6,7 @@ import React, {
   useState,
 } from "react";
 // import {useAlert} from "react-alert";
+import { Spinner } from "components/spinner";
 import { BsCheckLg, BsTelegram } from "react-icons/bs";
 import { FiCopy, FiExternalLink } from "react-icons/fi";
 import { Button } from "../../components/button";
@@ -37,7 +36,6 @@ export const PopupTelegram = ({
   const [telegram, setTelegram] = useState(user?.telegram || "");
   const [authentified, setAuthentified] = useState(false);
   const [error, setError] = useState("");
-  const { onCopy, setValue, hasCopied } = useClipboard("");
   const boxStyle =
     "flex items-center justify-center bg-light-bg-secondary dark:bg-dark-bg-secondary w-[42px] md:w-[35px] rounded text-lg text-light-font-100 dark:text-dark-font-100 mr-[7.5px] md:mr-[5px]";
   const steps = [
@@ -58,11 +56,12 @@ export const PopupTelegram = ({
     {
       description: "Success! Telegram connected.",
       btn: "Dismiss",
-      icon: CheckIcon,
+      icon: <BsCheckLg />,
       nbr: 3,
     },
   ];
   const [activeStep, setActiveStep] = useState(steps[0]);
+  const [hasCopied, setHasCopied] = useState(false);
 
   const handleTelegramChange = () => {
     if (user && telegram !== user?.telegram) {
@@ -72,7 +71,6 @@ export const PopupTelegram = ({
           .then((r) => {
             if (!r.error) {
               setCode(r.code);
-              setValue(r.code);
             } else {
               //   alert.error(r.error);
               setError(r.error);
@@ -82,7 +80,6 @@ export const PopupTelegram = ({
         while (!success) {
           try {
             const supabase = createSupabaseDOClient();
-            // eslint-disable-next-line no-await-in-loop
             const { data } = await supabase
               .from("users")
               .select("telegram")
@@ -92,7 +89,6 @@ export const PopupTelegram = ({
                 data[0].telegram ===
                 telegram?.toLowerCase().split("@").join("");
             }
-            // eslint-disable-next-line no-promise-executor-return
             await new Promise((resolve) => setTimeout(resolve, 1000));
           } catch (e) {
             console.log(e);
@@ -128,6 +124,14 @@ export const PopupTelegram = ({
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
+  };
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(String(code));
+    setHasCopied(true);
+    setTimeout(() => {
+      setHasCopied(false);
+    }, 1500);
   };
 
   const renderContent = () => (
@@ -170,17 +174,14 @@ export const PopupTelegram = ({
         ) : null}
         {activeStep.nbr === 2 ? (
           <div className="mb-5 flex items-center">
-            {Array.from({ length: 6 }).map((entry, i) =>
+            {Array.from({ length: 6 }).map((_, i) =>
               code !== 0 ? (
-                <div className={boxStyle}>{String(code)[i]}</div>
+                <div key={i} className={boxStyle}>
+                  {String(code)[i]}
+                </div>
               ) : (
-                <div className={boxStyle}>
-                  <Spinner
-                    thickness="3px"
-                    speed="0.65s"
-                    emptyColor={"grey"}
-                    color="blue"
-                  />
+                <div key={i} className={boxStyle}>
+                  <Spinner extraCss="h-5 w-5" />
                 </div>
               )
             )}

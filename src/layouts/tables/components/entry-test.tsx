@@ -16,6 +16,7 @@ import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
+import React from "react";
 import { Button } from "../../../components/button";
 import { useIsInViewport } from "../../../hooks/viewport";
 import { PriceAlertPopup } from "../../../popup/price-alert";

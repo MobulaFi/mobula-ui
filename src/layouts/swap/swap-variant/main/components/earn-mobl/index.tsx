@@ -1,17 +1,22 @@
-import {InfoIcon} from "@chakra-ui/icons";
-import {Flex, Box, Text} from "@chakra-ui/react";
 import React from "react";
+import { AiOutlineInfoCircle } from "react-icons/ai";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 
-export const EarnMobl = ({amount, ...props}) => {
+interface EarnMoblProps {
+  amount: number;
+  extraCss?: string;
+}
+
+export const EarnMobl = ({ amount, extraCss }: EarnMoblProps) => {
   return (
-    <Flex align="center" {...props}>
-      <InfoIcon fontSize="14px" color="text.30" mt="2px" mr="10px" />
-      <Text>
+    <div className={cn("flex items-center", extraCss)}>
+      <AiOutlineInfoCircle className="text-sm text-light-font-40 dark:text-dark-font-40 mt-0.5 mr-2.5" />
+      <p className="text-light-font-40 dark:text-dark-font-40 text-sm">
         You will earn{" "}
-        <Box as="span" color="text.100" ml="5px">
+        <span className="text-light-font-100 dark:text-dark-font-100 ml-[5px]">
           {isNaN(amount) ? "--" : amount.toFixed(3)} MOBL
-        </Box>
-      </Text>
-    </Flex>
+        </span>
+      </p>
+    </div>
   );
 };
