@@ -1,5 +1,4 @@
 "use client";
-import { Flex } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { Container } from "../../../../../components/container";
@@ -79,14 +78,14 @@ export const Metrics = ({
               }
               key={user.username || user.users?.username || user.address}
             >
-              <Flex align="center">
+              <div className="flex items-center">
                 <Tags extraCss="mr-[5px] md:mr-0 text-green dark:text-green">
                   {user?.good_decisions}
                 </Tags>
                 <Tags extraCss="mr-[5px] md:mr-0 text-red dark:text-red">
                   {user?.bad_decisions}
                 </Tags>
-              </Flex>
+              </div>
             </MetricsLine>
           ))}
         </div>

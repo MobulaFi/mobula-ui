@@ -1,12 +1,13 @@
-import { useClipboard } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
+import React from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
 import { SmallFont } from "../../../../components/fonts";
+import { NextImageFallback } from "../../../../components/image";
 import { addressSlicer } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 
@@ -16,7 +17,7 @@ interface ContractsProps {
 }
 
 export function Contracts({ contract, blockchain }: ContractsProps) {
-  const { onCopy, hasCopied } = useClipboard(contract);
+  const [hasCopied, setHasCopied] = useState(false);
   // const alert = useAlert();
   const { baseAsset } = useContext(BaseAssetContext);
   const { chain } = useNetwork();
@@ -24,6 +25,12 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
     blockchain === "BNB Smart Chain (BEP20)"
       ? "BNB Chain"
       : blockchain.split(" ")[0];
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(contract);
+    setHasCopied(true);
+    setTimeout(() => setHasCopied(false), 2000);
+  };
 
   const AddTokenToMetamask = async () => {
     if (chain) {
@@ -65,13 +72,16 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
     >
       <div className="flex w-full items-center">
         {blockchain ? (
-          <img
-            className="w-[17px] h-[17px] min-w-[17px] mr-[7px] rounded-full"
+          <NextImageFallback
+            width={17}
+            height={17}
+            className="min-w-[17px] mr-[7px] rounded-full"
             alt={`${blockchain} logo`}
             src={
               blockchainsContent[blockchain]?.logo ||
               `/logo/${blockchain.toLowerCase().split(" ")[0]}.png`
             }
+            fallbackSrc="/empty/unknown.png"
           />
         ) : null}
         <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
