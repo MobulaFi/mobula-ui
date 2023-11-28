@@ -1,11 +1,10 @@
 "use client";
-import { Search2Icon } from "@chakra-ui/icons";
 import { Collapse } from "@chakra-ui/react";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { FaLink } from "react-icons/fa6";
-import { FiExternalLink } from "react-icons/fi";
+import { FiExternalLink, FiSearch } from "react-icons/fi";
 // import { User } from "react-feather";
 import { BsCheckLg, BsChevronDown, BsCodeSlash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa6";
@@ -297,7 +296,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary`}
                 >
-                  <Search2Icon className="text-[13px] mr-[5px]" />
+                  <FiSearch className="text-[13px] mr-[5px]" />
                   Contracts
                   <BsChevronDown className="text-[15px] ml-[5px]" />
                 </button>
@@ -411,7 +410,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary`}
                 >
-                  <Search2Icon className="text-[13px] ml-[5px]" />
+                  <FiSearch className="text-[13px] ml-[5px]" />
                   Kyc
                   <BsChevronDown className="text-[15px] ml-[5px]" />
                 </button>
