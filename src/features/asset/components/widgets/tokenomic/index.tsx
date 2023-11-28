@@ -1,11 +1,9 @@
-import {CheckIcon, CopyIcon} from "@chakra-ui/icons";
 import {
   Accordion,
   AccordionButton,
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Button,
   Flex,
   Image,
   Table,
@@ -15,28 +13,31 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import {blockchainsContent} from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import dynamic from "next/dynamic";
-import {useContext, useEffect, useState} from "react";
-import {getFormattedAmount} from "../../../../../../../utils/helpers/formaters";
-import {createSupabaseDOClient} from "../../../../../../../utils/supabase";
-import {Tds} from "../../../../../../UI/Tds";
-import {TextSmall} from "../../../../../../UI/Text";
-import {Ths} from "../../../../../../UI/Ths";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {addressSlicer} from "../../../../../../common/utils/user";
-import {ILaunchpad} from "../../../../../Data/Ico/models";
-import {BaseAssetContext} from "../../../context-manager";
-import {Distribution} from "./distribution";
-import {Lines} from "./lines";
+import React, { useContext, useEffect, useState } from "react";
+import { BiCopy } from "react-icons/bi";
+import { BsCheckLg } from "react-icons/bs";
+import { MediumFont, SmallFont } from "../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../components/image";
+import { ILaunchpad } from "../../../../../interfaces/launchpads";
+import { useColors } from "../../../../../lib/chakra/colorMode";
+import { createSupabaseDOClient } from "../../../../../lib/supabase";
+import {
+  addressSlicer,
+  getFormattedAmount,
+} from "../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../context-manager";
+import { Distribution } from "./distribution";
+import { Lines } from "./lines";
 
-const EChart = dynamic(() => import("../../../../../../common/charts/EChart"), {
+const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
 });
 
 export const Tokenomic = () => {
-  const {baseAsset} = useContext(BaseAssetContext);
-  const {text80, text40, borders, text60, text10} = useColors();
+  const { baseAsset } = useContext(BaseAssetContext);
+  const { text80, text40, borders, text60, text10 } = useColors();
   const [isCopied, setIsCopied] = useState("");
   const [launchpads, setLaunchpads] = useState<ILaunchpad[]>([]);
 
@@ -60,12 +61,12 @@ export const Tokenomic = () => {
     supabase
       .from("launchpads")
       .select("logo,name")
-      .then(r => {
+      .then((r) => {
         if (r.data) setLaunchpads(r.data);
       });
   }, []);
 
-  function timestampToDate(timestamp) {
+  function timestampToDate(timestamp: number) {
     const date = new Date(timestamp);
     let day: string | number = date.getDate();
     let month: string | number = date.getMonth() + 1;
@@ -75,60 +76,37 @@ export const Tokenomic = () => {
     return `${day}/${month}/${year}`;
   }
 
-  const getLogoFromLaunchpad = name => {
-    const logo = launchpads?.find(l => l.name === name)?.logo;
+  const getLogoFromLaunchpad = (name: string) => {
+    const logo = launchpads?.find((l) => l.name === name)?.logo;
     return logo;
   };
 
   return (
-    <Flex
-      mt={["0px", "0px", "0px", "20px"]}
-      mx="auto"
-      w={["95%", "95%", "100%", "100%"]}
-      direction={["column-reverse", "column-reverse", "column-reverse", "row"]}
-    >
-      <Flex
-        direction="column"
-        maxW="990px"
-        w={["100%", "100%", "100%", "calc(100% - 345px)"]}
-        mr={["0px", "0px", "0px", "25px"]}
-      >
-        <Flex direction="column" mt={["20px", "20px", "20px", "0px"]}>
-          <Flex align="center" justify="space-between" mb="15px">
-            <Text
-              fontSize={["14px", "14px", "16px", "18px"]}
-              fontWeight="500"
-              color={text80}
-              mb={["0px", "0px", "10px"]}
-            >
-              Supply Breakdown
-            </Text>{" "}
-            <Flex
-              w="350px"
-              h="30px"
-              align="center"
-              display={["none", "none", "none", "flex"]}
-            >
-              <Flex
-                h="7px"
-                borderRadius="full"
-                w="calc(100% - 30px)"
-                maxW="320px"
-                bg={text10}
+    <div className="flex flex-row lg:flex-col-reverse w-full md:w-[95%] mx-auto mt-5 lg:mt-0">
+      <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] lg:mr-0">
+        <div className="flex flex-col mt-0 lg:mt-5">
+          <div className="flex items-center justify-between mb-[15px]">
+            <MediumFont extraCss="mb-2.5 md:mb-0">Supply Breakdown</MediumFont>
+            <div className="w-[350px] h-[30px] flex items-center lg:hidden">
+              <div
+                className="flex h-[7px] rounded-full bg-light-border-primary dark:bg-dark-border-primary max-w-calc-full-345"
+                style={{
+                  width: "calc(100% - 30px)",
+                }}
               >
-                <Flex
-                  h="100%"
-                  w={`${getPercentageOfSupply().toFixed(2)}%`}
-                  bg="blue"
-                  borderRadius="full"
+                <div
+                  className="h-full bg-blue dark:bg-blue rounded-full"
+                  style={{
+                    width: `${getPercentageOfSupply().toFixed(2)}%`,
+                  }}
                 />
-              </Flex>
-              <TextSmall ml="10px" color={text80}>
+              </div>
+              <SmallFont extraCss="ml-2.5">
                 {getPercentageOfSupply().toFixed(2)}%
-              </TextSmall>
-            </Flex>
-          </Flex>
-          <Flex w="100%" wrap="wrap">
+              </SmallFont>
+            </div>
+          </div>
+          <div className="w-full flex flex-wrap">
             <Lines
               title="Total Supply"
               value={getFormattedAmount(baseAsset.total_supply) || 0}
@@ -149,67 +127,60 @@ export const Tokenomic = () => {
               title="Non-Circulating Supply"
               value={
                 getFormattedAmount(
-                  baseAsset.total_supply - baseAsset.circulating_supply,
+                  baseAsset.total_supply - baseAsset.circulating_supply
                 ) || 0
               }
             />
-          </Flex>
-          <Text
-            mt="30px"
-            fontSize={["14px", "14px", "16px", "18px"]}
-            fontWeight="500"
-            color={text80}
-            mb="10px"
-            display={["none", "none", "none", "flex"]}
-          >
+          </div>
+          <MediumFont extraCss="mt-[30px] mb-2.5 flex lg:hidden">
             Accounts excluded from circulation
-          </Text>
-          <Flex w="100%" wrap="wrap">
+          </MediumFont>
+          <div className="flex w-full flex-wrap">
             {baseAsset?.blockchains?.map((entry, i) => (
-              <Flex
-                align="center"
-                justify="space-between"
-                w={["100%", "100%", "50%", "50%"]}
-                borderRight={i % 2 === 0 ? borders : "none"}
-                py="10px"
-                borderBottom={borders}
-                px="15px"
+              <div
+                key={entry}
+                className={`flex items-center justify-between w-2/4 md:w-full py-2.5 border-b
+               border-light-border-primary dark:border-dark-border-primary px-[15px] ${
+                 i % 2 === 0 ? "border-r" : ""
+               }`}
               >
-                <Flex align="center">
-                  <Image
+                <div className="flex items-center">
+                  <NextImageFallback
+                    width={25}
+                    height={25}
+                    className="mr-2.5 rounded-full"
                     src={blockchainsContent[entry]?.logo || "/icon/unknown.png"}
-                    boxSize="25px"
-                    borderRadius="full"
-                    mr="10px"
+                    alt={`${entry} logo`}
+                    fallbackSrc={""}
                   />
-                  <TextSmall color={text80}>{entry}</TextSmall>
-                  <TextSmall color={text60} ml="7.5px">
+                  <SmallFont>{entry}</SmallFont>
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 ml-[7.5px]">
                     {addressSlicer(baseAsset?.contracts[i])}
-                  </TextSmall>
-                  <Button
+                  </SmallFont>
+                  <button
+                    className="text-[13px]"
                     onClick={() => copyToClipboard(baseAsset?.contracts[i])}
-                    fontSize="13px"
                   >
                     {isCopied === baseAsset?.contracts[i] ? (
-                      <CheckIcon color="green" ml="7.5px" />
+                      <BsCheckLg className="text-green dark:text-green ml-[7.5px]" />
                     ) : (
-                      <CopyIcon color={text40} ml="7.5px" />
+                      <BiCopy className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px]" />
                     )}
-                  </Button>
-                </Flex>
-                <TextSmall textAlign="end" color={text60}>
+                  </button>
+                </div>
+                <SmallFont extraCss="text-end text-light-font-60 dark:text-dark-font-60">
                   543,654 {baseAsset?.symbol}
-                </TextSmall>
-              </Flex>
+                </SmallFont>
+              </div>
             ))}
-          </Flex>
-        </Flex>
+          </div>
+        </div>
         <Distribution display={["flex", "flex", "flex", "none"]} mt="20px" />
-        <Flex direction="column" mt={["0px", "0px", "0px", "30px"]}>
+        <div className="flex flex-col mt-[30px] lg:mt-0">
           <Accordion allowToggle allowMultiple defaultIndex={0}>
             {baseAsset?.sales
               ?.sort((a, b) => a.date - b.date)
-              ?.map(sale => (
+              ?.map((sale) => (
                 <AccordionItem
                   p="0px"
                   border="none"
@@ -218,7 +189,7 @@ export const Tokenomic = () => {
                 >
                   <AccordionButton
                     borderBottom={borders}
-                    _hover={{bg: "none"}}
+                    _hover={{ bg: "none" }}
                     py="15px"
                     px="0px"
                   >
@@ -301,19 +272,12 @@ export const Tokenomic = () => {
                 </AccordionItem>
               ))}{" "}
           </Accordion>
-        </Flex>
+        </div>
         {baseAsset?.release_schedule?.length > 0 ? (
           <>
-            <Text
-              mt="30px"
-              fontSize={["14px", "14px", "16px", "18px"]}
-              fontWeight="500"
-              color={text80}
-              mb="10px"
-              display={["none", "none", "none", "flex"]}
-            >
+            <MediumFont extraCss="mt-[30px] mb-2.5 flex lg:hidden">
               Vesting schedules
-            </Text>
+            </MediumFont>
             <EChart
               data={baseAsset?.release_schedule || []}
               timeframe="ALL"
@@ -321,18 +285,12 @@ export const Tokenomic = () => {
             />
           </>
         ) : null}
-      </Flex>
-
-      <Flex
-        direction="column"
-        display={["none", "none", "none", "flex"]}
-        maxW="320px"
-        w="100%"
-      >
+      </div>
+      <div className="flex flex-col lg:hidden max-w-[345px] w-full">
         <Distribution />
         {/* <Fees /> */}
         {/* <ListingDetails /> */}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };

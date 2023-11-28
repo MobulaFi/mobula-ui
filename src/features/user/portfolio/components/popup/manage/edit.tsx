@@ -1,9 +1,10 @@
-import { CheckIcon } from "@chakra-ui/icons";
-import { Button, Flex, Image } from "@chakra-ui/react";
+import { Button } from "components/button";
+import { NextImageFallback } from "components/image";
 import { ModalContainer } from "components/modal-container";
 import { useContext, useEffect, useState } from "react";
+import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { TextSmall } from "../../../../../../components/fonts";
+import { SmallFont } from "../../../../../../components/fonts";
 import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
@@ -92,60 +93,44 @@ export const ManageEdit = () => {
       isOpen={showHiddenTokensPopup}
       onClose={() => setShowHiddenTokensPopup(false)}
     >
-      <Flex wrap="wrap">
+      <div className="flex flex-wrap">
         {Object.entries(hiddenTokens).map(([tokenId, tokenData], index) => (
-          <Flex
+          <div
+            className={`flex items-center justify-center mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
+          border border-light-border-primary dark:border-dark-border-primary rounded w-calc-half-10
+           cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250
+            ease-in-out ${index % 2 === 0 ? "mr-2.5" : "ml-2.5"}`}
             key={index}
-            align="center"
-            justify="space-between"
-            mt="10px"
-            bg={boxBg6}
-            p="10px"
-            w="calc(50% - 10px)"
-            mr={index % 2 === 0 ? "10px" : "0px"}
-            ml={index % 2 === 0 ? "0px" : "10px"}
-            borderRadius="8px"
-            border={borders}
             onClick={() => handleCheckboxChange(Number(tokenId))}
-            cursor="pointer"
-            _hover={{ bg: hover }}
-            transition="all 200ms ease-in-out"
           >
-            <Flex align="center">
-              <Image
+            <div className="flex items-center">
+              <NextImageFallback
+                width={25}
+                height={25}
+                className="rounded-full"
                 src={tokenData.logo}
                 alt={`${tokenData.symbol} logo`}
-                boxSize={["25px"]}
-                borderRadius="full"
+                fallbackSrc={""}
               />
-              <TextSmall ml="10px" fontWeight="500">
+              <SmallFont extraCss="ml-2.5 font-medium">
                 {tokenData.symbol}
-              </TextSmall>
-            </Flex>
-
-            <Flex
-              align="center"
-              justify="center"
-              width="15px"
-              height="15px"
-              border={bordersActive}
-              borderRadius="3px"
+              </SmallFont>
+            </div>
+            <div
+              className="flex items-center justify-center rounded w-[15px] h-[15px] 
+            border border-light-border-secondary dark:border-dark-border-secondary"
             >
-              <CheckIcon
-                fontSize="10px"
-                opacity={isCheck[Number(tokenId)] ? 1 : 0}
-                transition={"all 200ms ease-in-out"}
+              <BsCheckLg
+                className={`text-[10px] ${
+                  isCheck[Number(tokenId)] ? "opacity-100" : "opacity-0"
+                } transition-all duration-250 ease-in-out`}
               />
-            </Flex>
-          </Flex>
+            </div>
+          </div>
         ))}
-      </Flex>
+      </div>
       <Button
-        variant="outlined"
-        borderRadius="8px"
-        fontWeight="400"
-        color={text80}
-        mt="10px"
+        extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5"
         onClick={() => {
           restoreHiddenAssets();
           setShowHiddenTokensPopup(false);

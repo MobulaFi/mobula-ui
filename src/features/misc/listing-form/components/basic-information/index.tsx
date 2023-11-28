@@ -1,9 +1,8 @@
-import { Search2Icon } from "@chakra-ui/icons";
 import axios from "axios";
 import * as imageConversion from "image-conversion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { FiUpload } from "react-icons/fi";
+import { FiSearch, FiUpload } from "react-icons/fi";
 import { Button } from "../../../../../components/button";
 import {
   ExtraLargeFont,
@@ -265,7 +264,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           className={`${inputStyle} flex items-center border border-light-border-primary dark:border-dark-border-primary pl-0`}
         >
           <div className="flex items-center justify-center h-full pl-2.5">
-            <Search2Icon className="text-light-font-100 dark:text-dark-font-100" />
+            <FiSearch className="text-light-font-100 dark:text-dark-font-100" />
           </div>
           <input
             className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full w-full pl-[35px] "

@@ -1,11 +1,9 @@
-import {Flex, Text} from "@chakra-ui/react";
 import * as echarts from "echarts";
-import {useCallback, useEffect, useMemo} from "react";
-import {v4 as uuid} from "uuid";
-import {useColors} from "../../../../../../../common/utils/color-mode";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { v4 as uuid } from "uuid";
+import { LargeFont } from "../../../../../../components/fonts";
 
 export const Fees = () => {
-  const {boxBg3, text80, borders} = useColors();
   type EChartsOption = echarts.EChartsOption;
   let options: EChartsOption;
   const id = useMemo(() => uuid(), []);
@@ -44,18 +42,20 @@ export const Fees = () => {
           show: false,
         },
         data: [
-          {value: 1048, name: "Search Engine"},
-          {value: 735, name: "Direct"},
-          {value: 580, name: "Email"},
-          {value: 484, name: "Union Ads"},
-          {value: 300, name: "Video Ads"},
+          { value: 1048, name: "Search Engine" },
+          { value: 735, name: "Direct" },
+          { value: 580, name: "Email" },
+          { value: 484, name: "Union Ads" },
+          { value: 300, name: "Video Ads" },
         ],
       },
     ],
   };
 
   const createInstance = useCallback(() => {
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
 
     return (
       instance ||
@@ -78,26 +78,12 @@ export const Fees = () => {
   }, []);
 
   return (
-    <Flex
-      p="20px"
-      borderRadius="16px"
-      border={borders}
-      bg={boxBg3}
-      mb="10px"
-      w="100%"
-      mx="auto"
-      direction="column"
+    <div
+      className="flex p-5 rounded-2xl border border-light-border-primary dark:border-dark-border-primary 
+    bg-light-bg-secondary dark:bg-dark-bg-secondary w-full mb-2.5 mx-auto flex-col"
     >
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="0px"
-        display={["none", "none", "none", "flex"]}
-      >
-        Fees
-      </Text>{" "}
-      <div id={id} style={{height: "300px", width: "100%"}} />
-    </Flex>
+      <LargeFont extraCss="flex lg:hidden">Fees</LargeFont>{" "}
+      <div id={id} style={{ height: "300px", width: "100%" }} />
+    </div>
   );
 };
