@@ -8,7 +8,11 @@ import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { FlexBorderBox } from "../../../../style";
 
-export const SocialInfo = ({ extraCss }) => {
+interface SocialInfoProps {
+  extraCss?: string;
+}
+
+export const SocialInfo = ({ extraCss }: SocialInfoProps) => {
   const { baseAsset } = useContext(BaseAssetContext);
   const metrics = [
     {
