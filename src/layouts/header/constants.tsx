@@ -2,7 +2,6 @@ import { FiHelpCircle } from "react-icons/fi";
 import { HiOutlineNewspaper } from "react-icons/hi";
 import { VscArrowSwap } from "react-icons/vsc";
 
-import React from "react";
 import {
   ContributeIcon,
   DocsIcon,
@@ -21,7 +20,7 @@ export const navigation = [
         name: "Recently added",
         url: "/new",
         icon: (
-          <RecentlyAddedIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <RecentlyAddedIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Discover the newest tokens on the market.",
       },
@@ -29,7 +28,7 @@ export const navigation = [
         name: "Gainers & Losers",
         url: "/movers",
         icon: (
-          <MoversIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <MoversIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Spot today's top performers and decliners.",
       },
@@ -37,7 +36,7 @@ export const navigation = [
         name: "Trendings",
         url: "/trendings",
         icon: (
-          <TrendingIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <TrendingIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Track tokens gaining traction accross the space.",
       },
@@ -51,7 +50,7 @@ export const navigation = [
         name: "Swap",
         url: "/swap",
         icon: (
-          <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Secure, best rates, minimal fees.",
       },
@@ -81,7 +80,7 @@ export const navigation = [
         name: "Add crypto-asset",
         url: "/list",
         icon: (
-          <ListIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <ListIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "List your coin on Mobula.",
       },
@@ -89,7 +88,7 @@ export const navigation = [
         name: "Contribute",
         url: "/contribute",
         icon: (
-          <ContributeIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <ContributeIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Contribute to Mobula DAO.",
       },
@@ -97,7 +96,7 @@ export const navigation = [
         name: "Mobula API",
         url: "https://developer.mobula.fi",
         icon: (
-          <DocsIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <DocsIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Institutional-grade crypto & web3 data API.",
       },
@@ -106,7 +105,7 @@ export const navigation = [
         name: "Help Desk",
         url: "/forum/help",
         icon: (
-          <FiHelpCircle className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <FiHelpCircle className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "User support and guidance center.",
       },
@@ -114,7 +113,7 @@ export const navigation = [
         name: "Announcement",
         url: "/forum/ecosystem",
         icon: (
-          <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Stay updated with the latest news.",
       },
@@ -139,7 +138,7 @@ export const navigation = [
         name: "Protocol",
         url: "/dao/protocol/overview",
         icon: (
-          <ProtocolIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
+          <ProtocolIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Mobula listing protocol portal.",
       },

@@ -1,7 +1,7 @@
 "use client";
-import { SmallFont } from "components/fonts";
 import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { BsMoon, BsSun } from "react-icons/bs";
 import { Button } from "../../components/button";
 
 export const ToggleColorMode = () => {
@@ -16,8 +16,22 @@ export const ToggleColorMode = () => {
     return null;
   }
   return (
-    <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-      <SmallFont> {theme === "light" ? "Dark" : "Light"}</SmallFont>
+    <Button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      w="fit-content"
+      ml="30px"
+    >
+      {theme === "dark" ? (
+        <div className="flex items-center">
+          <BsMoon className="text-[15px] text-light-font-100 dark:text-dark-font-100" />
+          <p className="ml-[5px] text-base font-medium">Dark Mode</p>
+        </div>
+      ) : (
+        <div className="flex items-center">
+          <BsSun className="text-[15px] text-light-font-100 dark:text-dark-font-100" />
+          <p className="ml-[5px] text-base font-medium">Light Mode</p>
+        </div>
+      )}
     </Button>
   );
 };
