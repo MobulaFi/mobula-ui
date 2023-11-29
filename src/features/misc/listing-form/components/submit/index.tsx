@@ -1,4 +1,3 @@
-import { Image } from "@chakra-ui/react";
 import {
   blockchainsContent,
   blockchainsIdContent,
@@ -6,6 +5,7 @@ import {
 import { useTheme } from "next-themes";
 import { useCallback, useContext, useEffect, useState } from "react";
 // import { useAlert } from "react-alert";
+import { NextImageFallback } from "components/image";
 import { PopupUpdateContext } from "contexts/popup";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
@@ -607,11 +607,13 @@ export const Submit = ({ state }) => {
                         });
                       }}
                     >
-                      <Image
+                      <NextImageFallback
+                        className="mr-2.5 rounded-full"
+                        height={20}
+                        width={20}
+                        fallbackSrc="/empty/unknown.png"
                         src={blockchainsContent[blockchain].logo}
-                        boxSize="20px"
-                        borderRadius="full"
-                        mr="10px"
+                        alt={`${blockchain} logo`}
                       />
                       {blockchainsContent[blockchain].name ===
                       "BNB Smart Chain (BEP20)"
@@ -642,10 +644,13 @@ export const Submit = ({ state }) => {
                         {pending && (
                           <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
                         )}
-                        <img
+                        <NextImageFallback
+                          height={20}
+                          width={20}
                           className={imageStyle}
                           src="/logo/usdt.webp"
                           alt="usdt logo"
+                          fallbackSrc={""}
                         />
                         {balance.usdt.approved < fastTrack ? "Approve" : "Pay"}{" "}
                         with USDT
@@ -668,10 +673,13 @@ export const Submit = ({ state }) => {
                       }}
                     >
                       <div className="flex items-center w-full">
-                        <Image
+                        <NextImageFallback
                           src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png"
                           alt="usdc logo"
+                          height={20}
+                          width={20}
                           className={imageStyle}
+                          fallbackSrc="/empty/unknown.png"
                         />
                         {balance.usdc.approved < fastTrack ? "Approve" : "Pay"}{" "}
                         with USDC

@@ -1,10 +1,3 @@
-import {
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-} from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 // import { useAlert } from "react-alert";
 import { BsChevronDown } from "react-icons/bs";
@@ -272,7 +265,8 @@ export const Contribute = ({ token }: ContributeProps) => {
         <SiConvertio className="text-blue dark:text-blue" />
         <MediumFont extraCss="ml-2.5">Distribution</MediumFont>
       </div>
-      <div className="flex w-full mt-[50px] pb-[60px]">
+      {/* REPLACE SLIDER */}
+      {/* <div className="flex w-full mt-[50px] pb-[60px]">
         <Slider
           aria-label="slider-ex-1"
           defaultValue={contributeAmount || 0}
@@ -333,7 +327,7 @@ export const Contribute = ({ token }: ContributeProps) => {
             border="2px solid var(--chakra-colors-blue)"
           />
         </Slider>
-      </div>
+      </div> */}
       <SmallFont extraCss="mt-[15px] text-light-font-100 dark:text-dark-font-100 font-medium">
         Enter an amount
       </SmallFont>
