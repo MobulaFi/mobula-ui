@@ -6,6 +6,7 @@ import { erc20ABI, useAccount, useNetwork } from "wagmi";
 import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
 import { Button } from "../../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../../components/image";
 import { Input } from "../../../../../../../components/input";
 import { Menu } from "../../../../../../../components/menu";
 import {
@@ -349,10 +350,13 @@ export const Contribute = ({ token }: ContributeProps) => {
         bg-light-bg-terciary dark:bg-dark-bg-terciary"
           title={
             <div className="flex items-center">
-              <img
+              <NextImageFallback
+                height={20}
+                width={20}
                 className="w-5 h-5 rounded-full mr-2.5"
                 src={tokenToBuyWith?.logo || "/icon/unknown.png"}
                 alt="token to buy logo"
+                fallbackSrc={""}
               />
               {tokenToBuyWith?.symbol || "Select"}
               <BsChevronDown />
