@@ -1,13 +1,19 @@
-import { Flex } from "@chakra-ui/react";
-import { TextLandingSmall } from "components/fonts";
-import { useColors } from "lib/chakra/colorMode";
+import React from "react";
+import { MediumFont } from "../../../../components/fonts";
+import { cn } from "../../../../lib/shadcn/lib/utils";
 
-export const Lines = ({ title, children, ...props }) => {
-  const { text80 } = useColors();
+interface LinesProps {
+  title: string;
+  extraCss?: string;
+  children: React.ReactNode;
+  [key: string]: any;
+}
+
+export const Lines = ({ title, extraCss, children, ...props }: LinesProps) => {
   return (
-    <Flex justify="space-between" pb="10px" {...props}>
-      <TextLandingSmall color={text80}>{title}</TextLandingSmall>
+    <div className={cn("flex justify-between pb-2.5", extraCss)} {...props}>
+      <MediumFont>{title}</MediumFont>
       {children}
-    </Flex>
+    </div>
   );
 };
