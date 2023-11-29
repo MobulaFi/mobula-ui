@@ -20,7 +20,7 @@ export const ToggleColorMode = ({ isMobile }: ToggleColorModeProps) => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={`${isMobile ? "ml-[30px]" : "ml-2.5"} w-fit`}
+      className={`${isMobile ? "ml-[30px]" : ""} w-fit`}
     >
       {theme === "dark" ? (
         <div className="flex items-center">

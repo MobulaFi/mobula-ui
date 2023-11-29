@@ -10,6 +10,7 @@ import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
+import { Pagination } from "./components/pagination";
 import { Portfolio } from "./components/portfolio";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
@@ -63,6 +64,8 @@ export const Top100 = ({
     });
   }, []);
 
+  console.log("resultsData", Math.floor(resultsData.count / 100));
+
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
@@ -111,7 +114,7 @@ export const Top100 = ({
           cookieTop100={cookieTop100}
           setResultsData={setResultsData}
         />
-        <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden mb-20 lg:mt-0">
+        <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0">
           <AssetsTable
             resultsData={resultsData}
             setResultsData={setResultsData}
@@ -126,9 +129,9 @@ export const Top100 = ({
         </Container>
       </div>
 
-      {/* {resultsData.count > 100 && (
+      {resultsData.count > 100 && (
         <Pagination maxPage={Math.floor(resultsData.count / 100)} />
-      )} */}
+      )}
       {/* 
       <Flex h="1400px" w="100%" bg={bgTable} pt="150px" direction="column">
         <Flex maxW="1300px" mx="auto" h="200px">
