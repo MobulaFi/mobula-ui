@@ -1,4 +1,3 @@
-import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef } from "react";
@@ -8,6 +7,7 @@ import { createPublicClient, http, isAddress } from "viem";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { readContract } from "wagmi/actions";
+import { Spinner } from "../../components/spinner";
 import { useColors } from "../../lib/chakra/colorMode";
 import { pushData } from "../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../lib/supabase";
@@ -29,6 +29,15 @@ import {
   updateSearch,
 } from "./utils";
 
+interface CoreSearchBarProps {
+  showPagesAndArticles?: boolean;
+  trigger?: boolean;
+  setTrigger?: React.Dispatch<React.SetStateAction<boolean>>;
+  maxAssetsResult?: number;
+  maxWalletsResult?: number;
+  callback?: (value: { content: string; type: string; label: string }) => void;
+}
+
 export const CoreSearchBar = ({
   showPagesAndArticles = true,
   maxAssetsResult = 5,
@@ -36,14 +45,7 @@ export const CoreSearchBar = ({
   trigger = true,
   setTrigger = () => {},
   callback,
-}: {
-  showPagesAndArticles?: boolean;
-  trigger?: boolean;
-  setTrigger?: React.Dispatch<React.SetStateAction<boolean>>;
-  maxAssetsResult?: number;
-  maxWalletsResult?: number;
-  callback?: (value: { content: string; type: string; label: string }) => void;
-}) => {
+}: CoreSearchBarProps) => {
   const router = useRouter();
   const supabase = createSupabaseDOClient();
   const { text80, text60, borders, boxBg3 } = useColors();
@@ -78,8 +80,6 @@ export const CoreSearchBar = ({
       clearTimeout(delayDebounceFn);
     };
   };
-
-  console.log("results", results);
 
   useEffect(() => {
     if (isAddress(token))
@@ -189,15 +189,15 @@ export const CoreSearchBar = ({
           callback={callback}
         />
         {token?.includes(".eth") && !ens?.address ? (
-          <Flex direction="column">
+          <div className="flex flex-col">
             <Title extraCss="mt-[5px]">ENS (1)</Title>
-            <Flex align="center">
-              <Text px="20px" fontSize="16px" color={text80}>
+            <div className="flex items-center">
+              <p className="px-5 text-base text-light-font-100 dark:text-dark-font-100">
                 Loading ENS domain...
-              </Text>
-              <Spinner size="xs" />
-            </Flex>
-          </Flex>
+              </p>
+              <Spinner extraCss="w-[15px] h-[15px]" />
+            </div>
+          </div>
         ) : (
           <EnsResults
             firstIndex={0}

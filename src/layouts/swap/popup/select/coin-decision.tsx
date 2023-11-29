@@ -2,10 +2,10 @@ import { SmallFont } from "components/fonts";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import React, { Dispatch, SetStateAction } from "react";
 import { useNetwork } from "wagmi";
+import { Button } from "../../../../components/button";
 import { NextImageFallback } from "../../../../components/image";
 import { ModalContainer } from "../../../../components/modal-container";
 import { Asset } from "../../model";
-import { Button } from "../../../../components/button";
 
 /**
  * This component is used to display a modal when the user tries to swap a coin -
@@ -18,8 +18,8 @@ import { Button } from "../../../../components/button";
  */
 
 interface CoinDecisionProps {
-  asset: Asset;
-  setAsset: Dispatch<SetStateAction<Asset>>;
+  asset: Asset | null;
+  setAsset: Dispatch<SetStateAction<Asset | null>>;
   callback: Function;
 }
 
@@ -58,16 +58,20 @@ export const CoinDecision = ({
         onClick={async () => {
           setAsset(null);
           const rightIndex = asset?.blockchains.indexOf(chainName);
-          callback({
-            ...asset,
-            // Note: this check is not needed, but here to make TS happy
-            address: "contracts" in asset ? asset.contracts[rightIndex] : "",
-            blockchain: chainName,
-            switch: false,
-          });
+          if (asset)
+            callback({
+              ...asset,
+              // Note: this check is not needed, but here to make TS happy
+              address:
+                "contracts" in asset
+                  ? asset.contracts[rightIndex as number]
+                  : "",
+              blockchain: chainName,
+              switch: false,
+            });
         }}
       >
-        {`Use Wrapped ${asset.name}`}
+        {`Use Wrapped ${asset?.name}`}
       </Button>
       <Button
         extraCss="mt-2.5"
@@ -76,7 +80,7 @@ export const CoinDecision = ({
           callback(asset);
         }}
       >
-        {`Switch to ${asset.blockchain}`}
+        {`Switch to ${asset?.blockchain}`}
       </Button>
     </ModalContainer>
   );

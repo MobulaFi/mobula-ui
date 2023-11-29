@@ -1,4 +1,3 @@
-import { FlexProps } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
@@ -15,7 +14,7 @@ import { InfoPopupQuotes } from "../popup/quotes";
 import { Select } from "../popup/select";
 import { Settings } from "../popup/settings";
 
-interface SmallSwapProps extends FlexProps {
+interface SmallSwapProps {
   asset?: Asset;
   extraCss?: string;
 }
