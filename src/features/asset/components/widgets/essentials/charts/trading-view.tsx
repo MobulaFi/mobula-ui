@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   IChartingLibraryWidget,
   ResolutionString,
@@ -7,7 +7,6 @@ import {
 } from "../../../../../../../public/static/charting_library";
 import { Spinner } from "../../../../../../components/spinner";
 import { MarketMetrics } from "../../../../../../interfaces/trades";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Asset, Bar, HistoryData } from "../../../../models";
@@ -225,7 +224,6 @@ const ChartBox = ({
   const [widgetReady, setWidgetReady] = useState(false);
   const [updateCallback, setUpdateCallback] = useState<any | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const { borders } = useColors();
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";
 

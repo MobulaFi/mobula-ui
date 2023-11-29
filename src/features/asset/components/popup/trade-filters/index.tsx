@@ -5,7 +5,6 @@ import { Key, useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Accordion } from "../../../../../components/accordion";
 import { ModalContainer } from "../../../../../components/modal-container";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { BaseAssetContext } from "../../../context-manager";
 import { TradeBlockchainPopup } from "../trade-blockchain-selector";
 import { TradeTypePopup } from "../trade-type";
@@ -20,7 +19,6 @@ export const TradeFiltersPopup = () => {
     setShowTradeValue,
     showTradeValue,
   } = useContext(BaseAssetContext);
-  const { borders, text80, boxBg3, hover } = useColors();
   const [activeNames, setActiveNames] = useState({
     liquidity_pool: "All Liquidity Pool",
     blockchain: "Any Blockchains",

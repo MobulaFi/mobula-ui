@@ -1,6 +1,6 @@
 import { SmallFont } from "components/fonts";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useNetwork } from "wagmi";
 import { Button } from "../../../../components/button";
 import { NextImageFallback } from "../../../../components/image";

@@ -13,7 +13,6 @@ import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET } from "../../../../../../utils/fetch";
 import { addressSlicer } from "../../../../../../utils/formaters";
@@ -27,7 +26,6 @@ export const CreatePortfolio = () => {
   const inputRef = useRef<HTMLInputElement>();
 
   // const alert = useAlert();
-  const { boxBg6, borders, text40, text10, text80, hover } = useColors();
   const {
     setShowCreatePortfolio,
     setUserPortfolio,

@@ -6,7 +6,6 @@ import { BsCheckLg } from "react-icons/bs";
 import { MediumFont, SmallFont } from "../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../components/image";
 import { ILaunchpad } from "../../../../../interfaces/launchpads";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import {
   addressSlicer,
@@ -22,7 +21,6 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 
 export const Tokenomic = () => {
   const { baseAsset } = useContext(BaseAssetContext);
-  const { text80, text40, borders, text60, text10 } = useColors();
   const [isCopied, setIsCopied] = useState("");
   const [launchpads, setLaunchpads] = useState<ILaunchpad[]>([]);
 

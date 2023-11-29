@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
@@ -14,28 +8,28 @@ import { PopupUpdateContext } from "../../contexts/popup";
 import { UserContext } from "../../contexts/user";
 import { BaseAssetContext } from "../../features/asset/context-manager";
 import { Asset } from "../../interfaces/assets";
-import { useColors } from "../../lib/chakra/colorMode";
 import { pushData } from "../../lib/mixpanel";
 import { GET } from "../../utils/fetch";
 import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
 import { PopupTelegram } from "../telegram-connect";
 
+interface PriceAlertPopupProps {
+  show: boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
+  asset?: Asset;
+}
+
 export const PriceAlertPopup = ({
   show,
   setShow,
   asset,
-}: {
-  show: boolean;
-  setShow: Dispatch<SetStateAction<boolean>>;
-  asset?: Asset;
-}) => {
+}: PriceAlertPopupProps) => {
   const { user } = useContext(UserContext);
   const [showSignTG, setShowSignTG] = useState(false);
   const { setConnect, setShowAlert } = useContext(PopupUpdateContext);
   const { baseAsset: token } = useContext(BaseAssetContext);
   const targetRef = useRef<HTMLInputElement>(null);
   const [isOnlyOnTargetPrice, setIsOnlyOnTargetPrice] = useState(true);
-  const { text80, boxBg6, hover, borders, boxBg3, text60 } = useColors();
   const [targetPrice, setTargetPrice] = useState(
     getFormattedAmount(asset?.price || token?.price)
   );

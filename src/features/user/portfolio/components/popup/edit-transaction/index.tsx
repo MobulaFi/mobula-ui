@@ -11,7 +11,6 @@ import { Menu } from "../../../../../../components/menu";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { Calendar } from "../../../../../../lib/shadcn/components/ui/calendar";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
@@ -47,8 +46,7 @@ export const EditTransactionPopup = () => {
   const [transferType, setTransferType] = useState("Transfer In");
   const [typeSelected, setTypeSelected] = useState("Buy");
   const switcherOptions = ["Buy", "Sell", "Transfer"];
-  const { boxBg1, borders, boxBg6, text80, boxBg3, bordersActive, hover } =
-    useColors();
+
   const switcherPriceOptions = [
     "Market Price",
     "Custom Price",

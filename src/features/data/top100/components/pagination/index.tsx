@@ -1,6 +1,5 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { NextChakraLink } from "../../../../../components/link";
 import { useTop100 } from "../../context-manager";
@@ -20,7 +19,10 @@ export const Pagination = ({
   const params = useSearchParams();
   const pageNumber = params.get("page");
   const page = pageNumber
-    ? Math.min(parseInt(pageNumber as string, 10), parseInt(maxPage, 10))
+    ? Math.min(
+        parseInt(pageNumber as string, 10),
+        parseInt(maxPage as never, 10)
+      )
     : 1;
 
   const options =

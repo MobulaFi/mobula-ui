@@ -66,9 +66,9 @@ export const StepPopup = () => {
      p-[15px] md:p-2.5 absolute rounded-2xl border border-light-border-primary dark:border-light-border-primary
       w-[290px]"
       style={{
-        right: activeStep.right,
-        top: activeStep.top,
-        transform: activeStep.transform || "translateX(50%)",
+        right: activeStep.right as never,
+        top: activeStep.top as never,
+        transform: (activeStep.transform as never) || "translateX(50%)",
       }}
     >
       <div className="flex flex-col w-full h-full relative">

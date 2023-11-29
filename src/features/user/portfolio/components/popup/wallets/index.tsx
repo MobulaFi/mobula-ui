@@ -12,7 +12,6 @@ import { Input } from "../../../../../../components/input";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET } from "../../../../../../utils/fetch";
 import { addressSlicer } from "../../../../../../utils/formaters";
@@ -31,7 +30,6 @@ export const WalletsPopup = () => {
   const { setShowWallet, showWallet, activePortfolio, setActivePortfolio } =
     useContext(PortfolioV2Context);
   const refreshPortfolio = useWebSocketResp();
-  const { boxBg6, borders, boxBg3, boxBg1, text80, hover } = useColors();
 
   const removeWallet = (walletAddress: string) => {
     signerGuard(() => {
