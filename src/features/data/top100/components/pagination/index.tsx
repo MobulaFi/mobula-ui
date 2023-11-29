@@ -23,8 +23,6 @@ export const Pagination = ({
     ? Math.min(parseInt(pageNumber as string, 10), parseInt(maxPage, 10))
     : 1;
 
-  console.log("maxPage", maxPage);
-
   const options =
     "mx-0 flex justify-center items-center cursor-pointer p-0 w-[35px] h-[35px] rounded text-base font-medium";
 
@@ -46,9 +44,9 @@ export const Pagination = ({
         </NextChakraLink>
         <NextChakraLink
           extraCss={`${options} ${
-            page > 1
-              ? "text-light-font-100 dark:text-dark-font-100"
-              : "text-light-font-60 dark:text-dark-font-60 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+            page === 1 || page === undefined
+              ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+              : "text-light-font-60 dark:text-dark-font-60"
           }`}
           href={page === 1 ? undefined : `${path}?page=1`}
           onClick={() => setIsLoading(true)}
@@ -68,7 +66,7 @@ export const Pagination = ({
           <NextChakraLink
             extraCss={`${options} ${
               Math.max(Math.min(page - 2, maxPage - 5), 2) === page
-                ? "text-light-font-100 dark:text-dark-font-100"
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
                 : "text-light-font-60 dark:text-dark-font-60"
             }`}
             href={
@@ -85,7 +83,7 @@ export const Pagination = ({
           <NextChakraLink
             extraCss={`${options} ${
               Math.max(Math.min(page - 1, maxPage - 4), 3) === page
-                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover"
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
                 : "text-light-font-60 dark:text-dark-font-60"
             }`}
             href={
@@ -162,7 +160,7 @@ export const Pagination = ({
           <NextChakraLink
             extraCss={`${options} ${
               maxPage === page
-                ? "text-light-font-100 dark:text-dark-font-100"
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
                 : "text-light-font-60 dark:text-dark-font-60"
             }`}
             href={page <= maxPage ? `${path}?page=${maxPage}` : undefined}
@@ -172,8 +170,8 @@ export const Pagination = ({
           </NextChakraLink>
         )}
         <NextChakraLink
-          extraCss={`${options} ${
-            maxPage < page ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+          extraCss={`${
+            page < maxPage ? "cursor-pointer" : "cursor-not-allowed opacity-50"
           } ml-2.5 flex items-center`}
           href={page < maxPage ? `${path}?page=${page + 1}` : undefined}
           onClick={() => setIsLoading(true)}

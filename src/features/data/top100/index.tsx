@@ -64,8 +64,6 @@ export const Top100 = ({
     });
   }, []);
 
-  console.log("resultsData", Math.floor(resultsData.count / 100));
-
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
