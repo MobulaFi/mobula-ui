@@ -1,10 +1,3 @@
-import {
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-} from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 // import { useAlert } from "react-alert";
 import { BsChevronDown } from "react-icons/bs";
@@ -13,6 +6,7 @@ import { erc20ABI, useAccount, useNetwork } from "wagmi";
 import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
 import { Button } from "../../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../../components/image";
 import { Input } from "../../../../../../../components/input";
 import { Menu } from "../../../../../../../components/menu";
 import {
@@ -272,7 +266,8 @@ export const Contribute = ({ token }: ContributeProps) => {
         <SiConvertio className="text-blue dark:text-blue" />
         <MediumFont extraCss="ml-2.5">Distribution</MediumFont>
       </div>
-      <div className="flex w-full mt-[50px] pb-[60px]">
+      {/* REPLACE SLIDER */}
+      {/* <div className="flex w-full mt-[50px] pb-[60px]">
         <Slider
           aria-label="slider-ex-1"
           defaultValue={contributeAmount || 0}
@@ -333,7 +328,7 @@ export const Contribute = ({ token }: ContributeProps) => {
             border="2px solid var(--chakra-colors-blue)"
           />
         </Slider>
-      </div>
+      </div> */}
       <SmallFont extraCss="mt-[15px] text-light-font-100 dark:text-dark-font-100 font-medium">
         Enter an amount
       </SmallFont>
@@ -355,10 +350,13 @@ export const Contribute = ({ token }: ContributeProps) => {
         bg-light-bg-terciary dark:bg-dark-bg-terciary"
           title={
             <div className="flex items-center">
-              <img
+              <NextImageFallback
+                height={20}
+                width={20}
                 className="w-5 h-5 rounded-full mr-2.5"
                 src={tokenToBuyWith?.logo || "/icon/unknown.png"}
                 alt="token to buy logo"
+                fallbackSrc={""}
               />
               {tokenToBuyWith?.symbol || "Select"}
               <BsChevronDown />
