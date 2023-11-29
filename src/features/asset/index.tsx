@@ -86,7 +86,7 @@ export const Assets = () => {
 
   const tabs = [
     "Essentials",
-    "Tokenomic",
+    // "Tokenomic",
     "Market",
     "Fundraising",
     "Vesting",
