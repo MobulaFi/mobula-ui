@@ -1,14 +1,4 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  Text,
-} from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import {
   blockchainsContent,
   blockchainsIdContent,
@@ -34,7 +24,6 @@ import {
   LargeFont,
   MediumFont,
   SmallFont,
-  TextMedium,
 } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
 import { Menu } from "../../../../../components/menu";
@@ -48,7 +37,6 @@ import {
   USDT_MATIC_ADDRESS,
 } from "../../../../../constants";
 import { useIPFS } from "../../../../../hooks/ipfs";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import {
@@ -58,28 +46,10 @@ import {
   listingAxelarAbi,
 } from "../../constant";
 import { ListingContext } from "../../context-manager";
-import {
-  addButtonStyle,
-  buttonsOption,
-  imageStyle,
-  labelStyles,
-  markOption,
-} from "../../styles";
+import { addButtonStyle, buttonsOption, imageStyle } from "../../styles";
 import { cleanFee, cleanVesting } from "../../utils";
 
 export const Submit = ({ state }) => {
-  const {
-    hover,
-    text10,
-    boxBg3,
-    bordersActive,
-    boxBg6,
-    text80,
-    text40,
-    borders,
-    text60,
-    borders2x,
-  } = useColors();
   const [pending, setPending] = useState(false);
   const { address } = useAccount();
   const [isPayingNow, setIsPayingNow] = useState(true);
@@ -490,7 +460,9 @@ export const Submit = ({ state }) => {
               </Flex>
             </NextChakraLink>
           </Flex> */}
-          <div className="mt-[50px] md:mt-[40px] relative">
+
+          {/* SLIDER TO REPLACE */}
+          {/* <div className="mt-[50px] md:mt-[40px] relative">
             <Slider
               aria-label="slider-ex-6"
               onChange={(val) => setFastTrack(val)}
@@ -499,25 +471,29 @@ export const Submit = ({ state }) => {
               max={1000}
             >
               <SliderMark value={30} {...labelStyles}>
-                <Text fontSize="14px" ml="20px" color={text80} fontWeight="400">
+                <p
+                // fontSize="14px" ml="20px" color={"text80"} fontWeight="400"
+                >
                   Standard
-                </Text>
+                </p>
               </SliderMark>
               <SliderMark value={300} {...labelStyles}>
-                <Text fontSize="14px" ml="15px" color={text80} fontWeight="400">
+                <p
+                // fontSize="14px" ml="15px" color={"text80"} fontWeight="400"
+                >
                   Fast
-                </Text>
+                </p>
               </SliderMark>
               <SliderMark value={1000} {...labelStyles}>
-                <Text
-                  fontSize="14px"
-                  color={text80}
-                  ml="-80px"
-                  whiteSpace="nowrap"
-                  fontWeight="400"
+                <p
+                // fontSize="14px"
+                // color={"text80"}
+                // ml="-80px"
+                // whiteSpace="nowrap"
+                // fontWeight="400"
                 >
                   🔥 Blazing Fast
-                </Text>
+                </p>
               </SliderMark>
               <Flex
                 // max={1000}
@@ -553,7 +529,7 @@ export const Submit = ({ state }) => {
                 />
               </SliderThumb>
             </Slider>
-          </div>
+          </div> */}
           <MediumFont extraCss="mt-2.5">
             You must pay{" "}
             <span className="font-medium">
@@ -739,9 +715,9 @@ export const Submit = ({ state }) => {
         </div>
       ) : (
         <div className="flex flex-col">
-          <TextMedium my={["10px", "10px", "10px", "20px"]}>
+          <MediumFont extraCss="my-5 lg:my-2.5">
             Community members will be able to pay for the listing granularly.
-          </TextMedium>
+          </MediumFont>
           <Button
             extraCss={`${buttonsOption} max-w-fit border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
             onClick={() => {

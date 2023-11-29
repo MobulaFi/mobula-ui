@@ -9,7 +9,6 @@ import { SlMagnifier } from "react-icons/sl";
 import { useNetwork } from "wagmi";
 import { SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import { addressSlicer } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 import { PopOverLinesStyle, mainButtonStyle } from "../../style";
@@ -21,18 +20,6 @@ export const TokenSocialsInfo = () => {
   const { baseAsset, setShowPopupSocialMobile, setShowSeeAllTags } =
     useContext(BaseAssetContext);
   const { chain } = useNetwork();
-  const {
-    text80,
-    boxBg6,
-    hover,
-    boxBg3,
-    borders,
-    bordersActive,
-    text40,
-    text60,
-    tags,
-    borders2x,
-  } = useColors();
 
   const socials = [
     baseAsset.twitter

@@ -1,15 +1,8 @@
 import * as echarts from "echarts";
 import { useTheme } from "next-themes";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { getTokenPercentage } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -22,8 +15,7 @@ interface LiquidityProps {
 export const Liquidity = ({ extraCss }: LiquidityProps) => {
   const { baseAsset } = useContext(BaseAssetContext);
   const [biggestPairs, setBiggestPairs] = useState<[string, number][]>([]);
-  const { text80, borders, text40, boxBg6, hover, boxBg3, text60 } =
-    useColors();
+
   type EChartsOption = echarts.EChartsOption;
   const id = useMemo(() => uuid(), []);
   const [title, setTitle] = useState("asset");

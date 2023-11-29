@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
-import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -8,7 +7,6 @@ import { Button } from "../../../../../../components/button";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
 import { useSignerGuard } from "../../../../../../hooks/signer";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET } from "../../../../../../utils/fetch";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -22,7 +20,6 @@ interface IRenamePortfolio {
 export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
   const signerGuard = useSignerGuard();
   const [newName, setNewName] = useState("");
-  const { boxBg6, borders, text80, hover } = useColors();
   // const alert = useAlert();
   const { setActivePortfolio, setShowPortfolioSelector } =
     useContext(PortfolioV2Context);
@@ -53,11 +50,11 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
   };
 
   return (
-    <div className="flex flex-col border-b border-light-border-primary dark:border-dark-border-primary">
+    <div className="flex flex-col border-b border-light-border-primary dark:border-dark-border-primary w-full px-2.5">
       <div className="flex items-center justify-between my-2.5">
         <SmallFont>Rename</SmallFont>
         <button onClick={() => setShow(false)}>
-          <AiOutlineClose className="text-xs mr-[13px] text-light-font-100 dark:text-dark-font-100" />
+          <AiOutlineClose className="text-xs text-light-font-100 dark:text-dark-font-100" />
         </button>
       </div>
       <div className="flex items-center mt-0 mb-[15px]">

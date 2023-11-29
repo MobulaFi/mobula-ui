@@ -1,4 +1,3 @@
-import { Icon } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { BsDiscord, BsTwitter } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -23,17 +22,12 @@ export const SocialInfo = ({ extraCss }: SocialInfoProps) => {
     {
       title: "Telegram Members",
       value: getFormattedAmount(baseAsset?.assets_social?.telegram_members),
-      icon: (
-        <Icon
-          as={FaTelegramPlane}
-          className="text-telegram dark:text-telegram"
-        />
-      ),
+      icon: <FaTelegramPlane className="text-telegram dark:text-telegram" />,
     },
     {
       title: "Discord Members",
       value: getFormattedAmount(baseAsset?.assets_social?.discord_members),
-      icon: <Icon as={BsDiscord} className="text-discord dark:text-discord" />,
+      icon: <BsDiscord className="text-discord dark:text-discord" />,
     },
   ];
   return (

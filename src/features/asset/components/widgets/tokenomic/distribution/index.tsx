@@ -1,22 +1,26 @@
-import {Flex, Image, Text, useColorMode} from "@chakra-ui/react";
 import * as echarts from "echarts";
-import {useCallback, useContext, useEffect, useMemo} from "react";
-import {v4 as uuid} from "uuid";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BaseAssetContext} from "../../../../context-manager";
+import { useTheme } from "next-themes";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
+import { v4 as uuid } from "uuid";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../components/image";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
+import { BaseAssetContext } from "../../../../context-manager";
 
-export const Distribution = ({...props}) => {
-  const {boxBg3, text80, borders} = useColors();
-  const {baseAsset, activeTab} = useContext(BaseAssetContext);
+interface DistributionProps {
+  extraCss?: string;
+}
+
+export const Distribution = ({ extraCss }: DistributionProps) => {
+  const { baseAsset, activeTab } = useContext(BaseAssetContext);
   type EChartsOption = echarts.EChartsOption;
   let options: EChartsOption;
   const id = useMemo(() => uuid(), []);
-  const {colorMode} = useColorMode();
-  const isDarkMode = colorMode === "dark";
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   const data =
     baseAsset?.distribution.length > 0
-      ? baseAsset?.distribution?.map(entry => ({
+      ? baseAsset?.distribution?.map((entry) => ({
           value: entry.percentage,
           name: entry.name,
         }))
@@ -81,7 +85,9 @@ export const Distribution = ({...props}) => {
 
   const createInstance = useCallback(() => {
     if (!baseAsset?.distribution?.length) return null;
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
     return (
       instance ||
       echarts.init(document.getElementById(id), null, {
@@ -100,46 +106,33 @@ export const Distribution = ({...props}) => {
     if (baseAsset?.distribution?.length === 0) return;
     const chart = createInstance();
     window.onresize = function () {
-      chart.resize();
+      if (chart) chart.resize();
     };
   }, [baseAsset, activeTab]);
 
   return (
-    <Flex
-      p="20px"
-      borderRadius="16px"
-      border={borders}
-      bg={boxBg3}
-      mb="10px"
-      w="100%"
-      mx="auto"
-      direction="column"
-      {...props}
+    <div
+      className={cn(
+        "p-5 rounded-2xl mx-auto bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary mb-2.5 w-full flex flex-col",
+        extraCss
+      )}
     >
-      <Text
-        fontSize={["14px", "14px", "16px", "18px"]}
-        fontWeight="500"
-        color={text80}
-        mb="0px"
-        display={["none", "none", "none", "flex"]}
-      >
-        Distribution
-      </Text>{" "}
+      <MediumFont extraCss="flex lg:hidden">Distribution</MediumFont>{" "}
       {data.length === 0 ? (
-        <Flex direction="column" align="center" justify="center" mt="20px">
-          <Image
+        <div className="flex flex-col items-center justify-center mt-5">
+          <NextImageFallback
+            width={150}
+            height={150}
             src={
               isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
             }
-            boxSize="150px"
+            fallbackSrc={""}
           />
-          <TextSmall mt="15px" mb="10px">
-            No data available
-          </TextSmall>
-        </Flex>
+          <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
+        </div>
       ) : (
-        <div id={id} style={{height: "300px", width: "100%"}} />
+        <div id={id} style={{ height: "300px", width: "100%" }} />
       )}
-    </Flex>
+    </div>
   );
 };

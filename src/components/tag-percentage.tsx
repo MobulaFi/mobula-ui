@@ -1,4 +1,3 @@
-import React from "react";
 import { getTokenPercentage } from "../utils/formaters";
 import { Skeleton } from "./skeleton";
 
@@ -6,8 +5,8 @@ interface TagPercentageProps {
   percentage: number;
   isUp: boolean;
   isLoading?: boolean;
-  h?: string[];
-  fs?: string[];
+  h?: string;
+  fs?: string;
   isMultiple?: boolean;
 }
 

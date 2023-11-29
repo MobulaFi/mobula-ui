@@ -1,6 +1,5 @@
-import { Collapse } from "@chakra-ui/react";
-
-import React, { useContext, useState } from "react";
+import { Collapse } from "components/collapse";
+import { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -13,7 +12,6 @@ import { Input } from "../../../../../../components/input";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET } from "../../../../../../utils/fetch";
 import { addressSlicer } from "../../../../../../utils/formaters";
@@ -32,7 +30,6 @@ export const WalletsPopup = () => {
   const { setShowWallet, showWallet, activePortfolio, setActivePortfolio } =
     useContext(PortfolioV2Context);
   const refreshPortfolio = useWebSocketResp();
-  const { boxBg6, borders, boxBg3, boxBg1, text80, hover } = useColors();
 
   const removeWallet = (walletAddress: string) => {
     signerGuard(() => {
@@ -144,7 +141,7 @@ export const WalletsPopup = () => {
         <div className="flex mt-2.5 flex-col border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
           <div className="flex flex-col w-full">
             {/* ADD A WALLET */}
-            <Collapse startingHeight={0} in={showAddWallet}>
+            <Collapse startingHeight="0px" isOpen={showAddWallet}>
               <div className="flex items-center justify-between mb-2.5">
                 <div className="flex items-center">
                   <SmallFont>Wallet Address</SmallFont>

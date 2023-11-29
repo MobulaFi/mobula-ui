@@ -1,87 +1,49 @@
-import {Button, Flex} from "@chakra-ui/react";
-import {TextLandingMedium, TextSmall} from "../../../../../UI/Text";
-import {useColors} from "../../../../../common/utils/color-mode";
+import React from "react";
+import { Button } from "../../../../../components/button";
+import { LargeFont, SmallFont } from "../../../../../components/fonts";
 
-export const StepPopup = ({activeStep, getNextStep, setShowTuto}) => {
-  const {boxBg1, text80, boxBg6, text40, borders} = useColors();
-
-  const arrowBottomTop = ["105%", "105%", "47%"];
-  const arrowBottomRight = ["50%", "50%", "-25px"];
+export const StepPopup = ({ activeStep, getNextStep, setShowTuto }) => {
   return (
-    <Flex
-      bg={boxBg1}
-      zIndex="5"
-      direction="column"
-      p={["10px", "10px", "15px"]}
-      position="absolute"
-      borderRadius="16px"
-      border={borders}
-      w="290px"
-      right={activeStep.right}
-      top={activeStep.top}
-      transform={activeStep.transform}
+    <div
+      className="bg-light-bg-primary dark:bg-dark-bg-primary z-[5] flex flex-col p-[15px] md:p-2.5 absolute 
+    rounded-2xl border border-light-border-primary dark:border-dark-border-primary w-[290px]"
+      style={{
+        right: activeStep.right,
+        top: activeStep.top,
+        transform: activeStep.transform || "translateX(50%)",
+      }}
     >
-      <Flex direction="column" w="100%" h="100%" position="relative">
-        <Flex
-          borderRight="10px solid transparent"
-          borderLeft="10px solid transparent"
-          borderBottom={`15px solid ${boxBg6}`}
-          transform={[
-            "rotate(360deg) translateY(-50%) translateX(50%)",
-            "rotate(180deg) translateY(-50%) translateX(50%)",
-            "rotate(90deg) translateY(-50%)",
-          ]}
-          position="absolute"
-          top={["-18%", "105%", "47%"]}
-          right={["20%", "50%", "-25px"]}
-        />
-        <TextSmall mb={["5px", "5px", "10px"]} color={text40}>
+      <div className="flex flex-col w-full h-full relative">
+        <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 mb-2.5 md:mb-[5px]">
           Step {activeStep.nbr}
-        </TextSmall>
-        <TextLandingMedium fontWeight="400">
-          {activeStep.title}
-        </TextLandingMedium>
-        <TextLandingMedium fontWeight="400">
-          {activeStep.subtitle}
-        </TextLandingMedium>
-        <Flex
-          mt={["5px", "5px", "10px"]}
-          w="100%"
-          justify="space-between"
-          align="center"
-        >
-          <TextSmall color={text40}>{activeStep.nbr}/3</TextSmall>
-          <Flex>
+        </SmallFont>
+        <LargeFont>{activeStep.title}</LargeFont>
+        <LargeFont>{activeStep.subtitle}</LargeFont>
+        <div className="flex w-full items-center justify-between mt-2.5 md:mt-[5px]">
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+            {activeStep.nbr}/3
+          </SmallFont>
+          <div className="flex">
             {activeStep.nbr < 3 ? (
-              <Button
-                fontWeight="400"
-                color={text80}
-                h="30px"
-                ml="10px"
-                fontSize={["12px", "12px", "13px", "14px"]}
+              <button
+                className="text-light-font-100 dark:text-dark-font-100 ml-2.5 h-[30px] text-sm lg:text-[13px] md:text-xs"
                 onClick={() => {
                   setShowTuto(false);
                   localStorage.setItem("showTuto", "false");
                 }}
               >
                 Skip
-              </Button>
+              </button>
             ) : null}
             <Button
-              variant="outlined"
-              fontWeight="400"
-              color={text80}
-              fontSize={["12px", "12px", "13px", "14px"]}
-              h="30px"
-              ml="10px"
-              px="10px"
+              extraCss="h-[30px] ml-2.5 px-2.5 border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
               onClick={() => getNextStep()}
             >
               {activeStep.nbr < 3 ? "Next" : "Done"}
             </Button>
-          </Flex>
-        </Flex>
-      </Flex>
-    </Flex>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

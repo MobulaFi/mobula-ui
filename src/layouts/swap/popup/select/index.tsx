@@ -2,7 +2,7 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import React, {
+import {
   Dispatch,
   SetStateAction,
   useContext,
@@ -320,7 +320,7 @@ export const Select = ({
         </>
         {coinDecisionPopup && (
           <CoinDecision
-            asset={coinDecisionPopup}
+            asset={coinDecisionPopup as Asset}
             setAsset={setCoinDecisionPopoup as never}
             callback={selectAToken}
           />

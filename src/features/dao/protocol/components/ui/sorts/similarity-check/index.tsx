@@ -1,4 +1,3 @@
-import { Flex, Image } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useEffect, useState } from "react";
 import { SiConvertio } from "react-icons/si";
@@ -95,7 +94,7 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
                 return (
                   <tr key={key}>
                     <Tds extraCss="px-2.5 py-[15px]">
-                      <Flex align="center">
+                      <div className="flex items-center">
                         <img
                           className="w-6 h-6 mr-2.5 rounded-full"
                           src={similarTokens[key]?.logo}
@@ -109,7 +108,7 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
                             {similarTokens[key].symbol}
                           </SmallFont>
                         </div>
-                      </Flex>
+                      </div>
                     </Tds>
                     <Tds extraCss="px-2.5 py-[15px] text-end">
                       {getFormattedAmount(similarTokens[key].market_cap)}
@@ -139,7 +138,7 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
                     </Tds>
                     <Tds extraCss="px-2.5 py-[15px] text-end">
                       <div className="flex items-center w-full justify-end">
-                        <Image
+                        <img
                           className="rounded-full mr-2.5 w-5 h-5"
                           src="/mobula/coinMobula.png"
                           alt="mobula logo"

@@ -1,4 +1,4 @@
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { Ths } from "../../../components/table";
@@ -57,8 +57,8 @@ export function AssetsTable({
   const { activeView, setIsLoading, isLoading } = useTop100();
   const { isConnected } = useAccount();
   const pathname = usePathname();
-  const params = useParams();
-  const page = params.page;
+  const params = useSearchParams();
+  const page = params.get("page");
   const { showMenuTableMobileForToken, showMenuTableMobile } =
     useContext(PopupStateContext);
 
@@ -157,7 +157,7 @@ export function AssetsTable({
     ) {
       fetchData();
     }
-  }, [filters, router, orderBy]);
+  }, [filters, router, params, orderBy]);
 
   const showMinimalMobile =
     (isMobile &&
@@ -178,7 +178,7 @@ export function AssetsTable({
             {isLoading ? (
               <tr className="text-left table-row">
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <Ths extraCss="px-5 md:px-2.5" children={undefined} />
+                  <Ths key={i} extraCss="px-5 md:px-2.5" children={undefined} />
                 ))}
               </tr>
             ) : (

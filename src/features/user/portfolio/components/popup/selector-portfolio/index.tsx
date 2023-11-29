@@ -1,6 +1,6 @@
-import { Collapse } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
+import { Collapse } from "components/collapse";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -220,8 +220,8 @@ export const SelectorPortfolioPopup = () => {
                 ) : null}
               </div>
               <Collapse
-                startingHeight={0}
-                in={showEditName === otherPortfolio.id}
+                startingHeight="0px"
+                isOpen={showEditName === otherPortfolio.id}
               >
                 <RenamePortfolio
                   portfolio={otherPortfolio}
@@ -235,7 +235,7 @@ export const SelectorPortfolioPopup = () => {
       <div className="border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
         <div className="flex flex-col w-full">
           {/* ADD A WALLET */}
-          <Collapse startingHeight={0} in={showCreatePortfolio}>
+          <Collapse startingHeight="0px" isOpen={showCreatePortfolio}>
             <CreatePortfolio />
           </Collapse>
           {showCreatePortfolio ? null : (

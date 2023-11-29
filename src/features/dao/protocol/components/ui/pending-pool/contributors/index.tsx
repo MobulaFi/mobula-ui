@@ -1,13 +1,10 @@
-import {Flex, Icon, Img, Text} from "@chakra-ui/react";
-import {SiConvertio} from "react-icons/si";
-import {TextSmall} from "../../../../../../../UI/Text";
-import {InfoPopup} from "../../../../../../../common/components/popup-hover";
-import {useColors} from "../../../../../../../common/utils/color-mode";
-import {BoxContainer} from "../../../../../common/components/box-container";
+import React from "react";
+import { SiConvertio } from "react-icons/si";
+import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../../components/image";
+import { BoxContainer } from "../../../../../common/components/box-container";
 
 export const Contributors = () => {
-  const {borders} = useColors();
-
   const contributors = [
     {
       name: "John Doe",
@@ -40,50 +37,41 @@ export const Contributors = () => {
   ];
 
   return (
-    <BoxContainer
-      mb="20px"
-      position="relative"
-      transition="all 300ms ease-in-out"
-      p={["10px", "10px", "15px", "15px 20px"]}
-      borderRadius={["0px", "16px"]}
-    >
-      <Flex
-        align="center"
-        pb={["10px", "10px", "15px", "20px"]}
-        borderBottom={borders}
-      >
-        <Icon as={SiConvertio} color="blue" />
-        <Text fontSize={["14px", "14px", "16px", "18px"]} ml="10px">
-          Contributors
-        </Text>
-        <InfoPopup mb="3px" />
-      </Flex>
-      {contributors.map(contributor => (
-        <Flex
-          align="center"
-          justify="space-between"
-          py="15px"
-          borderBottom={borders}
+    <BoxContainer extraCss="mb-5 relative transition-all duration-250 ease-in-out py-[15px] px-5 lg:px-[15px] md:p-2.5 rounded-2xl sm:rounded-0">
+      <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
+        <SiConvertio className="text-blue dark:text-blue" />
+        <MediumFont extraCss="ml-2.5">Contributors</MediumFont>
+        {/* <InfoPopup mb="3px" /> */}
+      </div>
+      {contributors.map((contributor) => (
+        <div
+          key={contributor.logo + contributor.name}
+          className="flex items-center justify-between py-[15px] border-b
+         border-light-border-primary dark:border-dark-border-primary"
         >
-          <Flex align="center">
-            <Img
-              src={contributor.profile_pic || "/icon/unknown.png"}
-              boxSize="20px"
-              mr="10px"
-              borderRadius="full"
+          <div className="flex items-center">
+            <NextImageFallback
+              width={20}
+              height={20}
+              className="mr-2.5 rounded-full"
+              src={contributor.profile_pic || "/empty/unknown.png"}
+              alt={contributor.name}
+              fallbackSrc={""}
             />
-            <TextSmall>{contributor.name}</TextSmall>
-          </Flex>
-          <Flex align="center">
-            <TextSmall>{`${contributor.amount} ${contributor.symbol}`}</TextSmall>
-            <Img
-              src={contributor.logo || "/icon/unknown.png"}
-              boxSize="20px"
-              ml="10px"
-              borderRadius="full"
+            <SmallFont>{contributor.name}</SmallFont>
+          </div>
+          <div className="flex items-center">
+            <SmallFont>{`${contributor.amount} ${contributor.symbol}`}</SmallFont>
+            <NextImageFallback
+              src={contributor.logo || "/empty/unknown.png"}
+              alt={contributor.name}
+              width={20}
+              height={20}
+              className="mr-2.5 rounded-full"
+              fallbackSrc={""}
             />
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       ))}
     </BoxContainer>
   );

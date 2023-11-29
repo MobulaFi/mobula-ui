@@ -1,31 +1,22 @@
-import {Flex} from "@chakra-ui/react";
-import {TextLandingSmall} from "../../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../../common/components/links";
-import {useColors} from "../../../../../../common/utils/color-mode";
+import React from "react";
+import { MediumFont } from "../../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../../components/link";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 
-export const NoData = ({
-  text,
-  url,
-  urlText,
-  ...props
-}: {
+interface NoDataProps {
   text: string;
   url?: string;
   urlText?: string;
-  [key: string]: any;
-}) => {
-  const {text80, text40} = useColors();
+  extraCss?: string;
+}
+
+export const NoData = ({ text, url, urlText, extraCss }: NoDataProps) => {
   return (
-    <Flex maxW="80%" direction="column" m="auto" mt="40px" {...props}>
-      <TextLandingSmall mb="5px" textAlign="center" color={text40}>
-        {" "}
+    <div className={cn("flex max-w-[80%] flex-col m-auto mt-[40px]", extraCss)}>
+      <MediumFont extraCss="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40">
         {text}
-      </TextLandingSmall>
-      {url ? (
-        <NextChakraLink fontWeight="500" href={url} color={text80}>
-          {urlText}
-        </NextChakraLink>
-      ) : null}
-    </Flex>
+      </MediumFont>
+      {url ? <NextChakraLink href={url}>{urlText}</NextChakraLink> : null}
+    </div>
   );
 };

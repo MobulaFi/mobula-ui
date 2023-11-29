@@ -1,5 +1,4 @@
 "use client";
-import { Collapse } from "@chakra-ui/react";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
@@ -24,6 +23,7 @@ import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
+import { Collapse } from "../../../../../../../components/collapse";
 import styles from "../box-prevote/Prevote.module.css";
 import { CommunityPopup } from "../popup-community";
 
@@ -445,9 +445,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         className={`text-sm text-light-font-60 dark:text-dark-font-60 pb-0 
         md:pb-2.5 transition-all duration-250 max-w-[600px] ${
           displayedToken ? "mt-[15px] max-h-auto" : "mt-2.5 max-h-[300px]"
-        }`}
+        } text-start`}
       >
-        <Collapse startingHeight={descriptionHeight} in={show}>
+        <Collapse startingHeight={descriptionHeight} isOpen={show}>
           {token?.description}
         </Collapse>
         <RenderContent token={token} handleToggle={handleToggle} show={show} />

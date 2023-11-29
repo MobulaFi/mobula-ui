@@ -1,15 +1,13 @@
-import {Flex, Image} from '@chakra-ui/react';
+import React from "react";
 import {
-  TextExtraSmall,
-  TextLandingSmall,
-  TextSmall,
-} from '../../../../../../UI/Text';
-import {useColors} from '../../../../../../common/utils/color-mode';
-import CryptoFearAndGreedChart from '../fear-greed/crypto-fear-greed';
+  ExtraSmallFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../components/image";
+import CryptoFearAndGreedChart from "../fear-greed/crypto-fear-greed";
 
-export const Test = ({showPage}) => {
-  const {text80, boxBg3, hover, text40} = useColors();
-
+export const Test = ({ showPage }) => {
   //   const colors = [
   //     "green",
   //     "orange",
@@ -24,87 +22,63 @@ export const Test = ({showPage}) => {
   //   ];
 
   const getColors = (i: number, note: number) => {
-    if (i > note) return hover;
-    if (i < 2) return 'red';
-    if (i < 5) return 'orange';
-    if (i < 7) return 'yellow';
-    return 'green';
+    if (i > note) return "bg-light-bg-hover dark:bg-dark-bg-hover";
+    if (i < 2) return "bg-red dark:bg-red";
+    if (i < 5) return "bg-orange dark:bg-orange";
+    if (i < 7) return "bg-yellow dark:bg-yellow";
+    return "bg-green dark:bg-green";
   };
 
   const notes = [2.3, 7, 3];
 
   return (
-    <Flex
-      minW="100%"
-      direction="column"
-      w="200px"
-      transform={`translateX(-${showPage * 100}%)`}
-      transition="all 250ms ease-in-out"
-      p="10px">
-      <TextLandingSmall color={text80} mb="5px">
-        Top Traded Coins
-      </TextLandingSmall>
-      <Flex w="100%" mt="12px" h="100%" direction="column" mb="10px" px="10px">
-        {notes.map(note => (
-          <Flex w="100%" align="center" justify="space-between" mb="12.5px">
-            <Flex align="center">
-              <Image
+    <div
+      className="flex flex-col w-[200px] p-2.5 transition-all duration-250 ease-in-out min-w-full"
+      style={{
+        transform: `translateX(-${showPage * 100}%)`,
+      }}
+    >
+      <MediumFont extraCss="mb-[5px]">Top Traded Coins</MediumFont>
+      <div className="flex w-full mt-3 h-full flex-col mb-2.5 px-2.5">
+        {notes.map((note, i) => (
+          <div
+            key={note + i}
+            className="flex items-center mb-[12.5px] justify-between w-full"
+          >
+            <div className="flex items-center">
+              <NextImageFallback
+                width={24}
+                height={24}
+                className="rounded-full"
                 src="/logo/bitcoin.png"
-                boxSize="24px"
-                borderRadius="full"
+                fallbackSrc="/empty/unknown.png"
               />
-              <Flex direction="column">
-                <TextExtraSmall ml="10px" color={text80} fontWeight="500">
+              <div className="flex flex-col">
+                <ExtraSmallFont extraCss="ml-2.5 font-medium">
                   BTC
-                </TextExtraSmall>
-                <TextExtraSmall
-                  mt="-2px"
-                  ml="7.5px"
-                  color={text40}
-                  fontWeight="500">
+                </ExtraSmallFont>
+                <ExtraSmallFont extraCss="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] -mt-0.5 font-medium">
                   1200 Trades
-                </TextExtraSmall>
-              </Flex>
-            </Flex>
-
-            <Flex w="53%" ml="auto">
-              {Array.from({length: 10}).map((_, index) => (
-                <Flex position="relative" w="10%">
-                  <Flex
-                    w="8px"
-                    h="50px"
-                    bg={boxBg3}
-                    position="absolute"
-                    left="-16%"
-                    // transform="rotate(-20deg)"
-                    zIndex="30"
-                    top="-10px"
+                </ExtraSmallFont>
+              </div>
+            </div>
+            <div className="w-[53%] flex ml-auto">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div key={index} className="flex relative w-[10%]">
+                  <div className="w-2 h-[50px] flex bg-light-bg-secondary dark:bg-dark-bg-secondary absolute left-[-16%] top-[-10px] z-30" />
+                  <div
+                    className={`flex w-full h-5 ${getColors(index, note)}`}
                   />
-                  <Flex
-                    key={note}
-                    w="100%"
-                    h="20px"
-                    bg={getColors(index, note)}
-                  />{' '}
                   {index === 9 ? (
-                    <Flex
-                      w="8px"
-                      h="50px"
-                      bg={boxBg3}
-                      position="absolute"
-                      right="-38%"
-                      //   transform="rotate(-20deg)"
-                      zIndex={2}
-                      top="-10px"
-                    />
+                    <div className="w-2 h-[50px] flex bg-light-bg-secondary dark:bg-dark-bg-secondary absolute left-[-38%] top-[-10px] z-[2]" />
                   ) : null}
-                </Flex>
+                </div>
               ))}
-            </Flex>
-            <TextSmall color={text80} fontWeight="500" w="30px" textAlign="end">
+            </div>
+            <SmallFont extraCss="w-[30px] text-end font-medium">
               {note}
-            </TextSmall>
-          </Flex>
+            </SmallFont>
+          </div>
         ))}
 
         {/* <EChart
@@ -119,8 +93,8 @@ export const Test = ({showPage}) => {
         noDataZoom
         noAxis
       /> */}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

@@ -1,4 +1,3 @@
-import { useMediaQuery } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { FiRefreshCcw } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
@@ -19,11 +18,6 @@ export const PNL = () => {
   const [balanceColor, setBalanceColor] = useState(
     "text-light-font-100 dark:text-dark-font-100"
   );
-
-  const [isLargerThan480] = useMediaQuery("(min-width: 480px)", {
-    ssr: true,
-    fallback: false, // return false on the server, and re-evaluate on the client side
-  });
 
   useEffect(() => {
     if (!wallet) return;

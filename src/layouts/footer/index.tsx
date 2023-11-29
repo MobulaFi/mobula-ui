@@ -1,5 +1,6 @@
 "use client";
-import { useColorMode } from "@chakra-ui/react";
+import { NextImageFallback } from "components/image";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
@@ -10,7 +11,7 @@ import { getPath } from "./constant";
 
 export const Footer = () => {
   const pages = getPath();
-  const { colorMode } = useColorMode();
+  const { theme } = useTheme();
   const [isHover, setIsHover] = useState(null);
   return (
     <CommonPageProvider>
@@ -21,14 +22,17 @@ export const Footer = () => {
         <Container extraCss="pt-[28px] md:pt-[5px] mt-0 w-full">
           <div className="flex mt-[15px] md:mt-0 flex-row md:flex-col-reverse mx-auto w-[90%] md:w-[100%]">
             <div className="flex w-1/5">
-              <img
-                className="w-[62px] h-[62px] md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 md:ml-[20px]"
+              <NextImageFallback
+                height={62}
+                width={62}
+                className="md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 md:ml-[20px]"
                 src={
-                  colorMode === "dark"
+                  theme === "dark"
                     ? "/mobula/mobula-logo.svg"
                     : "/mobula/mobula-logo-light.svg"
                 }
                 alt="Mobula logo"
+                fallbackSrc={""}
               />
             </div>
             <div className="flex md:hidden justify-between w-full">

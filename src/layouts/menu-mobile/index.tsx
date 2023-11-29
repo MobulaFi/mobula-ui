@@ -1,18 +1,14 @@
-import { Flex, Icon, useColorMode } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
+"use client";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { SlWallet } from "react-icons/sl";
 import { VscArrowSwap } from "react-icons/vsc";
-import { TextSmall } from "../../components/fonts";
+import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
 import { useUrl } from "../../hooks/url";
-import { useColors } from "../../lib/chakra/colorMode";
 
 export const MenuFixedMobile = () => {
-  const { boxBg3, borders, text100, text60 } = useColors();
-  const { colorMode } = useColorMode();
-  const router = useRouter();
   const [lastScroll, setLastScroll] = useState(0);
   const [visible, setVisible] = useState(true);
   const { portfolioUrl } = useUrl();
@@ -22,7 +18,6 @@ export const MenuFixedMobile = () => {
     swap: pathname === "/swap",
     portfolio: pathname === "/portfolio",
   });
-  const isLightMode = colorMode === "light";
 
   const handleHoverIn = (key: string) => {
     setIsHover((prev) => ({ ...prev, [key]: true }));
@@ -51,54 +46,44 @@ export const MenuFixedMobile = () => {
   }, [lastScroll]);
 
   return (
-    <Flex
-      w="100%"
-      h="75px"
-      align="center"
-      position="fixed"
-      bottom={visible ? "0px" : "-80px"}
-      transition="all 300ms ease-in-out"
-      display={["flex", "flex", "none"]}
-      bg={boxBg3}
-      borderTop={borders}
-      direction="column"
-      pb="10px"
-      zIndex={10}
-      boxShadow={
-        isLightMode
-          ? "1px 2px 13px 3px rgba(0,0,0,0.05)"
-          : "1px 2px 13px 3px rgba(255,255,255,0.05)"
-      }
+    <div
+      className={`w-full h-[75px] items-center flex-col pb-2.5 border-t border-light-border-primary
+     dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary z-10 hidden md:flex 
+     transition-all duration-250 ease-in-out fixed shadow-md ${
+       visible ? "bottom-0" : "bottom-[-80px]"
+     }`}
     >
-      <Flex w="100%" h="100%" maxW="340px" mx="auto">
-        <Flex w="33%" h="100%" align="center" justify="center">
+      <div className="flex w-full h-full max-w-[340px] mx-auto">
+        <div className="flex w-[33.33%] h-full items-center justify-center">
           <NextChakraLink
             href="/"
-            _hover={{ color: text100 }}
             onMouseEnter={() => handleHoverIn("home")}
             onMouseLeave={() => handleHoverOut("home")}
             onClick={() =>
               setIsHover({ swap: false, portfolio: false, home: true })
             }
           >
-            <Flex direction="column" align="center" justify="center">
-              <Icon
-                as={FiHome}
-                mb="5px"
-                fontSize="18px"
-                color={isHover.home ? text100 : text60}
-                transition="all 200ms ease-in-out"
+            <div className="flex flex-col items-center justify-center">
+              <FiHome
+                className={`text-lg mb-[5px] ${
+                  isHover.home
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-60 dark:text-dark-font-60"
+                } transition-all duration-250 ease-in-out`}
               />
-              <TextSmall
-                color={isHover.home ? text100 : text60}
-                transition="all 200ms ease-in-out"
+              <SmallFont
+                extraCss={` ${
+                  isHover.home
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-60 dark:text-dark-font-60"
+                } transition-all duration-250 ease-in-out`}
               >
                 Home
-              </TextSmall>
-            </Flex>
+              </SmallFont>
+            </div>
           </NextChakraLink>
-        </Flex>
-        <Flex w="33%" h="100%" align="center" justify="center">
+        </div>
+        <div className="flex w-[33.33%] h-full items-center justify-center">
           <NextChakraLink
             href="/swap"
             onMouseEnter={() => handleHoverIn("swap")}
@@ -107,24 +92,27 @@ export const MenuFixedMobile = () => {
               setIsHover({ swap: true, portfolio: false, home: false })
             }
           >
-            <Flex direction="column" align="center" justify="center">
-              <Icon
-                color={isHover.swap ? text100 : text60}
-                as={VscArrowSwap}
-                mb="5px"
-                fontSize="18px"
-                transition="all 200ms ease-in-out"
+            <div className="flex flex-col items-center justify-center">
+              <VscArrowSwap
+                className={`text-lg mb-[5px] ${
+                  isHover.swap
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-60 dark:text-dark-font-60"
+                } transition-all duration-250 ease-in-out`}
               />
-              <TextSmall
-                color={isHover.swap ? text100 : text60}
-                transition="all 200ms ease-in-out"
+              <SmallFont
+                extraCss={` ${
+                  isHover.swap
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-60 dark:text-dark-font-60"
+                } transition-all duration-250 ease-in-out`}
               >
                 Swap
-              </TextSmall>
-            </Flex>
+              </SmallFont>
+            </div>
           </NextChakraLink>
-        </Flex>
-        <Flex w="33%" h="100%" align="center" justify="center">
+        </div>
+        <div className="flex w-[33.33%] h-full items-center justify-center">
           <NextChakraLink
             href={portfolioUrl}
             onMouseEnter={() => handleHoverIn("portfolio")}
@@ -133,24 +121,27 @@ export const MenuFixedMobile = () => {
               setIsHover({ swap: false, portfolio: true, home: false })
             }
           >
-            <Flex direction="column" align="center" justify="center">
-              <Icon
-                as={SlWallet}
-                mb="5px"
-                fontSize="18px"
-                color={isHover.portfolio ? text100 : text60}
-                transition="all 200ms ease-in-out"
+            <div className="flex flex-col items-center justify-center">
+              <SlWallet
+                className={`text-lg mb-[5px] ${
+                  isHover.portfolio
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-60 dark:text-dark-font-60"
+                } transition-all duration-250 ease-in-out`}
               />
-              <TextSmall
-                color={isHover.portfolio ? text100 : text60}
-                transition="all 200ms ease-in-out"
+              <SmallFont
+                extraCss={` ${
+                  isHover.portfolio
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-60 dark:text-dark-font-60"
+                } transition-all duration-250 ease-in-out`}
               >
                 Portfolio
-              </TextSmall>
-            </Flex>
+              </SmallFont>
+            </div>
           </NextChakraLink>
-        </Flex>
-      </Flex>
-    </Flex>
+        </div>
+      </div>
+    </div>
   );
 };

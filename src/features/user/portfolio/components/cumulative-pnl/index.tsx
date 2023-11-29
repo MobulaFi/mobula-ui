@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Spinner } from "@chakra-ui/react";
+import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { PortfolioV2Context } from "../../context-manager";
 import { boxStyle } from "../../style";
@@ -78,7 +77,7 @@ export const CumulativePnl = () => {
             />
           ) : null}
           {isLoading ? (
-            <Spinner className="w-[50px] h-[50px] m-auto mt-[40px]" />
+            <Spinner extraCss="w-[50px] h-[50px] m-auto mt-[40px]" />
           ) : null}
         </div>
       )}

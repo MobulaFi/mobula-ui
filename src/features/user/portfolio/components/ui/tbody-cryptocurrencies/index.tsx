@@ -1,3 +1,4 @@
+import { NextImageFallback } from "components/image";
 import { Asset } from "interfaces/assets";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
@@ -8,11 +9,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { TbTriangleFilled } from "react-icons/tb";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
-import {
-  MediumFont,
-  SmallFont,
-  TextSmall,
-} from "../../../../../../components/fonts";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import {
   PopupStateContext,
@@ -289,10 +286,13 @@ export const TbodyCryptocurrencies = ({
           onClick={triggerTokenInfo}
         >
           <div className="flex items-center min-w-[130px]">
-            <img
-              className="rounded-full w-[28px] h-[28px] min-w-[28px]"
+            <NextImageFallback
+              height={28}
+              width={28}
+              className="rounded-full min-w-[28px]"
               src={asset.image}
               alt={`${asset.name} logo`}
+              fallbackSrc={""}
             />
             <div className="flex flex-col overflow-x-hidden truncate ml-2.5 lg:ml-[7.5px] font-medium text-sm lg:text-[13px] md:text-xs">
               <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium text-sm md:text-[13px]">
@@ -317,9 +317,9 @@ export const TbodyCryptocurrencies = ({
             {manager.privacy_mode ? (
               <Privacy extraCss="justify-end" />
             ) : (
-              <TextSmall fontWeight="500" textAlign="end" color={changeColor}>
+              <SmallFont extraCss={`font-medium text-end ${changeColor}`}>
                 ${getFormattedAmount(asset.estimated_balance)}
-              </TextSmall>
+              </SmallFont>
             )}
             {manager.privacy_mode ? (
               <Privacy extraCss="justify-end" />

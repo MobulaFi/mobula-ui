@@ -1,9 +1,9 @@
-import { Image } from "@chakra-ui/react";
 import * as echarts from "echarts";
 import { useTheme } from "next-themes";
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../components/image";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { colors, nonMatchingColors } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -48,21 +48,21 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
     vestings.forEach(([, , type], idx) => {
       if (idx === 0) {
         Object.keys(type)?.forEach((key) => {
-          types.push(key);
+          types.push(key as never);
           seen.add(key);
         });
       } else {
         Object.keys(type)?.forEach((key) => {
           if (!seen.has(key)) {
             seen.add(key);
-            types.push(key);
+            types.push(key as never);
           }
         });
       }
     });
     const typeWithColor = [];
     types.forEach((type, i) => {
-      typeWithColor.push({ name: type, color: colors[i] });
+      typeWithColor.push({ name: type, color: colors[i] } as never);
     });
 
     return typeWithColor;
@@ -134,7 +134,9 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
 
   const createInstance = useCallback(() => {
     if (!data?.length) return;
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
     return (
       instance ||
       echarts.init(document.getElementById(id), null, {
@@ -152,12 +154,14 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
   useEffect(() => {
     if (!baseAsset?.distribution.length) return;
     const chart = createInstance();
-    const handleResize = () => chart.resize();
-    window.addEventListener("resize", handleResize);
+    if (chart) {
+      const handleResize = () => chart.resize();
+      window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
   }, [baseAsset?.distribution, theme]);
 
   return (
@@ -170,12 +174,14 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
       <LargeFont>Token Allocation</LargeFont>
       {baseAsset?.distribution?.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-5">
-          <Image
+          <NextImageFallback
             src={
               isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
             }
             alt="empty ROI"
-            className="w-[150px] h-[150px]"
+            height={150}
+            width={150}
+            fallbackSrc={""}
           />
           <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
         </div>

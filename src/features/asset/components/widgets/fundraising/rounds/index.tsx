@@ -1,10 +1,8 @@
-import { useDisclosure } from "@chakra-ui/react";
 import { getFormattedAmount, getTokenPercentage } from "@utils/formaters";
 import { Popover } from "components/popover";
 import { TagPercentage } from "components/tag-percentage";
-import { useColors } from "lib/chakra/colorMode";
 import { useTheme } from "next-themes";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Accordion } from "../../../../../../components/accordion";
 import {
   LargeFont,
@@ -15,23 +13,11 @@ import { BaseAssetContext } from "../../../../context-manager";
 
 export const Rounds = () => {
   const { baseAsset } = useContext(BaseAssetContext);
-  const {
-    text80,
-    hover,
-    text20,
-    text40,
-    text10,
-    text60,
-    borders,
-    boxBg3,
-    boxBg6,
-  } = useColors();
   const arr = [1, 2, 3, 4, 5, 5];
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const bgLine = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
   const [showPopover, setShowPopover] = useState("");
-  const { onToggle, isOpen, onClose } = useDisclosure();
   const getTokenomics = (sale) => [
     {
       name: "Tokens for Sale",
