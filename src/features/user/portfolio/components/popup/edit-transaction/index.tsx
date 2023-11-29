@@ -1,4 +1,3 @@
-import { Collapse } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 // import {useAlert} from "react-alert";
@@ -7,6 +6,7 @@ import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3, BsChevronDown } from "react-icons/bs";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
+import { Collapse } from "../../../../../../components/collapse";
 import { Menu } from "../../../../../../components/menu";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
@@ -176,7 +176,7 @@ export const EditTransactionPopup = () => {
   return (
     <ModalContainer
       extraCss="max-w-[380px]"
-      isOpen={showEditTransaction}
+      isOpen={!!showEditTransaction}
       onClose={() => setShowEditTransaction(false)}
       title="Edit Transaction"
     >
@@ -363,7 +363,7 @@ export const EditTransactionPopup = () => {
           USD
         </div>
       </div>
-      <Collapse startingHeight={0} in={showNote}>
+      <Collapse startingHeight={"0px"} isOpen={showNote}>
         <div className="flex">
           <div className="flex flex-col w-[80%] mr-2.5">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">

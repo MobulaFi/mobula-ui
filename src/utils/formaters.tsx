@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { SmallFont } from "components/fonts";
 
 export function formatName(name: string, chars: number): string {
   return `${name.substr(0, chars)}...`;
@@ -212,17 +212,15 @@ export function getTokenFormattedPrice(
 
       const exp = price.match(/0\.0+[1-9]/)?.[0] || "";
       return (
-        <Flex
-          mt={marginTop || "-45px"}
-          justify={justify || "center"}
-          align="center"
+        <div
+          className={`flex ${marginTop || "mt-[-45px]"} ${
+            justify || "justify-center"
+          } items-center`}
         >
           {`${addOn + price.split(".")[0]}.0`}{" "}
-          <Text mt="2.5%" fontSize={["xx-small", "small"]}>
-            {exp.length - 3}
-          </Text>{" "}
+          <SmallFont extraCss="mt-[2.5%]">{exp.length - 3}</SmallFont>{" "}
           {price.split(exp.slice(0, exp.length - 2))[1].slice(1, 6)}
-        </Flex>
+        </div>
       );
     }
     return <>{addOn + price.slice(0, 8)}</>;

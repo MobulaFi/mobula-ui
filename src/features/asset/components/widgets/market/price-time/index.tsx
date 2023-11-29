@@ -1,7 +1,7 @@
-import { Collapse } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../../../components/button";
+import { Collapse } from "../../../../../../components/collapse";
 import { LargeFont } from "../../../../../../components/fonts";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
@@ -108,7 +108,7 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
                 getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
               ).length * 44
         }
-        in={showMore}
+        isOpen={showMore}
       >
         {Object.entries(
           getHistoricalPrices(unformattedHistoricalData?.price?.ALL)

@@ -8,7 +8,6 @@ import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { readContract } from "wagmi/actions";
 import { Spinner } from "../../components/spinner";
-import { useColors } from "../../lib/chakra/colorMode";
 import { pushData } from "../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { addressSlicer, getUrlFromName } from "../../utils/formaters";
@@ -48,7 +47,6 @@ export const CoreSearchBar = ({
 }: CoreSearchBarProps) => {
   const router = useRouter();
   const supabase = createSupabaseDOClient();
-  const { text80, text60, borders, boxBg3 } = useColors();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSmartContract, setIsSmartContract] = React.useState(null);
 

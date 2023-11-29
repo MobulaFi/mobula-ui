@@ -9,7 +9,7 @@ export const Spinner = ({ extraCss }: SpinnerProps) => (
     <svg
       aria-hidden="true"
       className={cn(
-        "inline mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue",
+        "inline mr-2 text-light-border-primary animate-spin dark:text-dark-border-primary fill-blue",
         extraCss
       )}
       viewBox="0 0 100 101"

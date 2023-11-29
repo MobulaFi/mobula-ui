@@ -51,7 +51,7 @@ export const MenuMobile = ({
 
   return (
     <div
-      className={`bg-light-bg-primary dark:bg-dark-bg-primary z-20 pt-[15px] top-[45px] 
+      className={`bg-light-bg-primary dark:bg-dark-bg-primary z-[110] pt-[15px] top-[45px] 
     w-screen left-0 h-screen text-light-font-100 dark:text-dark-font-100 flex flex-col 
     overflow-x-hidden fixed ${isMenuMobile ? "flex" : "hidden"}`}
       id="mobileNav"
