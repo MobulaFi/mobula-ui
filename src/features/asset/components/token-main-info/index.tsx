@@ -1,5 +1,4 @@
-import { Tooltip } from "@chakra-ui/react";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { TbBellRinging } from "react-icons/tb";
 import { Button } from "../../../../components/button";
@@ -10,7 +9,6 @@ import { Spinner } from "../../../../components/spinner";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
 import { useWatchlist } from "../../../../layouts/tables/hooks/watchlist";
-import { useColors } from "../../../../lib/chakra/colorMode";
 import {
   getClosest,
   getFormattedAmount,
@@ -40,16 +38,7 @@ export const TokenMainInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { marketMetrics } = useMarketMetrics(baseAsset);
   const [metricsChanges, setMetricsChanges] = useState(null);
-  const {
-    text80,
-    boxBg6,
-    boxBg3,
-    hover,
-    borders,
-    bordersActive,
-    text40,
-    text60,
-  } = useColors();
+  const [showFullName, setShowFullName] = useState(false);
   const watchlist: IWatchlist = user?.main_watchlist;
 
   const getIconFromWatchlistState = () => {
@@ -185,23 +174,18 @@ export const TokenMainInfo = () => {
             alt={`${baseAsset.name} logo`}
           />
           <div className="flex flex-wrap items-center">
-            <Tooltip
-              hasArrow
-              label={baseAsset?.name}
-              bg={boxBg6}
-              border={borders}
-              borderRadius="8px"
-              placement="bottom"
-              color={text80}
-              py="2.5px"
-              px="10px"
-            >
-              <LargeFont extraCss="mr-[5px] hidden lg:flex">
-                {baseAsset.name.length > 15
-                  ? `${baseAsset?.name.slice(0, 15)}...`
-                  : baseAsset?.name}
-              </LargeFont>
-            </Tooltip>
+            <Popover
+              visibleContent={
+                <LargeFont extraCss="mr-[5px] hidden lg:flex">
+                  {baseAsset.name.length > 15
+                    ? `${baseAsset?.name.slice(0, 15)}...`
+                    : baseAsset?.name}
+                </LargeFont>
+              }
+              hiddenContent={<MediumFont>{baseAsset?.name}</MediumFont>}
+              onToggle={() => setShowFullName((prev) => !prev)}
+              isOpen={showFullName}
+            />
             {baseAsset.name.length <= 15 ? (
               <p className="text-2xl lg:text-[22px] md:text-xl font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
                 {baseAsset?.name}

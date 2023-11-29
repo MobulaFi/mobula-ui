@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
@@ -103,10 +103,12 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
           Object.entries(
             getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
           ).length > 5
-            ? 220
-            : Object.entries(
-                getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-              ).length * 44
+            ? "220px"
+            : `${
+                Object.entries(
+                  getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
+                ).length * 44
+              }px`
         }
         isOpen={showMore}
       >
@@ -123,22 +125,22 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
           .map((entry, i) => (
             <div
               key={entry[0] + entry[1]}
-              className={`flex px-5 text-light-font-100 dark:text-dark-font-100 justify-between py-2.5 ${
+              className={`flex w-full items-center px-5 text-light-font-100 dark:text-dark-font-100 justify-between py-2.5 ${
                 i === 0
                   ? ""
                   : "border-t border-light-border-primary dark:border-dark-border-primary"
               } pb-2.5`}
             >
-              <div className="flex items-center text-sm mb-[5px] text-light-font-60 dark:text-dark-font-60">
+              <div className="flex items-center text-sm mb-[5px] text-light-font-100 dark:text-dark-font-100">
                 {getDateFromTimeStamp(entry[0])}
               </div>
               <div className="flex items-center">
-                <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] font-medium">
+                <p className="text-light-font-80 dark:text-dark-font-80 text-[13px] font-medium">
                   ${getFormattedAmount(entry[1][0])}
                 </p>
                 <TagPercentage
-                  fs={["12px", "12px", "13px"]}
-                  h={["20px", "20px", "21.5px", "21.5px"]}
+                  fs="text-[13px] md:text-xs"
+                  h="h-[21.5x] md:h-5"
                   percentage={Number(getTokenPercentage(entry[1][1]))}
                   isUp={Number(getTokenPercentage(entry[1][1])) > 0}
                 />
