@@ -3,6 +3,7 @@ import React from "react";
 import { ToggleColorMode } from "../../layouts/toggle-mode";
 import { Footer } from "../footer";
 import { Header } from "../header";
+import { MenuFixedMobile } from "../menu-mobile";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Header addressCookie={addressCookie || ""} />
       <ToggleColorMode />
       {children}
+      <MenuFixedMobile />
       <Footer />
     </div>
   );

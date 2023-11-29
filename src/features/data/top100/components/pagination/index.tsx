@@ -1,247 +1,186 @@
 "use client";
-import { Box, Button, Flex, Spacer, VStack } from "@chakra-ui/react";
-import { Next, Previous } from "chakra-paginator";
-import { useParams, useRouter } from "next/navigation";
-import React from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useSearchParams } from "next/navigation";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { NextChakraLink } from "../../../../../components/link";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { useTop100 } from "../../context-manager";
+
+interface PaginationProps {
+  maxPage: number;
+  bg?: boolean;
+  path?: string;
+}
 
 export const Pagination = ({
   maxPage,
   bg = true,
   path = "/",
-}: {
-  maxPage: any;
-  bg?: boolean;
-  path?: string;
-}) => {
-  const router = useRouter();
+}: PaginationProps) => {
   const { setIsLoading } = useTop100();
-  const { text60, text80, hover, borders, bgTable } = useColors();
-  const params = useParams();
-  const pageNumber = params.page;
+  const params = useSearchParams();
+  const pageNumber = params.get("page");
   const page = pageNumber
-    ? Math.min(parseInt(pageNumber as string, 10), parseInt(maxPage, 10))
+    ? Math.min(
+        parseInt(pageNumber as string, 10),
+        parseInt(maxPage as never, 10)
+      )
     : 1;
-  const options = {
-    mx: "0px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    cursor: "pointer",
-    p: 0,
-    boxSize: "35px",
-    borderRadius: "8px",
-    fontSize: "16px",
-    fontWeight: "500",
-  };
-  return (
-    <VStack bg={bg ? bgTable : ""} py={10}>
-      <Box>
-        <Flex p={2}>
-          <Spacer />
-          <Previous bg="none" border="none" cursor="pointer" mr="20px">
-            <NextChakraLink
-              color={text80}
-              cursor={page > 1 ? "pointer" : "not-allowed"}
-              href={page > 1 ? `${path}?page=${page - 1}` : undefined}
-              onClick={() => setIsLoading(true)}
-            >
-              <FaChevronLeft color={text80} />
-            </NextChakraLink>
-          </Previous>
 
+  const options =
+    "mx-0 flex justify-center items-center cursor-pointer p-0 w-[35px] h-[35px] rounded text-base font-medium";
+
+  return (
+    <div
+      className={`flex items-center justify-center w-full ${
+        bg ? "bg-light-bg-table dark:bg-dark-bg-table" : ""
+      } py-2.5`}
+    >
+      <div className="flex items-center p-0.5">
+        <NextChakraLink
+          extraCss={`${
+            page > 1 ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+          } mr-2.5 flex items-center`}
+          href={page > 1 ? `${path}?page=${page - 1}` : undefined}
+          onClick={() => setIsLoading(true)}
+        >
+          <BsChevronLeft className="text-light-font-100 dark:text-dark-font-100" />
+        </NextChakraLink>
+        <NextChakraLink
+          extraCss={`${options} ${
+            page === 1 || page === undefined
+              ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+              : "text-light-font-60 dark:text-dark-font-60"
+          }`}
+          href={page === 1 ? undefined : `${path}?page=1`}
+          onClick={() => setIsLoading(true)}
+        >
+          1
+        </NextChakraLink>
+        {page >= 5 && (
+          <button
+            className="text-light-font-60 dark:text-dark-font-60 mx-1 text-base"
+            type="button"
+            disabled
+          >
+            ...
+          </button>
+        )}
+        {Math.max(Math.min(page - 2, maxPage - 5), 2) < maxPage && (
           <NextChakraLink
-            color={page === 1 ? text80 : text60}
-            sx={options}
-            bg={page === 1 ? hover : "none"}
-            border={page === 1 ? borders : "none"}
-            href={page === 1 ? undefined : `${path}?page=1`}
+            extraCss={`${options} ${
+              Math.max(Math.min(page - 2, maxPage - 5), 2) === page
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+                : "text-light-font-60 dark:text-dark-font-60"
+            }`}
+            href={
+              Math.max(Math.min(page - 2, maxPage - 5), 2) === page
+                ? undefined
+                : `${path}?page=${Math.max(Math.min(page - 2, maxPage - 5), 2)}`
+            }
             onClick={() => setIsLoading(true)}
           >
-            1
+            {Math.max(Math.min(page - 2, maxPage - 5), 2)}
           </NextChakraLink>
-          {page >= 5 && (
-            <Button
-              mx={2}
-              bg="none"
-              color={text60}
-              border="none"
-              type="button"
-              disabled
-              fontSize="16px"
-            >
-              ...
-            </Button>
-          )}
-
-          {Math.max(Math.min(page - 2, maxPage - 5), 2) < maxPage && (
-            <NextChakraLink
-              sx={options}
-              color={
-                Math.max(Math.min(page - 2, maxPage - 5), 2) === page
-                  ? text80
-                  : text60
-              }
-              href={
-                Math.max(Math.min(page - 2, maxPage - 5), 2) === page
-                  ? undefined
-                  : `${path}?page=${Math.max(
-                      Math.min(page - 2, maxPage - 5),
-                      2
-                    )}`
-              }
-              onClick={() => setIsLoading(true)}
-            >
-              {Math.max(Math.min(page - 2, maxPage - 5), 2)}
-            </NextChakraLink>
-          )}
-
-          {Math.max(Math.min(page - 1, maxPage - 4), 3) < maxPage && (
-            <NextChakraLink
-              bg={
-                Math.max(Math.min(page - 1, maxPage - 4), 3) === page
-                  ? hover
-                  : "none"
-              }
-              color={
-                Math.max(Math.min(page - 1, maxPage - 4), 3) === page
-                  ? text80
-                  : text60
-              }
-              sx={options}
-              href={
-                Math.max(Math.min(page - 1, maxPage - 4), 3) === page
-                  ? undefined
-                  : `${path}?page=${Math.max(
-                      Math.min(page - 1, maxPage - 4),
-                      3
-                    )}`
-              }
-              onClick={() => setIsLoading(true)}
-            >
-              {Math.max(Math.min(page - 1, maxPage - 4), 3)}
-            </NextChakraLink>
-          )}
-          {Math.max(Math.min(page + 2, maxPage - 3), 4) < maxPage && (
-            <NextChakraLink
-              sx={options}
-              bg={
-                Math.max(Math.min(page, maxPage - 3), 4) === page
-                  ? hover
-                  : "none"
-              }
-              border={
-                Math.max(Math.min(page, maxPage - 3), 4) === page
-                  ? borders
-                  : "none"
-              }
-              color={
-                Math.max(Math.min(page, maxPage - 3), 4) === page
-                  ? text80
-                  : text60
-              }
-              href={
-                Math.max(Math.min(page, maxPage - 3), 4) === page
-                  ? undefined
-                  : `${path}?page=${Math.max(Math.min(page, maxPage - 3), 4)}`
-              }
-              onClick={() => setIsLoading(true)}
-            >
-              {Math.max(Math.min(page, maxPage - 3), 4)}
-            </NextChakraLink>
-          )}
-          {Math.max(Math.min(page + 1, maxPage - 2), 5) < maxPage && (
-            <NextChakraLink
-              sx={options}
-              bg={
-                Math.max(Math.min(page + 1, maxPage - 2), 5) === page
-                  ? hover
-                  : "none"
-              }
-              border={
-                Math.max(Math.min(page + 1, maxPage - 2), 5) === page
-                  ? borders
-                  : "none"
-              }
-              color={
-                Math.max(Math.min(page + 1, maxPage - 2), 5) === page
-                  ? text80
-                  : text60
-              }
-              href={
-                Math.max(Math.min(page + 1, maxPage - 2), 5) === page
-                  ? undefined
-                  : `${path}?page=${Math.max(
-                      Math.min(page + 1, maxPage - 2),
-                      5
-                    )}`
-              }
-              onClick={() => setIsLoading(true)}
-            >
-              {Math.max(Math.min(page + 1, maxPage - 2), 5)}
-            </NextChakraLink>
-          )}
-          {Math.max(Math.min(page + 2, maxPage - 1), 6) < maxPage && (
-            <NextChakraLink
-              sx={options}
-              bg={
-                Math.max(Math.min(page + 2, maxPage - 1), 6) === page
-                  ? hover
-                  : "none"
-              }
-              border={
-                Math.max(Math.min(page + 2, maxPage - 1), 6) === page
-                  ? borders
-                  : "none"
-              }
-              color={
-                Math.max(Math.min(page + 2, maxPage - 1), 6) === page
-                  ? text80
-                  : text60
-              }
-              href={
-                Math.max(Math.min(page + 2, maxPage - 1), 6) === page
-                  ? undefined
-                  : `${path}?page=${Math.max(
-                      Math.min(page + 2, maxPage - 1),
-                      6
-                    )}`
-              }
-              onClick={() => setIsLoading(true)}
-            >
-              {Math.max(Math.min(page + 2, maxPage - 1), 6)}
-            </NextChakraLink>
-          )}
-          {page < maxPage - 5 && (
-            <Button mx={2} type="button" disabled color={text60}>
-              ...
-            </Button>
-          )}
-          {maxPage > 1 && (
-            <NextChakraLink
-              sx={options}
-              color={maxPage === page ? text80 : text60}
-              href={page <= maxPage ? `${path}?page=${maxPage}` : undefined}
-              onClick={() => setIsLoading(true)}
-            >
-              {maxPage}
-            </NextChakraLink>
-          )}
-          <Next bg="none" border="none" ml="20px">
-            <NextChakraLink
-              color={text80}
-              cursor={page < maxPage ? "pointer" : "not-allowed"}
-              href={page < maxPage ? `${path}?page=${page + 1}` : undefined}
-              onClick={() => setIsLoading(true)}
-            >
-              <FaChevronRight color={text80} />
-            </NextChakraLink>
-          </Next>
-        </Flex>
-      </Box>
-    </VStack>
+        )}
+        {Math.max(Math.min(page - 1, maxPage - 4), 3) < maxPage && (
+          <NextChakraLink
+            extraCss={`${options} ${
+              Math.max(Math.min(page - 1, maxPage - 4), 3) === page
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+                : "text-light-font-60 dark:text-dark-font-60"
+            }`}
+            href={
+              Math.max(Math.min(page - 1, maxPage - 4), 3) === page
+                ? undefined
+                : `${path}?page=${Math.max(Math.min(page - 1, maxPage - 4), 3)}`
+            }
+            onClick={() => setIsLoading(true)}
+          >
+            {Math.max(Math.min(page - 1, maxPage - 4), 3)}
+          </NextChakraLink>
+        )}
+        {Math.max(Math.min(page + 2, maxPage - 3), 4) < maxPage && (
+          <NextChakraLink
+            extraCss={`${options} ${
+              Math.max(Math.min(page, maxPage - 3), 4) === page
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+                : "text-light-font-60 dark:text-dark-font-60"
+            }`}
+            href={
+              Math.max(Math.min(page, maxPage - 3), 4) === page
+                ? undefined
+                : `${path}?page=${Math.max(Math.min(page, maxPage - 3), 4)}`
+            }
+            onClick={() => setIsLoading(true)}
+          >
+            {Math.max(Math.min(page, maxPage - 3), 4)}
+          </NextChakraLink>
+        )}
+        {Math.max(Math.min(page + 1, maxPage - 2), 5) < maxPage && (
+          <NextChakraLink
+            extraCss={`${options} ${
+              Math.max(Math.min(page + 1, maxPage - 2), 5) === page
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+                : "text-light-font-60 dark:text-dark-font-60"
+            }`}
+            href={
+              Math.max(Math.min(page + 1, maxPage - 2), 5) === page
+                ? undefined
+                : `${path}?page=${Math.max(Math.min(page + 1, maxPage - 2), 5)}`
+            }
+            onClick={() => setIsLoading(true)}
+          >
+            {Math.max(Math.min(page + 1, maxPage - 2), 5)}
+          </NextChakraLink>
+        )}
+        {Math.max(Math.min(page + 2, maxPage - 1), 6) < maxPage && (
+          <NextChakraLink
+            extraCss={`${options} ${
+              Math.max(Math.min(page + 2, maxPage - 1), 6) === page
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+                : "text-light-font-60 dark:text-dark-font-60"
+            }`}
+            href={
+              Math.max(Math.min(page + 2, maxPage - 1), 6) === page
+                ? undefined
+                : `${path}?page=${Math.max(Math.min(page + 2, maxPage - 1), 6)}`
+            }
+            onClick={() => setIsLoading(true)}
+          >
+            {Math.max(Math.min(page + 2, maxPage - 1), 6)}
+          </NextChakraLink>
+        )}
+        {page < maxPage - 5 && (
+          <button
+            className="text-light-font-60 dark:text-dark-font-60 mx-1 text-base"
+            type="button"
+            disabled
+          >
+            ...
+          </button>
+        )}
+        {maxPage > 1 && (
+          <NextChakraLink
+            extraCss={`${options} ${
+              maxPage === page
+                ? "text-light-font-100 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary dark:border-dark-border-primary"
+                : "text-light-font-60 dark:text-dark-font-60"
+            }`}
+            href={page <= maxPage ? `${path}?page=${maxPage}` : undefined}
+            onClick={() => setIsLoading(true)}
+          >
+            {maxPage}
+          </NextChakraLink>
+        )}
+        <NextChakraLink
+          extraCss={`${
+            page < maxPage ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+          } ml-2.5 flex items-center`}
+          href={page < maxPage ? `${path}?page=${page + 1}` : undefined}
+          onClick={() => setIsLoading(true)}
+        >
+          <BsChevronRight className="text-light-font-100 dark:text-dark-font-100" />
+        </NextChakraLink>
+      </div>
+    </div>
   );
 };

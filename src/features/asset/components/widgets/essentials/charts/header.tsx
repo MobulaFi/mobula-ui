@@ -1,8 +1,8 @@
-import { Button } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdCandlestickChart, MdShowChart } from "react-icons/md";
+import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -42,8 +42,6 @@ export const ChartHeader = () => {
       Cookies.set("hideTx", JSON.stringify(hideTx));
     }
   }, [hideTx]);
-
-  console.log(activeChart, "DKDKDKKD");
 
   return (
     <>

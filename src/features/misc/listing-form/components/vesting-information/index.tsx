@@ -1,6 +1,5 @@
-import { Input } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import React, { useContext, useRef } from "react";
+import { useContext, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa6";
 import {
@@ -139,7 +138,7 @@ export const VestingInformation = ({ dispatch, state }) => {
                   });
                 }}
               />
-              <Input
+              <input
                 className={`${inputStyle} mb-2.5 w-[150px] min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
                 type="text"
                 placeholder="Role"

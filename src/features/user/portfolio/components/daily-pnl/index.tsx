@@ -1,6 +1,6 @@
-import { Spinner } from "@chakra-ui/react";
+import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { PortfolioV2Context } from "../../context-manager";
 import { UserHoldings, UserHoldingsAsset } from "../../models";
@@ -13,7 +13,6 @@ const BarChartComponent = dynamic(
     ssr: false,
   }
 );
-
 interface DailyPnlProps {
   wallet: UserHoldings | UserHoldingsAsset;
 }
@@ -50,7 +49,7 @@ export const DailyPnl = ({ wallet }: DailyPnlProps) => {
               height="100%"
             />
           ) : null}
-          {isLoading ? <Spinner className="w-[50px] h-[50px] mb-5" /> : null}
+          {isLoading ? <Spinner extraCss="w-[50px] h-[50px] mb-5" /> : null}
         </div>
       )}
     </div>

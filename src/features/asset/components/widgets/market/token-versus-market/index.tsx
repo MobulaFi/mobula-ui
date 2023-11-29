@@ -1,18 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { Ths } from "../../../../../../components/table";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { GET } from "../../../../../../utils/fetch";
 import { BaseAssetContext } from "../../../../context-manager";
 
 export const TokenVersusMarket = () => {
-  const { borders, hover, boxBg6 } = useColors();
   const { baseAsset, tokenVsMarket, setTokenVsMarket } =
     useContext(BaseAssetContext);
   const titles = ["Entity", "24h", "7d", "30d"];
-  const { boxBg3 } = useColors();
   const [isLoading, setIsLoading] = useState(!tokenVsMarket);
 
   const getPercentageChange = (time, categorie) => {

@@ -1,6 +1,5 @@
-import { Input } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import {
   ExtraSmallFont,
@@ -113,7 +112,7 @@ export const Launch = ({ dispatch, state }) => {
       ) : null}
       <MediumFont extraCss="mt-5 mb-2.5">Floating Time</MediumFont>
       <div className="flex items-center">
-        <Input
+        <input
           className={`${inputStyle} w-[100px]`}
           type="number"
           placeholder="2 (Default)"

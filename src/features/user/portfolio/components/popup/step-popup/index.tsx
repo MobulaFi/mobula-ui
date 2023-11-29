@@ -1,19 +1,13 @@
-import { Button, Flex } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
-import {
-  TextLandingMedium,
-  TextLandingSmall,
-  TextSmall,
-} from "../../../../../../components/fonts";
+import { Button } from "components/button";
+import { LargeFont, MediumFont, SmallFont } from "components/fonts";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../../../../../contexts/user";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { PortfolioV2Context } from "../../../context-manager";
 import { ActiveStep } from "../../../models";
 import { steps } from "../../../utils";
 
 export const StepPopup = () => {
-  const { boxBg1, text80, boxBg6, text40, borders } = useColors();
   const { activeStep, setActiveStep, setActiveCategory, activePortfolio } =
     useContext(PortfolioV2Context);
   const { user } = useContext(UserContext);
@@ -67,53 +61,34 @@ export const StepPopup = () => {
   //   const arrowBottomTop = ["105%", "105%", "47%"];
   //   const arrowBottomRight = ["50%", "50%", "-25px"];
   return activeStep.nbr ? (
-    <Flex
-      bg={boxBg1}
-      zIndex="5"
-      direction="column"
-      p={["10px", "10px", "15px"]}
-      position="absolute"
-      borderRadius="16px"
-      border={borders}
-      w="290px"
-      right={activeStep.right}
-      top={activeStep.top}
-      transform={activeStep.transform}
+    <div
+      className="bg-light-bg-terciary dark:bg-dark-bg-terciary shadow-md z-[5] flex flex-col
+     p-[15px] md:p-2.5 absolute rounded-2xl border border-light-border-primary dark:border-light-border-primary
+      w-[290px]"
+      style={{
+        right: activeStep.right as never,
+        top: activeStep.top as never,
+        transform: (activeStep.transform as never) || "translateX(50%)",
+      }}
     >
-      <Flex direction="column" w="100%" h="100%" position="relative">
-        <Flex
-          borderRight="10px solid transparent"
-          borderLeft="10px solid transparent"
-          borderBottom={`15px solid ${boxBg6}`}
-          position="absolute"
-          {...arrowDetails}
-        />
-        <Flex align="center" justify="space-between">
-          <TextLandingMedium fontWeight="400" mb={["5px", "5px", "10px"]}>
+      <div className="flex flex-col w-full h-full relative">
+        <div className="flex items-center justify-between">
+          <LargeFont fontWeight="400" mb={["5px", "5px", "10px"]}>
             {activeStep.title}
-          </TextLandingMedium>
-          <TextSmall color={text40}>Step {activeStep.nbr}</TextSmall>
-        </Flex>
-        <TextLandingSmall fontWeight="400">
-          {activeStep.subtitle}
-        </TextLandingSmall>
-        <Flex
-          mt={["5px", "5px", "10px"]}
-          w="100%"
-          justify="space-between"
-          align="center"
-        >
-          <TextSmall color={text40}>
+          </LargeFont>
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+            Step {activeStep.nbr}
+          </SmallFont>
+        </div>
+        <MediumFont>{activeStep.subtitle}</MediumFont>
+        <div className="mt-2.5 md:mt-[5px] w-full flex justify-between items-center">
+          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
             {activeStep.nbr}/{steps.length}
-          </TextSmall>
-          <Flex>
+          </SmallFont>
+          <div className="flex">
             {activeStep.nbr < steps.length ? (
-              <Button
-                fontWeight="400"
-                color={text80}
-                h="30px"
-                ml="10px"
-                fontSize={["12px", "12px", "13px", "14px"]}
+              <button
+                className="text-light-font-100 dark:text-dark-font-100 h-[30px] ml-2.5 text-sm lg:text-[13px] md:text-xs"
                 onClick={() => {
                   pushData("Portfolio Tuto Skipped", {
                     step: activeStep.nbr,
@@ -122,16 +97,10 @@ export const StepPopup = () => {
                 }}
               >
                 Skip
-              </Button>
+              </button>
             ) : null}
             <Button
-              variant="outlined"
-              fontWeight="400"
-              color={text80}
-              fontSize={["12px", "12px", "13px", "14px"]}
-              h="30px"
-              ml="10px"
-              px="10px"
+              extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue h-[30px] ml-2.5 px-2.5"
               onClick={() => {
                 const nextStep = steps[activeStep.nbr];
                 if (nextStep) setActiveStep(nextStep);
@@ -143,9 +112,9 @@ export const StepPopup = () => {
             >
               {activeStep.nbr < steps.length ? "Next" : "Done"}
             </Button>
-          </Flex>
-        </Flex>
-      </Flex>
-    </Flex>
+          </div>
+        </div>
+      </div>
+    </div>
   ) : null;
 };

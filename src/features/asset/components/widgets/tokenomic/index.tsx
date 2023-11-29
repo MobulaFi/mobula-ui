@@ -1,27 +1,11 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Flex,
-  Image,
-  Table,
-  TableContainer,
-  Tbody,
-  Text,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import dynamic from "next/dynamic";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { MediumFont, SmallFont } from "../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../components/image";
 import { ILaunchpad } from "../../../../../interfaces/launchpads";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import {
   addressSlicer,
@@ -37,7 +21,6 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 
 export const Tokenomic = () => {
   const { baseAsset } = useContext(BaseAssetContext);
-  const { text80, text40, borders, text60, text10 } = useColors();
   const [isCopied, setIsCopied] = useState("");
   const [launchpads, setLaunchpads] = useState<ILaunchpad[]>([]);
 
@@ -175,104 +158,8 @@ export const Tokenomic = () => {
             ))}
           </div>
         </div>
-        <Distribution display={["flex", "flex", "flex", "none"]} mt="20px" />
-        <div className="flex flex-col mt-[30px] lg:mt-0">
-          <Accordion allowToggle allowMultiple defaultIndex={0}>
-            {baseAsset?.sales
-              ?.sort((a, b) => a.date - b.date)
-              ?.map((sale) => (
-                <AccordionItem
-                  p="0px"
-                  border="none"
-                  mb="0px"
-                  borderRadius="12px"
-                >
-                  <AccordionButton
-                    borderBottom={borders}
-                    _hover={{ bg: "none" }}
-                    py="15px"
-                    px="0px"
-                  >
-                    <Text
-                      fontSize={["14px", "14px", "16px", "18px"]}
-                      color={text80}
-                    >
-                      {`${sale.name} (${timestampToDate(sale.date)})`}
-                    </Text>
-                    <AccordionIcon ml="auto" />
-                  </AccordionButton>
+        <Distribution extraCss="hidden lg:flex mt-5" />
 
-                  <AccordionPanel pb="10px" p="0px">
-                    <TableContainer className="scroll">
-                      <Table variant="simple">
-                        <Thead>
-                          <Tr>
-                            <Ths py="12.5px">Price</Ths>
-                            <Ths py="12.5px">Tokens For Sale</Ths>
-                            <Ths py="12.5px">Raised</Ths>
-                            <Ths py="12.5px" isNumeric>
-                              Platform
-                            </Ths>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          <Tr>
-                            <Tds
-                              color={text80}
-                              fontSize={["12px", "12px", "13px", "14px"]}
-                              borderBottom={borders}
-                            >
-                              $
-                              {getFormattedAmount(sale.valuation / sale.amount)}
-                            </Tds>
-                            <Tds
-                              color={text80}
-                              fontSize={["12px", "12px", "13px", "14px"]}
-                              borderBottom={borders}
-                            >
-                              {`${getFormattedAmount(sale.amount)} ${
-                                baseAsset?.symbol
-                              }`}
-                            </Tds>
-                            <Tds
-                              color={text80}
-                              fontSize={["12px", "12px", "13px", "14px"]}
-                              borderBottom={borders}
-                            >
-                              {`$${getFormattedAmount(sale.valuation)}`}
-                            </Tds>
-                            <Tds
-                              fontSize={["12px", "12px", "13px", "14px"]}
-                              borderBottom={borders}
-                              color={text80}
-                              isNumeric
-                            >
-                              {sale.platform ? (
-                                <Flex align="center" justify="end">
-                                  <Image
-                                    src={
-                                      getLogoFromLaunchpad(sale.platform) ||
-                                      "/icon/unknown.png"
-                                    }
-                                    boxSize="20px"
-                                    borderRadius="full"
-                                    mr="7.5px"
-                                  />
-                                  {sale.platform}{" "}
-                                </Flex>
-                              ) : (
-                                "N/A"
-                              )}
-                            </Tds>
-                          </Tr>
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
-                  </AccordionPanel>
-                </AccordionItem>
-              ))}{" "}
-          </Accordion>
-        </div>
         {baseAsset?.release_schedule?.length > 0 ? (
           <>
             <MediumFont extraCss="mt-[30px] mb-2.5 flex lg:hidden">

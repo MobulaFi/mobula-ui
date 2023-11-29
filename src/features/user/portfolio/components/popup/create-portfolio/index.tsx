@@ -1,7 +1,7 @@
-import { Collapse, Switch } from "@chakra-ui/react";
 import { useContext, useRef } from "react";
 // import {useAlert} from "react-alert";
-import React from "react";
+import { Collapse } from "components/collapse";
+import { Switch } from "lib/shadcn/components/ui/switch";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsDatabaseDown, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -13,7 +13,6 @@ import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET } from "../../../../../../utils/fetch";
 import { addressSlicer } from "../../../../../../utils/formaters";
@@ -27,7 +26,6 @@ export const CreatePortfolio = () => {
   const inputRef = useRef<HTMLInputElement>();
 
   // const alert = useAlert();
-  const { boxBg6, borders, text40, text10, text80, hover } = useColors();
   const {
     setShowCreatePortfolio,
     setUserPortfolio,
@@ -119,12 +117,9 @@ export const CreatePortfolio = () => {
           Make this portfolio public
         </p>
         <Switch
-          size="sm"
-          mt="4px"
-          bg={portfolioSettings.public ? "blue" : text10}
-          borderRadius="full"
-          defaultChecked={false}
-          onChange={() =>
+          className="mt-1"
+          checked={portfolioSettings.public}
+          onClick={() =>
             setPortfolioSettings((prev) => ({ ...prev, public: !prev.public }))
           }
         />
@@ -161,10 +156,16 @@ export const CreatePortfolio = () => {
           <IoMdAddCircleOutline className="text-light-font-100 dark:text-dark-font-100" />
         </Button>
       </div>
-      <Collapse in={portfolioSettings.wallets.length > 0} startingHeight={0}>
+      <Collapse
+        isOpen={portfolioSettings.wallets.length > 0}
+        startingHeight={"0px"}
+      >
         <div className="flex flex-col mb-2.5">
           {portfolioSettings.wallets?.map((entry, index) => (
-            <div className="flex items-center justify-between mb-[5px]">
+            <div
+              key={entry}
+              className="flex items-center justify-between mb-[5px]"
+            >
               <div
                 className={`flex items-center ml-0.5 ${
                   index !== portfolioSettings.wallets.length - 1

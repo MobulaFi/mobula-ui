@@ -1,7 +1,7 @@
-import { Collapse, useMediaQuery } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
 import { Button } from "../../../../../../components/button";
+import { Collapse } from "../../../../../../components/collapse";
 import { SmallFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -67,10 +67,9 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       info: "The Rank is the position of the asset in the ranking of all assets by market cap.",
     },
   ];
-  const [isLargerThan991] = useMediaQuery("(min-width: 991px)", {
-    ssr: true,
-    fallback: false,
-  });
+
+  const isLargerThan991 =
+    typeof window !== "undefined" && window.innerWidth > 991;
 
   return (
     <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
@@ -82,7 +81,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
             href="https://developer.mobula.fi/reference/market-api?utm_source=website&utm_medium=asset&utm_campaign=asset"
             target="_blank"
             rel="noreferrer"
-            extraCss="ml-[5px] text-blue dark:text-blue"
+            extraCss="ml-[5px] text-blue dark:text-blue text-xs"
             onClick={() => {
               pushData("API Clicked");
             }}
@@ -91,18 +90,21 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
           </NextChakraLink>
         </div>
       </div>
-      <Collapse startingHeight={isLargerThan991 ? "100%" : 129} in={showMore}>
+      <Collapse
+        startingHeight={isLargerThan991 ? "100%" : "129px"}
+        isOpen={showMore}
+      >
         {metrics.map((entry, i) => {
           const isNotDollar =
             entry.title.includes("Supply") || entry.title.includes("Rank");
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
           return (
             <div
-              className={`flex justify-between items-center ${
+              className={`flex w-full justify-between items-center ${
                 i === 0 ? "border-0" : "border-t"
               } border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 lg:px-[2.5%] ${
                 metrics.length - 1 === i ? "pb-0" : "pb-2.5"
-              }`}
+              } `}
               key={entry.title}
             >
               <div className="flex items-center">

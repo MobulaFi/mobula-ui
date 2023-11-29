@@ -1,4 +1,3 @@
-import { Icon } from "@chakra-ui/react";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React from "react";
 import { BiCandles } from "react-icons/bi";
@@ -288,13 +287,13 @@ export const displays = [
   {
     title: "Price",
     name: "price",
-    icon: <Icon as={PriceIcon} />,
+    icon: <PriceIcon />,
     filters: ["Price USD", "Price ETH", "Price BTC"],
   },
   {
     title: "Market Cap",
     name: "market_cap",
-    icon: <Icon as={MarketCapIcon} />,
+    icon: <MarketCapIcon />,
     filters: [
       "Market Cap",
       "Full. Dil. Valuation",
@@ -305,13 +304,13 @@ export const displays = [
   {
     title: "% Change",
     name: "change",
-    icon: <Icon as={ChangeIcon} />,
+    icon: <ChangeIcon />,
     filters: ["1h %", "24h %", "7d %", "1m %", "3m %", "6m %", "1y %"],
   },
   {
     title: "Volume",
     name: "volume",
-    icon: <Icon as={VolumeIcon} />,
+    icon: <VolumeIcon />,
     filters: ["24h Volume"],
     // , "7d Volume", "1m Volume"
   },
@@ -319,7 +318,7 @@ export const displays = [
   {
     title: "Charts",
     name: "chart",
-    icon: <Icon as={ChartIcon} />,
+    icon: <ChartIcon />,
     filters: [
       "24h Chart",
       // "7d Chart",
@@ -335,37 +334,37 @@ export const filters = [
   {
     title: "Blockchains",
     name: "blockchains",
-    icon: <Icon as={PriceIcon} />,
+    icon: <PriceIcon />,
   },
   {
     title: "Price ",
     name: "price",
-    icon: <Icon as={ChangeIcon} />,
+    icon: <ChangeIcon />,
   },
   {
     title: "Price Change",
     name: "price_change",
-    icon: <Icon as={ChangeIcon} />,
+    icon: <ChangeIcon />,
   },
   {
     title: "Market Cap",
     name: "market_cap",
-    icon: <Icon as={MarketCapIcon} />,
+    icon: <MarketCapIcon />,
   },
   {
     title: "Volume",
     name: "volume",
-    icon: <Icon as={VolumeIcon} />,
+    icon: <VolumeIcon />,
   },
   {
     title: "Liquidity",
     name: "liquidity",
-    icon: <Icon as={VolumeIcon} />,
+    icon: <VolumeIcon />,
   },
   {
     title: "Categories",
     name: "categories",
-    icon: <Icon as={VolumeIcon} />,
+    icon: <VolumeIcon />,
   },
 ];
 

@@ -1,24 +1,10 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Avatar,
-  AvatarGroup,
-  Box,
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
+import { SmallFont } from "components/fonts";
+import { NextImageFallback } from "components/image";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useState } from "react";
-import { TextLandingMedium, TextSmall } from "../../../../../components/fonts";
-import { useColors } from "../../../../../lib/chakra/colorMode";
+import { Key, useContext, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { Accordion } from "../../../../../components/accordion";
+import { ModalContainer } from "../../../../../components/modal-container";
 import { BaseAssetContext } from "../../../context-manager";
 import { TradeBlockchainPopup } from "../trade-blockchain-selector";
 import { TradeTypePopup } from "../trade-type";
@@ -33,7 +19,6 @@ export const TradeFiltersPopup = () => {
     setShowTradeValue,
     showTradeValue,
   } = useContext(BaseAssetContext);
-  const { borders, text80, boxBg3, hover } = useColors();
   const [activeNames, setActiveNames] = useState({
     liquidity_pool: "All Liquidity Pool",
     blockchain: "Any Blockchains",
@@ -46,19 +31,18 @@ export const TradeFiltersPopup = () => {
     {
       title:
         activeNames.blockchain !== "Any Blockchains" ? (
-          <Flex align="center">
-            <AvatarGroup size="xs" spacing="-5px">
+          <div className="flex items-center">
+            <div className="flex items-center">
               {Array.isArray(activeNames.blockchain)
                 ? activeNames.blockchain
                     .filter((_, i) => i < 4)
                     .map((item, i) => (
-                      <Avatar
-                        border="none"
-                        w="18px"
-                        h="18px"
+                      <NextImageFallback
+                        className="rounded-full bg-light-bg-hover dark:bg-dark-bg-hover"
+                        width={18}
+                        height={18}
                         key={item}
-                        bg={hover}
-                        name={
+                        alt={
                           blockchainsContent[activeNames.blockchain[i]]?.name
                         }
                         src={
@@ -69,17 +53,18 @@ export const TradeFiltersPopup = () => {
                               .split(" ")[0]
                           }.png`
                         }
+                        fallbackSrc="/empty/unknown.png"
                       />
                     ))
                 : null}
-            </AvatarGroup>
-            <TextSmall ml="5px" color={text80}>
+            </div>
+            <SmallFont extraCss="ml-[5px]">
               {Array.isArray(activeNames.blockchain) &&
               activeNames.blockchain.length > 4
                 ? `+${activeNames.blockchain.length - 4}`
                 : null}
-            </TextSmall>
-          </Flex>
+            </SmallFont>
+          </div>
         ) : (
           activeNames.blockchain
         ),
@@ -120,57 +105,30 @@ export const TradeFiltersPopup = () => {
   ];
 
   return (
-    <Modal
-      motionPreset="none"
+    <ModalContainer
+      extraCss="max-w-[400px] bg-light-bg-terciary dark:bg-dark-bg-terciary"
+      title="Filters"
       isOpen={showTradeFilters}
       onClose={() => setShowTradeFilters(false)}
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg3}
-        borderRadius="16px"
-        border={borders}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="420px"
-      >
-        <ModalHeader
-          mb="0px"
-          p={["15px 15px 0px 15px", "15px 15px 0px 15px", "20px 20px 0px 20px"]}
+      {filters.map((filter, index) => (
+        <Accordion
+          extraCss={`${
+            index !== 0
+              ? "border-t border-light-border-primary dark:border-dark-border-primary"
+              : ""
+          }`}
+          key={filter.title as Key}
+          visibleContent={
+            <div className="flex items-center justify-between w-full text-[13px] text-light-font-100 dark:text-dark-font-100">
+              <p>{filter?.title}</p>
+              <BsChevronDown />
+            </div>
+          }
         >
-          <TextLandingMedium color={text80}>Filters</TextLandingMedium>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p={[" 10px 15px", "10px 15px", "20px"]}>
-          <Accordion allowToggle>
-            {filters.map((filter, index) => (
-              <AccordionItem
-                borderTop={index !== 0 ? borders : "none"}
-                w="100%"
-                borderBottom="none"
-              >
-                <AccordionButton
-                  px="0px"
-                  fontSize="13px"
-                  _hover={{ bg: boxBg3 }}
-                >
-                  <Box
-                    as="span"
-                    flex="1"
-                    color={text80}
-                    textAlign="left"
-                    px="0px"
-                  >
-                    {filter.title}
-                  </Box>
-                  <AccordionIcon color={text80} mr="0px" />
-                </AccordionButton>
-                <AccordionPanel pb={4}>{filter.content}</AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+          {filter.content}
+        </Accordion>
+      ))}
+    </ModalContainer>
   );
 };

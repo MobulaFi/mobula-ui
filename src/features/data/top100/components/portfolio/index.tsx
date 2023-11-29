@@ -1,15 +1,15 @@
 "use client";
-import { Skeleton, useColorMode } from "@chakra-ui/react";
+import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
+import { Skeleton } from "../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
-import { useColors } from "../../../../../lib/chakra/colorMode";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { useTop100 } from "../../context-manager";
@@ -24,7 +24,6 @@ interface PortfolioProps {
 }
 
 export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
-  const { boxBg3, text80, text10, hover, boxBg6, borders } = useColors();
   const router = useRouter();
   const [isHover, setIsHover] = useState(false);
   const { user } = useContext(UserContext);
@@ -32,8 +31,8 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const { isConnected, isDisconnected } = useAccount();
   const [wallet, setWallet] = useState<IWSWallet>({} as IWSWallet);
-  const { colorMode } = useColorMode();
-  const isDarkMode = colorMode === "dark";
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   const firstRender = useRef(true);
   const { setConnect } = useContext(PopupUpdateContext);
   const pathname = usePathname();
@@ -59,7 +58,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     if (pathname === "/" || pathname === "/home") {
       if (finalPortfolio?.id) {
         const socket = new WebSocket(
-          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
+          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
         );
         setIsLoading(true);
         socket.addEventListener("open", () => {
@@ -128,8 +127,8 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     if (wallet?.estimated_balance_history?.length > 0) {
       const newGains = getGainsForPeriod();
       setGains({
-        difference: newGains.difference,
-        percentage: newGains.percentage,
+        difference: newGains.difference as number,
+        percentage: newGains.percentage as number,
         difference_raw: newGains.difference_raw ?? null,
         percentage_raw: newGains.percentage_raw ?? null,
       });
@@ -206,13 +205,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               )}
             </div>
             {isLoading && !wallet?.estimated_balance_history ? (
-              <Skeleton
-                h="25px"
-                w="80px"
-                borderRadius="8px"
-                startColor={boxBg6}
-                endColor={hover}
-              />
+              <Skeleton extraCss="h-[25px] w-[80px]" />
             ) : null}
             {wallet?.estimated_balance_history?.length === 0 ||
             !wallet?.estimated_balance_history?.length ? null : (
@@ -264,7 +257,11 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   transform="scale(1, 3.5)"
                   d="M108.354 62.0435L1 79H571H1139L1067.39 54.6957L1011.15 75.0435L899.708 59.2174L835.296 54.6957L782.13 36.0435L722.83 59.2174L629.789 33.2174L556.175 66L483.583 54.6957H384.408L329.197 27L249.448 44.5217L190.148 33.2174L108.354 62.0435Z"
                   fill="url(#chart-shine)"
-                  stroke={hover}
+                  stroke={
+                    isDarkMode
+                      ? "rgba(34, 37, 49, 1)"
+                      : "rgba(245, 245, 245, 1)"
+                  }
                   strokeWidth="2"
                 />
                 <defs>
@@ -276,10 +273,38 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     y2="100%"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop stopColor={hover} />
-                    <stop offset="12%" stopColor={hover} stopOpacity="0.1" />
-                    <stop offset="30%" stopColor={hover} />
-                    <stop offset="100%" stopColor={hover} />
+                    <stop
+                      stopColor={
+                        isDarkMode
+                          ? "rgba(34, 37, 49, 1)"
+                          : "rgba(245, 245, 245, 1)"
+                      }
+                    />
+                    <stop
+                      offset="12%"
+                      stopColor={
+                        isDarkMode
+                          ? "rgba(34, 37, 49, 1)"
+                          : "rgba(245, 245, 245, 1)"
+                      }
+                      stopOpacity="0.1"
+                    />
+                    <stop
+                      offset="30%"
+                      stopColor={
+                        isDarkMode
+                          ? "rgba(34, 37, 49, 1)"
+                          : "rgba(245, 245, 245, 1)"
+                      }
+                    />
+                    <stop
+                      offset="100%"
+                      stopColor={
+                        isDarkMode
+                          ? "rgba(34, 37, 49, 1)"
+                          : "rgba(245, 245, 245, 1)"
+                      }
+                    />
                     <animate
                       id="gradient"
                       attributeName="x1"
@@ -363,7 +388,9 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               transform="scale(1, 3.5)"
               d="M108.354 62.0435L1 79H571H1139L1067.39 54.6957L1011.15 75.0435L899.708 59.2174L835.296 54.6957L782.13 36.0435L722.83 59.2174L629.789 33.2174L556.175 66L483.583 54.6957H384.408L329.197 27L249.448 44.5217L190.148 33.2174L108.354 62.0435Z"
               fill="url(#chart-shine)"
-              stroke={hover}
+              stroke={
+                isDarkMode ? "rgba(34, 37, 49, 1)" : "rgba(245, 245, 245, 1)"
+              }
               strokeWidth="2"
             />
             <defs>
@@ -375,10 +402,38 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 y2="100%"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stopColor={hover} />
-                <stop offset="12%" stopColor={hover} stopOpacity="0.1" />
-                <stop offset="30%" stopColor={hover} />
-                <stop offset="100%" stopColor={hover} />
+                <stop
+                  stopColor={
+                    isDarkMode
+                      ? "rgba(34, 37, 49, 1)"
+                      : "rgba(245, 245, 245, 1)"
+                  }
+                />
+                <stop
+                  offset="12%"
+                  stopColor={
+                    isDarkMode
+                      ? "rgba(34, 37, 49, 1)"
+                      : "rgba(245, 245, 245, 1)"
+                  }
+                  stopOpacity="0.1"
+                />
+                <stop
+                  offset="30%"
+                  stopColor={
+                    isDarkMode
+                      ? "rgba(34, 37, 49, 1)"
+                      : "rgba(245, 245, 245, 1)"
+                  }
+                />
+                <stop
+                  offset="100%"
+                  stopColor={
+                    isDarkMode
+                      ? "rgba(34, 37, 49, 1)"
+                      : "rgba(245, 245, 245, 1)"
+                  }
+                />
                 <animate
                   id="gradient"
                   attributeName="x1"

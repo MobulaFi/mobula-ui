@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../../../../../components/fonts";
-import { useColors } from "../../../../../../lib/chakra/colorMode";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -23,8 +22,6 @@ export const ManageEdit = () => {
     showHiddenTokensPopup,
     setIsLoading,
   } = useContext(PortfolioV2Context);
-  const { boxBg6, bordersActive, borders, boxBg1, text10, text80, hover } =
-    useColors();
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [isCheck, setIsCheck] = useState<Record<number, boolean>>({});
   const { address } = useAccount();

@@ -1,9 +1,5 @@
-import React, { useContext, useState } from "react";
-import {
-  LargeFont,
-  SmallFont,
-  TextSmall,
-} from "../../../../../../components/fonts";
+import { useContext, useState } from "react";
+import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
   getFormattedAmount,
@@ -196,15 +192,15 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
                     </SmallFont>
                   </div>
                   <div className="flex items-center mr-[15px] justify-between w-full">
-                    <TextSmall extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       Amount USD:
-                    </TextSmall>
-                    <TextSmall extraCss="font-medium">
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
                       $
                       {getFormattedAmount(
                         Number(value) * (baseAsset?.price || 0)
                       )}
-                    </TextSmall>
+                    </SmallFont>
                   </div>
                 </div>
               ) : null}
@@ -271,15 +267,15 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
                     </SmallFont>
                   </div>
                   <div className="flex items-center justify-between w-full mr-[15px]">
-                    <TextSmall extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
                       Amount USD:
-                    </TextSmall>
-                    <TextSmall extraCss="font-medium">
+                    </SmallFont>
+                    <SmallFont extraCss="font-medium">
                       $
                       {getFormattedAmount(
                         Number(value) * (baseAsset?.price || 0)
                       )}
-                    </TextSmall>
+                    </SmallFont>
                   </div>
                 </div>
               ) : null}

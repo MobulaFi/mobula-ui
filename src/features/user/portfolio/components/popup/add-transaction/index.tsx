@@ -1,14 +1,13 @@
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 // import {useAlert} from "react-alert";
-import { Collapse } from "@chakra-ui/react";
 import { Button } from "components/button";
 import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
-import React from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import { useAccount } from "wagmi";
+import { Collapse } from "../../../../../../components/collapse";
 import { LargeFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Asset } from "../../../../../../interfaces/assets";
@@ -474,7 +473,7 @@ export const AddTransactionPopup = () => {
           </div>
         </>
       )}
-      <Collapse startingHeight={0} in={showNote}>
+      <Collapse startingHeight={"0px"} isOpen={showNote}>
         <div className="flex">
           <div className="flex flex-col w-[80%] mr-2.5">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mt-[15px] mb-2.5">
