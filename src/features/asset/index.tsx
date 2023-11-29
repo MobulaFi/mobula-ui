@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronDown, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -21,6 +21,8 @@ import { TokenSocialsInfo } from "./components/token-social-info";
 import { Essentials } from "./components/widgets/essentials";
 import { Fundraising } from "./components/widgets/fundraising";
 import { Market } from "./components/widgets/market";
+import { SocialsDeveloper } from "./components/widgets/social-developer";
+import { Tokenomic } from "./components/widgets/tokenomic";
 import { Vesting } from "./components/widgets/vesting";
 import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
@@ -84,7 +86,7 @@ export const Assets = () => {
 
   const tabs = [
     "Essentials",
-    // "Social & Developer",
+    "Tokenomic",
     "Market",
     "Fundraising",
     "Vesting",
@@ -425,7 +427,7 @@ export const Assets = () => {
               <Market />
             </div>
           ) : null}
-          {/* {activeTab === "Social & Developer" ? (
+          {activeTab === "Social & Developer" ? (
             <div
               style={{
                 animation: getAnimation("Social & Developer"),
@@ -445,7 +447,7 @@ export const Assets = () => {
             >
               <Tokenomic />
             </div>
-          ) : null}*/}
+          ) : null}
           {activeTab === "Fundraising" ? (
             <div
               style={{
