@@ -1,6 +1,6 @@
 import { getFormattedAmount } from "@utils/formaters";
 import { LargeFont, MediumFont, SmallFont } from "components/fonts";
-import { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { BaseAssetContext } from "../../../../context-manager";
 
 export const NextUnlockEvent = () => {
@@ -120,9 +120,9 @@ export const NextUnlockEvent = () => {
           {percentageOfMC}% of M.Cap)
         </SmallFont>
         <button
-          className="bg-light-bg-hover dark:bg-dark-bg-hover w-full h-[40px] rounded mt-5 text-light-font-100 
+          className="flex items-center justify-center bg-light-bg-hover dark:bg-dark-bg-hover w-full h-[40px] rounded mt-5 text-light-font-100 
         dark:text-dark-font-100 font-medium border border-light-border-primary dark:border-dark-border-primary 
-        max-w-[300px] mx-auto opacity-50 cursor-not-allowed"
+        max-w-[300px] md:max-w-full mx-auto opacity-50 cursor-not-allowed"
           disabled
         >
           Set an alert for this event
