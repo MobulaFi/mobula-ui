@@ -44,6 +44,25 @@ export const colors = [
   "#2F3658",
 ];
 
+export const tsColors = [
+  "bg-[#474D57] dark:bg-[#474D57]",
+  "bg-[#A87EF7] dark:bg-[#A87EF7]",
+  "bg-[#54DADE] dark:bg-[#54DADE]",
+  "bg-[#5CA7F7] dark:bg-[#5CA7F7]",
+  "bg-[#8CDD3C] dark:bg-[#8CDD3C]",
+  "bg-[#05C076] dark:bg-[#05C076]",
+  "bg-[#F8D12F] dark:bg-[#F8D12F]",
+  "bg-[#FC6F75] dark:bg-[#FC6F75]",
+  "bg-[#165DFF] dark:bg-[#165DFF]",
+  "bg-[#D91AD9] dark:bg-[#D91AD9]",
+  "bg-[#F7BA1E] dark:bg-[#F7BA1E]",
+  "bg-[#722ED1] dark:bg-[#722ED1]",
+  "bg-[#0ECB81] dark:bg-[#0ECB81]",
+  "bg-[#EE5858] dark:bg-[#EE5858]",
+  "bg-[#B4CFFF] dark:bg-[#B4CFFF]",
+  "bg-[#2F3658] dark:bg-[#2F3658]",
+];
+
 export const nonMatchingColors = [
   "#FF5733", // Flashy Orange
   "#33FF57", // Flashy Green
