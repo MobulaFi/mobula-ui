@@ -22,6 +22,7 @@ import { useAccount } from "wagmi";
 import { disconnect, readContract } from "wagmi/actions";
 import { AddressAvatar } from "../../../../components/avatar";
 import { SmallFont } from "../../../../components/fonts";
+import { NextImageFallback } from "../../../../components/image";
 import { Skeleton } from "../../../../components/skeleton";
 import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
@@ -279,26 +280,20 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
             dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-250 
-            max-w-[16vw] lg:max-w-full w-full overflow-hidden ml-0 lg:ml-2.5"
+            max-w-[16vw] lg:max-w-full w-full overflow-hidden ml-0 lg:ml-2.5 cursor-pointer 
+            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out"
+              onClick={() => {
+                setTriggerSearch(true);
+                setIsMenuMobile(false);
+              }}
             >
               <div
                 className="flex border-r border-light-border-primary dark:border-dark-border-primary 
               lg:border-transparent lg:dark:border-transparent items-center px-[7.5px] h-full rounded-l"
               >
-                <FiSearch
-                  className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100"
-                  onClick={() => {
-                    setTriggerSearch(true);
-                    setIsMenuMobile(false);
-                  }}
-                />
+                <FiSearch className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100" />
               </div>
-              <p
-                className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-0 cursor-text"
-                onClick={() => {
-                  setTriggerSearch(true);
-                }}
-              >
+              <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5 ">
                 Crypto name, wallet, ens, token address...
               </p>
             </div>
@@ -314,7 +309,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                ? "rounded"
                : "rounded-full"
            } 
-            mr-0 lg:ml-2.5`}
+            mr-0 lg:ml-0.5`}
             onClick={() => {
               if (isConnected === false) setConnect(true);
               else if (isConnected) {
@@ -329,10 +324,16 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               user ? (
                 <>
                   {user?.profile_pic !== "/mobula/fullicon.png" ? (
-                    <img
-                      className="rounded-full w-[31px] h-[31px] min-w-[31px]"
+                    <NextImageFallback
+                      width={31}
+                      height={31}
+                      style={{
+                        borderRadius: "50%",
+                        minWidth: "31px",
+                      }}
                       src={user?.profile_pic}
                       alt="user profile picture"
+                      fallbackSrc={""}
                     />
                   ) : null}
                   {user?.profile_pic === "/mobula/fullicon.png" ? (
@@ -425,7 +426,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             </div>
           ) : null}
         </div>
-
         {triggerSearch && (
           <SearchBarPopup
             trigger={triggerSearch}
@@ -437,7 +437,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary mx-2.5 flex lg:hidden" />
         <ToggleColorMode extraCss="flex lg:hidden" />
         <button
-          className="hidden lg:flex ml-2.5 lg:ml-0"
+          className="hidden lg:flex ml-2.5 lg:ml-1"
           onClick={() => {
             setIsMenuMobile(!isMenuMobile);
           }}
@@ -448,27 +448,13 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             <RiMenu3Line className="text-[22px] text-light-font-100 dark:text-dark-font-100" />
           )}
         </button>
-
         {showFeedbackPopup ? (
           <FeedBackPopup
             visible={showFeedbackPopup}
             setVisible={setShowFeedbackPopup}
           />
         ) : null}
-
         {/* {showConnectSocialPopup && <ConnectSocialPopup />} */}
-        <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary mx-2.5 flex lg:hidden" />
-        <ToggleColorMode extraCss="flex lg:hidden" />
-        <button
-          className="hidden lg:flex ml-2.5 lg:ml-0"
-          onClick={() => setIsMenuMobile(!isMenuMobile)}
-        >
-          {isMenuMobile ? (
-            <AiOutlineClose className="text-[22px] text-light-font-100 dark:text-dark-font-100" />
-          ) : (
-            <RiMenu3Line className="text-[22px] text-light-font-100 dark:text-dark-font-100" />
-          )}
-        </button>
       </div>
       {isMenuMobile && (
         <MenuMobile

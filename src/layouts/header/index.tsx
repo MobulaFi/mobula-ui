@@ -66,16 +66,16 @@ export const Header = ({ addressCookie }) => {
       <div>
         <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
           <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] ">
-            <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px]">
+            <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto">
               <NextChakraLink
                 href="/"
                 extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
               >
                 <div className="h-fit w-fit hidden lg:flex">
                   <NextImageFallback
-                    width={35}
-                    height={35}
-                    className="hidden lg:flex w-full h-full"
+                    width={30}
+                    height={30}
+                    className="hidden lg:flex"
                     alt="Mobula logo"
                     fallbackSrc={""}
                     src={
@@ -100,7 +100,9 @@ export const Header = ({ addressCookie }) => {
                   />
                 </div>
               </NextChakraLink>
-              <Tabs />
+              <div className="w-fit h-full flex lg:hidden">
+                <Tabs />
+              </div>
             </div>
             <UserSection addressFromCookie={addressFromCookie} />
           </div>
