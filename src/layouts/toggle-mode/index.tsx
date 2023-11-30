@@ -2,11 +2,16 @@
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
+import { cn } from "../../lib/shadcn/lib/utils";
 interface ToggleColorModeProps {
   isMobile?: boolean;
+  extraCss?: string;
 }
 
-export const ToggleColorMode = ({ isMobile }: ToggleColorModeProps) => {
+export const ToggleColorMode = ({
+  isMobile,
+  extraCss,
+}: ToggleColorModeProps) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -20,7 +25,7 @@ export const ToggleColorMode = ({ isMobile }: ToggleColorModeProps) => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={`${isMobile ? "ml-[30px]" : ""} w-fit`}
+      className={cn(`${isMobile ? "ml-[30px]" : ""} w-fit`, extraCss)}
     >
       {theme === "dark" ? (
         <div className="flex items-center">

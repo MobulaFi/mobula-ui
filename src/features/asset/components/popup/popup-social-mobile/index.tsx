@@ -85,6 +85,7 @@ export const PopupSocialMobile = () => {
   return (
     <>
       <ModalContainer
+        extraCss="max-w-[400px]"
         isOpen={showPopupSocialMobile}
         onClose={() => setShowPopupSocialMobile(false)}
         title="Links"

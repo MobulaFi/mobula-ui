@@ -1,7 +1,6 @@
 "use client";
-import { MagicAuthConnector } from "@magiclabs/wagmi-connector";
 import { publicProvider } from "@wagmi/core/providers/public";
-import { configureChains, Connector } from "wagmi";
+import { configureChains } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -97,23 +96,4 @@ export const connectors = [
       shimDisconnect: true,
     },
   }),
-  new MagicAuthConnector({
-    chains,
-    options: {
-      apiKey: "pk_live_14B4398AB5406257",
-      accentColor: "var(--chakra-colors-text-30)",
-      customLogo: "https://mobula.fi/mobula-logo.svg",
-      customHeaderText: "Mobula ",
-      isDarkMode: true,
-      oauthOptions: {
-        providers: ["google", "discord", "twitter"],
-      },
-      magicSdkConfiguration: {
-        network: {
-          rpcUrl: "https://polygon-rpc.com",
-          chainId: 137,
-        },
-      },
-    },
-  }) as unknown as Connector,
 ];

@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { BsChevronDown, BsTelegram } from "react-icons/bs";
+import React, { useContext, useEffect, useState } from "react";
+import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
 import { Container } from "../../components/container";
@@ -309,7 +309,7 @@ export const Assets = () => {
           active={activeTab}
           setPreviousTab={setPreviousTab as never}
         />
-        <Container extraCss="md:w-full mb-0 pb-0">
+        <Container extraCss="md:w-full mb-2 lg:mb-1 pb-0">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
               <NextChakraLink
@@ -325,7 +325,7 @@ export const Assets = () => {
                   prevPaths?.[0]?.name
                 )}
               </NextChakraLink>
-              <BsChevronDown className="text-[13px] text-light-font-40 dark:text-dark-font-40 mx-2 lg:mx-1.5 md:1" />
+              <BsChevronRight className="text-xs text-light-font-60 dark:text-dark-font-60 mx-2 lg:mx-1.5 md:1" />
               <NextChakraLink
                 extraCss="text-sm lg:text-[13px] md:text-xs"
                 href={
@@ -333,7 +333,6 @@ export const Assets = () => {
                   (prevPaths?.[1]?.url || "/")
                 }
               >
-                {" "}
                 {isBreadCrumbLoading ? (
                   <Skeleton extraCss="w-[45px] h-[15px] lg:h-[14px] md:h-[13px]" />
                 ) : (
@@ -370,7 +369,7 @@ export const Assets = () => {
             <TokenMainInfo />
             <TokenSocialsInfo />
           </div>
-          <div className="hidden md:flex mb-0 md:mb-2.5 border-b-2 border-light-border-primary dark:border-dark-border-primary" />
+          <div className="hidden md:flex mb-0 md:mb-2.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
           <div
             className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
            md:py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary 

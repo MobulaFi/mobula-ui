@@ -1,5 +1,6 @@
+"use client";
 import Cookies from "js-cookie";
-import { ToggleColorMode } from "layouts/toggle-mode";
+import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 import React, {
   Dispatch,
@@ -11,16 +12,17 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { AiOutlineClose, AiOutlineStar, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import { RiHandCoinLine, RiMenu3Line } from "react-icons/ri";
+import { RiMenu3Line } from "react-icons/ri";
 import { TbBellRinging } from "react-icons/tb";
 import { useAccount } from "wagmi";
 import { disconnect, readContract } from "wagmi/actions";
 import { AddressAvatar } from "../../../../components/avatar";
 import { SmallFont } from "../../../../components/fonts";
+import { NextImageFallback } from "../../../../components/image";
 import { Skeleton } from "../../../../components/skeleton";
 import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
@@ -31,12 +33,13 @@ import {
 import { UserContext } from "../../../../contexts/user";
 import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
-import { SearchBarPopup } from "../../../../popup/searchbar";
+import { FeedBackPopup } from "../../../../popup/feedback";
 import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { PopupTelegram } from "../../../../popup/telegram-connect";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
+import { ToggleColorMode } from "../../../toggle-mode";
 import { AccountHeaderContext } from "../../context-manager";
 import { useUserBalance } from "../../context-manager/balance";
 import { useBalance } from "../../hooks/useBalance";
@@ -44,13 +47,16 @@ import { MenuMobile } from "../MenuMobile";
 import { ChainsChanger } from "../chains-changer";
 import { PortfolioButton } from "../portfolio";
 
-// const SearchBarPopup = dynamic(
-//   () => import("../../../../common/components/popup/searchbar"),
-//   {
-//     ssr: false,
-//   }
-// );
+interface UserSectionProps {
+  addressFromCookie: string;
+}
 
+const SearchBarPopup: any = dynamic(
+  () => import("../../../../popup/searchbar").then((mod) => mod.SearchBarPopup),
+  {
+    ssr: false,
+  }
+);
 // const ConnectWallet = dynamic(
 //   () => import("../../../../common/components/popup/wallet-reconnect"),
 //   {
@@ -75,7 +81,7 @@ function useOutsideAlerter(
   }, [ref, setTriggerHook]);
 }
 
-export const UserSection = ({ addressFromCookie }) => {
+export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const [triggerSearch, setTriggerSearch] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -256,11 +262,9 @@ export const UserSection = ({ addressFromCookie }) => {
   const listContainer =
     "flex items-center text-sm font-medium px-[15px] py-[12.5px] text-light-font-100 dark:text-dark-font-100 cursor-pointer transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
-  console.log("IsConnected ? ", isConnectorOpen);
-
   return (
     <>
-      <div className="relative flex items-center w-fit lg:w-full sm:w-calc-full-40 justify-start lg:justify-end">
+      <div className="relative flex items-center w-full justify-end lg:justify-end sm:w-[90%]">
         {!isMenuMobile ? (
           <>
             <ChainsChanger
@@ -274,30 +278,24 @@ export const UserSection = ({ addressFromCookie }) => {
               className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
             dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-250 
-            max-w-[16vw] lg:max-w-full w-full overflow-hidden ml-0 lg:ml-2.5"
+            max-w-[16vw] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
+            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out overflow-hidden"
+              onClick={() => {
+                setTriggerSearch(true);
+                setIsMenuMobile(false);
+              }}
             >
               <div
                 className="flex border-r border-light-border-primary dark:border-dark-border-primary 
               lg:border-transparent lg:dark:border-transparent items-center px-[7.5px] h-full rounded-l"
               >
-                <FiSearch
-                  className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100"
-                  onClick={() => {
-                    setTriggerSearch(true);
-                    setIsMenuMobile(false);
-                  }}
-                />
+                <FiSearch className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100" />
               </div>
-              <p
-                className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-0 cursor-text"
-                onClick={() => {
-                  setTriggerSearch(true);
-                }}
-              >
+              <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5">
                 Crypto name, wallet, ens, token address...
               </p>
             </div>
-            <PortfolioButton extraCss="lg:flex hidden" />
+            <PortfolioButton extraCss="lg:flex hidden md:h-[35px]" />
           </>
         ) : null}
         <div className="flex relative">
@@ -309,7 +307,7 @@ export const UserSection = ({ addressFromCookie }) => {
                ? "rounded"
                : "rounded-full"
            } 
-            mr-0 lg:ml-2.5`}
+            mr-0 lg:ml-0.5`}
             onClick={() => {
               if (isConnected === false) setConnect(true);
               else if (isConnected) {
@@ -324,10 +322,16 @@ export const UserSection = ({ addressFromCookie }) => {
               user ? (
                 <>
                   {user?.profile_pic !== "/mobula/fullicon.png" ? (
-                    <img
-                      className="rounded-full w-[31px] h-[31px] min-w-[31px]"
+                    <NextImageFallback
+                      width={31}
+                      height={31}
+                      style={{
+                        borderRadius: "50%",
+                        minWidth: "31px",
+                      }}
                       src={user?.profile_pic}
                       alt="user profile picture"
+                      fallbackSrc={""}
                     />
                   ) : null}
                   {user?.profile_pic === "/mobula/fullicon.png" ? (
@@ -345,7 +349,7 @@ export const UserSection = ({ addressFromCookie }) => {
           </button>
           {showInfoPopover ? (
             <div
-              className="flex items-center absolute flex-col w-full top-[56px] 
+              className="flex items-center absolute flex-col w-[230px] top-[56px] 
             right-[-40px] lg:right-[-30px] z-[100] max-w-[230px] rounded border border-light-border-primary 
             dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary shadow-md"
               onMouseLeave={() => {
@@ -360,7 +364,9 @@ export const UserSection = ({ addressFromCookie }) => {
                   {user?.username || addressSlicer(user?.address)}{" "}
                 </p>
                 {user?.telegram_id ? (
-                  <button className={`${telegramStyleButton} cursor-default`}>
+                  <button
+                    className={`flex justify-center items-center ${telegramStyleButton} cursor-default`}
+                  >
                     <FaTelegramPlane className="text-telegram mr-[5px]" />@
                     {user?.telegram}
                   </button>
@@ -395,24 +401,7 @@ export const UserSection = ({ addressFromCookie }) => {
                   </div>
                   Watchlist
                 </div>
-                <div
-                  className={listContainer}
-                  onClick={() => getEffectOnClick("profile")()}
-                >
-                  <div className={squareBox}>
-                    <AiOutlineUser className="text-base text-light-font-60 dark:text-dark-font-60" />
-                  </div>
-                  My Profile
-                </div>
-                <div
-                  className={listContainer}
-                  onClick={() => getEffectOnClick("earn")()}
-                >
-                  <div className={squareBox}>
-                    <RiHandCoinLine className="text-base text-light-font-60 dark:text-dark-font-60" />
-                  </div>
-                  Earn Rewards
-                </div>
+
                 <div
                   className={listContainer}
                   onClick={() => getEffectOnClick("notif")()}
@@ -435,7 +424,6 @@ export const UserSection = ({ addressFromCookie }) => {
             </div>
           ) : null}
         </div>
-
         {triggerSearch && (
           <SearchBarPopup
             trigger={triggerSearch}
@@ -445,9 +433,9 @@ export const UserSection = ({ addressFromCookie }) => {
         <Connect />
         <SwitchNetworkPopup />
         <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary mx-2.5 flex lg:hidden" />
-        <ToggleColorMode />
+        <ToggleColorMode extraCss="flex lg:hidden" />
         <button
-          className="hidden lg:flex ml-2.5 lg:ml-0"
+          className="hidden lg:flex ml-2.5 lg:ml-1 min-w-[22px]"
           onClick={() => {
             setIsMenuMobile(!isMenuMobile);
           }}
@@ -458,57 +446,13 @@ export const UserSection = ({ addressFromCookie }) => {
             <RiMenu3Line className="text-[22px] text-light-font-100 dark:text-dark-font-100" />
           )}
         </button>
-
-        {/*  {showFeedbackPopup ? (
+        {showFeedbackPopup ? (
           <FeedBackPopup
             visible={showFeedbackPopup}
             setVisible={setShowFeedbackPopup}
           />
         ) : null}
-
-        {showConnectSocialPopup && <ConnectSocialPopup />}
-        <Flex
-          w="2px"
-          h="15px"
-          bg={text10}
-          mx="10px"
-          display={["none", "none", "none", "flex"]}
-        />
-        <Button
-          onClick={toggleColorMode}
-          display={["none", "none", "none", "flex"]}
-        >
-          {isWhiteMode ? (
-            <Icon
-              as={BsMoon}
-              fontSize="18px"
-              _hover={{ color: "blue" }}
-              transition="all 200ms ease-in-out"
-              color={text80}
-            />
-          ) : (
-            <Icon
-              as={BsSun}
-              fontSize="18px"
-              _hover={{ color: "blue" }}
-              transition="all 200ms ease-in-out"
-              color={text80}
-            />
-          )}
-        </Button>
-        <Button
-          display={["flex", "flex", "flex", "none"]}
-          ml={["0px", "0px", "0px", "10px"]}
-          onClick={() => {
-            setIsMenuMobile(!isMenuMobile);
-          }}
-        >
-          {isMenuMobile ? (
-            <Icon as={X} fontSize="22px" color={text80} />
-          ) : (
-            <Icon fontSize="22px" color={text80} as={Menu} />
-          )}
-        </Button> */}
+        {/* {showConnectSocialPopup && <ConnectSocialPopup />} */}
       </div>
       {isMenuMobile && (
         <MenuMobile

@@ -130,7 +130,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
             ) : null}
             <InfoPopupQuotes isSwapRouter>
               {quotes?.length ? (
-                <div className="flex items-center cursor-pointer mx-auto">
+                <div className="flex items-center cursor-pointer mx-auto w-fit">
                   <AiOutlineThunderbolt className="text-light-font-100 text-md dark:text-dark-font-100 mr-[5px]" />
                   <SmallFont>Best Price, 0 fees from Mobula</SmallFont>
                   <BsChevronDown className="text-light-font-100 text-xs dark:text-dark-font-100 ml-[5px]" />

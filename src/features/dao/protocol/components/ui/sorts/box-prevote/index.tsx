@@ -9,6 +9,7 @@ import { BsCheckLg, BsChevronDown, BsCodeSlash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa6";
 import { createPublicClient, formatEther, getContract, http } from "viem";
 import { polygon } from "viem/chains";
+import { Collapse } from "../../../../../../../components/collapse";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../../components/link";
 import { ModalContainer } from "../../../../../../../components/modal-container";
@@ -23,8 +24,7 @@ import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
-import { Collapse } from "../../../../../../../components/collapse";
-import styles from "../box-prevote/Prevote.module.css";
+import styles from "../box-prevote/Prevote.module.scss";
 import { CommunityPopup } from "../popup-community";
 
 interface BoxPreVoteProps {
@@ -79,10 +79,10 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   const buttonPopover =
     "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-250 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded font-medium hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
-  const calculateValue = (): number => {
-    if (!displayedToken && !isFakeToken) return 60;
-    if (isFakeToken) return 20;
-    return 40;
+  const calculateValue = (): string => {
+    if (!displayedToken && !isFakeToken) return "60px";
+    if (isFakeToken) return "20px";
+    return "40px";
   };
   const descriptionHeight = calculateValue();
 

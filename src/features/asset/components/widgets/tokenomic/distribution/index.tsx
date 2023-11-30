@@ -127,6 +127,7 @@ export const Distribution = ({ extraCss }: DistributionProps) => {
               isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
             }
             fallbackSrc={""}
+            alt="empty roi image"
           />
           <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
         </div>
