@@ -262,11 +262,9 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const listContainer =
     "flex items-center text-sm font-medium px-[15px] py-[12.5px] text-light-font-100 dark:text-dark-font-100 cursor-pointer transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
-  console.log("IsConnected ? ", isConnectorOpen);
-
   return (
     <>
-      <div className="relative flex items-center w-fit lg:w-full sm:w-calc-full-40 justify-start lg:justify-end">
+      <div className="relative flex items-center w-full justify-end lg:justify-end sm:w-[90%]">
         {!isMenuMobile ? (
           <>
             <ChainsChanger
@@ -280,8 +278,8 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
             dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-250 
-            max-w-[16vw] lg:max-w-full w-full overflow-hidden ml-0 lg:ml-2.5 cursor-pointer 
-            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out"
+            max-w-[16vw] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
+            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out overflow-hidden"
               onClick={() => {
                 setTriggerSearch(true);
                 setIsMenuMobile(false);
@@ -293,11 +291,11 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               >
                 <FiSearch className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100" />
               </div>
-              <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5 ">
+              <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5">
                 Crypto name, wallet, ens, token address...
               </p>
             </div>
-            <PortfolioButton extraCss="lg:flex hidden" />
+            <PortfolioButton extraCss="lg:flex hidden md:h-[35px]" />
           </>
         ) : null}
         <div className="flex relative">
@@ -437,7 +435,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary mx-2.5 flex lg:hidden" />
         <ToggleColorMode extraCss="flex lg:hidden" />
         <button
-          className="hidden lg:flex ml-2.5 lg:ml-1"
+          className="hidden lg:flex ml-2.5 lg:ml-1 min-w-[22px]"
           onClick={() => {
             setIsMenuMobile(!isMenuMobile);
           }}
