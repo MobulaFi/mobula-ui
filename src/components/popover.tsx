@@ -24,7 +24,7 @@ export const Popover = ({
       onMouseEnter={() => onToggle()}
       onMouseLeave={() => onToggle()}
     >
-      <span className="z-[100] w-full">{visibleContent}</span>
+      <span className="z-[10] w-full">{visibleContent}</span>
       {isOpen ? (
         <div
           className={cn(

@@ -1,5 +1,6 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { BsChevronDown } from "react-icons/bs";
 import { TbBellRinging } from "react-icons/tb";
 import { Button } from "../../../../components/button";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
@@ -44,9 +45,9 @@ export const TokenMainInfo = () => {
   const getIconFromWatchlistState = () => {
     if (isLoading) return <Spinner extraCss="h-[13px] w-[13px]" />;
     if (inWl || inWatchlist || isHoverStar)
-      return <AiFillStar className="text-yellow dark:text-yellow" />;
+      return <AiFillStar className="text-yellow dark:text-yellow text-lg" />;
     return (
-      <AiOutlineStar className=" text-light-font-40 dark:text-dark-font-40" />
+      <AiOutlineStar className=" text-light-font-40 dark:text-dark-font-40 text-lg" />
     );
   };
   const watchlistIcon = getIconFromWatchlistState();
@@ -149,6 +150,7 @@ export const TokenMainInfo = () => {
     if (metricsChanges?.price === false) return "text-red dark:text-red";
     return "text-light-font-100 dark:text-dark-font-100";
   };
+  const marketChangeColor = getColorFromMarketChange();
   const isUp = priceChange > 0;
 
   const [showPriceUnformatted, setShowPriceUnformatted] = useState(false);
@@ -195,7 +197,7 @@ export const TokenMainInfo = () => {
               <Popover
                 visibleContent={
                   <LargeFont
-                    extraCss={`${getColorFromMarketChange()} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
+                    extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
                   >
                     <p className="text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl">
                       {baseAsset.name.length > 13
@@ -219,7 +221,8 @@ export const TokenMainInfo = () => {
         </div>
         <div className="flex items-center ml-2.5">
           <Button
-            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px] mt-[5px] mr-0 lg:text-xl md:text-xl ml-0"
+            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
+             mt-[5px] mr-0 lg:text-xl md:text-xl ml-0 w-[25px] h-[25px] p-0"
             onMouseEnter={() => setIsHoverStar(true)}
             onMouseLeave={() => setIsHoverStar(false)}
             onClick={triggerWatchlist}
@@ -227,10 +230,12 @@ export const TokenMainInfo = () => {
             {watchlistIcon}
           </Button>
           <Button
-            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px] mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-250"
+            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
+             mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 
+             hover:dark:text-dark-font-100 transition-all duration-250 w-[25px] h-[25px] p-0"
             onClick={() => setShowTargetPrice(true)}
           >
-            <TbBellRinging />
+            <TbBellRinging className="text-lg" />
           </Button>
         </div>
       </div>
@@ -238,7 +243,7 @@ export const TokenMainInfo = () => {
         <div className="flex flex-col">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] mb-[7.5px]">
             <LargeFont
-              extraCss={`${getColorFromMarketChange()} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
+              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
             >
               ${getFormattedAmount(marketMetrics.price)}
             </LargeFont>
@@ -255,23 +260,17 @@ export const TokenMainInfo = () => {
                   {getTokenPercentage(priceChange)}%
                 </MediumFont>
               </div>
-              <Menu titleCss="px-[7.5px] h-[28px] rounded" title={timeSelected}>
-                {/* <MenuButton
-                  border={borders}
-                  borderRadius="8px"
-                  color={text80}
-                  fontWeight="400"
-                  h="28px"
-                  px="7.5px"
-                  bg={boxBg6}
-                  _hover={{ border: bordersActive, bg: hover }}
-                  transition="all 250ms ease-in-out"
-                  fontSize={["12px", "12px", "13px", "14px"]}
-                  as={Button}
-                  rightIcon={<ChevronDownIcon pl="0px" mr="-2px" ml="-5px" />}
-                >
-                  {timeSelected}
-                </MenuButton> */}
+              <Menu
+                titleCss="px-[7.5px] h-[28px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
+                rounded text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
+                transition-all duration-250 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
+                title={
+                  <div className="flex items-center">
+                    <SmallFont>{timeSelected}</SmallFont>
+                    <BsChevronDown className="ml-[7.5px] text-light-font-100 dark:text-dark-font-100" />
+                  </div>
+                }
+              >
                 {timestamps.map((time) => (
                   <button
                     key={time}
