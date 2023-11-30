@@ -54,6 +54,8 @@ export const Portfolio = ({
     if (activePortfolio) setPortfolioCookies(activePortfolio);
   }, [activePortfolio]);
 
+  console.log("activePortfolio", activePortfolio);
+
   useEffect(() => {
     // ID means we're exploring, userPortfolio means we're on the user's portfolio
     const finalId = id || activePortfolio?.id;

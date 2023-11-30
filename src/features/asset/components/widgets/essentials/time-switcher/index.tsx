@@ -24,7 +24,7 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
 
   return (
     <div
-      className={`flex items-center justify-between mt-0 md:mt-2.5 mb-0 md:mb-[25px] ml-auto md:ml-0 w-fit md:w-[95%] mx-0 md:mx-auto ${extraCss}`}
+      className={`flex items-center justify-between mt-0 md:mt-2.5 mb-0 md:mb-[25px] ml-auto md:ml-0 w-fit md:w-full mx-0 md:mx-auto ${extraCss}`}
     >
       <div className="h-[34px] w-[230px] md:w-full p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary relative border border-light-border-primary dark:border-dark-border-primary">
         <div
@@ -37,7 +37,7 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
               timeSelected === time
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
-            } transition-all duration-250 w-[16.66%] text-sm lg:text-[13px] md:text-xs font-medium z-[2]`}
+            } transition-all duration-250 w-[16.66%] text-sm lg:text-[13px] md:text-xs font-medium relative z-[2]`}
             key={time}
             onClick={() => {
               if (shouldLoadHistory(chartType, time))

@@ -7,6 +7,7 @@ interface PopoverProps {
   onToggle: Function;
   extraCss?: string;
   isOpen: boolean;
+  isFilters?: boolean;
 }
 
 export const Popover = ({
@@ -15,14 +16,15 @@ export const Popover = ({
   onToggle,
   extraCss,
   isOpen,
+  isFilters,
 }: PopoverProps) => {
   return (
     <div
-      className="flex relative "
+      className={`flex relative ${isFilters ? "pb-[5px]" : ""}`}
       onMouseEnter={() => onToggle()}
       onMouseLeave={() => onToggle()}
     >
-      <span className="z-[100] w-full">{visibleContent}</span>
+      <span className="z-[10] w-full">{visibleContent}</span>
       {isOpen ? (
         <div
           className={cn(

@@ -3,20 +3,22 @@ import { Popover } from "components/popover";
 import { TagPercentage } from "components/tag-percentage";
 import { useTheme } from "next-themes";
 import React, { useContext, useState } from "react";
+import { MdCurrencyExchange } from "react-icons/md";
 import { Accordion } from "../../../../../../components/accordion";
 import {
   LargeFont,
   MediumFont,
   SmallFont,
 } from "../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../components/image";
 import { BaseAssetContext } from "../../../../context-manager";
 
 export const Rounds = () => {
   const { baseAsset } = useContext(BaseAssetContext);
+  const [hasError, setHasError] = useState(false);
   const arr = [1, 2, 3, 4, 5, 5];
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const bgLine = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
   const [showPopover, setShowPopover] = useState("");
   const getTokenomics = (sale) => [
     {
@@ -125,24 +127,32 @@ export const Rounds = () => {
               visibleContent={
                 <>
                   <div className="flex items-center">
-                    <img className="w-[30px] h-[30px] border border-light-border-primary dark:border-dark-border-primary rounded-full mr-[7.5px]" />
-                    {/* fallback={
-                        <Flex
-                          boxSize="30px"
-                          borderRadius="full"
-                          align="center"
-                          border={borders}
-                          justify="center"
-                          mr="7.5px"
-                          bg={hover}
-                        >
-                          <Icon
-                            as={MdCurrencyExchange}
-                            color={text80}
-                            fontSize={["18px"]}
-                          />
-                        </Flex>
-                      } */}
+                    {hasError ? (
+                      <div
+                        className="flex w-[30px] h-[30px] rounded-full items-center justify-center border 
+                       border-light-border-primary dark:border-dark-border-primary mr-[7.5px] bg-light-bg-hover  dark:bg-dark-bg-hover"
+                      >
+                        <MdCurrencyExchange className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+                      </div>
+                    ) : (
+                      <NextImageFallback
+                        height={30}
+                        width={30}
+                        style={{
+                          border: isDark
+                            ? "1px solid rgba(255,255,255,0.03)"
+                            : "1px solid rgba(0,0,0,0.03)",
+                          borderRadius: "50%",
+                          marginRight: "7.5px",
+                        }}
+                        className=""
+                        fallbackSrc="/empty/unknown.png"
+                        src={platformImage}
+                        onError={() => setHasError(true)}
+                        alt={"Platform Image"}
+                      />
+                    )}
+
                     <div className="flex flex-col items-start">
                       <div className="flex items-center flex-wrap mr-2.5">
                         <LargeFont extraCss="text-start mr-2.5">
@@ -229,10 +239,17 @@ export const Rounds = () => {
                 </MediumFont>
                 <div className="flex items-center sm:items-start justify-between sm:justify-start flex-row sm:flex-col">
                   <div className="flex items-center mb-0 sm:mb-2.5">
-                    <img
-                      className="rounded-full w-[34px] h-[34px] -mb-0.5 mr-[7.5px]"
-                      src={leadInvestor?.image || "/icon/unknown.png"}
+                    <NextImageFallback
+                      style={{
+                        borderRadius: "50%",
+                        marginRight: "7.5px",
+                        marginBottom: "-2px",
+                      }}
+                      height={34}
+                      width={34}
+                      src={leadInvestor?.image || "/empty/unknown.png"}
                       alt="lead investor logo"
+                      fallbackSrc="/empty/unknown.png"
                     />
                     {leadInvestor ? (
                       <div className="flex flex-col">

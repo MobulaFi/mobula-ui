@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
   getFormattedAmount,
   getTokenPercentage,
 } from "../../../../../../utils/formaters";
-import { colors } from "../../../../constant";
+import { tsColors } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
 import { calculateDaysRemaining } from "../../../../utils";
 
@@ -82,9 +82,8 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
     });
     const colorsForRound = {};
     extractNames.forEach((entry, i) => {
-      colorsForRound[entry] = `bg-[${colors[i]}] dark:bg-[${colors[i]}]`;
+      (colorsForRound[entry] as any) = tsColors[i];
     });
-
     return colorsForRound;
   };
 

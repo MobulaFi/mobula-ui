@@ -70,7 +70,7 @@ export const SimilarAsset = () => {
                       className="mt-5 md:mt-2.5 w-full lg:w-[90%]"
                       src={
                         `https://mobula-assets.s3.eu-west-3.amazonaws.com/sparklines/${trending.id}/24h.png` ||
-                        "/404/sparkline.png"
+                        "/empty/sparkline.png"
                       }
                       alt="sparkline"
                     />

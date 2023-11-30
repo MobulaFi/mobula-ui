@@ -21,7 +21,7 @@ export const LoadMore = ({
   return (
     <caption
       className={cn(
-        "bg-light-bg-secondary dark:bg-dark-bg-secondary mt-0 border-t border-light-border-primary dark:border-dark-border-primary text-start rounded-b pl-0",
+        "caption-bottom bg-light-bg-secondary dark:bg-dark-bg-secondary mt-0 border-t border-light-border-primary dark:border-dark-border-primary text-start rounded-b pl-0",
         extraCss
       )}
     >

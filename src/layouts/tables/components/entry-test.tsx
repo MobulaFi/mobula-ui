@@ -115,9 +115,9 @@ export const Entry = ({
           alt={`${token.name} sparkline`}
           src={
             `https://mobula-assets.s3.eu-west-3.amazonaws.com/sparklines/${token.id}/24h.png` ||
-            "/404/sparkline.png"
+            "/empty/sparkline.png"
           }
-          fallbackSrc="/404/sparkline.png"
+          fallbackSrc="/empty/sparkline.png"
           priority={index < 4}
           unoptimized
         />

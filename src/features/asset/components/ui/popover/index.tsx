@@ -1,8 +1,9 @@
 import { Button } from "components/button";
 import { Popover } from "components/popover";
-import { useState } from "react";
+import React, { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { SmallFont } from "../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../components/image";
 import { mainButtonStyle } from "../../../style";
 
 interface CustomPopOverProps {
@@ -27,25 +28,20 @@ export const CustomPopOver = ({
     <Popover
       visibleContent={
         <Button extraCss={`${mainButtonStyle} mb-[5px]`}>
-          {
-            isMobile ? (
-              <img
-                className="w-[15px] h-[15px] min-w-[15px] ml-2.5 rounded-full mr-[5px]"
-                src={logo}
-                alt="logo"
-              />
-            ) : (
-              icon
-            )
-            // <Icon
-            //   as={icon}
-            //   fontSize="13px"
-            //   color={text80}
-            //   mr={!isMobile ? "5px" : "0px"}
-            // />
-          }
+          {isMobile ? (
+            <NextImageFallback
+              fallbackSrc="/empty/unknown.png"
+              height={15}
+              width={15}
+              className="w-[15px] h-[15px] min-w-[15px] rounded-full mr-[5px]"
+              src={logo || "/empty/unknown.png"}
+              alt="logo"
+            />
+          ) : (
+            icon
+          )}
           <SmallFont extraCss="font-medium">{title}</SmallFont>
-          <BsChevronDown className="text-base ml-[2.5px]" />
+          <BsChevronDown className="text-sm ml-[2.5px]" />
         </Button>
       }
       hiddenContent={

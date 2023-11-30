@@ -28,34 +28,6 @@ export const Connect = () => {
   });
   const conenctorImage = pendingConnector?.["storage" as never];
 
-  async function connector(element: string, isMail: boolean) {
-    connect({ connector: connectors[4] });
-    if (isMail) {
-      let found: any = false;
-      while (!found) {
-        found = document.getElementById("MagicFormInput");
-        if (!found) await new Promise((resolve) => setTimeout(resolve, 10));
-        if (found) {
-          found.value = userMail;
-          (
-            document.getElementsByClassName(
-              "Magic__submitButton"
-            )[0] as unknown as any
-          ).click();
-        }
-      }
-    } else {
-      let found: any = false;
-      while (!found) {
-        found = document.getElementById(element);
-        if (!found) await new Promise((resolve) => setTimeout(resolve, 10));
-        if (found) {
-          (document.getElementById(element) as unknown as any).click();
-        }
-      }
-    }
-  }
-
   const getTitle = () => {
     switch (status) {
       case "loading":
@@ -161,8 +133,8 @@ export const Connect = () => {
                 </div>
               </button>
               <button
-                className={buttonStyle}
-                onClick={() => connector("MagicOauthgoogle", false)}
+                className={`${buttonStyle} opacity-50 cursor-not-allowed`}
+                disabled
               >
                 <div className="flex w-full items-center justify-center">
                   <img
@@ -195,8 +167,9 @@ export const Connect = () => {
                 />
                 <button
                   className="h-[35px] w-fit px-2.5 bg-light-bg-hover dark:bg-dark-bg-hover
-             rounded border border-light-border-primary dark:border-dark-border-primary mr-0.5"
-                  onClick={() => connector("", true)}
+             rounded border border-light-border-primary dark:border-dark-border-primary mr-0.5 
+             cursor-not-allowed opacity-50"
+                  disabled
                 >
                   <div className="flex w-full items-center justify-center">
                     <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs">

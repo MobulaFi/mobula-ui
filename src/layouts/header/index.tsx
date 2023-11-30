@@ -11,6 +11,7 @@ import { useContext, useEffect } from "react";
 import { NextImageFallback } from "components/image";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import React from "react";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
@@ -62,51 +63,51 @@ export const Header = ({ addressCookie }) => {
             </NextChakraLink>
           </TextLandingSmall>
         </Flex> */}
-      <div>
-        <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
-          <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] ">
-            <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px]">
-              <NextChakraLink
-                href="/"
-                extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
-              >
-                <div className="h-fit w-fit hidden lg:flex">
-                  <NextImageFallback
-                    width={35}
-                    height={35}
-                    className="hidden lg:flex w-full h-full"
-                    alt="Mobula logo"
-                    fallbackSrc={""}
-                    src={
-                      theme === "dark"
-                        ? "/mobula/mobula-logo.svg"
-                        : "/mobula/mobula-logo-light.svg"
-                    }
-                  />{" "}
-                </div>
-                <div className="h-full items-center w-fit flex lg:hidden">
-                  <NextImageFallback
-                    width={135}
-                    height={35}
-                    className="w-full h-full max-w-[200px]"
-                    src={
-                      theme === "dark"
-                        ? "/mobula/mobula-logo-text.svg"
-                        : "/mobula/mobula-logo-text-light.svg"
-                    }
-                    alt="Mobula logo"
-                    fallbackSrc={""}
-                  />
-                </div>
-              </NextChakraLink>
+      <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
+        <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] ">
+          <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto">
+            <NextChakraLink
+              href="/"
+              extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
+            >
+              <div className="h-fit w-fit hidden lg:flex">
+                <NextImageFallback
+                  width={30}
+                  height={30}
+                  className="hidden lg:flex"
+                  alt="Mobula logo"
+                  fallbackSrc={""}
+                  src={
+                    theme === "dark"
+                      ? "/mobula/mobula-logo.svg"
+                      : "/mobula/mobula-logo-light.svg"
+                  }
+                />{" "}
+              </div>
+              <div className="h-full items-center w-fit flex lg:hidden">
+                <NextImageFallback
+                  width={135}
+                  height={35}
+                  className="w-full h-full max-w-[200px]"
+                  src={
+                    theme === "dark"
+                      ? "/mobula/mobula-logo-text.svg"
+                      : "/mobula/mobula-logo-text-light.svg"
+                  }
+                  alt="Mobula logo"
+                  fallbackSrc={""}
+                />
+              </div>
+            </NextChakraLink>
+            <div className="w-fit h-full flex lg:hidden">
               <Tabs />
             </div>
-            <UserSection addressFromCookie={addressFromCookie} />
           </div>
+          <UserSection addressFromCookie={addressFromCookie} />
         </div>
-        {showNotif ? <NotificationDrawer /> : null}
-        {/* {showAddedToWatchlist && <AddedToWatchlistPopup />} */}
       </div>
+      {showNotif ? <NotificationDrawer /> : null}
+      {/* {showAddedToWatchlist && <AddedToWatchlistPopup />} */}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
     </CommonPageProvider>
   );
