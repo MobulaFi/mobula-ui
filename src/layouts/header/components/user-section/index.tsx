@@ -31,6 +31,7 @@ import {
 import { UserContext } from "../../../../contexts/user";
 import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
+import { FeedBackPopup } from "../../../../popup/feedback";
 import { SearchBarPopup } from "../../../../popup/searchbar";
 import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { PopupTelegram } from "../../../../popup/telegram-connect";
@@ -459,14 +460,14 @@ export const UserSection = ({ addressFromCookie }) => {
           )}
         </button>
 
-        {/*  {showFeedbackPopup ? (
+        {showFeedbackPopup ? (
           <FeedBackPopup
             visible={showFeedbackPopup}
             setVisible={setShowFeedbackPopup}
           />
         ) : null}
 
-        {showConnectSocialPopup && <ConnectSocialPopup />}
+        {/*    {showConnectSocialPopup && <ConnectSocialPopup />}
         <Flex
           w="2px"
           h="15px"
