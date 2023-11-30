@@ -6,22 +6,14 @@ interface NextChakraLinkProps {
   children: React.ReactNode;
   href?: string;
   extraCss?: string;
-  target?: string;
-  rel?: string;
-  onClick?: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+  [key: string]: any;
 }
 
 export const NextChakraLink = ({
   children,
   href,
   extraCss,
-  target,
-  rel,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
+
   ...props
 }: NextChakraLinkProps) => {
   if (!href)
@@ -37,14 +29,7 @@ export const NextChakraLink = ({
       </span>
     );
   return (
-    <Link
-      href={href}
-      target={target}
-      rel={rel}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <Link href={href}>
       <span
         className={cn(
           "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",

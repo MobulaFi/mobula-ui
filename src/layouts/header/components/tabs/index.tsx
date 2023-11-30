@@ -24,29 +24,29 @@ export function Tabs() {
           <NavigationMenuContent className="z-[10] w-[400px]">
             <ul className="grid gap-3 p-2.5 md:w-[400px] w-[400px] lg:grid-cols-[.75fr_1fr]">
               {navigation?.[0]?.extends?.map((entry, i) => (
-                <div
-                  key={entry.url}
-                  className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
-                  onMouseEnter={() => setIsHover(entry.name)}
-                  onMouseLeave={() => setIsHover("")}
-                >
-                  <div className="flex items-center">
-                    <div
-                      className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
+                <ListItem key={entry.url} href={entry.url} title={entry.name}>
+                  <div
+                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
+                    onMouseEnter={() => setIsHover(entry.name)}
+                    onMouseLeave={() => setIsHover("")}
+                  >
+                    <div className="flex items-center">
+                      <div
+                        className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
                    bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
-                    >
-                      {entry.icon}
-                    </div>
-                    <ListItem href={entry.url} title={entry.name}>
+                      >
+                        {entry.icon}
+                      </div>
+
                       {entry.description}
-                    </ListItem>
-                  </div>
-                  <BsChevronRight
-                    className={`text-md ${
-                      isHover === entry.name ? "animate-tabs" : "opacity-0"
-                    } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
-                  />
-                </div>
+                    </div>
+                    <BsChevronRight
+                      className={`text-md ${
+                        isHover === entry.name ? "animate-tabs" : "opacity-0"
+                      } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
+                    />
+                  </div>{" "}
+                </ListItem>
               ))}
             </ul>
           </NavigationMenuContent>
@@ -56,33 +56,34 @@ export function Tabs() {
           <NavigationMenuContent className=" z-[10] md:w-[400px] lg:w-[500px] w-[600px]">
             <ul className="grid gap-3 p-2.5 md:w-[400px] lg:w-[500px] w-[600px] grid-cols-2 lg:grid-cols-2">
               {navigation?.[2]?.extends?.map((entry, i) => (
-                <div
-                  key={entry.url}
-                  className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
-                  onMouseEnter={() => setIsHover(entry.name)}
-                  onMouseLeave={() => setIsHover("")}
-                >
-                  <div className="flex items-center">
-                    <div
-                      className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
+                <ListItem key={entry.url} href={entry.url} title={entry.name}>
+                  <div
+                    key={entry.url}
+                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
+                    onMouseEnter={() => setIsHover(entry.name)}
+                    onMouseLeave={() => setIsHover("")}
+                  >
+                    <div className="flex items-center">
+                      <div
+                        className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
                bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
-                    >
-                      {entry.icon}
+                      >
+                        {entry.icon}
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="text-sm font-medium leading-none text-light-font-100 dark:text-dark-font-100">
+                          {entry.name}
+                        </div>
+                        {entry.description}{" "}
+                      </div>
                     </div>
-                    <ListItem
-                      key={entry.url}
-                      href={entry.url}
-                      title={entry.name}
-                    >
-                      {entry.description}
-                    </ListItem>
+                    <BsChevronRight
+                      className={`text-md ${
+                        isHover === entry.name ? "animate-tabs" : "opacity-0"
+                      } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
+                    />
                   </div>
-                  <BsChevronRight
-                    className={`text-md ${
-                      isHover === entry.name ? "animate-tabs" : "opacity-0"
-                    } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
-                  />
-                </div>
+                </ListItem>
               ))}
 
               {/* <ListItem href="/docs/installation" title="Installation">
@@ -140,21 +141,20 @@ const ListItem = React.forwardRef<
 >(({ className, title, children, href, ...props }, ref) => {
   return (
     <li>
-      <NextChakraLink href={href}>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-        >
-          <div className="text-sm font-medium leading-none text-light-font-100 dark:text-dark-font-100">
-            {title}
-          </div>
-          <p className="line-clamp-2 text-[13px] leading-snug text-muted-foreground text-light-font-60 dark:text-dark-font-60">
-            {children}
-          </p>
-        </a>
+      <NextChakraLink
+        href={href}
+        ref={ref}
+        className={cn(
+          "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+          className
+        )}
+      >
+        <div className="text-sm font-medium leading-none text-light-font-100 dark:text-dark-font-100">
+          {title}
+        </div>
+        <p className="line-clamp-2 text-[13px] leading-snug text-muted-foreground text-light-font-60 dark:text-dark-font-60">
+          {children}
+        </p>
       </NextChakraLink>
     </li>
   );
