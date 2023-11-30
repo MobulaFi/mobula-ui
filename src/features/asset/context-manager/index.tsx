@@ -5,7 +5,7 @@ import { UserContext } from "../../../contexts/user";
 import { ILaunchpad } from "../../../interfaces/launchpads";
 import { MarketMetrics, TradeFilter } from "../../../interfaces/trades";
 import { createSupabaseDOClient } from "../../../lib/supabase";
-import { Pref, setUserPrefCookie } from "../../../utils/prefs";
+import { Pref } from "../../../utils/prefs";
 import { ComparedEntity } from "../../user/portfolio/models";
 import {
   Asset,
@@ -47,15 +47,13 @@ export const BaseAssetProvider = ({
     useState<FormattedHistoricalData | null>(null);
   const [unformattedHistoricalData, setUnformattedHistoricalData] =
     useState<UnformattedHistoricalData | null>(null);
-  const [timeSelected, setTimeSelected] = useState<TimeSelected>(
-    pref.timeSelected
-  );
+  const [timeSelected, setTimeSelected] = useState<TimeSelected>("24H");
   const [hideTx, setHideTx] = useState(JSON.parse(hideTxCookie));
   const [tokenVsMarket, setTokenVsMarket] = useState(null);
   const [pairs, setPairs] = useState([]);
   const [chartType, setChartType] = useState<ChartType>("price" as any);
   const [showTargetPrice, setShowTargetPrice] = useState<boolean>(false);
-  const [activeChart, setActiveChart] = useState(pref.chartType);
+  const [activeChart, setActiveChart] = useState("Linear");
   const [wallet, setWallet] = useState(null);
   const [portfolios, setPortfolios] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -381,17 +379,17 @@ export const BaseAssetProvider = ({
 
     const setUserActiveChart = (type: string) => {
       setActiveChart(type);
-      setUserPrefCookie({ ...pref, chartType: type });
+      // setUserPrefCookie({ ...pref, chartType: type });
     };
 
     const setUserTimeSelected = (value: TimeSelected) => {
       setTimeSelected(value);
-      setUserPrefCookie({ ...pref, timeSelected: value });
+      // setUserPrefCookie({ ...pref, timeSelected: value });
     };
 
     const setUserTradeAmountFilter = (value: TradeFilter) => {
       setSelectedTradeFilters(value);
-      setUserPrefCookie({ ...pref, liveTradeAmountFitlers: value });
+      // setUserPrefCookie({ ...pref, liveTradeAmountFitlers: value });
     };
 
     const shouldLoadHistory = (type: ChartType, time: TimeSelected): boolean =>

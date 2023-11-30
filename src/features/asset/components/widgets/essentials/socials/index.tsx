@@ -56,13 +56,13 @@ export const Socials = () => {
                   href={entry.url}
                   key={entry.url}
                 >
-                  <div className="flex mr-5">
-                    <SmallFont extraCss="truncate max-w-[150px] text-light-font-60 dark:text-dark-font-60">
+                  <div className="flex items-center max-w-[150px] text-light-font-60 dark:text-dark-font-60">
+                    <SmallFont extraCss="truncate text-light-font-60 dark:text-dark-font-60">
                       {entry.username ? `@${entry.username}` : "N/A"}
-                      {entry.username ? (
-                        <FiExternalLink className="ml-[5px] text-[13px]" />
-                      ) : null}
                     </SmallFont>
+                    {entry.username ? (
+                      <FiExternalLink className="ml-[5px] text-[13px]" />
+                    ) : null}
                   </div>
                 </NextChakraLink>
               );
@@ -172,9 +172,9 @@ export const Socials = () => {
                             extraCss="w-full h-[45px]"
                             src={
                               `${API_ENDPOINT}/spark?id=${baseAsset?.id}.svg` ||
-                              "/404/sparkline.png"
+                              "/empty/sparkline.png"
                             }
-                            fallbackSrc="/404/sparkline.png"
+                            fallbackSrc="/empty/sparkline.png"
                             priority={i < 4}
                           />
                         </div>

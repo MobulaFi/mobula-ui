@@ -3,6 +3,7 @@ import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../components/image";
 import { Popover } from "../../../../../components/popover";
 import { mainButtonStyle } from "../../../style";
 
@@ -21,6 +22,7 @@ export const PopoverTrade = ({
   const onClose = () => setShowContent(false);
   return (
     <Popover
+      isFilters
       visibleContent={
         <Button
           extraCss={`${mainButtonStyle} ${
@@ -37,14 +39,17 @@ export const PopoverTrade = ({
                 ? title
                     .filter((_, i) => i < 4)
                     .map((item, i) => (
-                      <img
-                        className="rounded-full w-[18px] h-[18px] bg-light-bg-primary dark:bg-dark-bg-primary ml-[-5px]"
+                      <NextImageFallback
+                        height={18}
+                        width={18}
+                        className="rounded-full bg-light-bg-primary dark:bg-dark-bg-primary ml-[-5px]"
                         key={item}
                         alt={blockchainsContent[title[i]]?.name}
                         src={
                           blockchainsContent[title[i]]?.logo ||
                           `/logo/${title[i]?.toLowerCase().split(" ")[0]}.png`
                         }
+                        fallbackSrc={"/empty/unknown.png"}
                       />
                     ))
                 : null}
@@ -59,7 +64,7 @@ export const PopoverTrade = ({
       hiddenContent={React.cloneElement(children as never, { onClose })}
       isOpen={showContent}
       onToggle={() => setShowContent((prev) => !prev)}
-      extraCss="top-[35px]"
+      extraCss="top-[30px]"
     />
   );
 };

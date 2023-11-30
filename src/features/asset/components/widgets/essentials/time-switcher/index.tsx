@@ -37,7 +37,7 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
               timeSelected === time
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
-            } transition-all duration-250 w-[16.66%] text-sm lg:text-[13px] md:text-xs font-medium z-[2]`}
+            } transition-all duration-250 w-[16.66%] text-sm lg:text-[13px] md:text-xs font-medium relative z-[2]`}
             key={time}
             onClick={() => {
               if (shouldLoadHistory(chartType, time))

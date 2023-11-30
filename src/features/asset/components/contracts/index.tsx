@@ -66,16 +66,20 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
 
   return (
     <div
-      className="flex items-center relative justify-between min-w-[220px] lg:min-w-[181px] md:min-w-[135px] 
+      className="flex items-center relative justify-between min-w-[260px] lg:min-w-[181px] md:min-w-[135px] 
     rounded bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary 
-    px-2.5 w-full h-[32px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250"
+    w-full px-2.5 h-[32px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 overflow-visible"
     >
-      <div className="flex w-full items-center">
+      <div className="flex items-center">
         {blockchain ? (
           <NextImageFallback
             width={17}
             height={17}
-            className="min-w-[17px] mr-[7px] rounded-full"
+            style={{
+              minWidth: "17px",
+              marginRight: "7px",
+              borderRadius: "50%",
+            }}
             alt={`${blockchain} logo`}
             src={
               blockchainsContent[blockchain]?.logo ||
@@ -88,7 +92,7 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
           {shortenedName}
         </SmallFont>
       </div>
-      <div className="flex justify-end ml-5 w-full">
+      <div className="flex justify-end ml-5">
         <SmallFont
           extraCss="mr-2.5 text-start ml-[9px]"
           onClick={() => {
@@ -108,11 +112,19 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
             <BiCopy className="text-light-font-60 dark:text-dark-font-60" />
           )}
         </button>
-        <img
-          className="cursor-pointer ml-[7.5px] mt-0.5 min-w-[17px] w-[17px] h-[17px]"
+        <NextImageFallback
+          width={17}
+          height={17}
+          style={{
+            cursor: "pointer",
+            marginLeft: "7.5px",
+            marginTop: "2px",
+            minWidth: "17px",
+          }}
           onClick={AddTokenToMetamask}
           src="/logo/metamask.png"
           alt="metamask logo"
+          fallbackSrc="/empty/unknown.png"
         />
       </div>
     </div>

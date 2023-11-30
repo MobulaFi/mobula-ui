@@ -330,7 +330,7 @@ export const TradingPairs = () => {
           ) : (
             <caption className="border border-light-border-primary dark:border-dark-border-primary rounded-b border-t-0 mt-0">
               <div className="flex h-[250px] w-full items-enter justify-center flex-col">
-                <img alt="no trading pairs image" src="/404/ray.png" />
+                <img alt="no trading pairs image" src="/empty/ray.png" />
                 <MediumFont extraCss="text-light-font-60 dark:text-font-60 font-medium mt-5 mb-2.5">
                   No trading pairs detected for this token.
                 </MediumFont>

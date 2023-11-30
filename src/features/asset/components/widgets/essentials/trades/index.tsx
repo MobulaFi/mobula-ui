@@ -278,9 +278,9 @@ export const TokenTrades = () => {
           {!isMarketMetricsLoading &&
           isMyTrades &&
           (userTrades?.length || 0) === 0 ? (
-            <caption className="border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
+            <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
               <div className="h-[250px] flex w-full items-center justify-center">
-                <img src="/404/ray.png" alt="No trade image" />
+                <img src="/empty/ray.png" alt="No trade image" />
                 <MediumFont extraCss="font-medium text-light-font-60 dark:text-dark-font-60 mt-5 mb-2.5">
                   You don&apos;t have any trades
                 </MediumFont>
@@ -288,7 +288,7 @@ export const TokenTrades = () => {
             </caption>
           ) : null}
           {isMarketMetricsLoading ? (
-            <caption className="border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
+            <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
               <div className="h-[250px] flex w-full items-center justify-center">
                 <Spinner extraCss="h-[50px] w-[50px]" />
               </div>
@@ -297,9 +297,9 @@ export const TokenTrades = () => {
           {!isMarketMetricsLoading &&
           marketMetrics?.trade_history?.length === 0 &&
           !isMyTrades ? (
-            <caption className="border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
-              <div className="h-[250px] flex w-full items-center justify-center">
-                <img src="/404/ray.png" alt="No trade image" />
+            <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
+              <div className="h-[250px] flex w-full items-center justify-center flex-col">
+                <img src="/empty/ray.png" alt="No trade image" />
                 <MediumFont extraCss="font-medium text-light-font-60 dark:text-dark-font-60 mt-5 mb-2.5">
                   No trades available
                 </MediumFont>
@@ -318,7 +318,7 @@ export const TokenTrades = () => {
                     <Ths
                       extraCss={`sticky z-[2] top-[-1px] bg-light-bg-secondary dark:bg-dark-bg-secondary 
                       border-t border-b border-light-border-primary dark:border-dark-border-primary px-2.5 
-                      py-[13px] ${
+                      py-[10px] ${
                         isFirst
                           ? "pl-5 md:pl-2.5 text-start"
                           : "pl-2.5 text-end"
@@ -369,7 +369,7 @@ export const TokenTrades = () => {
                 <tr>
                   <td
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  md:pl-2.5 pr-2.5 py-[7.5px] text-[11px] lg:text-[10px] md:text-[8px]"
+                  md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px]"
                   >
                     <div>
                       <SmallFont
