@@ -91,20 +91,27 @@ export const TradingPairs = () => {
       case "cex":
         return "calc(33.33% + 2px)";
       case "dex":
-        return "calc(66.66% + 2px)";
+        return "calc(66.66% - 2px)";
       default:
         return "calc(0% + 2px)";
     }
-  };
-
-  const fetchMoreTrades = async () => {
-    fetchTrades();
   };
 
   const getSymbol = (pair) => {
     if (pair.token1.symbol === baseAsset?.symbol) return pair.token0.symbol;
     return pair.token1.symbol;
   };
+
+  let seenAddresses = new Set();
+  let filteredArray = pairs
+    ?.sort((a, b) => b.liquidity - a.liquidity)
+    ?.filter((entry) => {
+      if (entry.address && !seenAddresses.has(entry.address)) {
+        seenAddresses.add(entry.address);
+        return true;
+      }
+      return false;
+    });
 
   return (
     <div
@@ -114,13 +121,18 @@ export const TradingPairs = () => {
     >
       <div className="flex items-center mb-[15px] justify-between pr-0 md:pr-[7.5px]">
         <LargeFont extraCss="ml-0 md:ml-2.5">Trading Pairs</LargeFont>
-        <div className="flex bg-light-bg-terciary dark:bg-dark-bg-terciary rounded p-0.5 h-[36px] md:h-[31px] relative max-w-[200px] w-full">
+        <div
+          className="flex bg-light-bg-terciary dark:bg-dark-bg-terciary rounded
+         p-0.5 h-[36px] md:h-[31px] relative max-w-[200px] w-full border 
+         border-light-border-primary dark:border-dark-border-primary"
+        >
           <div
-            className="flex transition-all duration-250 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[30px] md:h-[25px]"
+            className="flex transition-all z-[0] duration-250 rounded absolute
+             bg-light-bg-hover dark:bg-dark-bg-hover h-[30px] md:h-[25px] w-[33.33%]"
             style={{ left: getPositionFromPair(activePairs) }}
           />
           <button
-            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center"
+            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center relative z-[1]"
             onClick={() => setActivePairs("all")}
             disabled
           >
@@ -135,7 +147,7 @@ export const TradingPairs = () => {
             </SmallFont>
           </button>
           <button
-            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center"
+            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center relative z-[1]"
             onClick={() => setActivePairs("cex")}
             disabled
           >
@@ -150,7 +162,7 @@ export const TradingPairs = () => {
             </SmallFont>
           </button>
           <button
-            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center"
+            className="w-[33.33%] h-[30px] md:h-[25px] flex items-center justify-center  relative z-[1]"
             onClick={() => setActivePairs("dex")}
           >
             <SmallFont
@@ -210,7 +222,7 @@ export const TradingPairs = () => {
             <>
               <tbody>
                 {((pairs?.length || 0) > 0
-                  ? pairs?.sort((a, b) => b.liquidity - a.liquidity)
+                  ? filteredArray
                   : Array.from({ length: 8 })
                 )?.map((pair: IPairs | any, i: number) => {
                   const geckoId =
@@ -264,7 +276,10 @@ export const TradingPairs = () => {
                           )}
                         </div>
                       </td>
-                      <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                      <td
+                        className="border-b border-light-border-primary
+                       dark:border-dark-border-primary px-2.5 text-end"
+                      >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
                             <Skeleton extraCss="h-[20px] w-[120px]" />
@@ -275,7 +290,10 @@ export const TradingPairs = () => {
                           )}
                         </div>
                       </td>
-                      <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                      <td
+                        className="border-b border-light-border-primary
+                       dark:border-dark-border-primary px-2.5 text-end"
+                      >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
                             <Skeleton extraCss="h-[20px] w-[80px]" />
@@ -319,8 +337,8 @@ export const TradingPairs = () => {
               </tbody>
               {hasMoreData && totalPairs !== pairs?.length ? (
                 <LoadMore
-                  extraCss="sticky w-full bottom-0 z-[1]"
-                  callback={fetchMoreTrades}
+                  extraCss="sticky w-full bottom-0 z-[1] pt-2.5"
+                  callback={fetchTrades}
                   isLoading={isTradeScrollLoading}
                   totalCount={totalPairs}
                   count={pairs?.length}
@@ -328,7 +346,10 @@ export const TradingPairs = () => {
               ) : null}
             </>
           ) : (
-            <caption className="border border-light-border-primary dark:border-dark-border-primary rounded-b border-t-0 mt-0">
+            <caption
+              className="caption-bottom border border-light-border-primary
+             dark:border-dark-border-primary rounded-b border-t-0 mt-0"
+            >
               <div className="flex h-[250px] w-full items-enter justify-center flex-col">
                 <img alt="no trading pairs image" src="/empty/ray.png" />
                 <MediumFont extraCss="text-light-font-60 dark:text-font-60 font-medium mt-5 mb-2.5">

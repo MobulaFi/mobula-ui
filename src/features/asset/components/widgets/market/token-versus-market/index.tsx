@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { Ths } from "../../../../../../components/table";
@@ -10,7 +10,7 @@ export const TokenVersusMarket = () => {
   const { baseAsset, tokenVsMarket, setTokenVsMarket } =
     useContext(BaseAssetContext);
   const titles = ["Entity", "24h", "7d", "30d"];
-  const [isLoading, setIsLoading] = useState(!tokenVsMarket);
+  const [isLoading, setIsLoading] = useState(!tokenVsMarket?.length);
 
   const getPercentageChange = (time, categorie) => {
     const isBTC = categorie?.name === "Bitcoin";
@@ -75,8 +75,8 @@ export const TokenVersusMarket = () => {
       })
         .then((r) => r.json())
         .then(({ data }) => {
-          if (data) setTokenVsMarket(data);
           setIsLoading(false);
+          if (data) setTokenVsMarket(data);
         });
   }, [baseAsset]);
 
@@ -132,6 +132,8 @@ export const TokenVersusMarket = () => {
 
   const stateOfMarket = getStateOfMarket();
 
+  console.log("isLoading", isLoading);
+
   return (
     <div className="flex flex-col mt-5 w-full">
       <div className="flex items-center mb-[15px]">
@@ -150,82 +152,113 @@ export const TokenVersusMarket = () => {
           <Skeleton extraCss="h-[23px] lg:h-[21.5px] md:h-[20px] w-[55px] ml-2.5" />
         )}
       </div>
-      <table className="max-h-[500px] md:max-h-[350px] w-full overflow-y-scroll scroll relative">
-        <thead>
-          <tr>
-            {titles
-              .filter((entry) => entry !== "Unit Price")
-              .map((entry, i) => {
-                const isFirst = i === 0;
-                const isLast = i === titles.length - 1;
-                const isOpen = entry === "Open";
-                return (
-                  <Ths
-                    extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px] border-t 
-                  border-b border-light-border-primary dark:border-dark-border-primary px-2.5 py-[13px] 
+      <div className="w-full overflow-scroll scroll">
+        <table className="max-h-[500px] md:max-h-[350px] w-full relative">
+          <thead>
+            <tr>
+              {titles
+                .filter((entry) => entry !== "Unit Price")
+                .map((entry, i) => {
+                  const isFirst = i === 0;
+                  const isLast = i === titles.length - 1;
+                  const isOpen = entry === "Open";
+                  return (
+                    <Ths
+                      extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px] border-t 
+                  border-b border-light-border-primary dark:border-dark-border-primary px-2.5 py-2.5 
                   ${
                     isFirst ? "pl-5 md:pl-2.5 text-start" : "pl-2.5 text-end"
                   } ${isLast || isOpen ? "pr-5 md:pr-2.5" : "pr-2.5"} 
                    table-cell ${entry === "Unit Price" ? "hidden" : ""}`}
-                    key={entry}
-                  >
-                    <SmallFont extraCss="font-medium">{entry}</SmallFont>
-                  </Ths>
-                );
-              })}
-          </tr>
-        </thead>
-        {(
-          tokenVsMarket?.filter(
-            (entry) => entry?.symbol !== baseAsset?.symbol && entry
-          ) || Array.from({ length: 4 })
-        )?.map((pair, i) => {
-          const isTokens = pair?.symbol;
-          return (
-            <tbody key={pair?.id + i}>
-              <tr>
-                <td className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] ">
-                  {isLoading ? (
-                    <Skeleton extraCss="h-[20px] w-[120px]" />
-                  ) : (
-                    <SmallFont extraCss="font-medium -mb-0.5 md:mb-[-5px]">
-                      {`${isTokens ? pair?.symbol : pair?.name}`}
-                    </SmallFont>
-                  )}
-                </td>
-
-                <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
-                  <div className="flex justify-end w-full">
-                    <TagPercentage
-                      percentage={getPercentageChange("24h", pair)}
-                      isUp={(getPercentageChange("24h", pair) || 0) > 0}
-                      isLoading={isLoading}
-                    />
-                  </div>
-                </td>
-                <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
-                  <div className="flex justify-end w-full">
-                    <TagPercentage
-                      percentage={getPercentageChange("7d", pair)}
-                      isUp={(getPercentageChange("7d", pair) || 0) > 0}
-                      isLoading={isLoading}
-                    />
-                  </div>
-                </td>
-                <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5">
-                  <div className="flex justify-end w-full">
-                    <TagPercentage
-                      percentage={getPercentageChange("1m", pair)}
-                      isUp={(getPercentageChange("1m", pair) || 0) > 0}
-                      isLoading={isLoading}
-                    />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          );
-        })}
-      </table>
+                      key={entry}
+                    >
+                      <SmallFont extraCss="font-medium">{entry}</SmallFont>
+                    </Ths>
+                  );
+                })}
+            </tr>
+          </thead>
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <tbody key={i}>
+                  <tr>
+                    <td className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] ">
+                      <Skeleton extraCss="h-[20px] w-[120px]" />
+                    </td>
+                    <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                      <div className="flex justify-end w-full">
+                        <TagPercentage
+                          percentage={0}
+                          isUp={false}
+                          isLoading={isLoading}
+                        />
+                      </div>
+                    </td>
+                    <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                      <div className="flex justify-end w-full">
+                        <TagPercentage
+                          percentage={0}
+                          isUp={false}
+                          isLoading={isLoading}
+                        />
+                      </div>
+                    </td>
+                    <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5">
+                      <div className="flex justify-end w-full">
+                        <TagPercentage
+                          percentage={0}
+                          isUp={false}
+                          isLoading={isLoading}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              ))
+            : tokenVsMarket
+                ?.filter(
+                  (entry) => entry?.symbol !== baseAsset?.symbol && entry
+                )
+                ?.map((pair, i) => {
+                  const isTokens = pair?.symbol;
+                  return (
+                    <tbody key={pair?.id + i}>
+                      <tr>
+                        <td className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] ">
+                          <SmallFont extraCss="font-medium -mb-0.5 md:mb-[-5px]">
+                            {`${isTokens ? pair?.symbol : pair?.name}`}
+                          </SmallFont>
+                        </td>
+                        <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                          <div className="flex justify-end w-full">
+                            <TagPercentage
+                              percentage={getPercentageChange("24h", pair)}
+                              isUp={(getPercentageChange("24h", pair) || 0) > 0}
+                            />
+                          </div>
+                        </td>
+                        <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
+                          <div className="flex justify-end w-full">
+                            <TagPercentage
+                              percentage={getPercentageChange("7d", pair)}
+                              isUp={(getPercentageChange("7d", pair) || 0) > 0}
+                            />
+                          </div>
+                        </td>
+                        <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5">
+                          <div className="flex justify-end w-full">
+                            <TagPercentage
+                              percentage={getPercentageChange("1m", pair)}
+                              isUp={(getPercentageChange("1m", pair) || 0) > 0}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
+        </table>
+      </div>
     </div>
   );
 };
