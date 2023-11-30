@@ -200,7 +200,7 @@ export const TokenTrades = () => {
          w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary"
         >
           <div
-            className="flex w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
+            className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
             style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
           />
           <button
@@ -209,10 +209,11 @@ export const TokenTrades = () => {
             !isMyTrades
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
-          } z-[2]`}
+          } z-[2] relative`}
             onClick={() => {
-              setIsMyTrades(false);
-              if (!isDisconnected) setConnect(true);
+              if (isDisconnected) {
+                setConnect(true);
+              } else setIsMyTrades(false);
             }}
           >
             All trades
@@ -223,7 +224,7 @@ export const TokenTrades = () => {
               isMyTrades
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
-            } z-[2]`}
+            } z-[2] relative`}
             onClick={() => setIsMyTrades(true)}
           >
             My Trades
@@ -243,7 +244,7 @@ export const TokenTrades = () => {
          dark:bg-dark-bg-terciary px-2 w-[180px] rounded border border-light-border-primary dark:border-dark-border-primary"
         >
           <div
-            className="w-[50%] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded absolute transition-all duration-250"
+            className="w-[50%] z-[0] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded absolute transition-all duration-250"
             style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
           />
           <button
@@ -252,7 +253,7 @@ export const TokenTrades = () => {
                  !isMyTrades
                    ? "text-light-font-100 dark:text-dark-font-100"
                    : "text-light-font-40 dark:text-dark-font-40"
-               }`}
+               }  z-[2] relative`}
             onClick={() => {
               setIsMyTrades(false);
               if (!isConnected) setConnect(true);
@@ -266,7 +267,7 @@ export const TokenTrades = () => {
               isMyTrades
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
-            }`}
+            }  z-[2] relative`}
             onClick={() => setIsMyTrades(true)}
           >
             My Trades
@@ -411,7 +412,7 @@ export const TokenTrades = () => {
                         </SmallFont>
                       ) : null}
                       <SmallFont
-                        extraCss={`mt-[-4px] mr-0 lg:mr-2.5 md:mr-0 hidden md:flex ${
+                        extraCss={`mt-[-4px] md:mt-0 hidden md:flex ${
                           isSell
                             ? "text-red dark:text-red"
                             : "text-green dark:text-green"
@@ -427,7 +428,6 @@ export const TokenTrades = () => {
                       </SmallFont>
                     </div>
                   </td>
-
                   <td
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                      px-2.5 table-cell md:hidden"

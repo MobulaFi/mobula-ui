@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
@@ -43,10 +43,11 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
   ];
 
   function getHistoricalPrices(history) {
+    if (history === undefined) return;
     const results = {};
     Object.keys(timeframes).forEach((key) => {
       const targetTimestamp = Date.now() - timeframes[key];
-      const filteredHistory = history.filter(
+      const filteredHistory = history?.filter(
         (item) => item[0] >= targetTimestamp
       );
       if (filteredHistory.length > 0) {

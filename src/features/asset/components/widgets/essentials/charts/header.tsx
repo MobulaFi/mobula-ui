@@ -47,14 +47,12 @@ export const ChartHeader = () => {
     <>
       <div
         className={`flex items-center justify-between ${
-          activeChart === "Trading view"
-            ? "mb-2.5 md:mb-0"
-            : "mb-0 lg:mb-2.5 md:mb-0"
-        } w-full md:w-[95%] mx-auto mt-0 lg:mt-2.5 md:mt-[5px] z-[5]`}
+          activeChart === "Trading view" ? "mb-2.5 md:mb-0" : "mb-0  md:mb-0"
+        } w-full mx-auto mt-0  md:mt-[5px] z-[5]`}
       >
-        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll">
+        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll">
           <div
-            className="h-[30px] flex w-[190px] sm:w-[160px] rounded p-0.5 bg-light-bg-secondary 
+            className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded p-0.5 bg-light-bg-secondary 
           dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary 
           relative mr-[7.5px] "
           >
@@ -67,7 +65,7 @@ export const ChartHeader = () => {
                 chartType === "price"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              } transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2]`}
+              } transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
               disabled={activeChart === "Trading view"}
               onClick={() => {
                 const newChartType = "price" as ChartType;
@@ -83,7 +81,7 @@ export const ChartHeader = () => {
                 chartType === "market_cap"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              }  transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2]`}
+              }  transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
               onClick={() => {
                 const newChartType = "market_cap" as ChartType;
                 if (shouldLoadHistory(newChartType, timeSelected))
@@ -96,7 +94,7 @@ export const ChartHeader = () => {
             </button>
           </div>
           <div
-            className="flex h-[30px] w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
+            className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
            border border-light-border-primary dark:border-dark-border-primary relative"
           >
             <div
@@ -149,7 +147,7 @@ export const ChartHeader = () => {
           </div>
           {(transactions?.length as number) > 0 ? (
             <Button
-              className="flex items-center justify-center h-[30px] ml-2.5 px-2.5 "
+              extraCss="flex items-center justify-center h-[30px] ml-2.5 px-2.5 "
               onClick={() => {
                 setHideTx((prev) => !prev);
               }}

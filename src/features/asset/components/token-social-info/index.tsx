@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { BsGlobe, BsLink45Deg, BsShieldCheck } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
@@ -52,9 +52,6 @@ export const TokenSocialsInfo = () => {
     chains: string[],
     contracts: string[]
   ) {
-    console.log("currentChain", currentChain);
-    console.log("chains", chains);
-    console.log("contracts", contracts);
     let newChains: string[];
     let newContracts: string[];
     if (currentChain) {
