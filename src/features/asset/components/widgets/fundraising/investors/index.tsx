@@ -50,10 +50,10 @@ export const Investors = () => {
             <Ths extraCss="text-center max-w-[50px] px-0 table-cell md:hidden">
               Rank
             </Ths>
-            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px]">Name</Ths>
+            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px] text-start">Name</Ths>
             <Ths extraCss="px-5 md:px-2.5 sm:px-[5px] text-start">Tier</Ths>
             <Ths extraCss="px-5 md:px-2.5">Type</Ths>
-            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px]">Stage</Ths>
+            <Ths extraCss="px-5 md:px-2.5 sm:px-[5px] text-end">Stage</Ths>
           </tr>
         </thead>
         <tbody>
@@ -94,7 +94,7 @@ export const Investors = () => {
                     </div>
                   </Tds>
                   <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px] text-end">
-                    <SmallFont extraCss="font-medium text-start">
+                    <SmallFont extraCss="font-medium text-start whitespace-nowrap">
                       {investor.tier || "--"}
                     </SmallFont>
                   </Tds>
@@ -103,38 +103,40 @@ export const Investors = () => {
                       {typeFormatted}
                     </SmallFont>
                   </Tds>
-                  <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px]">
-                    <div
-                      className={`${
-                        hasMoreThanOneStage
-                          ? "cursor-pointer"
-                          : "cursor-default"
-                      } bg-light-bg-terciary 
-                    dark:bg-dark-bg-terciary px-2 rounded font-medium flex items-center justify-center w-fit text-sm lg:text-[13px] md:text-xs 
-                    text-light-font-100 dark:text-dark-font-100 relative border border-light-border-primary dark:border-dark-border-primary`}
-                      onMouseLeave={() => setIsHover("")}
-                      onMouseEnter={() => {
-                        if (hasMoreThanOneStage) setIsHover(investor.name);
-                      }}
-                    >
-                      {hasMoreThanOneStage
-                        ? `${stages?.length || 0} Rounds`
-                        : stages?.[0] || "--"}
-                      {isHover === investor.name ? (
-                        <div
-                          className="absolute z-[1] bg-light-bg-hover dark:bg-dark-bg-hover shadow-md border
+                  <Tds extraCss="py-[14px] px-5 md:px-2.5 sm:px-[5px] text-end">
+                    <div className="w-full h-full justify-end flex">
+                      <div
+                        className={`${
+                          hasMoreThanOneStage
+                            ? "cursor-pointer"
+                            : "cursor-default"
+                        } bg-light-bg-terciary 
+                    dark:bg-dark-bg-terciary px-2 rounded font-medium flex items-center justify-end w-fit text-sm lg:text-[13px] md:text-xs 
+                    text-light-font-100 dark:text-dark-font-100 relative border border-light-border-primary whitespace-nowrap dark:border-dark-border-primary `}
+                        onMouseLeave={() => setIsHover("")}
+                        onMouseEnter={() => {
+                          if (hasMoreThanOneStage) setIsHover(investor.name);
+                        }}
+                      >
+                        {hasMoreThanOneStage
+                          ? `${stages?.length || 0} Rounds`
+                          : stages?.[0] || "--"}
+                        {isHover === investor.name ? (
+                          <div
+                            className="absolute z-[1] bg-light-bg-hover dark:bg-dark-bg-hover shadow-md border
                          border-light-border-primary dark:border-dark-border-primary rounded px-2.5 
                          py-[5px] max-w-fit min-w-fit w-full flex flex-col"
-                          style={{ top: "calc(100% + 5px)" }}
-                          onMouseLeave={() => setIsHover("")}
-                        >
-                          {stages?.map((entry) => (
-                            <SmallFont extraCss="font-medium" key={entry}>
-                              {entry}
-                            </SmallFont>
-                          ))}
-                        </div>
-                      ) : null}
+                            style={{ top: "calc(100% + 5px)" }}
+                            onMouseLeave={() => setIsHover("")}
+                          >
+                            {stages?.map((entry) => (
+                              <SmallFont extraCss="font-medium" key={entry}>
+                                {entry}
+                              </SmallFont>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
                   </Tds>
                 </tr>
