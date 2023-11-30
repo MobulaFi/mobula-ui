@@ -9,7 +9,7 @@ export const CardsAndCTA = ({ extraCss, ...props }: CardsAndCTAProps) => {
   const tokens = ["bitcoin", "ethereum", "usdt", "bnb", "avalanche", "polygon"];
   return (
     <div className={`flex flex-col ${extraCss}`} {...props}>
-      <div className="flex items-center mt-5 lg:mt-[15px] m-2.5">
+      <div className="flex items-center mt-5 lg:mt-[15px] md:mt-0 m-2.5">
         <img
           src="/logo/mastercard.png"
           className="w-[35px] lg:w-[32px] md:w-[25px] mr-2.5 md:mr-[5px]"

@@ -10,10 +10,7 @@ interface FeedBackPopupProps {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function FeedBackPopup({
-  visible,
-  setVisible,
-}: FeedBackPopupProps) {
+export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
   const [reason, setReason] = useState("");
   const [activeGrade, setActiveGrade] = useState(0);
   const [hoveredGrade, setHoveredGrade] = useState(0);
@@ -95,4 +92,4 @@ export default function FeedBackPopup({
       </Button>
     </ModalContainer>
   );
-}
+};

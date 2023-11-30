@@ -11,6 +11,7 @@ import { useContext, useEffect } from "react";
 import { NextImageFallback } from "components/image";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import React from "react";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";

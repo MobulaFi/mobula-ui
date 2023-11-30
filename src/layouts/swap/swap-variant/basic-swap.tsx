@@ -164,7 +164,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           />
           {tokenIn && tokenIn.balance !== null && (
             <button
-              className="text-md rounded px-2 text-light-font-100 dark:text-dark-font-100 border border-darkblue hover:border-blue transition-all duration-250"
+              className="text-md mr-2.5 rounded px-2 text-light-font-100 dark:text-dark-font-100 border border-darkblue hover:border-blue transition-all duration-250"
               onClick={() => {
                 setAmountIn(
                   tokenIn && "coin" in tokenIn
