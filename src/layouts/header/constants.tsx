@@ -1,16 +1,9 @@
-import { FiHelpCircle } from "react-icons/fi";
-import { HiOutlineNewspaper } from "react-icons/hi";
+import { TfiBarChart } from "react-icons/tfi";
 import { VscArrowSwap } from "react-icons/vsc";
 
-import {
-  ContributeIcon,
-  DocsIcon,
-  ListIcon,
-  MoversIcon,
-  ProtocolIcon,
-  RecentlyAddedIcon,
-  TrendingIcon,
-} from "./components/icons";
+import { BiCandles, BiCodeAlt, BiGitBranch } from "react-icons/bi";
+import { MdAddChart } from "react-icons/md";
+import { PiPlug } from "react-icons/pi";
 
 export const navigation = [
   {
@@ -20,7 +13,7 @@ export const navigation = [
         name: "Recently added",
         url: "/new",
         icon: (
-          <RecentlyAddedIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+          <PiPlug className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Discover the newest tokens on the market.",
       },
@@ -28,7 +21,7 @@ export const navigation = [
         name: "Gainers & Losers",
         url: "/movers",
         icon: (
-          <MoversIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+          <BiCandles className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Spot today's top performers and decliners.",
       },
@@ -36,7 +29,7 @@ export const navigation = [
         name: "Trendings",
         url: "/trendings",
         icon: (
-          <TrendingIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+          <TfiBarChart className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Track tokens gaining traction accross the space.",
       },
@@ -80,43 +73,43 @@ export const navigation = [
         name: "Add crypto-asset",
         url: "/list",
         icon: (
-          <ListIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+          <MdAddChart className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "List your coin on Mobula.",
       },
-      {
-        name: "Contribute",
-        url: "/contribute",
-        icon: (
-          <ContributeIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
-        ),
-        description: "Contribute to Mobula DAO.",
-      },
+      // {
+      //   name: "Contribute",
+      //   url: "/contribute",
+      //   icon: (
+      //     <HiOutlineUsers className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+      //   ),
+      //   description: "Contribute to Mobula DAO.",
+      // },
       {
         name: "Mobula API",
         url: "https://developer.mobula.fi",
         icon: (
-          <DocsIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+          <BiCodeAlt className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Institutional-grade crypto & web3 data API.",
       },
 
-      {
-        name: "Help Desk",
-        url: "/forum/help",
-        icon: (
-          <FiHelpCircle className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
-        ),
-        description: "User support and guidance center.",
-      },
-      {
-        name: "Announcement",
-        url: "/forum/ecosystem",
-        icon: (
-          <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
-        ),
-        description: "Stay updated with the latest news.",
-      },
+      // {
+      //   name: "Help Desk",
+      //   url: "/forum/help",
+      //   icon: (
+      //     <FiHelpCircle className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+      //   ),
+      //   description: "User support and guidance center.",
+      // },
+      // {
+      //   name: "Announcement",
+      //   url: "/forum/ecosystem",
+      //   icon: (
+      //     <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+      //   ),
+      //   description: "Stay updated with the latest news.",
+      // },
 
       // {
       //   name: "Learn & Earn",
@@ -138,7 +131,7 @@ export const navigation = [
         name: "Protocol",
         url: "/dao/protocol/overview",
         icon: (
-          <ProtocolIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
+          <BiGitBranch className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
         description: "Mobula listing protocol portal.",
       },

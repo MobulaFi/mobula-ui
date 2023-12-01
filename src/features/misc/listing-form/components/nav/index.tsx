@@ -1,16 +1,15 @@
-import { useContext } from "react";
+import { useTheme } from "next-themes";
+import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
-import {
-  ExtraSmallFont,
-  LargeFont,
-  MediumFont,
-} from "../../../../../components/fonts";
+import { LargeFont, MediumFont } from "../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../components/image";
 import { NextChakraLink } from "../../../../../components/link";
 import { ListingContext } from "../../context-manager";
 
 export const Nav = ({ state }) => {
   const { actualPage, setActualPage } = useContext(ListingContext);
-
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   const infos = [
     {
       name: "Asset Info",
@@ -44,13 +43,20 @@ export const Nav = ({ state }) => {
       mr-[25px] flex-col w-[235px] pb-[25px] items-center border border-light-border-primary 
       dark:border-dark-border-primary md:hidden"
       >
-        <img
-          className="mt-[30px] mb-2.5 rounded-full w-[87px] h-[87px]"
-          src={
-            state.image.logo ||
-            state.image.uploaded_logo ||
-            "/mobula/mobula-logo.svg"
+        <NextImageFallback
+          width={87}
+          height={87}
+          fallbackSrc={
+            isDarkMode
+              ? "/mobula/mobula-logo.svg"
+              : "/mobula/mobula-light-logo.svg"
           }
+          style={{
+            marginTop: "30px",
+            marginBottom: "10px",
+            borderRadius: "50%",
+          }}
+          src={state.image.logo || state.image.uploaded_logo}
           alt="token logo"
         />
         <LargeFont extraCss="mb-[30px]">Listing Form</LargeFont>
@@ -63,8 +69,8 @@ export const Nav = ({ state }) => {
                     className={`w-6 h-6 rounded-full text-light-font-100 dark:text-dark-font-100 
                   transition-all duration-250 text-sm border ${
                     i <= actualPage
-                      ? "border-blue dark:border-blue bg-light-bg-hover dark:bg-light-bg-hover"
-                      : "border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-light-bg-hover"
+                      ? "border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
+                      : "border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-hover dark:bg-dark-bg-hover hover:border-blue hover:dark:border-blue"
                   }`}
                     onClick={() => {
                       if (i <= actualPage) setActualPage(i);
@@ -76,29 +82,29 @@ export const Nav = ({ state }) => {
                 </div>
                 {infos.length - 1 === i ? null : (
                   <div
-                    className={`flex border-l ${
+                    className={`flex ${
                       i < actualPage
-                        ? "border-l border-blue dark:border-blue"
-                        : "outline-dashed border-l border-light-border-terciary dark:border-dark-border-terciary"
-                    } h-[30px] w-0.5 ml-3`}
+                        ? " bg-blue dark:bg-blue"
+                        : "bg-light-border-secondary dark:bg-dark-border-secondary"
+                    } h-[30px] w-[1px] ml-3`}
                   />
                 )}
               </div>
             ))}
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center ml-[25px] mr-auto">
           <NextChakraLink
-            extraCss="text-blue dark:text-blue text-[10px] lg:text-[9px] md:text-[8px] font-medium"
+            extraCss="text-blue dark:text-blue text-xs md:text-[10px] font-medium"
             href="https://docs.mobula.fi/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Read here{" "}
+            <span className="text-light-font-100 dark:text-dark-font-100">
+              the documentation
+            </span>
           </NextChakraLink>{" "}
-          <ExtraSmallFont extraCss="ml-[25px] mr-auto">
-            the documentation
-          </ExtraSmallFont>
         </div>
         <div className="flex items-center ml-[25px] mr-auto">
           <NextChakraLink
@@ -106,11 +112,10 @@ export const Nav = ({ state }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <ExtraSmallFont extraCss="text-light-font-40 dark:text-dark-font-40 underline">
-              {" "}
+            <span className="text-light-font-40 dark:text-dark-font-40 underline flex items-center text-xs md:text-[10px]">
               Get in touch with core-team
-              <FiExternalLink className="ml-[5px] text-[11px] text-light-font-40 dark:text-dark-font-40" />
-            </ExtraSmallFont>
+              <FiExternalLink className="ml-[5px] text-[11px] text-light-font-60 dark:text-dark-font-60" />
+            </span>
           </NextChakraLink>
         </div>
       </div>

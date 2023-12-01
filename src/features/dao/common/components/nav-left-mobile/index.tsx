@@ -1,6 +1,8 @@
 "use client";
+import { NextImageFallback } from "components/image";
+import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MediumFont } from "../../../../../components/fonts";
 import { useMember } from "../../hooks/use-members";
 import { usePathnameInfo } from "../../hooks/use-pathname-info";
@@ -16,6 +18,8 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
   const router = useRouter();
   const infos = usePathnameInfo();
   const membersQuantity = useMember();
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "light";
 
   const getActiveButtonFromPath = () => {
     if (pathname.includes("/protocol/overview")) setSelectedSection("Overview");
@@ -42,38 +46,21 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
         <p className="text-light-font-100 dark:text-dark-font-100 text-xl font-bold">
           Mobula DAOs
         </p>
-        <div className="flex items-center mt-5">
-          <button
-            className={`text-[13px] font-medium ${
-              pathname.includes("governance")
-                ? "text-light-font-100 dark:text-dark-font-100"
-                : "text-light-font-40 dark:text-dark-font-40"
-            }`}
-            onClick={() => router.push("/dao/governance/overview")}
-          >
-            Governance
-          </button>
-          <div className="h-4 w-0.5 bg-light-border-primary dark:bg-dark-border-primary mx-2.5" />
-          <button
-            className={`text-[13px] font-medium ${
-              pathname.includes("protocol")
-                ? "text-light-font-100 dark:text-dark-font-100"
-                : "text-light-font-40 dark:text-dark-font-40"
-            }`}
-            onClick={() => router.push("/dao/protocol/overview")}
-          >
-            Protocol
-          </button>
-        </div>
       </div>
       <div className="flex items-center ml-2.5">
-        <img
+        <NextImageFallback
+          style={{
+            marginRight: "15px",
+          }}
+          alt="mobula logo"
+          width={50}
+          height={50}
           src={
-            pathname.includes("governance")
-              ? "/header/new/governance.svg"
-              : "/header/new/protocol.svg"
+            isWhiteMode
+              ? "/mobula/mobula-logo-light.svg"
+              : "/mobula/mobula-logo.svg"
           }
-          className="w-[50px] h-[50px] mr-[15px]"
+          fallbackSrc={"/mobula/mobula-logo.svg"}
         />
         <div className="mr-5">
           <p className="text-light-font-100 dark:text-dark-font-100 text-[22px]">
@@ -84,7 +71,7 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
           </p>
         </div>
         <ButtonOutlined
-          extraCss="w-[90px] h-[25px] text-[13px] md:text-xs font-medium"
+          extraCss="flex justify-center items-center w-[90px] h-[25px] text-[13px] md:text-xs font-medium"
           onClick={() => router.push(`/discover/${page}`)}
         >
           Join
@@ -96,7 +83,7 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
           return (
             <div key={info.id}>
               <button
-                className={`py-2.5 pb-5 px-[15px] ${
+                className={`w-fit py-2.5 pb-5 px-[15px] ${
                   isActive
                     ? "border-b border-blue dark:border-blue"
                     : "border-0"
@@ -112,7 +99,7 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
                 <MediumFont
                   extraCss={`${
                     isActive ? "" : "text-light-font-40 dark:text-dark-font-40"
-                  }`}
+                  }  whitespace-nowrap`}
                 >
                   {info?.name}
                 </MediumFont>

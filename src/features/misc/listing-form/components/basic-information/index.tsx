@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as imageConversion from "image-conversion";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSearch, FiUpload } from "react-icons/fi";
 import { Button } from "../../../../../components/button";
@@ -111,7 +111,7 @@ export const BasicInformation = ({ state, dispatch }) => {
 
   return (
     <div className="flex flex-col w-full max-w-[400px] md:max-w-full">
-      <div className="flex items-center">
+      <div className="flex items-center mb-1">
         <ExtraLargeFont>General Data</ExtraLargeFont>
       </div>
       <MediumFont extraCss="mb-2.5">
@@ -150,7 +150,12 @@ export const BasicInformation = ({ state, dispatch }) => {
           {assetTypes.map((entry) => (
             <Button
               key={entry.value}
-              extraCss="pl-2.5 w-[150px] sm:w-[100px] mr-2.5 sm:mr-0 mb-0 sm:mb-[7.5px] pr-0 sm:pr-2.5"
+              extraCss={`pl-2.5 w-[150px] sm:w-full mr-2.5 sm:mr-0 mb-0 sm:mb-[7.5px] pr-0 sm:pr-2.5 
+              ${
+                state.type === entry.value
+                  ? "border-blue dark:border-blue text-light-font-100 dark:text-dark-font-100"
+                  : "text-light-font-40 dark:text-dark-font-40"
+              }`}
               onClick={() =>
                 dispatch({
                   type: ACTIONS.SET_INPUT,
@@ -216,7 +221,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           >{`${state.description.length}/ 300`}</MediumFont>
         </div>
         <textarea
-          className={`h-[200px] w-[400px] md:w-full rounded bg-light-bg-terciary dark:bg-dark-bg-terciary border ${
+          className={`h-[200px] w-[400px] md:w-full rounded text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary border ${
             isDescriptionError
               ? "hover:border-red hover:dark:border-red active:border-red active:dark:border-red focus:border-red focus:dark:border-red border-red dark:border-red"
               : "active:border-light-border-primary active:dark:border-dark-border-primary focus:border-light-border-primary focus:dark:border-dark-border-primary hover:border-light-border-primary hover:dark:border-dark-border-primary border-light-border-primary dark:border-dark-border-primary"
@@ -263,11 +268,11 @@ export const BasicInformation = ({ state, dispatch }) => {
         <div
           className={`${inputStyle} flex items-center border border-light-border-primary dark:border-dark-border-primary pl-0`}
         >
-          <div className="flex items-center justify-center h-full pl-2.5">
+          <div className="flex items-center justify-center h-full">
             <FiSearch className="text-light-font-100 dark:text-dark-font-100" />
           </div>
           <input
-            className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full w-full pl-[35px] "
+            className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full w-full "
             placeholder="Search"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -283,7 +288,7 @@ export const BasicInformation = ({ state, dispatch }) => {
               categorie && (
                 <button
                   key={categorie}
-                  className={`bg-light-bg-tags dark:bg-dark-bg-tags px-[7.5px] h-[24px] mr-[5px] 
+                  className={`flex items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags px-[7.5px] h-[24px] mr-[5px] 
                   mt-[5px] w-fit rounded text-sm lg:text-[13px] md:text-xs text-light-font-100
                    dark:text-dark-font-100 pt-0 md:pt0.5 ${
                      state.categories.includes(categorie)

@@ -1,8 +1,9 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { isAddress } from "viem";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../../components/image";
 import { fetchContract } from "../../../../../../layouts/swap/utils";
 import { ACTIONS } from "../../../reducer";
 import { inputStyle } from "../../../styles";
@@ -29,7 +30,7 @@ export const MultiInputTemplate = ({
   text,
 }: MultiInputTemplateProps) => {
   const deleteButtonStyle =
-    "w-[40px] h-[35px] ml-2.5 rounded text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
+    "flex justify-center items-center whitespace-nowrap w-fit min-w-[40px] px-2 h-[35px]  rounded text-sm lg:text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
@@ -96,23 +97,24 @@ export const MultiInputTemplate = ({
             >
               {hasLogo ? (
                 <>
-                  <div className="flex items-center justify-center h-full ml-2.5">
-                    <img
-                      className="w-5 h-5"
+                  <div className="flex items-center justify-center h-full">
+                    <NextImageFallback
+                      height={20}
+                      width={20}
+                      fallbackSrc="/empty/unknown.png"
                       src={
-                        blockchainsContent[state.contracts[i]?.blockchain]
-                          ?.logo || "/icon/unknown.png"
+                        blockchainsContent[state.contracts[i]?.blockchain]?.logo
                       }
                       alt={`${state.contracts[i]?.blockchain} logo`}
                     />
+                    <input
+                      className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                      placeholder={placeholder}
+                      onChange={(e) => {
+                        handleNewContract(e, i, name);
+                      }}
+                    />
                   </div>
-                  <input
-                    className="pl-[30px] w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                    placeholder={placeholder}
-                    onChange={(e) => {
-                      handleNewContract(e, i, name);
-                    }}
-                  />
                 </>
               ) : (
                 <input
@@ -129,7 +131,7 @@ export const MultiInputTemplate = ({
             </div>
             {i > 0 ? (
               <button
-                className={`${deleteButtonStyle} mt-0`}
+                className={`${deleteButtonStyle} mt-0 ml-2.5`}
                 onClick={() => {
                   dispatch({
                     type: ACTIONS.REMOVE_ELEMENT,
@@ -148,7 +150,7 @@ export const MultiInputTemplate = ({
         </div>
       ))}
       <button
-        className={`${deleteButtonStyle} w-[170px]`}
+        className={`${deleteButtonStyle} w-[170px] ml-0 mt-0`}
         onClick={() =>
           dispatch({
             type: ACTIONS.ADD_ELEMENT,

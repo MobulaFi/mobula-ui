@@ -1,7 +1,14 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
-import { BsGlobe, BsLink45Deg, BsShieldCheck } from "react-icons/bs";
+import {
+  BsDiscord,
+  BsGlobe,
+  BsLink45Deg,
+  BsShieldCheck,
+  BsTelegram,
+  BsTwitter,
+} from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { LuLink } from "react-icons/lu";
@@ -25,7 +32,9 @@ export const TokenSocialsInfo = () => {
     baseAsset.twitter
       ? {
           name: "Twitter",
-          logo: "/social/twitter.png",
+          icon: (
+            <BsTwitter className="text-sm text-twitter dark:text-twitter mr-2" />
+          ),
           url: baseAsset?.twitter,
           username: baseAsset?.twitter.split("https://twitter.com/")[1],
         }
@@ -33,7 +42,9 @@ export const TokenSocialsInfo = () => {
     baseAsset.chat
       ? {
           name: "Telegram",
-          logo: "/social/telegram.png",
+          icon: (
+            <BsTelegram className="text-sm text-telegram dark:text-telegram mr-2" />
+          ),
           url: baseAsset?.chat,
           username: baseAsset?.chat.split("https://t.me/")[1],
         }
@@ -41,7 +52,9 @@ export const TokenSocialsInfo = () => {
     baseAsset.discord
       ? {
           name: "Discord",
-          logo: "/social/discord.png",
+          icon: (
+            <BsDiscord className="text-sm text-discord dark:text-discord mr-2" />
+          ),
           url: baseAsset?.discord,
         }
       : null,
@@ -191,7 +204,7 @@ export const TokenSocialsInfo = () => {
             {baseAsset.website ? (
               <Button
                 extraCss={`${mainButtonStyle} mb-[5px] px-[5px]`}
-                onClick={() => openInNewTab(baseAsset.website)}
+                onClick={() => openInNewTab(baseAsset?.website)}
               >
                 <BsGlobe className="text-base text-light-font-100 dark:text-dark-font-100" />
               </Button>
@@ -269,18 +282,13 @@ export const TokenSocialsInfo = () => {
                             key={entry.url}
                           >
                             <div className="flex items-center mr-[15px]">
-                              <img
-                                className="w-[14px] h-[14px] min-w-[14px] mr-[5px]"
-                                src={entry.logo}
-                                alt={`${entry.name} logo`}
-                              />
+                              {entry.icon}
                               <SmallFont>{entry.name}</SmallFont>
                             </div>
                             <div className="flex items-center">
                               <SmallFont>
                                 {entry.username ? entry.username : "N/A"}
                               </SmallFont>
-
                               <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
                             </div>
                           </div>

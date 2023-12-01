@@ -351,6 +351,8 @@ export const Submit = ({ state }) => {
 
   const fallbackMessage = getFallBack();
 
+  console.log("fastTrack", fastTrack);
+
   return hasPaid ? (
     <div className="flex flex-col w-[450px] md:w-full">
       <ExtraLargeFont>Congratulations!</ExtraLargeFont>
@@ -409,11 +411,11 @@ export const Submit = ({ state }) => {
         >
           <FaArrowLeft className="text-light-font-100 dark:text-dark-font-100 mr-[5px]" />
         </button>
-        <LargeFont>Submit</LargeFont>
+        <ExtraLargeFont>Submit</ExtraLargeFont>
       </div>
-      <div className="flex mt-5 lg:mt-2.5 md:mt-0">
+      <div className="flex mt-0 md:mt-0">
         <button
-          className={`${addButtonStyle} px-3 w-fit mr-2.5 ${
+          className={`${addButtonStyle} whitespace-nowrap px-3 w-fit mr-2.5 ${
             isPayingNow
               ? "bg-light-bg-hover dark:bg-dark-bg-hover"
               : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
@@ -423,7 +425,7 @@ export const Submit = ({ state }) => {
           Normal Listing
         </button>
         <button
-          className={`${addButtonStyle} px-3 w-fit mr-2.5 ${
+          className={`${addButtonStyle} whitespace-nowrap px-3 w-fit mr-2.5 ${
             !isPayingNow
               ? "bg-light-bg-hover dark:bg-dark-bg-hover"
               : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
@@ -460,7 +462,6 @@ export const Submit = ({ state }) => {
               </Flex>
             </NextChakraLink>
           </Flex> */}
-
           {/* SLIDER TO REPLACE */}
           {/* <div className="mt-[50px] md:mt-[40px] relative">
             <Slider
@@ -530,31 +531,51 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
-          <MediumFont extraCss="mt-2.5">
+          <div className="relative w-full pb-5">
+            <input
+              type="range"
+              min="30"
+              max="1000"
+              defaultValue="30"
+              value={fastTrack}
+              onChange={(e) => setFastTrack(Number(e.target.value))}
+              className="mt-2.5 w-full h-2.5 bg-light-font-10 dark:bg-dark-font-10 border border-light-border-primary
+             dark:border-dark-border-primary rounded-full range-thumb relative"
+            />
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute right-0">
+              🔥 Blazing Fast
+            </p>
+            <div className="absolute left-[27.85%] top-[10px] h-2.5 w-0.5 bg-light-font-60 dark:bg-dark-font-60" />
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute left-[24.5%]">
+              Fast
+            </p>
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute left-0">
+              Standard
+            </p>
+          </div>
+          <SmallFont extraCss="mt-2.5">
             You must pay{" "}
             <span className="font-medium">
               ${fastTrack} USD on {blockchainSelected}
             </span>
-          </MediumFont>
-          <MediumFont extraCss="mt-5 mb-2.5">
+          </SmallFont>
+          <SmallFont extraCss="mt-5 mb-2.5">
             You will get{" "}
             <span className="text-light-font-40 dark:text-dark-font-40">
               ({getRewardFromTypeOfListing().name} Listing)
             </span>
-          </MediumFont>
+          </SmallFont>
           <div className="flex items-center mb-[5px]">
-            <MediumFont>{getRewardFromTypeOfListing().rewards.type}</MediumFont>
+            <SmallFont>{getRewardFromTypeOfListing().rewards.type}</SmallFont>
             <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
           </div>
           <div className="flex items-center mb-[5px]">
-            <MediumFont>
-              {getRewardFromTypeOfListing().rewards.medal}
-              <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
-            </MediumFont>
+            <SmallFont>{getRewardFromTypeOfListing().rewards.medal} </SmallFont>
+            <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
           </div>
           <div className="flex items-center">
             <BsTwitter className="ml-[3px] mr-[9px] text-twitter dark:text-twitter" />
-            <MediumFont>
+            <SmallFont>
               An exclusive Tweet from{" "}
               <NextChakraLink
                 href="https://twitter.com/MobulaFi"
@@ -564,7 +585,7 @@ export const Submit = ({ state }) => {
               >
                 @MobulaFI
               </NextChakraLink>
-            </MediumFont>
+            </SmallFont>
             {getRewardFromTypeOfListing().rewards.twitter ? (
               <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
             ) : (
@@ -573,25 +594,29 @@ export const Submit = ({ state }) => {
           </div>
           <div className="flex flex-row md:flex-col my-5 flex-wrap">
             <Menu
+              extraCss="w-[200px] h-fit left-0"
               titleCss={`${addButtonStyle} px-3 md:px-2 w-fit`}
               title={
                 <div className="flex w-full items-center">
-                  <img
-                    className="w-5 h-5 md:h-[18px] md:w-[18px] rounded-full mr-2.5 md:mr-[7.5px]"
+                  <NextImageFallback
+                    width={18}
+                    height={18}
+                    style={{
+                      borderRadius: "50%",
+                      marginRight: "7.5px",
+                    }}
+                    fallbackSrc="/empty/unknown.png"
                     alt={`${blockchainSelected} logo`}
-                    src={
-                      blockchainsContent[blockchainSelected]?.logo ||
-                      blockchainsContent.Polygon.logo
-                    }
+                    src={blockchainsContent[blockchainSelected]?.logo}
                   />
                   {blockchainSelected === "BNB Smart Chain (BEP20)"
                     ? "Binance Chain"
                     : blockchainSelected}
-                  <BsChevronDown className="ml-2.5" />
+                  <BsChevronDown className="ml-1.5" />
                 </div>
               }
             >
-              <div className="max-h-[300px] overflow-y-auto">
+              <div className="w-full ">
                 {Object.keys(blockchainsContent)
                   .filter(
                     (entry) =>
@@ -600,7 +625,8 @@ export const Submit = ({ state }) => {
                   .map((blockchain) => (
                     <div
                       key={blockchain}
-                      className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                      className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary
+                       text-light-font-60 dark:text-dark-font-60 whitespace-nowrap my-1.5 cursor-pointer"
                       onClick={() => {
                         switchNetwork({
                           chainId: blockchainsContent[blockchain].chainId,
@@ -609,8 +635,8 @@ export const Submit = ({ state }) => {
                     >
                       <NextImageFallback
                         className="mr-2.5 rounded-full"
-                        height={20}
-                        width={20}
+                        height={18}
+                        width={18}
                         fallbackSrc="/empty/unknown.png"
                         src={blockchainsContent[blockchain].logo}
                         alt={`${blockchain} logo`}
@@ -645,8 +671,8 @@ export const Submit = ({ state }) => {
                           <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
                         )}
                         <NextImageFallback
-                          height={20}
-                          width={20}
+                          height={18}
+                          width={18}
                           className={imageStyle}
                           src="/logo/usdt.webp"
                           alt="usdt logo"
@@ -676,8 +702,8 @@ export const Submit = ({ state }) => {
                         <NextImageFallback
                           src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png"
                           alt="usdc logo"
-                          height={20}
-                          width={20}
+                          height={18}
+                          width={18}
                           className={imageStyle}
                           fallbackSrc="/empty/unknown.png"
                         />
@@ -692,7 +718,7 @@ export const Submit = ({ state }) => {
                 </>
               ) : (
                 <Button
-                  extraCss={`${buttonsOption} border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
+                  extraCss={`${buttonsOption} flex justify-center items-center border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
                   onClick={() => {
                     switch (getFallBack()) {
                       case "Connect your wallet":

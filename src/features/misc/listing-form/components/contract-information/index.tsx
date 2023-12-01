@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Button } from "../../../../../components/button";
 import {
@@ -22,7 +22,7 @@ export const ContractInformation = ({ dispatch, state }) => {
     <div className="flex flex-col mb-5 w-[400px] md:w-full">
       <div className="flex items-center">
         <button
-          className="hidden md:flex"
+          className="hidden md:flex items-center"
           onClick={() => setActualPage(actualPage - 1)}
         >
           <FaArrowLeftLong className="mr-[5px] text-light-font-100 dark:text-dark-font-100" />

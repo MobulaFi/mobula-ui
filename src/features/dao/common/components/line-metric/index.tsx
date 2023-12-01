@@ -90,7 +90,7 @@ export const MetricsLine = ({
         {imageProfile}
         {!isProfilePic ? (
           <img
-            className="w-5 h-5 rounded-full"
+            className="rounded-full w-5 h-5"
             src={logo || "/empty/unknown.png"}
             alt={`${history?.token_data.name} logo`}
           />
@@ -107,7 +107,7 @@ export const MetricsLine = ({
               {history?.token_data.symbol}
             </SmallFont>
             {address ? (
-              <SmallFont extraCss="whitespace-pre-wrap ml-2.5 text-light-font-40 dark:text-dark-font-40">
+              <SmallFont extraCss="whitespace-pre-wrap text-light-font-40 dark:text-dark-font-40">
                 ({addressSlicer(address)})
               </SmallFont>
             ) : null}
