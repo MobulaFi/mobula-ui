@@ -92,3 +92,72 @@ body::-webkit-scrollbar {
   -ms-overflow-style: none;
   scrollbar-color: transparent transparent; /*just hides the scrollbar for firefox */
 }
+
+@layer utilities {
+  :root {
+    --custom-slider-thumb-light: theme("colors.light.font.100");
+    --custom-slider-thumb-dark: theme("colors.dark.font.100");
+    --custom-slider-thumb-border-light: theme("colors.light.border.primary");
+    --custom-slider-thumb-border-dark: theme("colors.dark.border.primary");
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --custom-slider-thumb: var(--custom-slider-thumb-dark);
+      --custom-slider-thumb-border: var(--custom-slider-thumb-border-dark);
+    }
+  }
+
+  @media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+    :root {
+      --custom-slider-thumb: var(--custom-slider-thumb-light);
+      --custom-slider-thumb-border: var(--custom-slider-thumb-border-light);
+    }
+  }
+
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      background-color: grey;
+    }
+
+    .range-thumb::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 7px;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.95);
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      box-shadow: -1000px 0 0 1000px #5c7df9;
+      margin-top: -4px;
+      margin-right: -2px;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 10px;
+      -webkit-appearance: none;
+      margin-top: -1px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+  }
+  /** FF*/
+  input[type="range"]::-moz-range-progress {
+    background-color: grey;
+  }
+  input[type="range"]::-moz-range-track {
+    background-color: grey;
+  }
+  /* IE*/
+  input[type="range"]::-ms-fill-lower {
+    background-color: grey;
+  }
+  input[type="range"]::-ms-fill-upper {
+    background-color: grey;
+  }
+}

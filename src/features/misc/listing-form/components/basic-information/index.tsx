@@ -150,7 +150,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           {assetTypes.map((entry) => (
             <Button
               key={entry.value}
-              extraCss={`pl-2.5 w-[150px] sm:w-[100px] mr-2.5 sm:mr-0 mb-0 sm:mb-[7.5px] pr-0 sm:pr-2.5 
+              extraCss={`pl-2.5 w-[150px] sm:w-full mr-2.5 sm:mr-0 mb-0 sm:mb-[7.5px] pr-0 sm:pr-2.5 
               ${
                 state.type === entry.value
                   ? "border-blue dark:border-blue text-light-font-100 dark:text-dark-font-100"

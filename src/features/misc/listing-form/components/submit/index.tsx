@@ -7,7 +7,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 // import { useAlert } from "react-alert";
 import { NextImageFallback } from "components/image";
 import { PopupUpdateContext } from "contexts/popup";
-import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -352,6 +351,8 @@ export const Submit = ({ state }) => {
 
   const fallbackMessage = getFallBack();
 
+  console.log("fastTrack", fastTrack);
+
   return hasPaid ? (
     <div className="flex flex-col w-[450px] md:w-full">
       <ExtraLargeFont>Congratulations!</ExtraLargeFont>
@@ -414,7 +415,7 @@ export const Submit = ({ state }) => {
       </div>
       <div className="flex mt-0 md:mt-0">
         <button
-          className={`${addButtonStyle} px-3 w-fit mr-2.5 ${
+          className={`${addButtonStyle} whitespace-nowrap px-3 w-fit mr-2.5 ${
             isPayingNow
               ? "bg-light-bg-hover dark:bg-dark-bg-hover"
               : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
@@ -424,7 +425,7 @@ export const Submit = ({ state }) => {
           Normal Listing
         </button>
         <button
-          className={`${addButtonStyle} px-3 w-fit mr-2.5 ${
+          className={`${addButtonStyle} whitespace-nowrap px-3 w-fit mr-2.5 ${
             !isPayingNow
               ? "bg-light-bg-hover dark:bg-dark-bg-hover"
               : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
@@ -531,6 +532,18 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
+
+          <input
+            type="range"
+            min="30"
+            max="1000"
+            defaultValue="30"
+            value={fastTrack}
+            onChange={(e) => setFastTrack(e.target.value)}
+            className="mt-2.5 w-full h-2.5 bg-light-font-10 dark:bg-dark-font-10 border border-light-border-primary
+             dark:border-dark-border-primary rounded-full range-thumb"
+          />
+
           <SmallFont extraCss="mt-2.5">
             You must pay{" "}
             <span className="font-medium">
