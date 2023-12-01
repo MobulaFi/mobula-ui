@@ -21,31 +21,43 @@ export function Tabs() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>{navigation?.[0]?.name}</NavigationMenuTrigger>
-          <NavigationMenuContent className="z-[10] w-[400px]">
-            <ul className="grid gap-3 p-2.5 md:w-[400px] w-[400px] lg:grid-cols-[.75fr_1fr]">
+          <NavigationMenuContent className="z-[10] w-[415px] p-0">
+            <ul className="grid gap-0 p-2.5 w-[415px]">
               {navigation?.[0]?.extends?.map((entry, i) => (
-                <ListItem key={entry.url} href={entry.url} title={entry.name}>
+                <ListItem
+                  key={entry.url}
+                  href={entry.url}
+                  className="p-0 h-fit w-full m-0"
+                >
                   <div
-                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
+                    key={entry.url}
+                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded p-4 transition-all duration-250"
                     onMouseEnter={() => setIsHover(entry.name)}
                     onMouseLeave={() => setIsHover("")}
                   >
                     <div className="flex items-center">
                       <div
-                        className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
-                   bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
+                        className={`flex items-center justify-center h-[34px] w-[34px] mr-2.5 min-w-[34px]
+               bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
                       >
                         {entry.icon}
                       </div>
-
-                      {entry.description}
+                      <div className="flex flex-col">
+                        <div className="text-[15px] font-medium leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
+                          {entry.name}
+                        </div>
+                        <p className="text-[13px] text-light-font-40 dark:text-dark-font-40 ">
+                          {" "}
+                        </p>
+                        {entry.description}{" "}
+                      </div>
                     </div>
                     <BsChevronRight
                       className={`text-md ${
                         isHover === entry.name ? "animate-tabs" : "opacity-0"
                       } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
                     />
-                  </div>{" "}
+                  </div>
                 </ListItem>
               ))}
             </ul>
@@ -53,27 +65,35 @@ export function Tabs() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>{navigation?.[2]?.name}</NavigationMenuTrigger>
-          <NavigationMenuContent className=" z-[10] md:w-[400px] lg:w-[500px] w-[600px]">
-            <ul className="grid gap-3 p-2.5 md:w-[400px] lg:w-[500px] w-[600px] grid-cols-2 lg:grid-cols-2">
+          <NavigationMenuContent className=" z-[10]  w-[415px]">
+            <ul className="grid gap-0 p-2.5 w-[415px]">
+              {/* <ul className="grid gap-0 p-2.5 lg:w-[500px] w-[700px] grid-cols-2 lg:grid-cols-2"> */}
               {navigation?.[2]?.extends?.map((entry, i) => (
-                <ListItem key={entry.url} href={entry.url} title={entry.name}>
+                <ListItem
+                  key={entry.url}
+                  href={entry.url}
+                  className="p-0 h-fit w-full m-0"
+                >
                   <div
                     key={entry.url}
-                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded px-2.5 transition-all duration-250"
+                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded p-4 transition-all duration-250"
                     onMouseEnter={() => setIsHover(entry.name)}
                     onMouseLeave={() => setIsHover("")}
                   >
                     <div className="flex items-center">
                       <div
-                        className={`flex items-center justify-center h-[34px] w-[34px] mr-0.5 min-w-[34px]
+                        className={`flex items-center justify-center h-[34px] w-[34px] mr-2.5 min-w-[34px]
                bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
                       >
                         {entry.icon}
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-sm font-medium leading-none text-light-font-100 dark:text-dark-font-100">
+                        <div className="text-[15px] font-medium leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
                           {entry.name}
                         </div>
+                        <p className="text-[13px] text-light-font-40 dark:text-dark-font-40 ">
+                          {" "}
+                        </p>
                         {entry.description}{" "}
                       </div>
                     </div>
@@ -145,7 +165,7 @@ const ListItem = React.forwardRef<
         href={href}
         ref={ref}
         className={cn(
-          "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+          "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
           className
         )}
       >
