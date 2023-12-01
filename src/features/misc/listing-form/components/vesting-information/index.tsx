@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa6";
 import {
@@ -7,6 +7,7 @@ import {
   ExtraSmallFont,
   LargeFont,
   MediumFont,
+  SmallFont,
 } from "../../../../../components/fonts";
 import { ListingContext } from "../../context-manager";
 import { ACTIONS } from "../../reducer";
@@ -74,12 +75,12 @@ export const VestingInformation = ({ dispatch, state }) => {
         >
           <FaArrowLeft className="mr-[5px]" />
         </button>
-        <ExtraLargeFont>Vesting Details</ExtraLargeFont>
+        <ExtraLargeFont extraCss="mb-2.5">Vesting Details</ExtraLargeFont>
       </div>
-      <MediumFont>
+      <SmallFont>
         If the asset has a vesting schedule, you can add the unlock events here.
         If not, simply click Next.
-      </MediumFont>
+      </SmallFont>
       {state.tokenomics.vestingSchedule.map((d, i) => (
         <div
           key={d}
@@ -89,10 +90,10 @@ export const VestingInformation = ({ dispatch, state }) => {
             className="-mb-5 ml-auto text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs"
             onClick={() => deleteItem(i)}
           >
-            <AiOutlineClose className="text-xs" />
+            <AiOutlineClose className="text-sm" />
           </button>
           <div className="flex justify-between">
-            <LargeFont mb="10px">Date</LargeFont>
+            <LargeFont extraCss="mb-2.5">Date</LargeFont>
           </div>
           <input
             className={`${inputStyle} min-h-[35px] w-full border ${

@@ -268,11 +268,11 @@ export const BasicInformation = ({ state, dispatch }) => {
         <div
           className={`${inputStyle} flex items-center border border-light-border-primary dark:border-dark-border-primary pl-0`}
         >
-          <div className="flex items-center justify-center h-full pl-2.5">
+          <div className="flex items-center justify-center h-full">
             <FiSearch className="text-light-font-100 dark:text-dark-font-100" />
           </div>
           <input
-            className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full w-full pl-[35px] "
+            className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full w-full "
             placeholder="Search"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
