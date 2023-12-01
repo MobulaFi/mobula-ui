@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaLink } from "react-icons/fa6";
 import { FiExternalLink, FiSearch } from "react-icons/fi";
 // import { User } from "react-feather";
+import { NextImageFallback } from "components/image";
 import { BsCheckLg, BsChevronDown, BsCodeSlash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa6";
 import { createPublicClient, formatEther, getContract, http } from "viem";
@@ -24,7 +25,6 @@ import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
-import { NextImageFallback } from "components/image";
 import styles from "../box-prevote/Prevote.module.scss";
 import { CommunityPopup } from "../popup-community";
 
