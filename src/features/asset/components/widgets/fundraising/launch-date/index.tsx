@@ -105,7 +105,7 @@ export const LaunchDate = () => {
       </div>
       <MediumFont>Volatility</MediumFont>
       <div
-        className="flex h-3 mt-5 relative border-r-[3px] border-l-[3px]
+        className="flex h-3 mt-3 relative border-r-[3px] border-l-[3px]
        border-light-font-10 dark:border-dark-font-10 items-center w-full "
       >
         <div
