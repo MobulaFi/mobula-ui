@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
+import { NextImageFallback } from "../../../../../components/image";
 import { Menu } from "../../../../../components/menu";
 import { ILaunchpad } from "../../../../../interfaces/launchpads";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
@@ -23,20 +24,20 @@ export const Sales = ({ dispatch, state }) => {
     const supabase = createSupabaseDOClient();
     supabase
       .from("launchpads")
-      .select("*")
+      .select("logo,name")
       .then(({ data, error }) => {
         if (error) console.error(error);
         else
           setLaunchpads([
             ...data,
-            { name: "Other", logo: "/icon/unknown.png" },
+            { name: "Other", logo: "/empty/unknown.png" },
           ]);
       });
   }, []);
 
   return (
     <>
-      <LargeFont extraCss="mt-[30px] pt-5">Presale(s)</LargeFont>
+      <LargeFont extraCss="mt-2.5 pt-5">Presale(s)</LargeFont>
       {state.tokenomics.sales.map((d, i) => (
         <>
           <div
@@ -62,7 +63,7 @@ export const Sales = ({ dispatch, state }) => {
               const { placeholder, title, type } = getInfoFromIndex(j);
               return (
                 <>
-                  <MediumFont extraCss="mb-2.5">{title}</MediumFont>
+                  <MediumFont extraCss="mb-1.5">{title}</MediumFont>
                   {j !== Object.keys(d).length - 1 ? (
                     <input
                       className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mb-5 min-h-[35px]`}
@@ -95,6 +96,7 @@ export const Sales = ({ dispatch, state }) => {
                   ) : (
                     <Menu
                       titleCss={`${addButtonStyle} w-fit px-3 mb-2.5 mt-0`}
+                      extraCss="top-[55px] left-0 w-fit h-fit"
                       title={
                         <div className="flex items-center h-full">
                           {d.platform ? (
@@ -112,7 +114,11 @@ export const Sales = ({ dispatch, state }) => {
                       {launchpads.map((launchpad) => (
                         <button
                           key={launchpad.logo}
-                          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                          className={`font-normal flex text-sm md:text-xs items-center bg-light-bg-terciary dark:bg-dark-bg-terciary py-1 ${
+                            activePlateform === launchpad
+                              ? "text-light-font-100 dark:text-dark-font-100"
+                              : "text-light-font-60 dark:text-dark-font-60"
+                          } hover:text-light-font-100 hover:dark:text-dark-font-100`}
                           onClick={() => {
                             setActivePlateform(launchpad);
                             dispatch({
@@ -126,10 +132,16 @@ export const Sales = ({ dispatch, state }) => {
                             });
                           }}
                         >
-                          <img
-                            className="mr-[7.5px] w-5 h-5 md:w-[18px] md:h-[18px] rounded-full"
-                            src={launchpad.logo || "/icon/unknown.png"}
+                          <NextImageFallback
+                            width={18}
+                            height={18}
+                            style={{
+                              marginRight: "7.5px",
+                              borderRadius: "50%",
+                            }}
+                            src={launchpad.logo}
                             alt={`${launchpad.name} logo`}
+                            fallbackSrc={"/empty/unknown.png"}
                           />
                           {launchpad.name}
                         </button>
@@ -143,7 +155,7 @@ export const Sales = ({ dispatch, state }) => {
         </>
       ))}
       <button
-        className={`${addButtonStyle} mt-2.5 w-fit px-3 `}
+        className={`${addButtonStyle} w-fit px-3 `}
         onClick={() =>
           dispatch({
             type: ACTIONS.ADD_ELEMENT_TOKENOMICS,

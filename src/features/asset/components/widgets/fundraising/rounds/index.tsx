@@ -318,6 +318,7 @@ export const Rounds = () => {
                         </div>
                       </div>
                       <Popover
+                        extraCss="top-[15px] bg-light-bg-terciary dark:bg-dark-bg-terciary shadow-md"
                         isOpen={showPopover === sale.id}
                         onToggle={() => {
                           if (showPopover === sale.id) setShowPopover("");

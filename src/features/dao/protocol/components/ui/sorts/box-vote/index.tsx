@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { MediumFont } from "../../../../../../../components/fonts";
 import { Asset } from "../../../../../../../interfaces/assets";
@@ -88,7 +88,7 @@ export const VoteBox = ({ typeVote, token }: VoteBoxProps) => {
                   return (
                     <button
                       key={grade}
-                      className={`flex items-center w-[70px] justify-center transition-all duration-250 rounded-xl h-[34px] 
+                      className={`flex items-center w-[70px] justify-center transition-all duration-250 rounded-xl h-[34px] relative z-[2]
                       ${
                         score === grade
                           ? "bg-light-bg-hover dark:bg-dark-bg-hover"

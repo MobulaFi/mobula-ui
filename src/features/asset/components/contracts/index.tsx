@@ -83,7 +83,8 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
             alt={`${blockchain} logo`}
             src={
               blockchainsContent[blockchain]?.logo ||
-              `/logo/${blockchain.toLowerCase().split(" ")[0]}.png`
+              `/logo/${blockchain.toLowerCase().split(" ")[0]}.png` ||
+              "/empty/unknown.png"
             }
             fallbackSrc="/empty/unknown.png"
           />

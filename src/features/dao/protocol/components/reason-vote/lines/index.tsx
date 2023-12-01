@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
+import { BsCheckLg } from "react-icons/bs";
 
 interface LinesProps {
   idx: number;
@@ -23,12 +24,15 @@ export const Lines = ({ idx, setReason, texts, reason }: LinesProps) => {
       </div>
       <button onClick={() => setReason(idx + 1)}>
         <div
-          className={`mt-0 w-4 h-4 rounded-full ${
-            reason === idx + 1
-              ? "bg-blue dark:bg-blue"
-              : "bg-light-border-primary dark:bg-dark-border-primary"
-          }`}
-        />
+          className={`flex bg-light-bg-hover dark:bg-dark-bg-hover justify-center items-center mt-0 w-4 h-4 
+          rounded border border-light-border-primary dark:border-dark-border-primary `}
+        >
+          <BsCheckLg
+            className={`${
+              reason === idx + 1 ? "" : "opacity-0"
+            } text-light-font-100 dark:text-dark-font-100 transition-all duration-250 ease-in-out`}
+          />
+        </div>
       </button>
     </div>
   );

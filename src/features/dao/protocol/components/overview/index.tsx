@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsKey } from "react-icons/bs";
 import { RiWallet3Line } from "react-icons/ri";
@@ -75,7 +75,7 @@ export const Overview = () => {
       </div>
       <RightContainer>
         {/* RANK BOXS */}
-        <div className="flex items-center flex-row md:flex-col mt-3">
+        <div className="flex items-center flex-row md:flex-col mt-3 md:mt-0.5">
           <RankBox
             goodChoice={goodDecisions}
             badChoice={badDecisions}
@@ -119,7 +119,7 @@ export const Overview = () => {
           </div>
         </BoxContainer>
         {/* METRICS */}
-        <BoxContainer extraCss="mb-5 flex-col h-fit">
+        <BoxContainer extraCss="mb-5 md:mt-2.5 flex-col h-fit">
           <TitleContainer extraCss="px-[15px]">
             <MediumFont>History</MediumFont>
           </TitleContainer>
@@ -185,9 +185,9 @@ export const Overview = () => {
                       </SmallFont>
                       <div className="flex items-center ml-5">
                         {history.validated ? (
-                          <BsCheckLg className="text-[13px] text-green dark:text-green mr-2.5" />
+                          <BsCheckLg className="text-sm text-green dark:text-green mr-2" />
                         ) : (
-                          <AiOutlineClose className="text-[13px] text-red dark:text-red mr-2.5" />
+                          <AiOutlineClose className="text-sm text-red dark:text-red mr-2" />
                         )}
                         <SmallFont extraCss="whitespace-nowrap">
                           {history?.votes.length} VOTES
@@ -217,7 +217,7 @@ export const Overview = () => {
               </>
             )}
             <button
-              className="m-[15px] flex items-center justify-center text-light-font-100 
+              className="mx-[15px] my-2.5 flex items-center justify-center text-light-font-100 
             dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-250"
               onClick={() => {
                 setShowMore(true);

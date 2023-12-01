@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Button } from "../../../../../components/button";
 import {
   ExtraLargeFont,
   LargeFont,
-  MediumFont,
+  SmallFont,
 } from "../../../../../components/fonts";
 import { ListingContext } from "../../context-manager";
 import { ACTIONS } from "../../reducer";
@@ -17,7 +17,7 @@ export const FeesInformation = ({ dispatch, state }) => {
 
   return (
     <div className="flex flex-col mb-5 w-[400px] md:w-full">
-      <div className="flex items-center">
+      <div className="flex items-center mb-2.5">
         <button
           className="hidden md:flex"
           onClick={() => setActualPage(actualPage - 1)}
@@ -26,12 +26,12 @@ export const FeesInformation = ({ dispatch, state }) => {
         </button>
         <ExtraLargeFont>Fees Details</ExtraLargeFont>
       </div>
-      <MediumFont>
+      <SmallFont>
         If the asset has fees on transfers (i.e. Safemoon), you can add them
         here. If not, simply click Next. If multiple fees (liquidity, marketing,
         etc) make sure to break them down individually.
-      </MediumFont>
-      <LargeFont mt="10px">Buy fees</LargeFont>
+      </SmallFont>
+      <LargeFont extraCss="mt-2.5">Buy fees</LargeFont>
       <FeeBreakdown dispatch={dispatch} state={state} side="buy" />
       <Button
         extraCss={`${addButtonStyle} mb-5 w-fit px-3`}

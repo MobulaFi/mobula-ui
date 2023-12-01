@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaLink } from "react-icons/fa6";
 import { FiExternalLink, FiSearch } from "react-icons/fi";
 // import { User } from "react-feather";
+import { NextImageFallback } from "components/image";
 import { BsCheckLg, BsChevronDown, BsCodeSlash } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa6";
 import { createPublicClient, formatEther, getContract, http } from "viem";
@@ -182,10 +183,16 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       >
         <div className="flex items-center">
           {token ? (
-            <img
-              className="w-[22px] h-[22px] rounded-full mr-2.5"
+            <NextImageFallback
+              width={22}
+              height={22}
               src={token?.image?.logo || token?.logo}
               alt={`${token?.name} logo`}
+              fallbackSrc="/empty/unknown.png"
+              style={{
+                marginRight: "10px",
+                borderRadius: "50%",
+              }}
             />
           ) : (
             <Skeleton extraCss="w-[22px] h-[22px] rounded-full mr-2.5" />
@@ -204,10 +211,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           )}
           {token?.coeff ? (
             <div className="flex items-center ml-2.5 pl-2.5 border-l-2 border-light-border-primary dark:border-dark-border-primary">
-              <img
+              <NextImageFallback
+                width={16}
+                height={16}
                 src="/mobula/coinMobula.png"
-                className="w-4 h-4"
                 alt="mobula logo"
+                fallbackSrc="/mobula/coinMobula.png"
               />
               <MediumFont extraCss="ml-[5px]">
                 {token?.coeff ? Number(token.coeff) / 1000 : 0}
@@ -248,36 +257,18 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       validationQuery === getUrlFromName(token?.name) ||
       poolQuery === getUrlFromName(token?.name) ? (
         <div className="flex items-center flex-wrap w-full">
-          {token?.links?.website ? (
-            <div
-              className={`mr-2.5 max-w-[200px] justify-center ${buttonPopover}`}
-            >
-              <NextChakraLink
-                href={token?.links.website}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="flex items-center">
-                  <FaLink className="mr-[7.5px] mb-[1px]" />
-                  <SmallFont extraCss="truncate overflow-x-hidden max-w-[130px] mb-[1px]">
-                    {token?.links.website}
-                  </SmallFont>{" "}
-                </div>
-              </NextChakraLink>
-              <FiExternalLink className="ml-[7.5px] text-[13px] mb-[1px] text-light-font-40 dark:text-dark-font-40" />
-            </div>
-          ) : null}
           {token?.links?.twitter ||
           token?.links?.telegram ||
           token?.links?.discord ? (
             <Popover
+              extraCss="top-[35px] left-0"
               visibleContent={
                 <button
-                  className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+                  className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
                 >
-                  <FaRegUser className="text-[13px] mr-[5px]" />
+                  <FaRegUser className="text-xs mr-[5px] mb-[1px]" />
                   Community
-                  <BsChevronDown className="text-[15px] ml-[5px]" />
+                  <BsChevronDown className="text-[13px] ml-[5px]" />
                 </button>
               }
               hiddenContent={<CommunityPopup token={token as any} />}
@@ -292,13 +283,14 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           ) : null}
           {token?.contracts ? (
             <Popover
+              extraCss="top-[35px] left-1/2 -translate-x-1/2"
               visibleContent={
                 <button
-                  className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+                  className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
                 >
-                  <FiSearch className="text-[13px] mr-[5px]" />
+                  <FiSearch className="text-[13px] mr-[5px] mb-0.5" />
                   Contracts
-                  <BsChevronDown className="text-[15px] ml-[5px]" />
+                  <BsChevronDown className="text-[13px] ml-[5px]" />
                 </button>
               }
               hiddenContent={token.contracts?.map(
@@ -326,8 +318,27 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               isOpen={showPopover.contract}
             />
           ) : null}
+          {token?.links?.website ? (
+            <div
+              className={`mr-2.5 max-w-[200px] justify-center ${buttonPopover} px-2`}
+            >
+              <NextChakraLink
+                href={token?.links.website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="flex items-center">
+                  <FaLink className="mr-[7.5px]" />
+                  <SmallFont extraCss="truncate overflow-x-hidden max-w-[130px] mb-[1px]">
+                    {token?.links.website}
+                  </SmallFont>{" "}
+                </div>
+              </NextChakraLink>
+              <FiExternalLink className="ml-[7.5px] text-[13px] mb-[1px] text-light-font-40 dark:text-dark-font-40" />
+            </div>
+          ) : null}
           <button
-            className={`${buttonPopover} mr-2.5 relative`}
+            className={`${buttonPopover} mr-2.5 relative px-2`}
             onClick={() => setShowRawData((prev) => !prev)}
           >
             <BsCodeSlash className="text-[15px] mr-[5px]" />
@@ -364,12 +375,13 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           </ModalContainer>
           {token?.links?.audits.length > 0 ? (
             <Popover
+              extraCss="top-[35px] right-0"
               visibleContent={
                 <button
-                  className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+                  className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
                 >
                   Audit
-                  <BsChevronDown className="text-[15px] ml-[5px]" />
+                  <BsChevronDown className="text-[13px] ml-[5px]" />
                 </button>
               }
               hiddenContent={token.links?.audits
@@ -412,7 +424,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 >
                   <FiSearch className="text-[13px] ml-[5px]" />
                   Kyc
-                  <BsChevronDown className="text-[15px] ml-[5px]" />
+                  <BsChevronDown className="text-[13px] ml-[5px]" />
                 </button>
               }
               hiddenContent={token.links?.kycs

@@ -1,12 +1,13 @@
 import dynamic from "next/dynamic";
 import { useContext, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import {
   ExtraLargeFont,
   ExtraSmallFont,
   LargeFont,
   MediumFont,
+  SmallFont,
 } from "../../../../../components/fonts";
 import { ListingContext } from "../../context-manager";
 import { ACTIONS } from "../../reducer";
@@ -67,19 +68,19 @@ export const VestingInformation = ({ dispatch, state }) => {
 
   return (
     <div className="flex flex-col mb-5 w-[400px] md:w-full">
-      <div className="flex items-center">
+      <div className="flex items-center mb-2.5">
         <button
-          className="hidden items-center md:flex text-light-font-100 dark:text-dark-font-100 text-sm"
+          className="hidden items-center md:flex text-light-font-100 dark:text-dark-font-100 text-sm "
           onClick={() => setActualPage(actualPage - 1)}
         >
-          <FaArrowLeft className="mr-[5px]" />
+          <FaArrowLeftLong className="mr-[5px] text-light-font-100 dark:text-dark-font-100" />
         </button>
         <ExtraLargeFont>Vesting Details</ExtraLargeFont>
       </div>
-      <MediumFont>
+      <SmallFont>
         If the asset has a vesting schedule, you can add the unlock events here.
         If not, simply click Next.
-      </MediumFont>
+      </SmallFont>
       {state.tokenomics.vestingSchedule.map((d, i) => (
         <div
           key={d}
@@ -89,10 +90,10 @@ export const VestingInformation = ({ dispatch, state }) => {
             className="-mb-5 ml-auto text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs"
             onClick={() => deleteItem(i)}
           >
-            <AiOutlineClose className="text-xs" />
+            <AiOutlineClose className="text-sm" />
           </button>
           <div className="flex justify-between">
-            <LargeFont mb="10px">Date</LargeFont>
+            <LargeFont extraCss="mb-2.5">Date</LargeFont>
           </div>
           <input
             className={`${inputStyle} min-h-[35px] w-full border ${

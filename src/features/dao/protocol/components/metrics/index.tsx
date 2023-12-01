@@ -66,7 +66,11 @@ export const Metrics = ({
           </TitleContainer>
           {filteredArr?.map((user: any, idx: number) => (
             <MetricsLine
-              logo={user.profile_pic || user.users.profile_pic}
+              logo={
+                user.profile_pic ||
+                user.users.profile_pic ||
+                "/empty/unknown.png"
+              }
               address={user.address}
               rank={idx}
               isProtocolStat
@@ -79,10 +83,10 @@ export const Metrics = ({
               key={user.username || user.users?.username || user.address}
             >
               <div className="flex items-center">
-                <Tags extraCss="mr-[5px] md:mr-0 text-green dark:text-green">
+                <Tags extraCss="mr-2 text-green dark:text-green">
                   {user?.good_decisions}
                 </Tags>
-                <Tags extraCss="mr-[5px] md:mr-0 text-red dark:text-red">
+                <Tags extraCss="text-red dark:text-red">
                   {user?.bad_decisions}
                 </Tags>
               </div>

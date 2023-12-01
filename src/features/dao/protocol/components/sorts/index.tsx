@@ -34,6 +34,7 @@ export const Sort = () => {
   const pathname = usePathname();
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";
+
   const {
     reasonUtility,
     setReasonUtility,
@@ -125,6 +126,8 @@ export const Sort = () => {
     );
   };
 
+  const render = renderTokens();
+
   return (
     <Container extraCss="flex-row lg:flex-col">
       <div className="w-fit block lg:hidden">
@@ -136,7 +139,7 @@ export const Sort = () => {
         <LeftNavigationMobile page="protocol" />
       </div>
       <RightContainer>
-        <div className="mt-3 lg:mt-0">{renderTokens()}</div>
+        <div className="mt-3 lg:mt-0">{render}</div>
       </RightContainer>
       {showUtility && (
         <ReasonVote
