@@ -462,7 +462,6 @@ export const Submit = ({ state }) => {
               </Flex>
             </NextChakraLink>
           </Flex> */}
-
           {/* SLIDER TO REPLACE */}
           {/* <div className="mt-[50px] md:mt-[40px] relative">
             <Slider
@@ -532,18 +531,28 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
-
-          <input
-            type="range"
-            min="30"
-            max="1000"
-            defaultValue="30"
-            value={fastTrack}
-            onChange={(e) => setFastTrack(e.target.value)}
-            className="mt-2.5 w-full h-2.5 bg-light-font-10 dark:bg-dark-font-10 border border-light-border-primary
-             dark:border-dark-border-primary rounded-full range-thumb"
-          />
-
+          <div className="relative w-full pb-5">
+            <input
+              type="range"
+              min="30"
+              max="1000"
+              defaultValue="30"
+              value={fastTrack}
+              onChange={(e) => setFastTrack(Number(e.target.value))}
+              className="mt-2.5 w-full h-2.5 bg-light-font-10 dark:bg-dark-font-10 border border-light-border-primary
+             dark:border-dark-border-primary rounded-full range-thumb relative"
+            />
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute right-0">
+              🔥 Blazing Fast
+            </p>
+            <div className="absolute left-[27.85%] top-[10px] h-2.5 w-0.5 bg-light-font-60 dark:bg-dark-font-60" />
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute left-[24.5%]">
+              Fast
+            </p>
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute left-0">
+              Standard
+            </p>
+          </div>
           <SmallFont extraCss="mt-2.5">
             You must pay{" "}
             <span className="font-medium">
@@ -709,7 +718,7 @@ export const Submit = ({ state }) => {
                 </>
               ) : (
                 <Button
-                  extraCss={`${buttonsOption} border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
+                  extraCss={`${buttonsOption} flex justify-center items-center border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
                   onClick={() => {
                     switch (getFallBack()) {
                       case "Connect your wallet":

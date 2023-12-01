@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsShieldFillCheck } from "react-icons/bs";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdVisibility } from "react-icons/md";
 import {
   ExtraLargeFont,
@@ -112,10 +112,10 @@ export const SocialInformation = ({ dispatch, state }) => {
     <div className="flex flex-col mb-5">
       <div className="flex items-center">
         <button
-          className="text-light-font-100 dark:text-dark-font-100 hidden md:flex"
+          className="text-light-font-100 dark:text-dark-font-100 hidden md:flex items-center"
           onClick={() => setActualPage(actualPage - 1)}
         >
-          <FaArrowLeft className="mr-[5px]" />
+          <FaArrowLeftLong className="mr-[5px] text-light-font-100 dark:text-dark-font-100" />
         </button>
         <ExtraLargeFont>Social Information</ExtraLargeFont>
       </div>

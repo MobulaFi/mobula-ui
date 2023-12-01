@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Button } from "../../../../../components/button";
 import {
@@ -17,14 +17,14 @@ export const FeesInformation = ({ dispatch, state }) => {
 
   return (
     <div className="flex flex-col mb-5 w-[400px] md:w-full">
-      <div className="flex items-center">
+      <div className="flex items-center mb-2.5">
         <button
           className="hidden md:flex"
           onClick={() => setActualPage(actualPage - 1)}
         >
           <FaArrowLeft className="mr-[5px] text-light-font-100 dark:text-dark-font-100" />
         </button>
-        <ExtraLargeFont extraCss="mb-2.5">Fees Details</ExtraLargeFont>
+        <ExtraLargeFont>Fees Details</ExtraLargeFont>
       </div>
       <SmallFont>
         If the asset has fees on transfers (i.e. Safemoon), you can add them
