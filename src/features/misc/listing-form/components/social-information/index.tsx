@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -106,7 +106,7 @@ export const SocialInformation = ({ dispatch, state }) => {
   };
 
   const deleteButtonStyle =
-    "w-[40px] h-[35px] ml-2.5 rounded text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
+    "flex items-center justify-center w-[40px] h-[35px] ml-2.5 rounded text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   return (
     <div className="flex flex-col mb-5">
@@ -175,7 +175,9 @@ export const SocialInformation = ({ dispatch, state }) => {
                 onChange={(e) => handleArrayChange(e, i)}
               />
               <button
-                className={`${deleteButtonStyle} ${i > 0 ? "flex" : "hidden"}`}
+                className={`flex items-center justify-center ${deleteButtonStyle} ${
+                  i > 0 ? "flex" : "hidden"
+                }`}
                 onClick={() => removeInput(input.id, i, "kycs")}
               >
                 <AiOutlineClose className="text-xs" />
@@ -194,7 +196,7 @@ export const SocialInformation = ({ dispatch, state }) => {
               key={member.name + i}
             >
               <button
-                className="text-light-font-100 dark:text-dark-font-100 w-fit ml-auto"
+                className="flex items-center justify-center text-light-font-100 dark:text-dark-font-100 w-fit ml-auto"
                 onClick={() =>
                   dispatch({
                     type: ACTIONS.REMOVE_ELEMENT,
@@ -237,7 +239,7 @@ export const SocialInformation = ({ dispatch, state }) => {
             </div>
           ))}
           <button
-            className={`${addButtonStyle} w-[170px]`}
+            className={`${addButtonStyle} w-[170px] `}
             onClick={() => {
               addInput("team");
               dispatch({
