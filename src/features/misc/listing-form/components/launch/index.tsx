@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import {
   ExtraSmallFont,
@@ -137,7 +137,10 @@ export const Launch = ({ dispatch, state }) => {
           <MediumFont extraCss="mt-5">{selector.title}</MediumFont>
           <Menu
             disabled={!state.contracts[0].address}
-            titleCss={`${addButtonStyle} hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary px-3 w-fit text-base lg:text-sm md:text-xs border border-light-border-primary dark:border-dark-border-primary`}
+            extraCss="top-[50px] left-0 w-fit h-fit"
+            titleCss={`${addButtonStyle} hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary 
+            dark:bg-dark-bg-terciary px-3 w-fit text-sm md:text-xs border border-light-border-primary 
+            dark:border-dark-border-primary`}
             title={
               <>
                 {state.tokenomics.launch[selector.name]
@@ -150,7 +153,8 @@ export const Launch = ({ dispatch, state }) => {
             {selector?.select?.map((item) => (
               <button
                 key={item.name}
-                className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-60
+                 dark:text-dark-font-60 py-1 hover:text-light-font-100 hover:dark:text-dark-font-100 my-1"
                 onClick={() => {
                   dispatch({
                     type: ACTIONS.SET_LAUNCH,

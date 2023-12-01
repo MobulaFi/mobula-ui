@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { isAddress } from "viem";
 import { Button } from "../../../../../components/button";
@@ -9,7 +9,7 @@ import { addButtonStyle, inputStyle } from "../../styles";
 export const Distribution = ({ dispatch, state }) => {
   const amountRef = useRef<HTMLInputElement>(null);
   const deleteButtonStyle =
-    "w-[40px] ml-2.5 rounded text-base lg:text-sm md:text-xs mt-2.5";
+    "flex justify-center items-center whitespace-nowrap w-fit min-w-[40px] px-2 h-[35px]  rounded text-sm lg:text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   const pushAddress = async (address: string, i: number, j: number) => {
     const newAddressObject = {
@@ -88,7 +88,7 @@ export const Distribution = ({ dispatch, state }) => {
                   className={`flex items-center ${inputStyle} border border-light-border-primary dark:border-dark-border-primary h-[35px] min-h-[35px] max-h-[35px]`}
                 >
                   <input
-                    className="bg-light-bg-terciary dark:bg-dark-bg-terciary w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100"
+                    className="bg-light-bg-terciary dark:bg-dark-bg-terciary w-full pl-0 pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100"
                     placeholder="0x77A8...459135"
                     onChange={(e) => {
                       if (
@@ -100,7 +100,7 @@ export const Distribution = ({ dispatch, state }) => {
                   />
                 </div>
                 <Button
-                  className={`${deleteButtonStyle} mt-0`}
+                  className={`${deleteButtonStyle} mt-0 ml-2.5`}
                   onClick={() => {
                     dispatch({
                       type: ACTIONS.REMOVE_DISTRIBUTION_ADDRESS,
@@ -117,7 +117,7 @@ export const Distribution = ({ dispatch, state }) => {
             ))}
           </div>
           <Button
-            extraCss={`${addButtonStyle} w-[220px]`}
+            extraCss={`${addButtonStyle} w-fit`}
             onClick={() =>
               dispatch({
                 type: ACTIONS.ADD_DISTRIBUTION_INPUT_ADDRESS,
