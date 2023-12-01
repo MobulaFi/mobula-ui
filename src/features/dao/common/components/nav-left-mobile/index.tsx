@@ -46,29 +46,6 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
         <p className="text-light-font-100 dark:text-dark-font-100 text-xl font-bold">
           Mobula DAOs
         </p>
-        <div className="flex items-center mt-5">
-          {/* <button
-            className={`text-[13px] font-medium ${
-              pathname.includes("governance")
-                ? "text-light-font-100 dark:text-dark-font-100"
-                : "text-light-font-40 dark:text-dark-font-40"
-            }`}
-            onClick={() => router.push("/dao/governance/overview")}
-          >
-            Governance
-          </button> */}
-          {/* <div className="h-4 w-0.5 bg-light-border-primary dark:bg-dark-border-primary mx-2.5" /> */}
-          <button
-            className={`text-[13px] font-medium ${
-              pathname.includes("protocol")
-                ? "text-light-font-100 dark:text-dark-font-100"
-                : "text-light-font-40 dark:text-dark-font-40"
-            }`}
-            onClick={() => router.push("/dao/protocol/overview")}
-          >
-            Protocol
-          </button>
-        </div>
       </div>
       <div className="flex items-center ml-2.5">
         <NextImageFallback
@@ -106,7 +83,7 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
           return (
             <div key={info.id}>
               <button
-                className={`py-2.5 pb-5 px-[15px] ${
+                className={`w-fit py-2.5 pb-5 px-[15px] ${
                   isActive
                     ? "border-b border-blue dark:border-blue"
                     : "border-0"
@@ -122,7 +99,7 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
                 <MediumFont
                   extraCss={`${
                     isActive ? "" : "text-light-font-40 dark:text-dark-font-40"
-                  }`}
+                  }  whitespace-nowrap`}
                 >
                   {info?.name}
                 </MediumFont>

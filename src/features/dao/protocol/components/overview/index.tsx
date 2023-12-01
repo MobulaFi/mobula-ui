@@ -75,7 +75,7 @@ export const Overview = () => {
       </div>
       <RightContainer>
         {/* RANK BOXS */}
-        <div className="flex items-center flex-row md:flex-col mt-3">
+        <div className="flex items-center flex-row md:flex-col mt-3 md:mt-0.5">
           <RankBox
             goodChoice={goodDecisions}
             badChoice={badDecisions}
