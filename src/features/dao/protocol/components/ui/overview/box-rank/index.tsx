@@ -1,6 +1,5 @@
 import { useContext } from "react";
 // import {useAlert} from "react-alert";
-import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork, useSwitchNetwork } from "wagmi";
@@ -70,9 +69,9 @@ export const RankBox = ({
   };
 
   return (
-    <BoxContainer extraCss="mb-5 w-full">
+    <BoxContainer extraCss="mb-5 md:mb-2.5 w-full">
       <TitleContainer extraCss="px-[15px] md:px-[5px]">
-        <MediumFont extraCss="ml-2.5">Overview</MediumFont>
+        <MediumFont>Overview</MediumFont>
       </TitleContainer>
       <div
         className="p-5 flex items-center sm:items-start justify-between flex-row sm:flex-col mb-5 
