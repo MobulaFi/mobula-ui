@@ -34,8 +34,7 @@ export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
       title={
         type !== "Reject" ? (
           <span>
-            Why this {type} Score ? (${<span className={color}>{score}/5</span>}
-            )
+            Why this {type} Score ? ({<span className={color}>{score}/5</span>})
           </span>
         ) : (
           "Why are you rejecting?"
