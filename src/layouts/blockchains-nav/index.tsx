@@ -12,6 +12,7 @@ interface BlochainNavProps {
   blockchain: string;
   setBlockchain: Dispatch<SetStateAction<string>>;
   setFilters?: Dispatch<SetStateAction<Query[]>>;
+  setIsFirstRequest?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const BlockchainsNav = ({
@@ -20,6 +21,7 @@ export const BlockchainsNav = ({
   page,
   isMovers,
   setFilters,
+  setIsFirstRequest,
 }: BlochainNavProps) => {
   const { setIsLoading } = useTop100();
   return (
@@ -41,6 +43,7 @@ export const BlockchainsNav = ({
             } hover:bg-inherit hover:dark:bg-inherit hover:text-light-font-100 hover:dark:text-dark-font-100 
             transition-all duration-250 font-medium`}
             onClick={() => {
+              if (setIsFirstRequest) setIsFirstRequest(false);
               if (setIsLoading) setIsLoading(true);
               setBlockchain(entry.title);
               if (page === "recently" && setFilters)
