@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { BlockchainsNav } from "../../../layouts/blockchains-nav";
@@ -100,9 +100,9 @@ export const Movers = ({
           <Title
             title="Biggest Crypto Gainers and Losers"
             subtitle="Discover the biggest crypto movers of the day, their real time price, chart, liquidity, and more."
-            extraCss="mb-5"
+            extraCss="mb-5 md:mx-0"
           />
-          <div className="item-center justify-between hidden md:flex w-[95%]">
+          <div className="item-center justify-between hidden md:flex w-full">
             {/* <Box style={{width: "100%"}}>
               <ButtonSelectorMobile
                 color={isGainer ? text80 : text40}
@@ -125,7 +125,7 @@ export const Movers = ({
               />
             </Box> */}
           </div>
-          <div className="flex w-full md:pt-5">
+          <div className="flex w-full md:pt-0">
             <BlockchainsNav
               isMovers
               blockchain={blockchain}
@@ -134,9 +134,9 @@ export const Movers = ({
             />
           </div>
         </div>
-        <div className="flex mt-2.5">
+        <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
           <div
-            className={`flex mr-5 lg:mr-0 w-2/4 lg:w-full ${
+            className={`flex mr-3 lg:mr-0 w-2/4 lg:w-full ${
               isGainer ? "" : "lg:hidden"
             }`}
             id="left"
@@ -145,7 +145,7 @@ export const Movers = ({
             <MoversTable assets={isGainer ? gainers : losers} />
           </div>
           <div
-            className={`flex ml-5 lg:ml-0 w-2/4 lg:w-full ${
+            className={`flex ml-3 lg:ml-0 w-2/4 lg:w-full ${
               !isGainer ? "" : "lg:hidden"
             }`}
             ref={losersRef}
