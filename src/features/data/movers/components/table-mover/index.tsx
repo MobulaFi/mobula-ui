@@ -16,9 +16,9 @@ interface MoversTableProps {
 export const MoversTable = ({ assets }: MoversTableProps) => {
   const router = useRouter();
   const thStyle =
-    "border-b border-light-border-primary dark:border-dark-border-primary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 px-[5px] py-2.5";
+    "border-b border-light-border-secondary dark:border-dark-border-secondary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 px-[5px] py-2.5";
   const tdStyle =
-    "border-b border-light-border-primary dark:border-dark-border-primary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 p-[5px]";
+    "border-b border-light-border-secondary dark:border-dark-border-secondary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 p-[5px] py-2.5";
 
   return (
     <table className="lg:mt-2.5 w-full">
@@ -61,7 +61,9 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
                   />
                   <div className="flex flex-col flex-wrap">
                     <div className="flex">
-                      <p className="text-sm mr-2">{asset.rank}</p>
+                      <div className="mb-0.5 flex items-center justify-center rounded bg-light-bg-hover dark:bg-dark-bg-hover mr-2 py-0.5 px-1">
+                        <p className="text-xs m-0">{asset.rank}</p>
+                      </div>
                       <p className="text-sm ">{asset.symbol}</p>
                     </div>
                     <p className="text-xs min-w-[120px] whitespace-nowrap mr-2.5 truncate text-light-font-60 dark:text-dark-font-60">
