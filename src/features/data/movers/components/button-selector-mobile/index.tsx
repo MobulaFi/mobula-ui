@@ -1,25 +1,30 @@
-import {Button, Icon} from "@chakra-ui/react";
-import React from "react";
-import {TrendingDown, TrendingUp} from "react-feather";
+import { IoMdTrendingDown, IoMdTrendingUp } from "react-icons/io";
+
+interface ButtonSelectorMobileProps {
+  isGainer?: boolean;
+  activeTab?: boolean;
+  [key: string]: any;
+}
 
 export const ButtonSelectorMobile = ({
   isGainer,
+  activeTab,
   ...props
-}: {
-  isGainer?: boolean;
-  [key: string]: any;
-}) => (
-  <Button
-    borderRadius="8px"
-    minWidth="90px"
-    h="30px"
-    px="12px"
-    mr="10px"
-    fontWeight="400"
-    fontSize={["12px", "12px", "13px", "14px"]}
+}: ButtonSelectorMobileProps) => (
+  <button
+    className={`flex items-center justify-center border ${
+      activeTab
+        ? "text-light-font-100 dark:text-dark-font-100 border-blue dark:border-dark-blue"
+        : "text-light-font-40 dark:text-dark-font-40 border-light-border-primary dark:border-dark-border-primary"
+    } rounded min-w-[90px] h-[30px] px-3 mr-2.5 text-sm md:text-xs hover:text-light-font-100 dark:hover:text-dark-font-100
+     transition-all duration-250 ease-in-out`}
     {...props}
   >
     {isGainer ? "Gainers" : "Losers"}
-    <Icon as={isGainer ? TrendingUp : TrendingDown} w="15px" ml="10px" />
-  </Button>
+    {isGainer ? (
+      <IoMdTrendingUp className="text-[15px] ml-2.5" />
+    ) : (
+      <IoMdTrendingDown className="text-[15px] ml-2.5" />
+    )}
+  </button>
 );
