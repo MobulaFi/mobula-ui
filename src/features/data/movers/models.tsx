@@ -1,0 +1,63 @@
+import { RawPairs, Socials } from "interfaces/assets";
+import { BlockchainName } from "mobula-lite/lib/model";
+import { Trade } from "../../../../public/static/charting_library/charting_library";
+
+export interface MoversType {
+  blockchains: string[];
+  contracts: string[];
+  id: number;
+  logo: string;
+  market_cap: number;
+  name: string;
+  price: number;
+  price_change_24h: number;
+  rank: number;
+  symbol: string;
+  global_volume: number;
+}
+
+export type Asset = {
+  [x: string]: any;
+  baseAsset: Asset;
+  rank: number;
+  id: number;
+  price: number;
+  price_change_24h: number;
+  volume: number;
+  volume_change_24h: number;
+  circulating_supply: number;
+  total_supply: number;
+  price_history: { price: [number, number][] } | null;
+  market_cap: number;
+  market_cap_history: { market_cap: [number, number][] } | null;
+  market_cap_diluted: number;
+  liquidity: number;
+  liquidity_history: { liquidity: [number, number][] } | null;
+  utility_score: number;
+  market_score: number;
+  trust_score: number;
+  social_score: number;
+  decimals: number;
+  blockchains: BlockchainName[];
+  contracts: string[];
+  trade_history: Trade[];
+  created_at: string;
+  symbol: string;
+  name: string;
+  logo: string;
+  description?: string;
+  website?: string;
+  twitter?: string;
+  chat?: string;
+  discord?: string;
+  audit: string;
+  kyc: string;
+  atl?: [number, number];
+  ath?: [number, number];
+  tracked: boolean;
+  assets_raw_pairs?: RawPairs;
+  assets_social?: Socials;
+  coin: boolean;
+  circulating_supply_addresses: string[];
+  total_supply_contracts: string[];
+};
