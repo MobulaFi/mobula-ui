@@ -1,11 +1,5 @@
-import {
-  default as React,
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+"use client";
+import { createRef, useContext, useEffect, useRef, useState } from "react";
 import { Container } from "../../../components/container";
 import { UserContext } from "../../../contexts/user";
 import { OrderBy } from "../../../interfaces/assets";
@@ -88,8 +82,8 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   }, [activeWatchlist, supabase, user]);
 
   useEffect(() => {
-    if (user?.watchlist) {
-      watchlistRefs?.current = user.watchlist.map(() => createRef());
+    if (user?.watchlist && watchlistRefs) {
+      watchlistRefs.current = user.watchlist.map(() => createRef());
     }
   }, [loaded, user?.watchlist]);
 

@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { cookies, headers } from "next/headers";
-import React from "react";
+import { Watchlist } from "../../features/user/watchlist";
 import { UserExtended } from "../../interfaces/user";
 import { createSupabaseDOClient } from "../../lib/supabase";
-import { needRedirection } from "./setting";
 
 async function fetchWatchlist() {
   const cookieStore = cookies();
@@ -44,7 +43,7 @@ async function fetchWatchlist() {
 
 export default async function WatchlistPage() {
   const data = await fetchWatchlist();
-  needRedirection();
+  //   needRedirection();
   return (
     <>
       {/* <Head>
