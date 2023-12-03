@@ -1,5 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 // import { useAlert } from "react-alert";
+import React from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -83,6 +84,7 @@ export const CreatePopup = ({ watchlist }) => {
 
   return (
     <ModalContainer
+      extraCss="max-w-[400px]"
       title="Create Watchlist"
       isOpen={showCreateWL}
       onClose={() => setShowCreateWL(false)}
@@ -148,17 +150,17 @@ export const CreatePopup = ({ watchlist }) => {
         </div>
       </div>
       <Collapse startingHeight="0px" isOpen={isPublic}>
-        <div className="flex flex-col mt-[7.5px]">
-          <div className="flex items-center">
+        <div className="flex flex-col mt-[7.5px] w-full">
+          <div className="flex items-center w-full">
             <IoShareSocialOutline className="mr-2.5 text-lg text-light-font-40 dark:text-dark-font-40" />
             <SmallFont>Share to Community</SmallFont>
           </div>
           <div
-            className="h-[35px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 mt-2.5 border 
-          border-light-border-primary dark:border-dark-border-primary"
+            className="h-[35px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary px-0 mt-2.5 border 
+          border-light-border-primary dark:border-dark-border-primary w-full"
           >
             <input
-              className="h-full text-light-font-100 dark:text-dark-font-100 pr-2.5 truncate"
+              className="h-full text-light-font-100 dark:text-dark-font-100 pr-2.5 truncate w-full text-sm"
               value={`https://mobula.app/watchlist/${watchlist?.id}`}
             />
             <div className="h-full" onClick={onCopy}>

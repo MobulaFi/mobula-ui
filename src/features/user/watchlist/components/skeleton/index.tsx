@@ -1,105 +1,60 @@
-import {
-  Flex,
-  Image,
-  Table,
-  TableContainer,
-  Thead,
-  Tr,
-  useColorMode,
-} from "@chakra-ui/react";
-import {TextLandingSmall, TextSmall} from "../../../../../UI/Text";
-import {NextChakraLink} from "../../../../../common/components/links";
-import {TableHeaderEntry} from "../../../../../common/ui/tables/components/table-header-entry";
-import {useColors} from "../../../../../common/utils/color-mode";
+import { MediumFont, SmallFont } from "components/fonts";
+import { NextChakraLink } from "components/link";
+import { TableHeaderEntry } from "layouts/tables/components/table-header-entry";
+import { useTheme } from "next-themes";
 
 export const SkeletonTable = () => {
-  const {borders, bgMain, text80, text40} = useColors();
-  const {colorMode} = useColorMode();
-  const isWhiteMode = colorMode === "light";
+  const { theme } = useTheme();
+  const isWhiteMode = theme === "light";
 
   return (
     <>
-      <TableContainer
-        mb="0px"
-        mx="auto"
-        flexDirection="column"
-        alignItems="center"
-        position="relative"
-        overflow="auto"
-        top="0px"
-        className="scroll"
-        w="100%"
-      >
-        <Table
-          w={["auto", "auto", "100%"]}
-          cursor="pointer"
-          margin="0px auto"
-          position="relative"
-        >
-          <Thead
-            textTransform="capitalize"
-            fontFamily="Inter"
-            borderTop={borders}
-            color="text60"
-            position="sticky"
-            top="0px"
-          >
-            <Tr textAlign="left" position="sticky" top="0px">
+      <div className="flex flex-col mx-auto w-full scroll relative overflow-scroll items-center top-0">
+        <table className="w-full md:w-auto relative mx-auto cursor-pointer">
+          <thead className="border-t border-light-border-primary dark:border-dark-border-primary sticky top-0">
+            <tr className="text-start sticky top-0">
               <TableHeaderEntry
                 title="Rank"
-                w="86px"
+                extraCss="w-[86px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
               />
               <TableHeaderEntry
                 title="Name"
-                w="170px"
+                extraCss="w-[170px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
               />
               <TableHeaderEntry
                 title="Price"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
+                extraCss="z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
               <TableHeaderEntry
                 title="24 (%)"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
+                extraCss="z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
               <TableHeaderEntry
                 title="Market Cap"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
+                extraCss="z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
               <TableHeaderEntry
                 title="Volume (24h)"
                 canOrder
-                w="162.41px"
-                zIndex="102"
-                bg={bgMain}
+                extraCss="w-[162.5px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />{" "}
               <TableHeaderEntry
                 title="Chart"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
-                w="89px"
+                extraCss="w-[89px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />{" "}
               <TableHeaderEntry
                 title="Interact"
-                w="89px"
                 canOrder
-                zIndex="102"
-                bg={bgMain}
+                extraCss="w-[89px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
-            </Tr>
-          </Thead>
+            </tr>
+          </thead>
           {/* {isLoading
             ? Array.from({length: 10}).map((_, i) => (
                 <Tbody>
@@ -221,58 +176,39 @@ export const SkeletonTable = () => {
                 </Tbody>
               ))
             : null} */}
-        </Table>
-      </TableContainer>
-
-      <Flex
-        align="center"
-        justify="center"
-        my="00px"
-        direction="column"
-        border={borders}
-        borderTop="none"
-        pb="50px"
-        borderRadius="0px 0px 4px 4px"
+        </table>
+      </div>
+      <div
+        className="flex items-center justify-center flex-col border border-light-border-primary
+       dark:border-dark-border-primary border-t-0 pb-[50px] rounded-b"
       >
-        <Image
-          mt={isWhiteMode ? "40px" : "0px"}
+        <img
+          className={`${
+            isWhiteMode
+              ? "mt-[40px] w-[150px] md:w-[110px]"
+              : "w-[250px] md:w-[180px]"
+          }`}
           src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}
-          w={[
-            isWhiteMode ? "110px" : "180px",
-            isWhiteMode ? "110px" : "180px",
-            isWhiteMode ? "150px" : "250px",
-          ]}
+          alt="empty state image"
         />{" "}
-        <TextLandingSmall
-          mt={isWhiteMode ? "15px" : "-20px"}
-          textAlign="center"
-          color={text80}
+        <MediumFont
+          extraCss={`${
+            isWhiteMode ? "mt-[15px]" : "mt-[-20px]"
+          } text-center text-light-font-100 dark:text-dark-font-100`}
         >
           Empty Watchlist
-        </TextLandingSmall>
-        <Flex align="center" direction="column">
-          <TextSmall
-            textAlign="center"
-            color={text40}
-            maxWidth={["340px", "340px", "400px"]}
-            w="90%"
-          >
+        </MediumFont>
+        <div className="flex items-center flex-col">
+          <SmallFont extraCss="text-center text-light-font-40 dark:text-dark-font-40 max-w-[400px] md:max-w-[340px] w-[90%]">
             Search for your favorite assets or find new ones by using the views
             on the
-          </TextSmall>
-          <NextChakraLink color={text80} href="/">
-            top 100
-          </NextChakraLink>{" "}
-          <TextSmall
-            textAlign="center"
-            color={text40}
-            maxWidth={["340px", "340px", "400px"]}
-            w="90%"
-          >
+          </SmallFont>
+          <NextChakraLink href="/">top 100</NextChakraLink>
+          <SmallFont extraCss="text-center text-light-font-40 dark:text-dark-font-40 max-w-[400px] md:max-w-[340px] w-[90%]">
             page
-          </TextSmall>
-        </Flex>
-      </Flex>
+          </SmallFont>
+        </div>
+      </div>
     </>
   );
 };

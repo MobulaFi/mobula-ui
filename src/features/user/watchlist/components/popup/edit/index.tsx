@@ -1,5 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 // import { useAlert } from "react-alert";
+import React from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -11,6 +12,7 @@ import { Input } from "../../../../../../components/input";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
+import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
 import { GET } from "../../../../../../utils/fetch";
 import { WatchlistContext } from "../../../context-manager";
 import { IWatchlist } from "../../../models";
@@ -56,6 +58,7 @@ export const EditPopup = ({ watchlist }) => {
 
   return (
     <ModalContainer
+      extraCss="max-w-[400px]"
       title="Edit Watchlist"
       isOpen={showEdit}
       onClose={() => setShowEdit(false)}

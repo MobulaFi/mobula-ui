@@ -1,13 +1,13 @@
-import {createContext, useMemo, useState} from "react";
-import {TableAsset} from "../../../../common/ui/tables/model";
-import {Asset} from "../../../Assets/AssetV2/models";
-import {IWatchlist, IWatchlistContext} from "../models";
+"use client";
+import { Asset, TableAsset } from "interfaces/assets";
+import { createContext, useMemo, useState } from "react";
+import { IWatchlist, IWatchlistContext } from "../models";
 
 export const WatchlistContext = createContext({} as IWatchlistContext);
 
-export const WatchlistProvider = ({children, watchlist}) => {
+export const WatchlistProvider = ({ children, watchlist }) => {
   const [activeWatchlist, setActiveWatchlist] = useState<IWatchlist | null>(
-    null,
+    null
   );
 
   const [showShare, setShowShare] = useState(false);
@@ -103,7 +103,7 @@ export const WatchlistProvider = ({children, watchlist}) => {
       setUserOfWatchlist,
       resultsData,
       setResultsData,
-    ],
+    ]
   );
 
   return (

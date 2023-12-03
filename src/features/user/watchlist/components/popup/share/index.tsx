@@ -85,11 +85,11 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
           <SmallFont>Share to Community</SmallFont>
         </div>
         <div
-          className="h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded 
+          className="flex items-center justify-between h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded 
         bg-light-bg-terciary dark:bg-dark-bg-terciary pr-2.5 mt-2.5"
         >
           <input
-            className="pl-2.5 h-full text-light-font-100 dark:text-dark-font-100 truncate"
+            className="pl-2.5 h-full text-light-font-100 dark:text-dark-font-100 truncate text-sm w-full"
             value={
               user && watchlist
                 ? `http://mobula.fi/watchlist/${user?.address}/${getUrlFromName(
@@ -100,8 +100,8 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
           />
           <div className="flex h-full" onClick={onCopy}>
             <div
-              className="h-full flex px-2.5 text-light-font-100 dark:text-dark-font-100
-             bg-light-bg-terciary dark:bg-dark-bg-terciary items-center "
+              className="h-full flex text-light-font-100 dark:text-dark-font-100
+             bg-light-bg-terciary dark:bg-dark-bg-terciary items-center text-sm"
             >
               {hasCopied ? "copied" : "copy"}
               {hasCopied ? (

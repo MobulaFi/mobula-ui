@@ -202,6 +202,7 @@ export const Header = ({
               </Button> */}
               {user?.watchlist.map((item) => (
                 <Button
+                  key={item?.id}
                   extraCss={`mr-2.5 ${
                     getBgColor(item?.name) ||
                     "bg-light-bg-terciary dark:bg-dark-bg-terciary"

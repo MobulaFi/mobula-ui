@@ -1,5 +1,11 @@
 "use client";
-import { createRef, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  createRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Container } from "../../../components/container";
 import { UserContext } from "../../../contexts/user";
 import { OrderBy } from "../../../interfaces/assets";
@@ -42,7 +48,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   useEffect(() => {
     if (user?.main_watchlist) {
       setIsPageUserWatchlist(false);
-      if (!watchlist) setActiveWatchlist(user.main_watchlist);
+      setActiveWatchlist(user.main_watchlist);
     }
   }, [user?.main_watchlist]);
 
@@ -90,12 +96,12 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Watchlist" isGeneral /> : null}
-      <Container extraCss="w-[90%] lg:w-[95%]">
+      <Container extraCss="w-[90%] lg:w-[95%] mb-[100px]">
         <ButtonsHeader />
         <Header
           assets={tokens}
-          activeWatchlist={activeWatchlist}
-          setActiveWatchlist={setActiveWatchlist}
+          activeWatchlist={activeWatchlist as IWatchlist}
+          setActiveWatchlist={setActiveWatchlist as never}
           setShowCreateWL={setShowCreateWL}
         />
         {activeWatchlist ||
@@ -103,7 +109,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         tokens?.length > 0 ? (
           <AssetsTable
             resultsData={resultsData}
-            setResultsData={setResultsData}
+            setResultsData={setResultsData as never}
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             isMobile={isMobile}
@@ -111,12 +117,12 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         ) : null}
         {!activeWatchlist &&
         !activeWatchlist?.assets.length &&
-        tokens.length === 0 ? (
+        (tokens?.length || 0) === 0 ? (
           <SkeletonTable />
         ) : null}
-        <SharePopup watchlist={activeWatchlist} />
+        <SharePopup watchlist={activeWatchlist as IWatchlist} />
         <EditPopup watchlist={activeWatchlist} />
-        <AddCoinPopup watchlist={activeWatchlist} />
+        <AddCoinPopup watchlist={activeWatchlist as IWatchlist} />
         <CreatePopup watchlist={activeWatchlist} />
       </Container>
     </>
