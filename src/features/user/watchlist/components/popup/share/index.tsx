@@ -1,167 +1,118 @@
-import {CheckIcon, CopyIcon, Icon} from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Switch,
-  useClipboard,
-} from "@chakra-ui/react";
-import {useContext, useEffect, useState} from "react";
-import {useAlert} from "react-alert";
-import {Share} from "react-feather";
+import { useContext, useState } from "react";
+// import {useAlert} from "react-alert";
+import React from "react";
+import { BiCopy } from "react-icons/bi";
+import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
+import { IoShareSocialOutline } from "react-icons/io5";
+import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
+import { ModalContainer } from "../../../../../../components/modal-container";
+import { UserContext } from "../../../../../../contexts/user";
+import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
+import { GET } from "../../../../../../utils/fetch";
+import { getUrlFromName } from "../../../../../../utils/formaters";
+import { WatchlistContext } from "../../../context-manager";
+import { IWatchlist } from "../../../models";
 
-import {BsGlobe2} from "react-icons/bs";
+interface SharePopupProps {
+  watchlist: IWatchlist;
+}
 
-import {getUrlFromName} from "../../../../../../../utils/helpers/formaters";
-import {
-  TextExtraSmall,
-  TextLandingMedium,
-  TextSmall,
-} from "../../../../../../UI/Text";
-import {UserContext} from "../../../../../../common/context-manager/user";
-import {useColors} from "../../../../../../common/utils/color-mode";
-import {GET} from "../../../../../../common/utils/fetch";
-import {WatchlistContext} from "../../../context-manager";
-
-export const SharePopup = ({watchlist}) => {
+export const SharePopup = ({ watchlist }: SharePopupProps) => {
   const [isPublic, setIsPublic] = useState(watchlist?.public);
-  const {user} = useContext(UserContext);
-  const alert = useAlert();
-  const {onCopy, setValue, hasCopied} = useClipboard("");
-  const {showShare, setShowShare} = useContext(WatchlistContext);
+  const { user } = useContext(UserContext);
+  const [hasCopied, setHasCopied] = useState(false);
+  // const alert = useAlert();
+  const { showShare, setShowShare } = useContext(WatchlistContext);
   const isOwner = watchlist?.user_id === user?.id;
-  const {text80, boxBg6, text10, text40, boxBg1, borders} = useColors();
 
-  useEffect(() => {
-    if (watchlist)
-      setValue(
-        `http://mobula.fi/watchlist/${user?.address}/${getUrlFromName(
-          watchlist?.name,
-        )}`,
-      );
-  }, [watchlist]);
+  const onCopy = () => {
+    navigator.clipboard.writeText(
+      `http://mobula.fi/watchlist/${user?.address}/${getUrlFromName(
+        watchlist?.name as string
+      )}`
+    );
+    setHasCopied(true);
+    setTimeout(() => {
+      setHasCopied(false);
+    }, 2000);
+  };
 
   const getWatchlistPublic = () => {
     GET("/watchlist/public", {
-      id: watchlist.id,
-      account: user?.address,
+      id: watchlist.id as number,
+      account: user?.address as string,
       public: !isPublic,
     })
-      .then(r => r.json())
-      .then(r => {
-        if (r.error) alert.error(r.error);
-        else {
-          setIsPublic(!isPublic);
-          if (isPublic) alert.success("Your watchlist is now public.");
-          else alert.success("Your watchlist is now private.");
-        }
+      .then((r) => r.json())
+      .then((r) => {
+        // if (r.error) alert.error(r.error);
+        // else {
+        setIsPublic(!isPublic);
+        // if (isPublic) alert.success("Your watchlist is now public.");
+        // else alert.success("Your watchlist is now private.");
+        // }
       });
   };
 
   return (
-    <Modal
-      motionPreset="none"
+    <ModalContainer
+      extraCss="max-w-[300px]"
       isOpen={showShare}
+      title="Share"
       onClose={() => setShowShare(false)}
     >
-      <ModalOverlay />
-      <ModalContent
-        bg={boxBg1}
-        borderRadius="16px"
-        border={borders}
-        p={["15px", "15px", "15px"]}
-        boxShadow="none"
-        w={["90vw", "100%"]}
-        maxW="300px"
-      >
-        <ModalHeader p="0px" mb="15px">
-          <TextLandingMedium>Share</TextLandingMedium>
-        </ModalHeader>
-        <ModalCloseButton color={text80} />
-        <ModalBody p="0px ">
-          {isOwner ? (
-            <Flex align="center" justify="space-between">
-              <Flex align="center">
-                <Icon mr="10px" fontSize="18px" as={BsGlobe2} color={text40} />
-                <Box>
-                  <TextSmall color={text80}>Public</TextSmall>
-                  <TextExtraSmall color={text40}>
-                    You can share the watchlist
-                  </TextExtraSmall>
-                </Box>
-              </Flex>
-              <Switch
-                size="sm"
-                mt="10px"
-                isChecked={isPublic}
-                bg={isPublic ? "blue" : text10}
-                borderRadius="full"
-                onChange={() => getWatchlistPublic()}
-              />
-            </Flex>
-          ) : null}
-
-          <Flex direction="column" mt="7.5px">
-            <Flex align="center">
-              <Icon as={Share} fontSize="18px" mr="10px" color={text40} />
-              <TextSmall color={text80}>Share to Community</TextSmall>
-            </Flex>
-            <InputGroup
-              h="35px"
-              borderRadius="8px"
-              bg={boxBg6}
-              px="10px"
-              pl="0px"
-              mt="10px"
-              border={borders}
+      {isOwner ? (
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <BsGlobe2 className="mr-2.5 text-light-font-40 dark:text-dark-font-40 text-lg" />
+            <div>
+              <SmallFont>Public</SmallFont>
+              <ExtraSmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+                You can share the watchlist
+              </ExtraSmallFont>
+            </div>
+          </div>
+          <Switch
+            className="mt-2.5"
+            checked={isPublic}
+            onClick={getWatchlistPublic}
+          />
+        </div>
+      ) : null}
+      <div className="flex flex-col mt-[7.5px]">
+        <div className="flex items-center">
+          <IoShareSocialOutline className="text-lg mr-2.5 text-light-font-40 dark:text-dark-font-40" />
+          <SmallFont>Share to Community</SmallFont>
+        </div>
+        <div
+          className="h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded 
+        bg-light-bg-terciary dark:bg-dark-bg-terciary pr-2.5 mt-2.5"
+        >
+          <input
+            className="pl-2.5 h-full text-light-font-100 dark:text-dark-font-100 truncate"
+            value={
+              user && watchlist
+                ? `http://mobula.fi/watchlist/${user?.address}/${getUrlFromName(
+                    watchlist?.name as string
+                  )}`
+                : ""
+            }
+          />
+          <div className="flex h-full" onClick={onCopy}>
+            <div
+              className="h-full flex px-2.5 text-light-font-100 dark:text-dark-font-100
+             bg-light-bg-terciary dark:bg-dark-bg-terciary items-center "
             >
-              <Input
-                pr="60px"
-                h="100%"
-                color={text80}
-                textOverflow="ellipsis"
-                value={
-                  user && watchlist
-                    ? `http://mobula.fi/watchlist/${
-                        user?.address
-                      }/${getUrlFromName(watchlist?.name)}`
-                    : null
-                }
-              />
-              <InputRightElement
-                h="100%"
-                onClick={() => {
-                  onCopy();
-                }}
-              >
-                <Flex
-                  h="100%"
-                  pr="10px"
-                  color={text80}
-                  bg={boxBg6}
-                  align="center"
-                  pl="10px"
-                >
-                  {hasCopied ? "copied" : "copy"}
-                  {hasCopied ? (
-                    <CheckIcon ml="5px" color="green" />
-                  ) : (
-                    <CopyIcon ml="5px" />
-                  )}
-                </Flex>
-              </InputRightElement>
-            </InputGroup>
-          </Flex>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+              {hasCopied ? "copied" : "copy"}
+              {hasCopied ? (
+                <BsCheckLg className="ml-[5px] text-green dark:text-green" />
+              ) : (
+                <BiCopy className="ml-[5px]" />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalContainer>
   );
 };

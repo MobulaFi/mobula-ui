@@ -1,15 +1,17 @@
 import {
   default as React,
-  default as React,
   createRef,
   useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { Container } from "../../../components/container";
 import { UserContext } from "../../../contexts/user";
 import { OrderBy } from "../../../interfaces/assets";
+import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import { AssetsTable } from "../../../layouts/tables/components";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { ButtonsHeader } from "./components/buttons-header";
 import { Header } from "./components/header";
@@ -67,7 +69,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   }, []);
 
   useEffect(() => {
-    if (user && activeWatchlist) {
+    if (user && activeWatchlist && (activeWatchlist?.assets?.length || 0) > 0) {
       supabase
         .from("assets")
         .select(
@@ -79,7 +81,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           if (r.data) {
             setTokens(r.data);
 
-            setResultsData({ data: r.data, count: r.count });
+            setResultsData({ data: r.data, count: r.count as number });
           }
         });
     }
@@ -87,14 +89,14 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
 
   useEffect(() => {
     if (user?.watchlist) {
-      watchlistRefs.current = user.watchlist.map(() => createRef());
+      watchlistRefs?.current = user.watchlist.map(() => createRef());
     }
   }, [loaded, user?.watchlist]);
 
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Watchlist" isGeneral /> : null}
-      <MainContainer w={["95%", "95%", "95%", "90%"]}>
+      <Container extraCss="w-[90%] lg:w-[95%]">
         <ButtonsHeader />
         <Header
           assets={tokens}
@@ -122,7 +124,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         <EditPopup watchlist={activeWatchlist} />
         <AddCoinPopup watchlist={activeWatchlist} />
         <CreatePopup watchlist={activeWatchlist} />
-      </MainContainer>
+      </Container>
     </>
   );
 };
