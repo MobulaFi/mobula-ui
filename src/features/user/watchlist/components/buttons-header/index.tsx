@@ -7,7 +7,7 @@ export const ButtonsHeader = () => {
   const pathname = usePathname();
   return (
     <div className="flex items-center">
-      <NextChakraLink href="/watchlist/followed" extraCss="mb-0">
+      <NextChakraLink href="/watchlist" extraCss="mb-0">
         <LargeFont
           extraCss={`cursor-pointer  mb-0 ${
             pathname === "/watchlist"

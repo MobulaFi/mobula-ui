@@ -22,7 +22,7 @@ const Layout = ({ children }: LayoutProps) => {
         crawl={true}
       />
       <Header addressCookie={addressCookie || ""} />
-      {children}
+      <div className="w-full min-h-[70vh]">{children}</div>
       <MenuFixedMobile />
       <Footer />
     </div>
