@@ -319,17 +319,17 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               </svg>
             ) : null}
             {wallet === null && !isLoading ? (
-              <div className="my-auto mt-[45px] lg:mt-[35px] items-center">
+              <div className="my-auto mt-[40px] lg:mt-[35px] flex items-center">
                 <img
                   src={
                     !isDarkMode
                       ? "/asset/empty-roi-light.png"
                       : "/asset/empty-roi.png"
                   }
-                  className="h-[110px] sm:h-[80px] w-auto"
+                  className="h-[110px] sm:h-[100px] w-auto ml-2.5"
                   alt="empty roi"
                 />
-                <div className="flex flex-col items-center ml-[15px]">
+                <div className="flex flex-col items-center ml-auto mr-9 md:mx-auto">
                   <MediumFont extraCss="text-center">
                     No assets found
                     <br />
@@ -349,20 +349,21 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
       ) : null}
       {isDisconnected && !isLoading ? (
         <>
-          <MediumFont>Portfolio</MediumFont>
-          <div className="flex items-center my-auto justify-around">
+          <MediumFont extraCss="ml-2.5 w-fit">Portfolio</MediumFont>
+          <div className="my-auto mt-[20px] lg:mt-[35px] flex items-center">
             <img
               src={
                 !isDarkMode
                   ? "/asset/empty-roi-light.png"
                   : "/asset/empty-roi.png"
               }
-              className="h-[110px] sm:h-[80px] w-auto"
-              alt="Empty ROI"
+              className="h-[110px] sm:h-[100px] w-auto ml-8"
+              alt="empty roi"
             />
-            <div className="flex flex-col items-center ml-[15px]">
+            <div className="flex flex-col items-center mx-auto md:mx-auto">
               <MediumFont extraCss="text-center">
-                Connect to Mobula to track your assets
+                Connect to Mobula <br />
+                to track your assets
               </MediumFont>
               <Button
                 extraCss="mt-2.5 max-w-[200px]"

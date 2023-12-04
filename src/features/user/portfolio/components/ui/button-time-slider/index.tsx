@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Button } from "../../../../../../components/button";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { PortfolioV2Context } from "../../../context-manager";
 
@@ -33,22 +32,22 @@ export const ButtonTimeSlider = ({
       )}
     >
       <div
-        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
+        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250 z-[0]"
         style={{ left: getPosition(timeframe) }}
       />
       {timeframes.map((time) => (
-        <Button
-          extraCss={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
+        <button
+          className={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
             timeframe === time
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
-          }`}
+          } z-[1] relative`}
           onClick={() => setTimeframe(time)}
         >
           <div className="w-full flex h-full items-center justify-center">
             {time}
           </div>
-        </Button>
+        </button>
       ))}
     </div>
   );
