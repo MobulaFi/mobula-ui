@@ -6,7 +6,7 @@ import { SeeWatchlist } from "../../../../features/user/watchlist/components/see
 import { createSupabaseDOClient } from "../../../../lib/supabase";
 import { fromUrlToName } from "../../../../utils/formaters";
 
-export const fetchWatchlist = async ({ params }) => {
+const fetchWatchlist = async ({ params }) => {
   const username = params.username;
   const title = params.title;
   const userAgent: string = headers().get("user-agent") || "";
@@ -70,7 +70,7 @@ export const fetchWatchlist = async ({ params }) => {
   };
 };
 
-export default async function userWatchlist({ params }) {
+export default async function UserWatchlistPage({ params }) {
   //   const router = useRouter();
   //   const {isConnected} = useAccount();
 
