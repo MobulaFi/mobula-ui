@@ -1,5 +1,6 @@
 import { useContext, useRef, useState } from "react";
 // import { useAlert } from "react-alert";
+import { useTheme } from "next-themes";
 import React from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
@@ -18,10 +19,16 @@ import { WatchlistContext } from "../../../context-manager";
 import { IWatchlist } from "../../../models";
 import { editWatchlist } from "../../../utils";
 
-export const EditPopup = ({ watchlist }) => {
+interface EditPopupProps {
+  watchlist: IWatchlist;
+}
+
+export const EditPopup = ({ watchlist }: EditPopupProps) => {
   const { setShowEdit, showEdit, setEditName, editName, activeWatchlist } =
     useContext(WatchlistContext);
   const { address } = useAccount();
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   // const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
@@ -75,10 +82,12 @@ export const EditPopup = ({ watchlist }) => {
                 newname: e.target.value,
                 watchlist: activeWatchlist.name,
               });
-              e.target.style.border = borders;
+              e.target.style.border = isDarkMode
+                ? "1px solid rgba(255,255,255,0.03)"
+                : "1px solid rgba(0,0,0,0.03)";
               errorRef.current.style.opacity = "0";
             } else {
-              e.target.style.border = "1px solid var(--chakra-colors-red)";
+              e.target.style.border = "1px solid #ea3943";
               errorRef.current.style.opacity = "1";
             }
           }}

@@ -1,5 +1,6 @@
 import { useContext, useRef, useState } from "react";
 // import { useAlert } from "react-alert";
+import { useTheme } from "next-themes";
 import React from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
@@ -16,8 +17,13 @@ import { pushData } from "../../../../../../lib/mixpanel";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
 import { GET } from "../../../../../../utils/fetch";
 import { WatchlistContext } from "../../../context-manager";
+import { IWatchlist } from "../../../models";
 
-export const CreatePopup = ({ watchlist }) => {
+interface CreatePopupProps {
+  watchlist: IWatchlist;
+}
+
+export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   const { showCreateWL, setShowCreateWL, watchlists } =
     useContext(WatchlistContext);
   const { address } = useAccount();
@@ -29,6 +35,8 @@ export const CreatePopup = ({ watchlist }) => {
   const [hasCopied, setHasCopied] = useState(false);
   const signerGuard = useSignerGuard();
   const [name, setName] = useState("");
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   const onCopy = () => {
     navigator.clipboard.writeText(
@@ -102,7 +110,9 @@ export const CreatePopup = ({ watchlist }) => {
               errorNameRef.current.style.opacity = "1";
             } else if (e.target.value.length < 33) {
               setName(e.target.value);
-              e.target.style.border = borders;
+              e.target.style.border = isDarkMode
+                ? "1px solid rgba(255,255,255,0.03)"
+                : "1px solid rgba(0,0,0,0.03)";
               errorRef.current.style.opacity = "0";
               errorNameRef.current.style.opacity = "0";
             } else {

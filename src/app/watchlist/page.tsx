@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { cookies, headers } from "next/headers";
+import React from "react";
 import { Watchlist } from "../../features/user/watchlist";
+import { IWatchlist } from "../../features/user/watchlist/models";
 import { UserExtended } from "../../interfaces/user";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
@@ -73,7 +75,10 @@ export default async function WatchlistPage() {
         <meta name="robots" content="index, follow" />
       </Head> */}
 
-      <Watchlist isMobile={data.isMobile} watchlist={data.watchlist} />
+      <Watchlist
+        isMobile={data.isMobile}
+        watchlist={data.watchlist as IWatchlist}
+      />
     </>
   );
 }

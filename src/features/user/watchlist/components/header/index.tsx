@@ -250,7 +250,7 @@ export const Header = ({
               ) : null}
               {pathname === "/watchlist" ? <HeaderMenu /> : null}
             </div>
-            <SharePopup watchlist={activeWatchlist} />
+            <SharePopup watchlist={activeWatchlist as IWatchlist} />
           </div>
         )}
       </div>
