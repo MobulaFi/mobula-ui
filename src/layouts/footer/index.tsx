@@ -1,7 +1,7 @@
 "use client";
 import { NextImageFallback } from "components/image";
 import { useTheme } from "next-themes";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
@@ -16,7 +16,8 @@ export const Footer = () => {
   return (
     <CommonPageProvider>
       <div
-        className={`w-full border-t-2 border border-light-border-primary dark:border-dark-border-primary bg-light-bg-primary dark:bg-dark-bg-primary md:bg-light-bg-secondary dark:md:bg-dark-bg-secondary`}
+        className={`w-full border-t-2 border pb-[100px] md:pb-[50px] border-light-border-primary dark:border-dark-border-primary
+         bg-light-bg-primary dark:bg-dark-bg-primary md:bg-light-bg-secondary dark:md:bg-dark-bg-secondary`}
         id="footer"
       >
         <Container extraCss="pt-[28px] md:pt-[5px] mt-0 w-full">
@@ -25,7 +26,7 @@ export const Footer = () => {
               <NextImageFallback
                 height={62}
                 width={62}
-                className="md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 md:ml-[20px]"
+                className="md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 md:ml-[20px] mb-auto"
                 src={
                   theme === "dark"
                     ? "/mobula/mobula-logo.svg"
@@ -104,15 +105,15 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-250 font-medium text-start`}
+                        } transition-all duration-250 font-medium text-start w-fit`}
                       >
                         {page.name}
+                        <div
+                          className={`h-[1px] mt-1 transition-all duration-150 bg-light-font-60 dark:bg-dark-font-60 mb-1.5 ${
+                            isHover === page.name ? "w-full" : "w-0"
+                          }`}
+                        />
                       </p>
-                      <div
-                        className={`h-[1px] mt-1 transition-all duration-150 bg-light-font-60 dark:bg-dark-font-60 mb-1.5 ${
-                          isHover === page.name ? "w-full" : "w-0"
-                        }`}
-                      />
                     </NextChakraLink>
                   ))}
                 </div>

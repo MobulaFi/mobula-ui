@@ -18,7 +18,7 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
   const thStyle =
     "border-b border-light-border-secondary dark:border-dark-border-secondary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 px-[5px] py-2.5";
   const tdStyle =
-    "border-b border-light-border-secondary dark:border-dark-border-secondary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 p-[5px] py-2.5";
+    "border-b border-light-border-secondary dark:border-dark-border-secondary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 p-[5px] py-2";
 
   return (
     <table className="lg:mt-2.5 w-full">
@@ -30,8 +30,10 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
             Name
           </th>
           <th className={`${thStyle} text-end font-normal`}>Price</th>
-          <th className={`${thStyle} text-end font-normal`}>Volume (24h)</th>
-          <th className={`${thStyle} text-end font-normal`}>24h</th>
+          <th className={`${thStyle} text-end font-normal whitespace-nowrap`}>
+            Volume (24h)
+          </th>
+          <th className={`${thStyle} text-end font-normal`}>24h %</th>
         </tr>
       </thead>
       {assets.map((asset: MoversType) => {
@@ -43,7 +45,7 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
           >
             <tr className="relative">
               <td
-                className={`${tdStyle} max-w-[150px] sticky left-0 bg-none md:bg-light-bg-primary dark:md:bg-dark-bg-primary`}
+                className={`${tdStyle} max-w-[150px] sticky left-0 bg-none md:bg-light-bg-primary dark:md:bg-dark-bg-primary overflow-x-hidden`}
               >
                 <div className="flex items-center w-full">
                   <NextImageFallback
@@ -66,7 +68,7 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
                       </div>
                       <p className="text-sm ">{asset.symbol}</p>
                     </div>
-                    <p className="text-xs min-w-[120px] whitespace-nowrap mr-2.5 truncate text-light-font-60 dark:text-dark-font-60">
+                    <p className="text-xs min-w-[120px] md:min-w-full mr-2.5 whitespace-prewrap text-light-font-60 dark:text-dark-font-60">
                       {asset.name}
                     </p>
                   </div>
