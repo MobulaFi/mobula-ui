@@ -1,7 +1,6 @@
-import { useContext, useRef, useState } from "react";
-// import { useAlert } from "react-alert";
 import { useTheme } from "next-themes";
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
+import { useAlert } from "react-alert";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
