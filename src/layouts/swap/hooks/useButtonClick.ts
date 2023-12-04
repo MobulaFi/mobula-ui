@@ -4,7 +4,7 @@ import {
 } from "mobula-lite/lib/chains/constants";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
-// import {useAlert} from "react-alert";
+import { useAlert } from "react-alert";
 import { decodeAbiParameters, parseAbiParameters } from "viem";
 import { useAccount, useNetwork } from "wagmi";
 import { disconnect, getPublicClient, getWalletClient } from "wagmi/actions";
@@ -34,7 +34,7 @@ export const useButtonClick = () => {
   const { buttonStatus, tx, quotes } = useButtonStatus();
   const { setConnect, setShowSwitchNetwork } = useContext(PopupUpdateContext);
   const { chain } = useNetwork();
-  // const alert = useAlert();
+  const alert = useAlert();
   const { isConnected, address } = useAccount();
   const pathname = usePathname();
 
@@ -132,13 +132,11 @@ export const useButtonClick = () => {
               return button;
             });
             if (e?.message?.includes("underlying network changed")) {
-              // alert.error("Please reconnect your wallet.");
+              alert.error("Please reconnect your wallet.");
               disconnect();
+            } else {
+              alert.error(`Error while approving ${tokenIn.symbol}`);
             }
-            // else {
-            //   alert.error(`Error while approving ${tokenIn.symbol}`);
-            // }
-            console.error(e);
           }
         }
         break;
@@ -149,7 +147,7 @@ export const useButtonClick = () => {
           return;
         }
         if (!tx || !tokenOut) {
-          // alert.error("No transaction to confirm. Please refresh the page.");
+          alert.error("No transaction to confirm. Please refresh the page.");
           return;
         }
         try {
@@ -163,7 +161,6 @@ export const useButtonClick = () => {
           let completedTx: any;
           while (!completedTx) {
             try {
-              // eslint-disable-next-line no-await-in-loop
               completedTx = await publicClient.getTransactionReceipt({
                 hash: transaction as never,
               });

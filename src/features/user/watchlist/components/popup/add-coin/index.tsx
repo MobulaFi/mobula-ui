@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-// import {useAlert} from "react-alert";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useAlert } from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../../components/button";
@@ -26,7 +25,7 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
   const { updateSearch, results } = useUpdateSearch("in");
   const [tokenToAdd, setTokenToAdd] = useState<any[]>([]);
   const { handleAddMultipleWatchlist } = useWatchlist();
-  // const alert = useAlert();
+  const alert = useAlert();
 
   useEffect(() => {
     if (!activeWatchlist) {
@@ -170,8 +169,7 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
               ];
               setUser({ ...(user as any), watchlist: updatedWatchlists });
               setTokenToAdd([]);
-            }
-            // else alert.error("Please create a watchlist first");
+            } else alert.error("Please create a watchlist first");
           }}
         >
           Select Coins ({tokenToAdd.length})

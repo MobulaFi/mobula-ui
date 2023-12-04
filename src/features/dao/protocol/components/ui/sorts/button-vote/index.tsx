@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-// import {useAlert} from "react-alert";
+import React, { useContext, useState } from "react";
+import { useAlert } from "react-alert";
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { Asset } from "../../../../../../../interfaces/assets";
@@ -16,11 +16,10 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
   const vote = useContext(VoteContext);
   const { reasonSocial, reasonTrust, reasonUtility } =
     useContext(ReasonVoteContext);
-  // const alert = useAlert();
+  const alert = useAlert();
   const hasVoted = reasonSocial && reasonTrust && reasonUtility !== 0;
   const voteToken = useVote();
   const [isAbleToSubmit, setIsAbleToSubmit] = useState(false);
-  console.log("icjcjcjc", isAbleToSubmit);
   const buttonOutlined =
     "w-full flex items-center justify-center h-[42px] lg:h-[40px] md:h-[35px] max-w-full text-light-font-100 dark:text-dark-font-100 rounded text-sm lg:text-[13px] md:text-xs border";
 
@@ -63,16 +62,14 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
                   socialScore,
                   trustScore
                 );
+              } else {
+                alert.error(
+                  "You must select a reason for the score you assign to this asset."
+                );
               }
-              // else {
-              //   alert.error(
-              //     "You must select a reason for the score you assign to this asset."
-              //   );
-              // }
+            } else {
+              alert.error("You must check the box to submit your vote.");
             }
-            // else {
-            //   alert.error("You must check the box to submit your vote.");
-            // }
           }}
         >
           Validate Listing

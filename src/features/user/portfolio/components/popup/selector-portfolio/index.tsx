@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
 import { Collapse } from "components/collapse";
+import { useAlert } from "react-alert";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -21,7 +22,7 @@ import { CreatePortfolio } from "../create-portfolio";
 import { RenamePortfolio } from "../rename-portfolio";
 
 export const SelectorPortfolioPopup = () => {
-  // const alert = useAlert();
+  const alert = useAlert();
   const {
     activePortfolio,
     showPortfolioSelector,
@@ -44,9 +45,9 @@ export const SelectorPortfolioPopup = () => {
       .then((resp) => {
         if (resp.error) {
           return;
-          // alert.error(resp.error);
+          alert.error(resp.error);
         } else {
-          // alert.success("Successfully deleted your portfolio");
+          alert.success("Successfully deleted your portfolio");
           setUserPortfolio(userPortfolio.filter((prev) => prev.name !== name));
         }
       });

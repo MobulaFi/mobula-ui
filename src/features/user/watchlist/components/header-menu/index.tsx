@@ -1,6 +1,5 @@
-import { useContext, useEffect } from "react";
-// import {useAlert} from "react-alert";
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useAlert } from "react-alert";
 import { AiFillStar, AiOutlineEdit } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -24,7 +23,7 @@ export const HeaderMenu = () => {
     setActiveWatchlist,
   } = useContext(WatchlistContext);
   const { address } = useAccount();
-  // const alert = useAlert();
+  const alert = useAlert();
   const signerGuard = useSignerGuard();
   const { user, setUser } = useContext(UserContext);
 
@@ -40,27 +39,26 @@ export const HeaderMenu = () => {
       )
         .then((response) => response.json())
         .then((add) => {
-          // if (add.error) alert.error(add.error);
-          // else {
-          pushData("Watchlist Removed", {
-            watchlist_id: activeWatchlist.id,
-          });
-          setUser({
-            ...user,
-            watchlist: user?.watchlist.filter(
-              (w) => w.name !== activeWatchlist.name
-            ),
-          } as never);
-          setActiveWatchlist(
-            user?.watchlist.filter((w) => w.name !== activeWatchlist.name)[0]
-          );
-          // alert.success("Your watchlist has been deleted");
-          // }
+          if (add.error) alert.error(add.error);
+          else {
+            pushData("Watchlist Removed", {
+              watchlist_id: activeWatchlist.id,
+            });
+            setUser({
+              ...user,
+              watchlist: user?.watchlist.filter(
+                (w) => w.name !== activeWatchlist.name
+              ),
+            } as never);
+            setActiveWatchlist(
+              user?.watchlist.filter((w) => w.name !== activeWatchlist.name)[0]
+            );
+            alert.success("Your watchlist has been deleted");
+          }
         });
+    } else {
+      alert.show("Please connect your wallet to delete a watchlist");
     }
-    // else {
-    //   alert.show("Please connect your wallet to delete a watchlist");
-    // }
   };
   // DONE
   const addAsMainWatchlist = () => {
@@ -71,11 +69,11 @@ export const HeaderMenu = () => {
       })
         .then((r) => r.json())
         .then((r) => {
-          // if (r.error) alert.error(r.error);
-          // else {
-          setIsMainWatchlist(true);
-          // alert.success("This watchlist is now the main one.");
-          // }
+          if (r.error) alert.error(r.error);
+          else {
+            setIsMainWatchlist(true);
+            alert.success("This watchlist is now the main one.");
+          }
         });
   };
 
@@ -88,26 +86,25 @@ export const HeaderMenu = () => {
       })
         .then((response) => response.json())
         .then((add) => {
-          // if (add.error) alert.error(add.error);
-          // else {
-          const newName = incrementWatchlistName(
-            activeWatchlist.name,
-            user?.watchlist
-          );
-          setUser({
-            ...user,
-            watchlist: [
-              ...(user?.watchlist || []),
-              { ...activeWatchlist, name: newName },
-            ],
-          } as never);
-          // alert.success("Your watchlist has been duplicated");
-          // }
+          if (add.error) alert.error(add.error);
+          else {
+            const newName = incrementWatchlistName(
+              activeWatchlist.name,
+              user?.watchlist
+            );
+            setUser({
+              ...user,
+              watchlist: [
+                ...(user?.watchlist || []),
+                { ...activeWatchlist, name: newName },
+              ],
+            } as never);
+            alert.success("Your watchlist has been duplicated");
+          }
         });
+    } else {
+      alert.show("Please connect your wallet to duplicate a watchlist");
     }
-    // else {
-    //   alert.show("Please connect your wallet to duplicate a watchlist");
-    // }
   };
 
   const squareBox =
