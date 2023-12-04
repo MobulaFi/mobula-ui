@@ -1,7 +1,6 @@
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
-import { TbBellRinging } from "react-icons/tb";
 import { VscArrowSwap } from "react-icons/vsc";
 import { Drawer } from "../../../../components/drawer";
 import { WatchlistContext } from "../../../../contexts/pages/watchlist";
@@ -12,7 +11,6 @@ import {
 import { SettingsMetricContext } from "../../../../contexts/settings";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
-import { pushData } from "../../../../lib/mixpanel";
 import { useWatchlist } from "../../hooks/watchlist";
 import { WatchlistAdd } from "./watchlist";
 
@@ -126,7 +124,7 @@ export const MenuCommun = () => {
             {`Buy  & Sell ${showMenuTableMobileForToken.symbol}`}
           </div>
         )}
-      <div
+      {/* <div
         className={lineStyle}
         onClick={() => {
           setShowAlert(showMenuTableMobileForToken?.name);
@@ -146,7 +144,7 @@ export const MenuCommun = () => {
           <TbBellRinging className="text-light-font-100 dark:text-dark-font-100 text-lg" />
         </div>
         Set a Price Alert
-      </div>
+      </div> */}
     </Drawer>
   );
 };
