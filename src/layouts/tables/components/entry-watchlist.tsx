@@ -300,9 +300,15 @@ export const EntryWatchlist = ({
             >
               {userOfWatchlist?.profile_pic !== "/mobula/fullicon.png" ? (
                 <NextImageFallback
-                  className="w-[22px] h-[22px] rounded-full mr-[7.5px]"
+                  style={{
+                    borderRadius: "50%",
+                    marginRight: "7.5px",
+                  }}
+                  width={22}
+                  height={22}
                   src={userOfWatchlist?.profile_pic as string}
                   fallbackSrc="/mobula/mobula-logo.svg"
+                  alt="Watchlist user profile pic"
                 />
               ) : (
                 <AddressAvatar
@@ -338,11 +344,15 @@ export const EntryWatchlist = ({
                 {assetsOfWatchlist[i]?.map((token, idx) => {
                   if (idx < 5)
                     return (
-                      <img
+                      <NextImageFallback
+                        width={22}
+                        height={22}
                         className="bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary
-                       dark:border-dark-border-primary rounded-full ml-[-5px]"
+                       dark:border-dark-border-primary rounded-full ml-[-5px] "
                         alt={token.name}
                         src={token.logo}
+                        key={idx}
+                        fallbackSrc="/empty/unknown.png"
                       />
                     );
                   return null;
