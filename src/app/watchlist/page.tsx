@@ -74,7 +74,6 @@ export default async function WatchlistPage() {
         <meta name="copyright" content="Mobula" />
         <meta name="robots" content="index, follow" />
       </Head> */}
-
       <Watchlist
         isMobile={data.isMobile}
         watchlist={data.watchlist as IWatchlist}
