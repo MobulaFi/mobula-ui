@@ -27,7 +27,7 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   const { showCreateWL, setShowCreateWL, watchlists } =
     useContext(WatchlistContext);
   const { address } = useAccount();
-  // const alert = useAlert();
+  const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
   const errorNameRef = useRef<HTMLDivElement>();
@@ -60,34 +60,33 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
       })
         .then((response) => response.json())
         .then((add) => {
-          // if (add.error) alert.error(add.error);
-          // else {
-          pushData("Watchlist Added", {
-            watchlist_name: name,
-          });
-          // alert.success("Successfully created new watchlist");
-          setUser(
-            (userBuffer) =>
-              ({
-                ...userBuffer,
-                watchlist: [
-                  ...(userBuffer?.watchlist || []),
-                  {
-                    name,
-                    assets: [],
-                    id: add.id,
-                    user_id: user.id,
-                    created_at: new Date(),
-                  },
-                ],
-              } as never)
-          );
-          // }
+          if (add.error) alert.error(add.error);
+          else {
+            pushData("Watchlist Added", {
+              watchlist_name: name,
+            });
+            alert.success("Successfully created new watchlist");
+            setUser(
+              (userBuffer) =>
+                ({
+                  ...userBuffer,
+                  watchlist: [
+                    ...(userBuffer?.watchlist || []),
+                    {
+                      name,
+                      assets: [],
+                      id: add.id,
+                      user_id: user.id,
+                      created_at: new Date(),
+                    },
+                  ],
+                } as never)
+            );
+          }
         });
+    } else {
+      alert.show("Please connect your wallet to add a watchlist");
     }
-    //  else {
-    //   alert.show("Please connect your wallet to add a watchlist");
-    // }
   };
 
   return (

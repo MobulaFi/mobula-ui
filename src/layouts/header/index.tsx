@@ -39,7 +39,6 @@ export const Header = ({ addressCookie }) => {
       handleRouteChange();
     }, 2000);
   }, [pathname]);
-
   return (
     <CommonPageProvider>
       {/* Banner to replace with new feature */}

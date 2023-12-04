@@ -41,8 +41,8 @@ export const CreatePortfolio = () => {
     // Sometimes, the user won't click on the button to add the last wallet
     // So we add it here
     let finalWallets = portfolioSettings.wallets;
-    if (inputRef.current.value !== "" && isAddress(inputRef.current.value))
-      finalWallets = [...finalWallets, inputRef.current.value]
+    if (inputRef?.current?.value !== "" && isAddress(inputRef?.current?.value))
+      finalWallets = [...finalWallets, inputRef?.current?.value]
         .map((e) => e.toLowerCase())
         .filter((value, index, self) => self.indexOf(value) === index);
 
@@ -72,9 +72,19 @@ export const CreatePortfolio = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
+        alert.show("Some message", {
+          timeout: 2000, // custom timeout just for this one alert
+          type: "success",
+          onOpen: () => {
+            console.log("hey");
+          }, // callback that will be executed after this alert open
+          onClose: () => {
+            console.log("closed");
+          }, // callback that will be executed after this alert is removed
+        });
         if (resp.error) {
-          return;
           alert.error(resp.error);
+          return;
         } else {
           alert.success("Successfully created a new portfolio");
           setUserPortfolio([
@@ -89,13 +99,12 @@ export const CreatePortfolio = () => {
           setShowPortfolioSelector(false);
         }
       });
-
     pushData("Portfolio Created");
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center justify-between mb-2.5">
+    <div className="flex flex-col w-full">
+      <div className="flex items-center justify-between mb-2.5 w-full">
         <div className="flex items-center">
           <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
           <SmallFont>Portfolio name</SmallFont>

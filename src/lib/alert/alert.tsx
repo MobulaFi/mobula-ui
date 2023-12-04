@@ -109,10 +109,11 @@
 //   }, []);
 // };
 "use client";
+import React, { useRef } from "react";
 import { AiFillCloseCircle, AiOutlineClose } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
-import { IoInformationCircleOutline } from "react-icons/io5";
+import { IoInformationCircle } from "react-icons/io5";
 
 // const widthbar = keyframes`
 //   from {width: 100%;}
@@ -124,6 +125,11 @@ import { IoInformationCircleOutline } from "react-icons/io5";
 // `;
 
 export const AlertTemplate = ({ options, message, close }) => {
+  const toastIdRef = useRef<any | undefined>();
+  //   if (options.type === "error") playSound("/alert/error.mp3");
+  //   if (options.type === "info") playSound("/alert/info.mp3");
+  //   if (options.type === "success") playSound("/alert/success.wav");
+
   const getColor = () => {
     if (options.type === "info") return "bg-blue dark:bg-blue";
     if (options.type === "success") return "bg-green dark:bg-green";
@@ -135,7 +141,7 @@ export const AlertTemplate = ({ options, message, close }) => {
       return {
         title: "Information",
         icon: (
-          <IoInformationCircleOutline className="text-light-font-100 dark:text-dark-font-100 mr-1.5" />
+          <IoInformationCircle className="text-light-font-100 dark:text-dark-font-100 mr-1.5 text-lg" />
         ),
       };
     if (options.type === "success")
@@ -149,7 +155,7 @@ export const AlertTemplate = ({ options, message, close }) => {
         icon: <AiFillCloseCircle className="text-red dark:text-red mr-1.5" />,
       };
     return {
-      title: "warning",
+      title: "Warning",
       icon: <IoIosWarning className="text-yellow dark:text-yellow mr-1.5" />,
     };
   };
@@ -163,21 +169,23 @@ export const AlertTemplate = ({ options, message, close }) => {
            border border-light-border-primary dark:border-dark-border-primary w-[330px] overflow-hidden"
       >
         <div className="w-full mx-auto h-0.5 rounded-t-xl">
-          <div className={`h-full w-full ${background} rounded-t-xl`} />
+          <div
+            className={`h-full ${background} rounded-t-xl animate-widthbar`}
+          />
         </div>
         <div className="flex flex-col p-5 ">
           <div className="flex items-center justify-between text-light-font-100 dark:text-dark-font-100">
             <div className="flex items-center">
               {info.icon}
-              <p className="text-[15px] font-bold text-light-font-100 dark:text-dark-font-100">
+              <p className="text-base font-bold text-light-font-100 dark:text-dark-font-100">
                 {info.title}
               </p>
             </div>
             <button onClick={close}>
-              <AiOutlineClose className="text-xs" />
+              <AiOutlineClose className="text-sm" />
             </button>
           </div>
-          <p className="text-sm mt-1.5 font-medium whitespace-pre-wrap text-start text-light-font-60 dark:text-dark-font-60">
+          <p className="text-sm mt-1.5 font-medium whitespace-pre-wrap text-start text-light-font-100 dark:text-dark-font-100">
             {message}
           </p>
         </div>

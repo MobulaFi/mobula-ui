@@ -1,6 +1,7 @@
 "use client";
 import { useParams, usePathname } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
+import { useAlert } from "react-alert";
 import { useAccount } from "wagmi";
 import { IWatchlist } from "../interfaces/pages/watchlist";
 import { IUserContext, UserExtended } from "../interfaces/user";
@@ -13,7 +14,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState<UserExtended | null>(null);
   const [watchlist, setWatchlist] = useState<IWatchlist>();
   const [watchlists, setWatchlists] = useState<IWatchlist[]>([]);
-  // const alert = useAlert();
+  const alert = useAlert();
   const params = useParams();
   const query = params.r;
   const pathname = usePathname();
@@ -62,10 +63,9 @@ export const UserProvider = ({ children }) => {
         setTimeout(() => {
           loadUserData(tries + 1);
         }, 1000);
+      } else {
+        alert.error("Please refresh the page, something went wrong.");
       }
-      // else {
-      //   alert.error('Please refresh the page, something went wrong.');
-      // }
     };
 
     if (address) loadUserData();

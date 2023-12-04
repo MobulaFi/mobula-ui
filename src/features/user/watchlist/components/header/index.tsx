@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAlert } from "react-alert";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BiAddToQueue } from "react-icons/bi";
 import { IoAdd, IoShareSocialOutline } from "react-icons/io5";
@@ -22,7 +23,6 @@ import { WatchlistContext } from "../../context-manager";
 import { IWatchlist } from "../../models";
 import { HeaderMenu } from "../header-menu";
 import { SharePopup } from "../popup/share";
-
 interface HeaderProps {
   assets: Asset[];
   activeWatchlist: IWatchlist | IWatchlist[];
@@ -39,7 +39,7 @@ export const Header = ({
   setShowCreateWL,
 }: HeaderProps) => {
   const { user, setUser } = useContext(UserContext);
-  // const alert = useAlert();
+  const alert = useAlert();
   const [watchlistID, setWatchlistID] = useState(0);
   const {
     isPageUserWatchlist,
@@ -112,24 +112,24 @@ export const Header = ({
       })
         .then((r) => r.json())
         .then((r) => {
-          // if (r.error) alert.error(r.error);
-          // else {
-          pushData("Watchlist Followed", {
-            watchlist_owner_id: userOfWatchlist?.[0]?.id,
-            watchlist_id: watchlistID,
-          });
-          // alert.success("Successfully followed this watchlist.");
-          setUser(
-            (userBuffer) =>
-              ({
-                ...userBuffer,
-                watchlists_followed: [
-                  ...(userBuffer?.watchlists_followed || []),
-                  watchlistID,
-                ],
-              } as never)
-          );
-          // }
+          if (r.error) alert.error(r.error);
+          else {
+            pushData("Watchlist Followed", {
+              watchlist_owner_id: userOfWatchlist?.[0]?.id,
+              watchlist_id: watchlistID,
+            });
+            alert.success("Successfully followed this watchlist.");
+            setUser(
+              (userBuffer) =>
+                ({
+                  ...userBuffer,
+                  watchlists_followed: [
+                    ...(userBuffer?.watchlists_followed || []),
+                    watchlistID,
+                  ],
+                } as never)
+            );
+          }
         });
     if (address && user?.watchlists_followed.includes(watchlistID))
       GET("/watchlist/unfollow", {
@@ -138,22 +138,22 @@ export const Header = ({
       })
         .then((r) => r.json())
         .then((r) => {
-          // if (r.error) alert.error(r.error);
-          // else {
-          pushData("Watchlist Unfollowed", {
-            watchlist_id: watchlistID,
-          });
-          // alert.success("Successfully unfollowed this watchlist.");
-          setUser(
-            (userBuffer) =>
-              ({
-                ...userBuffer,
-                watchlists_followed: userBuffer?.watchlists_followed.filter(
-                  (entry) => entry !== watchlistID
-                ),
-              } as never)
-          );
-          // }
+          if (r.error) alert.error(r.error);
+          else {
+            pushData("Watchlist Unfollowed", {
+              watchlist_id: watchlistID,
+            });
+            alert.success("Successfully unfollowed this watchlist.");
+            setUser(
+              (userBuffer) =>
+                ({
+                  ...userBuffer,
+                  watchlists_followed: userBuffer?.watchlists_followed.filter(
+                    (entry) => entry !== watchlistID
+                  ),
+                } as never)
+            );
+          }
         });
   };
   console.log(pathname !== "/watchlist/");

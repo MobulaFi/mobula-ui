@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 // import {useAlert} from "react-alert";
+import { useAlert } from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -20,7 +21,7 @@ interface IRenamePortfolio {
 export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
   const signerGuard = useSignerGuard();
   const [newName, setNewName] = useState("");
-  // const alert = useAlert();
+  const alert = useAlert();
   const { setActivePortfolio, setShowPortfolioSelector } =
     useContext(PortfolioV2Context);
   const { address } = useAccount();
@@ -40,8 +41,8 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.error) {
+          alert.error(resp.error);
           return;
-          // alert.error(resp.error);
         } else {
           setActivePortfolio({ ...portfolio, name: newName });
           setShowPortfolioSelector(false);
@@ -71,8 +72,7 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
               if (newName !== "") {
                 renamePortfolio();
                 setShow(false);
-              }
-              // else alert.show("Name cannot be empty");
+              } else alert.info("Name cannot be empty");
             });
           }}
         >

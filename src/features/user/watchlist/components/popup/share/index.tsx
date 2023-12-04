@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
-// import {useAlert} from "react-alert";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useAlert } from "react-alert";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -21,7 +20,7 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
   const [isPublic, setIsPublic] = useState(watchlist?.public);
   const { user } = useContext(UserContext);
   const [hasCopied, setHasCopied] = useState(false);
-  // const alert = useAlert();
+  const alert = useAlert();
   const { showShare, setShowShare } = useContext(WatchlistContext);
   const isOwner = watchlist?.user_id === user?.id;
 
@@ -45,12 +44,12 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
     })
       .then((r) => r.json())
       .then((r) => {
-        // if (r.error) alert.error(r.error);
-        // else {
-        setIsPublic(!isPublic);
-        // if (isPublic) alert.success("Your watchlist is now public.");
-        // else alert.success("Your watchlist is now private.");
-        // }
+        if (r.error) alert.error(r.error);
+        else {
+          setIsPublic(!isPublic);
+          if (isPublic) alert.success("Your watchlist is now public.");
+          else alert.success("Your watchlist is now private.");
+        }
       });
   };
 
