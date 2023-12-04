@@ -153,8 +153,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     // Handle errors
   }
 
-  console.log("TIITITITITIIT");
-
   const getViewQuery = async () => {
     const query = supabase
       .from("assets")

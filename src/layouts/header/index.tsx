@@ -11,7 +11,7 @@ import { useContext, useEffect } from "react";
 import { NextImageFallback } from "components/image";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React from "react";
+import { useAlert } from "react-alert";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
@@ -29,6 +29,7 @@ export const Header = ({ addressCookie }) => {
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
+  const alert = useAlert();
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -109,6 +110,13 @@ export const Header = ({ addressCookie }) => {
       {showNotif ? <NotificationDrawer /> : null}
       {/* {showAddedToWatchlist && <AddedToWatchlistPopup />} */}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
+      <button
+        onClick={() => {
+          alert.show("Oh look, an alert!");
+        }}
+      >
+        Toast
+      </button>
     </CommonPageProvider>
   );
 };

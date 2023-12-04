@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-
 import NextTopLoader from "nextjs-toploader";
 import React from "react";
 import { Footer } from "../footer";

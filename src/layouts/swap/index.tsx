@@ -1,4 +1,5 @@
 /* eslint-disable import/no-cycle */
+"use client";
 import {
   blockchainsContent,
   blockchainsIdContent,
