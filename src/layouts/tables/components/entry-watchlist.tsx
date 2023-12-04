@@ -293,16 +293,19 @@ export const EntryWatchlist = ({
             <div
               className="flex items-center cursor-pointer hover:text-blue
              hover:dark:text-blue transition-all duration-250 ease-in-out 
-             text-light-font-100 dark:text-dark-font-100"
+             text-light-font-100 dark:text-dark-font-100 justify-end"
               onClick={() =>
                 router.push(`/profile/${userOfWatchlist?.address}`)
               }
             >
+              {userOfWatchlist?.username
+                ? userOfWatchlist.username
+                : addressSlicer(userOfWatchlist?.address)}
               {userOfWatchlist?.profile_pic !== "/mobula/fullicon.png" ? (
                 <NextImageFallback
                   style={{
                     borderRadius: "50%",
-                    marginRight: "7.5px",
+                    marginLeft: "7.5px",
                   }}
                   width={22}
                   height={22}
@@ -312,18 +315,15 @@ export const EntryWatchlist = ({
                 />
               ) : (
                 <AddressAvatar
-                  extraCss="w-[22px] h-[22px] rounded-full mr-[7.5px]"
+                  extraCss="w-[22px] h-[22px] rounded-full ml-[7.5px]"
                   address={userOfWatchlist.address}
                 />
               )}
-              {userOfWatchlist?.username
-                ? userOfWatchlist.username
-                : addressSlicer(userOfWatchlist?.address)}
             </div>
           ) : (
             <div className="flex items-center">
-              <Skeleton extraCss="w-[22px] h-[22px] rounded-full mr-[7.5px]" />
               <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[90px]" />
+              <Skeleton extraCss="w-[22px] h-[22px] rounded-full ml-[7.5px]" />
             </div>
           )}
         </td>

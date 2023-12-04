@@ -9,11 +9,9 @@ import { UserContext } from "../../../../../contexts/user";
 import { EntryWatchlist } from "../../../../../layouts/tables/components/entry-watchlist";
 import { HeaderWatchlist } from "../../../../../layouts/tables/components/header-watchlist";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
-import { Asset } from "../../../../asset/models";
 import { WatchlistContext } from "../../context-manager";
 import { IWatchlist } from "../../models";
 import { ButtonsHeader } from "../buttons-header";
-import { Header } from "../header";
 interface WatchlistExploreProps {
   watchlistsBuffer: IWatchlist[];
   page: string;
@@ -138,10 +136,10 @@ export const WatchlistExplore = ({
   return (
     <Container extraCss="w-[90%] lg:w-[95%]">
       <ButtonsHeader />
-      <Header
+      {/* <Header
         assets={watchlists.map((entry) => entry.assets) as unknown as Asset[]}
         activeWatchlist={watchlists}
-      />
+      /> */}
       <div className="overflow-auto relative top-0 w-full">
         <div className="mx-auto flex flex-col items-center relative overflow-auto top-0 scroll">
           <table className="w-full md:w-auto min-w-full md:min-w-[900px] cursor-pointer mx-auto relative">
