@@ -1,7 +1,8 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
-// import {useAlert} from 'react-alert';
+import { useAlert } from "react-alert";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
+import { NextImageFallback } from "../../../../../components/image";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { TableAsset } from "../../../../../interfaces/assets";
 import { HoldingsResponse } from "../../../../../interfaces/holdings";
@@ -30,7 +31,7 @@ export const ButtonBlockchain = ({
   holdings,
 }: ButtonBlockchainProps) => {
   const { setConnect } = useContext(PopupUpdateContext);
-  // const alert = useAlert();
+  const alert = useAlert();
   const { address } = useAccount();
   const isActive = active === entry.title;
 
@@ -59,16 +60,20 @@ export const ButtonBlockchain = ({
         } else if (entry.title !== "My assets") {
           setFilters(generateFilters(entry.title));
           setActive(entry.title);
-        }
-        // else alert.show("You don't have any assets in your wallet");
+        } else alert.show("You don't have any assets in your wallet");
       }}
     >
       {entry.logo ? (
         <>
-          <img
-            className="w-5 h-5 rounded-full"
+          <NextImageFallback
+            width={20}
+            height={20}
+            style={{
+              borderRadius: "50%",
+            }}
             src={entry.logo}
             alt={`${entry.title} logo`}
+            fallbackSrc="/empty/unknown.png"
           />
           <span className="ml-2.5"> {entry.symbol || entry.title}</span>
         </>
@@ -77,8 +82,13 @@ export const ButtonBlockchain = ({
       )}
       {entry.logo ? (
         <>
-          <img
-            className="w-5 h-5 rounded-full"
+          <NextImageFallback
+            width={20}
+            height={20}
+            style={{
+              borderRadius: "50%",
+            }}
+            fallbackSrc="/empty/unknown.png"
             src={entry.logo}
             alt={`${entry.title} logo`}
           />

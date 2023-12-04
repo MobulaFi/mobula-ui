@@ -1,6 +1,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-// import {useAlert} from "react-alert";
+import { useAlert } from "react-alert";
 import { useContractWrite, useNetwork, useSwitchNetwork } from "wagmi";
 import { PROTOCOL_ADDRESS } from "../../../../constants";
 import { PopupUpdateContext } from "../../../../contexts/popup";
@@ -14,7 +14,7 @@ export const useVote = () => {
   const { setConnect } = useContext(PopupUpdateContext);
   const { switchNetwork } = useSwitchNetwork();
   const { chain } = useNetwork();
-  // const alert = useAlert();
+  const alert = useAlert();
   const router = useRouter();
   const [tokenID, setTokenID] = useState(0);
   const pathname = usePathname();
@@ -35,15 +35,13 @@ export const useVote = () => {
           JSON.stringify([...votes, Number(tokenID)])
         );
         setVotes([...votes, tokenID]);
-        // alert.success("Your vote has been successfully registered.");
-        // eslint-disable-next-line no-promise-executor-return
+        alert.success("Your vote has been successfully registered.");
         await new Promise((resolve) => setTimeout(resolve, 3000));
         router.refresh();
       } else if (error) {
-        console.error(error);
-        // alert.error(
-        //   `Something went wrong, are you sure you are in the DAO?Error: ${error}`
-        // );
+        alert.error(
+          `Something went wrong, are you sure you are in the DAO?Error: ${error}`
+        );
       }
     };
     endingVoteFunction();
@@ -58,7 +56,7 @@ export const useVote = () => {
   ) {
     setTokenID(token.id);
     if (token.lastUpdate + 5 * 60 > Date.now() / 1000) {
-      // alert.error("You must wait the end of the countdown to vote.");
+      alert.error("You must wait the end of the countdown to vote.");
     } else {
       if (!chain) {
         setConnect(true);
@@ -66,14 +64,14 @@ export const useVote = () => {
       }
       if (chain?.id !== 137) {
         if (switchNetwork) switchNetwork(137);
-        // else alert.error("Please connect your wallet to the Polygon network.");
+        else alert.error("Please connect your wallet to the Polygon network.");
         return;
       }
       try {
         write({
           args: [token.voteId, validate, utilityScore, socialScore, trustScore],
         });
-        // if (isSuccess) alert.success("Your vote has been submited");
+        if (isSuccess) alert.success("Your vote has been submited");
       } catch (e) {
         handleViewError(e, alert);
       }

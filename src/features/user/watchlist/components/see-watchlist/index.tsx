@@ -53,36 +53,37 @@ export const SeeWatchlist = ({
   const { showAddedToWatchlist } = useContext(PopupStateContext);
   return (
     <Container>
-      <div className="flex items-center">
+      <div className="flex items-center  my-[15px]">
         <button className="mr-2.5" onClick={() => router.push("/watchlist")}>
           <BiArrowBack className="text-light-font-100 dark:text-dark-font-100" />
         </button>
         <LargeFont>{watchlist?.name}</LargeFont>
-      </div>
-      <div className="flex items-center ml-auto mb-[15px]">
-        {userOfWatchlist?.profile_pic !== "/mobula/fullicon.png" ? (
-          <NextImageFallback
-            width={22}
-            height={22}
-            style={{
-              borderRadius: "full",
-            }}
-            src={userOfWatchlist?.profile_pic}
-            alt="user profile pic"
-            fallbackSrc="/empty/unknown.png"
-          />
-        ) : (
-          <AddressAvatar
-            extraCss="w-[22px] h-[22px] rounded-full"
-            address={userOfWatchlist?.address}
-          />
-        )}
-        <MediumFont
-          extraCss="ml-[7.5px] cursor-pointer"
-          onClick={() => router.push(`/profile/${userOfWatchlist?.address}`)}
-        >
-          By {username}
-        </MediumFont>
+
+        <div className="flex items-center ml-auto">
+          {userOfWatchlist?.profile_pic !== "/mobula/fullicon.png" ? (
+            <NextImageFallback
+              width={22}
+              height={22}
+              style={{
+                borderRadius: "full",
+              }}
+              src={userOfWatchlist?.profile_pic}
+              alt="user profile pic"
+              fallbackSrc="/empty/unknown.png"
+            />
+          ) : (
+            <AddressAvatar
+              extraCss="w-[22px] h-[22px] rounded-full"
+              address={userOfWatchlist?.address}
+            />
+          )}
+          <MediumFont
+            extraCss="ml-[7.5px] cursor-pointer"
+            onClick={() => router.push(`/profile/${userOfWatchlist?.address}`)}
+          >
+            By {username}
+          </MediumFont>
+        </div>
       </div>
       {tokens ? (
         <>

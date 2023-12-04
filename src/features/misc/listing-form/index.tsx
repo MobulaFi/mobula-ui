@@ -1,7 +1,6 @@
 "use client";
-import { useContext, useReducer } from "react";
-// import {useAlert} from "react-alert";
-import React from "react";
+import React, { useContext, useReducer } from "react";
+import { useAlert } from "react-alert";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
 import { pushData } from "../../../lib/mixpanel";
@@ -18,7 +17,7 @@ import { INITIAL_STATE, reducer } from "./reducer";
 export const Listing = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { actualPage, setActualPage } = useContext(ListingContext);
-  // const alert = useAlert();
+  const alert = useAlert();
 
   const getAccessToNextPage = () => {
     if (
@@ -33,7 +32,7 @@ export const Listing = () => {
       return true;
     }
     if (actualPage === 0) {
-      // alert.show("Please fill all the fields");
+      alert.show("Please fill all the fields");
       return false;
     }
     if (actualPage !== 0) return true;

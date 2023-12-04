@@ -1,7 +1,6 @@
-import { useContext, useRef, useState } from "react";
-// import { useAlert } from "react-alert";
 import { useTheme } from "next-themes";
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
+import { useAlert } from "react-alert";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -29,7 +28,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
   const { address } = useAccount();
   const { theme } = useTheme();
   const isDarkMode = theme === "dark";
-  // const alert = useAlert();
+  const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
   const [isPublic, setIsPublic] = useState(watchlist?.public);
@@ -54,12 +53,12 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
     })
       .then((r) => r.json())
       .then((r) => {
-        // if (r.error) alert.error(r.error);
-        // else {
-        setIsPublic(!isPublic);
-        // if (isPublic) alert.success("Your watchlist is now public.");
-        // else alert.success("Your watchlist is now private.");
-        // }
+        if (r.error) alert.error(r.error);
+        else {
+          setIsPublic(!isPublic);
+          if (isPublic) alert.success("Your watchlist is now public.");
+          else alert.success("Your watchlist is now private.");
+        }
       });
   };
 

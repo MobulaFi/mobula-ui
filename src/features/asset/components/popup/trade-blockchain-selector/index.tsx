@@ -1,7 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useEffect } from "react";
-// import {useAlert} from "react-alert";
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useAlert } from "react-alert";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -27,7 +26,7 @@ export const TradeBlockchainPopup = ({
     setFilters,
     setShouldInstantLoad,
   } = useContext(BaseAssetContext);
-  // const alert = useAlert();
+  const alert = useAlert();
 
   useEffect(() => {
     if ((selectedTradeFilters?.blockchains?.length as number) === 0)
@@ -163,8 +162,7 @@ export const TradeBlockchainPopup = ({
             onClick={() => {
               if ((selectedTradeFilters?.blockchains?.length as number) > 0) {
                 handleAddFilter(false);
-              }
-              //  else alert.error("Please select at least one blockchain");
+              } else alert.error("Please select at least one blockchain");
             }}
           >
             Apply

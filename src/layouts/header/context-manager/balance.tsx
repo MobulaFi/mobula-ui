@@ -1,3 +1,4 @@
+"use client";
 import { parse } from "cookie";
 import {
   SetStateAction,

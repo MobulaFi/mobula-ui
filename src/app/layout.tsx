@@ -25,7 +25,6 @@ async function RootLayout({
   const tradeFilterCookie = cookieStore.get("trade-filter")?.value;
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
-  console.log("TA GRAND MERE LA PUTE", params);
   // isWalletExplorer={pageProps.isWalletExplorer}
   // isPortfolioExplorer={pageProps.isPortfolioExplorer}
   // const portfolio = cookies?.portfolio ? JSON.parse(cookies?.portfolio) : null;

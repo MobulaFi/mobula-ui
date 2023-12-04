@@ -5,6 +5,7 @@ import { Input } from "components/input";
 import { Cookies } from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { Key, useContext, useState } from "react";
+import { useAlert } from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -35,7 +36,7 @@ export const PopoverTrade = ({
   const { activeView, setIsLoading, setShowCategories, setActiveView } =
     useTop100();
   const { user, setUser } = useContext(UserContext);
-  // const alert = useAlert();
+  const alert = useAlert();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [loadTime, setLoadTime] = useState(false);
   const { address } = useAccount();
@@ -58,7 +59,7 @@ export const PopoverTrade = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.error) {
-          // alert.error(r.error);
+          alert.error(r.error);
           return;
         } else {
           setUser(
