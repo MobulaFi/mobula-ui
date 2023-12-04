@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { LargeFont, MediumFont, SmallFont } from "components/fonts";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../../../../../contexts/user";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { PortfolioV2Context } from "../../../context-manager";
