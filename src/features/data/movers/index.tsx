@@ -1,26 +1,27 @@
 "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { BlockchainsNav } from "../../../layouts/blockchains-nav";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { createSupabaseDOClient } from "../../../lib/supabase";
+import { ButtonSelectorMobile } from "./components/button-selector-mobile";
 import { MoversTable } from "./components/table-mover";
 import { MoversType } from "./models";
 
-export const Movers = ({
-  gainersBuffer,
-  losersBuffer,
-}: {
+interface MoversProps {
   gainersBuffer: MoversType[];
   losersBuffer: MoversType[];
-}) => {
+}
+
+export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
   const gainersRef: RefObject<HTMLDivElement> = useRef();
   const [isGainer, setIsGainer] = useState(true);
   const losersRef: RefObject<HTMLDivElement> | undefined = useRef();
   const [blockchain, setBlockchain] = useState("all");
   const [isFirstRequest, setIsFirstRequest] = useState(true);
+  const [activeTab, setActiveTab] = useState("Gainers");
   const [gainers, setGainers] = useState<MoversType[]>(
     (gainersBuffer as MoversType[]) || []
   );
@@ -100,32 +101,22 @@ export const Movers = ({
           <Title
             title="Biggest Crypto Gainers and Losers"
             subtitle="Discover the biggest crypto movers of the day, their real time price, chart, liquidity, and more."
-            extraCss="mb-5"
+            extraCss="mb-5 md:mx-0"
           />
-          <div className="item-center justify-between hidden md:flex w-[95%]">
-            {/* <Box style={{width: "100%"}}>
+          <div className="item-center justify-between hidden md:flex w-full mb-2.5">
+            <div className="w-full flex items-center">
               <ButtonSelectorMobile
-                color={isGainer ? text80 : text40}
-                border={
-                  isGainer
-                    ? "1px solid var(--chakra-colors-borders-blue)"
-                    : borders
-                }
                 onClick={() => setIsGainer(true)}
                 isGainer
+                activeTab={isGainer === true}
               />
               <ButtonSelectorMobile
-                color={!isGainer ? text80 : text40}
-                border={
-                  !isGainer
-                    ? "1px solid var(--chakra-colors-borders-blue)"
-                    : borders
-                }
                 onClick={() => setIsGainer(false)}
+                activeTab={isGainer === false}
               />
-            </Box> */}
+            </div>
           </div>
-          <div className="flex w-full md:pt-5">
+          <div className="flex w-full md:pt-0">
             <BlockchainsNav
               isMovers
               blockchain={blockchain}
@@ -134,9 +125,9 @@ export const Movers = ({
             />
           </div>
         </div>
-        <div className="flex mt-2.5">
+        <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
           <div
-            className={`flex mr-5 lg:mr-0 w-2/4 lg:w-full ${
+            className={`flex mr-3 lg:mr-0 w-2/4 lg:w-full ${
               isGainer ? "" : "lg:hidden"
             }`}
             id="left"
@@ -145,7 +136,7 @@ export const Movers = ({
             <MoversTable assets={isGainer ? gainers : losers} />
           </div>
           <div
-            className={`flex ml-5 lg:ml-0 w-2/4 lg:w-full ${
+            className={`flex ml-3 lg:ml-0 w-2/4 lg:w-full ${
               !isGainer ? "" : "lg:hidden"
             }`}
             ref={losersRef}

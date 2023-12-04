@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { MediumFont, SmallFont } from "../../../../../components/fonts";
 import { ModalContainer } from "../../../../../components/modal-container";
 import { BaseAssetContext } from "../../../context-manager";
@@ -8,11 +8,12 @@ export const PopupAllTags = () => {
     useContext(BaseAssetContext);
   return (
     <ModalContainer
+      extraCss="max-w-[400px]"
       isOpen={showSeeAllTags}
       onClose={() => setShowSeeAllTags(false)}
       title={`${baseAsset?.name} Tags`}
     >
-      <MediumFont extraCss="text-[15px] mb-2.5">Category</MediumFont>
+      <MediumFont extraCss="text-[15px] mb-1">Category</MediumFont>
       <div className="flex flex-wrap">
         {baseAsset?.tags?.map((tag) => (
           <div
