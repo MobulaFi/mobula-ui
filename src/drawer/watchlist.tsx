@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../components/button";

@@ -1,4 +1,4 @@
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   default as React,
   SetStateAction,
@@ -53,6 +53,7 @@ export const Header = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const params = useParams();
+  const router = useRouter();
   const isUserWatchlist =
     (isPageUserWatchlist && !pathname.includes("explore")) ||
     (!pathname.includes("followed") && pathname !== "/watchlist");
@@ -155,6 +156,7 @@ export const Header = ({
           // }
         });
   };
+  console.log(pathname !== "/watchlist/");
   if (pathname !== "/watchlist/followed")
     return (
       <div className="flex items-center justify-between rounded-t border-t border-light-border-primary dark:border-dark-border-primary py-2.5">
@@ -207,7 +209,10 @@ export const Header = ({
                     getBgColor(item?.name) ||
                     "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   }`}
-                  onClick={() => setActiveWatchlist(item)}
+                  onClick={() => {
+                    if (pathname === "/watchlist") setActiveWatchlist(item);
+                    if (pathname !== "/watchlist") router.push("/watchlist/");
+                  }}
                 >
                   {item?.name}
                 </Button>
@@ -224,7 +229,10 @@ export const Header = ({
             >
               <Button extraCss="ml-2.5" onClick={() => setShowShare(true)}>
                 <SmallFont extraCss="flex md:hidden">Share </SmallFont>
-                <IoShareSocialOutline className="text-light-font-40 dark:text-dark-font-40 md:text-light-font-100 md:dark:text-dark-font-100 ml-[5px] md:hidden mb-[1px] text-sm" />
+                <IoShareSocialOutline
+                  className="text-light-font-40 dark:text-dark-font-40
+                 md:text-light-font-100 md:dark:text-dark-font-100 ml-[5px] md:ml-0 mb-[1px] text-sm"
+                />
               </Button>
               {isUserWatchlist ? (
                 <Button extraCss="ml-2.5" onClick={handleFollowWatchlist}>
