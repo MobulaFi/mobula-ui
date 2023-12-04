@@ -109,7 +109,7 @@ export const ChainsChanger = ({
             className={`w-[420px] lg:w-[340px] bg-light-bg-terciary dark:bg-dark-bg-terciary p-2.5 rounded-lg
            border border-light-border-primary dark:border-dark-border-primary absolute z-20 ${
              isMobileVersion ? "right-0" : "left-0"
-           } top-[45px] sm:top-[-220px]`}
+           } top-[45px] sm:top-[-270px]`}
           >
             <div className="flex flex-wrap">
               {reorderedBlockchainsContent.map((entry, i) => {
