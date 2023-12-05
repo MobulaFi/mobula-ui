@@ -56,16 +56,17 @@ export const MenuMobile = ({
     >
       <Mobile navigation={navigation} />
       <NextChakraLink
-        href={watchlistUrl}
+        href={isConnected ? watchlistUrl : ""}
         extraCss="mt-2.5"
         onClick={() => {
+          if (!isConnected) setConnect(true);
           setIsMenuMobile(false);
           pushData("Header Clicked", {
             name: "Watchlist",
           });
         }}
       >
-        <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100">
+        <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
           <AiFillStar className="text-yellow dark:text-yellow text-lg mr-[5px]" />
           <p className="text-lg">Watchlist</p>
         </div>

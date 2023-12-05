@@ -3,11 +3,15 @@ import { User } from "mobula-utils/lib/user/model";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { Container } from "../../../../../components/container";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../components/image";
-import { PopupStateContext } from "../../../../../contexts/popup";
+import {
+  PopupStateContext,
+  PopupUpdateContext,
+} from "../../../../../contexts/popup";
 import { WatchlistDrawer } from "../../../../../drawer/watchlist";
 import { AssetsTable } from "../../../../../layouts/tables/components";
 import { addressSlicer } from "../../../../../utils/formaters";
@@ -30,6 +34,8 @@ export const SeeWatchlist = ({
   userOfWatchlist,
 }: SeeWatchlistProps) => {
   const router = useRouter();
+  const { isConnected } = useAccount();
+  const { setConnect } = useContext(PopupUpdateContext);
   const [orderBy, setOrderBy] = useState({
     ascending: false,
     type: "market_cap",
@@ -54,7 +60,13 @@ export const SeeWatchlist = ({
   return (
     <Container>
       <div className="flex items-center  my-[15px]">
-        <button className="mr-2.5" onClick={() => router.push("/watchlist")}>
+        <button
+          className="mr-2.5"
+          onClick={() => {
+            if (isConnected) router.push("/watchlist");
+            else setConnect(true);
+          }}
+        >
           <BiArrowBack className="text-light-font-100 dark:text-dark-font-100" />
         </button>
         <LargeFont>{watchlist?.name}</LargeFont>
