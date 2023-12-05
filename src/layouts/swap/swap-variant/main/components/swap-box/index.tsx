@@ -3,6 +3,7 @@ import { useFeeData, useNetwork } from "wagmi";
 import { SwapContext } from "../../../..";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
+import { Tooltip } from "../../../../../../components/tooltip";
 import { pushData } from "../../../../../../lib/mixpanel";
 import {
   getFormattedAmount,
@@ -74,7 +75,7 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
         setShowBlockchainSelector={setShowBlockchainSelector}
         isFrom={isFrom}
       />
-      <div className="flex items-start justify-between w-full">
+      <div className="flex items-center justify-between w-full">
         {isFrom ? (
           <div className="flex items-center">
             <SmallFont extraCss="mr-2.5 whitespace-nowrap font-medium -mt-0.5 text-light-font-40 dark:text-dark-font-40">
@@ -100,7 +101,7 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
             <p className="text-xs text-light-font-40 dark:text-dark-font-40">
               Balance: {getFormattedAmount(tokenIn?.balance)}
             </p>
-            <div className="flex">
+            <div className="flex mt-0.5">
               <button
                 className="text-xs ml-2.5 text-light-font-100 dark:text-dark-font-100 font-medium"
                 onClick={() => {
@@ -118,14 +119,10 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
               >
                 MAX
               </button>
-              {/* <InfoPopup
-                info="Inputs your maximum holdings minus gas fees, which could go to 0 if you have a low balance."
-                position={
-                  "bottom" as PlacementWithLogical & ResponsiveValue<any>
-                }
-                noClose
-                extraCss="mb-[5px]"
-              /> */}
+              <Tooltip
+                tooltipText="Inputs your maximum holdings minus gas fees, which could go to 0 if you have a low balance."
+                extraCss="top-[20px] right-0"
+              />
             </div>
           </div>
         )}

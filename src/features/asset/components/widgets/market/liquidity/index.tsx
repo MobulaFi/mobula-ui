@@ -113,7 +113,9 @@ export const Liquidity = ({ extraCss }: LiquidityProps) => {
 
   const createInstance = useCallback(() => {
     if (!biggestPairs.length) return;
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
     return (
       instance ||
       echarts.init(document.getElementById(id), null, {

@@ -1,5 +1,4 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import { kv } from "@vercel/kv";
 import {
   defaultCategories,
   defaultFilter,
@@ -20,6 +19,9 @@ import {
   View,
 } from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
+
+export const dynamic = "force-static";
+export const revalidate = 3600;
 
 const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
@@ -127,32 +129,32 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     else actualView = { ...(allView as View), disconnected: false };
   }
 
-  try {
-    const assetsCache = await kv.hgetall("assets");
-    if (assetsCache) {
-      const props = {
-        tokens: assetsCache.data || [],
-        metrics: assetsCache.metrics,
-        count: assetsCache.count,
-        ethPrice: assetsCache.ethPrice,
-        btcPrice: assetsCache.btcPrice,
-        actualView,
-        actualPortfolio,
-        allView,
-        aiNews: assetsCache.aiNews,
-        filteredValues,
-        page,
-        isMobile,
-        isTablet,
-        cookies: newCookies ?? "",
-      };
+  // try {
+  //   const assetsCache = await kv.hgetall("assets");
+  //   if (assetsCache) {
+  //     const props = {
+  //       tokens: assetsCache.data || [],
+  //       metrics: assetsCache.metrics,
+  //       count: assetsCache.count,
+  //       ethPrice: assetsCache.ethPrice,
+  //       btcPrice: assetsCache.btcPrice,
+  //       actualView,
+  //       actualPortfolio,
+  //       allView,
+  //       aiNews: assetsCache.aiNews,
+  //       filteredValues,
+  //       page,
+  //       isMobile,
+  //       isTablet,
+  //       cookies: newCookies ?? "",
+  //     };
 
-      console.log("PHASE AFTER CALL CACHED", new Date(Date.now()));
-      return props;
-    }
-  } catch (error) {
-    // Handle errors
-  }
+  //     console.log("PHASE AFTER CALL CACHED", new Date(Date.now()));
+  //     return props;
+  //   }
+  // } catch (error) {
+  //   // Handle errors
+  // }
 
   const getViewQuery = async () => {
     const query = supabase
@@ -206,16 +208,16 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     { data: aiNews },
   ] = await Promise.all(queries);
 
-  try {
-    await kv.hset("assets", {
-      metrics,
-      count,
-      data,
-      ethPrice,
-      btcPrice,
-      aiNews,
-    });
-  } catch (error) {}
+  // try {
+  //   await kv.hset("assets", {
+  //     metrics,
+  //     count,
+  //     data,
+  //     ethPrice,
+  //     btcPrice,
+  //     aiNews,
+  //   });
+  // } catch (error) {}
 
   const props = {
     tokens: data || [],
@@ -246,9 +248,7 @@ export const metadata: Metadata = {
 
 const HomePage = async ({ searchParams }) => {
   const url = headers();
-  console.log("FETCHIONG", Date.now());
   const props = await fetchAssetsAndViews({ searchParams });
-  console.log("FETCH RESP", Date.now());
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";
   const title = "Crypto Live Prices, Market caps, Charts and Volumes - Mobula";

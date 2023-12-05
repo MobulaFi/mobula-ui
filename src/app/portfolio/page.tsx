@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { Portfolio } from "../../features/user/portfolio";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Analyze Your Crypto Portfolio - On-Chain & Off-Chain - Mobula",
   description:

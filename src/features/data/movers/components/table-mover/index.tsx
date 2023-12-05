@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
-import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
+import React from "react";
 import { NextImageFallback } from "../../../../../components/image";
+import { TagPercentage } from "../../../../../components/tag-percentage";
 import {
   formatAmount,
   getFormattedAmount,
@@ -40,6 +41,7 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
         const isGainer = asset.price_change_24h > 0;
         return (
           <tbody
+            key={asset?.id}
             className="hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary cursor-pointer"
             onClick={() => router.push(`/asset/${getUrlFromName(asset.name)}`)}
           >
@@ -81,19 +83,16 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
                 ${formatAmount(asset.global_volume)}
               </td>
               <td className={`${tdStyle} text-end }`}>
-                <div
-                  className={`${
-                    isGainer
-                      ? "text-green dark:text-green"
-                      : "text-red dark:text-red"
-                  } flex items-center justify-end`}
-                >
-                  {isGainer ? (
-                    <TbTriangleFilled className="text-[10px] mr-1 " />
-                  ) : (
-                    <TbTriangleInvertedFilled className="text-[10px] mr-1" />
-                  )}
-                  {getTokenPercentage(asset.price_change_24h)}%{" "}
+                <div className="w-full flex justify-end">
+                  <TagPercentage
+                    percentage={
+                      getTokenPercentage(asset.price_change_24h) as never
+                    }
+                    isUp={
+                      ((getTokenPercentage(asset.price_change_24h) ||
+                        0) as never) > 0
+                    }
+                  />
                 </div>
               </td>
             </tr>
