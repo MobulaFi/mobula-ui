@@ -20,7 +20,7 @@ import {
 } from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
 
-export const dynamic = "error";
+export const dynamic = "auto";
 export const revalidate = 3600;
 
 const fetchAssetsAndViews = async ({ searchParams }) => {
