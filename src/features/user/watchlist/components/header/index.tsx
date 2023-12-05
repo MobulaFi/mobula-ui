@@ -53,6 +53,7 @@ export const Header = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const params = useParams();
+  const { isConnected } = useAccount();
   const router = useRouter();
   const isUserWatchlist =
     (isPageUserWatchlist && !pathname.includes("explore")) ||
@@ -211,7 +212,8 @@ export const Header = ({
                   }`}
                   onClick={() => {
                     if (pathname === "/watchlist") setActiveWatchlist(item);
-                    if (pathname !== "/watchlist") router.push("/watchlist/");
+                    if (pathname !== "/watchlist" && isConnected)
+                      router.push("/watchlist/");
                   }}
                 >
                   {item?.name}

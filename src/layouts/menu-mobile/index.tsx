@@ -1,17 +1,21 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { SlWallet } from "react-icons/sl";
 import { VscArrowSwap } from "react-icons/vsc";
+import { useAccount } from "wagmi";
 import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
+import { PopupUpdateContext } from "../../contexts/popup";
 import { useUrl } from "../../hooks/url";
 
 export const MenuFixedMobile = () => {
   const [lastScroll, setLastScroll] = useState(0);
   const [visible, setVisible] = useState(true);
   const { portfolioUrl } = useUrl();
+  const { setConnect } = useContext(PopupUpdateContext);
+  const { isConnected, isDisconnected } = useAccount();
   const pathname = usePathname();
   const [isHover, setIsHover] = useState({
     home: pathname === "/",
@@ -114,12 +118,13 @@ export const MenuFixedMobile = () => {
         </div>
         <div className="flex w-[33.33%] h-full items-center justify-center">
           <NextChakraLink
-            href={portfolioUrl}
+            href={isConnected ? portfolioUrl : ""}
             onMouseEnter={() => handleHoverIn("portfolio")}
             onMouseLeave={() => handleHoverOut("portfolio")}
-            onClick={() =>
-              setIsHover({ swap: false, portfolio: true, home: false })
-            }
+            onClick={() => {
+              if (isDisconnected) setConnect(true);
+              setIsHover({ swap: false, portfolio: true, home: false });
+            }}
           >
             <div className="flex flex-col items-center justify-center">
               <SlWallet

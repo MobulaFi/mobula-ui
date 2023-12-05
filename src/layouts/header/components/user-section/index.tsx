@@ -167,16 +167,12 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
 
   const getEffectOnClick = (type: string) => {
     const map = {
-      profile: () => {
-        router.push("/profile");
-        setShouldMagicLinkProfile(false);
-        pushData("Header Clicked", {
-          name: "profile",
-        });
-        setShowInfoPopover(false);
-      },
       watchlist: () => {
-        router.push("/watchlist");
+        if (isConnected) {
+          router.push("/watchlist");
+        } else {
+          setConnect(true);
+        }
         pushData("Header Clicked", {
           name: "watchlist",
         });
@@ -193,13 +189,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         disconnect();
         pushData("Header Clicked", {
           name: "disconnect",
-        });
-        setShowInfoPopover(false);
-      },
-      earn: () => {
-        router.push("/earn");
-        pushData("Header Clicked", {
-          name: "earn",
         });
         setShowInfoPopover(false);
       },
@@ -264,7 +253,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
 
   return (
     <>
-      <div className="relative flex items-center w-full justify-end lg:justify-end sm:w-[90%]">
+      <div className="relative flex items-center w-full justify-end  lg:justify-end sm:w-[90%]">
         {!isMenuMobile ? (
           <>
             <ChainsChanger

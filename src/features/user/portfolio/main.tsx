@@ -60,8 +60,6 @@ export const PortfolioMain = () => {
     if (!localStorage.getItem("showTutoPortfolio")) setShowTuto(true);
   }, []);
 
-  console.log("showTutot", showTuto);
-
   useEffect(() => {
     setIsAssetPage(false);
     setAsset(null as never);

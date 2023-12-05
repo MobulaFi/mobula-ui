@@ -120,7 +120,6 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
       type: "bar",
       itemStyle: {
         color: (params) => {
-          console.log("dddd", params);
           const value = params.value[1];
           if (value > 0) return "#0ECB81";
           return "#ea3943";

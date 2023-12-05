@@ -2,6 +2,7 @@ import { Collapse } from "components/collapse";
 import router from "next/router";
 import React, { useContext } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { useAccount } from "wagmi";
 import { NextChakraLink } from "../../../../components/link";
 import { CommonPageContext } from "../../../../contexts/commun-page";
 import { Navigation } from "../../model";
@@ -12,12 +13,12 @@ interface MobileProps {
 }
 
 export const Mobile = ({ isFooter, navigation }: MobileProps) => {
+  const { isConnected } = useAccount();
   const { isMenuMobile, setIsMenuMobile, extended, setExtended } =
     useContext(CommonPageContext);
   return (
     <div className="flex flex-col w-full">
       {navigation.map((entry) => {
-        console.log(entry);
         if (entry.name === "Swap")
           return (
             <NextChakraLink href={entry.url} key={`${entry.url}-${entry.name}`}>
@@ -71,7 +72,13 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
               <div className="flex mt-2.5 flex-col text-base">
                 {entry.extends.map((submenu, i) => (
                   <NextChakraLink
-                    href={submenu.url}
+                    href={
+                      submenu.name === "Watchlist"
+                        ? isConnected
+                          ? submenu.url
+                          : ""
+                        : submenu.url
+                    }
                     extraCss={`mb-[3px] w-fit my-1 ${
                       isFooter
                         ? "text-light-font-60 dark:text-dark-font-60"

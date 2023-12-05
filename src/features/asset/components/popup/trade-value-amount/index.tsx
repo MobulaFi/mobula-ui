@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
 import { Input } from "../../../../../components/input";
+import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../context-manager";
 import { cancelButtonStyle } from "../../../style";
 
@@ -12,6 +13,7 @@ interface TradeValueAmountPopupProps {
   setActiveName: any;
   activeName: any;
   setStateValue?: React.Dispatch<React.SetStateAction<boolean>>;
+  extraCss?: string;
 }
 
 export const TradeValueAmountPopup = ({
@@ -20,6 +22,7 @@ export const TradeValueAmountPopup = ({
   onClose,
   setStateValue,
   setActiveName,
+  extraCss,
   activeName,
 }: TradeValueAmountPopupProps) => {
   const {
@@ -166,7 +169,7 @@ export const TradeValueAmountPopup = ({
           />
         </div>
       </div>
-      <div className="flex mt-5">
+      <div className={cn("flex mt-5", extraCss)}>
         <Button
           extraCss={`${cancelButtonStyle} w-[50%]`}
           onClick={() => {

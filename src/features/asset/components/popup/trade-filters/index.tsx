@@ -1,7 +1,7 @@
 import { SmallFont } from "components/fonts";
 import { NextImageFallback } from "components/image";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { Key, useContext, useState } from "react";
+import React, { Key, useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Accordion } from "../../../../../components/accordion";
 import { ModalContainer } from "../../../../../components/modal-container";
@@ -68,7 +68,12 @@ export const TradeFiltersPopup = () => {
         ) : (
           activeNames.blockchain
         ),
-      content: <TradeBlockchainPopup setActiveName={setActiveNames} />,
+      content: (
+        <TradeBlockchainPopup
+          setActiveName={setActiveNames}
+          extraCss="py-2.5"
+        />
+      ),
     },
     // {
     //   title: "All Liquidity Pools",
@@ -76,7 +81,9 @@ export const TradeFiltersPopup = () => {
     // },
     {
       title: activeNames.type,
-      content: <TradeTypePopup setActiveName={setActiveNames} />,
+      content: (
+        <TradeTypePopup setActiveName={setActiveNames} extraCss="pb-2.5" />
+      ),
     },
     {
       title: activeNames.token_amount,
@@ -87,6 +94,7 @@ export const TradeFiltersPopup = () => {
           setStateValue={setShowTradeTokenAmount}
           setActiveName={setActiveNames}
           activeName={activeNames}
+          extraCss="pb-2.5"
         />
       ),
     },
