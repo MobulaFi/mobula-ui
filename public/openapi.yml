@@ -1,0 +1,988 @@
+openapi: 3.0.1
+info:
+  title: Mobula
+  description: A tool that allows the user to fetch real-time data for all crypto metrics.
+  version: "v1"
+servers:
+  - url: https://api.app-mobula.com/api/1
+paths:
+  /search:
+    get:
+      operationId: fetchCryptoDataByName
+      summary: Search crypto data by name or symbol
+      parameters:
+        - name: name
+          in: query
+          description: Name or symbol (or starting name/symbol) of the asset
+          schema:
+            type: string
+            example: bitcoin
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SearchCryptoData"
+  /wallet/nfts:
+    get:
+      operationId: fetchWalletNFTs
+      summary: "Get Portfolio"
+      parameters:
+        - in: query
+          name: wallet
+          schema:
+            type: string
+            example: "0x554efD74C693999bABf7CC0f5646D465A31b32CB"
+          description: "Wallet address or ENS or Mobula username"
+        - in: query
+          name: force
+          schema:
+            type: boolean
+          description: "Will force a new on-chain data fetch"
+          example: true
+      responses:
+        "200":
+          description: "A list of NFTs in the queried wallet"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        token_address:
+                          type: string
+                        token_id:
+                          type: string
+                        amount:
+                          type: string
+                        token_hash:
+                          type: string
+                        contract_type:
+                          type: string
+                        name:
+                          type: string
+                        symbol:
+                          type: string
+                        token_uri:
+                          type: string
+                        metadata:
+                          type: string
+                      required:
+                        - token_address
+                        - token_id
+                        - amount
+                        - token_hash
+                        - contract_type
+                        - name
+                        - symbol
+                        - token_uri
+                        - metadata
+  /all:
+    get:
+      operationId: fetchAllCryptoDetails
+      summary: Get all crypto data with extra fields as needed
+      parameters:
+        - name: fields
+          in: query
+          description: Extra fields needed
+          schema:
+            type: string
+            example: blockchains,contracts
+            description: Comma-separated list of fields. Available fields include contracts, blockchains, twitter, website, logo, price, market_cap, liquidity, volume
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CryptoData"
+  /market/data:
+    get:
+      operationId: fetchAssetMarketData
+      summary: Get the market metrics for any asset
+      parameters:
+        - name: blockchain
+          in: query
+          description: Blockchain of the asset - only mandatory if asset is sent as smart-contract.
+          schema:
+            type: string
+        - name: asset
+          in: query
+          description: The asset you want to target - asset name only works for assets listed on Mobula.
+          schema:
+            type: string
+            example: Bitcoin
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketDataResponse"
+  /market/multi-data:
+    get:
+      summary: Get multiple assets market data
+      operationId: fetchMultipleAssetMarketData
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: assets
+          in: query
+          description: Comma separated list of asset names or Ethereum addresses (max 50)
+          required: true
+          schema:
+            type: string
+        - name: blockchains
+          in: query
+          description: Comma separated list of blockchain names
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      $ref: "#/components/schemas/MarketMetrics"
+        "400":
+          description: Invalid input - too many assets or invalid blockchain name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /market/history:
+    get:
+      operationId: fetchAssetMarketHistory
+      summary: Get the market metrics of an asset over a given timeframe
+      parameters:
+        - name: blockchain
+          in: query
+          description: Blockchain of the asset - only mandatory if asset is sent as smart-contract.
+          schema:
+            type: string
+        - name: asset
+          in: query
+          description: The asset you want to target - asset name only works for assets listed on Mobula.
+          schema:
+            type: string
+          required: true
+        - name: from
+          in: query
+          description: JS Timestamp (miliseconds) of the beginning of the timeframe (if not provided, genesis)
+          schema:
+            type: integer
+        - name: to
+          in: query
+          description: JS Timestamp (miliseconds) of the end of the timeframe (if not provided, end)
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketHistoryResponse"
+  /wallet/transactions:
+    get:
+      operationId: fetchWalletTransactions
+      summary: Get the wallet transactions
+      parameters:
+        - name: from
+          in: query
+          description: ISO Date string OR Timestamp from which you want to start receiving transactions
+          schema:
+            type: integer
+        - name: to
+          in: query
+          description: ISO Date string OR Timestamp until which you want to receive transactions
+          schema:
+            type: integer
+        - name: asset
+          in: query
+          description: The asset you want to target, use the asset's name (empty if you want general transactions)
+          schema:
+            type: string
+        - name: wallet
+          in: query
+          description: The user wallet queried
+          schema:
+            type: string
+            example: "0xE7dBE6aa7Edcc38CB5007B87153d236AD879309B"
+          required: true
+        - name: limit
+          in: query
+          description: Number of transactions to return (100 by default)
+          schema:
+            type: integer
+            default: 100
+        - name: offset
+          in: query
+          description: Number of pages to skip (0 by default) - limit * offset = number of transactions to skip
+          schema:
+            type: integer
+            default: 0
+        - name: order
+          in: query
+          description: Order in which transactions should be sorted. Use 'asc' for ascending and 'desc' for descending.
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+        - name: blockchains
+          in: query
+          description: The blockchains you want to target (chain name OR chain ID, coma separated) - empty if all
+          schema:
+            type: string
+            default: Ethereum,Polygon
+        - name: cache
+          in: query
+          description: true if you want to use the cache (false by default)
+          schema:
+            type: boolean
+            example: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletTransactionsResponse"
+  /metadata:
+    get:
+      operationId: fetchAssetMetadata
+      summary: "Get market metrics at a specific time"
+      parameters:
+        - in: query
+          name: asset
+          schema:
+            type: string
+          description: "Name or contract address of the asset"
+          example: "Bitcoin"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Asset"
+  /wallet/portfolio:
+    get:
+      operationId: fetchWalletHoldings
+      summary: Get the portfolio of holdings from any EVM-compatible wallets, at any time
+      parameters:
+        - name: timestamp
+          in: query
+          description: ISO Date string from which you want to start receiving transactions - NOW by default
+          schema:
+            type: integer
+        - name: asset
+          in: query
+          description: The asset you want to target (empty if you want general portfolio)
+          schema:
+            type: string
+        - name: wallet
+          in: query
+          description: The user wallet queried
+          schema:
+            type: string
+            example: "0xE7dBE6aa7Edcc38CB5007B87153d236AD879309B"
+          required: true
+        - name: pnl
+          in: query
+          description: true if you want to include the PnL (false by default)
+          schema:
+            type: boolean
+            example: false
+        - name: blockchains
+          in: query
+          description: The blockchains you want to target (chain name OR chain ID, coma separated) - empty if all
+          schema:
+            type: string
+            default: Ethereum,Polygon
+        - name: cache
+          in: query
+          description: true if you want to use the cache (false by default)
+          schema:
+            type: boolean
+            example: true
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletPortfolioResponse"
+  /wallet/history:
+    get:
+      operationId: fetchWalletHistoryBalance
+      summary: Get the historical balance of any EVM-compatible wallets, at any time
+      parameters:
+        - name: wallet
+          in: query
+          description: The user wallet queried
+          schema:
+            type: string
+            example: "0xE7dBE6aa7Edcc38CB5007B87153d236AD879309B"
+          required: true
+        - name: from
+          in: query
+          description: JS Timestamp (miliseconds) of the beginning of the timeframe (if not provided, genesis)
+          schema:
+            type: integer
+        - name: to
+          in: query
+          description: JS Timestamp (miliseconds) of the end of the timeframe (if not provided, end)
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletHistoryResponse"
+  /market/trades:
+    get:
+      tags:
+        - Market Trades
+      summary: Retrieve trade history for a given asset.
+      operationId: fetchAssetTradeHistory
+      parameters:
+        - name: asset
+          in: query
+          description: Asset name or contract address to retrieve trade history for.
+          required: true
+          schema:
+            type: string
+        - name: maxResults
+          in: query
+          description: Maximum number of results to return.
+          required: false
+          schema:
+            type: integer
+            default: 20
+            example: 20
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TradeHistoryResponse"
+        "400":
+          description: Bad request (e.g., missing asset parameter)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /market/query:
+    get:
+      operationId: marketQuery
+      summary: Retrieve market data based on sorting and filtering criteria.
+      parameters:
+        - name: sortBy
+          in: query
+          required: true
+          description: Specifies the field by which the data should be sorted. For instance, if you want to sort assets based on their liquidity, you would use "liquidity". This allows users to view data in a sequence that aligns with their specific interests or queries. It's mandatory ! If it's not in the request, the API will return an error. Absolutely necessary !
+          schema:
+            type: string
+            enum:
+              [
+                "liquidity",
+                "market_cap",
+                "volume",
+                "twitter_members",
+                "telegram_members",
+                "price_change_24h",
+              ]
+        - name: sortOrder
+          in: query
+          description: If user looks for the highest value, the API will return the data in descending order. If user looks for the lowest value, the API will return the data in ascending order. If user wants random data, the API will return the data in random order (default is random)
+          schema:
+            type: string
+            enum: ["random", "desc", "asc"]
+        - name: filters
+          in: query
+          description: One or multiple (coma separated) filters to apply on the data. For instance, if you want to retrieve assets with a liquidity between 1000 and 10000, you would use "liquidity:1000:10000". This allows users to filter the data based on their specific interests or queries.
+          schema:
+            type: string
+            example: liquidity:1000:10000,market_cap:1000000:10000000
+        - name: maxResults
+          in: query
+          description: The maximum number of results to return. For instance, if you want to retrieve the top 10 results, set this value to 10. This allows users to limit the size of the returned dataset.
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful request. Market data is returned based on the specified criteria.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the cryptocurrency.
+                  liquidity:
+                    type: number
+                    description: Represents the liquidity of the cryptocurrency, indicating how easily it can be bought or sold without causing significant price fluctuations.
+                  market_cap:
+                    type: number
+                    description: The market capitalization of the cryptocurrency, representing the total value of all tokens in circulation.
+                  volume:
+                    type: number
+                    description: The trading volume of the cryptocurrency over a specified period, often 24 hours.
+        "400":
+          description: Bad request. For example, an invalid sorting field was provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Detailed error message explaining the reason for the request failure.
+  /quote:
+    get:
+      operationId: fetchSwapQuote
+      summary: Swap
+      parameters:
+        - name: chain
+          in: query
+          description: Blockchain of the trade
+          required: true
+          schema:
+            type: string
+            example: Ethereum
+        - name: receiver
+          in: query
+          description: Address that receives the trade (by default, the sender)
+          required: false
+          schema:
+            type: string
+            example: "0xbb663a119193cA68512c351b0fdfDEB9c22Dc416"
+        - name: fromToken
+          in: query
+          description: Source token for the swap
+          required: true
+          schema:
+            type: string
+            example: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        - name: toToken
+          in: query
+          description: Destination token for the swap
+          required: true
+          schema:
+            type: string
+            example: "0xc944e90c64b2c07662a292be6244bdf05cda44a7"
+        - name: fromAddress
+          in: query
+          description: Address that triggers the trade
+          required: true
+          schema:
+            type: string
+            example: "0xbb663a119193cA68512c351b0fdfDEB9c22Dc416"
+        - name: amount
+          in: query
+          description: Amount (x decimals) for the swap in
+          required: true
+          schema:
+            type: integer
+            example: 39020329732097
+        - name: slippage
+          in: query
+          description: Slippage (%) accepted
+          required: true
+          schema:
+            type: number
+            example: 0.5
+        - name: type
+          in: query
+          description: Aggregation type (fast or best)
+          schema:
+            type: string
+            example: best
+            enum: [fast, best]
+            default: best
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        error:
+                          type: string
+                          example: "Insufficient balance"
+                        tx:
+                          type: object
+                          properties:
+                            from:
+                              type: string
+                            to:
+                              type: string
+                            data:
+                              type: string
+                            value:
+                              type: string
+                        will_fail:
+                          type: boolean
+                        amountOut:
+                          type: string
+                        protocol:
+                          type: string
+                        isAggregator:
+                          type: boolean
+components:
+  schemas:
+    TradeHistoryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/TradeHistoryItem"
+    TradeHistoryItem:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        hash:
+          type: string
+        value_usd:
+          type: number
+        token_amount:
+          type: number
+        token_price:
+          type: number
+        type:
+          type: string
+        blockchain:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+    MarketMetrics:
+      type: object
+      properties:
+        market_cap:
+          type: number
+        liquidity:
+          type: number
+        price:
+          type: number
+        volume:
+          type: number
+        volume_7d:
+          type: number
+        is_listed:
+          type: boolean
+        approximations:
+          type: object
+          properties:
+            price:
+              type: boolean
+            liquidity:
+              type: boolean
+            market_cap:
+              type: boolean
+    WalletHistoryResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            wallet:
+              type: string
+            balance_usd:
+              type: number
+            balance_history:
+              type: array
+              items:
+                type: array
+                items:
+                  type: number
+    MarketDataResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            market_cap:
+              type: number
+              description: The market cap of the asset.
+            liquidity:
+              type: number
+              description: The liquidity of the asset.
+            price:
+              type: number
+              description: The price of the asset.
+    MarketHistoryResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            price_history:
+              type: array
+              items:
+                type: array
+                items:
+                  type: number
+    MarketTradesResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            trades:
+              type: array
+              items:
+                type: object
+                properties:
+                  from:
+                    type: string
+                    description: The from address of the trade.
+                  to:
+                    type: string
+                    description: The to address of the trade.
+                  blockchain:
+                    type: string
+                    description: The blockchain used for the trade.
+                  amount:
+                    type: number
+                    description: The amount of asset in the trade.
+                  amount_usd:
+                    type: number
+                    description: The amount in USD of the trade.
+                  asset:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the asset.
+                      symbol:
+                        type: string
+                        description: The symbol of the asset.
+                      id:
+                        type: integer
+                        description: The id of the asset.
+                  timestamp:
+                    type: integer
+                    description: The timestamp of the trade.
+    WalletTransactionsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            transactions:
+              type: array
+              items:
+                $ref: "#/components/schemas/Transaction"
+    CryptoData:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier of the cryptocurrency
+        name:
+          type: string
+          description: The name of the cryptocurrency
+        symbol:
+          type: string
+          description: The symbol of the cryptocurrency
+        blockchains:
+          type: array
+          items:
+            type: string
+          description: The blockchains on which the cryptocurrency exists
+      example:
+        id: 100000871
+        name: "Arc"
+        symbol: "ARC"
+        blockchains: ["Ethereum"]
+    SearchCryptoData:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier of the cryptocurrency
+        name:
+          type: string
+          description: The name of the cryptocurrency
+        symbol:
+          type: string
+          description: The symbol of the cryptocurrency
+        contracts:
+          type: array
+          items:
+            type: string
+          description: The contracts associated with the cryptocurrency
+        blockchains:
+          type: array
+          items:
+            type: string
+          description: The blockchains on which the cryptocurrency exists
+        twitter:
+          type: string
+          description: The Twitter link of the cryptocurrency
+        website:
+          type: string
+          description: The website of the cryptocurrency
+        logo:
+          type: string
+          description: The logo of the cryptocurrency
+        price:
+          type: number
+          format: float
+          description: The price of the cryptocurrency
+        market_cap:
+          type: integer
+          format: int64
+          description: The market cap of the cryptocurrency
+        liquidity:
+          type: integer
+          format: int64
+          description: The liquidity of the cryptocurrency
+        volume:
+          type: integer
+          format: int64
+          description: The volume of the cryptocurrency
+      example:
+        id: 100001656
+        name: "Bitcoin"
+        symbol: "BTC"
+        contracts: ["0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"]
+        blockchains: ["Ethereum"]
+        twitter: "https://twitter.com/bitcoin"
+        website: "http://www.bitcoin.org"
+        logo: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579"
+        price: 26470.3509662373
+        market_cap: 513425544929
+        liquidity: 626115369
+        volume: 42592947
+    Transaction:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          description: The timestamp of the transaction.
+        asset:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The name of the asset.
+            symbol:
+              type: string
+              description: The symbol of the asset.
+            id:
+              type: integer
+              description: The id of the asset.
+        amount:
+          type: number
+          description: The amount of asset in the transaction.
+        amount_usd:
+          type: number
+          description: The amount in USD of the transaction (at the time of the transaction).
+        from:
+          type: string
+          description: The sender's address.
+        to:
+          type: string
+          description: The receiver's address.
+        method_id:
+          type: string
+          description: The method id of the transaction.
+        blockchain:
+          type: string
+          description: The blockchain used for the transaction.
+        hash:
+          type: string
+          description: The hash of the transaction.
+
+    WalletPortfolioResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            assets:
+              type: array
+              items:
+                type: object
+                properties:
+                  asset:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: The name of the asset.
+                      symbol:
+                        type: string
+                        description: The symbol of the asset.
+                      id:
+                        type: integer
+                        description: The id of the asset.
+                      contracts:
+                        type: array
+                        items:
+                          type: string
+                        description: The contracts associated with the asset.
+                      logo:
+                        type: string
+                        description: The logo of the asset.
+                  realized_pnl:
+                    type: number
+                    description: The realized PnL of the asset (if pnl is requested).
+                  unrealized_pnl:
+                    type: number
+                    description: The unrealized PnL of the asset (if pnl is requested).
+
+                  price:
+                    type: number
+                    description: The current price of the asset.
+                  price_bought:
+                    type: number
+                    description: The average bought price of the asset (if pnl is requested).
+
+                  token_balance:
+                    type: number
+                    description: The balance of the asset.
+                  estimated_balance:
+                    type: number
+                    description: The USD balance of the asset held by the user.
+                  allocation:
+                    type: number
+                    description: The share of the user’s portfolio dedicated to this asset.
+                  cross_chain_balances:
+                    type: object
+                    additionalProperties:
+                      $ref: "#/components/schemas/ChainBalance"
+
+    Asset:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        contracts:
+          type: array
+          items:
+            type: string
+        blockchains:
+          type: array
+          items:
+            type: string
+        twitter:
+          type: string
+        website:
+          type: string
+        logo:
+          type: string
+        price:
+          type: number
+          format: float
+        market_cap:
+          type: integer
+        liquidity:
+          type: integer
+        volume:
+          type: integer
+        description:
+          type: string
+        kyc:
+          type: string
+        audit:
+          type: string
+        total_supply_contracts:
+          type: array
+          items:
+            type: string
+        total_supply:
+          type: integer
+        circulating_supply:
+          type: integer
+        circulating_supply_addresses:
+          type: array
+          items:
+            type: string
+        discord:
+          type: string
+    QuoteResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            asset:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the asset.
+                symbol:
+                  type: string
+                  description: The symbol of the asset.
+                id:
+                  type: integer
+                  description: The ID of the asset.
+            quote:
+              type: object
+              properties:
+                price:
+                  type: number
+                  description: The price of the asset.
+                volume:
+                  type: number
+                  description: The volume of the asset.
+                market_cap:
+                  type: number
+                  description: The market cap of the asset.
+    ChainBalance:
+      type: object
+      properties:
+        address:
+          type: string
+        balance:
+          type: number
+        balanceRaw:
+          type: string
+        chainId:
+          type: integer
