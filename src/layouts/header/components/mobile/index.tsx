@@ -1,6 +1,6 @@
 import { Collapse } from "components/collapse";
 import router from "next/router";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { NextChakraLink } from "../../../../components/link";
 import { CommonPageContext } from "../../../../contexts/commun-page";
@@ -69,7 +69,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
             </div>
             <Collapse isOpen={extended[entry.name]} startingHeight="0px">
               <div className="flex mt-2.5 flex-col text-base">
-                {entry.extends.map((submenu) => (
+                {entry.extends.map((submenu, i) => (
                   <NextChakraLink
                     href={submenu.url}
                     extraCss={`mb-[3px] w-fit my-1 ${
@@ -82,9 +82,16 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
                       setIsMenuMobile(false);
                     }}
                   >
-                    <div className="flex items-center">
+                    <div
+                      className={`flex items-center ${
+                        i !== entry.extends?.length - 1 ? " mb-2.5" : ""
+                      }`}
+                    >
                       {isFooter ? null : (
-                        <div className="flex rounded w-5 h-5 bg-light-bg-hover dark:bg-dark-bg-hover items-center justify-center">
+                        <div
+                          className="flex rounded w-6 h-6 bg-light-bg-hover dark:bg-dark-bg-hover
+                         items-center justify-center p-1"
+                        >
                           {submenu.icon}
                         </div>
                       )}

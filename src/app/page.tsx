@@ -6,6 +6,7 @@ import {
   defaultTop100,
 } from "features/data/top100/constants";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
@@ -236,39 +237,39 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   return props;
 };
 
+export const metadata: Metadata = {
+  title: "Crypto Live Prices, Market caps, Charts and Volumes - Mobula",
+  description:
+    "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.",
+  keywords: "Mobula, Mobula crypto, Mobula Crypto Data Aggregator",
+};
+
 const HomePage = async ({ searchParams }) => {
   const url = headers();
   console.log("FETCHIONG", Date.now());
   const props = await fetchAssetsAndViews({ searchParams });
   console.log("FETCH RESP", Date.now());
-
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";
   const title = "Crypto Live Prices, Market caps, Charts and Volumes - Mobula";
-
   return (
     <>
-      {/* <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="twitter:description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta name="twitter:title" content={title} />
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta name="url" content="https://mobula.fi" />
-        <meta name="keywords" content="Mobula Crypto Data Aggregator" />
-      </Head> */}
+      <meta property="og:title" content={title} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta
+        property="og:image"
+        content="https://mobula.fi/metaimage/Generic/others.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://mobula.fi/metaimage/Generic/others.png"
+      />
+      <meta
+        itemProp="image"
+        content="https://mobula.fi/metaimage/Generic/others.png"
+      />
+      <meta name="url" content="https://mobula.fi" />
       <Top100Provider
         activeViewCookie={props.actualView as any}
         portfolioCookie={props.actualPortfolio as any}

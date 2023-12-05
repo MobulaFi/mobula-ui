@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 import { Metrics } from "../../../../features/dao/protocol/components/metrics";
 import { Member } from "../../../../features/dao/protocol/models";
@@ -104,17 +105,19 @@ async function fetchProtocolMetrics() {
   };
 }
 
+export const metadata: Metadata = {
+  title: "Protocol DAO Metrics - Mobula",
+  description:
+    "Explore the DAO Metrics page on Mobula, a detailed analytics platform showcasing recent token listings, their acceptance or rejection status by DAO members, and comprehensive statistical data.",
+  robots: "index, follow",
+  keywords:
+    "Mobula, Mobula dao, protocol dao, protocol dao metrics, protocol dao overview, metrics, protocol dao, dao, mobula dao",
+};
+
 export default async function metricsProtocol() {
   const data = await fetchProtocolMetrics();
   return (
     <>
-      {/* <Head>
-        <title>Protocol DAO Metrics | Mobula</title>
-      </Head>
-      <meta
-        name="description"
-        content="Discover the assets recently added on Mobula, their real time price, chart, liquidity, and more."
-      />
       <meta
         property="og:image"
         content="https://mobula.fi/metaimage/DAO/protocol.png"
@@ -128,10 +131,8 @@ export default async function metricsProtocol() {
         content="https://mobula.fi/metaimage/DAO/protocol.png"
       />
       <meta name="url" content="https://mobula.fi/dao/protocol/metrics" />
-      <meta name="keywords" content="Mobula" />
       <meta name="author" content="Mobula" />
       <meta name="copyright" content="Mobula" />
-      <meta name="robots" content="index, follow" /> */}
       <Metrics
         total_mobulers={data?.total_mobulers as Member[]}
         dao_members={data?.dao_members as Member[]}

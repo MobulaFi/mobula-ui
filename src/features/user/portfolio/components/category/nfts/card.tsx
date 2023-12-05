@@ -57,7 +57,7 @@ export const NftPortfolioCard = ({
     <div
       className="flex flex-col m-[5px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
     min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px] sm:min-h-[160px] 
-    border border-light-border-primary dark:border-dark-border-primary w-calc-1/5-10 lg:w-calc-1/3-8 md:w-calc-1/3-10 sm:w-calc-half-10"
+    border border-light-border-primary dark:border-dark-border-primary x md:w-calc-half-10 w-calc-1/3-10   "
       onMouseEnter={() => setIsHover(nft?.token_hash)}
       onMouseLeave={() => setIsHover("")}
     >

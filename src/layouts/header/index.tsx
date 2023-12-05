@@ -109,13 +109,6 @@ export const Header = ({ addressCookie }) => {
       {showNotif ? <NotificationDrawer /> : null}
       {/* {showAddedToWatchlist && <AddedToWatchlistPopup />} */}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
-      <button
-        onClick={() => {
-          alert.show("Oh look, an alert!");
-        }}
-      >
-        Toast
-      </button>
     </CommonPageProvider>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
-import { TbBellRinging } from "react-icons/tb";
 import { Button } from "../../../../components/button";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
 import { Menu } from "../../../../components/menu";
@@ -229,14 +228,14 @@ export const TokenMainInfo = () => {
           >
             {watchlistIcon}
           </Button>
-          <Button
+          {/* <Button
             extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
              mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 
              hover:dark:text-dark-font-100 transition-all duration-250 w-[25px] h-[25px] p-0"
             onClick={() => setShowTargetPrice(true)}
           >
             <TbBellRinging className="text-lg" />
-          </Button>
+          </Button> */}
         </div>
       </div>
       {baseAsset?.tracked ? (

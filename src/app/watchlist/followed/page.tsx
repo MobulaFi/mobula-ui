@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";
 import { WatchlistExplore } from "../../../features/user/watchlist/components/explore";
@@ -31,34 +32,34 @@ const fetchWatchlistFollowed = async () => {
   };
 };
 
+export const metadata: Metadata = {
+  title: "Follow Top Crypto Traders Watchlists - Mobula",
+  description:
+    "Stay informed and follow the watchlists of the most successful crypto traders. Gain insights into their strategies and make informed investment decisions.",
+  keywords:
+    "Mobula, Mobula watchlist, watchlist followed, crypto watchlist, watchlist, crypto",
+  robots: "index, follow",
+};
+
 export default async function followedWatchlist() {
   const data = await fetchWatchlistFollowed();
   return (
     <>
-      {/* <Head>
-        <title>Follow Top Crypto Traders Watchlists | Mobula.fi</title>
-        <meta
-          name="description"
-          content="Stay informed and follow the watchlists of the most successful crypto traders. Gain insights into their strategies and make informed investment decisions."
-        />
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta name="url" content="https://mobula.fi/watchlist/followed" />
-        <meta name="keywords" content="Mobula" />
-        <meta name="author" content="Mobula" />
-        <meta name="copyright" content="Mobula" />
-        <meta name="robots" content="index, follow" />
-      </Head> */}
+      <meta
+        property="og:image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        itemProp="image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta name="url" content="https://mobula.fi/watchlist/followed" />
+      <meta name="author" content="Mobula" />
+      <meta name="copyright" content="Mobula" />
       <WatchlistExplore watchlistsBuffer={data?.watchlists} page="Followed" />
     </>
   );
