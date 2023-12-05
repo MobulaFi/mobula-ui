@@ -9,6 +9,7 @@ import { VscArrowSwap } from "react-icons/vsc";
 import { SwapContext } from "..";
 import { SmallFont } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
+import { Tooltip } from "../../../components/tooltip";
 import { pushData } from "../../../lib/mixpanel";
 import {
   getFormattedAmount,
@@ -58,7 +59,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const switchTokenButtonStyle =
-    "h-[35px] rounded-full w-fit ml-auto p-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-250";
+    "h-[35px] rounded-full w-fit ml-auto p-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 ease-in-out";
   const gasCost = tx?.gasLimit
     ? cleanNumber(tx.gasLimit, 9) *
       cleanNumber(gasData?.gasPrice, 9) *
@@ -112,7 +113,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
       </div>
       <div
         className={`flex flex-col rounded-lg border border-light-border-primary dark:border-dark-border-primary
-       bg-light-bg-terciary dark:bg-dark-bg-terciary p-[15px] z-[${
+       bg-light-bg-terciary dark:bg-dark-bg-terciary px-[15px] py-5 z-[${
          activeStep === 1 ? "z-[5]" : "z-[1]"
        }`}
       >
@@ -125,17 +126,10 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
               <p className="text-light-font-40 dark:text-dark-font-40 text-xs text-normal">
                 Balance: {getFormattedAmount(tokenIn?.balance)}
               </p>
-
-              {/* <InfoPopup
-                info="Inputs your maximum holdings minus gas fees, which could go to 0 if you have a low balance."
-                position={
-                  "bottom" as PlacementWithLogical & ResponsiveValue<any>
-                }
-                noClose
-                ml="5px"
-                mt="0px"
-                mb="5px"
-              /> */}
+              <Tooltip
+                tooltipText="Inputs your maximum holdings minus gas fees, which could go to 0 if you have a low balance."
+                extraCss="top-[20px] right-0 mb-[5px]"
+              />
             </div>
           )}
         </div>
@@ -201,7 +195,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           </button>
         </div>
       </div>
-      <div className="w-full flex justify-center relative h-[15px] items-center">
+      <div className="w-full flex justify-center relative h-[8px] items-center">
         <button
           className="bg-light-bg-secondary dark:bg-dark-bg-secondary w-fit p-2 absolute z-[2] rounded-full translate-y-[-50%]
          top-[50%] border border-light-border-primary dark:border-dark-border-primary"
@@ -213,7 +207,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
       </div>
       <div
         className={`flex flex-col bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-lg border border-light-border-primary
-       dark:border-dark-border-primary p-[15px] mt-[30]  ${
+       dark:border-dark-border-primary px-[15px] py-5 mt-0  ${
          activeStep === 2 ? "z-[5]" : "z-[0]"
        }`}
       >

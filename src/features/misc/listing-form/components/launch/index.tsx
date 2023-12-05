@@ -8,6 +8,7 @@ import {
   SmallFont,
 } from "../../../../../components/fonts";
 import { Menu } from "../../../../../components/menu";
+import { Tooltip } from "../../../../../components/tooltip";
 import { ACTIONS } from "../../reducer";
 import { addButtonStyle, inputStyle } from "../../styles";
 import { getDateError } from "../../utils";
@@ -127,10 +128,11 @@ export const Launch = ({ dispatch, state }) => {
           }
         />
         <SmallFont extraCss="ml-2.5">Hours</SmallFont>
-        {/* <InfoPopup
-          mb="4px"
-          info="What's the range from launch date (hours) you expect for your launch"
-        /> */}
+        <Tooltip
+          iconCss="mt-0.5"
+          extraCss="left-0 top-[20px] md:left-[-100px]"
+          tooltipText="What's the range from launch date (hours) you expect for your launch"
+        />
       </div>
       {selectors?.map((selector) => (
         <>

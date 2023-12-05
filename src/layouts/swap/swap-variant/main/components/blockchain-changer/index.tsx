@@ -28,7 +28,7 @@ export const BlockchainChanger = ({
     const isBnbChain: boolean = blockchain === "BNB Smart Chain (BEP20)";
     return (
       <button onClick={() => setShowBlockchainSelector((prev) => !prev)}>
-        <div className="flex items-center">
+        <div className="flex items-center mb-[1px]">
           <img
             className="rounded-full w-[15px] h-[15px] md:w-[13px] md:h-[13px]"
             src={blockchainsContent[blockchain].logo}
@@ -38,7 +38,7 @@ export const BlockchainChanger = ({
             {isBnbChain ? "BNB Chain" : blockchain}
           </SmallFont>
           {selector && (
-            <BsChevronDown className="text-light-font-100 dark:text-dark-font-100 text-[17px] md:text-[15px] mr-2.5" />
+            <BsChevronDown className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs mr-2.5" />
           )}
         </div>
       </button>
