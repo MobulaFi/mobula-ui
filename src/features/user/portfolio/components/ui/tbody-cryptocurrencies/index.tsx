@@ -3,7 +3,7 @@ import { Asset } from "interfaces/assets";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
-import { BiHide, BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { TbTriangleFilled } from "react-icons/tb";
@@ -235,7 +235,7 @@ export const TbodyCryptocurrencies = ({
               <div
                 className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
            dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
-                onClick={() => setTokenTsx(asset)}
+                onClick={hideAsset}
               >
                 <div
                   className={`${flexGreyBoxStyle} ${
@@ -250,31 +250,10 @@ export const TbodyCryptocurrencies = ({
               </div>
               <div
                 className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
-                dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
-                // onClick={() => {
-                //   router.push(
-                //     `${pathname.split("?")[0]}/${getUrlFromName(asset.name)}`
-                //   );
-                // }}
-              >
-                <div
-                  className={`${flexGreyBoxStyle} ${
-                    isHover === 1
-                      ? "bg-blue dark:bg-blue"
-                      : "bg-light-bg-hover dark:bg-dark-bg-hover"
-                  }`}
-                >
-                  <BiShow className="text-light-font-100 dark:text-dark-font-100" />
-                </div>
-                See transactions
-              </div>
-
-              <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={() => {
-                  // setTokenTsx(asset);
-                  // setShowAddTransaction(true);
+                  setTokenTsx(asset);
+                  setShowAddTransaction(true);
                   pushData("Add Asset Button Clicked");
                 }}
               >
