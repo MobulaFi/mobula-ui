@@ -8,7 +8,7 @@ import { fromUrlToName } from "../../../utils/formaters";
 import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
 import AssetLayout from "../layout";
-
+export const dynamic = "force-static";
 export const revalidate = 3600;
 
 async function fetchAssetData({ params }) {
