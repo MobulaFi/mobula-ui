@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 import { Overview } from "../../../../features/dao/protocol/components/overview";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
@@ -50,6 +51,15 @@ async function fetchOverviewData() {
   };
 }
 
+export const metadata: Metadata = {
+  title: "Protocol DAO Overview - Mobula",
+  description:
+    "Discover the Protocol DAO Overview on Mobula, your central dashboard for DAO insights. A comprehensive hub for members to monitor their impact and the collective progress of the DAO.",
+  robots: "index, follow",
+  keywords:
+    "Mobula, Mobula dao, protocol dao, protocol dao overview, protocol dao overview, overview, protocol dao, dao, mobula dao",
+};
+
 export default async function OverviewPage() {
   const data = await fetchOverviewData();
   return (
@@ -61,19 +71,6 @@ export default async function OverviewPage() {
         rejected: data?.rejected,
       }}
     >
-      <Overview />
-    </Layout>
-  );
-}
-
-{
-  /* <Head>
-        <title>Governance DAO Proposals | Mobula</title>
-      </Head>
-      <meta
-        name="description"
-        content="Discover the assets recently added on Mobula, their real time price, chart, liquidity, and more."
-      />
       <meta
         property="og:image"
         content="https://mobula.fi/metaimage/DAO/protocol.png"
@@ -87,11 +84,9 @@ export default async function OverviewPage() {
         content="https://mobula.fi/metaimage/DAO/protocol.png"
       />
       <meta name="url" content="https://mobula.fi/dao/protocol/overview" />
-      <meta name="keywords" content="Mobula" />
       <meta name="author" content="Mobula" />
       <meta name="copyright" content="Mobula" />
-      <meta name="robots" content="index, follow" /> */
-}
-{
-  /* </OverviewContext.Provider> */
+      <Overview />
+    </Layout>
+  );
 }

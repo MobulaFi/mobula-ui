@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { Metadata } from "next";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { headers } from "next/headers";
 import React from "react";
 import { NavActiveProvider } from "../../../../features/asset/context-manager/showMore";
@@ -70,6 +72,21 @@ const fetchWatchlist = async ({ params }) => {
   };
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { title, username } = params;
+  return {
+    title: `${username} Watchlist Analyis on Mobula - Mobula`,
+    robots: "index, follow",
+    keywords:
+      "Mobula, Mobula watchlist, watchlist tracker, crypto watchlist tracker,crypto,mobula, mobl",
+    description: `Discover the watchlist of a particular user and gain valuable insights into their investment strategies. Copy successful investors and enhance your own portfolio performance.`,
+  };
+}
+
 export default async function UserWatchlistPage({ params }) {
   //   const router = useRouter();
   //   const {isConnected} = useAccount();
@@ -80,41 +97,30 @@ export default async function UserWatchlistPage({ params }) {
   //     }
   //   }, []);
   const data = await fetchWatchlist({ params });
+  const { title, username } = params;
 
   return (
     <>
-      {/* <Head>
-        <title>
-          {userOfWatchlist?.username || userOfWatchlist?.address} Watchlist
-          Analysis | Mobula.fi
-        </title>
-        <meta
-          name="description"
-          content="Discover the watchlist of a particular user and gain valuable insights into their investment strategies. Copy successful investors and enhance your own portfolio performance."
-        />
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          name="url"
-          content={`https://mobula.fi/watchlist/${
-            userOfWatchlist?.username
-          }/${fromUrlToName(watchlist?.title || "")}`}
-        />
-        <meta name="keywords" content="Mobula" />
-        <meta name="author" content="Mobula" />
-        <meta name="copyright" content="Mobula" />
-        <meta name="robots" content="index, follow" />
-      </Head> */}
+      <meta
+        property="og:image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        itemProp="image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        name="url"
+        content={`https://mobula.fi/watchlist/${username}/${fromUrlToName(
+          title || ""
+        )}`}
+      />
+      <meta name="author" content="Mobula" />
+      <meta name="copyright" content="Mobula" />
       <NavActiveProvider>
         <SeeWatchlist
           watchlist={data.watchlist}

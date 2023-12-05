@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
@@ -51,17 +52,19 @@ async function fetchMoversAssets() {
   };
 }
 
+export const metadata: Metadata = {
+  title: "Biggest Crypto Gainers and Losers Today - Mobula",
+  description:
+    "Discover the biggest crypto movers of the day, their real time price, chart, liquidity, and more.",
+  robots: "index, follow",
+  keywords:
+    "Mobula, Mobula crypto, Mobula Crypto Data Aggregator, crypto movers, crypto gainers, crypto losers",
+};
+
 export default async function MoversPage() {
   const data = await fetchMoversAssets();
   return (
     <>
-      {/* <Head>
-        <title>Biggest Crypto Gainers and Losers Today | Mobula</title>
-      </Head>
-      <meta
-        name="description"
-        content="Discover the biggest crypto movers of the day, their real time price, chart, liquidity, and more."
-      />
       <meta
         property="og:image"
         content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
@@ -75,11 +78,8 @@ export default async function MoversPage() {
         content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
       />
       <meta name="url" content="https://mobula.fi/movers" />
-      <meta name="keywords" content="Mobula" />
       <meta name="author" content="Mobula" />
       <meta name="copyright" content="Mobula" />
-      <meta name="robots" content="index, follow" /> */}
-
       <Movers gainersBuffer={data.gainers} losersBuffer={data.losers} />
     </>
   );
