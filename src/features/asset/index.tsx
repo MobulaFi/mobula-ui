@@ -10,6 +10,8 @@ import { NextChakraLink } from "../../components/link";
 import { Skeleton } from "../../components/skeleton";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { TopNav } from "../../layouts/menu-mobile/top-nav";
+import { SwapProvider } from "../../layouts/swap";
+import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
@@ -467,7 +469,7 @@ export const Assets = () => {
               <Vesting />
             </div>
           ) : null}
-          {/*  {activeTab === "Buy" ? (
+          {activeTab === "Buy" ? (
             <div
               style={{
                 animation: getAnimation("Buy"),
@@ -484,9 +486,9 @@ export const Assets = () => {
               >
                 <BasicSwap activeStep={0} />
               </SwapProvider>
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <Button
-                  extraCss="my-2.5 h-[45px] md:h-[40px]"
+                  extraCss="my-2.5 h-[45px] md:h-[40px] w-full"
                   onClick={() => {
                     pushData("Buy with Credit Card on Asset Page");
                     setShowCard("USD");
@@ -504,9 +506,9 @@ export const Assets = () => {
                     alt="visa logo"
                   />
                 </Button>
-              </div>{" "}
+              </div>{" "} */}
             </div>
-          ) : null} */}
+          ) : null}
 
           <TradeFiltersPopup />
           <PopupSocialMobile />
