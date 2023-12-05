@@ -6,17 +6,17 @@ let supabaseDO: SupabaseClient;
 const createSupabaseDOClient = (settings?: { noCache: boolean }) => {
   if (settings && settings.noCache) {
     return new Postbula(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoid2ViX2Fub24ifQ.0YPAFmkwX9YhD_hxN-v2xrWfiv1I__tsTCv7ZFPncFU",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoid2ViX2Fub24ifQ.0YPAFmkwX9YhD_hxN-v2xrWfiv1I__tsTCv7ZFPncFU",
-      "https://postgrest-external.app-mobula.com",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
+      "https://postgrest-internal-fgpupeioaa-uc.a.run.app",
       { headers: { "Cache-Control": "no cache" } }
     );
   }
   if (!supabaseDO) {
     supabaseDO = new Postbula(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoid2ViX2Fub24ifQ.0YPAFmkwX9YhD_hxN-v2xrWfiv1I__tsTCv7ZFPncFU",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoid2ViX2Fub24ifQ.0YPAFmkwX9YhD_hxN-v2xrWfiv1I__tsTCv7ZFPncFU",
-      "https://postgrest-external.app-mobula.com"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
+      "https://postgrest-internal-fgpupeioaa-uc.a.run.app"
     );
   }
   return supabaseDO;
