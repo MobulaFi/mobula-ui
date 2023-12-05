@@ -67,13 +67,14 @@ export const MenuMobile = ({
         }}
       >
         <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
-          <AiFillStar className="text-yellow dark:text-yellow text-lg mr-[5px]" />
-          <p className="text-lg">Watchlist</p>
+          <AiFillStar className="text-yellow dark:text-yellow text-base mr-[5px]" />
+          <p className="text-base">Watchlist</p>
         </div>
       </NextChakraLink>
       <NextChakraLink
-        href={portfolioUrl}
+        href={isConnected ? portfolioUrl : ""}
         onClick={() => {
+          if (!isConnected) setConnect(true);
           setIsMenuMobile(false);
           pushData("Header Clicked", {
             name: "Portfolio",
@@ -82,9 +83,9 @@ export const MenuMobile = ({
       >
         <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100">
           <div className="opacity-80 w-4 h-4 mr-[5px]">
-            <AiFillPieChart className="text-blue dark:text-blue" />
+            <AiFillPieChart className="text-blue dark:text-blue text-base" />
           </div>
-          <p className="text-lg">Portfolio</p>
+          <p className="text-base">Portfolio</p>
         </div>
       </NextChakraLink>
       <ClientOnly>
@@ -118,7 +119,7 @@ export const MenuMobile = ({
         ) : (
           <button
             className="border border-light-border-primary dark:border-dark-border-primary rounded
-           h-[30px] w-[120px] text-light-font-100 dark:text-dark-font-100 text-base ml-[30px] mt-5"
+           h-[30px] w-fit  px-2 text-light-font-100 dark:text-dark-font-100 text-base ml-[30px] mt-5"
             onClick={() => {
               setConnect(true);
             }}

@@ -3,6 +3,7 @@ import React from "react";
 import { AiOutlineLineChart } from "react-icons/ai";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../components/button";
+import { useShouldConnect } from "../../../../hooks/connect";
 import { useUrl } from "../../../../hooks/url";
 import { pushData } from "../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../utils/formaters";
@@ -16,14 +17,14 @@ export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
   const { portfolioUrl } = useUrl();
   const router = useRouter();
   const { userBalance } = useUserBalance();
-  const { isDisconnected } = useAccount();
-
+  const { isDisconnected, isConnected } = useAccount();
+  const handleConnect = useShouldConnect(() => router.push(portfolioUrl));
   console.log("userBalance", userBalance);
   return (
     <Button
       extraCss={`mr-2.5 lg:mr-[7.5px] text-sm ${extraCss}`}
       onClick={() => {
-        router.push(portfolioUrl);
+        handleConnect();
         pushData("Header Clicked", {
           name: "Portfolio",
         });

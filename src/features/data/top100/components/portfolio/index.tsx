@@ -10,6 +10,7 @@ import { Skeleton } from "../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
+import { shouldConnect, useShouldConnect } from "../../../../../hooks/connect";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { useTop100 } from "../../context-manager";
@@ -35,6 +36,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   const isDarkMode = theme === "dark";
   const firstRender = useRef(true);
   const { setConnect } = useContext(PopupUpdateContext);
+  const handleConnect = useShouldConnect(() => router.push("/portfolio"));
   const pathname = usePathname();
   const [gains, setGains] = useState<{
     difference: number | null;
@@ -146,12 +148,6 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     (typeof window !== "undefined" ? window.innerWidth : 0) < 991 &&
     (typeof window !== "undefined" ? window.innerWidth : 0) >= 480;
 
-  console.log(
-    "djdjdjd",
-    wallet,
-    process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
-  );
-
   return (
     <div
       className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
@@ -176,7 +172,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     name: "Portfolio",
                     to_page: "/portfolio",
                   });
-                  router.push("/portfolio");
+                  shouldConnect(router.push("/portfolio"));
                 }}
               >
                 <MediumFont>Portfolio</MediumFont>
@@ -337,7 +333,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   </MediumFont>
                   <Button
                     extraCss="mt-2.5 max-w-[200px]"
-                    onClick={() => router.push("/portfolio")}
+                    onClick={handleConnect}
                   >
                     Add a transaction
                   </Button>
