@@ -89,7 +89,7 @@ async function fetchAssetData({ params }) {
 }
 
 async function AssetPage({ params, searchParams }) {
-  const data = await fetchAssetData({ params, searchParams });
+  const data = await fetchAssetData({ params });
 
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
