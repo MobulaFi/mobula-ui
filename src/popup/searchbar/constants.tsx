@@ -8,11 +8,6 @@ export const allPages = [
     url: "/",
   },
   {
-    requests: ["earn", "reward", "daily reward"],
-    name: "Earn Page",
-    url: "/earn",
-  },
-  {
     requests: ["portfolio", "wallet", "my portfolio"],
     name: "Portfolio Page",
     url: "/portfolio",
@@ -21,11 +16,6 @@ export const allPages = [
     requests: ["watchlist", "my watchlist"],
     name: "Watchlist Page",
     url: "/watchlist",
-  },
-  {
-    requests: ["profile", "my profile", "account"],
-    name: "Profile Page",
-    url: "/profile",
   },
   {
     requests: [
@@ -56,31 +46,9 @@ export const allPages = [
     url: "/trendings",
   },
   {
-    requests: ["buy", "sell", "buy & sell", "buy sell"],
-    name: "Buy & Sell Page",
-    url: "/buy",
-  },
-  {
-    requests: ["trade", "trading", "swap", "buy", "sell", "dex"],
-    name: "Trade Page",
-    url: "/trade",
-  },
-  {
-    requests: [
-      "advanced search",
-      "search",
-      "advanced",
-      "find",
-      "crypto gem",
-      "gem",
-    ],
-    name: "Advanced Search Page",
-    url: "/search",
-  },
-  {
-    requests: ["forum", "post", "blog", "article"],
-    name: "Forum Page",
-    url: "/forum",
+    requests: ["buy", "sell", "swap", "buy & sell", "buy sell"],
+    name: "Swap Page",
+    url: "/swap",
   },
   {
     requests: ["contribute", "join", "join dao", "dao", "dao contribute"],
@@ -93,11 +61,6 @@ export const allPages = [
     url: "https://docs.mobula.fi/",
   },
   {
-    requests: ["governance", "dao governance", "staking", "vote"],
-    name: "DAO Governance Page",
-    url: "/dao/governance",
-  },
-  {
     requests: ["protocol", "dao protocol", "listing", "vote"],
     name: "DAO Protocol Page",
     url: "/dao/protocol",
@@ -106,18 +69,6 @@ export const allPages = [
     requests: ["listing", "list", "add", "add asset", "new", "form"],
     name: "Listing Page",
     url: "/list",
-  },
-  {
-    requests: [
-      "widget",
-      "integrate",
-      "developper",
-      "dev",
-      "tools",
-      "mobula tools",
-    ],
-    name: "Widget Page",
-    url: "/widget",
   },
   {
     requests: [

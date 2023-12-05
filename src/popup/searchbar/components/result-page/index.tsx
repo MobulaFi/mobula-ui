@@ -2,6 +2,8 @@ import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiArrowToRight } from "react-icons/bi";
+import { useAccount } from "wagmi";
+import { PopupUpdateContext } from "../../../../contexts/popup";
 import { pushData } from "../../../../lib/mixpanel";
 import { SearchbarContext } from "../../context-manager";
 import { Page } from "../../models";
@@ -16,10 +18,15 @@ interface PageResultsProps {
 export const PageResults = ({ firstIndex, setTrigger }: PageResultsProps) => {
   const { results, active, setActive, pages } = useContext(SearchbarContext);
   const router = useRouter();
+  const { isConnected } = useAccount();
+  const { setConnect } = useContext(PopupUpdateContext);
   const clickEvent = (page: Page) => {
     setTrigger(false);
     pushData("Searchbar", { type: "page", name: page.name });
-    router.push(page.url);
+    if (page.name === "Portfolio Page") {
+      if (isConnected) router.push(page.url);
+      else setConnect(true);
+    } else router.push(page.url);
   };
   return (
     <div className={`${results.length > 0 ? "mt-2.5" : "mt-0"}`}>

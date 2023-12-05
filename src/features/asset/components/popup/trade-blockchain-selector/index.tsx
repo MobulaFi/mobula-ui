@@ -4,17 +4,20 @@ import { useAlert } from "react-alert";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
+import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../context-manager";
 import { cancelButtonStyle } from "../../../style";
 
 interface TradeBlockchainPopupProps {
   onClose?: any;
   setActiveName: any;
+  extraCss?: string;
 }
 
 export const TradeBlockchainPopup = ({
   onClose,
   setActiveName,
+  extraCss,
 }: TradeBlockchainPopupProps) => {
   const {
     setShowTradeFilters,
@@ -137,7 +140,12 @@ export const TradeBlockchainPopup = ({
             </div>
           );
         })}
-        <div className="flex mt-2.5 pt-5 border-t border-light-border-primary dark:border-dark-border-primary sticky bottom-0 bg-light-bg-terciary dark:bg-dark-bg-terciary">
+        <div
+          className={cn(
+            "flex mt-2.5 pt-5 border-t border-light-border-primary dark:border-dark-border-primary sticky bottom-0 bg-light-bg-terciary dark:bg-dark-bg-terciary",
+            extraCss
+          )}
+        >
           <Button
             extraCss={cancelButtonStyle}
             onClick={() => {

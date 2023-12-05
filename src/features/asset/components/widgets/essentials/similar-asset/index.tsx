@@ -25,7 +25,7 @@ export const SimilarAsset = () => {
               return (
                 <Button
                   key={trending.id}
-                  extraCss="w-[300px] lg:w-[270px] md:w-[160px] p-[15px] lg:py-2.5 lg:px-2.5 mdp-2.5 mx-auto rounded-2xl mr-[15px] h-auto md:h-auto bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                  extraCss="w-[300px] lg:w-[200px] min-w-[280px] p-[15px] lg:py-2.5 lg:px-2.5 mx-auto rounded-2xl mr-[15px] h-auto md:h-auto bg-light-bg-secondary dark:bg-dark-bg-secondary"
                   onClick={() => {
                     router.push(`/asset/${getUrlFromName(trending.name)}`);
                   }}

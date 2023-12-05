@@ -3,7 +3,7 @@ import { Asset } from "interfaces/assets";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
-import { BiHide, BiShow } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { TbTriangleFilled } from "react-icons/tb";
@@ -162,6 +162,26 @@ export const TbodyCryptocurrencies = ({
     }
   };
 
+  const hideAsset = () => {
+    pushData("Asset Removed");
+    const newPortfolio = {
+      ...activePortfolio,
+      removed_assets: [...activePortfolio.removed_assets, asset.id],
+    };
+    setActivePortfolio(newPortfolio);
+    refreshPortfolio(newPortfolio);
+    GET("/portfolio/edit", {
+      account: address as string,
+      removed_assets: [...activePortfolio.removed_assets, asset.id].join(","),
+      removed_transactions: activePortfolio.removed_transactions.join(","),
+      wallets: activePortfolio.wallets.join(","),
+      id: activePortfolio.id,
+      name: activePortfolio.name,
+      reprocess: true,
+      public: activePortfolio.public,
+    });
+  };
+
   return (
     <>
       <tr className="h-[10px]"></tr>
@@ -215,7 +235,7 @@ export const TbodyCryptocurrencies = ({
               <div
                 className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
            dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
-                onClick={() => setTokenTsx(asset)}
+                onClick={hideAsset}
               >
                 <div
                   className={`${flexGreyBoxStyle} ${
@@ -228,27 +248,6 @@ export const TbodyCryptocurrencies = ({
                 </div>
                 Hide asset
               </div>
-              <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
-                dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
-                // onClick={() => {
-                //   router.push(
-                //     `${pathname.split("?")[0]}/${getUrlFromName(asset.name)}`
-                //   );
-                // }}
-              >
-                <div
-                  className={`${flexGreyBoxStyle} ${
-                    isHover === 1
-                      ? "bg-blue dark:bg-blue"
-                      : "bg-light-bg-hover dark:bg-dark-bg-hover"
-                  }`}
-                >
-                  <BiShow className="text-light-font-100 dark:text-dark-font-100" />
-                </div>
-                See transactions
-              </div>
-
               <div
                 className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
@@ -472,39 +471,12 @@ export const TbodyCryptocurrencies = ({
                   <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
                 }
               >
-                <div
-                  onClick={() => {
-                    pushData("Asset Removed");
-                    const newPortfolio = {
-                      ...activePortfolio,
-                      removed_assets: [
-                        ...activePortfolio.removed_assets,
-                        asset.id,
-                      ],
-                    };
-                    setActivePortfolio(newPortfolio);
-                    refreshPortfolio(newPortfolio);
-                    GET("/portfolio/edit", {
-                      account: address as string,
-                      removed_assets: [
-                        ...activePortfolio.removed_assets,
-                        asset.id,
-                      ].join(","),
-                      removed_transactions:
-                        activePortfolio.removed_transactions.join(","),
-                      wallets: activePortfolio.wallets.join(","),
-                      id: activePortfolio.id,
-                      name: activePortfolio.name,
-                      reprocess: true,
-                      public: activePortfolio.public,
-                    });
-                  }}
-                >
+                <div>
                   <div
                     className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
                     onMouseEnter={() => setIsHover(0)}
                     onMouseLeave={() => setIsHover(null)}
-                    onClick={() => setTokenTsx(asset)}
+                    onClick={hideAsset}
                   >
                     <div
                       className={`${flexGreyBoxStyle} ${
@@ -516,32 +488,6 @@ export const TbodyCryptocurrencies = ({
                       <BiHide />
                     </div>
                     Hide asset
-                  </div>
-                  <div
-                    className={`flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap ${
-                      manager.privacy_mode
-                        ? "cursor-not-allowed"
-                        : "cursor-pointer"
-                    } mb-2.5`}
-                    onMouseEnter={() => setIsHover(1)}
-                    onMouseLeave={() => setIsHover(null)}
-                    // onClick={() => {
-                    //   if (manager.privacy_mode) return;
-                    //   router.push(
-                    //     `${pathname?.split("?")[0]}/${getUrlFromName(asset.name)}`
-                    //   );
-                    // }}
-                  >
-                    <div
-                      className={`${flexGreyBoxStyle} ${
-                        isHover === 1
-                          ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
-                          : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
-                      }`}
-                    >
-                      <BiShow />
-                    </div>
-                    See transactions
                   </div>
                   <div
                     onMouseEnter={() => setIsHover(2)}
