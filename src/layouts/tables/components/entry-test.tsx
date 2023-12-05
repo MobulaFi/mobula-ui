@@ -3,7 +3,6 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { TbBellRinging } from "react-icons/tb";
 import { NextImageFallback } from "../../../components/image";
 import { WatchlistContext } from "../../../contexts/pages/watchlist";
 import { PopupStateContext, PopupUpdateContext } from "../../../contexts/popup";
@@ -431,7 +430,7 @@ export const Entry = ({
             ) : null}
             <Segment extraCss="table-cell md:hidden" noLink>
               <div className="flex items-center justify-end">
-                <Button
+                {/* <Button
                   extraCss="px-0 w-[28px] h-[28px] mr-[5px]"
                   onClick={() => {
                     setShow(true);
@@ -443,7 +442,7 @@ export const Entry = ({
                   }}
                 >
                   <TbBellRinging className="text-light-font-60 dark:text-dark-font-60 text-lg" />
-                </Button>
+                </Button> */}
                 {token.contracts && token.contracts.length > 0 && (
                   <Button
                     extraCss="px-0 w-[28px] h-[28px]"

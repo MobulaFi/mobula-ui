@@ -60,14 +60,14 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     />,
   ];
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setShowPage((prevPage) => (prevPage + 1) % 3);
-  //   }, 12000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowPage((prevPage) => (prevPage + 1) % 3);
+    }, 12000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div

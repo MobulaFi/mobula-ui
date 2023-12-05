@@ -1,5 +1,6 @@
+import { Metadata } from "next";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { cookies } from "next/headers";
-import React from "react";
 import { Assets } from "../../../features/asset";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -145,25 +146,34 @@ async function AssetPage({ params, searchParams }) {
 
   return (
     <AssetLayout params={data as never}>
+      <meta
+        property="og:image"
+        content="https://mobula.fi/metaimage/Generic/others.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://mobula.fi/metaimage/Generic/others.png"
+      />
+      <meta
+        itemProp="image"
+        content="https://mobula.fi/metaimage/Generic/others.png"
+      />
       <Assets />
     </AssetLayout>
   );
 }
 
-// {/* <Head>
-//   <title>{title}</title>
-// </Head>
-// <meta
-//   property="og:image"
-//   content="https://mobula.fi/metaimage/Generic/others.png"
-// />
-// <meta
-//   name="twitter:image"
-//   content="https://mobula.fi/metaimage/Generic/others.png"
-// />
-// <meta
-//   itemProp="image"
-//   content="https://mobula.fi/metaimage/Generic/others.png"
-// /> */}
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { asset } = params;
+  const assetName = fromUrlToName(asset);
+  return {
+    title: `${assetName} Real Time Price, Chart, and Liquidity on Mobula - Mobula`,
+    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${assetName} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+  };
+}
 
 export default AssetPage;

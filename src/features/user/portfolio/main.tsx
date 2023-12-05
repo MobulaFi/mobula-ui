@@ -20,7 +20,6 @@ import { ManagePopup } from "./components/popup/manage";
 import { ManageEdit } from "./components/popup/manage/edit";
 import { NetworkPopup } from "./components/popup/network";
 import { SelectorPortfolioPopup } from "./components/popup/selector-portfolio";
-import { StepPopup } from "./components/popup/step-popup";
 import { WalletsPopup } from "./components/popup/wallets";
 import { ButtonTimeSlider } from "./components/ui/button-time-slider";
 import { CategorySwitcher } from "./components/ui/category-switcher";
@@ -60,6 +59,8 @@ export const PortfolioMain = () => {
   useEffect(() => {
     if (!localStorage.getItem("showTutoPortfolio")) setShowTuto(true);
   }, []);
+
+  console.log("showTutot", showTuto);
 
   useEffect(() => {
     setIsAssetPage(false);
@@ -218,11 +219,9 @@ export const PortfolioMain = () => {
                 {manager.portfolio_chart ? <PortfolioChart /> : null}
               </div>
             ) : null}
-
             <div className="w-full flex lg:hidden">
               <CategorySwitcher />
             </div>
-
             {activeCategory === "General" ? (
               <div
                 className={`${
@@ -282,7 +281,7 @@ export const PortfolioMain = () => {
             position={"in"}
           />
         )}
-        {showTuto ? <StepPopup /> : null}
+        {/* {showTuto ? <StepPopup /> : null}  */}
       </Container>
     </div>
   );

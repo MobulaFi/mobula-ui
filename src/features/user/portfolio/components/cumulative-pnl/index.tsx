@@ -5,7 +5,7 @@ import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { PortfolioV2Context } from "../../context-manager";
 import { boxStyle } from "../../style";
 
-const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
+const EChart = dynamic(() => import("../../../../../lib/echart/basic-line"), {
   ssr: false,
 });
 
@@ -62,19 +62,9 @@ export const CumulativePnl = () => {
           </MediumFont>
         </div>
       ) : (
-        <div className="h-[170px]">
+        <div className="h-170px">
           {cumulativePNL?.length > 0 && !isLoading ? (
-            <EChart
-              data={cumulativePNL}
-              timeframe="ALL"
-              width="100%"
-              leftMargin={["0%", "0%"]}
-              height="100%"
-              bg="bg-transparent dark:bg-transparent"
-              type="Cumulative Pnl"
-              noDataZoom
-              isVesting
-            />
+            <EChart data={cumulativePNL} />
           ) : null}
           {isLoading ? (
             <Spinner extraCss="w-[50px] h-[50px] m-auto mt-[40px]" />

@@ -1,11 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { AiFillPieChart, AiFillStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
-import { FaRegUser } from "react-icons/fa";
 import { useAccount } from "wagmi";
 import { disconnect } from "wagmi/actions";
 import { ClientOnly } from "../../../../components/client-only";
-import { NextImageFallback } from "../../../../components/image";
 import { NextChakraLink } from "../../../../components/link";
 import { CommonPageContext } from "../../../../contexts/commun-page";
 import { PopupUpdateContext } from "../../../../contexts/popup";
@@ -88,27 +86,6 @@ export const MenuMobile = ({
           <p className="text-lg">Portfolio</p>
         </div>
       </NextChakraLink>
-      <NextChakraLink
-        href="/earn"
-        onClick={() => {
-          setIsMenuMobile(false);
-          pushData("Header Clicked", {
-            name: "Earn",
-          });
-        }}
-      >
-        <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100">
-          <NextImageFallback
-            height={16}
-            width={16}
-            className="mr-[5px]"
-            src="/header/reward.svg"
-            alt="Reward"
-            fallbackSrc={""}
-          />
-          <p className="text-lg">Learn to earn</p>
-        </div>
-      </NextChakraLink>
       <ClientOnly>
         {isConnected ? (
           <>
@@ -125,24 +102,13 @@ export const MenuMobile = ({
               ) : null}
             </div>
             <div className="flex px-[30px] mt-[15px] items-center w-full justify-between">
-              <NextChakraLink
-                href={`/profile/${address}`}
-                onClick={() => {
-                  setIsMenuMobile(false);
-                }}
-              >
-                <div className="flex items-center text-light-font-100 dark:text-dark-font-100">
-                  <FaRegUser className="text-[15px] mr-[5px]" />
-                  <p className="text-base font-medium">My Profile</p>
-                </div>
-              </NextChakraLink>
               <button
                 onClick={() => {
                   disconnect();
                 }}
               >
                 <div className="flex items-center text-light-font-100 dark:text-dark-font-100">
-                  <BsPower className="text-lg mr-[5px]" />
+                  <BsPower className="text-lg mr-2.5" />
                   <p className="text-base font-medium">Log Out</p>
                 </div>
               </button>

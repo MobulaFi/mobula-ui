@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import React from "react";
 import { Watchlist } from "../../features/user/watchlist";
@@ -43,37 +44,35 @@ async function fetchWatchlist() {
   };
 }
 
+export const metadata: Metadata = {
+  title: " Manage Your Crypto Watchlist - ROI Analysis, Tracking - Mobula",
+  description:
+    "Take control of your crypto investments with our powerful watchlist manager. Analyze ROI, track growth, and optimize your portfolio for maximum returns.",
+  keywords:
+    "Mobula, Mobula watchlist, watchlist tracker, crypto watchlist, watchlist, crypto",
+  robots: "index, follow",
+};
+
 export default async function WatchlistPage() {
   const data = await fetchWatchlist();
   //   needRedirection();
   return (
     <>
-      {/* <Head>
-        <title>
-          Manage Your Crypto Watchlist - ROI Analysis, Tracking | Mobula.fi
-        </title>
-        <meta
-          name="description"
-          content="Take control of your crypto investments with our powerful watchlist manager. Analyze ROI, track growth, and optimize your portfolio for maximum returns."
-        />
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Features/Watchlist.png"
-        />
-        <meta name="url" content="https://mobula.fi/watchlist" />
-        <meta name="keywords" content="Mobula" />
-        <meta name="author" content="Mobula" />
-        <meta name="copyright" content="Mobula" />
-        <meta name="robots" content="index, follow" />
-      </Head> */}
+      <meta
+        property="og:image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta
+        itemProp="image"
+        content="https://mobula.fi/metaimage/Features/Watchlist.png"
+      />
+      <meta name="url" content="https://mobula.fi/watchlist" />
+      <meta name="author" content="Mobula" />
+      <meta name="copyright" content="Mobula" />
       <Watchlist
         isMobile={data.isMobile}
         watchlist={data.watchlist as IWatchlist}

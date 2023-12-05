@@ -12,11 +12,13 @@ interface PortfolioButtonProps {
   extraCss?: string;
 }
 
-export const PortfolioButton = ({ extraCss, ...props }) => {
+export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
   const { portfolioUrl } = useUrl();
   const router = useRouter();
   const { userBalance } = useUserBalance();
   const { isDisconnected } = useAccount();
+
+  console.log("userBalance", userBalance);
   return (
     <Button
       extraCss={`mr-2.5 lg:mr-[7.5px] text-sm ${extraCss}`}

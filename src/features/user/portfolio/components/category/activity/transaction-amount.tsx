@@ -42,7 +42,7 @@ export const TransactionAmount = ({
           symbol={tokenOut?.symbol}
           amount_usd={transaction?.out?.amount_usd}
         />
-        <BsChevronDown className="mx-2.5 sm:mx-0 rotate-90 text-light-font-100 dark:text-dark-font-100" />
+        <BsChevronDown className="mx-2.5 sm:mx-2.5 rotate-90 text-light-font-100 dark:text-dark-font-100" />
         <CoreComponent
           amount={transaction?.in?.amount}
           symbol={tokenIn?.symbol}

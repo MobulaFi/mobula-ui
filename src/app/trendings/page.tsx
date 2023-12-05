@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import React from "react";
 import Trendings from "../../features/data/trending";
@@ -33,36 +34,33 @@ async function fetchTrendingsAssets() {
   };
 }
 
+export const metadata: Metadata = {
+  title: "Trending cryptocurrencies, fast growing and hidden gems on Mobula",
+  description:
+    "Discover hidden gems gaining traction on Mobula, their real time price, liquidity and rank.",
+  keywords: "Mobula",
+  robots: "index, follow",
+};
+
 export default async function trendings() {
   const data = await fetchTrendingsAssets();
   return (
     <>
-      {/* <Head>
-        <title>
-          Trending cryptocurrencies, fast growing and hidden gems on Mobula
-        </title>
-        <meta
-          name="description"
-          content="Discover hidden gems gaining traction on Mobula, their real time price, liquidity and rank."
-        />
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Cryptocurrency/Trendings.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Cryptocurrency/Trendings.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Cryptocurrency/Trendings.png"
-        />
-        <meta name="url" content="https://mobula.fi/trending" />
-        <meta name="keywords" content="Mobula" />
-        <meta name="author" content="Mobula" />
-        <meta name="copyright" content="Mobula" />
-        <meta name="robots" content="index, follow" />
-      </Head> */}
+      <meta
+        property="og:image"
+        content="https://mobula.fi/metaimage/Cryptocurrency/Trendings.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://mobula.fi/metaimage/Cryptocurrency/Trendings.png"
+      />
+      <meta
+        itemProp="image"
+        content="https://mobula.fi/metaimage/Cryptocurrency/Trendings.png"
+      />
+      <meta name="url" content="https://mobula.fi/trending" />
+      <meta name="author" content="Mobula" />
+      <meta name="copyright" content="Mobula" />
       <Trendings
         tokensBuffer={data.tokens}
         count={data.count}
