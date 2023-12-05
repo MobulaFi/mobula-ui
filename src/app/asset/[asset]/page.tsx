@@ -9,7 +9,7 @@ import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
 import AssetLayout from "../layout";
 
-export const revalidate = 3600;
+export const dynamic = "force-static";
 
 async function fetchAssetData({ params }) {
   const cookieStore = cookies();
@@ -62,7 +62,6 @@ async function fetchAssetData({ params }) {
       ) || tradeHistory?.[0];
 
     if (rightAsset) {
-      memoryCache.set(`COIN_${params.asset}`, rightAsset, 120);
       return {
         asset: rightAsset,
         key: rightAsset.id,
