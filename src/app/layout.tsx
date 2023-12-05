@@ -4,6 +4,7 @@ import { cookies, headers } from "next/headers";
 import React from "react";
 import { GeneralContext } from "../contexts";
 import { PortfolioV2Provider } from "../features/user/portfolio/context-manager";
+import { UserBalanceProvider } from "../layouts/header/context-manager/balance";
 import Layout from "../layouts/layout";
 import { ThemeProvider } from "../lib/next-theme";
 import "../styles/global.css";
@@ -36,13 +37,15 @@ async function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <GeneralContext>
-            <WatchlistProvider watchlist={params.watchlist}>
-              <PortfolioV2Provider isMobile={isMobile}>
-                <Layout>{children}</Layout>
-              </PortfolioV2Provider>
-            </WatchlistProvider>
-          </GeneralContext>
+          <UserBalanceProvider balanceCookies={userCookie}>
+            <GeneralContext>
+              <WatchlistProvider watchlist={params.watchlist}>
+                <PortfolioV2Provider isMobile={isMobile}>
+                  <Layout>{children}</Layout>
+                </PortfolioV2Provider>
+              </WatchlistProvider>
+            </GeneralContext>
+          </UserBalanceProvider>
         </ThemeProvider>
       </body>
     </html>
