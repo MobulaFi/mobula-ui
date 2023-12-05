@@ -21,7 +21,9 @@ import {
 } from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
 
-async function getStaticProps({ searchParams }) {
+export const revalidate = 60;
+
+const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
   const supabase = createSupabaseDOClient();
   const address = getCookie("address")?.value;
@@ -126,7 +128,7 @@ async function getStaticProps({ searchParams }) {
       };
     else actualView = { ...(allView as View), disconnected: false };
   }
-  console.log("JE ETRE LA");
+
   try {
     const assetsCache = await kv.hgetall("assets");
     if (assetsCache) {
@@ -235,7 +237,7 @@ async function getStaticProps({ searchParams }) {
   };
 
   return props;
-}
+};
 
 export const metadata: Metadata = {
   title: "Crypto Live Prices, Market caps, Charts and Volumes - Mobula",
@@ -244,24 +246,11 @@ export const metadata: Metadata = {
   keywords: "Mobula, Mobula crypto, Mobula Crypto Data Aggregator",
 };
 
-const HomePage = async ({
-  searchParams,
-  tokens,
-  metrics,
-  count,
-  ethPrice,
-  btcPrice,
-  actualView,
-  actualPortfolio,
-  allView,
-  aiNews,
-  filteredValues,
-  page,
-  isMobile,
-  isTablet,
-  cookies,
-}) => {
+const HomePage = async ({ searchParams }) => {
   const url = headers();
+  console.log("FETCHIONG", Date.now());
+  const props = await fetchAssetsAndViews({ searchParams });
+  console.log("FETCH RESP", Date.now());
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";
   const title = "Crypto Live Prices, Market caps, Charts and Volumes - Mobula";
@@ -284,23 +273,23 @@ const HomePage = async ({
       />
       <meta name="url" content="https://mobula.fi" /> */}
       <Top100Provider
-        activeViewCookie={actualView as any}
-        portfolioCookie={actualPortfolio as any}
-        ethPrice={ethPrice as any}
-        btcPrice={btcPrice as any}
-        page={page}
-        aiNews={aiNews as any}
-        isMobile={isMobile}
-        isTablet={isTablet}
+        activeViewCookie={props.actualView as any}
+        portfolioCookie={props.actualPortfolio as any}
+        ethPrice={props.ethPrice as any}
+        btcPrice={props.btcPrice as any}
+        page={props.page}
+        aiNews={props.aiNews as any}
+        isMobile={props.isMobile}
+        isTablet={props.isTablet}
       >
         {/* <Suspense fallback={<p>Loading feed...</p>}> */}
         <Top100
-          tokens={tokens}
-          metrics={metrics as any}
-          count={count}
-          defaultFilter={filteredValues}
-          actualView={actualView as any}
-          cookieTop100={allView as any}
+          tokens={props.tokens}
+          metrics={props.metrics as any}
+          count={props.count}
+          defaultFilter={props.filteredValues}
+          actualView={props.actualView as any}
+          cookieTop100={props.allView as any}
         />
         {/* </Suspense> */}
       </Top100Provider>
