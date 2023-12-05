@@ -2,17 +2,20 @@ import React, { useContext } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
+import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../../context-manager";
 import { cancelButtonStyle } from "../../../style";
 
 interface TradeTypePopupProps {
   onClose?: any;
   setActiveName?: any;
+  extraCss?: string;
 }
 
 export const TradeTypePopup = ({
   onClose,
   setActiveName,
+  extraCss,
 }: TradeTypePopupProps) => {
   const {
     setSelectedTradeFilters,
@@ -163,7 +166,7 @@ export const TradeTypePopup = ({
           </div>
         </button>
       </div>
-      <div className="flex mt-2.5">
+      <div className={cn("flex mt-2.5", extraCss)}>
         <Button extraCss={`${cancelButtonStyle} w-2/4`} onClick={resetFilter}>
           Reset
         </Button>
