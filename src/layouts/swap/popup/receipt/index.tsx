@@ -4,7 +4,7 @@ import { ModalContainer } from "components/modal-container";
 import { Skeleton } from "components/skeleton";
 import { Spinner } from "components/spinner";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
@@ -59,6 +59,7 @@ export const TransactionReceipt = () => {
 
   return (
     <ModalContainer
+      extraCss="max-w-[400px]"
       title={
         txError?.title ||
         (completedTx ? "Successful Transaction!" : "Transaction summary")
@@ -90,13 +91,13 @@ export const TransactionReceipt = () => {
             dark:border-dark-border-primary"
           >
             <div className="flex items-center">
-              {tokenIn !== null ? (
+              {tokenIn === null ? (
                 <Skeleton extraCss="w-[34px] h-[34px] mr-[15px] rounded-full" />
               ) : (
                 <NextImageFallback
                   width={34}
                   height={34}
-                  className="rounded-full"
+                  className="rounded-full mr-3"
                   src={tokenIn?.logo}
                   alt={`${tokenIn?.symbol} logo`}
                   fallbackSrc="/empty/unknown.png"
@@ -105,7 +106,7 @@ export const TransactionReceipt = () => {
 
               <div>
                 <SmallFont>{completedTx ? "Spent" : "Spend"}</SmallFont>
-                {tokenIn !== null ? (
+                {tokenIn === null ? (
                   <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px]" />
                 ) : (
                   <MediumFont>
@@ -116,13 +117,13 @@ export const TransactionReceipt = () => {
             </div>
             <div className="my-2.5 h-[1px] w-full bg-light-border-primary dark:bg-dark-border-primary" />
             <div className="flex items-center">
-              {tokenIn !== null ? (
+              {tokenIn === null ? (
                 <Skeleton extraCss="w-[34px] h-[34px] mr-[15px] rounded-full" />
               ) : (
                 <NextImageFallback
                   width={34}
                   height={34}
-                  className="rounded-full"
+                  className="rounded-full mr-3"
                   src={tokenOut?.logo}
                   alt={`${tokenOut?.symbol} logo`}
                   fallbackSrc="/empty/unknown.png"
@@ -130,7 +131,7 @@ export const TransactionReceipt = () => {
               )}
               <div>
                 <SmallFont>{completedTx ? "Received" : "Receive"}</SmallFont>
-                {tokenIn !== null ? (
+                {tokenIn === null ? (
                   <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px] rounded-full" />
                 ) : (
                   <MediumFont>
@@ -158,7 +159,7 @@ export const TransactionReceipt = () => {
             title="Rate"
             extraCss="mt-5 border-b border-light-border-primary dark:border-dark-border-primary"
           >
-            <MediumFont>
+            <SmallFont>
               {`1 ${tokenIn?.symbol} = ${
                 // Get the
                 getFormattedAmount(
@@ -174,7 +175,7 @@ export const TransactionReceipt = () => {
                     : parseFloat(amountOut)) / parseFloat(amountIn)
                 )
               } ${tokenOut?.symbol}`}
-            </MediumFont>
+            </SmallFont>
           </Lines>
         </>
       )}
@@ -184,25 +185,25 @@ export const TransactionReceipt = () => {
             title="Gas fee"
             extraCss="mt-2.5 border-b border-light-border-primary dark:border-dark-border-primary"
           >
-            <MediumFont>
+            <SmallFont>
               {`${getFormattedAmount(finalGasUsed)} ${
                 blockchainsIdContent[chain?.id || 1].eth.symbol
               }`}
-            </MediumFont>
+            </SmallFont>
           </Lines>
           <Lines
             title="Timestamp"
             extraCss="mt-2.5 border-b border-light-border-primary dark:border-dark-border-primary"
           >
-            <MediumFont>
+            <SmallFont>
               {`${getFormattedDate(
                 new Date(completedTx.timestamp).getTime()
               )} ${getFormattedHours(
                 new Date(completedTx.timestamp).getTime()
               )}`}
-            </MediumFont>
+            </SmallFont>
           </Lines>
-          <Lines title="Tx Hash" extraCss="mt-0 pb-0">
+          <Lines title="Tx Hash" extraCss="mt-2.5 pb-0">
             <div className="flex items-center">
               <button
                 onClick={() => {
@@ -216,12 +217,12 @@ export const TransactionReceipt = () => {
                   <BiCopy className="text-light-font-60 dark:text-dark-font-60 mr-[5px]" />
                 )}
               </button>
-              <MediumFont>
+              <SmallFont>
                 {`${completedTx.transactionHash.slice(
                   0,
                   6
                 )}...${completedTx.transactionHash.slice(-4)}`}
-              </MediumFont>
+              </SmallFont>
               <NextChakraLink
                 href={`${blockchainsIdContent[chain?.id || 1].explorer}/tx/${
                   completedTx.transactionHash
@@ -244,27 +245,27 @@ export const TransactionReceipt = () => {
             } mt-2.5`}
           >
             <div className="flex items-center">
-              <MediumFont>{settings.slippage}%</MediumFont>
+              <SmallFont>{settings.slippage}%</SmallFont>
             </div>
           </Lines>
           {slippageTokenIn > 0.25 && (
             <Lines title={`${tokenIn?.symbol} Fees`} mt="10px">
               <div className="flex items-center">
-                <MediumFont>{(slippageTokenIn - 0.25) / 1.1}%</MediumFont>
+                <SmallFont>{(slippageTokenIn - 0.25) / 1.1}%</SmallFont>
               </div>
             </Lines>
           )}
           {slippageTokenOut > 0.25 && (
             <Lines title={`${tokenOut?.symbol} Fees`} mt="10px">
               <div className="flex items-center">
-                <MediumFont>{(slippageTokenOut - 0.25) / 1.1}%</MediumFont>
+                <SmallFont>{(slippageTokenOut - 0.25) / 1.1}%</SmallFont>
               </div>
             </Lines>
           )}
           <Button
-            extraCss="mt-5 text-light-font-100 dark:text-dark-font-100 h-[40px]
+            extraCss="mt-2.5 text-light-font-100 dark:text-dark-font-100 h-[40px]
            md:h-[35px] border-darkblue dark:border-darkblue hover:border-blue
-            hover:dark:border-blue"
+            hover:dark:border-blue w-full"
             id={`trade-${buttonStatus.toLowerCase()}`}
             onClick={() => handleButtonClick()}
           >

@@ -10,6 +10,7 @@ import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Spinner } from "../../../../../../components/spinner";
+import { Tooltip } from "../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../contexts/user";
 import { GET } from "../../../../../../utils/fetch";
 import {
@@ -120,10 +121,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
 
   useEffect(() => {
     if (isMounted.current || !transactions?.length) {
-      console.log("J'arrive ici");
       if (assetQuery && !asset) return;
-      console.log("Puis ici", isSmallTable);
-      console.log("Et enfin ici");
       setTransactions([]);
       fetchTransactions(true);
     } else isMounted.current = true;
@@ -598,14 +596,12 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                                         : ""
                                     }`}
                                   </SmallFont>
-                                  {/* {transactionInfos.type === "internal" ? (
-                                    <InfoPopup
-                                      info="Transaction involving multiple wallets from this portfolio."
-                                      mt="0px"
-                                      mb="2px"
-                                      noClose
+                                  {transactionInfos.type === "internal" ? (
+                                    <Tooltip
+                                      tooltipText="Transaction involving multiple wallets from this portfolio."
+                                      iconCss="mb-0.5"
                                     />
-                                  ) : null} */}
+                                  ) : null}
                                 </div>
                               )}
                               {isSmallTable ? null : (
@@ -651,7 +647,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                             <div className="flex items-center justify-end">
                               {famousContractsLabel[externalActor] ? (
                                 <img
-                                  className="w-[24px] h-[24px] min-w-[24px] rounded-full ml-auto mr-[5px]"
+                                  className="w-[22px] h-[22px] min-w-[24px] rounded-full ml-auto mr-2"
                                   src={famousContractsLabel[externalActor].logo}
                                   alt={`${famousContractsLabel[externalActor].name} logo`}
                                 />
@@ -680,11 +676,6 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                           className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden ${
                             isActive ? "pb-[80px]" : ""
                           }`}
-                          onClick={() => {
-                            setActiveTransaction(
-                              isActive ? "" : transaction.hash + transaction.id
-                            );
-                          }}
                         >
                           <div className="flex items-center justify-end">
                             <div className="flex items-center">
@@ -693,7 +684,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                             border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                 src={
                                   blockchainsIdContent[transaction.chain_id]
-                                    ?.logo || "/icon/unknown.png"
+                                    ?.logo || "/empty/unknown.png"
                                 }
                                 alt={`${
                                   blockchainsIdContent[transaction.chain_id]
@@ -708,7 +699,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                                 title={
                                   <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
                                 }
-                                titleCss="ml-2.5"
+                                titleCss="ml-2"
                               >
                                 {transaction.chain_id ? (
                                   <div
@@ -740,7 +731,7 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                                         } logo`}
                                       />
                                     </div>
-                                    <div className="flex items-center whitespace-nowrap">
+                                    <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100">
                                       Open explorer
                                       <FiExternalLink className="ml-[7.5px] text-light-font-40 dark:text-dark-font-40" />
                                     </div>
@@ -750,7 +741,9 @@ export const Activity = ({ isSmallTable = false }: ActivityProps) => {
                                   activePortfolio?.user === user?.id &&
                                   transaction.id && (
                                     <div
-                                      className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary whitespace-nowrap mt-2.5"
+                                      className="flex items-center text-sm text-[13px] md:text-xs
+                                       bg-light-bg-terciary dark:bg-dark-bg-terciary whitespace-nowrap 
+                                       mt-2.5 text-light-font-100 dark:text-dark-font-100"
                                       onClick={() => {
                                         handleRemoveTransaction(transaction.id);
                                       }}

@@ -186,7 +186,7 @@ export const SkeletonTable = ({
       ) : null}
       {activeView?.name !== "Portfolio" && !isLoading && !isPortfolioLoading ? (
         <caption
-          className={`w-full lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
+          className={`w-full caption-bottom lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
             i === 0 ? "caption" : "hidden"
           }`}
         >
@@ -203,7 +203,7 @@ export const SkeletonTable = ({
       !portfolio?.length &&
       !isPortfolioLoading ? (
         <caption
-          className={`w-full lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
+          className={`w-full caption-bottom lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
             i === 0 ? "caption" : "hidden"
           }`}
         >

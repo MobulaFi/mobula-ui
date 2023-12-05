@@ -4,6 +4,7 @@ import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { SmallFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
+import { Tooltip } from "../../../../../../components/tooltip";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { formatAmount } from "../../../../../../utils/formaters";
@@ -73,7 +74,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
 
   return (
     <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
-      <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 lg:px-[2.5%] pt-0 md:pt-[15px]">
+      <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
         Token Metrics
         <div className="flex items-center ml-auto text-xs">
           Need data?
@@ -102,7 +103,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
             <div
               className={`flex w-full justify-between items-center ${
                 i === 0 ? "border-0" : "border-t"
-              } border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 lg:px-[2.5%] ${
+              } border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 md:px-[2.5%] ${
                 metrics.length - 1 === i ? "pb-0" : "pb-2.5"
               } `}
               key={entry.title}
@@ -115,15 +116,18 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
                 >
                   {entry.title}
                 </SmallFont>
-                {/* <InfoPopup
-                  info={entry.info}
-                  mb="3px"
-                  cursor="pointer"
-                  position={
-                    "right" as PlacementWithLogical & ResponsiveValue<any>
-                  }
-                  noClose
-                /> */}
+                <Tooltip
+                  tooltipText={entry.info as string}
+                  extraCss="left-0 max-w-[200px] top-[20px]"
+                  // info={entry.info}
+                  // extraCss=""
+                  // mb="3px"
+                  // cursor="pointer"
+                  // position={
+                  //   "right" as PlacementWithLogical & ResponsiveValue<any>
+                  // }
+                  // noClose
+                />
               </div>
               <div
                 className={`${

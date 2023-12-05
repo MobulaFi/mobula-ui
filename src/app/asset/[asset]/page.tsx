@@ -9,7 +9,9 @@ import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
 import AssetLayout from "../layout";
 
-async function fetchAssetData({ params, searchParams }) {
+export const dynamic = "force-static";
+
+async function fetchAssetData({ params }) {
   const cookieStore = cookies();
   try {
     const cache: Asset = await memoryCache.get(`COIN_${params.asset}`);
@@ -60,7 +62,6 @@ async function fetchAssetData({ params, searchParams }) {
       ) || tradeHistory?.[0];
 
     if (rightAsset) {
-      memoryCache.set(`COIN_${params.asset}`, rightAsset, 120);
       return {
         asset: rightAsset,
         key: rightAsset.id,
@@ -87,7 +88,7 @@ async function fetchAssetData({ params, searchParams }) {
 }
 
 async function AssetPage({ params, searchParams }) {
-  const data = await fetchAssetData({ params, searchParams });
+  const data = await fetchAssetData({ params });
 
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
