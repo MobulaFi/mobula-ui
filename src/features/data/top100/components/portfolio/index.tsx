@@ -10,7 +10,7 @@ import { Skeleton } from "../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
-import { shouldConnect, useShouldConnect } from "../../../../../hooks/connect";
+import { useShouldConnect } from "../../../../../hooks/connect";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { useTop100 } from "../../context-manager";
@@ -172,7 +172,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     name: "Portfolio",
                     to_page: "/portfolio",
                   });
-                  shouldConnect(router.push("/portfolio"));
+                  handleConnect();
                 }}
               >
                 <MediumFont>Portfolio</MediumFont>
