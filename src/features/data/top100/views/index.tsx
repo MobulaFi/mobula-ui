@@ -28,7 +28,7 @@ import { View } from "../models";
 import { ACTIONS, INITIAL_VALUE, reducer } from "../reducer";
 import { filterFromType } from "../utils";
 
-export const Views = ({ cookieTop100, actualView, setResultsData }) => {
+export const Views = ({ setResultsData }) => {
   const [typePopup, setTypePopup] = useState("");
   const { user } = useContext(UserContext);
   const router = useRouter();

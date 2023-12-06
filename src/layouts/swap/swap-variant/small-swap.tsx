@@ -111,7 +111,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
           </button>
           <SmallSwapLine position="out" />
           <button
-            className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-normal border
+            className="flex items-center justify-center text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-normal border
              border-darkblue mt-2.5 rounded-lg h-[37px] hover:border-blue transition-all duration-250"
             onClick={handleButtonClick}
           >
@@ -120,7 +120,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
             ) : null}
             {buttonStatus}
           </button>
-          <div className="flex text-center mt-[15px]">
+          <div className="flex text-center mt-[15px] mx-auto justify-center">
             {!quotes?.length ? (
               <div className="flex items-center cursor-pointer mx-auto">
                 <AiOutlineThunderbolt className="text-light-font-100 text-md dark:text-dark-font-100 mr-[5px]" />

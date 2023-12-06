@@ -146,21 +146,23 @@ async function AssetPage({ params, searchParams }) {
   //   }
 
   return (
-    <AssetLayout params={data as never}>
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <Assets />
-    </AssetLayout>
+    <>
+      <AssetLayout params={data as never}>
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <Assets />
+      </AssetLayout>
+    </>
   );
 }
 

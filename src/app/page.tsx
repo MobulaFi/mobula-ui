@@ -19,6 +19,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
   const supabase = createSupabaseDOClient();
   const portfolioCookie = getCookie("portfolio")?.value;
+  const actualPortfolio = portfolioCookie ? portfolioCookie : null;
   const page = searchParams.page;
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
@@ -26,8 +27,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   const newCookies = cookies();
 
   let actualView: View | null = null;
-  let allView: View | null = null;
-  const maxValue = 100_000_000_000_000_000;
 
   const filteredValues: { action: string; value: any[] }[] = [];
   filteredValues.push(...defaultFilter);
@@ -38,33 +37,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     isFirst: true,
     disconnected: true,
   };
-
-  // try {
-  //   const assetsCache = await kv.hgetall("assets");
-  //   if (assetsCache) {
-  //     const props = {
-  //       tokens: assetsCache.data || [],
-  //       metrics: assetsCache.metrics,
-  //       count: assetsCache.count,
-  //       ethPrice: assetsCache.ethPrice,
-  //       btcPrice: assetsCache.btcPrice,
-  //       actualView,
-  //       actualPortfolio,
-  //       allView,
-  //       aiNews: assetsCache.aiNews,
-  //       filteredValues,
-  //       page,
-  //       isMobile,
-  //       isTablet,
-  //       cookies: newCookies ?? "",
-  //     };
-
-  //     console.log("PHASE AFTER CALL CACHED", new Date(Date.now()));
-  //     return props;
-  //   }
-  // } catch (error) {
-  //   // Handle errors
-  // }
 
   const getViewQuery = async () => {
     const query = supabase
@@ -118,17 +90,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     { data: aiNews },
   ] = await Promise.all(queries);
 
-  // try {
-  //   await kv.hset("assets", {
-  //     metrics,
-  //     count,
-  //     data,
-  //     ethPrice,
-  //     btcPrice,
-  //     aiNews,
-  //   });
-  // } catch (error) {}
-
   const props = {
     tokens: data || [],
     metrics,
@@ -136,9 +97,9 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     ethPrice,
     btcPrice,
     actualView,
-    allView,
     aiNews,
     filteredValues,
+    actualPortfolio,
     page,
     isMobile,
     isTablet,
@@ -181,6 +142,7 @@ const HomePage = async ({ searchParams }) => {
       <meta name="url" content="https://mobula.fi" />
       <Top100Provider
         activeViewCookie={props.actualView as any}
+        portfolioCookie={props.actualPortfolio}
         ethPrice={props.ethPrice as any}
         btcPrice={props.btcPrice as any}
         page={props.page}
@@ -195,7 +157,6 @@ const HomePage = async ({ searchParams }) => {
           count={props.count}
           defaultFilter={props.filteredValues}
           actualView={props.actualView as any}
-          cookieTop100={props.allView as any}
         />
         {/* </Suspense> */}
       </Top100Provider>
