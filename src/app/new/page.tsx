@@ -6,8 +6,8 @@ import { createSupabaseDOClient } from "../../lib/supabase";
 
 async function fetchNewAssets() {
   const settings = {
-    liquidity: 1000,
-    volume: 1000,
+    liquidity: 10,
+    volume: 10,
     onChainOnly: false,
     default: true,
     trustScore: 2,

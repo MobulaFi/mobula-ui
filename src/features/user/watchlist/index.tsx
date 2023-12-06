@@ -69,18 +69,19 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   }, []);
 
   useEffect(() => {
-    if (user && activeWatchlist && (activeWatchlist?.assets?.length || 0) > 0) {
+    if (user && activeWatchlist) {
       supabase
         .from("assets")
         .select(
-          "id,name,price_change_24h,volume,off_chain_volume,global_volume,symbol,logo,market_cap,price,liquidity,rank,contracts,blockchains,twitter,website,chat,created_at",
+          "id,name,price_change_24h,volume,off_chain_volume,global_volume,symbol,logo,market_cap,price,liquidity,rank,contracts,blockchains,twitter,website,created_at",
           { count: "exact" }
         )
         .in("id", activeWatchlist.assets)
         .then((r) => {
+          console.log("MY R", r);
           if (r.data) {
+            console.log(r.data, "r.data");
             setTokens(r.data);
-
             setResultsData({ data: r.data, count: r.count as number });
           }
         });

@@ -160,52 +160,18 @@ export const Header = ({
           }
         });
   };
-  console.log(pathname !== "/watchlist/");
+  console.log(activeWatchlist);
   if (pathname !== "/watchlist/followed")
     return (
       <div className="flex items-center justify-between rounded-t border-t border-light-border-primary dark:border-dark-border-primary py-2.5">
         {pathname === "/watchlist/explore" ? null : (
           <div className="flex items-center jutify-between w-full">
-            {/* <TextSmall fontWeight="500">
-            24H ROI:
-            <Box
-              as="span"
-              fontWeight="500"
-              color={averageROI() > 0 ? "green" : "red"}
-            >
-              {" "}
-              {getTokenPercentage(averageROI())}%
-            </Box>
-          </TextSmall> */}
             <div
               className="overflow-x-scroll flex scroll bg-light-bg-primary dark:bg-dark-bg-primary"
               style={{
                 width: `calc(100% - ${headerRef?.current?.clientWidth}px)`,
               }}
             >
-              {/* <Button
-                h={["30px", "30px", "35px"]}
-                px={["8px", "8px", "12px"]}
-                borderRadius="4px"
-                border={borders}
-                fontWeight="400"
-                mr="10px"
-                fontSize={["12px", "12px", "13px", "14px"]}
-                color={text80}
-                opacity="1"
-                bg={boxBg6}
-                transition="all 250ms ease-in-out"
-              >
-                24h ROI:{" "}
-                <Box
-                  as="span"
-                  ml="10px"
-                  fontWeight="500"
-                  color={averageROI() > 0 ? "green" : "red"}
-                >
-                  {getTokenPercentage(averageROI())}%
-                </Box>
-              </Button> */}
               {user?.watchlist.map((item) => (
                 <Button
                   key={item?.id}
@@ -214,9 +180,7 @@ export const Header = ({
                     "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   }`}
                   onClick={() => {
-                    if (pathname === "/watchlist") setActiveWatchlist(item);
-                    if (pathname !== "/watchlist" && isConnected)
-                      router.push("/watchlist/");
+                    setActiveWatchlist(item);
                   }}
                 >
                   {item?.name}
