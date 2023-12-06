@@ -6,6 +6,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
 import { SmallFont } from "../../../../components/fonts";
 import { NextImageFallback } from "../../../../components/image";
+import { triggerAlert } from "../../../../lib/toastify";
 import { addressSlicer } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 
@@ -16,7 +17,6 @@ interface ContractsProps {
 
 export function Contracts({ contract, blockchain }: ContractsProps) {
   const [hasCopied, setHasCopied] = useState(false);
-  // const alert = useAlert();
   const { baseAsset } = useContext(BaseAssetContext);
   const { chain } = useNetwork();
   const shortenedName =
@@ -54,12 +54,12 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
       } catch (error) {
         // Empty error
       }
+    } else {
+      triggerAlert(
+        "Error",
+        `Please switch to a network compatible with ${baseAsset.name}`
+      );
     }
-    // else {
-    //   alert.error(
-    //     `Please switch to a network compatible with ${baseAsset.name}`
-    //   );
-    // }
   };
 
   return (
