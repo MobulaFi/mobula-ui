@@ -1,3 +1,4 @@
+"use client";
 import { BarChart, LineChart } from "echarts/charts";
 import {
   DataZoomComponent,

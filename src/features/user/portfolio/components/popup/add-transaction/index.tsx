@@ -3,7 +3,6 @@ import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useAlert } from "react-alert";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -46,7 +45,7 @@ export const AddTransactionPopup = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { address } = useAccount();
   const pathname = usePathname();
-  const alert = useAlert();
+  // const alert = useAlert();
   const hoursRef = useRef<HTMLInputElement>(null);
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
@@ -188,7 +187,7 @@ export const AddTransactionPopup = () => {
       });
     }
     setShowAddTransaction(false);
-    if (!settings.quantity) alert.error("You must enter a quantity");
+    // if (!settings.quantity) alert.error("You must enter a quantity");
   };
   useEffect(() => {
     loadHistory(initialToken as any);

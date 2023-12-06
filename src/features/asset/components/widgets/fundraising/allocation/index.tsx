@@ -42,10 +42,13 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
       : [];
 
   const getNameWithColors = () => {
-    const vestings = baseAsset?.release_schedule;
+    const vestings =
+      baseAsset?.release_schedule?.length > 0
+        ? baseAsset?.release_schedule
+        : [];
     const types = [];
     const seen = new Set();
-    vestings.forEach(([, , type], idx) => {
+    vestings?.forEach(([, , type], idx) => {
       if (idx === 0) {
         Object.keys(type)?.forEach((key) => {
           types.push(key as never);

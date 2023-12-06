@@ -1,4 +1,4 @@
-/* eslint-disable prefer-destructuring */
+"use client";
 import { DataZoomComponentOption } from "echarts";
 import * as echarts from "echarts/core";
 import { useTheme } from "next-themes";

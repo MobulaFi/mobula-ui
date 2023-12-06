@@ -9,7 +9,7 @@ import { unformatFilters } from "../../../utils/pages/asset";
 import { memoryCache } from "../../../utils/redis";
 import AssetLayout from "../layout";
 
-export const dynamic = "force-static";
+export const revalidate = 3600;
 
 async function fetchAssetData({ params }) {
   const cookieStore = cookies();
@@ -146,21 +146,23 @@ async function AssetPage({ params, searchParams }) {
   //   }
 
   return (
-    <AssetLayout params={data as never}>
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <Assets />
-    </AssetLayout>
+    <>
+      <AssetLayout params={data as never}>
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <Assets />
+      </AssetLayout>
+    </>
   );
 }
 

@@ -20,12 +20,17 @@ export const ModalContainer = ({
 }: ModalContainerProps) => {
   if (isOpen)
     return (
-      <div className="z-[100] inset-0 top-0 left-0 fixed w-screen h-screen bg-background/80 flex justify-center backdrop-blur-sm overflow-y-auto">
+      <>
+        <div
+          className="z-[100] inset-0 top-0 left-0 fixed w-screen h-screen bg-background/80 
+          flex justify-center backdrop-blur-sm overflow-y-auto"
+          onClick={() => onClose()}
+        />
         <div
           className={cn(
-            `z-[101] h-fit border mt-[10vh] border-light-border-primary dark:border-dark-border-primary
+            `z-[101] fixed top-[10vh] left-1/2 -translate-x-1/2 h-fit border border-light-border-primary dark:border-dark-border-primary
            rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary text-light-font-100 dark:text-dark-font-100
-            w-full sm:w-[90%] mx-auto ${title ? "py-3.5 px-4" : ""}`,
+            w-full sm:w-[90%] ${title ? "py-3.5 px-4" : ""}`,
             extraCss
           )}
         >
@@ -39,7 +44,7 @@ export const ModalContainer = ({
           ) : null}
           {children}
         </div>
-      </div>
+      </>
     );
   return null;
 };

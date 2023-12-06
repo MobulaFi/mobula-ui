@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useAlert } from "react-alert";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BiAddToQueue } from "react-icons/bi";
 import { IoAdd, IoShareSocialOutline } from "react-icons/io5";
@@ -39,7 +38,7 @@ export const Header = ({
   setShowCreateWL,
 }: HeaderProps) => {
   const { user, setUser } = useContext(UserContext);
-  const alert = useAlert();
+  // const alert = useAlert();
   const [watchlistID, setWatchlistID] = useState(0);
   const {
     isPageUserWatchlist,
@@ -113,13 +112,15 @@ export const Header = ({
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.error) alert.error(r.error);
-          else {
+          if (r.error) {
+            console.log(r.error);
+            // alert.error(r.error);
+          } else {
             pushData("Watchlist Followed", {
               watchlist_owner_id: userOfWatchlist?.[0]?.id,
               watchlist_id: watchlistID,
             });
-            alert.success("Successfully followed this watchlist.");
+            // alert.success("Successfully followed this watchlist.");
             setUser(
               (userBuffer) =>
                 ({
@@ -139,12 +140,14 @@ export const Header = ({
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.error) alert.error(r.error);
-          else {
+          if (r.error) {
+            console.log(r.error);
+            //  alert.error(r.error);
+          } else {
             pushData("Watchlist Unfollowed", {
               watchlist_id: watchlistID,
             });
-            alert.success("Successfully unfollowed this watchlist.");
+            // alert.success("Successfully unfollowed this watchlist.");
             setUser(
               (userBuffer) =>
                 ({
@@ -157,52 +160,18 @@ export const Header = ({
           }
         });
   };
-  console.log(pathname !== "/watchlist/");
+  console.log(activeWatchlist);
   if (pathname !== "/watchlist/followed")
     return (
       <div className="flex items-center justify-between rounded-t border-t border-light-border-primary dark:border-dark-border-primary py-2.5">
         {pathname === "/watchlist/explore" ? null : (
           <div className="flex items-center jutify-between w-full">
-            {/* <TextSmall fontWeight="500">
-            24H ROI:
-            <Box
-              as="span"
-              fontWeight="500"
-              color={averageROI() > 0 ? "green" : "red"}
-            >
-              {" "}
-              {getTokenPercentage(averageROI())}%
-            </Box>
-          </TextSmall> */}
             <div
               className="overflow-x-scroll flex scroll bg-light-bg-primary dark:bg-dark-bg-primary"
               style={{
                 width: `calc(100% - ${headerRef?.current?.clientWidth}px)`,
               }}
             >
-              {/* <Button
-                h={["30px", "30px", "35px"]}
-                px={["8px", "8px", "12px"]}
-                borderRadius="4px"
-                border={borders}
-                fontWeight="400"
-                mr="10px"
-                fontSize={["12px", "12px", "13px", "14px"]}
-                color={text80}
-                opacity="1"
-                bg={boxBg6}
-                transition="all 250ms ease-in-out"
-              >
-                24h ROI:{" "}
-                <Box
-                  as="span"
-                  ml="10px"
-                  fontWeight="500"
-                  color={averageROI() > 0 ? "green" : "red"}
-                >
-                  {getTokenPercentage(averageROI())}%
-                </Box>
-              </Button> */}
               {user?.watchlist.map((item) => (
                 <Button
                   key={item?.id}
@@ -211,9 +180,7 @@ export const Header = ({
                     "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   }`}
                   onClick={() => {
-                    if (pathname === "/watchlist") setActiveWatchlist(item);
-                    if (pathname !== "/watchlist" && isConnected)
-                      router.push("/watchlist/");
+                    setActiveWatchlist(item);
                   }}
                 >
                   {item?.name}

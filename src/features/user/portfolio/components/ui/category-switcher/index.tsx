@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { useAlert } from "react-alert";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
@@ -23,7 +22,7 @@ export const CategorySwitcher = () => {
     activeStep,
     setAsset,
   } = useContext(PortfolioV2Context);
-  const alert = useAlert();
+  // const alert = useAlert();
 
   const categories = [
     {
@@ -132,7 +131,7 @@ export const CategorySwitcher = () => {
           <Button
             extraCss={buttonDeleteNft}
             onClick={() => {
-              alert.show("Coming soon, stay tuned Mobuler, we keep building!");
+              // alert.show("Coming soon, stay tuned Mobuler, we keep building!");
               pushData("Export CSV Clicked");
             }}
           >

@@ -1,12 +1,10 @@
 import { NextImageFallback } from "components/image";
-import { PopupUpdateContext } from "contexts/popup";
 import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -36,6 +34,7 @@ import {
   USDT_BNB_ADDRESS,
   USDT_MATIC_ADDRESS,
 } from "../../../../../constants";
+import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { useIPFS } from "../../../../../hooks/ipfs";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getUrlFromName } from "../../../../../utils/formaters";
@@ -58,7 +57,7 @@ export const Submit = ({ state }) => {
   const [hasPaid, setHasPaid] = useState(false);
   const isDarkMode = theme === "light";
   const { chain } = useNetwork();
-  const alert = useAlert();
+  // const alert = useAlert();
   const { actualPage, setActualPage, isLaunched } = useContext(ListingContext);
   const ipfs = useIPFS();
   const [blockchainSelected, setBlockchainSelected] = useState<string>(
@@ -225,13 +224,13 @@ export const Submit = ({ state }) => {
       ] as never,
     });
     try {
-      alert.info(`Transaction to approve ${symbol} is pending...`);
+      // alert.info(`Transaction to approve ${symbol} is pending...`);
       await waitForTransaction({ hash });
-      alert.success(`${symbol} approved successfully.`);
+      // alert.success(`${symbol} approved successfully.`);
       getBalance();
       // setLoading(false);
     } catch (e) {
-      alert.error(`Something went wrong while trying to allow ${symbol}.`);
+      // alert.error(`Something went wrong while trying to allow ${symbol}.`);
       getBalance();
       // setLoading(false);
     }
@@ -326,12 +325,12 @@ export const Submit = ({ state }) => {
       setHasPaid(true);
       setPending(false);
     } catch (e) {
-      if (e.data && e.data.message)
-        alert.error(`Something went wrong:${e.data.message}`);
-      else if (e.toString().includes("rejected"))
-        alert.error("Transaction cancelled.");
+      if (e.data && e.data.message) console.log("ddd");
+      // alert.error(`Something went wrong:${e.data.message}`);
+      // else if (e.toString().includes("rejected"))
+      // alert.error("Transaction cancelled.");
       else {
-        alert.error("Something went wrong.");
+        // alert.error("Something went wrong.");
         console.log(e);
       }
 

@@ -263,7 +263,7 @@ export const TransactionReceipt = () => {
             </Lines>
           )}
           <Button
-            extraCss="mt-2.5 text-light-font-100 dark:text-dark-font-100 h-[40px]
+            extraCss="flex items-center justify-center mt-2.5 text-light-font-100 dark:text-dark-font-100 h-[40px]
            md:h-[35px] border-darkblue dark:border-darkblue hover:border-blue
             hover:dark:border-blue w-full"
             id={`trade-${buttonStatus.toLowerCase()}`}

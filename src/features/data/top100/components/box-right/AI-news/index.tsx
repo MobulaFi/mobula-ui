@@ -85,7 +85,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
 
   return (
     <div
-      className={`flex w-[200px] flex-col transition-all duration-250 min-w-full`}
+      className={`flex w-[200px] flex-col transition-all duration-300 ease-in-out min-w-full`}
       style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <div className="flex items-center justify-between w-full pt-2.5 px-[15px] pb-0">

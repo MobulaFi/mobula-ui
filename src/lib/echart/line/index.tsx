@@ -1,3 +1,4 @@
+"use client";
 import { BarChart, LineChart } from "echarts/charts";
 import {
   DataZoomComponent,
@@ -93,15 +94,10 @@ const EChart: React.FC<EChartProps> = ({
   });
 
   const createInstance = useCallback(() => {
-    const instance = echarts.getInstanceByDom(
-      document.getElementById(id) as HTMLElement
-    );
-
+    const domElement = document.getElementById(id) as HTMLElement;
     return (
-      instance ||
-      echarts.init(document.getElementById(id), null, {
-        renderer: "canvas",
-      })
+      echarts.getInstanceByDom(domElement) ||
+      echarts.init(domElement, "light", { renderer: "canvas" })
     );
   }, [id]);
 
@@ -148,10 +144,6 @@ const EChart: React.FC<EChartProps> = ({
 
     const parent = parentRef.current;
     if (parent) {
-      // parent.addEventListener("touchstart", () => {
-      //   setIsScrolling(true);
-      // });
-
       parent.addEventListener("touchend", () => {
         chart.dispatchAction({
           type: "hideTip",

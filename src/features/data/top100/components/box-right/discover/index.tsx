@@ -39,7 +39,7 @@ export const Discover = ({ showPage, info }) => {
 
   return (
     <div
-      className={`flex flex-col w-[200px] px-3.5 transition-all duration-250 pt-2.5 pb-0 min-w-full`}
+      className={`flex flex-col w-[200px] px-3.5 transition-all duration-300 ease-in-out pt-2.5 pb-0 min-w-full`}
       style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <MediumFont>{info.title}</MediumFont>

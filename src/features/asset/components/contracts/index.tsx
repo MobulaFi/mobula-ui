@@ -1,7 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
 import React, { useContext, useState } from "react";
-import { useAlert } from "react-alert";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
@@ -17,7 +16,7 @@ interface ContractsProps {
 
 export function Contracts({ contract, blockchain }: ContractsProps) {
   const [hasCopied, setHasCopied] = useState(false);
-  const alert = useAlert();
+  // const alert = useAlert();
   const { baseAsset } = useContext(BaseAssetContext);
   const { chain } = useNetwork();
   const shortenedName =
@@ -55,11 +54,12 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
       } catch (error) {
         // Empty error
       }
-    } else {
-      alert.error(
-        `Please switch to a network compatible with ${baseAsset.name}`
-      );
     }
+    // else {
+    //   alert.error(
+    //     `Please switch to a network compatible with ${baseAsset.name}`
+    //   );
+    // }
   };
 
   return (
