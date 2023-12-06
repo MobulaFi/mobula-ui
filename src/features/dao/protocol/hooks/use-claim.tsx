@@ -3,10 +3,10 @@ import { useNetwork, useSwitchNetwork } from "wagmi";
 import { writeContract } from "wagmi/actions";
 import { VAULT_ADDRESS } from "../../../../constants";
 import { PopupUpdateContext } from "../../../../contexts/popup";
+import { triggerAlert } from "../../../../lib/toastify";
 import { handleEthersError } from "../../../../utils/error";
 
 export const useClaim = () => {
-  // const alert = useAlert();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { setConnect } = useContext(PopupUpdateContext);
@@ -19,7 +19,11 @@ export const useClaim = () => {
     }
     if (chain?.id !== 137) {
       if (switchNetwork) switchNetwork(137);
-      // else alert.error("Please connect your wallet to the Polygon network.");
+      else
+        triggerAlert(
+          "Error",
+          "Please connect your wallet to the Polygon network."
+        );
       return;
     }
     try {
@@ -36,7 +40,7 @@ export const useClaim = () => {
         ] as never,
         functionName: "claim" as never,
       });
-      // alert.success("Successfully claimed 1 MATIC.");
+      triggerAlert("Success", "Successfully claimed 1 MATIC.");
     } catch (err) {
       handleEthersError(err, alert);
     }

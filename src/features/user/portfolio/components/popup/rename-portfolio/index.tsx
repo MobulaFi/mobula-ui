@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-// import {useAlert} from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -8,6 +7,7 @@ import { SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { PortfolioV2Context } from "../../../context-manager";
 import { IPortfolio } from "../../../models";
@@ -20,7 +20,6 @@ interface IRenamePortfolio {
 export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
   const signerGuard = useSignerGuard();
   const [newName, setNewName] = useState("");
-  // const alert = useAlert();
   const { setActivePortfolio, setShowPortfolioSelector } =
     useContext(PortfolioV2Context);
   const { address } = useAccount();
@@ -40,7 +39,7 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.error) {
-          // alert.error(resp.error);
+          triggerAlert("Error", resp.error);
           return;
         } else {
           setActivePortfolio({ ...portfolio, name: newName });

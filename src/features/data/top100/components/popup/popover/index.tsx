@@ -11,6 +11,7 @@ import { useAccount } from "wagmi";
 import { Popover } from "../../../../../../components/popover";
 import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { POST } from "../../../../../../utils/fetch";
 import { defaultCategories, formatDataForFilters } from "../../../constants";
 import { useTop100 } from "../../../context-manager";
@@ -35,7 +36,6 @@ export const PopoverTrade = ({
   const { activeView, setIsLoading, setShowCategories, setActiveView } =
     useTop100();
   const { user, setUser } = useContext(UserContext);
-  // const alert = useAlert();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [loadTime, setLoadTime] = useState(false);
   const { address } = useAccount();
@@ -58,7 +58,7 @@ export const PopoverTrade = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.error) {
-          // alert.error(r.error);
+          triggerAlert("Error", r.error);
           return;
         } else {
           setUser(

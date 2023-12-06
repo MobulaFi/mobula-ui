@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "../../../../../../lib/shadcn/components/ui/select";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getClosest,
@@ -45,7 +46,6 @@ export const AddTransactionPopup = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { address } = useAccount();
   const pathname = usePathname();
-  // const alert = useAlert();
   const hoursRef = useRef<HTMLInputElement>(null);
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
@@ -187,7 +187,7 @@ export const AddTransactionPopup = () => {
       });
     }
     setShowAddTransaction(false);
-    // if (!settings.quantity) alert.error("You must enter a quantity");
+    if (!settings.quantity) triggerAlert("Error", "You must enter a quantity");
   };
   useEffect(() => {
     loadHistory(initialToken as any);

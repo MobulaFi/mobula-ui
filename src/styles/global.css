@@ -4,6 +4,21 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&family=Source+Code+Pro:wght@200;300;400&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&family=Ubuntu&display=swap");
 
+:root {
+  --toastify-color-info: #5c7df9;
+  --toastify-color-success: #0ecb81;
+  --toastify-color-warning: #ffc82c;
+  --toastify-color-error: #ea3943;
+}
+
+.Toastify__toast-icon {
+  margin-bottom: auto;
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+}
+
 * {
   scrollbar-width: none;
 }

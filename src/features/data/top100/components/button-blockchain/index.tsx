@@ -5,6 +5,7 @@ import { NextImageFallback } from "../../../../../components/image";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { TableAsset } from "../../../../../interfaces/assets";
 import { HoldingsResponse } from "../../../../../interfaces/holdings";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { generateFilters } from "../../../../../utils/filters";
 import { Query, TableButton } from "../../models";
 
@@ -30,14 +31,13 @@ export const ButtonBlockchain = ({
   holdings,
 }: ButtonBlockchainProps) => {
   const { setConnect } = useContext(PopupUpdateContext);
-  // const alert = useAlert();
   const { address } = useAccount();
   const isActive = active === entry.title;
 
   return (
     <Button
       key={entry.title}
-      extraCss={`jsutify-center max-w-[155px] w-[13%] whitespace-nowrap rounded p-2.5 min-w-fit mx-[5px] ${
+      extraCss={`justify-center max-w-[155px] w-[13%] whitespace-nowrap rounded p-2.5 min-w-fit mx-[5px] ${
         isActive
           ? "text-light-font-100 dark:text-dark-font-100 border-blue dark:border-blue"
           : "text-light-font-40 dark:text-dark-font-40 border-0 bg-inherit dark:bg-inherit"
@@ -59,8 +59,8 @@ export const ButtonBlockchain = ({
         } else if (entry.title !== "My assets") {
           setFilters(generateFilters(entry.title));
           setActive(entry.title);
-        }
-        // else alert.show("You don't have any assets in your wallet");
+        } else
+          triggerAlert("Warning", "You don't have any assets in your wallet");
       }}
     >
       {entry.logo ? (

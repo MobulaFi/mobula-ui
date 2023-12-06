@@ -9,6 +9,7 @@ import { useAccount, useNetwork } from "wagmi";
 import { disconnect, getPublicClient, getWalletClient } from "wagmi/actions";
 import { PopupUpdateContext } from "../../../contexts/popup";
 import { pushData } from "../../../lib/mixpanel";
+import { triggerAlert } from "../../../lib/toastify";
 import { GET } from "../../../utils/fetch";
 import { generateTxError } from "../utils";
 import { useButtonStatus } from "./useButtonStatus";
@@ -33,7 +34,6 @@ export const useButtonClick = () => {
   const { buttonStatus, tx, quotes } = useButtonStatus();
   const { setConnect, setShowSwitchNetwork } = useContext(PopupUpdateContext);
   const { chain } = useNetwork();
-  // const alert = useAlert();
   const { isConnected, address } = useAccount();
   const pathname = usePathname();
 
@@ -131,12 +131,11 @@ export const useButtonClick = () => {
               return button;
             });
             if (e?.message?.includes("underlying network changed")) {
-              // alert.error("Please reconnect your wallet.");
+              triggerAlert("Error", "Please reconnect your wallet.");
               disconnect();
-            } 
-            // else {
-            //   alert.error(`Error while approving ${tokenIn.symbol}`);
-            // }
+            } else {
+              triggerAlert("Error", `Error while approving ${tokenIn.symbol}`);
+            }
           }
         }
         break;
@@ -147,7 +146,10 @@ export const useButtonClick = () => {
           return;
         }
         if (!tx || !tokenOut) {
-          // alert.error("No transaction to confirm. Please refresh the page.");
+          triggerAlert(
+            "Error",
+            "No transaction to confirm. Please refresh the page."
+          );
           return;
         }
         try {

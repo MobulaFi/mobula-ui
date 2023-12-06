@@ -8,6 +8,7 @@ import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
+import { triggerAlert } from "../../../lib/toastify";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
 import { Pagination } from "./components/pagination";
@@ -51,6 +52,7 @@ export const Top100 = ({
   useFilter({ setFilters, orderBy });
 
   useEffect(() => {
+    triggerAlert("Success", "This page is under construction");
     const swiper = new Swiper(".swiper", {
       speed: 300,
       spaceBetween: 0,
