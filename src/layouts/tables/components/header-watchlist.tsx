@@ -6,7 +6,7 @@ export const HeaderWatchlist = () => {
     <tr className="text-left">
       <TableHeaderEntry
         title="Follow"
-        extraCss="static"
+        extraCss="static px-0 lg:pr-2"
         titleCssPosition="justify-center"
       />
       <TableHeaderEntry
