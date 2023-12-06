@@ -1,6 +1,5 @@
 import { Button } from "components/button";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { useAlert } from "react-alert";
 import { Popover } from "../.../../../../../../components/popover";
 import { pushData } from "../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
@@ -20,7 +19,7 @@ export const ComparePopover = ({
   extraCss,
 }: ComparePopoverProps) => {
   const [showCompare, setShowCompare] = useState(false);
-  const alert = useAlert();
+  // const alert = useAlert();
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 
@@ -36,7 +35,7 @@ export const ComparePopover = ({
       (entry) => entry.content === content
     );
     if (isAlreadyCompared) {
-      alert.error("This token is already compared");
+      // alert.error("This token is already compared");
       return;
     }
     if (type === "asset") {

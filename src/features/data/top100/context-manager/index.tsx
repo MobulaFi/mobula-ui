@@ -20,7 +20,7 @@ export const Top100Provider = ({
   isTablet,
 }: {
   children: JSX.Element | JSX.Element[];
-  activeViewCookie?: View;
+  activeViewCookie?: View | null;
   portfolioCookie?: IPortfolio | null;
   btcPrice: { name: string; price: number } | undefined;
   ethPrice: { name: string; price: number } | undefined;

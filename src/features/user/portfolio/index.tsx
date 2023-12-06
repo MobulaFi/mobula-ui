@@ -70,6 +70,11 @@ export const Portfolio = ({
         process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
       );
 
+      console.log(
+        "NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT",
+        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
+      );
+
       socket.addEventListener("open", () => {
         const settingsString = activePortfolio.wallets
           ? `, "settings": { "wallets": ${JSON.stringify(

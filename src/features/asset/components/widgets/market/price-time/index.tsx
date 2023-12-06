@@ -1,17 +1,14 @@
-import React, { useContext, useState } from "react";
+import { getFormattedAmount, getTokenPercentage } from "@utils/formaters";
+import { Button } from "components/button";
+import { Collapse } from "components/collapse";
+import { TagPercentage } from "components/tag-percentage";
+import { getDateFromTimeStamp, timeframes } from "features/asset/utils";
+import { useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { Button } from "../../../../../../components/button";
-import { Collapse } from "../../../../../../components/collapse";
 import { LargeFont } from "../../../../../../components/fonts";
-import { TagPercentage } from "../../../../../../components/tag-percentage";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
-import {
-  getFormattedAmount,
-  getTokenPercentage,
-} from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { FlexBorderBox } from "../../../../style";
-import { getDateFromTimeStamp, timeframes } from "../../../../utils";
 
 interface PriceInTimeProps {
   extraCss?: string;
@@ -19,9 +16,7 @@ interface PriceInTimeProps {
 
 export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
   const { unformattedHistoricalData, baseAsset } = useContext(BaseAssetContext);
-  const [showMore, setShowMore] = useState(
-    !Object.keys(baseAsset?.assets_raw_pairs?.pairs_data || {})?.length
-  );
+  const [showMore, setShowMore] = useState(false);
 
   const sortOrder = [
     "24h",
@@ -43,7 +38,7 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
   ];
 
   function getHistoricalPrices(history) {
-    if (history === undefined) return;
+    if (!history) return;
     const results = {};
     Object.keys(timeframes).forEach((key) => {
       const targetTimestamp = Date.now() - timeframes[key];
@@ -85,8 +80,8 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
     return newResults;
   }
 
-  getHistoricalPrices(
-    Object.entries(getHistoricalPrices(unformattedHistoricalData?.price?.ALL))
+  const priceHistory = Object.entries(
+    getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
   );
 
   return (
@@ -101,28 +96,12 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
       </LargeFont>
       <Collapse
         startingHeight={
-          Object.entries(
-            getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-          ).length > 5
-            ? "220px"
-            : `${
-                Object.entries(
-                  getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-                ).length * 44
-              }px`
+          priceHistory.length > 5 ? "220px" : `${priceHistory.length * 44}px`
         }
         isOpen={showMore}
       >
-        {Object.entries(
-          getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-        )
-          ?.filter(
-            (entry, i) =>
-              entry[1] !==
-              Object.entries(
-                getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-              )[i - 1]?.[1]
-          )
+        {priceHistory
+          ?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
           .map((entry, i) => (
             <div
               key={entry[0] + entry[1]}
@@ -149,15 +128,8 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
             </div>
           ))}
       </Collapse>
-      {Object.entries(
-        getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-      )?.filter(
-        (entry, i) =>
-          entry[1] !==
-          Object.entries(
-            getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-          )[i - 1]?.[1]
-      ).length > 5 ? (
+      {priceHistory?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
+        .length > 5 ? (
         <Button
           extraCss="mx-auto h-[30px] mt-2.5 text-sm w-full rounded-b-xl"
           onClick={() => setShowMore(!showMore)}

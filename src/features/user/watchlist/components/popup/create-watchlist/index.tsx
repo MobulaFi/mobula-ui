@@ -1,6 +1,5 @@
 import { useTheme } from "next-themes";
 import React, { useContext, useRef, useState } from "react";
-import { useAlert } from "react-alert";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -26,7 +25,7 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   const { showCreateWL, setShowCreateWL, watchlists } =
     useContext(WatchlistContext);
   const { address } = useAccount();
-  const alert = useAlert();
+  // const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
   const errorNameRef = useRef<HTMLDivElement>();
@@ -59,12 +58,14 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
       })
         .then((response) => response.json())
         .then((add) => {
-          if (add.error) alert.error(add.error);
-          else {
+          if (add.error) {
+            console.log(add.error);
+            // alert.error(r.error);
+          } else {
             pushData("Watchlist Added", {
               watchlist_name: name,
             });
-            alert.success("Successfully created new watchlist");
+            // alert.success("Successfully created new watchlist");
             setUser(
               (userBuffer) =>
                 ({
@@ -83,9 +84,10 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
             );
           }
         });
-    } else {
-      alert.show("Please connect your wallet to add a watchlist");
     }
+    // else {
+    //   alert.show("Please connect your wallet to add a watchlist");
+    // }
   };
 
   return (

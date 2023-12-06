@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { useAlert } from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork, useSwitchNetwork } from "wagmi";
@@ -24,7 +23,7 @@ export const RankBox = ({
   badChoice,
   tokensOwed,
 }: RankBoxProps) => {
-  const alert = useAlert();
+  // const alert = useAlert();
   const { setConnect } = useContext(PopupUpdateContext);
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -41,9 +40,10 @@ export const RankBox = ({
     if (chain?.id !== 137) {
       if (switchNetwork) {
         switchNetwork(137);
-      } else {
-        alert.error("Please connect your wallet to the Polygon network.");
       }
+      // else {
+      //   alert.error("Please connect your wallet to the Polygon network.");
+      // }
       return;
     }
     try {
@@ -63,7 +63,7 @@ export const RankBox = ({
       setTokensOwed(0);
     } catch (error) {
       console.log(error);
-      alert.show("You don't have anything to claim.");
+      // alert.show("You don't have anything to claim.");
     }
   };
 

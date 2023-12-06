@@ -19,7 +19,6 @@ export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
   const { userBalance } = useUserBalance();
   const { isDisconnected, isConnected } = useAccount();
   const handleConnect = useShouldConnect(() => router.push(portfolioUrl));
-  console.log("userBalance", userBalance);
   return (
     <Button
       extraCss={`mr-2.5 lg:mr-[7.5px] text-sm ${extraCss}`}

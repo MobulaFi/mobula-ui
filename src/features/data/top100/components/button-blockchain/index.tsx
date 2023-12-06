@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
-import { useAlert } from "react-alert";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { NextImageFallback } from "../../../../../components/image";
@@ -31,7 +30,7 @@ export const ButtonBlockchain = ({
   holdings,
 }: ButtonBlockchainProps) => {
   const { setConnect } = useContext(PopupUpdateContext);
-  const alert = useAlert();
+  // const alert = useAlert();
   const { address } = useAccount();
   const isActive = active === entry.title;
 
@@ -60,7 +59,8 @@ export const ButtonBlockchain = ({
         } else if (entry.title !== "My assets") {
           setFilters(generateFilters(entry.title));
           setActive(entry.title);
-        } else alert.show("You don't have any assets in your wallet");
+        }
+        // else alert.show("You don't have any assets in your wallet");
       }}
     >
       {entry.logo ? (

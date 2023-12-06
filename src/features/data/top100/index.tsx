@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -20,13 +20,13 @@ import { Views } from "./views";
 interface Top100Props {
   tokens: TableAsset[];
   count: number;
-  cookieTop100: View;
+  cookieTop100?: View;
   defaultFilter: Query[] | null;
-  metrics: {
+  metrics?: {
     fear_and_greed_value: number;
     fear_and_greed_value_classification: string;
   };
-  actualView: View;
+  actualView?: View;
 }
 
 register();
@@ -34,10 +34,8 @@ register();
 export const Top100 = ({
   tokens: bufferTokens,
   count,
-  metrics,
-  cookieTop100,
   defaultFilter,
-  actualView,
+  metrics,
 }: Top100Props) => {
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "market_cap",
@@ -69,49 +67,38 @@ export const Top100 = ({
       {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
       <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
         <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
-          {isMobile ? (
-            <Container extraCss="flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 pb-0 overflow-x-scroll w-full">
-              <div className="flex w-95per mx-auto">
-                <div className="swiper">
-                  <div className="swiper-wrapper">
-                    <div
-                      className="swiper-slide flex justify-center"
-                      // style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <Portfolio showPageMobile={showPage} />
-                    </div>
-                    <div
-                      className="swiper-slide flex justify-center"
-                      // style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <BoxMiddle showPageMobile={showPage} metrics={metrics} />
-                    </div>
-                    <div
-                      className="swiper-slide flex justify-center"
-                      // style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <BoxRight showPageMobile={showPage} />
-                    </div>
+          <Container
+            extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
+            justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
+          >
+            <div className="flex w-95per mx-auto">
+              <div className="swiper">
+                <div className="swiper-wrapper">
+                  <div className="swiper-slide flex justify-center">
+                    <Portfolio showPageMobile={showPage} />
+                  </div>
+                  <div className="swiper-slide flex justify-center">
+                    <BoxMiddle
+                      showPageMobile={showPage}
+                      metrics={metrics as never}
+                    />
+                  </div>
+                  <div className="swiper-slide flex justify-center">
+                    <BoxRight showPageMobile={showPage} />
                   </div>
                 </div>
               </div>
-            </Container>
-          ) : (
-            <Container extraCss="scroll flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll mt-7 md:mt-2.5 min-h-full">
-              <Portfolio />
-              <BoxMiddle metrics={metrics} />
-              <BoxRight />
-            </Container>
-          )}
+            </div>
+          </Container>
+          <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
+            <Portfolio />
+            <BoxMiddle metrics={metrics as never} />
+            <BoxRight />
+          </Container>
         </div>
       </div>
-
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
-        <Views
-          actualView={actualView}
-          cookieTop100={cookieTop100}
-          setResultsData={setResultsData}
-        />
+        <Views setResultsData={setResultsData} />
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0">
           <AssetsTable
             resultsData={resultsData}

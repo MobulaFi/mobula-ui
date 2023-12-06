@@ -1,3 +1,4 @@
+"use client";
 import { getFormattedAmount } from "@utils/formaters";
 import { BarChart, LineChart } from "echarts/charts";
 import {

@@ -10,7 +10,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useAlert } from "react-alert";
 import { AiFillStar, AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTrash3 } from "react-icons/bs";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -78,7 +77,7 @@ export const ViewPopup = ({
     activeStep,
   } = useTop100();
   const { address } = useAccount();
-  const alert = useAlert();
+  // const alert = useAlert();
   const { isConnected } = useAccount();
   const { setConnect } = useContext(PopupUpdateContext);
   const maxValue = 100_000_000_000_000_000;
@@ -201,7 +200,7 @@ export const ViewPopup = ({
       .then((r) => {
         if (r.error) {
           return;
-          alert.error(r.error);
+          // alert.error(r.error);
         } else {
           setUser(
             (prev) =>
@@ -243,7 +242,7 @@ export const ViewPopup = ({
       .then((r) => {
         if (r.error) {
           return;
-          alert.error(r.error);
+          // alert.error(r.error);
         } else {
           setUser(
             (prev) =>
@@ -277,7 +276,7 @@ export const ViewPopup = ({
         .then((r) => {
           if (r.error) {
             return;
-            alert.error(r.error);
+            // alert.error(r.error);
           } else {
             setUser(
               (prev) =>
@@ -302,7 +301,7 @@ export const ViewPopup = ({
             setIsViewsLoading(false);
           }
         });
-    else alert.info("You should be connected to be able to remove a view");
+    // else alert.info("You should be connected to be able to remove a view");
   };
 
   const getRenderForFilters = useCallback(
@@ -364,13 +363,13 @@ export const ViewPopup = ({
         ? user.views.find((view) => view.name === state.name)
         : false;
       if (alreadyExist)
-        alert.error(
-          "You already have a view with this name. Please change it and retry"
-        );
+        // alert.error(
+        //   "You already have a view with this name. Please change it and retry"
+        // );
       return alreadyExist;
     }
     if (state.name !== "All" && activeView?.name === "All" && type === "edit") {
-      alert.error("Can't change the name of this view.");
+      // alert.error("Can't change the name of this view.");
       return true;
     }
     return false;
@@ -420,7 +419,7 @@ export const ViewPopup = ({
     if (isConnected) {
       if (!checkSameNameExist()) {
         if (!state.name) {
-          alert.show("Please add a name for your view");
+          // alert.show("Please add a name for your view");
           return;
         }
         if (activeView?.name === "All" && type !== "create") {

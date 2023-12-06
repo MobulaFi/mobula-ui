@@ -211,9 +211,7 @@ export const TokenTrades = () => {
               : "text-light-font-40 dark:text-dark-font-40"
           } z-[2] relative`}
             onClick={() => {
-              if (isDisconnected) {
-                setConnect(true);
-              } else setIsMyTrades(false);
+              setIsMyTrades(false);
             }}
           >
             All trades
@@ -225,7 +223,11 @@ export const TokenTrades = () => {
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } z-[2] relative`}
-            onClick={() => setIsMyTrades(true)}
+            onClick={() => {
+              if (isDisconnected) {
+                setConnect(true);
+              } else setIsMyTrades(true);
+            }}
           >
             My Trades
           </button>
@@ -280,7 +282,7 @@ export const TokenTrades = () => {
           isMyTrades &&
           (userTrades?.length || 0) === 0 ? (
             <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
-              <div className="h-[250px] flex w-full items-center justify-center">
+              <div className="h-[250px] flex flex-col w-full items-center justify-center">
                 <img src="/empty/ray.png" alt="No trade image" />
                 <MediumFont extraCss="font-medium text-light-font-60 dark:text-dark-font-60 mt-5 mb-2.5">
                   You don&apos;t have any trades

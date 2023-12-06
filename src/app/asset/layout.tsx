@@ -1,7 +1,7 @@
+import { BaseAssetProvider } from "features/asset/context-manager";
 import { unformatFilters } from "features/asset/utils";
 import { cookies } from "next/headers";
-import React, { ReactNode } from "react";
-import { BaseAssetProvider } from "../../features/asset/context-manager";
+import { ReactNode } from "react";
 import { ShowMoreProvider } from "../../features/asset/context-manager/navActive";
 import { NavActiveProvider } from "../../features/asset/context-manager/showMore";
 import { Asset } from "../../interfaces/assets";
@@ -29,7 +29,6 @@ export default function AssetLayout({ params, children }: LayoutProps) {
   return (
     <BaseAssetProvider
       token={params?.asset || ({} as Asset)}
-      pref={"Candlestick" as never}
       tradHistory={params?.tradHistory || []}
       launchpad={params?.launchpads}
       hideTxCookie={hideTxCookie}

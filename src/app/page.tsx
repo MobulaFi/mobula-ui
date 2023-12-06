@@ -1,18 +1,10 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import {
-  defaultCategories,
-  defaultFilter,
-  defaultTop100,
-} from "features/data/top100/constants";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
-import {
-  TABLE_ASSETS_QUERY,
-  unformatActiveView,
-} from "../features/data/top100/utils";
+import { TABLE_ASSETS_QUERY } from "../features/data/top100/utils";
 import {
   INewsGeneral,
   StaticHomeQueries,
@@ -26,9 +18,6 @@ export const revalidate = 3600;
 const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
   const supabase = createSupabaseDOClient();
-  const address = getCookie("address")?.value;
-  const viewCookie = getCookie("actual-view")?.value;
-  const mainUserView = getCookie(`view-${address}`)?.value;
   const portfolioCookie = getCookie("portfolio")?.value;
   const actualPortfolio = portfolioCookie ? portfolioCookie : null;
   const page = searchParams.page;
@@ -38,123 +27,16 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   const newCookies = cookies();
 
   let actualView: View | null = null;
-  let allView: View | null = null;
-  const maxValue = 100_000_000_000_000_000;
-
-  actualView = unformatActiveView(viewCookie, "others", mainUserView, address);
-  allView = unformatActiveView(mainUserView, "all", viewCookie, address);
 
   const filteredValues: { action: string; value: any[] }[] = [];
-
-  if (actualView?.filters && address) {
-    Object.entries(actualView?.filters).forEach(
-      ([key, value]: [
-        key: string,
-        value: { from: number; to: number } | string[] | any
-      ]) => {
-        const defaultValue = { from: 0, to: maxValue };
-        const defaultFilterValue = JSON.stringify(defaultValue);
-        const isPriceChange = key === "price_change";
-        if (
-          JSON.stringify(value) !== defaultFilterValue &&
-          key !== "blockchains"
-        ) {
-          if (
-            value.from !== defaultTop100.filters[key].from &&
-            key === "volume"
-          )
-            filteredValues.push({
-              action: "filter",
-              value: ["global_volume", "gte", value.from],
-            });
-          else if (value.from !== defaultTop100.filters[key].from)
-            filteredValues.push({
-              action: "filter",
-              value: [isPriceChange ? `${key}_24h` : key, "gte", value.from],
-            });
-          if (value.to !== defaultTop100.filters[key].to && key === "volume")
-            filteredValues.push({
-              action: "filter",
-              value: ["global_volume", "lte", value.to],
-            });
-          else if (value.to !== defaultTop100.filters[key].to)
-            filteredValues.push({
-              action: "filter",
-              value: [isPriceChange ? `${key}_24h` : key, "lte", value.to],
-            });
-        }
-
-        if (key === "tokens") {
-          filteredValues.push({
-            action: "in",
-            value: ["id", value],
-          });
-        }
-        if (
-          key === "blockchains" &&
-          value.length !== Object.keys(blockchainsContent)?.length
-        ) {
-          const filters = value.map((v) => `blockchains.cs.{${v}}`);
-          const filterString = filters.join(",");
-          filteredValues.push({
-            action: "or",
-            value: [filterString],
-          });
-        }
-        if (
-          key === "categories" &&
-          value.length !== defaultCategories?.length
-        ) {
-          const filters = value.map((v) => `tags.cs.{${v}}`);
-          const filterString = filters.join(",");
-          filteredValues.push({
-            action: "or",
-            value: [filterString],
-          });
-        }
-      }
-    );
-    if (filteredValues.length === 0) filteredValues.push(...defaultFilter);
-  } else filteredValues.push(...defaultFilter);
-
-  if (!actualView && Object.keys(actualView)?.length === 0) {
-    if (!allView)
-      actualView = {
-        ...defaultTop100,
-        name: "All",
-        color: "grey",
-        isFirst: true,
-        disconnected: true,
-      };
-    else actualView = { ...(allView as View), disconnected: false };
-  }
-
-  // try {
-  //   const assetsCache = await kv.hgetall("assets");
-  //   if (assetsCache) {
-  //     const props = {
-  //       tokens: assetsCache.data || [],
-  //       metrics: assetsCache.metrics,
-  //       count: assetsCache.count,
-  //       ethPrice: assetsCache.ethPrice,
-  //       btcPrice: assetsCache.btcPrice,
-  //       actualView,
-  //       actualPortfolio,
-  //       allView,
-  //       aiNews: assetsCache.aiNews,
-  //       filteredValues,
-  //       page,
-  //       isMobile,
-  //       isTablet,
-  //       cookies: newCookies ?? "",
-  //     };
-
-  //     console.log("PHASE AFTER CALL CACHED", new Date(Date.now()));
-  //     return props;
-  //   }
-  // } catch (error) {
-  //   // Handle errors
-  // }
+  filteredValues.push(...defaultFilter);
+  actualView = {
+    ...defaultTop100,
+    name: "All",
+    color: "grey",
+    isFirst: true,
+    disconnected: true,
+  };
 
   const getViewQuery = async () => {
     const query = supabase
@@ -208,17 +90,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     { data: aiNews },
   ] = await Promise.all(queries);
 
-  // try {
-  //   await kv.hset("assets", {
-  //     metrics,
-  //     count,
-  //     data,
-  //     ethPrice,
-  //     btcPrice,
-  //     aiNews,
-  //   });
-  // } catch (error) {}
-
   const props = {
     tokens: data || [],
     metrics,
@@ -226,10 +97,9 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     ethPrice,
     btcPrice,
     actualView,
-    actualPortfolio,
-    allView,
     aiNews,
     filteredValues,
+    actualPortfolio,
     page,
     isMobile,
     isTablet,
@@ -272,7 +142,6 @@ const HomePage = async ({ searchParams }) => {
       <meta name="url" content="https://mobula.fi" />
       <Top100Provider
         activeViewCookie={props.actualView as any}
-        portfolioCookie={props.actualPortfolio as any}
         ethPrice={props.ethPrice as any}
         btcPrice={props.btcPrice as any}
         page={props.page}
@@ -283,11 +152,9 @@ const HomePage = async ({ searchParams }) => {
         {/* <Suspense fallback={<p>Loading feed...</p>}> */}
         <Top100
           tokens={props.tokens}
-          metrics={props.metrics as any}
           count={props.count}
           defaultFilter={props.filteredValues}
-          actualView={props.actualView as any}
-          cookieTop100={props.allView as any}
+          metrics={props.metrics}
         />
         {/* </Suspense> */}
       </Top100Provider>

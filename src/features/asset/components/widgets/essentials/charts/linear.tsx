@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { Button } from "../../../../../../components/button";
 import { MediumFont } from "../../../../../../components/fonts";
@@ -38,6 +38,7 @@ export const ChartLite = ({
     transactions,
     setTransactions,
     comparedEntities,
+    historyData,
   } = useContext(BaseAssetContext);
 
   const [isTracked, setIsTracked] = useState(false);
@@ -242,6 +243,7 @@ export const ChartLite = ({
     }
   };
   const chartMessage = renderChartMessage();
+  console.log("unformattedHistoricalData", unformattedHistoricalData);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 

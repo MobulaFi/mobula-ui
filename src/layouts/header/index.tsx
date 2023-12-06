@@ -8,10 +8,8 @@ import { useContext, useEffect } from "react";
 // import {usePageLoad} from "../../common/hooks/pageload";
 // import {useColors} from "../../common/utils/color-mode";
 // import {CommonPageProvider} from "../common/context-manager";
-import { NextImageFallback } from "components/image";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { useAlert } from "react-alert";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
@@ -29,7 +27,7 @@ export const Header = ({ addressCookie }) => {
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
-  const alert = useAlert();
+  // const alert = useAlert();
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -71,31 +69,25 @@ export const Header = ({ addressCookie }) => {
               extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
             >
               <div className="h-fit w-fit hidden lg:flex">
-                <NextImageFallback
-                  width={30}
-                  height={30}
-                  className="hidden lg:flex"
-                  alt="Mobula logo"
-                  fallbackSrc={""}
+                <img
+                  className="w-[30px] h-[30px]"
                   src={
                     theme === "dark"
                       ? "/mobula/mobula-logo.svg"
                       : "/mobula/mobula-logo-light.svg"
                   }
-                />{" "}
+                  alt="Mobula logo"
+                />
               </div>
               <div className="h-full items-center w-fit flex lg:hidden">
-                <NextImageFallback
-                  width={135}
-                  height={35}
-                  className="w-full h-full max-w-[200px]"
+                <img
+                  className="w-[135px] h-[35px] max-w-[200px] "
                   src={
                     theme === "dark"
                       ? "/mobula/mobula-logo-text.svg"
                       : "/mobula/mobula-logo-text-light.svg"
                   }
                   alt="Mobula logo"
-                  fallbackSrc={""}
                 />
               </div>
             </NextChakraLink>

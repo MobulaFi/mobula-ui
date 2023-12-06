@@ -1,7 +1,6 @@
 import { Collapse } from "components/collapse";
 import { Switch } from "lib/shadcn/components/ui/switch";
 import { useContext, useRef } from "react";
-import { useAlert } from "react-alert";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsDatabaseDown, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -25,7 +24,7 @@ export const CreatePortfolio = () => {
   const signerGuard = useSignerGuard();
   const inputRef = useRef<HTMLInputElement>();
 
-  const alert = useAlert();
+  // const alert = useAlert();
   const {
     setShowCreatePortfolio,
     setUserPortfolio,
@@ -72,21 +71,21 @@ export const CreatePortfolio = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        alert.show("Some message", {
-          timeout: 2000, // custom timeout just for this one alert
-          type: "success",
-          onOpen: () => {
-            console.log("hey");
-          }, // callback that will be executed after this alert open
-          onClose: () => {
-            console.log("closed");
-          }, // callback that will be executed after this alert is removed
-        });
+        // alert.show("Some message", {
+        //   timeout: 2000, // custom timeout just for this one alert
+        //   type: "success",
+        //   onOpen: () => {
+        //     console.log("hey");
+        //   }, // callback that will be executed after this alert open
+        //   onClose: () => {
+        //     console.log("closed");
+        //   }, // callback that will be executed after this alert is removed
+        // });
         if (resp.error) {
-          alert.error(resp.error);
+          // alert.error(resp.error);
           return;
         } else {
-          alert.success("Successfully created a new portfolio");
+          // alert.success("Successfully created a new portfolio");
           setUserPortfolio([
             ...userPortfolio,
             { ...newPortfolio, id: resp.id, base_wallet: resp.base_wallet },
@@ -149,7 +148,7 @@ export const CreatePortfolio = () => {
           extraCss="ml-2.5"
           onClick={() => {
             if (!isAddress(inputRef.current.value)) {
-              alert.error("Invalid address");
+              // alert.error("Invalid address");
               return;
             }
             if (!portfolioSettings.wallets.includes(inputRef.current.value)) {
@@ -157,7 +156,8 @@ export const CreatePortfolio = () => {
                 ...prev,
                 wallets: [...prev.wallets, inputRef.current.value],
               }));
-            } else alert.show("This wallet has already been added");
+            }
+            // else alert.show("This wallet has already been added");
             inputRef.current.value = "";
           }}
         >

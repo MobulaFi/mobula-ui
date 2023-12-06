@@ -19,7 +19,7 @@ export const Vesting = () => {
     const seen = new Set();
     const types = [];
 
-    vesting.forEach(([, , type]) => {
+    vesting?.forEach(([, , type]) => {
       Object.keys(type).forEach((key) => {
         if (!seen.has(key)) {
           types.push(key);
@@ -28,7 +28,7 @@ export const Vesting = () => {
       });
     });
 
-    const newVesting = vesting.slice(1).map(([timestamp, amount, rounds]) => {
+    const newVesting = vesting?.slice(1).map(([timestamp, amount, rounds]) => {
       const roundsArr = types.map((type) => [type, rounds[type] || 0]);
       return [timestamp, amount, roundsArr];
     });
