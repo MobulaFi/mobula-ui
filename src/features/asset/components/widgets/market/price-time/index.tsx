@@ -15,13 +15,8 @@ interface PriceInTimeProps {
 }
 
 export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
-  const { unformattedHistoricalData, historyData, baseAsset } =
-    useContext(BaseAssetContext);
-  const [showMore, setShowMore] = useState(
-    !Object.keys(baseAsset?.assets_raw_pairs?.pairs_data || {})?.length
-  );
-
-  console.log("historyData", baseAsset, historyData);
+  const { unformattedHistoricalData, baseAsset } = useContext(BaseAssetContext);
+  const [showMore, setShowMore] = useState(false);
 
   const sortOrder = [
     "24h",
@@ -85,11 +80,9 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
     return newResults;
   }
 
-  const priceHistory = getHistoricalPrices(
-    Object.entries(getHistoricalPrices(unformattedHistoricalData?.price?.ALL))
+  const priceHistory = Object.entries(
+    getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
   );
-
-  console.log("unformattedHistoricalData", unformattedHistoricalData);
 
   return (
     <div
@@ -103,17 +96,12 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
       </LargeFont>
       <Collapse
         startingHeight={
-          Object.entries(priceHistory || {}).length > 5
-            ? "220px"
-            : `${Object.entries(priceHistory || {}).length * 44}px`
+          priceHistory.length > 5 ? "220px" : `${priceHistory.length * 44}px`
         }
         isOpen={showMore}
       >
-        {Object.entries(priceHistory || {})
-          ?.filter(
-            (entry, i) =>
-              entry[1] !== Object.entries(priceHistory || {})[i - 1]?.[1]
-          )
+        {priceHistory
+          ?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
           .map((entry, i) => (
             <div
               key={entry[0] + entry[1]}
@@ -140,10 +128,8 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
             </div>
           ))}
       </Collapse>
-      {Object.entries(priceHistory || {})?.filter(
-        (entry, i) =>
-          entry[1] !== Object.entries(priceHistory || {})[i - 1]?.[1]
-      ).length > 5 ? (
+      {priceHistory?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
+        .length > 5 ? (
         <Button
           extraCss="mx-auto h-[30px] mt-2.5 text-sm w-full rounded-b-xl"
           onClick={() => setShowMore(!showMore)}
