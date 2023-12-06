@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
 import React, {
@@ -26,8 +25,8 @@ import { ViewPopup } from "../components/popup/views";
 import { defaultCategories, defaultTop100, formatName } from "../constants";
 import { useTop100 } from "../context-manager";
 import { View } from "../models";
-import { ACTIONS, INITIAL_VALUE, maxValue, reducer } from "../reducer";
-import { filterFromType, unformatActiveView } from "../utils";
+import { ACTIONS, INITIAL_VALUE, reducer } from "../reducer";
+import { filterFromType } from "../utils";
 
 export const Views = ({ cookieTop100, actualView, setResultsData }) => {
   const [typePopup, setTypePopup] = useState("");
@@ -51,146 +50,22 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
   const [activeDisplay, setActiveDisplay] = useState("display");
   const [showArrow, setShowArrow] = useState(false);
 
-  const formatDataForFilters = () => {
-    let activeViewStr = "";
-    const newStr = [];
-    const { blockchains } = activeView.filters;
-    const defaultBlockchains = Object.keys(blockchainsContent);
-    const { categories } = activeView.filters;
+  // const handleResize = useCallback(() => {
+  //   if (scrollContainer.current) {
+  //     const containerWidth = scrollContainer.current.offsetWidth;
+  //     const { scrollWidth } = scrollContainer.current;
+  //     const threshold = 20;
+  //     setShowArrow(scrollWidth - containerWidth > threshold);
+  //   }
+  // }, []);
 
-    activeViewStr += activeView?.id ? `(${activeView?.id})` : "";
-    activeViewStr += `(${activeView?.color})`;
-    activeViewStr += `(${activeView?.name})`;
-    activeViewStr += `(${activeView?.is_favorite})`;
-
-    Object.keys(activeView?.display).forEach((key) => {
-      newStr.push(`${activeView?.display[key]?.value}`);
-    });
-    activeViewStr += `(display:${JSON.stringify(newStr)})`;
-
-    Object.keys(activeView?.filters).forEach((key) => {
-      if (key !== "blockchains" && key !== "categories") {
-        const diffThanMin = activeView?.filters[key]?.from !== 0;
-        const diffThanMax = activeView?.filters[key]?.to !== maxValue;
-        if (diffThanMin || diffThanMax) {
-          activeViewStr += `(${key}:${
-            diffThanMin ? activeView?.filters[key]?.from : "_"
-          }|${diffThanMax ? activeView?.filters[key]?.to : "_"})`;
-        }
-      }
-      if (
-        key === "blockchains" &&
-        defaultBlockchains.length !== blockchains.length
-      ) {
-        const diffChains = [];
-        const activeViewBlockchainsLength = blockchains.length;
-        const blockchainsContentLength = defaultBlockchains.length;
-        const diffLength =
-          blockchainsContentLength - activeViewBlockchainsLength;
-
-        if (activeViewBlockchainsLength > diffLength) {
-          defaultBlockchains.forEach((chain) => {
-            blockchains.forEach(() => {
-              if (
-                !blockchains.includes(chain) &&
-                !diffChains.includes(defaultBlockchains.indexOf(chain))
-              )
-                diffChains.push(defaultBlockchains.indexOf(chain));
-            });
-          });
-          activeViewStr += `(blockchains0:${JSON.stringify(diffChains)})`;
-        } else {
-          blockchains.forEach((blockchain) => {
-            diffChains.push(defaultBlockchains.indexOf(blockchain));
-          });
-          activeViewStr += `(blockchains1:${JSON.stringify(diffChains)})`;
-        }
-      }
-      if (
-        key === "categories" &&
-        activeView.filters.categories.length !== defaultCategories?.length
-      ) {
-        const activeViewCategorieLength = categories.length;
-        const defaultCategorieLength = defaultCategories.length;
-        const diffLength = defaultCategorieLength - activeViewCategorieLength;
-        const diffCategories = [];
-
-        if (activeViewCategorieLength > diffLength) {
-          defaultCategories.forEach((categorie) => {
-            categories.forEach(() => {
-              if (
-                !categories.includes(categorie) &&
-                !diffCategories.includes(categorie)
-              ) {
-                diffCategories.push(defaultCategories.indexOf(categorie));
-              }
-            });
-          });
-          activeViewStr += `(categories0:${JSON.stringify(diffCategories)})`;
-        } else {
-          const newCategories = state?.filters?.categories?.map((categorie) =>
-            defaultCategories.indexOf(categorie)
-          );
-          activeViewStr += `(categories1:${JSON.stringify(newCategories)})`;
-        }
-      }
-    });
-    return activeViewStr;
-  };
-
-  const setViewCookies = () => {
-    if (!user || !activeView || !isConnected) return;
-    const activeViewStr = formatDataForFilters();
-    Cookies.set("actual-view", activeViewStr, {
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-    });
-  };
-
-  const setViewAllCookie = () => {
-    if (!isConnected || !user || !activeView) return;
-    const activeViewStr = formatDataForFilters();
-    Cookies.set(`view-${address}`, activeViewStr, {
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-    });
-  };
-
-  const handleResize = useCallback(() => {
-    if (scrollContainer.current) {
-      const containerWidth = scrollContainer.current.offsetWidth;
-      const { scrollWidth } = scrollContainer.current;
-      const threshold = 20;
-      setShowArrow(scrollWidth - containerWidth > threshold);
-    }
-  }, []);
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [handleResize]);
-
-  useEffect(() => {
-    if (
-      user &&
-      activeView?.name !== "Portfolio" &&
-      isConnected &&
-      !activeView?.disconnected &&
-      activeView?.filters
-    )
-      setViewCookies();
-    if (
-      user &&
-      activeView?.name === "All" &&
-      isConnected &&
-      !activeView?.disconnected &&
-      activeView?.filters
-    )
-      setViewAllCookie();
-  }, [user, activeView, isConnected, state]);
+  // useEffect(() => {
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, [handleResize]);
 
   useEffect(() => {
     if (
@@ -229,11 +104,11 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
     }
   }, [activeView, portfolio, user]);
 
-  const handleClick = () => {
-    if (scrollContainer.current) {
-      scrollContainer.current.scrollLeft += 400;
-    }
-  };
+  // const handleClick = () => {
+  //   if (scrollContainer.current) {
+  //     scrollContainer.current.scrollLeft += 400;
+  //   }
+  // };
 
   const getButtonTemplate = (): View[] => {
     const template: View[] = [
@@ -247,22 +122,8 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
     ];
 
     if (isConnected) {
-      const cookieView =
-        cookieTop100 ||
-        unformatActiveView(
-          Cookies.get(`view-${address}`) || null,
-          "all",
-          actualView,
-          address
-        );
-      if (cookieView && Object.keys(cookieView).length) {
-        template.push(cookieView);
-      } else {
-        template.push({ ...defaultTop100, color: "grey", name: "All" });
-      }
-
       if (user?.views?.length > 0) {
-        const sortedViews = user.views.sort((itemA, itemB) =>
+        const sortedViews = user?.views.sort((itemA, itemB) =>
           // eslint-disable-next-line no-nested-ternary
           itemA.is_favorite && !itemB.is_favorite
             ? -1
@@ -283,79 +144,6 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
     () => getButtonTemplate(),
     [isConnected, cookieTop100, user, activeView]
   );
-
-  useEffect(() => {
-    if (Cookies.get("address") !== address)
-      Cookies.set("address", address, {
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
-      });
-
-    if ((activeView ? Object.keys(activeView) : [])?.length === 0) {
-      const storedView = unformatActiveView(
-        Cookies.get(`view-${address}`) || null,
-        "all",
-        actualView,
-        address
-      );
-      setActiveView(
-        storedView
-          ? { ...storedView, isFirst: false, disconnected: false }
-          : {
-              ...defaultTop100,
-              color: "grey",
-              name: "All",
-              isFirst: false,
-              disconnected: false,
-            }
-      );
-    }
-    if (isConnected && activeView?.disconnected && !activeView?.isFirst)
-      setIsLoading(true);
-    if ((activeView?.name === "All" && !page) || activeView?.disconnected) {
-      if (!activeView?.isFirst) setIsLoading(true);
-
-      if (isConnected) {
-        if (activeView?.disconnected) {
-          const storedView = unformatActiveView(
-            Cookies.get(`view-${address}`) || null,
-            "all",
-            actualView,
-            address
-          );
-          setActiveView(
-            storedView
-              ? { ...storedView, isFirst: false, disconnected: false }
-              : {
-                  ...defaultTop100,
-                  color: "grey",
-                  name: "All",
-                  isFirst: false,
-                  disconnected: false,
-                }
-          );
-        } else if (cookieTop100)
-          setActiveView({ ...cookieTop100, disconnected: false });
-      }
-      if (isConnected === false && !activeView?.disconnected)
-        setActiveView({
-          ...defaultTop100,
-          color: "grey",
-          name: "All",
-          disconnected: true,
-          isFirst: false,
-        });
-    } else if (isConnected === false && !activeView?.disconnected) {
-      setIsLoading(true);
-      setActiveView({
-        ...defaultTop100,
-        color: "grey",
-        name: "All",
-        disconnected: true,
-        isFirst: false,
-      });
-    }
-  }, [isConnected]);
 
   const callBackPopoverFilters = useCallback(
     () =>
@@ -461,7 +249,6 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
               {showArrow ? (
                 <button
                   className={`ml-2.5 ${!isConnected ? "hidden" : "flex"}`}
-                  onClick={handleClick}
                 >
                   <FaChevronRight className="text-light-font-100 dark:text-dark-font-100" />
                 </button>
