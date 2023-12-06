@@ -119,24 +119,23 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
           tokens: portfolio as Asset[],
         },
       },
+      { ...defaultTop100, color: "grey", name: "All" },
     ];
 
     if (isConnected) {
       if (user?.views?.length > 0) {
-        const sortedViews = user?.views.sort((itemA, itemB) =>
-          // eslint-disable-next-line no-nested-ternary
-          itemA.is_favorite && !itemB.is_favorite
-            ? -1
-            : !itemA.is_favorite && itemB.is_favorite
-            ? 1
-            : 0
-        );
+        const sortedViews = user?.views
+          ?.filter((entry) => entry.name !== "All")
+          ?.sort((itemA, itemB) =>
+            itemA.is_favorite && !itemB.is_favorite
+              ? -1
+              : !itemA.is_favorite && itemB.is_favorite
+              ? 1
+              : 0
+          );
         template.push(...sortedViews);
       }
-    } else {
-      template.push({ ...defaultTop100, color: "grey", name: "All" });
     }
-
     return template;
   };
 
@@ -188,7 +187,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
             {buttonTemplate.map((content, i) => (
               <Button
                 extraCss={`${
-                  i === (buttonTemplate?.length || 1) - 1 ? "me-0" : "me-2.5"
+                  i === (buttonTemplate?.length || 1) - 1 ? "mr-0" : "mr-2.5"
                 } mt-2.5 font-medium ${
                   activeView?.name === content.name
                     ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
@@ -249,6 +248,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
               {showArrow ? (
                 <button
                   className={`ml-2.5 ${!isConnected ? "hidden" : "flex"}`}
+                  onClick={handleClick}
                 >
                   <FaChevronRight className="text-light-font-100 dark:text-dark-font-100" />
                 </button>
