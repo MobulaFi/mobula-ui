@@ -6,8 +6,8 @@ import { createSupabaseDOClient } from "../../lib/supabase";
 
 async function fetchNewAssets() {
   const settings = {
-    liquidity: 0,
-    volume: 0,
+    liquidity: 1000,
+    volume: 1000,
     onChainOnly: false,
     default: true,
     trustScore: 2,
@@ -22,7 +22,7 @@ async function fetchNewAssets() {
   const { data, count } = await supabase
     .from("assets")
     .select(
-      "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap,price,rank,contracts,blockchains,twitter,website,chat,created_at",
+      "id,name,price_change_24h,global_volume,symbol,logo,market_cap,price,rank,contracts,blockchains,twitter,website,created_at",
       { count: "exact" }
     )
     .gte("liquidity", settings.liquidity)
@@ -32,8 +32,8 @@ async function fetchNewAssets() {
     .or(`utility_score.eq.0,utility_score.gte.${settings.utilityScore}`)
     .or(`social_score.eq.0,social_score.gte.${settings.socialScore}`)
     .order("created_at", { ascending: false })
-    .eq("processed", true)
     .limit(100);
+
   return {
     tokens: data || [],
     count: count || 0,
@@ -53,6 +53,8 @@ export const metadata: Metadata = {
 
 export default async function recentlyAdded() {
   const data = await fetchNewAssets();
+
+  console.log("THIS IS MY DATA", data);
   return (
     <>
       <meta
