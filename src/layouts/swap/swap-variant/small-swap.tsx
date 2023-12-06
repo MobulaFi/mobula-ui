@@ -1,11 +1,11 @@
-import React, { useContext, useRef, useState } from "react";
+import { BaseAssetContext } from "features/asset/context-manager";
+import { useContext, useRef, useState } from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
 import { SwapContext } from "..";
 import { LargeFont, MediumFont, SmallFont } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
-import { BaseAssetContext } from "../../../contexts/asset";
 import { Asset } from "../../../interfaces/swap";
 import { pushData } from "../../../lib/mixpanel";
 import { SmallSwapLine } from "../common/popup/settings/components/small-swap-line";

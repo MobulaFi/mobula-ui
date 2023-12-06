@@ -128,12 +128,13 @@ export const Liquidity = ({ extraCss }: LiquidityProps) => {
     if (!biggestPairs.length) return;
     const chart = createInstance();
     if (chart) chart.setOption(options);
+    return () => chart?.dispose();
   }, [biggestPairs, title]);
 
   useEffect(() => {
     if (!biggestPairs.length) return;
     const chart = createInstance();
-    const handleResize = () => chart.resize();
+    const handleResize = () => chart?.resize();
     window.addEventListener("resize", handleResize);
 
     return () => {

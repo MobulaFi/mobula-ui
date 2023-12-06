@@ -1,40 +1,37 @@
 "use client";
 import { PostgrestResponse } from "@supabase/supabase-js";
+import { UserContext } from "contexts/user";
+import { ILaunchpad } from "interfaces/launchpads";
+import { ComparedEntity } from "interfaces/pages/portfolio";
+import { createSupabaseDOClient } from "lib/supabase";
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { UserContext } from "../../../contexts/user";
-import { ILaunchpad } from "../../../interfaces/launchpads";
-import { MarketMetrics, TradeFilter } from "../../../interfaces/trades";
-import { createSupabaseDOClient } from "../../../lib/supabase";
-import { Pref } from "../../../utils/prefs";
-import { ComparedEntity } from "../../user/portfolio/models";
 import {
   Asset,
   ChartType,
   FormattedHistoricalData,
   HistoryData,
   IBasetAssetContext,
+  MarketMetrics,
   TimeSelected,
   Trade,
   UnformattedHistoricalData,
 } from "../models";
 import { formatHistoricalData } from "../utils";
 
+export const BaseAssetContext = React.createContext({} as IBasetAssetContext);
+
 interface BaseAssetProviderProps {
   token: Asset;
   children: React.ReactNode;
-  pref: Pref;
   tradHistory: Trade[];
   launchpad?: ILaunchpad[];
   hideTxCookie: string;
-  tradeCookie: TradeFilter[];
+  tradeCookie: any;
 }
-
-export const BaseAssetContext = React.createContext({} as IBasetAssetContext);
 
 export const BaseAssetProvider = ({
   token,
   children,
-  pref,
   tradHistory,
   launchpad,
   hideTxCookie,
@@ -47,7 +44,9 @@ export const BaseAssetProvider = ({
     useState<FormattedHistoricalData | null>(null);
   const [unformattedHistoricalData, setUnformattedHistoricalData] =
     useState<UnformattedHistoricalData | null>(null);
-  const [timeSelected, setTimeSelected] = useState<TimeSelected>("24H");
+  const [timeSelected, setTimeSelected] = useState<TimeSelected>(
+    "24H" as TimeSelected
+  );
   const [hideTx, setHideTx] = useState(JSON.parse(hideTxCookie));
   const [tokenVsMarket, setTokenVsMarket] = useState(null);
   const [pairs, setPairs] = useState([]);
@@ -87,7 +86,7 @@ export const BaseAssetProvider = ({
     (launchpad as ILaunchpad[]) || []
   );
   const [untracked, setUntracked] = useState({
-    isUntracked: !token?.tracked,
+    isUntracked: !token.tracked,
     showChart: false,
   });
 
@@ -98,6 +97,8 @@ export const BaseAssetProvider = ({
     token_amount: [0, 1_000_000_000_000],
     liquidity_pool: [],
   };
+
+  console.log("IIIIIIIII", token);
 
   const returnName = (prevValue, filter, values, value, anyState) => {
     let newValue = prevValue;
@@ -116,13 +117,13 @@ export const BaseAssetProvider = ({
   tradeCookie?.forEach((filter) => {
     const value = filter.value?.[1];
 
-    if ((filter?.value?.[0] as never) === "trade_history.type") {
+    if (filter.value[0] === "trade_history.type") {
       tradeFromCookie = {
         ...tradeFromCookie,
         type: filter.value[1],
       };
     }
-    if ((filter.value[0] as never) === "trade_history.token_amount") {
+    if (filter.value[0] === "trade_history.token_amount") {
       const amounts = [0, 1_000_000_000_000];
       const toArr = returnName("", filter, amounts, value, "Any Amount");
       const min = toArr.split(" - ")[0];
@@ -132,7 +133,7 @@ export const BaseAssetProvider = ({
         token_amount: [Number(min), Number(max)],
       };
     }
-    if ((filter.value[0] as never) === "trade_history.value_usd") {
+    if (filter.value[0] === "trade_history.value_usd") {
       const amounts = [0, 1_000_000_000_000];
       const toArr = returnName("", filter, amounts, value, "Any Value");
       const min = toArr.split(" - ")[0];
@@ -143,6 +144,8 @@ export const BaseAssetProvider = ({
       };
     }
   });
+
+  console.log("tradeCookie", tradeCookie);
 
   const [selectedTradeFilters, setSelectedTradeFilters] =
     useState(tradeFromCookie);
@@ -245,7 +248,7 @@ export const BaseAssetProvider = ({
         noCacheSupabase
           .from("assets")
           .select(
-            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,twitter_history,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,trade_history(*), assets_raw_pairs(pairs_data,pairs_per_chain),assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
+            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,twitter_history,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,trade_history(*),assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
           )
           .limit(20, {
             foreignTable: "trade_history",
@@ -377,20 +380,20 @@ export const BaseAssetProvider = ({
       }
     };
 
-    const setUserActiveChart = (type: string) => {
-      setActiveChart(type);
-      // setUserPrefCookie({ ...pref, chartType: type });
-    };
+    // const setUserActiveChart = (type: string) => {
+    //   setActiveChart(type);
+    //   setUserPrefCookie({ ...pref, chartType: type });
+    // };
 
-    const setUserTimeSelected = (value: TimeSelected) => {
-      setTimeSelected(value);
-      // setUserPrefCookie({ ...pref, timeSelected: value });
-    };
+    // const setUserTimeSelected = (value: TimeSelected) => {
+    //   setTimeSelected(value);
+    //   setUserPrefCookie({ ...pref, timeSelected: value });
+    // };
 
-    const setUserTradeAmountFilter = (value: TradeFilter) => {
-      setSelectedTradeFilters(value);
-      // setUserPrefCookie({ ...pref, liveTradeAmountFitlers: value });
-    };
+    // const setUserTradeAmountFilter = (value: TradeFilter) => {
+    //   setSelectedTradeFilters(value);
+    //   setUserPrefCookie({ ...pref, liveTradeAmountFitlers: value });
+    // };
 
     const shouldLoadHistory = (type: ChartType, time: TimeSelected): boolean =>
       (!historyData?.[`${type}_history`] && time !== "24H" && time !== "7D") ||
@@ -457,9 +460,9 @@ export const BaseAssetProvider = ({
       shouldInstantLoad,
       setActiveTab,
       activeTab,
-      setUserActiveChart,
-      setUserTimeSelected,
-      setUserTradeAmountFilter,
+      // setUserActiveChart,
+      // setUserTimeSelected,
+      // setUserTradeAmountFilter,
       setPairs,
       pairs,
       tradeHistory,
@@ -552,7 +555,7 @@ export const BaseAssetProvider = ({
   ]);
 
   return (
-    <BaseAssetContext.Provider value={value as never}>
+    <BaseAssetContext.Provider value={value}>
       {children}
     </BaseAssetContext.Provider>
   );

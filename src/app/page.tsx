@@ -142,7 +142,6 @@ const HomePage = async ({ searchParams }) => {
       <meta name="url" content="https://mobula.fi" />
       <Top100Provider
         activeViewCookie={props.actualView as any}
-        portfolioCookie={props.actualPortfolio}
         ethPrice={props.ethPrice as any}
         btcPrice={props.btcPrice as any}
         page={props.page}
@@ -153,10 +152,8 @@ const HomePage = async ({ searchParams }) => {
         {/* <Suspense fallback={<p>Loading feed...</p>}> */}
         <Top100
           tokens={props.tokens}
-          metrics={props.metrics as any}
           count={props.count}
           defaultFilter={props.filteredValues}
-          actualView={props.actualView as any}
         />
         {/* </Suspense> */}
       </Top100Provider>
