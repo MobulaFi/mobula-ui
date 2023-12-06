@@ -161,6 +161,7 @@ const EChart: React.FC<EChartProps> = ({
         });
       });
     }
+    return () => chart.dispose();
   }, [theme]);
 
   return (

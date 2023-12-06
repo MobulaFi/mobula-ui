@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
 import { useTop100 } from "../../context-manager";
 import { BtcDominance } from "./btc-dominance";
@@ -42,32 +42,22 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   useEffect(() => {
     if (!totalMarketCap.length || !btcDominance.length || !marketCapChange)
       fetchMetrics();
-  }, []);
+  }, [totalMarketCap, btcDominance, marketCapChange, showPage]);
 
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,
     <CryptoMarket showPage={showPage} key="CryptoMarket" />,
-    <BtcDominance
-      showPage={showPage}
-      height={
-        typeof showPageMobile === "number"
-          ? "165px"
-          : tablet
-          ? "175px"
-          : "190px"
-      }
-      key="BtcDominance"
-    />,
+    <BtcDominance showPage={showPage} key="BtcDominance" />,
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowPage((prevPage) => (prevPage + 1) % 3);
-    }, 12000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setShowPage((prevPage) => (prevPage + 1) % 3);
+  //   }, 12000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   return (
     <div
