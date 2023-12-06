@@ -211,9 +211,7 @@ export const TokenTrades = () => {
               : "text-light-font-40 dark:text-dark-font-40"
           } z-[2] relative`}
             onClick={() => {
-              if (isDisconnected) {
-                setConnect(true);
-              } else setIsMyTrades(false);
+              setIsMyTrades(false);
             }}
           >
             All trades
@@ -225,7 +223,11 @@ export const TokenTrades = () => {
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } z-[2] relative`}
-            onClick={() => setIsMyTrades(true)}
+            onClick={() => {
+              if (isDisconnected) {
+                setConnect(true);
+              } else setIsMyTrades(true);
+            }}
           >
             My Trades
           </button>
