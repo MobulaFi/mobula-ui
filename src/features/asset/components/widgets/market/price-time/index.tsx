@@ -103,27 +103,16 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
       </LargeFont>
       <Collapse
         startingHeight={
-          Object.entries(
-            getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-          ).length > 5
+          Object.entries(priceHistory || {}).length > 5
             ? "220px"
-            : `${
-                Object.entries(
-                  getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-                ).length * 44
-              }px`
+            : `${Object.entries(priceHistory || {}).length * 44}px`
         }
         isOpen={showMore}
       >
-        {Object.entries(
-          getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-        )
+        {Object.entries(priceHistory || {})
           ?.filter(
             (entry, i) =>
-              entry[1] !==
-              Object.entries(
-                getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-              )[i - 1]?.[1]
+              entry[1] !== Object.entries(priceHistory || {})[i - 1]?.[1]
           )
           .map((entry, i) => (
             <div
@@ -151,8 +140,9 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
             </div>
           ))}
       </Collapse>
-      {Object.entries(priceHistory)?.filter(
-        (entry, i) => entry[1] !== Object.entries(priceHistory)[i - 1]?.[1]
+      {Object.entries(priceHistory || {})?.filter(
+        (entry, i) =>
+          entry[1] !== Object.entries(priceHistory || {})[i - 1]?.[1]
       ).length > 5 ? (
         <Button
           extraCss="mx-auto h-[30px] mt-2.5 text-sm w-full rounded-b-xl"

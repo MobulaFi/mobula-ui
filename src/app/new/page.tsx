@@ -32,7 +32,7 @@ async function fetchNewAssets() {
     .or(`utility_score.eq.0,utility_score.gte.${settings.utilityScore}`)
     .or(`social_score.eq.0,social_score.gte.${settings.socialScore}`)
     .order("created_at", { ascending: false })
-    .match({ processed: true })
+    .eq("processed", true)
     .limit(100);
   return {
     tokens: data || [],
