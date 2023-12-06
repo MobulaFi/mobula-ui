@@ -50,22 +50,22 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
   const [activeDisplay, setActiveDisplay] = useState("display");
   const [showArrow, setShowArrow] = useState(false);
 
-  // const handleResize = useCallback(() => {
-  //   if (scrollContainer.current) {
-  //     const containerWidth = scrollContainer.current.offsetWidth;
-  //     const { scrollWidth } = scrollContainer.current;
-  //     const threshold = 20;
-  //     setShowArrow(scrollWidth - containerWidth > threshold);
-  //   }
-  // }, []);
+  const handleResize = useCallback(() => {
+    if (scrollContainer.current) {
+      const containerWidth = scrollContainer.current.offsetWidth;
+      const { scrollWidth } = scrollContainer.current;
+      const threshold = 20;
+      setShowArrow(scrollWidth - containerWidth > threshold);
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   handleResize();
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, [handleResize]);
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
 
   useEffect(() => {
     if (
@@ -104,11 +104,11 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
     }
   }, [activeView, portfolio, user]);
 
-  // const handleClick = () => {
-  //   if (scrollContainer.current) {
-  //     scrollContainer.current.scrollLeft += 400;
-  //   }
-  // };
+  const handleClick = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollLeft += 400;
+    }
+  };
 
   const getButtonTemplate = (): View[] => {
     const template: View[] = [
@@ -142,7 +142,7 @@ export const Views = ({ cookieTop100, actualView, setResultsData }) => {
 
   const buttonTemplate = useMemo(
     () => getButtonTemplate(),
-    [isConnected, cookieTop100, user, activeView]
+    [isConnected, user, activeView]
   );
 
   const callBackPopoverFilters = useCallback(
