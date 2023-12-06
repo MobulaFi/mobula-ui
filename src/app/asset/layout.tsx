@@ -29,7 +29,6 @@ export default function AssetLayout({ params, children }: LayoutProps) {
   return (
     <BaseAssetProvider
       token={params?.asset || ({} as Asset)}
-      pref={"Candlestick" as never}
       tradHistory={params?.tradHistory || []}
       launchpad={params?.launchpads}
       hideTxCookie={hideTxCookie}

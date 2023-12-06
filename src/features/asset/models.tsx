@@ -2,7 +2,6 @@
 import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { ILaunchpad } from "../../interfaces/launchpads";
-import { TradeFilter } from "../../interfaces/trades";
 import { PublicTransaction } from "../../interfaces/transactions";
 import {
   ComparedEntity,
@@ -77,9 +76,6 @@ export interface IBasetAssetContext {
   >;
   setShouldInstantLoad: Dispatch<SetStateAction<boolean>>;
   shouldInstantLoad: boolean;
-  setUserActiveChart: (value: string) => void;
-  setUserTimeSelected: (value: TimeSelected) => void;
-  setUserTradeAmountFilter: (value: TradeFilter) => void;
   tradeHistory: Trade[];
   setTradeHistory: Dispatch<SetStateAction<Trade[]>>;
   setTokenVsMarket: Dispatch<SetStateAction<ICategory[] | null>>;

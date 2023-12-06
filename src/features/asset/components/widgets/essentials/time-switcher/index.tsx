@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { timestamps } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
 
@@ -10,7 +10,7 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
   const {
     timeSelected,
     chartType,
-    setUserTimeSelected,
+    setTimeSelected,
     shouldLoadHistory,
     loadHistoryData,
   } = useContext(BaseAssetContext);
@@ -42,7 +42,7 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
             onClick={() => {
               if (shouldLoadHistory(chartType, time))
                 loadHistoryData(chartType, time);
-              setUserTimeSelected(time);
+              setTimeSelected(time);
             }}
           >
             {time}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../components/button";
@@ -28,10 +28,10 @@ export const TokenMainInfo = () => {
     baseAsset,
     historyData,
     timeSelected,
-    setUserTimeSelected,
     setShowTargetPrice,
     setShowSwap,
     showSwap,
+    setTimeSelected,
   } = useContext(BaseAssetContext);
   const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
   const { user } = useContext(UserContext);
@@ -273,7 +273,7 @@ export const TokenMainInfo = () => {
                 {timestamps.map((time) => (
                   <button
                     key={time}
-                    onClick={() => setUserTimeSelected(time)}
+                    onClick={() => setTimeSelected(time)}
                     className={`transition-all duration-250 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
                        rounded ${
                          timeSelected === time

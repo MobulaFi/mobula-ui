@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
@@ -19,7 +19,7 @@ export const ChartHeader = () => {
     setChartType,
     activeChart,
     untracked,
-    setUserActiveChart,
+    setActiveChart,
     setHideTx,
     hideTx,
     transactions,
@@ -121,7 +121,7 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Linear",
                 });
-                setUserActiveChart("Linear");
+                setActiveChart("Linear");
               }}
             >
               <MdShowChart className="text-xl" />
@@ -139,7 +139,7 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Trading view",
                 });
-                setUserActiveChart("Trading view");
+                setActiveChart("Trading view");
               }}
             >
               <MdCandlestickChart className="text-xl" />

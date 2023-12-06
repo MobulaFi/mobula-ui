@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -19,13 +19,13 @@ import { Views } from "./views";
 interface Top100Props {
   tokens: TableAsset[];
   count: number;
-  cookieTop100: View;
+  cookieTop100?: View;
   defaultFilter: Query[] | null;
-  metrics: {
+  metrics?: {
     fear_and_greed_value: number;
     fear_and_greed_value_classification: string;
   };
-  actualView: View;
+  actualView?: View;
 }
 
 register();
