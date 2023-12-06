@@ -78,9 +78,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         )
         .in("id", activeWatchlist.assets)
         .then((r) => {
-          console.log("MY R", r);
           if (r.data) {
-            console.log(r.data, "r.data");
             setTokens(r.data);
             setResultsData({ data: r.data, count: r.count as number });
           }

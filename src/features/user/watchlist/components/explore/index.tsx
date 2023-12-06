@@ -133,6 +133,8 @@ export const WatchlistExplore = ({
     }
   }, [watchlists, searchWatchlist]);
 
+  console.log("usersOwner", usersOwner);
+
   return (
     <Container extraCss="w-[90%] lg:w-[95%]">
       <ButtonsHeader />
@@ -149,7 +151,7 @@ export const WatchlistExplore = ({
             >
               <HeaderWatchlist />
             </thead>
-            {(!searchWatchlist.length ? watchlistsBuffer : watchlistSearched)
+            {watchlistsBuffer
               ?.filter((entry) => entry?.assets?.length > 0)
               .map((watchlist, i) => (
                 <EntryWatchlist
