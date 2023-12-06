@@ -3,6 +3,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { Popover } from "../.../../../../../../components/popover";
 import { pushData } from "../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { CoreSearchBar } from "../../../../../popup/searchbar/core";
 import { ComparedEntity, UserHoldings } from "../../models";
 import { loadWalletPortfolio } from "../../utils";
@@ -19,7 +20,6 @@ export const ComparePopover = ({
   extraCss,
 }: ComparePopoverProps) => {
   const [showCompare, setShowCompare] = useState(false);
-  // const alert = useAlert();
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 
@@ -35,7 +35,7 @@ export const ComparePopover = ({
       (entry) => entry.content === content
     );
     if (isAlreadyCompared) {
-      // alert.error("This token is already compared");
+      triggerAlert("Error", "This token is already compared");
       return;
     }
     if (type === "asset") {

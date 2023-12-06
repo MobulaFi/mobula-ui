@@ -6,6 +6,7 @@ import { Button } from "../../../../../../components/button";
 import { MediumFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { PortfolioV2Context } from "../../../context-manager";
 import { buttonDeleteNft } from "../../../style";
 
@@ -22,7 +23,6 @@ export const CategorySwitcher = () => {
     activeStep,
     setAsset,
   } = useContext(PortfolioV2Context);
-  // const alert = useAlert();
 
   const categories = [
     {
@@ -131,7 +131,10 @@ export const CategorySwitcher = () => {
           <Button
             extraCss={buttonDeleteNft}
             onClick={() => {
-              // alert.show("Coming soon, stay tuned Mobuler, we keep building!");
+              triggerAlert(
+                "Information",
+                "Coming soon, stay tuned Mobuler, we keep building!"
+              );
               pushData("Export CSV Clicked");
             }}
           >

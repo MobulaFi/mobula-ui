@@ -9,6 +9,7 @@ import { API_ENDPOINT } from "../../../../../constants";
 import { UserContext } from "../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../hooks/signer";
 import { pushData } from "../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { GET } from "../../../../../utils/fetch";
 import { WatchlistContext } from "../../context-manager";
 import { incrementWatchlistName } from "../../utils";
@@ -22,7 +23,6 @@ export const HeaderMenu = () => {
     setActiveWatchlist,
   } = useContext(WatchlistContext);
   const { address } = useAccount();
-  // const alert = useAlert();
   const signerGuard = useSignerGuard();
   const { user, setUser } = useContext(UserContext);
 
@@ -39,8 +39,7 @@ export const HeaderMenu = () => {
         .then((response) => response.json())
         .then((add) => {
           if (add.error) {
-            console.log(add.error);
-            // alert.error(add.error);
+            triggerAlert("Error", "Something went wrong. Please try again.");
           } else {
             pushData("Watchlist Removed", {
               watchlist_id: activeWatchlist.id,
@@ -54,7 +53,7 @@ export const HeaderMenu = () => {
             setActiveWatchlist(
               user?.watchlist.filter((w) => w.name !== activeWatchlist.name)[0]
             );
-            // alert.success("Your watchlist has been deleted");
+            triggerAlert("Success", "Your watchlist has been deleted.");
           }
         });
     }

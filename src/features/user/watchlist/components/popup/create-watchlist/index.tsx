@@ -13,6 +13,7 @@ import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { WatchlistContext } from "../../../context-manager";
 import { IWatchlist } from "../../../models";
@@ -25,7 +26,6 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   const { showCreateWL, setShowCreateWL, watchlists } =
     useContext(WatchlistContext);
   const { address } = useAccount();
-  // const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
   const errorNameRef = useRef<HTMLDivElement>();
@@ -59,13 +59,18 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
         .then((response) => response.json())
         .then((add) => {
           if (add.error) {
-            console.log(add.error);
-            // alert.error(r.error);
+            triggerAlert(
+              "Error",
+              "Something went wrong, please try again to create a new watchlist"
+            );
           } else {
             pushData("Watchlist Added", {
               watchlist_name: name,
             });
-            // alert.success("Successfully created new watchlist");
+            triggerAlert(
+              "Success",
+              "Your watchlist has been created successfully"
+            );
             setUser(
               (userBuffer) =>
                 ({
@@ -84,10 +89,9 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
             );
           }
         });
+    } else {
+      triggerAlert("Warning", "Please connect your wallet to add a watchlist");
     }
-    // else {
-    //   alert.show("Please connect your wallet to add a watchlist");
-    // }
   };
 
   return (

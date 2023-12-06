@@ -13,6 +13,7 @@ import { Input } from "../../../../../../components/input";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { addressSlicer } from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -23,8 +24,6 @@ export const CreatePortfolio = () => {
   const { user } = useContext(UserContext);
   const signerGuard = useSignerGuard();
   const inputRef = useRef<HTMLInputElement>();
-
-  // const alert = useAlert();
   const {
     setShowCreatePortfolio,
     setUserPortfolio,
@@ -71,21 +70,15 @@ export const CreatePortfolio = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        // alert.show("Some message", {
-        //   timeout: 2000, // custom timeout just for this one alert
-        //   type: "success",
-        //   onOpen: () => {
-        //     console.log("hey");
-        //   }, // callback that will be executed after this alert open
-        //   onClose: () => {
-        //     console.log("closed");
-        //   }, // callback that will be executed after this alert is removed
-        // });
+        triggerAlert("Error", "You must enter a quantity");
         if (resp.error) {
-          // alert.error(resp.error);
+          triggerAlert(
+            "Error",
+            "Something went wrong while creating a portfolio"
+          );
           return;
         } else {
-          // alert.success("Successfully created a new portfolio");
+          triggerAlert("Success", "Successfully created a new portfolio");
           setUserPortfolio([
             ...userPortfolio,
             { ...newPortfolio, id: resp.id, base_wallet: resp.base_wallet },
@@ -148,7 +141,7 @@ export const CreatePortfolio = () => {
           extraCss="ml-2.5"
           onClick={() => {
             if (!isAddress(inputRef.current.value)) {
-              // alert.error("Invalid address");
+              triggerAlert("Error", "Invalid address");
               return;
             }
             if (!portfolioSettings.wallets.includes(inputRef.current.value)) {
@@ -157,7 +150,7 @@ export const CreatePortfolio = () => {
                 wallets: [...prev.wallets, inputRef.current.value],
               }));
             }
-            // else alert.show("This wallet has already been added");
+            triggerAlert("Warning", "This wallet has already been added");
             inputRef.current.value = "";
           }}
         >

@@ -1,3 +1,4 @@
+import { Spinner } from "components/spinner";
 import {
   Dispatch,
   SetStateAction,
@@ -5,8 +6,6 @@ import {
   useEffect,
   useState,
 } from "react";
-// import {useAlert} from "react-alert";
-import { Spinner } from "components/spinner";
 import { BsCheckLg, BsTelegram } from "react-icons/bs";
 import { FiCopy, FiExternalLink } from "react-icons/fi";
 import { Button } from "../../components/button";
@@ -15,6 +14,7 @@ import { NextChakraLink } from "../../components/link";
 import { ModalContainer } from "../../components/modal-container";
 import { UserContext } from "../../contexts/user";
 import { createSupabaseDOClient } from "../../lib/supabase";
+import { triggerAlert } from "../../lib/toastify";
 import { GET } from "../../utils/fetch";
 
 interface PopupTelegramProps {
@@ -30,7 +30,6 @@ export const PopupTelegram = ({
   contentOnly = false,
   hideTitle = false,
 }: PopupTelegramProps) => {
-  //   const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const [code, setCode] = useState(0);
   const [telegram, setTelegram] = useState(user?.telegram || "");
@@ -72,7 +71,10 @@ export const PopupTelegram = ({
             if (!r.error) {
               setCode(r.code);
             } else {
-              //   alert.error(r.error);
+              triggerAlert(
+                "Error",
+                "Something went wrong while trying to connect your Telegram account. Please try again."
+              );
               setError(r.error);
             }
           });
@@ -94,7 +96,10 @@ export const PopupTelegram = ({
             console.log(e);
           }
         }
-        // alert.success("Successfully registered your Telegram account.");
+        triggerAlert(
+          "Success",
+          "Successfully registered your Telegram account."
+        );
         setAuthentified(true);
         setUser(
           (userBuffer) =>

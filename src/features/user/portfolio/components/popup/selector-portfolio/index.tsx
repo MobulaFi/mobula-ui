@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
-// import {useAlert} from "react-alert";
 import { Collapse } from "components/collapse";
+import { useContext, useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -12,6 +11,7 @@ import {
 } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { ModalContainer } from "../../../../../../components/modal-container";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { colors } from "../../../constants";
@@ -21,7 +21,6 @@ import { CreatePortfolio } from "../create-portfolio";
 import { RenamePortfolio } from "../rename-portfolio";
 
 export const SelectorPortfolioPopup = () => {
-  // const alert = useAlert();
   const {
     activePortfolio,
     showPortfolioSelector,
@@ -43,10 +42,13 @@ export const SelectorPortfolioPopup = () => {
       .then((resp) => resp.json())
       .then((resp) => {
         if (resp.error) {
+          triggerAlert(
+            "Error",
+            "Something went wrong while deleting your portfolio"
+          );
           return;
-          // alert.error(resp.error);
         } else {
-          // alert.success("Successfully deleted your portfolio");
+          triggerAlert("Success", "Successfully deleted your portfolio");
           setUserPortfolio(userPortfolio.filter((prev) => prev.name !== name));
         }
       });

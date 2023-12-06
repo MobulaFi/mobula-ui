@@ -25,6 +25,7 @@ import { Spinner } from "../../../../../../components/spinner";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserContext } from "../../../../../../contexts/user";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET, POST } from "../../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import {
@@ -77,7 +78,6 @@ export const ViewPopup = ({
     activeStep,
   } = useTop100();
   const { address } = useAccount();
-  // const alert = useAlert();
   const { isConnected } = useAccount();
   const { setConnect } = useContext(PopupUpdateContext);
   const maxValue = 100_000_000_000_000_000;
@@ -199,8 +199,8 @@ export const ViewPopup = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.error) {
+          triggerAlert("Error", r.error);
           return;
-          // alert.error(r.error);
         } else {
           setUser(
             (prev) =>
@@ -241,8 +241,8 @@ export const ViewPopup = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.error) {
+          triggerAlert("Error", r.error);
           return;
-          // alert.error(r.error);
         } else {
           setUser(
             (prev) =>
@@ -275,8 +275,8 @@ export const ViewPopup = ({
         .then((r) => r.json())
         .then((r) => {
           if (r.error) {
+            triggerAlert("Error", r.error);
             return;
-            // alert.error(r.error);
           } else {
             setUser(
               (prev) =>
@@ -301,7 +301,11 @@ export const ViewPopup = ({
             setIsViewsLoading(false);
           }
         });
-    // else alert.info("You should be connected to be able to remove a view");
+    else
+      triggerAlert(
+        "Warning",
+        "You should be connected to be able to remove a view"
+      );
   };
 
   const getRenderForFilters = useCallback(
@@ -363,13 +367,15 @@ export const ViewPopup = ({
         ? user.views.find((view) => view.name === state.name)
         : false;
       if (alreadyExist)
-        // alert.error(
-        //   "You already have a view with this name. Please change it and retry"
-        // );
+        triggerAlert(
+          "Error",
+          "You already have a view with this name. Please change it and retry"
+        );
+
       return alreadyExist;
     }
     if (state.name !== "All" && activeView?.name === "All" && type === "edit") {
-      // alert.error("Can't change the name of this view.");
+      triggerAlert("Error", "Can't change the name of this view.");
       return true;
     }
     return false;
@@ -419,7 +425,7 @@ export const ViewPopup = ({
     if (isConnected) {
       if (!checkSameNameExist()) {
         if (!state.name) {
-          // alert.show("Please add a name for your view");
+          triggerAlert("Warning", "Please add a name for your view");
           return;
         }
         if (activeView?.name === "All" && type !== "create") {

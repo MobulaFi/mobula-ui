@@ -16,6 +16,7 @@ import { SmallFont } from "../../../../../components/fonts";
 import { UserContext } from "../../../../../contexts/user";
 import { pushData } from "../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { GET } from "../../../../../utils/fetch";
 import { Asset } from "../../../../asset/models";
 import { WatchlistContext } from "../../context-manager";
@@ -38,7 +39,6 @@ export const Header = ({
   setShowCreateWL,
 }: HeaderProps) => {
   const { user, setUser } = useContext(UserContext);
-  // const alert = useAlert();
   const [watchlistID, setWatchlistID] = useState(0);
   const {
     isPageUserWatchlist,
@@ -113,14 +113,16 @@ export const Header = ({
         .then((r) => r.json())
         .then((r) => {
           if (r.error) {
-            console.log(r.error);
-            // alert.error(r.error);
+            triggerAlert(
+              "Error",
+              "Something went wrong while following this watchlist"
+            );
           } else {
             pushData("Watchlist Followed", {
               watchlist_owner_id: userOfWatchlist?.[0]?.id,
               watchlist_id: watchlistID,
             });
-            // alert.success("Successfully followed this watchlist.");
+            triggerAlert("Success", "Successfully followed this watchlist.");
             setUser(
               (userBuffer) =>
                 ({
@@ -142,12 +144,15 @@ export const Header = ({
         .then((r) => {
           if (r.error) {
             console.log(r.error);
-            //  alert.error(r.error);
+            triggerAlert(
+              "Error",
+              "Something went wrong while unfollowing this watchlist"
+            );
           } else {
             pushData("Watchlist Unfollowed", {
               watchlist_id: watchlistID,
             });
-            // alert.success("Successfully unfollowed this watchlist.");
+            triggerAlert("Success", "Successfully unfollowed this watchlist.");
             setUser(
               (userBuffer) =>
                 ({

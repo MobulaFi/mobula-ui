@@ -1,16 +1,15 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
 import { useEffect, useRef } from "react";
-// import { useAlert } from "react-alert";
 import { createWalletClient, custom } from "viem";
 import { Chain, mainnet, useNetwork, useSwitchNetwork } from "wagmi";
+import { triggerAlert } from "../lib/toastify";
 import { idToWagmiChain } from "../utils/chains";
 
 export const useSafeSwitchNetwork = () => {
   const { switchNetworkAsync } = useSwitchNetwork();
   const { chain } = useNetwork();
   const chainRef = useRef<Chain>();
-  //   const alert = useAlert();
 
   useEffect(() => {
     chainRef.current = chain;
@@ -48,10 +47,9 @@ export const useSafeSwitchNetwork = () => {
         switched = true;
       } catch (e: any) {
         console.error(e);
-        // if (e.message === "User denied account authorization") {
-        //   alert.error("Please authorize the switch of network.");
-        // } else
-        if (e.message?.includes("not configured")) {
+        if (e.message === "User denied account authorization") {
+          triggerAlert("Error", "Please authorize the switch of network.");
+        } else if (e.message?.includes("not configured")) {
           let added = false;
           // Tries to add the network to the wallet
           if (typeof (window as any)?.ethereum !== "undefined") {
@@ -73,22 +71,28 @@ export const useSafeSwitchNetwork = () => {
             }
           }
 
-          //   if (!added) alert.error("You must add this network to your wallet.");
+          if (!added)
+            triggerAlert("Error", "You must add this network to your wallet.");
         } else {
-          //   alert.error("Something went wrong... Please retry.");
+          triggerAlert(
+            "Error",
+            "Something went wrong. Please try again later."
+          );
           return {
             error: e,
           };
         }
       }
+    } else if (switchNetworkAsync) {
+      triggerAlert(
+        "Warning",
+        `${blockchain} is not supported on the aggregator.. yet.`
+      );
+    } else if (chain) {
+      triggerAlert("Warning", `You must switch to ${blockchain}`);
+    } else {
+      triggerAlert("Warning", "You must connect a wallet to switch networks.");
     }
-    // else if (switchNetworkAsync) {
-    //   alert.error(`${blockchain} is not supported on the aggregator.. yet.`);
-    // } else if (chain) {
-    //   alert.error(`You must switch to ${blockchain}`);
-    // } else {
-    //   alert.error("You must connect a wallet to switch networks.");
-    // }
 
     return { success: switched };
   };
