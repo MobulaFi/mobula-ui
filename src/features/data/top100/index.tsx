@@ -8,6 +8,7 @@ import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
+import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
 import { Pagination } from "./components/pagination";
 import { Portfolio } from "./components/portfolio";
@@ -34,6 +35,7 @@ export const Top100 = ({
   tokens: bufferTokens,
   count,
   defaultFilter,
+  metrics,
 }: Top100Props) => {
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "market_cap",
@@ -70,22 +72,13 @@ export const Top100 = ({
               <div className="flex w-95per mx-auto">
                 <div className="swiper">
                   <div className="swiper-wrapper">
-                    <div
-                      className="swiper-slide flex justify-center"
-                      // style={{ display: "flex", justifyContent: "center" }}
-                    >
+                    <div className="swiper-slide flex justify-center">
                       <Portfolio showPageMobile={showPage} />
                     </div>
-                    <div
-                      className="swiper-slide flex justify-center"
-                      // style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      {/* <BoxMiddle showPageMobile={showPage} metrics={metrics} /> */}
+                    <div className="swiper-slide flex justify-center">
+                      <BoxMiddle showPageMobile={showPage} metrics={metrics} />
                     </div>
-                    <div
-                      className="swiper-slide flex justify-center"
-                      // style={{ display: "flex", justifyContent: "center" }}
-                    >
+                    <div className="swiper-slide flex justify-center">
                       <BoxRight showPageMobile={showPage} />
                     </div>
                   </div>
@@ -95,13 +88,12 @@ export const Top100 = ({
           ) : (
             <Container extraCss="scroll flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll mt-7 md:mt-2.5 min-h-full">
               <Portfolio />
-              {/* <BoxMiddle metrics={metrics} /> */}
+              <BoxMiddle metrics={metrics} />
               <BoxRight />
             </Container>
           )}
         </div>
       </div>
-
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Views setResultsData={setResultsData} />
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0">

@@ -154,6 +154,7 @@ const HomePage = async ({ searchParams }) => {
           tokens={props.tokens}
           count={props.count}
           defaultFilter={props.filteredValues}
+          metrics={props.metrics}
         />
         {/* </Suspense> */}
       </Top100Provider>
