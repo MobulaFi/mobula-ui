@@ -90,8 +90,8 @@ export const HeaderMenu = () => {
       })
         .then((response) => response.json())
         .then((add) => {
-          if (r.error) {
-            console.log(r.error);
+          if (add.error) {
+            console.log(add.error);
             // alert.error(r.error);
           } else {
             const newName = incrementWatchlistName(

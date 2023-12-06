@@ -156,7 +156,9 @@ export const WatchlistExplore = ({
               .map((watchlist, i) => (
                 <EntryWatchlist
                   key={watchlist?.id || i}
-                  watchlist={watchlist}
+                  watchlist={
+                    watchlist as { id: string; name: string } & IWatchlist
+                  }
                   tokens={tokens}
                   usersOwner={usersOwner}
                   isLoading={isLoading}
