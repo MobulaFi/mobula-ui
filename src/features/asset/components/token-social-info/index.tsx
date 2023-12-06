@@ -305,7 +305,8 @@ export const TokenSocialsInfo = () => {
               baseAsset?.audit || baseAsset?.kyc ? "flex" : "hidden"
             } lg:hidden`}
           >
-            {baseAsset?.audit || baseAsset?.kyc ? (
+            {(baseAsset?.audit && baseAsset?.audit !== "null") ||
+            (baseAsset?.kyc && baseAsset?.kyc !== "null") ? (
               <CustomPopOver
                 title="Audits"
                 icon={BsShieldCheck}

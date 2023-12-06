@@ -368,7 +368,7 @@ export const Entry = ({
           >
             <tr className="text-light-font-100 dark:text-dark-font-100">
               <Segment
-                extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[5px] ${background}`}
+                extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
                 noLink
               >
                 <WatchlistAdd
@@ -478,7 +478,7 @@ export const Entry = ({
         >
           <tr className="text-light-font-100 dark:text-dark-font-100">
             <Segment
-              extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[5px] ${background}`}
+              extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] md:py-[5px] ${background}`}
               noLink
             >
               <WatchlistAdd

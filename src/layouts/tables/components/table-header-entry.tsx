@@ -50,7 +50,7 @@ export const TableHeaderEntry = ({
       className={cn(
         `border-t border-y border-light-border-primary dark:border-dark-border-primary tracking-normal 
         whitespace-nowrap font-medium text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 
-        py-[17.5px] px-5 w-fit h-[30px] sticky ${
+        py-[17.5px] md:py-[10px] px-5 w-fit h-[30px] sticky ${
           shouldUseOrderBy() ? "cursor-pointer" : "cursor-default"
         } top-0 left-0 z-[101] text-end`,
         extraCss
