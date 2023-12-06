@@ -4,6 +4,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
 import { cn } from "../../../../../lib/shadcn/lib/utils";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { BaseAssetContext } from "../../../context-manager";
 import { cancelButtonStyle } from "../../../style";
 
@@ -28,7 +29,6 @@ export const TradeBlockchainPopup = ({
     setFilters,
     setShouldInstantLoad,
   } = useContext(BaseAssetContext);
-  // const alert = useAlert();
 
   useEffect(() => {
     if ((selectedTradeFilters?.blockchains?.length as number) === 0)
@@ -169,8 +169,8 @@ export const TradeBlockchainPopup = ({
             onClick={() => {
               if ((selectedTradeFilters?.blockchains?.length as number) > 0) {
                 handleAddFilter(false);
-              }
-              // else alert.error("Please select at least one blockchain");
+              } else
+                triggerAlert("Error", "Please select at least one blockchain");
             }}
           >
             Apply

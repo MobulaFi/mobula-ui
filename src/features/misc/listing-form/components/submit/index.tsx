@@ -37,6 +37,7 @@ import {
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { useIPFS } from "../../../../../hooks/ipfs";
 import { pushData } from "../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import {
   allowanceAbi,
@@ -57,7 +58,6 @@ export const Submit = ({ state }) => {
   const [hasPaid, setHasPaid] = useState(false);
   const isDarkMode = theme === "light";
   const { chain } = useNetwork();
-  // const alert = useAlert();
   const { actualPage, setActualPage, isLaunched } = useContext(ListingContext);
   const ipfs = useIPFS();
   const [blockchainSelected, setBlockchainSelected] = useState<string>(
@@ -224,13 +224,19 @@ export const Submit = ({ state }) => {
       ] as never,
     });
     try {
-      // alert.info(`Transaction to approve ${symbol} is pending...`);
+      triggerAlert(
+        "Information",
+        `Transaction to approve ${symbol} is pending...`
+      );
       await waitForTransaction({ hash });
-      // alert.success(`${symbol} approved successfully.`);
+      triggerAlert("Success", `${symbol} approved successfully.`);
       getBalance();
       // setLoading(false);
     } catch (e) {
-      // alert.error(`Something went wrong while trying to allow ${symbol}.`);
+      triggerAlert(
+        "Error",
+        `Something went wrong while trying to allow ${symbol}.`
+      );
       getBalance();
       // setLoading(false);
     }
@@ -325,13 +331,12 @@ export const Submit = ({ state }) => {
       setHasPaid(true);
       setPending(false);
     } catch (e) {
-      if (e.data && e.data.message) console.log("ddd");
-      // alert.error(`Something went wrong:${e.data.message}`);
-      // else if (e.toString().includes("rejected"))
-      // alert.error("Transaction cancelled.");
+      if (e.data && e.data.message)
+        triggerAlert("Error", `Something went wrong:${e.data.message}`);
+      else if (e.toString().includes("rejected"))
+        triggerAlert("Error", "Transaction cancelled.");
       else {
-        // alert.error("Something went wrong.");
-        console.log(e);
+        triggerAlert("Error", "Something went wrong.");
       }
 
       pushData("Listing Form Submit Error", {

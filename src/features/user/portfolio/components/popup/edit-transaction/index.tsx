@@ -12,6 +12,7 @@ import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { Calendar } from "../../../../../../lib/shadcn/components/ui/calendar";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getClosest,
@@ -35,7 +36,6 @@ export const EditTransactionPopup = () => {
   } = useContext(PortfolioV2Context);
   const { address } = useAccount();
   const router = useRouter();
-  // const alert = useAlert();
   const hoursRef = useRef<HTMLInputElement>(null);
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
@@ -154,7 +154,7 @@ export const EditTransactionPopup = () => {
     }
 
     setShowEditTransaction(null);
-    // if (!settings.quantity) alert.error("You must enter a quantity");
+    if (!settings.quantity) triggerAlert("Error", "You must enter a quantity");
   };
   useEffect(() => {
     loadHistory(initialToken as any);

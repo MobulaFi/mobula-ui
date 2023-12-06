@@ -12,6 +12,7 @@ import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { WatchlistContext } from "../../../context-manager";
 import { IWatchlist } from "../../../models";
@@ -27,7 +28,6 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
   const { address } = useAccount();
   const { theme } = useTheme();
   const isDarkMode = theme === "dark";
-  // const alert = useAlert();
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
   const [isPublic, setIsPublic] = useState(watchlist?.public);
@@ -53,12 +53,16 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
       .then((r) => r.json())
       .then((r) => {
         if (r.error) {
-          console.log(r.error);
-          // alert.error(r.error);
+          triggerAlert(
+            "Error",
+            "Something went wrong, please try again later."
+          );
         } else {
           setIsPublic(!isPublic);
-          // if (isPublic) alert.success("Your watchlist is now public.");
-          // else alert.success("Your watchlist is now private.");
+
+          if (isPublic)
+            triggerAlert("Success", "Your watchlist is now public.");
+          else triggerAlert("Success", "Your watchlist is now private.");
         }
       });
   };

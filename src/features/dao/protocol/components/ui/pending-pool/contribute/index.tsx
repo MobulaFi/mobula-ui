@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-// import { useAlert } from "react-alert";
 import { BsChevronDown } from "react-icons/bs";
 import { SiConvertio } from "react-icons/si";
 import { erc20ABI, useAccount, useNetwork } from "wagmi";
@@ -19,6 +18,7 @@ import {
 } from "../../../../../../../constants";
 import { Asset } from "../../../../../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../../../../../lib/supabase";
+import { triggerAlert } from "../../../../../../../lib/toastify";
 import { allowanceAbi, balanceOfAbi } from "../../../../../../../utils/abi";
 import {
   listingAbi,
@@ -52,7 +52,6 @@ export const Contribute = ({ token }: ContributeProps) => {
       approved: 0,
     },
   });
-  // const alert = useAlert();
   const [buyWith, setBuyWith] = useState({
     usdt: {} as TokenToBuyWith,
     usdc: {} as TokenToBuyWith,
@@ -170,13 +169,19 @@ export const Contribute = ({ token }: ContributeProps) => {
       ] as never,
     });
     try {
-      // alert.info(`Transaction to approve ${symbol} is pending...`);
+      triggerAlert(
+        "Information",
+        `Transaction to approve ${symbol} is pending...`
+      );
       await waitForTransaction({ hash });
-      // alert.success(`${symbol} approved successfully.`);
+      triggerAlert("Success", `${symbol} approved successfully.`);
       getBalance();
       // setLoading(false);
     } catch (e) {
-      // alert.error(`Something went wrong while trying to allow ${symbol}.`);
+      triggerAlert(
+        "Error",
+        `Something went wrong while trying to allow ${symbol}.`
+      );
       getBalance();
       // setLoading(false);
     }
@@ -206,7 +211,7 @@ export const Contribute = ({ token }: ContributeProps) => {
           functionName: "topUpToken" as never,
           args: [token.voteId, newAddress, amount] as never,
         });
-        // alert.success("The vote has been taken in account");
+        triggerAlert("Success", "The vote has been taken in account");
       } catch (e) {
         console.log(e);
       }
@@ -220,7 +225,7 @@ export const Contribute = ({ token }: ContributeProps) => {
           args: [token.id, newAddress, amount] as never,
           value: BigInt(0.01 * 10 ** decimal) as never,
         });
-        // alert.success("The vote has been taken in account");
+        triggerAlert("Success", "The vote has been taken in account");
       } catch (e) {
         console.log(e);
       }

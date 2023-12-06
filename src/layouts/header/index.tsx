@@ -27,7 +27,6 @@ export const Header = ({ addressCookie }) => {
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
-  // const alert = useAlert();
 
   useEffect(() => {
     const handleRouteChange = () => {

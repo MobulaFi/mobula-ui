@@ -3,6 +3,7 @@ import React, { useContext, useReducer } from "react";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
 import { pushData } from "../../../lib/mixpanel";
+import { triggerAlert } from "../../../lib/toastify";
 import { BasicInformation } from "./components/basic-information";
 import { ContractInformation } from "./components/contract-information";
 import { FeesInformation } from "./components/fees-information";
@@ -16,7 +17,6 @@ import { INITIAL_STATE, reducer } from "./reducer";
 export const Listing = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const { actualPage, setActualPage } = useContext(ListingContext);
-  // const alert = useAlert();
 
   const getAccessToNextPage = () => {
     if (
@@ -31,7 +31,7 @@ export const Listing = () => {
       return true;
     }
     if (actualPage === 0) {
-      // alert.show("Please fill all the fields");
+      triggerAlert("Warning", "Please fill all the fields");
       return false;
     }
     if (actualPage !== 0) return true;

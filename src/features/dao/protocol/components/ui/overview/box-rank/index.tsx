@@ -8,6 +8,7 @@ import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { TitleContainer } from "../../../../../../../components/title";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
 import { PopupUpdateContext } from "../../../../../../../contexts/popup";
+import { triggerAlert } from "../../../../../../../lib/toastify";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { BoxTime } from "../../../../../common/components/box-time";
 import { OverviewContext } from "../../../../context-manager/overview";
@@ -23,7 +24,6 @@ export const RankBox = ({
   badChoice,
   tokensOwed,
 }: RankBoxProps) => {
-  // const alert = useAlert();
   const { setConnect } = useContext(PopupUpdateContext);
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -40,10 +40,12 @@ export const RankBox = ({
     if (chain?.id !== 137) {
       if (switchNetwork) {
         switchNetwork(137);
+      } else {
+        triggerAlert(
+          "Error",
+          "Please connect your wallet to the Polygon network."
+        );
       }
-      // else {
-      //   alert.error("Please connect your wallet to the Polygon network.");
-      // }
       return;
     }
     try {
@@ -62,8 +64,7 @@ export const RankBox = ({
       });
       setTokensOwed(0);
     } catch (error) {
-      console.log(error);
-      // alert.show("You don't have anything to claim.");
+      triggerAlert("Error", "You don't have anything to claim.");
     }
   };
 

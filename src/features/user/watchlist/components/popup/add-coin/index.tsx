@@ -9,6 +9,7 @@ import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useUpdateSearch } from "../../../../../../layouts/swap/hooks/useUpdateSearch";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { WatchlistContext } from "../../../context-manager";
 import { IWatchlist } from "../../../models";
 
@@ -24,7 +25,6 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
   const { updateSearch, results } = useUpdateSearch("in");
   const [tokenToAdd, setTokenToAdd] = useState<any[]>([]);
   const { handleAddMultipleWatchlist } = useWatchlist();
-  // const alert = useAlert();
 
   useEffect(() => {
     if (!activeWatchlist) {
@@ -168,8 +168,7 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
               ];
               setUser({ ...(user as any), watchlist: updatedWatchlists });
               setTokenToAdd([]);
-            }
-            // else alert.error("Please create a watchlist first");
+            } else triggerAlert("Error", "Please create a watchlist first.");
           }}
         >
           Select Coins ({tokenToAdd.length})

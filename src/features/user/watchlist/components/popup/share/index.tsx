@@ -6,6 +6,7 @@ import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { getUrlFromName } from "../../../../../../utils/formaters";
 import { WatchlistContext } from "../../../context-manager";
@@ -19,7 +20,6 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
   const [isPublic, setIsPublic] = useState(watchlist?.public);
   const { user } = useContext(UserContext);
   const [hasCopied, setHasCopied] = useState(false);
-  // const alert = useAlert();
   const { showShare, setShowShare } = useContext(WatchlistContext);
   const isOwner = watchlist?.user_id === user?.id;
 
@@ -44,12 +44,15 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
       .then((r) => r.json())
       .then((r) => {
         if (r.error) {
-          console.log(r.error);
-          // alert.error(r.error);
+          triggerAlert(
+            "Error",
+            "Something went wrong, please try again later."
+          );
         } else {
           setIsPublic(!isPublic);
-          // if (isPublic) alert.success("Your watchlist is now public.");
-          // else alert.success("Your watchlist is now private.");
+          if (isPublic)
+            triggerAlert("Success", "Your watchlist is now public.");
+          else triggerAlert("Success", "Your watchlist is now private.");
         }
       });
   };
