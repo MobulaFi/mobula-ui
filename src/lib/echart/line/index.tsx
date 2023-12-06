@@ -95,6 +95,7 @@ const EChart: React.FC<EChartProps> = ({
 
   const createInstance = useCallback(() => {
     const domElement = document.getElementById(id) as HTMLElement;
+    echarts.dispose(domElement);
     return (
       echarts.getInstanceByDom(domElement) ||
       echarts.init(domElement, "light", { renderer: "canvas" })
@@ -161,7 +162,6 @@ const EChart: React.FC<EChartProps> = ({
         });
       });
     }
-    return () => chart.dispose();
   }, [theme]);
 
   return (
