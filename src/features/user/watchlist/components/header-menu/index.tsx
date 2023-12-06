@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { useAlert } from "react-alert";
 import { AiFillStar, AiOutlineEdit } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -23,7 +22,7 @@ export const HeaderMenu = () => {
     setActiveWatchlist,
   } = useContext(WatchlistContext);
   const { address } = useAccount();
-  const alert = useAlert();
+  // const alert = useAlert();
   const signerGuard = useSignerGuard();
   const { user, setUser } = useContext(UserContext);
 
@@ -39,8 +38,10 @@ export const HeaderMenu = () => {
       )
         .then((response) => response.json())
         .then((add) => {
-          if (add.error) alert.error(add.error);
-          else {
+          if (add.error) {
+            console.log(add.error);
+            // alert.error(add.error);
+          } else {
             pushData("Watchlist Removed", {
               watchlist_id: activeWatchlist.id,
             });
@@ -53,12 +54,13 @@ export const HeaderMenu = () => {
             setActiveWatchlist(
               user?.watchlist.filter((w) => w.name !== activeWatchlist.name)[0]
             );
-            alert.success("Your watchlist has been deleted");
+            // alert.success("Your watchlist has been deleted");
           }
         });
-    } else {
-      alert.show("Please connect your wallet to delete a watchlist");
     }
+    // else {
+    //   alert.show("Please connect your wallet to delete a watchlist");
+    // }
   };
   // DONE
   const addAsMainWatchlist = () => {
@@ -69,10 +71,12 @@ export const HeaderMenu = () => {
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.error) alert.error(r.error);
-          else {
+          if (r.error) {
+            console.log(r.error);
+            // alert.error(r.error);
+          } else {
             setIsMainWatchlist(true);
-            alert.success("This watchlist is now the main one.");
+            // alert.success("This watchlist is now the main one.");
           }
         });
   };
@@ -86,8 +90,10 @@ export const HeaderMenu = () => {
       })
         .then((response) => response.json())
         .then((add) => {
-          if (add.error) alert.error(add.error);
-          else {
+          if (r.error) {
+            console.log(r.error);
+            // alert.error(r.error);
+          } else {
             const newName = incrementWatchlistName(
               activeWatchlist.name,
               user?.watchlist
@@ -99,12 +105,13 @@ export const HeaderMenu = () => {
                 { ...activeWatchlist, name: newName },
               ],
             } as never);
-            alert.success("Your watchlist has been duplicated");
+            // alert.success("Your watchlist has been duplicated");
           }
         });
-    } else {
-      alert.show("Please connect your wallet to duplicate a watchlist");
     }
+    // else {
+    //   alert.show("Please connect your wallet to duplicate a watchlist");
+    // }
   };
 
   const squareBox =

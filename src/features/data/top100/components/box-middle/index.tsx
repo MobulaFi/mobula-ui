@@ -40,7 +40,7 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   };
 
   useEffect(() => {
-    if (!totalMarketCap.length || !btcDominance.length || !marketCapChange)
+    if (!totalMarketCap?.length || !btcDominance?.length || !marketCapChange)
       fetchMetrics();
   }, [totalMarketCap, btcDominance, marketCapChange, showPage]);
 
@@ -50,14 +50,14 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     <BtcDominance showPage={showPage} key="BtcDominance" />,
   ];
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setShowPage((prevPage) => (prevPage + 1) % 3);
-  //   }, 12000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowPage((prevPage) => (prevPage + 1) % 3);
+    }, 12000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div

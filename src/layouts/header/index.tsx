@@ -10,7 +10,6 @@ import { useContext, useEffect } from "react";
 // import {CommonPageProvider} from "../common/context-manager";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { useAlert } from "react-alert";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
@@ -28,7 +27,7 @@ export const Header = ({ addressCookie }) => {
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
-  const alert = useAlert();
+  // const alert = useAlert();
 
   useEffect(() => {
     const handleRouteChange = () => {

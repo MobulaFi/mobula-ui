@@ -1,6 +1,5 @@
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useAlert } from "react-alert";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3, BsChevronDown } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -36,7 +35,7 @@ export const EditTransactionPopup = () => {
   } = useContext(PortfolioV2Context);
   const { address } = useAccount();
   const router = useRouter();
-  const alert = useAlert();
+  // const alert = useAlert();
   const hoursRef = useRef<HTMLInputElement>(null);
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
@@ -155,7 +154,7 @@ export const EditTransactionPopup = () => {
     }
 
     setShowEditTransaction(null);
-    if (!settings.quantity) alert.error("You must enter a quantity");
+    // if (!settings.quantity) alert.error("You must enter a quantity");
   };
   useEffect(() => {
     loadHistory(initialToken as any);

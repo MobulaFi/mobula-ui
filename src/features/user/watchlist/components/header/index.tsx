@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useAlert } from "react-alert";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BiAddToQueue } from "react-icons/bi";
 import { IoAdd, IoShareSocialOutline } from "react-icons/io5";
@@ -39,7 +38,7 @@ export const Header = ({
   setShowCreateWL,
 }: HeaderProps) => {
   const { user, setUser } = useContext(UserContext);
-  const alert = useAlert();
+  // const alert = useAlert();
   const [watchlistID, setWatchlistID] = useState(0);
   const {
     isPageUserWatchlist,
@@ -113,13 +112,15 @@ export const Header = ({
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.error) alert.error(r.error);
-          else {
+          if (r.error) {
+            console.log(r.error);
+            // alert.error(r.error);
+          } else {
             pushData("Watchlist Followed", {
               watchlist_owner_id: userOfWatchlist?.[0]?.id,
               watchlist_id: watchlistID,
             });
-            alert.success("Successfully followed this watchlist.");
+            // alert.success("Successfully followed this watchlist.");
             setUser(
               (userBuffer) =>
                 ({
@@ -139,12 +140,14 @@ export const Header = ({
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.error) alert.error(r.error);
-          else {
+          if (r.error) {
+            console.log(r.error);
+            //  alert.error(r.error);
+          } else {
             pushData("Watchlist Unfollowed", {
               watchlist_id: watchlistID,
             });
-            alert.success("Successfully unfollowed this watchlist.");
+            // alert.success("Successfully unfollowed this watchlist.");
             setUser(
               (userBuffer) =>
                 ({
