@@ -84,7 +84,7 @@ export const TbodyCryptocurrencies = ({
     setActivePortfolio,
     wallet,
   } = useContext(PortfolioV2Context);
-  const { setShowBuyDrawer } = useContext(SettingsMetricContext);
+  const { setShowBuyDrawer, showBuyDrawer } = useContext(SettingsMetricContext);
   const { handleAddWatchlist, inWatchlist } = useWatchlist(asset.id);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isHover, setIsHover] = useState<number | null>(null);
@@ -182,10 +182,12 @@ export const TbodyCryptocurrencies = ({
     });
   };
 
+  console.log("setShowBuyDrawer", showBuyDrawer);
+
   return (
     <>
       <tr className="h-[10px]"></tr>
-      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250">
+      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary">
         {isMobile && (
           <td
             className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary rounded-l-2xl border-l border-t w-fit ${
@@ -461,8 +463,11 @@ export const TbodyCryptocurrencies = ({
             } border-r border-b border-t border-light-border-primary dark:border-dark-border-primary rounded-r-2xl`}
             // onClick={triggerTokenInfo}
           >
-            <div className="flex justify-end items-start">
-              <button onClick={() => setShowBuyDrawer(asset as any)}>
+            <div className="flex justify-end items-start bg-red">
+              <button
+                className="bg-orange"
+                onClick={() => setShowBuyDrawer(asset as any)}
+              >
                 <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
               </button>
               <Menu

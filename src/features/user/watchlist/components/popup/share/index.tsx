@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -50,7 +50,7 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
           );
         } else {
           setIsPublic(!isPublic);
-          if (isPublic)
+          if (!isPublic)
             triggerAlert("Success", "Your watchlist is now public.");
           else triggerAlert("Success", "Your watchlist is now private.");
         }

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import React from "react";
+import { DexDrawer } from "../../drawer/dex";
 import { Footer } from "../footer";
 import { Header } from "../header";
 import { MenuFixedMobile } from "../menu-mobile";
@@ -20,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
         height={2}
         crawl={true}
       />
+      <DexDrawer />
       <Header addressCookie={addressCookie || ""} />
       <div className="w-full min-h-[70vh]">{children}</div>
       <MenuFixedMobile />

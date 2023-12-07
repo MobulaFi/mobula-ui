@@ -515,52 +515,58 @@ export const useDefault = ({
   );
 
   const series = [
-    ...[data, ...extraData].map((d, i) => ({
-      type: "line",
-      smooth: false,
-      symbol: "circle",
-      // animation: false,
-      symbolSize: 10,
-      showSymbol: false,
-      emphasis: {
-        // this styles the series when it's focused
-        // lineStyle: {
-        //   type: "dashed", // Utilisez le style pointillé lors du survol
-        //   color: "green", // Couleur des lignes pointillées en pointillé
-        // },
-        itemStyle: {
-          borderColor: "white",
-          borderWidth: 2,
+    ...[data, ...extraData].map((d, i) => {
+      let newColor = "";
+      if (d?.color) {
+        newColor = d.color.split("dark:bg-[")?.[1]?.split("]")?.[0];
+      }
+      return {
+        type: "line",
+        smooth: false,
+        symbol: "circle",
+        // animation: false,
+        symbolSize: 10,
+        showSymbol: false,
+        emphasis: {
+          // this styles the series when it's focused
+          // lineStyle: {
+          //   type: "dashed", // Utilisez le style pointillé lors du survol
+          //   color: "green", // Couleur des lignes pointillées en pointillé
+          // },
+          itemStyle: {
+            borderColor: "white",
+            borderWidth: 2,
+          },
         },
-      },
-      sampling: "lttb",
-      itemStyle: {
-        color: "color" in d ? d.color : chartColor,
-      },
-      areaStyle:
-        extraData.length || isVesting
-          ? null
-          : {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                {
-                  offset: 0,
-                  color: chartColor,
-                },
-                {
-                  offset: 1,
-                  color: lightMode
-                    ? "rgba(255,255,255,1)"
-                    : "rgba(19, 22, 39, 1)",
-                },
-              ]),
-            },
-      xAxisIndex: 0,
-      yAxisIndex: 0,
-      color: "white",
-      // To diff between the main data and the extra data
-      data: finalData[i],
-      name: "name" in d ? d.name : type,
-    })),
+        sampling: "lttb",
+        itemStyle: {
+          color: "color" in d ? newColor : chartColor,
+        },
+        areaStyle:
+          extraData.length || isVesting
+            ? null
+            : {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: chartColor,
+                  },
+                  {
+                    offset: 1,
+                    color: lightMode
+                      ? "rgba(255,255,255,1)"
+                      : "rgba(19, 22, 39, 1)",
+                  },
+                ]),
+              },
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        color: "white",
+        // To diff between the main data and the extra data
+        data: finalData[i],
+        name: "name" in d ? d.name : type,
+      };
+    }),
     ...transactionSeries,
   ];
 

@@ -240,14 +240,15 @@ export const HoldingChart = ({ ...props }) => {
         </button>
       </div>
       {data.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-5 mx-auto ">
+        <div className="flex flex-col items-center justify-center mt-5 mx-auto h-[300px] ">
           <img
             className="w-[150px] h-[150px] min-w-[150px]"
-            src={"/asset/empty-roi-light.png"}
+            src={
+              isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
+            }
             alt="empty roi logo"
-            // TODO Image dark mode
           />
-          <SmallFont className="mt-[15px] mb-2.5">No data available</SmallFont>
+          <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
         </div>
       ) : (
         <div className="flex h-[300px] w-[320px] md:w-[278px] mx-auto flex-col">
