@@ -465,7 +465,7 @@ export const steps: IViewStep[] = [
     subtitle:
       "You can select which data you want to see in the table. You can also change the order of the columns by dragging and dropping them.",
     top: "50px",
-    right: "65%",
+    right: "57%",
     transform: ["translateX(50%)", "translateX(30%)"],
     arrowPosition: "top",
     arrowTop: ["-25px", "-30px"],
@@ -476,7 +476,7 @@ export const steps: IViewStep[] = [
     title: "Change filters",
     subtitle: "You can select the filters that you want to apply to your table",
     top: "50px",
-    right: "35%",
+    right: "50%",
     transform: ["translateX(50%)", "translateX(60%)"],
     arrowPosition: "top",
     arrowTop: ["-25px", "-30px"],
