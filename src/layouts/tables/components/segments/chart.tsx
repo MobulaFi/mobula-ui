@@ -1,14 +1,14 @@
-import React from "react";
 import { NextImageFallback } from "../../../../components/image";
 import { TableAsset } from "../../../../interfaces/assets";
 import { Segment } from "../segment";
 
 interface ChartSegmentProps {
   token: TableAsset;
+  extraCss?: string;
 }
 
-export const ChartSegment = ({ token }: ChartSegmentProps) => (
-  <Segment>
+export const ChartSegment = ({ token, extraCss = "" }: ChartSegmentProps) => (
+  <Segment extraCss={extraCss}>
     <div className="flex justify-center w-full h-[45px] z-[1]">
       <NextImageFallback
         width={135}

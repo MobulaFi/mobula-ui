@@ -18,12 +18,14 @@ interface MarketCapSegmentProps {
     rank?: boolean | null;
     volume: boolean | null;
   };
+  extraCss?: string;
 }
 
 export const MarketCapSegment = ({
   token,
   display,
   metricsChanges,
+  extraCss = "",
 }: MarketCapSegmentProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -62,7 +64,7 @@ export const MarketCapSegment = ({
   const percentage = getPercentage();
 
   return (
-    <Segment extraCss="text-end">
+    <Segment extraCss={`${extraCss} text-end`}>
       {display === "Circ. Supply" ? (
         <div className="w-full items-center justify-end">
           <Popover

@@ -13,12 +13,14 @@ interface VolumeSegmentProps {
     rank?: boolean | null;
     volume: boolean | null;
   };
+  extraCss?: string;
 }
 
 export const VolumeSegment = ({
   token,
   display,
   metricsChanges,
+  extraCss = "",
 }: VolumeSegmentProps) => {
   const { activeView } = useTop100();
   const isBalance = activeView?.name === "Portfolio";
@@ -42,7 +44,7 @@ export const VolumeSegment = ({
   const renderVolumeOrBalance = getVolumeOrBalance();
 
   return (
-    <Segment>
+    <Segment extraCss={extraCss}>
       <div
         className={`flex items-center justify-end font-medium ${
           isBalance
@@ -52,12 +54,12 @@ export const VolumeSegment = ({
       >
         {isBalance ? (
           <div className="flex flex-col pr-0 sm:pr-2.5">
-            <SmallFont extraCss="font-medium">{`${getFormattedAmount(
+            <SmallFont extraCss="font-medium text-sm md:text-xs">{`${getFormattedAmount(
               token.amount
             )} ${token.symbol.slice(0, 10)}${
               token.symbol.length > 10 ? "..." : ""
             }`}</SmallFont>
-            <SmallFont extraCss="font-medium">{`${getFormattedAmount(
+            <SmallFont extraCss="font-medium text-sm md:text-xs text-light-font-60 dark:text-dark-font-60">{`${getFormattedAmount(
               token.amount_usd
             )} USD`}</SmallFont>
           </div>
