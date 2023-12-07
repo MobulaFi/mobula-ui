@@ -41,7 +41,7 @@ export const Metrics = ({
       <RightContainer>
         <div className="mb-5 mt-3 flex flex-col rounded-2xl sm:rounded-0 border border-light-border-primary dark:border-dark-border-primary">
           <TitleContainer>
-            <MediumFont extraCss="px-[15px] md:px-2.5">General</MediumFont>
+            <MediumFont extraCss="md:px-2.5">General</MediumFont>
           </TitleContainer>
           <MetricsLine
             logo="/governals/total-mobulers.svg"
@@ -66,7 +66,7 @@ export const Metrics = ({
         </div>
         <div className="mb-5 w-full flex flex-col rounded-2xl sm:rounded-0 border border-light-border-primary dark:border-dark-border-primary">
           <TitleContainer>
-            <MediumFont extraCss="px-[15px] md:px-2.5">Mobulers</MediumFont>
+            <MediumFont extraCss="md:px-2.5">Mobulers</MediumFont>
           </TitleContainer>
           {filteredArr?.map((user: any, idx: number) => (
             <MetricsLine
