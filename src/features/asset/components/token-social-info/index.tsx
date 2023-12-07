@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -230,7 +230,9 @@ export const TokenSocialsInfo = () => {
           >
             <CustomPopOver
               title="Contracts"
-              icon={<SlMagnifier className="flex md:hidden mr-[5px] text-sm" />}
+              icon={
+                <SlMagnifier className="flex md:hidden mr-[7.5px] text-xs" />
+              }
               position="left-1/2 -translate-x-1/2"
             >
               {(newChains as any)?.map((blockchain, index: number) => {
@@ -267,7 +269,7 @@ export const TokenSocialsInfo = () => {
               <CustomPopOver
                 title="Community"
                 position="left-1/2 -translate-x-1/2"
-                icon={<FaRegUser className="flex md:hidden mr-[5px] text-sm" />}
+                icon={<FaRegUser className="flex md:hidden mr-[5px] text-xs" />}
               >
                 {socials
                   .filter((entry) => entry !== null)
@@ -320,11 +322,15 @@ export const TokenSocialsInfo = () => {
             (baseAsset?.kyc && baseAsset?.kyc !== "null") ? (
               <CustomPopOver
                 title="Audits"
-                icon={BsShieldCheck}
-                position="right-0"
+                icon={
+                  <BsShieldCheck className="flex md:hidden mr-[5px] text-xs" />
+                }
+                position="left-1/2 -translate-x-1/2"
               >
-                {baseAsset?.audit ? (
-                  <div className={PopOverLinesStyle}>
+                {baseAsset?.audit !== "null" ? (
+                  <div
+                    className={`${PopOverLinesStyle}  border border-light-border-primary dark:border-dark-border-primary`}
+                  >
                     <div className="flex items-center mr-[15px]">
                       <SmallFont>Audit</SmallFont>
                       <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
@@ -343,7 +349,7 @@ export const TokenSocialsInfo = () => {
                     </div>
                   </div>
                 ) : null}
-                {baseAsset.kyc ? (
+                {baseAsset.kyc !== "null" ? (
                   <div
                     className={`${PopOverLinesStyle} border border-light-border-primary dark:border-dark-border-primary mt-[7.5px] mb-0`}
                   >
