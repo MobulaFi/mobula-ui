@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
-import { Dispatch, Key, SetStateAction } from "react";
+import { Dispatch, Key, SetStateAction, useContext } from "react";
+import { BaseAssetContext } from "../../features/asset/context-manager";
 
 interface NavProps {
   list: string[] | { name: string; url: string }[];
@@ -19,6 +20,7 @@ export const TopNav = ({
   isPortfolio = false,
 }: NavProps) => {
   const router = useRouter();
+  const { baseAsset } = useContext(BaseAssetContext);
 
   const getWidth = () => {
     const widthPerButton = 100 / (list?.length || 0);
@@ -34,7 +36,7 @@ export const TopNav = ({
       } md:flex w-full overflow-x-scroll scroll relative flex flex-col border-b border-light-border-primary dark:border-dark-border-primary`}
     >
       <div className="flex items-center w-full">
-        {list.map((item, index) => (
+        {list.map((item) => (
           <button
             className={`font-medium pb-2.5 text-xs h-full p-2.5 ${
               isGeneral && active === item?.name
@@ -49,6 +51,10 @@ export const TopNav = ({
               width: `${100 / (list?.length || 0)}%`,
             }}
             key={item as Key}
+            disabled={
+              (item === "Fundraising" && !baseAsset?.sales?.length) ||
+              (item === "Vesting" && !baseAsset?.release_schedule?.length)
+            }
             onClick={() => {
               if (isGeneral) router.push(item.url);
               else {
