@@ -253,22 +253,53 @@ export function AssetsTable({
                       />
                       <TableHeaderEntry
                         extraCss="hidden md:table-cell"
-                        title="24h %"
+                        title={
+                          activeView?.name === "Portfolio" ? "Balance" : "24h %"
+                        }
                       />
-                      {activeView?.display?.map((entry) => (
-                        <TableHeaderEntry
-                          extraCss="static md:hidden"
-                          key={entry.value as Key}
-                          title={
-                            entry.value === "Price USD" ? "Price" : entry.value
-                          }
-                          canOrder
-                        />
-                      ))}
-                      <TableHeaderEntry
-                        extraCss="w-[89px] table-cell md:hidden static"
-                        title="Interact"
-                      />
+                      {activeView?.name === "All" ? (
+                        <>
+                          {activeView?.display?.map((entry) => (
+                            <TableHeaderEntry
+                              extraCss="static md:hidden"
+                              key={entry.value as Key}
+                              title={
+                                entry.value === "Price USD"
+                                  ? "Price"
+                                  : entry.value
+                              }
+                              canOrder
+                            />
+                          ))}
+                          <TableHeaderEntry
+                            extraCss="w-[89px] table-cell md:hidden static"
+                            title="Interact"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <TableHeaderEntry
+                            extraCss="static md:hidden"
+                            title="Price"
+                          />
+                          <TableHeaderEntry
+                            extraCss="static md:hidden"
+                            title="24h %"
+                          />
+                          <TableHeaderEntry
+                            extraCss="static md:hidden"
+                            title="Market Cap"
+                          />
+                          <TableHeaderEntry
+                            extraCss="static md:hidden"
+                            title="Balance"
+                          />
+                          <TableHeaderEntry
+                            extraCss="static md:hidden"
+                            title="24h Chart"
+                          />
+                        </>
+                      )}
                     </>
                   ) : null}
                   {pathname !== "/" && pathname !== "/?page=" + page ? (

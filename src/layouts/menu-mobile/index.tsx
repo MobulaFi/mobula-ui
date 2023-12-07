@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiHome } from "react-icons/fi";
 import { SlWallet } from "react-icons/sl";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -52,7 +52,7 @@ export const MenuFixedMobile = () => {
   return (
     <div
       className={`w-full h-[75px] items-center flex-col pb-2.5 border-t border-light-border-primary
-     dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary z-10 hidden md:flex 
+     dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary z-[11] hidden md:flex 
      transition-all duration-250 ease-in-out fixed shadow-md ${
        visible ? "bottom-0" : "bottom-[-80px]"
      }`}

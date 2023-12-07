@@ -9,7 +9,7 @@ interface ChartSegmentProps {
 
 export const ChartSegment = ({ token, extraCss = "" }: ChartSegmentProps) => (
   <Segment extraCss={extraCss}>
-    <div className="flex justify-center w-full h-[45px] z-[1]">
+    <div className="flex justify-end w-full h-[45px] z-[1]">
       <NextImageFallback
         width={135}
         height={45}

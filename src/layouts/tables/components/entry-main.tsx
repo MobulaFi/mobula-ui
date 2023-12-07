@@ -334,7 +334,7 @@ export const Entry = ({
           </Segment>
           <Segment
             // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-            extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[42px] z-[20] ${background} md:pl-0`}
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[42px] z-[11] md:pr-1 ${background} md:pl-0`}
           >
             <TokenInfo
               token={token as Asset}
@@ -355,7 +355,25 @@ export const Entry = ({
                 metricsChanges={metricsChanges}
                 display="Price USD"
               />
-              <ChangeSegment token={token} display="24h %" />
+              <ChangeSegment
+                token={token}
+                display="24h %"
+                extraCss="md:hidden"
+              />
+              {activeView?.name === "All" ? (
+                <ChangeSegment
+                  token={token}
+                  display="24h %"
+                  extraCss="hidden md:table-cell"
+                />
+              ) : (
+                <VolumeSegment
+                  token={token}
+                  metricsChanges={metricsChanges}
+                  display="Balance"
+                  extraCss="hidden md:table-cell"
+                />
+              )}
               <MarketCapSegment
                 token={token}
                 metricsChanges={metricsChanges}

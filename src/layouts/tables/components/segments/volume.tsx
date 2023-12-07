@@ -44,7 +44,7 @@ export const VolumeSegment = ({
   const renderVolumeOrBalance = getVolumeOrBalance();
 
   return (
-    <Segment extraCss={extraCss}>
+    <Segment extraCss={`${extraCss} md:px-0.5`}>
       <div
         className={`flex items-center justify-end font-medium ${
           isBalance
@@ -54,12 +54,12 @@ export const VolumeSegment = ({
       >
         {isBalance ? (
           <div className="flex flex-col pr-0 sm:pr-2.5">
-            <SmallFont extraCss="font-medium text-sm md:text-xs">{`${getFormattedAmount(
+            <SmallFont extraCss="font-medium text-sm md:text-xs whitespace-nowrap">{`${getFormattedAmount(
               token.amount
             )} ${token.symbol.slice(0, 10)}${
               token.symbol.length > 10 ? "..." : ""
             }`}</SmallFont>
-            <SmallFont extraCss="font-medium text-sm md:text-xs text-light-font-60 dark:text-dark-font-60">{`${getFormattedAmount(
+            <SmallFont extraCss="font-medium text-sm md:text-xs text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">{`${getFormattedAmount(
               token.amount_usd
             )} USD`}</SmallFont>
           </div>
