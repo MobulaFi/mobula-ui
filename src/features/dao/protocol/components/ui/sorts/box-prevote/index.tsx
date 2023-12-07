@@ -162,17 +162,15 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       token?.alreadyVoted ? "cursor-not-allowed" : "cursor-pointer"
     }`}
       onClick={() => {
-        if (true) {
-          if (!isPendingPool) {
-            if (pathname.includes("/sort"))
-              router.push(`/dao/protocol/sort/${getUrlFromName(token.name)}`);
-            if (pathname.includes("/validation"))
-              router.push(
-                `/dao/protocol/validation/${getUrlFromName(token.name)}`
-              );
-          } else {
-            router.push(`/dao/protocol/pool/${getUrlFromName(token.name)}`);
-          }
+        if (!isPendingPool) {
+          if (pathname.includes("/sort"))
+            router.push(`/dao/protocol/sort/${getUrlFromName(token.name)}`);
+          else
+            router.push(
+              `/dao/protocol/validation/${getUrlFromName(token.name)}`
+            );
+        } else {
+          router.push(`/dao/protocol/pool/${getUrlFromName(token.name)}`);
         }
       }}
     >

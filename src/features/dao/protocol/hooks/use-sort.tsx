@@ -55,7 +55,6 @@ export const useSort = () => {
       // .catch(() => [])
       .then(async (listings: IListingData[] | any) => {
         let fails = 0;
-        console.log(listings);
         listings.forEach(async (listing: IListingData, index) => {
           if (listing.status !== getNumberFromSort()) return;
           const [isAlreadyVoted, response, hashResult] =

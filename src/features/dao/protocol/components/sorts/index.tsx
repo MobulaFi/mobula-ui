@@ -56,13 +56,14 @@ export const Sort = () => {
     }
   }, []);
 
+  console.log("tokenDivs", tokenDivs);
   const renderNonListingToken = (token: Asset) => (
     <div className={token.alreadyVoted ? "opacity-50" : "opacity-100"}>
       {token.edits?.map((edit) => (
         <ChangeTemplate
           key={edit}
-          oldImage={token.oldToken.logo || "/icon/unknown.png"}
-          newImage={token.logo || "/icon/unknown.png"}
+          oldImage={token.oldToken.logo || "/empty/unknown.png"}
+          newImage={token.logo || "/empty/unknown.png"}
           type={edit}
           oldValue={token.oldToken[edit]}
           newValue={token[edit]}
