@@ -66,7 +66,7 @@ export const BuySell = ({ token }: BuySellProps) => {
       {/* {activeStep.nbr <= 3 && showTuto ? (
         <div className="flex w-screen h-screen top-0 fixed z-[3] bg-[rgba(0,0,0,0.3)]" />
       ) : null} */}
-      <Container extraCss="flex flex-row items-center md:flex-col bg-top mt-[70px] lg:mt-[40px] md:mt-[28px] mb-[90px] lg:mb-[40px] md:mb-[28px] min-h-[60vh] md:min-h-full">
+      <Container extraCss="flex flex-row items-center lg:flex-col bg-top mt-[70px] lg:mt-[40px] md:mt-[28px] mb-[90px] lg:mb-[40px] md:mb-[28px] min-h-[60vh] lg:min-h-full">
         <div className="flex flex-col w-2/4 md:w-[95%] mr-[30px] md:mr-0">
           <p className="text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 lg:mb-[15px] md:mb-[5px] leading-[60px] lg:leading-[30px]">
             Buy any crypto, at the best price.
@@ -82,7 +82,7 @@ export const BuySell = ({ token }: BuySellProps) => {
           </div>
           <CardsAndCTA extraCss="flex md:hidden mt-0" />
         </div>
-        <div className="flex justify-center w-2/4 md:w-[100%] ml-auto md:ml-0 md:mt-[30px]">
+        <div className="flex justify-center w-2/4 lg:w-[100%] ml-auto lg:ml-0 lg:mt-[30px]">
           <SwapProvider tokenOutBuffer={token} lockToken={token ? ["out"] : []}>
             <BasicSwap activeStep={activeStep.nbr} />
           </SwapProvider>
