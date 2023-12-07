@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 // import { SwapProvider } from "../../../common/providers/swap";
 // import { BuySellSwap } from "../../../common/providers/swap/components/buy-sell";
-import React from "react";
 import { Container } from "../../../components/container";
 import { LargeFont } from "../../../components/fonts";
 import { Asset, Coin } from "../../../interfaces/swap";
