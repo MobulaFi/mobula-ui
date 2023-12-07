@@ -462,466 +462,468 @@ export const ViewPopup = ({
       {showTuto ? (
         <div className="flex flex-col w-full h-full bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] absolute top-0 left-0 rounded-xl opacity-80" />
       ) : null}
-      {showTuto ? (
-        <Tutorial
-          setShowTuto={setShowTuto}
-          setActiveDisplay={setActiveDisplay}
-        />
-      ) : null}
-      {showCategories ? (
-        <div className="scroll flex flex-col ">
-          <div className="flex justify-between w-full items-center mb-[15px]">
-            <button
-              className="flex items-center"
-              onClick={() => setShowCategories(false)}
-            >
-              <FaArrowLeftLong className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
-              <MediumFont extraCss="text-bold">
-                Categories ({filteredCategories.length})
-              </MediumFont>{" "}
-            </button>
-            <Input
-              extraCss="border-0"
-              type="text"
-              placeholder="Search a category"
-              onChange={(e) => setSearchCategorie(e.target.value)}
-            />
-          </div>
-          {filteredCategories.length > 0 ? (
-            <div className="flex flex-wrap max-h-[480px] min-h-[165px] overflow-y-scroll">
-              {filteredCategories.map((category) => (
-                <Button
-                  extraCss={`rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
-                    state.filters.categories?.includes(category)
-                      ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-                      : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                  }`}
-                  onClick={() => {
-                    handleCategoryChange(category);
-                  }}
-                  key={category}
-                >
-                  <SmallFont>{category}</SmallFont>
-                  {state.filters.categories?.includes(category) ? (
-                    <AiOutlineClose className="text-[10px] ml-[5px]" />
-                  ) : null}
-                </Button>
-              ))}
+      <div className="w-full relative">
+        {showTuto ? (
+          <Tutorial
+            setShowTuto={setShowTuto}
+            setActiveDisplay={setActiveDisplay}
+          />
+        ) : null}
+        {showCategories ? (
+          <div className="scroll flex flex-col ">
+            <div className="flex justify-between w-full items-center mb-[15px]">
+              <button
+                className="flex items-center"
+                onClick={() => setShowCategories(false)}
+              >
+                <FaArrowLeftLong className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
+                <MediumFont extraCss="text-bold">
+                  Categories ({filteredCategories.length})
+                </MediumFont>{" "}
+              </button>
+              <Input
+                extraCss="border-0"
+                type="text"
+                placeholder="Search a category"
+                onChange={(e) => setSearchCategorie(e.target.value)}
+              />
             </div>
-          ) : (
-            <SmallFont className="mx-auto my-[25px] font-medium">
-              No categories found
-            </SmallFont>
-          )}
-          <div className="w-full flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary sticky pt-[15px] bottom-0 border-t border-light-border-primary dark:border-dark-border-primary">
-            <Button
-              extraCss="w-1/2 mr-[5px]"
-              onClick={() => {
-                dispatch({
-                  type: ACTIONS.REMOVE_ALL_CATEGORY,
-                });
-              }}
-            >
-              Deselect All
-            </Button>
-            <Button
-              extraCss="w-1/2 ml-[5px]"
-              onClick={() => {
-                dispatch({ type: ACTIONS.RESET_CATEGORY });
-              }}
-            >
-              Select All
-            </Button>
+            {filteredCategories.length > 0 ? (
+              <div className="flex flex-wrap max-h-[480px] min-h-[165px] overflow-y-scroll">
+                {filteredCategories.map((category) => (
+                  <Button
+                    extraCss={`rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
+                      state.filters.categories?.includes(category)
+                        ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                        : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                    }`}
+                    onClick={() => {
+                      handleCategoryChange(category);
+                    }}
+                    key={category}
+                  >
+                    <SmallFont>{category}</SmallFont>
+                    {state.filters.categories?.includes(category) ? (
+                      <AiOutlineClose className="text-[10px] ml-[5px]" />
+                    ) : null}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <SmallFont className="mx-auto my-[25px] font-medium">
+                No categories found
+              </SmallFont>
+            )}
+            <div className="w-full flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary sticky pt-[15px] bottom-0 border-t border-light-border-primary dark:border-dark-border-primary">
+              <Button
+                extraCss="w-1/2 mr-[5px]"
+                onClick={() => {
+                  dispatch({
+                    type: ACTIONS.REMOVE_ALL_CATEGORY,
+                  });
+                }}
+              >
+                Deselect All
+              </Button>
+              <Button
+                extraCss="w-1/2 ml-[5px]"
+                onClick={() => {
+                  dispatch({ type: ACTIONS.RESET_CATEGORY });
+                }}
+              >
+                Select All
+              </Button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <>
-          {type === "edit" && activeView?.name === "All" ? null : (
-            <>
-              <MediumFont className="font-bold">Name</MediumFont>
-              <div className="mt-2.5 flex">
-                <div
-                  className="flex items-center h-[35px] 
+        ) : (
+          <>
+            {type === "edit" && activeView?.name === "All" ? null : (
+              <>
+                <MediumFont className="font-bold">Name</MediumFont>
+                <div className="mt-2.5 flex">
+                  <div
+                    className="flex items-center h-[35px] 
                  bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-lg z-[2]
                   text-light-font-100 dark:text-dark-font-100 border
                    border-light-border-primary dark:border-dark-border-primary w-full"
-                >
-                  <input
-                    className="w-full px-2.5 h-full text-light-font-100 dark:text-dark-font-100 rounded
-                     bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                    maxLength={25}
-                    // isDisabled={activeView?.name === "All" && type === "edit"}
-                    onChange={(e) => handleBasicInputChange(e)}
-                    placeholder={
-                      type === "create" ? "View name" : activeView?.name
-                    }
-                  />
-                  <button
-                    className="flex items-center pr-2.5 relative"
-                    onClick={() => setShowColorPopover((prev) => !prev)}
                   >
-                    <div
-                      className={`w-2.5 h-2.5 rounded-full mr-2`}
-                      style={{ background: defaultColor }}
+                    <input
+                      className="w-full px-2.5 h-full text-light-font-100 dark:text-dark-font-100 rounded
+                     bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                      maxLength={25}
+                      // isDisabled={activeView?.name === "All" && type === "edit"}
+                      onChange={(e) => handleBasicInputChange(e)}
+                      placeholder={
+                        type === "create" ? "View name" : activeView?.name
+                      }
                     />
-                    <BsChevronDown className="text-[10px]" />
-                    {showColorPopover ? (
+                    <button
+                      className="flex items-center pr-2.5 relative"
+                      onClick={() => setShowColorPopover((prev) => !prev)}
+                    >
                       <div
-                        className="flex max-w-[200px] flex-wrap z-[2] p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
+                        className={`w-2.5 h-2.5 rounded-full mr-2`}
+                        style={{ background: defaultColor }}
+                      />
+                      <BsChevronDown className="text-[10px]" />
+                      {showColorPopover ? (
+                        <div
+                          className="flex max-w-[200px] flex-wrap z-[2] p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
                       rounded-xl border border-light-border-primary dark:border-dark-border-primary shadow-md absolute
                        w-[200px] right-0 top-[28px]"
-                      >
-                        {colors.map((color) => (
-                          <button
-                            key={color}
-                            className="m-1.5 h-[12px] w-[12px] flex justify-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                            onClick={() =>
-                              dispatch({
-                                type: ACTIONS.SET_COLOR,
-                                payload: { value: color },
-                              })
-                            }
-                          >
-                            <div
-                              className="min-h-[12px] w-[12px] h-[12px] max-w-[12px] min-w-[12px] rounded-full"
-                              style={{ background: color }}
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    ) : null}
-                  </button>
-                </div>
-                <Button
-                  extraCss="relative ml-2.5 h-[35px] w-[35px] min-w-[35px] flex items-center justify-center"
-                  onMouseEnter={() => setIsStarHover(true)}
-                  onMouseLeave={() => setIsStarHover(false)}
-                  onClick={() => dispatch({ type: ACTIONS.SET_FAVORITE })}
-                >
-                  <AiOutlineStar
-                    className={`absolute text-base transition-all duration-250 ${
-                      getStarIconFromActiveView().outline
-                    }`}
-                  />
-                  <AiFillStar
-                    className={`absolute text-base text-yellow dark:text-yellow transition-all duration-250 ${
-                      getStarIconFromActiveView().fill
-                    }`}
-                  />
-                </Button>
-                {type !== "create" ? (
+                        >
+                          {colors.map((color) => (
+                            <button
+                              key={color}
+                              className="m-1.5 h-[12px] w-[12px] flex justify-center bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                              onClick={() =>
+                                dispatch({
+                                  type: ACTIONS.SET_COLOR,
+                                  payload: { value: color },
+                                })
+                              }
+                            >
+                              <div
+                                className="min-h-[12px] w-[12px] h-[12px] max-w-[12px] min-w-[12px] rounded-full"
+                                style={{ background: color }}
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      ) : null}
+                    </button>
+                  </div>
                   <Button
-                    extraCss="ml-2.5 md:h-[35px]"
-                    onClick={() => removeView()}
+                    extraCss="relative ml-2.5 h-[35px] w-[35px] min-w-[35px] flex items-center justify-center"
+                    onMouseEnter={() => setIsStarHover(true)}
+                    onMouseLeave={() => setIsStarHover(false)}
+                    onClick={() => dispatch({ type: ACTIONS.SET_FAVORITE })}
                   >
-                    <BsTrash3 className="text-base text-light-font-100 dark:text-dark-font-100" />
+                    <AiOutlineStar
+                      className={`absolute text-base transition-all duration-250 ${
+                        getStarIconFromActiveView().outline
+                      }`}
+                    />
+                    <AiFillStar
+                      className={`absolute text-base text-yellow dark:text-yellow transition-all duration-250 ${
+                        getStarIconFromActiveView().fill
+                      }`}
+                    />
                   </Button>
-                ) : null}
-              </div>
-            </>
-          )}
-          <div
-            className="flex items-center relative bg-light-bg-terciary dark:bg-dark-bg-terciary rounded
-           mt-2.5 p-0.5 border border-light-border-primary dark:border-dark-border-primary"
-          >
+                  {type !== "create" ? (
+                    <Button
+                      extraCss="ml-2.5 md:h-[35px]"
+                      onClick={() => removeView()}
+                    >
+                      <BsTrash3 className="text-base text-light-font-100 dark:text-dark-font-100" />
+                    </Button>
+                  ) : null}
+                </div>
+              </>
+            )}
             <div
-              className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] w-1/2 ${
-                showTuto ? "z-[3]" : "z-[auto]"
-              } rounded transition-all duration-250 `}
-              style={{
-                left:
-                  activeDisplay === "display"
-                    ? "calc(0% + 2px)"
-                    : "calc(50% - 2px)",
-              }}
-            />
-            <button
-              className={`w-1/2 font-medium ${
-                activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] text-sm md:text-xs 
+              className="flex items-center relative bg-light-bg-terciary dark:bg-dark-bg-terciary rounded
+           mt-2.5 p-0.5 border border-light-border-primary dark:border-dark-border-primary"
+            >
+              <div
+                className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] w-1/2 ${
+                  showTuto ? "z-[3]" : "z-[auto]"
+                } rounded transition-all duration-250 `}
+                style={{
+                  left:
+                    activeDisplay === "display"
+                      ? "calc(0% + 2px)"
+                      : "calc(50% - 2px)",
+                }}
+              />
+              <button
+                className={`w-1/2 font-medium ${
+                  activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
+                } h-[35px] text-sm md:text-xs 
               ${
                 activeDisplay === "display"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
               }
               `}
-              onClick={() => setActiveDisplay("display")}
-            >
-              Display
-            </button>
-            <button
-              className={`w-1/2 font-medium ${
-                activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-              } h-[35px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
-                activeDisplay === "filters"
-                  ? "text-light-font-100 dark:text-dark-font-100"
-                  : "text-light-font-40 dark:text-dark-font-40"
-              }`}
-              onClick={() => setActiveDisplay("filters")}
-            >
-              Filters
-            </button>
-          </div>
-          {activeDisplay === "display" ? (
-            <ReactSortableAny
-              tag={CustomComponent}
-              animation={200}
-              delay={0}
-              list={dragNdrop}
-              setList={(newOrder) => {
-                setDragNdrop(newOrder);
-                dispatch({ type: ACTIONS.MOVE_ELEMENT, payload: newOrder });
-              }}
-            >
-              {dragNdrop?.map((entry) => (
-                <div
-                  className="flex items-center px-2.5 sm:px-[7.5px] mr-[7.5px] bg-light-bg-hover
+                onClick={() => setActiveDisplay("display")}
+              >
+                Display
+              </button>
+              <button
+                className={`w-1/2 font-medium ${
+                  activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
+                } h-[35px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
+                  activeDisplay === "filters"
+                    ? "text-light-font-100 dark:text-dark-font-100"
+                    : "text-light-font-40 dark:text-dark-font-40"
+                }`}
+                onClick={() => setActiveDisplay("filters")}
+              >
+                Filters
+              </button>
+            </div>
+            {activeDisplay === "display" ? (
+              <ReactSortableAny
+                tag={CustomComponent}
+                animation={200}
+                delay={0}
+                list={dragNdrop}
+                setList={(newOrder) => {
+                  setDragNdrop(newOrder);
+                  dispatch({ type: ACTIONS.MOVE_ELEMENT, payload: newOrder });
+                }}
+              >
+                {dragNdrop?.map((entry) => (
+                  <div
+                    className="flex items-center px-2.5 sm:px-[7.5px] mr-[7.5px] bg-light-bg-hover
                    dark:bg-dark-bg-hover rounded-full w-fit h-[30px] md:h-[25px] mt-[7.5px] 
                    border border-light-border-primary dark:border-dark-border-primary cursor-pointer 
                    text-sm md:text-xs"
-                  key={entry.id}
-                >
-                  <PiDotsNineBold className="mr-[7.5px]" />
-                  <SmallFont>{entry.value}</SmallFont>
-                </div>
-              ))}
-            </ReactSortableAny>
-          ) : null}
-          {activeDisplay === "display" ? (
-            <div className="flex flex-col w-full mt-2.5">
-              {displays.map((display) => (
-                <div className="flex flex-col" key={display.title}>
-                  <MediumFont extraCss="font-bold mb-[5px]">
-                    {display.title}
-                  </MediumFont>
-                  <div className="flex flex-wrap w-full mb-5">
-                    {display.filters.map((entry) => {
-                      const isInDisplay = state.display?.some(
-                        (item) => item.value === entry
-                      );
-                      return (
-                        <button
-                          className={`flex px-2.5 items-center font-normal rounded-2xl mt-[7.5px] h-[30px] md:h-[25px] mr-[7.5px] ${
-                            isInDisplay
-                              ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-                              : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                          } border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100`}
-                          onClick={() =>
-                            handleDisplayChange(entry, display.name)
-                          }
-                          key={entry}
-                        >
-                          <SmallFont>{entry}</SmallFont>
-                          {isInDisplay ? (
-                            <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 ml-[5px] text-[10px]" />
-                          ) : null}
-                        </button>
-                      );
-                    })}
+                    key={entry.id}
+                  >
+                    <PiDotsNineBold className="mr-[7.5px]" />
+                    <SmallFont>{entry.value}</SmallFont>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col w-full my-2.5">
-              {filters.map((filter, i) => (
-                <AccordionCustom
-                  key={filter.name}
-                  extraCss={`${
-                    i === 0
-                      ? "border-b dark:border-dark:-border-primary border-light-border-primary"
-                      : "border-t border-light-border-primary dark:border-dark-border-primary"
-                  }`}
-                  visibleContent={
-                    <>
-                      <MediumFont>{filter.title}</MediumFont>
-                      <div className="ml-auto flex h-full items-center">
-                        {getRenderForFilters(filter)}
-                        <BsChevronDown className="text-light-font-100 dark:text-dark-font-100 ml-2.5 text-xs" />
-                      </div>
-                    </>
-                  }
-                >
-                  <div className="flex flex-col w-full">
-                    {filter.title === "Blockchains" ? (
-                      <div className="flex flex-col w-full">
-                        <div className="flex flex-col w-full max-h-[255px] overflow-y-scroll ">
-                          {Object.keys(blockchainsContent).map((chain) => (
-                            <div
-                              className="my-[5px] justify-between flex cursor-pointer"
-                              key={chain}
-                              onClick={() => handleBlockchainsChange(chain)}
-                            >
-                              <div className="flex items-center">
-                                <img
-                                  className="w-[22px] h-[22px] min-h-[22px] min-w-[22px] rounded-full mr-[7.5px]"
-                                  src={
-                                    blockchainsContent[chain]?.logo ||
-                                    "/empty/unknown.png"
-                                  }
-                                  alt={chain + " logo"}
-                                />
-                                <SmallFont>{chain}</SmallFont>
-                              </div>
-                              <button className="flex items-center justify-center w-[15px] h-[15px] rounded border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
-                                {(state?.filters?.blockchains || []).some(
-                                  (item) => item === chain
-                                ) ? (
-                                  <BsCheckLg className="text-blue text-[14px]" />
-                                ) : null}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="flex pt-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary mb-2.5">
-                          <Button
-                            extraCss="mr-[5px] w-1/2"
-                            onClick={() => {
-                              dispatch({
-                                type: ACTIONS.DESELECT_ALL_BLOCKCHAINS,
-                              });
-                            }}
-                          >
-                            Deselect All
-                          </Button>
-                          <Button
-                            extraCss="ml-[5px] w-1/2"
-                            onClick={() => {
-                              dispatch({
-                                type: ACTIONS.RESET_BLOCKCHAINS,
-                              });
-                            }}
-                          >
-                            Select All
-                          </Button>
-                        </div>
-                      </div>
-                    ) : null}
-                    {filter.title !== "Blockchains" &&
-                    filter.title !== "Categories" ? (
-                      <div className="flex flex-col w-full">
-                        <div className="flex w-full mb-2.5">
-                          <div className="flex flex-col w-1/2 mr-[5px]">
-                            <SmallFont extraCss="mb-[5px]">From</SmallFont>
-                            <Input
-                              placeholder={
-                                state.filters?.[filter.name]?.from || 0
-                              }
-                              name={filter.name}
-                              type="number"
-                              // value={state.filters[filter.name].from}
-                              onChange={(e) => handleInputChange(e, "from")}
-                            />
-                          </div>
-                          <div className="flex flex-col w-1/2 ml-[5px]">
-                            <SmallFont extraCss="mb-[5px]">To</SmallFont>
-                            <Input
-                              placeholder={
-                                state.filters?.[filter.name]?.to === maxValue
-                                  ? "Any"
-                                  : state.filters?.[filter.name]?.to || "Any"
-                              }
-                              name={filter.name}
-                              type="number"
-                              onChange={(e) => handleInputChange(e, "to")}
-                              // value={state.filters[filter.name].to}
-                            />
-                          </div>
-                        </div>
-                        {state.filters?.[filter.name]?.from !== 0 ||
-                        state.filters?.[filter.name]?.to !== maxValue ? (
+                ))}
+              </ReactSortableAny>
+            ) : null}
+            {activeDisplay === "display" ? (
+              <div className="flex flex-col w-full mt-2.5">
+                {displays.map((display) => (
+                  <div className="flex flex-col" key={display.title}>
+                    <MediumFont extraCss="font-bold mb-[5px]">
+                      {display.title}
+                    </MediumFont>
+                    <div className="flex flex-wrap w-full mb-5">
+                      {display.filters.map((entry) => {
+                        const isInDisplay = state.display?.some(
+                          (item) => item.value === entry
+                        );
+                        return (
                           <button
-                            className="text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center mr-auto mb-2.5"
-                            onClick={() => {
-                              dispatch({
-                                type: ACTIONS.RESET_FILTER,
-                                payload: { name: filter.name },
-                              });
-                            }}
+                            className={`flex px-2.5 items-center font-normal rounded-2xl mt-[7.5px] h-[30px] md:h-[25px] mr-[7.5px] ${
+                              isInDisplay
+                                ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                                : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                            } border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100`}
+                            onClick={() =>
+                              handleDisplayChange(entry, display.name)
+                            }
+                            key={entry}
                           >
-                            <AiOutlineClose className="text-[10px] mr-[7px]" />
-                            Reset {filter.title}
+                            <SmallFont>{entry}</SmallFont>
+                            {isInDisplay ? (
+                              <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 ml-[5px] text-[10px]" />
+                            ) : null}
                           </button>
-                        ) : null}
-                      </div>
-                    ) : null}
-                    {filter.title === "Categories" ? (
-                      <div className="flex flex-col w-full">
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col w-full my-2.5">
+                {filters.map((filter, i) => (
+                  <AccordionCustom
+                    key={filter.name}
+                    extraCss={`${
+                      i === 0
+                        ? "border-b dark:border-dark:-border-primary border-light-border-primary"
+                        : "border-t border-light-border-primary dark:border-dark-border-primary"
+                    }`}
+                    visibleContent={
+                      <>
+                        <MediumFont>{filter.title}</MediumFont>
+                        <div className="ml-auto flex h-full items-center">
+                          {getRenderForFilters(filter)}
+                          <BsChevronDown className="text-light-font-100 dark:text-dark-font-100 ml-2.5 text-xs" />
+                        </div>
+                      </>
+                    }
+                  >
+                    <div className="flex flex-col w-full">
+                      {filter.title === "Blockchains" ? (
                         <div className="flex flex-col w-full">
-                          <div className="flex flex-wrap w-full max-h-[255px] overflox-y-scroll">
-                            {newDefault
-                              ?.sort((entry) =>
-                                state.filters?.categories?.includes(entry)
-                                  ? -1
-                                  : 1
-                              )
-                              .filter((_, idx) => idx < 5)
-                              .map((categorie) => (
-                                <button
-                                  className={`flex items-center px-2.5 rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
-                                    state.filters.categories?.includes(
-                                      categorie
-                                    )
-                                      ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-                                      : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                                  } border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100`}
-                                  onClick={() =>
-                                    handleCategoryChange(categorie)
-                                  }
-                                  key={categorie}
-                                >
-                                  <SmallFont>{categorie}</SmallFont>
-                                  {state.filters.categories?.includes(
-                                    categorie
+                          <div className="flex flex-col w-full max-h-[255px] overflow-y-scroll ">
+                            {Object.keys(blockchainsContent).map((chain) => (
+                              <div
+                                className="my-[5px] justify-between flex cursor-pointer"
+                                key={chain}
+                                onClick={() => handleBlockchainsChange(chain)}
+                              >
+                                <div className="flex items-center">
+                                  <img
+                                    className="w-[22px] h-[22px] min-h-[22px] min-w-[22px] rounded-full mr-[7.5px]"
+                                    src={
+                                      blockchainsContent[chain]?.logo ||
+                                      "/empty/unknown.png"
+                                    }
+                                    alt={chain + " logo"}
+                                  />
+                                  <SmallFont>{chain}</SmallFont>
+                                </div>
+                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
+                                  {(state?.filters?.blockchains || []).some(
+                                    (item) => item === chain
                                   ) ? (
-                                    <AiOutlineClose className="text-[10px] ml-[5px]" />
+                                    <BsCheckLg className="text-blue text-[14px]" />
                                   ) : null}
                                 </button>
-                              ))}
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex pt-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary mb-2.5">
                             <Button
-                              extraCss="rounded-2xl mr-[7.5px] mt-[7.5px] h-[30px]"
-                              onClick={() => setShowCategories(true)}
+                              extraCss="mr-[5px] w-1/2"
+                              onClick={() => {
+                                dispatch({
+                                  type: ACTIONS.DESELECT_ALL_BLOCKCHAINS,
+                                });
+                              }}
                             >
-                              <SmallFont>See all</SmallFont>
+                              Deselect All
+                            </Button>
+                            <Button
+                              extraCss="ml-[5px] w-1/2"
+                              onClick={() => {
+                                dispatch({
+                                  type: ACTIONS.RESET_BLOCKCHAINS,
+                                });
+                              }}
+                            >
+                              Select All
                             </Button>
                           </div>
                         </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </AccordionCustom>
-              ))}
-            </div>
-          )}
-          <div className="flex mt-2.5">
-            <Button
-              extraCss="mr-[5px] w-full max-w-1/2 h-[40px] md:h-[35px]"
-              onClick={() => {
-                pushData("View popup", {
-                  action: "reset",
-                });
-                if (isConnected) {
-                  dispatch({ type: ACTIONS.RESET_VIEW });
-                } else setConnect(true);
-              }}
-            >
-              Reset
-            </Button>
-            <Button
-              extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue
+                      ) : null}
+                      {filter.title !== "Blockchains" &&
+                      filter.title !== "Categories" ? (
+                        <div className="flex flex-col w-full">
+                          <div className="flex w-full mb-2.5">
+                            <div className="flex flex-col w-1/2 mr-[5px]">
+                              <SmallFont extraCss="mb-[5px]">From</SmallFont>
+                              <Input
+                                placeholder={
+                                  state.filters?.[filter.name]?.from || 0
+                                }
+                                name={filter.name}
+                                type="number"
+                                // value={state.filters[filter.name].from}
+                                onChange={(e) => handleInputChange(e, "from")}
+                              />
+                            </div>
+                            <div className="flex flex-col w-1/2 ml-[5px]">
+                              <SmallFont extraCss="mb-[5px]">To</SmallFont>
+                              <Input
+                                placeholder={
+                                  state.filters?.[filter.name]?.to === maxValue
+                                    ? "Any"
+                                    : state.filters?.[filter.name]?.to || "Any"
+                                }
+                                name={filter.name}
+                                type="number"
+                                onChange={(e) => handleInputChange(e, "to")}
+                                // value={state.filters[filter.name].to}
+                              />
+                            </div>
+                          </div>
+                          {state.filters?.[filter.name]?.from !== 0 ||
+                          state.filters?.[filter.name]?.to !== maxValue ? (
+                            <button
+                              className="text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center mr-auto mb-2.5"
+                              onClick={() => {
+                                dispatch({
+                                  type: ACTIONS.RESET_FILTER,
+                                  payload: { name: filter.name },
+                                });
+                              }}
+                            >
+                              <AiOutlineClose className="text-[10px] mr-[7px]" />
+                              Reset {filter.title}
+                            </button>
+                          ) : null}
+                        </div>
+                      ) : null}
+                      {filter.title === "Categories" ? (
+                        <div className="flex flex-col w-full">
+                          <div className="flex flex-col w-full">
+                            <div className="flex flex-wrap w-full max-h-[255px] overflox-y-scroll">
+                              {newDefault
+                                ?.sort((entry) =>
+                                  state.filters?.categories?.includes(entry)
+                                    ? -1
+                                    : 1
+                                )
+                                .filter((_, idx) => idx < 5)
+                                .map((categorie) => (
+                                  <button
+                                    className={`flex items-center px-2.5 rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
+                                      state.filters.categories?.includes(
+                                        categorie
+                                      )
+                                        ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                                        : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                                    } border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100`}
+                                    onClick={() =>
+                                      handleCategoryChange(categorie)
+                                    }
+                                    key={categorie}
+                                  >
+                                    <SmallFont>{categorie}</SmallFont>
+                                    {state.filters.categories?.includes(
+                                      categorie
+                                    ) ? (
+                                      <AiOutlineClose className="text-[10px] ml-[5px]" />
+                                    ) : null}
+                                  </button>
+                                ))}
+                              <Button
+                                extraCss="rounded-2xl mr-[7.5px] mt-[7.5px] h-[30px]"
+                                onClick={() => setShowCategories(true)}
+                              >
+                                <SmallFont>See all</SmallFont>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  </AccordionCustom>
+                ))}
+              </div>
+            )}
+            <div className="flex mt-2.5">
+              <Button
+                extraCss="mr-[5px] w-full max-w-1/2 h-[40px] md:h-[35px]"
+                onClick={() => {
+                  pushData("View popup", {
+                    action: "reset",
+                  });
+                  if (isConnected) {
+                    dispatch({ type: ACTIONS.RESET_VIEW });
+                  } else setConnect(true);
+                }}
+              >
+                Reset
+              </Button>
+              <Button
+                extraCss="w-full max-w-1/2 ml-[5px] px-3 border border-darkblue dark:border-darkblue
                hover:border-blue hover:dark:border-blue h-[40px] md:h-[35px]"
-              onClick={createButtonHandler}
-            >
-              {isViewsLoading ? (
-                <Spinner extraCss="w-[15px] h-[15px] mr-[7.5px]" />
-              ) : null}
-              {type === "create"
-                ? `Create ${state.name}`
-                : `Edit ${activeView?.name}`}
-            </Button>
-          </div>
-        </>
-      )}
+                onClick={createButtonHandler}
+              >
+                {isViewsLoading ? (
+                  <Spinner extraCss="w-[15px] h-[15px] mr-[7.5px]" />
+                ) : null}
+                {type === "create"
+                  ? `Create ${state.name}`
+                  : `Edit ${activeView?.name}`}
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
     </ModalContainer>
   );
 };

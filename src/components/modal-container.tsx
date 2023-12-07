@@ -30,7 +30,7 @@ export const ModalContainer = ({
           className={cn(
             `z-[101] fixed top-[10vh] left-1/2 -translate-x-1/2 h-fit border border-light-border-primary dark:border-dark-border-primary
            rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary text-light-font-100 dark:text-dark-font-100
-            w-full sm:w-[90%] ${title ? "py-3.5 px-4" : ""}`,
+            w-full md:w-[90%] ${title ? "py-3.5 px-4" : ""}`,
             extraCss
           )}
         >
