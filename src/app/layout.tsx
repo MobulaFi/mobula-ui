@@ -1,7 +1,6 @@
 import { WatchlistProvider } from "features/user/watchlist/context-manager";
 import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
-import Script from "next/script";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -234,25 +233,18 @@ async function RootLayout({
         <meta name="theme-color" content="#131827" />
       </head>
       <body>
-        <Script
-          id="fouc"
-          dangerouslySetInnerHTML={{
-            __html: `const darkTheme = "dark";
-                      const selectedTheme = localStorage.getItem("theme");
-                      if (selectedTheme === "dark") {
-                        document.body.classList.add(darkTheme);
-                      } else {
-                        document.body.classList.remove(darkTheme);
-                      }`,
-          }}
-        />
-
-        <ToastContainer
-          toastClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          disableTransitionOnChange
+          enableSystem
+        >
+          <ToastContainer
+            toastClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100
            rounded-xl shadow-md border border-light-border-primary dark:border-dark-border-primary pt-3 px-3"
-          bodyClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
-        />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            bodyClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
+          />
+
           <UserBalanceProvider balanceCookies={userCookie}>
             <GeneralContext>
               <WatchlistProvider watchlist={params.watchlist}>
