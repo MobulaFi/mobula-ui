@@ -2,6 +2,7 @@
 import Cookies from "js-cookie";
 import { useContext, useEffect, useRef } from "react";
 import { getAddress } from "viem";
+import NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT from "../../../../";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -72,7 +73,7 @@ export const Portfolio = ({
 
       console.log(
         "NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT",
-        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
+        NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
       );
 
       socket.addEventListener("open", () => {

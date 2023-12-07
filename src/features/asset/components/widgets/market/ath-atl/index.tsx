@@ -41,6 +41,8 @@ export const AllTime = () => {
     return percentage.toFixed(2);
   };
 
+  console.log("baseAsset", baseAsset);
+
   const percentageATHup =
     Number(getPercentageForAllTime(baseAsset?.ath?.[1])) > 0 || false;
   const percentageATLup =
