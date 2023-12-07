@@ -1,4 +1,3 @@
-import React from "react";
 import { NextImageFallback } from "../../../../components/image";
 import { Asset } from "../../../../interfaces/assets";
 
@@ -35,11 +34,11 @@ export const TokenInfo = ({ token, index, showRank }: TokenInfoProps) => {
       <div className="flex flex-col flex-wrap mr-2.5 sm:mr-0">
         <div className="flex">
           {showRank ? (
-            <div className="mr-[7.5px] text-sm text-light-font-100 dark:text-dark-font-100 hidden md:block">
+            <div className="mr-[7.5px] text-sm text-light-font-100 dark:text-dark-font-100 hidden md:block md:text-xs">
               {token.rank}
             </div>
           ) : null}
-          <span className="text-light-font-100 dark:text-dark-font-100 text-sm font-bold ">
+          <span className="text-light-font-100 dark:text-dark-font-100 text-sm font-bold md:text-xs">
             {token.symbol}
           </span>
         </div>

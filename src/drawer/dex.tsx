@@ -8,8 +8,6 @@ import { PopupUpdateContext } from "../contexts/popup";
 import { SettingsMetricContext } from "../contexts/settings";
 import { SwapProvider } from "../layouts/swap";
 import { MainSwap } from "../layouts/swap/swap-variant/main";
-import { pushData } from "../lib/mixpanel";
-import { getUrlFromName } from "../utils/formaters";
 
 export const DexDrawer = () => {
   const { showBuyDrawer, setShowBuyDrawer } = useContext(SettingsMetricContext);
@@ -44,8 +42,8 @@ export const DexDrawer = () => {
         <SwapProvider tokenOutBuffer={token} lockToken={["out"]}>
           <MainSwap isDex />
         </SwapProvider>
-        <div className="px-5">
-          <Button
+        <div className="px-5 mt-0">
+          {/* <Button
             extraCss="w-full flex items-center justify-center h-[45px] md:h-[40px] mt-[15px]"
             onClick={() => {
               pushData("Buy with Credit Card");
@@ -59,18 +57,15 @@ export const DexDrawer = () => {
               alt="mastercard logo"
             />
             <img className="h-[13px]" src="/logo/visa.png" alt="visa logo" />
-          </Button>
-          <div className="bg-light-border-primary dark:bg-dark-border-primary h-[1px] w-full my-[15px]" />
+          </Button> */}
+          <div className="bg-light-border-primary dark:bg-dark-border-primary h-[1px] w-full mb-[15px]" />
           <Button
-            extraCss="w-full justify-center h-[45px] md:h-[40px]"
+            extraCss="w-full justify-center h-[45px] md:h-[40px] mt-5"
             onClick={() => {
-              if (token)
-                router.push(
-                  `/trade/${getUrlFromName(token.name.toLowerCase())}`
-                );
+              if (token) router.push("/swap");
             }}
           >
-            Trading Dashboard
+            Swap page
           </Button>
         </div>
       </Drawer>
