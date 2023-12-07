@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -64,7 +64,7 @@ export const Top100 = ({
 
   return (
     <>
-      {isMobile ? <TopNav list={tabs} active="Home" isGeneral /> : null}
+      <TopNav list={tabs} active="Home" isGeneral />
       <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
         <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
           <Container

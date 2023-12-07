@@ -105,7 +105,7 @@ export const TokenSocialsInfo = () => {
 
   return (
     <div className="flex flex-col w-[40%] lg:w-full">
-      <div className="flex items-start lg:items-center justify-between flex-col lg:flex-row">
+      <div className="flex items-start lg:items-center justify-between flex-col lg:flex-row sm:overflow-x-scroll scroll">
         <div className="flex flex-col w-full">
           {baseAsset.tags?.length > 0 ? (
             <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 flex lg:hidden font-medium">

@@ -515,10 +515,12 @@ export const useDefault = ({
   );
 
   const series = [
-    ...[data, ...extraData].map((d, i) => {
+    ...[data, ...extraData].map((d: any, i) => {
       let newColor = "";
       if (d?.color) {
-        newColor = d.color.split("dark:bg-[")?.[1]?.split("]")?.[0];
+        newColor = d?.color;
+        if (d.color.includes("dark:bg-"))
+          newColor = d?.color.split("dark:bg-[")?.[1]?.split("]")?.[0];
       }
       return {
         type: "line",

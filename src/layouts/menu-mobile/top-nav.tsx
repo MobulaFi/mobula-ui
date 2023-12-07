@@ -63,8 +63,7 @@ export const TopNav = ({
       </div>
       {!isGeneral ? (
         <div
-          className={`flex h-[2px] mt-[5px] px-2.5 bottom-0 transition-all duration-200 absolute bg-blue dark:bg-blue 
-        ${100 / (list?.length || 0)}%`}
+          className="flex h-[2px] mt-[5px] px-2.5 bottom-0 transition-all duration-200 absolute bg-blue dark:bg-blue"
           style={{
             width: `${100 / (list?.length || 0)}%`,
             left: `${width}%`,

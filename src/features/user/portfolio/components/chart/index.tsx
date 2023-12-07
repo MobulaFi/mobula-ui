@@ -46,7 +46,7 @@ export const PortfolioChart = () => {
         <ButtonTimeSlider />
         <div className="lg:flex justify-between w-full items-center mb-[-30px] hidden">
           <CompareButtons
-            extraCss="hidden  mb-[-50px] mt-[-10px] sm:mt-2.5"
+            extraCss="hidden mb-[-20px] mt-[10px] sm:mt-2.5"
             buttonH="30px"
             comparedEntities={comparedEntities}
             setComparedEntities={setComparedEntities}
