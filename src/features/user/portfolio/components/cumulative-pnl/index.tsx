@@ -62,13 +62,11 @@ export const CumulativePnl = () => {
           </MediumFont>
         </div>
       ) : (
-        <div className="h-170px">
+        <div className="h-[170px] w-full flex justify-center items-center">
           {cumulativePNL?.length > 0 && !isLoading ? (
             <EChart data={cumulativePNL} />
           ) : null}
-          {isLoading ? (
-            <Spinner extraCss="w-[50px] h-[50px] m-auto mt-[40px]" />
-          ) : null}
+          {isLoading ? <Spinner extraCss="w-[50px] h-[50px] m-auto " /> : null}
         </div>
       )}
     </div>

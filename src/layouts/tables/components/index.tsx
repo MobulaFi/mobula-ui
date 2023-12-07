@@ -4,7 +4,6 @@ import { useAccount } from "wagmi";
 import { Ths } from "../../../components/table";
 import { PopupStateContext } from "../../../contexts/popup";
 import { SettingsMetricContext } from "../../../contexts/settings";
-import { DexDrawer } from "../../../drawer/dex";
 import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
@@ -356,7 +355,6 @@ export function AssetsTable({
           )}
         </table>
       </div>
-      <DexDrawer />
       {showMenuTableMobileForToken && showMenuTableMobile ? (
         <MenuCommun />
       ) : null}

@@ -137,7 +137,7 @@ export const Entry = ({
       )
     ),
     Added: (
-      <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap text-sm text-xs">
+      <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap text-sm md:text-xs">
         {getCountdown(Date.now() - new Date(token.created_at).getTime())}
       </p>
     ),

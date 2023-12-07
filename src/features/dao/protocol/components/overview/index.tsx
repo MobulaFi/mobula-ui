@@ -85,7 +85,7 @@ export const Overview = () => {
         {/* MATIC FAUCET */}
         <BoxContainer extraCss="justify-between flex-col mb-5 md:mb-0 h-auto p-0 items-center md:items-start">
           <TitleContainer extraCss="w-full px-[15px]">
-            <MediumFont>MATIC Faucet</MediumFont>
+            <MediumFont extraCss="md:px-2.5">MATIC Faucet</MediumFont>
           </TitleContainer>
           <div className="flex items-center justify-between w-full p-0 md:p-5 flex-row sm:flex-col">
             <div className="flex flex-col items-start p-5 md:p-[5px]">
@@ -121,7 +121,7 @@ export const Overview = () => {
         {/* METRICS */}
         <BoxContainer extraCss="mb-5 md:mt-2.5 flex-col h-fit">
           <TitleContainer extraCss="px-[15px]">
-            <MediumFont>History</MediumFont>
+            <MediumFont extraCss="md:px-2.5">History</MediumFont>
           </TitleContainer>
           <div className="flex flex-col w-full">
             {recentlyAdded.map((history: HistoryListing, i: number) => {

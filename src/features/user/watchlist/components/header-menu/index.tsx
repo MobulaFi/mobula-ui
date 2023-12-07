@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AiFillStar, AiOutlineEdit } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -125,7 +125,7 @@ export const HeaderMenu = () => {
       title={<BsThreeDotsVertical className="mt-0.5 text-lg md:text-base" />}
     >
       <div
-        className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 mb-2"
+        className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 mb-2 text-sm md:text-xs"
         onClick={() => setShowEdit(true)}
       >
         <div className={squareBox}>
@@ -134,7 +134,7 @@ export const HeaderMenu = () => {
         Edit Name
       </div>
       <div
-        className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 mb-2"
+        className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 mb-2 text-sm md:text-xs"
         onClick={() => {
           if (user)
             signerGuard(() => {
@@ -148,7 +148,7 @@ export const HeaderMenu = () => {
         Duplicate Watchlist
       </div>
       <div
-        className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 mb-2"
+        className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 mb-2 text-sm md:text-xs"
         onClick={() => {
           if (user) {
             signerGuard(() => {
@@ -170,14 +170,14 @@ export const HeaderMenu = () => {
         }}
       >
         {isMainWatchlist ? (
-          <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100">
+          <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs">
             <div className={squareBox}>
               <AiFillStar className="text-yellow dark:text-yellow text-[15px]" />
             </div>
             This is your Main Watchlist
           </div>
         ) : (
-          <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 justify-between">
+          <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100 justify-between text-sm md:text-xs">
             <div className="flex items-center">
               <div className={`${squareBox} mr-2.5`}>
                 <AiFillStar className="text-light-font-40 dark:text-dark-font-40 text-sm " />

@@ -21,7 +21,7 @@ export const Drawer = ({
       case "bottom":
         return "w-screen h-fit bottom-0";
       case "right":
-        return "w-[400px] h-screen top-0 sm:full";
+        return "w-[400px] h-screen top-0 sm:w-screen";
     }
   };
   const positionClass = getClassFromPosition();

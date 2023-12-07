@@ -148,11 +148,11 @@ export const Cryptocurrencies = () => {
             className="bg-light-bg-secondary dark:bg-dark-bg-secondary text-start 
           rounded-xl pl-0 h-[40px] border border-light-border-primary dark:border-dark-border-primary 
           hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover cursor-pointer transition-all duration-250
-           mt-2.5 caption-bottom"
+           mt-2.5 md:mt-[-10px] caption-bottom"
           >
             <button
               className="flex items-center font-medium text-light-font-100 dark:text-dark-font-100 text-sm
-               lg:text-[13px] md:text-xs h-full pl-5 sticky top-0 left-[-1px] pb-1.5"
+               lg:text-[13px] md:text-xs h-full pl-5 sticky top-0 left-[-1px] "
               onClick={() => setShowMore(!showMore)}
             >
               {showMore
@@ -162,7 +162,6 @@ export const Cryptocurrencies = () => {
           </caption>
         ) : null}
       </table>
-
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
         <div

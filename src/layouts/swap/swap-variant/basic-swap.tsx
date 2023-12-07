@@ -2,7 +2,6 @@ import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 // import {InfoPopup} from "../../../../components/popup-hover";
-import React from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -181,7 +180,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           >
             <div className="flex items-center justify-between w-full">
               <img
-                src={tokenIn?.logo || "/icon/unknown.png"}
+                src={tokenIn?.logo || "/empty/unknown.png"}
                 alt={`${tokenIn?.name} logo`}
                 className="w-[23px] h-[23px] min-w-[23px] rounded-full"
               />
@@ -247,7 +246,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
             <div className="flex items-center justify-between w-full">
               <img
                 className="w-[23px] h-[23px] min-w-[23px] rounded-full"
-                src={tokenOut?.logo || tokenOut?.image || "/icon/unknown.png"}
+                src={tokenOut?.logo || tokenOut?.image || "/empty/unknown.png"}
                 alt={`${tokenOut?.name} logo`}
               />
               <SmallFont extraCss="text-normal ml-[7.5px] mr-0">

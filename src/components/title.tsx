@@ -20,7 +20,7 @@ export const TitleContainer = ({
   return (
     <div
       className={cn(
-        "w-full flex items-center h-[40px] rounded-t-2xl bg-light-bg-terciary dark:bg-dark-bg-terciary relative p-2.5 lg:py-2.5 lg:px-[25px] md:p-2.5 border-b border-light-border-primary dark:border-dark-border-primary",
+        "w-full flex items-center h-[40px] rounded-t-2xl bg-light-bg-terciary dark:bg-dark-bg-terciary relative p-2.5 lg:py-2.5 md:p-2.5 border-b border-light-border-primary dark:border-dark-border-primary",
         extraCss
       )}
     >

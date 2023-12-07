@@ -1,3 +1,4 @@
+"use client";
 import { Asset } from "interfaces/assets";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -36,7 +37,7 @@ export const DexDrawer = () => {
             <LargeFont>Buy or Sell {token ? token?.symbol : ""}</LargeFont>
           </>
         }
-        isOpen={showBuyDrawer as never}
+        isOpen={!!showBuyDrawer as never}
         onClose={() => setShowBuyDrawer(null)}
       >
         <SwapProvider tokenOutBuffer={token} lockToken={["out"]}>
