@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -41,7 +41,7 @@ export const CustomPopOver = ({
             icon
           )}
           <SmallFont extraCss="font-medium">{title}</SmallFont>
-          <BsChevronDown className="text-sm ml-[2.5px]" />
+          <BsChevronDown className="text-sm ml-[5px]" />
         </Button>
       }
       hiddenContent={
