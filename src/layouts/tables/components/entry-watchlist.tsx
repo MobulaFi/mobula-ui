@@ -163,7 +163,7 @@ export const EntryWatchlist = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <tr>
-        <td className="border-b border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]">
+        <td className="border-b border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]">
           <div className="flex items-center justify-center">
             {watchlist && !isLoading ? (
               <button
@@ -179,7 +179,7 @@ export const EntryWatchlist = ({
                 ) : (
                   <AiOutlineStar
                     className="text-light-font-100 dark:text-dark-font-100 text-xl
-                   mx-auto transition-all duration-250 ease-in-out hover:text-yellow hover:dark:text-yellow"
+                   mx-auto transition-all duration-250 ease-in-out hover:text-yellow hover:dark:text-yellow text-sm"
                   />
                 )}
               </button>
@@ -189,7 +189,7 @@ export const EntryWatchlist = ({
           </div>
         </td>
         <td
-          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -206,7 +206,7 @@ export const EntryWatchlist = ({
           )}
         </td>
         <td
-          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -225,7 +225,7 @@ export const EntryWatchlist = ({
           )}
         </td>
         <td
-          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -247,7 +247,7 @@ export const EntryWatchlist = ({
           )}
         </td>
         <td
-          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -264,7 +264,7 @@ export const EntryWatchlist = ({
           )}
         </td>
         <td
-          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(
@@ -288,7 +288,7 @@ export const EntryWatchlist = ({
             <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[50px]" />
           )}
         </td>
-        <td className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]">
+        <td className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]">
           {watchlist && !isLoading ? (
             <div
               className="flex items-center cursor-pointer hover:text-blue
@@ -328,7 +328,7 @@ export const EntryWatchlist = ({
           )}
         </td>
         <td
-          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[5px]"
+          className="border-b cursor-pointer left-0 border-light-border-primary dark:border-dark-border-primary py-[25px] lg:py-[12px]"
           onClick={() => {
             router.push(
               `/watchlist/${userOfWatchlist?.address}/${getUrlFromName(

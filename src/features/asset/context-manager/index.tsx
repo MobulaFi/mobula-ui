@@ -98,8 +98,6 @@ export const BaseAssetProvider = ({
     liquidity_pool: [],
   };
 
-  console.log("IIIIIIIII", token);
-
   const returnName = (prevValue, filter, values, value, anyState) => {
     let newValue = prevValue;
     if (filter.action === "gte" && values[0] === value)
@@ -144,8 +142,6 @@ export const BaseAssetProvider = ({
       };
     }
   });
-
-  console.log("tradeCookie", tradeCookie);
 
   const [selectedTradeFilters, setSelectedTradeFilters] =
     useState(tradeFromCookie);

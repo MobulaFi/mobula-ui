@@ -24,7 +24,6 @@ export const CustomPopOver = ({
   logo,
 }: CustomPopOverProps) => {
   const [showCustomPopover, setShowCustomPopover] = useState(false);
-  console.log("TAAAAAAA", showCustomPopover);
   return (
     <Popover
       visibleContent={

@@ -180,6 +180,7 @@ export const TokenSocialsInfo = () => {
                 blockchainsContent[newChains?.[0]]?.logo ||
                 `/logo/${newChains[0]?.toLowerCase().split(" ")[0]}.png`
               }
+              position="left-1/2 -translate-x-1/2"
               isMobile
             >
               {newChains?.map(
@@ -230,6 +231,7 @@ export const TokenSocialsInfo = () => {
             <CustomPopOver
               title="Contracts"
               icon={<SlMagnifier className="flex md:hidden mr-[5px] text-sm" />}
+              position="left-1/2 -translate-x-1/2"
             >
               {(newChains as any)?.map((blockchain, index: number) => {
                 if (blockchain) {
@@ -264,6 +266,7 @@ export const TokenSocialsInfo = () => {
             {socials.filter((entry) => entry !== null).length > 0 ? (
               <CustomPopOver
                 title="Community"
+                position="left-1/2 -translate-x-1/2"
                 icon={<FaRegUser className="flex md:hidden mr-[5px] text-sm" />}
               >
                 {socials

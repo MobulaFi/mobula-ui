@@ -134,8 +134,8 @@ export interface IViewStep {
   title: string;
   subtitle: string;
   arrowPosition: string;
-  right: string[];
-  top: string[];
+  right: string;
+  top: string;
   transform: string[];
   arrowTop?: string[];
   arrowLeft?: string[];
