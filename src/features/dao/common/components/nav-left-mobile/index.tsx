@@ -2,7 +2,7 @@
 import { NextImageFallback } from "components/image";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MediumFont } from "../../../../../components/fonts";
 import { useMember } from "../../hooks/use-members";
 import { usePathnameInfo } from "../../hooks/use-pathname-info";
@@ -71,8 +71,10 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
           </p>
         </div>
         <ButtonOutlined
-          extraCss="flex justify-center items-center w-[90px] h-[25px] text-[13px] md:text-xs font-medium"
-          onClick={() => router.push(`/discover/${page}`)}
+          extraCss="flex justify-center items-center w-[90px] h-[25px] text-[13px] md:text-xs font-medium cursor-not-allowed opacity-50"
+          onClick={() => {
+            // router.push(`/discover/${page}`)
+          }}
         >
           Join
         </ButtonOutlined>

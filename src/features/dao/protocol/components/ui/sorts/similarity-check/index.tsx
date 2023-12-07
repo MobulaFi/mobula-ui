@@ -80,12 +80,20 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
         <table>
           <thead>
             <tr>
-              <Ths extraCss={`${thStyles}`}>Name</Ths>
-              <Ths extraCss={`${thStyles} text-end`}>Market Cap</Ths>
-              <Ths extraCss={`${thStyles} text-end`}>24h Volume</Ths>
-              <Ths extraCss={`${thStyles} text-end`}>Liquidity</Ths>
+              <Ths extraCss={`${thStyles} min-w-[130px] text-start`}>Name</Ths>
+              <Ths extraCss={`${thStyles} text-end whitespace-nowrap`}>
+                Market Cap
+              </Ths>
+              <Ths extraCss={`${thStyles} text-end  whitespace-nowrap`}>
+                24h Volume
+              </Ths>
+              <Ths extraCss={`${thStyles} text-end  whitespace-nowrap`}>
+                Liquidity
+              </Ths>
               <Ths extraCss={`${thStyles} text-end`}>Contract</Ths>
-              <Ths extraCss={`${thStyles} text-end`}>Mobula Listed</Ths>
+              <Ths extraCss={`${thStyles} text-end  whitespace-nowrap`}>
+                Mobula Listed
+              </Ths>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +101,7 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
               if (similarTokens[key].name)
                 return (
                   <tr key={key}>
-                    <Tds extraCss="px-2.5 py-[15px]">
+                    <Tds extraCss="px-2.5 md:pl-0 py-[15px] min-w-[130px]">
                       <div className="flex items-center">
                         <img
                           className="w-6 h-6 mr-2.5 rounded-full"

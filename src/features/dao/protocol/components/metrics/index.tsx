@@ -41,14 +41,16 @@ export const Metrics = ({
       <RightContainer>
         <div className="mb-5 mt-3 flex flex-col rounded-2xl sm:rounded-0 border border-light-border-primary dark:border-dark-border-primary">
           <TitleContainer>
-            <MediumFont extraCss="px-[15px]">General</MediumFont>
+            <MediumFont extraCss="px-[15px] md:px-2.5">General</MediumFont>
           </TitleContainer>
           <MetricsLine
             logo="/governals/total-mobulers.svg"
             keys="Total mobulers"
           >
             <div className="flex items-center">
-              <Tags extraCss="mr-[5px] md:mr-0">{total_mobulers?.length}</Tags>
+              <Tags extraCss="mr-[5px] md:mr-0 text-sm md:text-xs  md:h-[24px] md:min-w-[30px] md:px-1.5 md:rounded">
+                {total_mobulers?.length}
+              </Tags>
             </div>
           </MetricsLine>
           <MetricsLine
@@ -56,13 +58,15 @@ export const Metrics = ({
             keys="Total protocol proposals"
           >
             <div className="flex items-center">
-              <Tags extraCss="mr-[5px] md:mr-0">{total_proposals?.length}</Tags>
+              <Tags extraCss="mr-[5px] md:mr-0 text-sm md:text-xs md:h-[24px] md:min-w-[30px] md:px-1.5 md:rounded">
+                {total_proposals?.length}
+              </Tags>
             </div>
           </MetricsLine>
         </div>
         <div className="mb-5 w-full flex flex-col rounded-2xl sm:rounded-0 border border-light-border-primary dark:border-dark-border-primary">
           <TitleContainer>
-            <MediumFont extraCss="px-[15px]">Mobulers</MediumFont>
+            <MediumFont extraCss="px-[15px] md:px-2.5">Mobulers</MediumFont>
           </TitleContainer>
           {filteredArr?.map((user: any, idx: number) => (
             <MetricsLine
@@ -83,10 +87,10 @@ export const Metrics = ({
               key={user.username || user.users?.username || user.address}
             >
               <div className="flex items-center">
-                <Tags extraCss="mr-2 text-green dark:text-green">
+                <Tags extraCss="mr-2 text-green dark:text-green text-sm md:text-xs md:h-[24px] md:min-w-[30px] md:px-1.5 md:rounded">
                   {user?.good_decisions}
                 </Tags>
-                <Tags extraCss="text-red dark:text-red">
+                <Tags extraCss="text-red dark:text-red text-sm md:text-xs  md:h-[24px] md:min-w-[30px] md:px-1.5 md:rounded">
                   {user?.bad_decisions}
                 </Tags>
               </div>
