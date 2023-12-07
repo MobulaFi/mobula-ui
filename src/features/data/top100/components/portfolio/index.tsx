@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
@@ -148,7 +148,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
       <div
         className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
        border-light-border-primary dark:border-dark-border-primary flex-col relative overflow-hidden
-        min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 sm:w-full transition duration-500 md:overflow-visible ${
+        min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 lg:w-full transition duration-500 md:overflow-visible ${
           showPageMobile === 0 ? "z-[3]" : "z-[1]"
         }] py-2.5`}
         style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
@@ -342,14 +342,14 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
         {isDisconnected && !isLoading ? (
           <>
             <MediumFont extraCss="ml-2.5 w-fit">Portfolio</MediumFont>
-            <div className="my-auto mt-[20px] lg:mt-[35px] flex items-center">
+            <div className="my-auto mt-[20px] lg:mt-[10px] flex items-center">
               <img
                 src={
                   !isDarkMode
                     ? "/asset/empty-roi-light.png"
                     : "/asset/empty-roi.png"
                 }
-                className="h-[110px] sm:h-[100px] w-auto ml-8"
+                className="h-[110px] sm:h-[110px] w-auto ml-8"
                 alt="empty roi"
               />
               <div className="flex flex-col items-center mx-auto md:mx-auto">

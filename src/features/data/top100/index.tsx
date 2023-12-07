@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -71,7 +71,7 @@ export const Top100 = ({
             extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
             justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
           >
-            <div className="flex w-95per mx-auto">
+            <div className="flex w-95per mx-auto ">
               <div className="swiper">
                 <div className="swiper-wrapper">
                   <div className="swiper-slide flex justify-center">
