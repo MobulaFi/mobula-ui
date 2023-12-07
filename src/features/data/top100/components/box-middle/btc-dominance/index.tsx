@@ -16,12 +16,12 @@ export const BtcDominance = ({ showPage }: BtcDominanceProps) => {
   const { btcDominance } = useTop100();
   return (
     <div
-      className={boxStyle}
+      className={`${boxStyle}`}
       style={{ transform: `translateX(-${showPage * 100}%)` }}
     >
       <div className="flex flex-col w-[95%] mx-auto">
         <div className="flex flex-col absolute z-[1]">
-          <div className="flex justify-between w-full">
+          <div className="flex justify-between w-full pt-2.5">
             <MediumFont>Bitcoin Dominance</MediumFont>
           </div>
           <div className="flex mt-1">
@@ -39,7 +39,7 @@ export const BtcDominance = ({ showPage }: BtcDominanceProps) => {
             </div>
           </div>
         </div>
-        <div className="w-full h-full justify-center mt-[35px] lg:mt-[13px]">
+        <div className="w-full h-full justify-center mt-[45px] lg:mt-[13px]">
           <EChart
             data={btcDominance || []}
             timeframe="24H"
