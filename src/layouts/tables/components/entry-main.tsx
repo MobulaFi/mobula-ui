@@ -15,7 +15,6 @@ import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
-import React from "react";
 import { Button } from "../../../components/button";
 import useDeviceDetect from "../../../hooks/detect-device";
 import { useIsInViewport } from "../../../hooks/viewport";
@@ -137,7 +136,11 @@ export const Entry = ({
         </button>
       )
     ),
-    Added: getCountdown(Date.now() - new Date(token.created_at).getTime()),
+    Added: (
+      <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap text-sm text-xs">
+        {getCountdown(Date.now() - new Date(token.created_at).getTime())}
+      </p>
+    ),
   };
 
   useEffect(() => {
@@ -296,253 +299,127 @@ export const Entry = ({
 
   return (
     <EntryContext.Provider value={value}>
-      {showMinimalMobile ? (
-        <>
-          <tbody
-            className={`hidden lg:table-row-group ${
-              isHover
-                ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
-                : "bg-transparent dark:bg-transparent"
-            } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-            ref={entryRef}
+      <tbody
+        className={`table-row-group border-b border-light-border-primary dark:border-dark-border-primary ${
+          isHover
+            ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+            : "bg-transparent dark:bg-transparent"
+        } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        ref={entryRef}
+      >
+        <tr className="text-light-font-100 dark:text-dark-font-100">
+          <Segment
+            extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
+            noLink
           >
-            <tr className="hidden lg:table-row text-light-font-100 dark:text-dark-font-100">
-              <Segment
-                extraCss={`pl-2.5 pr-0 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[20px] lg:py-[5px] ${background}`}
-                noLink
+            <WatchlistAdd
+              addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+              setAddedToWatchlist={setAddedToWatchlist}
+              addedToWatchlist={addedToWatchlist}
+              token={token}
+            />
+            <div className="w-fit hidden md:block">
+              <button
+                className="h-full px-[5px] py-2"
+                onClick={() => {
+                  setShowMenuTableMobile(true);
+                  setShowMenuTableMobileForToken(token);
+                }}
               >
-                <WatchlistAdd
-                  addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
-                  setAddedToWatchlist={setAddedToWatchlist}
-                  addedToWatchlist={addedToWatchlist}
-                  token={token}
-                />
-                <div className="w-fit hidden md:block">
-                  <Button
-                    className="px-[5px] py-2"
-                    onClick={() => {
-                      setShowMenuTableMobile(true);
-                      setShowMenuTableMobileForToken(token);
-                    }}
-                  >
-                    <BsThreeDotsVertical className="text-light-font-40 dark:text-dark-font-40 text-lg" />
-                  </Button>
-                </div>
-              </Segment>
-              <Segment
-                extraCss={`py-2.5 max-w-[190px] sm:max-w-[120px] sticky w-fit left-[70px] md:left-[24px]  sm:px-[5px] ${background}`}
-              >
-                <TokenInfo
-                  token={token as Asset}
-                  showRank={showRank}
-                  index={index}
-                />
-              </Segment>
+                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+              </button>
+            </div>
+          </Segment>
+          <Segment
+            // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[42px] z-[11] md:pr-1 ${background} md:pl-0`}
+          >
+            <TokenInfo
+              token={token as Asset}
+              showRank={showRank}
+              index={index}
+            />
+          </Segment>
+          {(activeView?.display?.length || 0) > 0 &&
+          (pathname === "/" || pathname === "/?page=" + page) &&
+          activeView?.name !== "All" &&
+          activeView?.name !== "Portfolio"
+            ? renderSegments()
+            : null}
+          {activeView?.name === "Portfolio" || activeView?.name === "All" ? (
+            <>
               <PriceSegment
                 token={token}
                 metricsChanges={metricsChanges}
                 display="Price USD"
               />
-              {activeView?.name === "Portfolio" ? (
-                <VolumeSegment
-                  token={token}
-                  metricsChanges={metricsChanges}
-                  display="24h Volume"
-                />
-              ) : (
-                <ChangeSegment token={token} display="24h %" />
-              )}
-            </tr>
-          </tbody>
-          <tbody
-            className={`lg:hidden table-row-group border-b border-light-border-primary dark:border-dark-border-primary ${
-              isHover
-                ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
-                : "bg-transparent dark:bg-transparent"
-            } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-            ref={entryRef}
-          >
-            <tr className="text-light-font-100 dark:text-dark-font-100">
-              <Segment
-                extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
-                noLink
-              >
-                <WatchlistAdd
-                  addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
-                  setAddedToWatchlist={setAddedToWatchlist}
-                  addedToWatchlist={addedToWatchlist}
-                  token={token}
-                />
-                <div className="w-fit hidden md:block">
-                  <button
-                    className="h-full px-[5px] py-2"
-                    onClick={() => {
-                      setShowMenuTableMobile(true);
-                      setShowMenuTableMobileForToken(token);
-                    }}
-                  >
-                    <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
-                  </button>
-                </div>
-              </Segment>
-              <Segment
-                // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-                extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[42px] z-[1] ${background} md:pl-0`}
-              >
-                <TokenInfo
-                  token={token as Asset}
-                  showRank={showRank}
-                  index={index}
-                />
-              </Segment>
-              {(activeView?.display?.length || 0) > 0 &&
-              (pathname === "/" || pathname === "/?page=" + page) ? (
-                renderSegments()
-              ) : (
-                <>
-                  <PriceSegment
-                    token={token}
-                    metricsChanges={metricsChanges}
-                    display="Price USD"
-                  />
-                  <ChangeSegment token={token} display="24h %" />
-                  <MarketCapSegment
-                    token={token}
-                    metricsChanges={metricsChanges}
-                    display="Market Cap"
-                  />
-                  <VolumeSegment
-                    token={token}
-                    metricsChanges={metricsChanges}
-                    display="24h Volume"
-                  />
-                  {pathname === "/" ||
-                  pathname === `/?page=${page}` ||
-                  isBalance ? (
-                    <ChartSegment token={token} />
-                  ) : null}
-                </>
-              )}
-              {pathname !== "/" && pathname !== `/?page=${page}` ? (
-                <Segment>{lastComponent[lastColumn]}</Segment>
-              ) : null}
-              <Segment extraCss="table-cell md:hidden" noLink>
-                <div className="flex items-center justify-end">
-                  {/* <Button
-                  extraCss="px-0 w-[28px] h-[28px] mr-[5px]"
-                  onClick={() => {
-                    setShow(true);
-                    pushData("Interact", {
-                      name: "Alert Asset",
-                      from_page: pathname,
-                      asset: token?.name,
-                    });
-                  }}
-                >
-                  <TbBellRinging className="text-light-font-60 dark:text-dark-font-60 text-lg" />
-                </Button> */}
-                  {token.contracts && token.contracts.length > 0 && (
-                    <Button
-                      extraCss="px-0 w-[28px] h-[28px]"
-                      onClick={() => {
-                        setShowBuyDrawer(token as Asset);
-                        pushData("Interact", {
-                          name: "Swap Drawer",
-                          from_page: pathname,
-                          asset: token?.name,
-                        });
-                      }}
-                    >
-                      <AiOutlineSwap className="text-light-font-60 dark:text-dark-font-60 text-lg rotate-90" />
-                    </Button>
-                  )}
-                </div>
-              </Segment>
-            </tr>
-          </tbody>
-        </>
-      ) : (
-        <tbody
-          className={`border-b border-light-border-primary dark:border-dark-border-primary ${
-            isHover
-              ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
-              : "bg-transparent dark:bg-transparent"
-          } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-          ref={entryRef}
-        >
-          <tr className="text-light-font-100 dark:text-dark-font-100">
-            <Segment
-              extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] md:py-[5px] ${background}`}
-              noLink
-            >
-              <WatchlistAdd
-                addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
-                setAddedToWatchlist={setAddedToWatchlist}
-                addedToWatchlist={addedToWatchlist}
+              <ChangeSegment
                 token={token}
+                display="24h %"
+                extraCss="md:hidden"
               />
-              <div className="w-fit hidden md:block">
-                <button
-                  className="h-full px-[5px] py-2"
-                  onClick={() => {
-                    setShowMenuTableMobile(true);
-                    setShowMenuTableMobileForToken(token);
-                  }}
-                >
-                  <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
-                </button>
-              </div>
-            </Segment>
-            <Segment
-              // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-              extraCss={`py-2.5 min-w-[190px] lg:min-w-[180px] md:min-w-[185px] min-w-[125px] sticky left-[73px] md:left-[42px] z-[1] ${background} md:pl-0`}
-            >
-              <TokenInfo
-                token={token as Asset}
-                showRank={showRank}
-                index={index}
-              />
-            </Segment>
-            {(activeView?.display?.length || 0) > 0 &&
-            (pathname === "/" || pathname === "/?page=" + page) ? (
-              renderSegments()
-            ) : (
-              <>
-                <PriceSegment
+              {activeView?.name === "All" ? (
+                <ChangeSegment
                   token={token}
-                  metricsChanges={metricsChanges}
-                  display="Price USD"
+                  display="24h %"
+                  extraCss="hidden md:table-cell"
                 />
-                <ChangeSegment token={token} display="24h %" />
-                <MarketCapSegment
-                  token={token}
-                  metricsChanges={metricsChanges}
-                  display="Market Cap"
-                />
+              ) : (
                 <VolumeSegment
                   token={token}
                   metricsChanges={metricsChanges}
-                  display="24h Volume"
+                  display="Balance"
+                  extraCss="hidden md:table-cell"
                 />
-                {pathname === "/" ||
-                pathname === `/?page=${page}` ||
-                isBalance ? (
-                  <ChartSegment token={token} />
-                ) : null}
-              </>
-            )}
-            {pathname !== "/" && pathname !== `/?page=${page}` ? (
-              <Segment>{lastComponent[lastColumn]}</Segment>
-            ) : null}
-            <Segment extraCss="table-cell md:hidden" noLink>
-              <div className="flex items-center justify-end">
-                {/* <Button
+              )}
+              <MarketCapSegment
+                token={token}
+                metricsChanges={metricsChanges}
+                display="Market Cap"
+                extraCss="md:hidden"
+              />
+              <VolumeSegment
+                token={token}
+                metricsChanges={metricsChanges}
+                display="24h Volume"
+                extraCss="md:hidden"
+              />
+              <ChartSegment token={token} extraCss="md:hidden" />
+            </>
+          ) : null}
+          {pathname !== "/" && pathname !== `/?page=${page}` ? (
+            <>
+              <PriceSegment
+                token={token}
+                metricsChanges={metricsChanges}
+                display="Price USD"
+              />
+              <ChangeSegment token={token} display="24h %" />
+              <MarketCapSegment
+                token={token}
+                metricsChanges={metricsChanges}
+                display="Market Cap"
+              />
+              <VolumeSegment
+                token={token}
+                metricsChanges={metricsChanges}
+                display="24h Volume"
+              />
+              {pathname === "/" ||
+              pathname === `/?page=${page}` ||
+              isBalance ? (
+                <ChartSegment token={token} />
+              ) : null}
+            </>
+          ) : null}
+          {pathname !== "/" && pathname !== `/?page=${page}` ? (
+            <Segment>{lastComponent[lastColumn]}</Segment>
+          ) : null}
+          <Segment extraCss="table-cell md:hidden" noLink>
+            <div className="flex items-center justify-end">
+              {/* <Button
                   extraCss="px-0 w-[28px] h-[28px] mr-[5px]"
                   onClick={() => {
                     setShow(true);
@@ -555,26 +432,25 @@ export const Entry = ({
                 >
                   <TbBellRinging className="text-light-font-60 dark:text-dark-font-60 text-lg" />
                 </Button> */}
-                {token.contracts && token.contracts.length > 0 && (
-                  <Button
-                    extraCss="px-0 w-[28px] h-[28px]"
-                    onClick={() => {
-                      setShowBuyDrawer(token as Asset);
-                      pushData("Interact", {
-                        name: "Swap Drawer",
-                        from_page: pathname,
-                        asset: token?.name,
-                      });
-                    }}
-                  >
-                    <AiOutlineSwap className="text-light-font-60 dark:text-dark-font-60 text-lg rotate-90" />
-                  </Button>
-                )}
-              </div>
-            </Segment>
-          </tr>
-        </tbody>
-      )}
+              {token.contracts && token.contracts.length > 0 && (
+                <Button
+                  extraCss="px-0 w-[28px] h-[28px]"
+                  onClick={() => {
+                    setShowBuyDrawer(token as Asset);
+                    pushData("Interact", {
+                      name: "Swap Drawer",
+                      from_page: pathname,
+                      asset: token?.name,
+                    });
+                  }}
+                >
+                  <AiOutlineSwap className="text-light-font-60 dark:text-dark-font-60 text-lg rotate-90" />
+                </Button>
+              )}
+            </div>
+          </Segment>
+        </tr>
+      </tbody>
       {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}

@@ -10,10 +10,12 @@ import { useContext, useEffect } from "react";
 // import {CommonPageProvider} from "../common/context-manager";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import React from "react";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
 import { NotificationDrawer } from "../../drawer/notif";
+import { WatchlistDrawer } from "../../drawer/watchlist";
 import { usePageLoad } from "../../hooks/pageload";
 import { Tabs } from "./components/tabs";
 import { UserSection } from "./components/user-section";
@@ -98,7 +100,7 @@ export const Header = ({ addressCookie }) => {
         </div>
       </div>
       {showNotif ? <NotificationDrawer /> : null}
-      {/* {showAddedToWatchlist && <AddedToWatchlistPopup />} */}
+      {showAddedToWatchlist && <WatchlistDrawer />}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
     </CommonPageProvider>
   );

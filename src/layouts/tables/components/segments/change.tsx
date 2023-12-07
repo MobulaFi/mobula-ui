@@ -6,9 +6,14 @@ import { Segment } from "../segment";
 interface ChangeSegmentProps {
   token: TableAsset;
   display: string;
+  extraCss?: string;
 }
 
-export const ChangeSegment = ({ token, display }: ChangeSegmentProps) => {
+export const ChangeSegment = ({
+  token,
+  display,
+  extraCss = "",
+}: ChangeSegmentProps) => {
   const getChangeFromType = () => {
     switch (display) {
       case "1h %":
@@ -32,7 +37,7 @@ export const ChangeSegment = ({ token, display }: ChangeSegmentProps) => {
   const changeForType = getChangeFromType();
 
   return (
-    <Segment extraCss="sm:px-[5px]">
+    <Segment extraCss={`${extraCss} sm:px-[5px]`}>
       <div className="flex items-center justify-end pr-[5px]">
         <TagPercentage
           percentage={Number(changeForType)}
