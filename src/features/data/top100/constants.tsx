@@ -1,5 +1,4 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React from "react";
 import { BiCandles } from "react-icons/bi";
 import { BsWallet2 } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -465,8 +464,8 @@ export const steps: IViewStep[] = [
     title: "Change displays",
     subtitle:
       "You can select which data you want to see in the table. You can also change the order of the columns by dragging and dropping them.",
-    top: ["110px", "120px", "120px", "120px"],
-    right: ["50%"],
+    top: "50px",
+    right: "57%",
     transform: ["translateX(50%)", "translateX(30%)"],
     arrowPosition: "top",
     arrowTop: ["-25px", "-30px"],
@@ -476,8 +475,8 @@ export const steps: IViewStep[] = [
     nbr: 2,
     title: "Change filters",
     subtitle: "You can select the filters that you want to apply to your table",
-    top: ["110px", "120px", "120px", "120px"],
-    right: ["50%"],
+    top: "50px",
+    right: "50%",
     transform: ["translateX(50%)", "translateX(60%)"],
     arrowPosition: "top",
     arrowTop: ["-25px", "-30px"],

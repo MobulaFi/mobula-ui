@@ -15,7 +15,7 @@ export const SearchBarPopup = ({
     <ModalContainer
       isOpen={trigger}
       onClose={() => setTrigger(false)}
-      extraCss="max-w-[500px] sm:h-screen sm:w-screen sm:top-0 sm:pt-[80px]"
+      extraCss="max-w-[500px] sm:h-screen sm:w-screen sm:top-0 sm:pt-[80px] md:w-full"
     >
       <CoreSearchBar trigger={trigger} setTrigger={setTrigger} />
     </ModalContainer>

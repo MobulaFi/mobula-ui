@@ -471,7 +471,7 @@ export const Assets = () => {
           ) : null}
           {activeTab === "Buy" ? (
             <div
-              className="mx-auto"
+              className="flex w-full justify-center lg:mt-2.5"
               style={{
                 animation: getAnimation("Buy"),
                 position: activeTab === "Buy" ? "static" : "absolute",

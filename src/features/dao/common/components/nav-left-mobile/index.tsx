@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MediumFont } from "../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../components/link";
 import { useMember } from "../../hooks/use-members";
 import { usePathnameInfo } from "../../hooks/use-pathname-info";
 import { ButtonOutlined } from "../button-outlined";
@@ -90,21 +91,18 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
                     ? "border-b border-blue dark:border-blue"
                     : "border-0"
                 }`}
-                onClick={() => {
-                  if (info.url === "validation")
-                    router.push("/dao/protocol/validation");
-                  else if (info.url === "sort")
-                    router.push("/dao/protocol/sort");
-                  else router.push(`/dao${info.url}`);
-                }}
               >
-                <MediumFont
-                  extraCss={`${
-                    isActive ? "" : "text-light-font-40 dark:text-dark-font-40"
-                  }  whitespace-nowrap`}
-                >
-                  {info?.name}
-                </MediumFont>
+                <NextChakraLink href={`/dao/${info.url}`}>
+                  <MediumFont
+                    extraCss={`${
+                      isActive
+                        ? ""
+                        : "text-light-font-40 dark:text-dark-font-40"
+                    }  whitespace-nowrap`}
+                  >
+                    {info?.name}
+                  </MediumFont>
+                </NextChakraLink>
               </button>
             </div>
           );

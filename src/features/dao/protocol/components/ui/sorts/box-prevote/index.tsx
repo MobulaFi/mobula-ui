@@ -157,7 +157,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
 
   return (
     <BoxContainer
-      extraCss={`mb-5 relative min-h-[210px] md:min-h-auto transition-all duration-250 py-[15px] px-5 lg:px-[15px] 
+      extraCss={`mb-5 relative min-h-[210px] md:min-h-[160px] md:mb-2.5 md:min-h-auto transition-all duration-250 py-[15px] px-5 lg:px-[15px] 
     rounded-2xl sm:rounded-0 ${
       token?.alreadyVoted ? "cursor-not-allowed" : "cursor-pointer"
     }`}

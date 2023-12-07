@@ -63,7 +63,7 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     <div
       className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
       border-light-border-primary dark:border-dark-border-primary py-2.5 relative overflow-hidden 
-      min-w-[407px] md:min-w-full w-[31.5%] sm:w-full transition duration-500 ${
+      min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 ${
         showPageMobile === 1 ? "z-[3]" : "z-[1]"
       }] mx-2.5 md:mx-0`}
       style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
