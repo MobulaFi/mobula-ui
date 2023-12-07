@@ -1,6 +1,7 @@
 import { WatchlistProvider } from "features/user/watchlist/context-manager";
 import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
+import Script from "next/script";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,7 +39,7 @@ async function RootLayout({
 
   return (
     <html lang="en">
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <head>
         <title>Mobula | The Web3-native crypto data aggregator</title>
         <link rel="icon" type="image/png" href="/mobula/fullicon.png" />
         <meta
@@ -61,7 +62,6 @@ async function RootLayout({
           itemProp="image"
           content="https://mobula.fi/metaimage/Generic/others.png"
         />
-        <script src="https://mobula-error.s3.eu-north-1.amazonaws.com/sentry.browser.5.20.1.min.js" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="stylesheet"
@@ -230,14 +230,25 @@ async function RootLayout({
           media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
           href="/splash/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_portrait.png"
         />
+        <meta name="theme-color" content="#131827" />
+      </head>
+      <body>
+        <Script id="fouc">
+          {`const darkTheme = "dark";
+            const selectedTheme = localStorage.getItem("theme");
+            if (selectedTheme === "dark") {
+              document.body.classList.add(darkTheme);
+            } else {
+              document.body.classList.remove(darkTheme);
+            }`}
+        </Script>
 
-        <body>
-          <ToastContainer
-            toastClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100
+        <ToastContainer
+          toastClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100
            rounded-xl shadow-md border border-light-border-primary dark:border-dark-border-primary pt-3 px-3"
-            bodyClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
-          />
-
+          bodyClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
+        />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <UserBalanceProvider balanceCookies={userCookie}>
             <GeneralContext>
               <WatchlistProvider watchlist={params.watchlist}>
@@ -247,8 +258,8 @@ async function RootLayout({
               </WatchlistProvider>
             </GeneralContext>
           </UserBalanceProvider>
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
