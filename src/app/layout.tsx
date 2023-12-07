@@ -62,6 +62,7 @@ async function RootLayout({
           itemProp="image"
           content="https://mobula.fi/metaimage/Generic/others.png"
         />
+        <script src="https://mobula-error.s3.eu-north-1.amazonaws.com/sentry.browser.5.20.1.min.js" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="stylesheet"
@@ -92,7 +93,7 @@ async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@100;300;400;500;600;700;800&family=JetBrains+Mono:wght@100;200;300;400;500&family=Roboto:wght@100;300;400;500;700&family=Source+Code+Pro:wght@200;300;400&display=block"
           rel="stylesheet"
         />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="../../public/manifest.json" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Mobula" />
@@ -242,7 +243,6 @@ async function RootLayout({
               document.body.classList.remove(darkTheme);
             }`}
         </Script>
-
         <ToastContainer
           toastClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100
            rounded-xl shadow-md border border-light-border-primary dark:border-dark-border-primary pt-3 px-3"
