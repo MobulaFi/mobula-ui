@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../components/button";
@@ -87,7 +87,10 @@ export const WatchlistDrawer = () => {
     <div className="fixed inset-0 z-[100] ">
       <div
         className={`sm:w-0 w-full h-fit`}
-        onClick={() => setShowAddedToWatchlist(false)}
+        onClick={() => {
+          addToWatchlistAndClose();
+          setShowAddedToWatchlist(false);
+        }}
       />
       <div
         className={`flex flex-col fixed border border-light-border-primary
