@@ -2,6 +2,7 @@ import { Button } from "components/button";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Popover } from "../.../../../../../../components/popover";
 import { pushData } from "../../../../../lib/mixpanel";
+import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { triggerAlert } from "../../../../../lib/toastify";
 import { CoreSearchBar } from "../../../../../popup/searchbar/core";
@@ -86,7 +87,10 @@ export const ComparePopover = ({
     <Popover
       visibleContent={
         <Button
-          extraCss={`${extraCss} mr-2.5 ml-auto h-[30px] z-[1] px-2 flex items-center justify-center whitespace-nowrap`}
+          extraCss={cn(
+            `mr-2.5 ml-auto h-[30px] z-[1] px-2 flex items-center justify-center whitespace-nowrap`,
+            extraCss
+          )}
           onClick={() => {
             setShowCompare((prev) => !prev);
             pushData("Portfolio Compare Clicked");
@@ -108,7 +112,7 @@ export const ComparePopover = ({
       }
       onToggle={() => {}}
       isOpen={showCompare}
-      extraCss="p-0 top-[40px] lg:top-[35px] left-0 lg:right-0 lg:left-auto z-[100] mr-2.5"
+      extraCss="p-0 top-[40px] lg:top-[35px] left-0 lg:right-0 lg:left-auto z-[100] mr-2.5 min-w-[250px]"
     />
   );
 };

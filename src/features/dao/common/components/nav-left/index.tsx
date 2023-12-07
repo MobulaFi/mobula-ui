@@ -69,10 +69,10 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
           {membersQuantity} {infos.subtitle}
         </MediumFont>
         <Button
-          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue max-w-[120px] h-[30px] mb-[25px] mt-5 "
+          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue max-w-[120px] h-[30px] mb-[25px] mt-5 cursor-not-allowed opacity-50"
           onClick={() => {
-            if (isGovernance) router.push("/discover/governance");
-            else router.push("/discover/protocol");
+            // if (isGovernance) router.push("/discover/governance");
+            // else router.push("/discover/protocol");
           }}
         >
           <SmallFont>Join</SmallFont>

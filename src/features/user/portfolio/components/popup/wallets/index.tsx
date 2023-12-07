@@ -1,5 +1,6 @@
+import { Button } from "components/button";
 import { Collapse } from "components/collapse";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -142,7 +143,7 @@ export const WalletsPopup = () => {
           <div className="flex flex-col w-full">
             {/* ADD A WALLET */}
             <Collapse startingHeight="0px" isOpen={showAddWallet}>
-              <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center justify-between mb-2.5 w-full">
                 <div className="flex items-center">
                   <SmallFont>Wallet Address</SmallFont>
                 </div>
@@ -157,22 +158,22 @@ export const WalletsPopup = () => {
                 value={newWalletAddress}
                 onChange={(e) => setNewWalletAddress(e.target.value)}
               />
-              <div className="flex">
-                <button
-                  className={`border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary
+              <div className="flex w-full">
+                <Button
+                  extraCss={`border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary
                    dark:bg-dark-bg-terciary transition-all duration-250 mr-2.5 hover:bg-light-bg-hover
-                    hover:dark:bg-dark-bg-hover ${buttonPopupStyle}`}
+                    hover:dark:bg-dark-bg-hover w-2/4 ${buttonPopupStyle}`}
                   onClick={() => setShowAddWallet(false)}
                 >
                   Cancel
-                </button>
-                <button
-                  className={`border-darkblue dark:border-darkblue transition-all duration-250 hover:border-blue
-                   hover:dark:border-blue ${buttonPopupStyle}`}
+                </Button>
+                <Button
+                  extraCss={`border-darkblue dark:border-darkblue transition-all duration-250 hover:border-blue
+                   hover:dark:border-blue w-2/4 ${buttonPopupStyle}`}
                   onClick={() => addWallet(newWalletAddress)}
                 >
                   Import
-                </button>
+                </Button>
               </div>
             </Collapse>
             {showAddWallet ? null : (

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../../components/button";
-import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
+import { SmallFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
 import { Input } from "../../../../../../components/input";
 import { ModalContainer } from "../../../../../../components/modal-container";
@@ -70,10 +70,10 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
                 fallbackSrc="/empty/unknown.png"
                 alt={`${entry.name} logo`}
               />
-              <ExtraSmallFont extraCss="font-medium mt-[1px]">
+              <p className="font-medium text-xs text-light-font-100 dark:text-dark-font-100 mt-[1px]">
                 {entry.name}
-              </ExtraSmallFont>
-              <AiOutlineClose className="ml-[7.5px] text-[10px] text-light-font-40 dark:text-dark-font-40" />
+              </p>
+              <AiOutlineClose className="ml-[5px] text-xs text-light-font-40 dark:text-dark-font-40" />
             </Button>
           ))}
         </div>
@@ -132,7 +132,7 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
         })}
       <div className="flex p-2.5">
         <Button
-          extraCss="h-[40px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+          extraCss="h-[40px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue md:text-sm w-full"
           onClick={() => {
             if ((user?.watchlist.length || 0) > 0) {
               const tokensId = tokenToAdd.map((token) => token.id);

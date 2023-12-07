@@ -1,9 +1,9 @@
-import { Button } from "components/button";
-import { Popover } from "components/popover";
 import React, { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
+import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../components/image";
+import { Popover } from "../../../../../components/popover";
 import { mainButtonStyle } from "../../../style";
 
 interface CustomPopOverProps {
@@ -24,6 +24,7 @@ export const CustomPopOver = ({
   logo,
 }: CustomPopOverProps) => {
   const [showCustomPopover, setShowCustomPopover] = useState(false);
+  console.log("TAAAAAAA", showCustomPopover);
   return (
     <Popover
       visibleContent={

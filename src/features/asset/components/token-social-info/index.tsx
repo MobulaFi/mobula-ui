@@ -130,8 +130,8 @@ export const TokenSocialsInfo = () => {
                   {baseAsset?.tags.length <= 3 ? (
                     <div className="hidden lg:flex h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags">
                       <SmallFont extraCss="h-full text-light-font-100 dark:text-dark-font-100 truncate flex items-center text-sm font-medium">
-                        {baseAsset.tags[0].length > 14
-                          ? `${baseAsset.tags[0].slice(0, 14)}...`
+                        {baseAsset.tags[0].length > 10
+                          ? `${baseAsset.tags[0].slice(0, 10)}...`
                           : baseAsset.tags[0]}
                       </SmallFont>
                     </div>
@@ -227,10 +227,13 @@ export const TokenSocialsInfo = () => {
               newContracts?.length > 0 ? "flex" : "hidden"
             } lg:hidden`}
           >
-            <CustomPopOver title="Contracts" icon={SlMagnifier}>
-              {newChains?.map(
-                (blockchain, index: number) =>
-                  blockchain && (
+            <CustomPopOver
+              title="Contracts"
+              icon={<SlMagnifier className="flex md:hidden mr-[5px] text-sm" />}
+            >
+              {(newChains as any)?.map((blockchain, index: number) => {
+                if (blockchain) {
+                  return (
                     <div
                       className={`flex text-light-font-100 dark:text-dark-font-100 ${
                         index > 0 ? "mt-2.5" : "mt-0"
@@ -242,8 +245,10 @@ export const TokenSocialsInfo = () => {
                         blockchain={blockchain}
                       />
                     </div>
-                  )
-              )}
+                  );
+                }
+                return null;
+              })}
             </CustomPopOver>{" "}
           </div>
           <div
@@ -257,7 +262,10 @@ export const TokenSocialsInfo = () => {
             } lg:hidden`}
           >
             {socials.filter((entry) => entry !== null).length > 0 ? (
-              <CustomPopOver title="Community" icon={FaRegUser}>
+              <CustomPopOver
+                title="Community"
+                icon={<FaRegUser className="flex md:hidden mr-[5px] text-sm" />}
+              >
                 {socials
                   .filter((entry) => entry !== null)
                   ?.map((entry, i) => {

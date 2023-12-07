@@ -77,17 +77,20 @@ export const useWatchlist = (id?: number) => {
                 crypto_id: idBuffer,
               });
 
-              if (shouldAlert)
-                if (setIsLoading)
-                  // alert.success('Successfully added asset to watchlist');
-                  setIsLoading(false);
-              setUser((userBuffer) => ({
-                ...userBuffer,
-                main_watchlist: {
-                  ...userBuffer.main_watchlist,
-                  assets: [...userBuffer.main_watchlist.assets, idBuffer || id],
-                },
-              }));
+              if (setIsLoading) setIsLoading(false);
+              setUser(
+                (userBuffer) =>
+                  ({
+                    ...userBuffer,
+                    main_watchlist: {
+                      ...userBuffer.main_watchlist,
+                      assets: [
+                        ...userBuffer.main_watchlist.assets,
+                        idBuffer || id,
+                      ],
+                    },
+                  } as never)
+              );
               // }
             });
 

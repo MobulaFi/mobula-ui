@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -45,7 +45,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
   };
 
   const getWatchlistPublic = () => {
-    GET("/watchlistpublic", {
+    GET("/watchlist/public", {
       id: watchlist.id,
       account: address as string,
       public: !isPublic,

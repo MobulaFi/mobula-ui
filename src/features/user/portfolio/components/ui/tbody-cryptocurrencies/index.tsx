@@ -84,7 +84,7 @@ export const TbodyCryptocurrencies = ({
     setActivePortfolio,
     wallet,
   } = useContext(PortfolioV2Context);
-  const { setShowBuyDrawer } = useContext(SettingsMetricContext);
+  const { setShowBuyDrawer, showBuyDrawer } = useContext(SettingsMetricContext);
   const { handleAddWatchlist, inWatchlist } = useWatchlist(asset.id);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isHover, setIsHover] = useState<number | null>(null);
@@ -182,10 +182,12 @@ export const TbodyCryptocurrencies = ({
     });
   };
 
+  console.log("setShowBuyDrawer", showBuyDrawer);
+
   return (
     <>
       <tr className="h-[10px]"></tr>
-      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250">
+      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary">
         {isMobile && (
           <td
             className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary rounded-l-2xl border-l border-t w-fit ${

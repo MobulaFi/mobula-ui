@@ -71,7 +71,7 @@ export const RankBox = ({
   return (
     <BoxContainer extraCss="mb-5 md:mb-2.5 w-full">
       <TitleContainer extraCss="px-[15px] md:px-[5px]">
-        <MediumFont>Overview</MediumFont>
+        <MediumFont extraCss="md:px-2.5">Overview</MediumFont>
       </TitleContainer>
       <div
         className="p-5 flex items-center sm:items-start justify-between flex-row sm:flex-col mb-5 
@@ -104,7 +104,7 @@ export const RankBox = ({
           <SmallFont extraCss="whitespace-nowrap mb-[15px]">
             Mobula owes you
           </SmallFont>
-          <div className="items-center">
+          <div className="flex items-center">
             <BoxTime>{tokensOwed || 0}</BoxTime>
             <SmallFont extraCss="ml-2.5">MOBL</SmallFont>
           </div>
@@ -112,7 +112,7 @@ export const RankBox = ({
         <div className="mb-[15px] hidden sm:flex items-center">
           <SmallFont>Mobula owes you {tokensOwed || 0} MOBL</SmallFont>
         </div>
-        <div className="flex md:hidden sm:flex w-[15%] lg:w-full max-w-[230px]">
+        <div className="flex md:hidden w-[15%] lg:w-full max-w-[230px]">
           <Button
             extraCss={`${
               tokensOwed && tokensOwed > 0
@@ -125,7 +125,7 @@ export const RankBox = ({
           </Button>
         </div>
       </div>
-      <div className="flex md:hidden sm:flex w-full max-w-[230px] p-5 -mt-[40px]">
+      <div className="md:flex hidden w-full max-w-[230px] p-5 -mt-[40px] sm:mt-[-40px] md:mt-[-20px]">
         <Button
           extraCss={`${
             tokensOwed && tokensOwed > 0

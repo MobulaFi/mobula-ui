@@ -42,7 +42,7 @@ export const TokenMainInfo = () => {
   const watchlist: IWatchlist = user?.main_watchlist;
 
   const getIconFromWatchlistState = () => {
-    if (isLoading) return <Spinner extraCss="h-[13px] w-[13px]" />;
+    if (isLoading) return <Spinner extraCss="h-[13px] w-[13px] mx-auto" />;
     if (inWl || inWatchlist || isHoverStar)
       return <AiFillStar className="text-yellow dark:text-yellow text-lg" />;
     return (
