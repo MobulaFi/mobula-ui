@@ -122,7 +122,7 @@ export const NetProfit = ({
         onClick={() => setShowMorePnl(!showMorePnl)}
       >
         <BsChevronDown
-          className={`text-light-font-100 dark:text-dark-font-100 transition-all duration-250 text-[20px] ${
+          className={`text-light-font-100 dark:text-dark-font-100 transition-all duration-250 text-base ml-[5px] ${
             showMorePnl ? "rotate-180" : "rotate-0"
           }"}`}
         />
