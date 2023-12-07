@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NextChakraLink } from "../../../../components/link";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
 import { getTokenPercentage } from "../../../../utils/formaters";
