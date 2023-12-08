@@ -13,7 +13,7 @@ import {
 import { createSupabaseDOClient } from "../lib/supabase";
 
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
