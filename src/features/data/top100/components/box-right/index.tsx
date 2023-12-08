@@ -1,9 +1,7 @@
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
-import { getDiscoverInfos } from "../../constants";
+import { BtcDominance } from "../box-middle/btc-dominance";
 import { AINews } from "./AI-news";
-import { Discover } from "./discover";
 
 interface BoxRightProps {
   showPageMobile?: number;
@@ -11,31 +9,32 @@ interface BoxRightProps {
 
 export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
   const [showPage, setShowPage] = useState(0);
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  // const { theme } = useTheme();
+  // const isDark = theme === "dark";
 
   const render = [
     <AINews showPage={showPage} key="AiNews" />,
-    <Discover
-      showPage={showPage}
-      info={getDiscoverInfos(isDark)[0]}
-      key="Discover1"
-    />,
-    <Discover
-      showPage={showPage}
-      info={getDiscoverInfos(isDark)[1]}
-      key="Discover2"
-    />,
-    <Discover
-      showPage={showPage}
-      info={getDiscoverInfos(isDark)[2]}
-      key="Discover3"
-    />,
+    <BtcDominance showPage={showPage} key="BtcDominance" />,
+    // <Discover
+    //   showPage={showPage}
+    //   info={getDiscoverInfos(isDark)[0]}
+    //   key="Discover1"
+    // />,
+    // <Discover
+    //   showPage={showPage}
+    //   info={getDiscoverInfos(isDark)[1]}
+    //   key="Discover2"
+    // />,
+    // <Discover
+    //   showPage={showPage}
+    //   info={getDiscoverInfos(isDark)[2]}
+    //   key="Discover3"
+    // />,
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setShowPage((prevPage) => (prevPage + 1) % 4);
+      setShowPage((prevPage) => (prevPage + 1) % 2);
     }, 20000);
     return () => {
       clearInterval(interval);
