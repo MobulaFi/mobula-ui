@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../../../../components/button";
 import { useTop100 } from "../../context-manager";
-import { BtcDominance } from "./btc-dominance";
 import { CryptoMarket } from "./crypto-market";
 import { FearGreed } from "./fear-greed";
 
@@ -47,12 +46,11 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,
     <CryptoMarket showPage={showPage} key="CryptoMarket" />,
-    <BtcDominance showPage={showPage} key="BtcDominance" />,
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setShowPage((prevPage) => (prevPage + 1) % 3);
+      setShowPage((prevPage) => (prevPage + 1) % 2);
     }, 12000);
     return () => {
       clearInterval(interval);

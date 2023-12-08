@@ -103,9 +103,9 @@ export const AINews = ({ showPage }: AINewsProps) => {
         <div className="flex items-center">
           <img
             src={
-              isDarkMode
+              (isDarkMode
                 ? "/mobula/mobula-logo.svg"
-                : "/mobula/mobula-light-logo.svg"
+                : "/mobula/mobula-light-logo.svg") || "/empty/unknown.png"
             }
             className="mr-[7.5px] rounded-full w-[15px] h-[15px]"
             alt="Mobula AI logo"
