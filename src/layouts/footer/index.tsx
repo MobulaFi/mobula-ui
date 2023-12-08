@@ -1,6 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
@@ -20,10 +20,10 @@ export const Footer = () => {
         id="footer"
       >
         <Container extraCss="pt-[28px] md:pt-[5px] mt-0 w-full">
-          <div className="flex mt-[15px] md:mt-0 flex-row md:flex-col-reverse mx-auto w-[90%] md:w-[100%]">
+          <div className="flex mt-[15px] md:mt-0 flex-row sm:flex-col-reverse mx-auto w-[90%] md:w-[100%]">
             <div className="flex w-1/5">
               <img
-                className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 md:ml-[20px] mb-auto"
+                className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 sm:ml-[20px] mb-auto"
                 src={
                   theme === "dark"
                     ? "/mobula/mobula-logo.svg"
@@ -32,7 +32,7 @@ export const Footer = () => {
                 alt="Mobula logo"
               />
             </div>
-            <div className="flex md:hidden justify-between w-full">
+            <div className="flex sm:hidden justify-between w-full">
               {pages.map((entry) => (
                 <div className="flex flex-col items-between" key={entry.name}>
                   <LargeFont extraCss="mb-2.5">{entry.name}</LargeFont>
@@ -71,7 +71,7 @@ export const Footer = () => {
                 </div>
               ))}
             </div>
-            <div className="w-full md:flex flex-col hidden bg-light-bg-secondary dark:bg-dark-bg-secondary">
+            <div className="w-full sm:flex flex-col hidden bg-light-bg-secondary dark:bg-dark-bg-secondary">
               {pages.map((entry) => (
                 <div
                   className="flex flex-col item-between px-[25px] py-[20px] border-b border-light-border-primary dark:border-dark-border-primary"
