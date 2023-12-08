@@ -191,9 +191,7 @@ export const useDefault = ({
       type: "cross",
       label: {
         shadowBlur: 0,
-        backgroundColor: lightMode
-          ? "rgba(250, 250, 250, 1)"
-          : "rgba(23, 27, 43, 1)",
+        backgroundColor: "red",
         shadowColor: "rgba(0, 0, 0, 0)",
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)",
         // formatter: (axis: any) => {
@@ -286,7 +284,7 @@ export const useDefault = ({
             : "rgba(255, 255, 255, 0.2)", // No border
           shadowBlur: 0,
           backgroundColor: lightMode ? "#E3E3E3" : "#222531",
-
+          show: !noAxis,
           //   shadowColor: "#000",
         },
       },
@@ -315,6 +313,7 @@ export const useDefault = ({
       },
       axisTick: {
         show: !noAxis,
+
         lineStyle: {
           color: lightMode
             ? "rgba(0, 0, 0, 0.04)"
@@ -345,6 +344,7 @@ export const useDefault = ({
           borderColor: "rgba(0, 0, 0, 0)", // Couleur de la bordure
           shadowBlur: 0,
           backgroundColor: lightMode ? "#E3E3E3" : "#222531",
+          show: !noAxis,
         },
       },
     },
