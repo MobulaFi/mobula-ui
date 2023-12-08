@@ -54,7 +54,7 @@ export const CoinDecision = ({
         or switch to {asset?.blockchain}.
       </SmallFont>
       <Button
-        extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-[15px]"
+        extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-[15px] w-full"
         onClick={async () => {
           setAsset(null);
           const rightIndex = asset?.blockchains.indexOf(chainName);
@@ -74,7 +74,7 @@ export const CoinDecision = ({
         {`Use Wrapped ${asset?.name}`}
       </Button>
       <Button
-        extraCss="mt-2.5"
+        extraCss="mt-2.5 w-full"
         onClick={() => {
           setAsset(null);
           callback(asset);

@@ -1,5 +1,4 @@
 "use client";
-import { NextImageFallback } from "components/image";
 import { NextChakraLink } from "components/link";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
@@ -29,10 +28,10 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
   const isWhiteMode = theme === "light";
 
   useEffect(() => {
-    if (pathname.includes("new")) setSelectedSection("New Proposal");
-    if (pathname.includes("overview")) setSelectedSection("Overview");
-    if (pathname.includes("staking")) setSelectedSection("Staking");
-    if (pathname.includes("metrics")) setSelectedSection("Stats");
+    // if (pathname.includes("new")) setSelectedSection("New Proposal");
+    // if (pathname.includes("overview")) setSelectedSection("Overview");
+    // if (pathname.includes("staking")) setSelectedSection("Staking");
+    // if (pathname.includes("metrics")) setSelectedSection("Stats");
     if (pathname.includes("overview")) setSelectedSection("Overview");
     if (pathname.includes("sort")) setSelectedSection("First Sort");
     if (pathname.includes("pool")) setSelectedSection("Pending Pool");
@@ -52,17 +51,14 @@ export const LeftNavigation = ({ page, ...props }: ILeftNavigation) => {
         className="bg-light-bg-secondary dark:bg-dark-bg-secondary h-[500px] w-[235px] 
       flex items-center flex-col mr-5 rounded-xl border border-light-border-primary dark:border-dark-border-primary"
       >
-        <NextImageFallback
-          className="mt-[30px]"
+        <img
+          className="mt-[30px] h-[87px] w-[87px]"
           alt="mobula logo"
-          width={87}
-          height={87}
           src={
             isWhiteMode
               ? "/mobula/mobula-logo-light.svg"
               : "/mobula/mobula-logo.svg"
           }
-          fallbackSrc={"/mobula/mobula-logo.svg"}
         />
         <LargeFont extraCss="mt-2.5">{infos.title}</LargeFont>
         <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 text-normal">

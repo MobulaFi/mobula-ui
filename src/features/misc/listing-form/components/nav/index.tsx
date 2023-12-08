@@ -1,8 +1,7 @@
 import { useTheme } from "next-themes";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
-import { NextImageFallback } from "../../../../../components/image";
 import { NextChakraLink } from "../../../../../components/link";
 import { ListingContext } from "../../context-manager";
 
@@ -43,21 +42,14 @@ export const Nav = ({ state }) => {
       mr-[25px] flex-col w-[235px] pb-[25px] items-center border border-light-border-primary 
       dark:border-dark-border-primary md:hidden"
       >
-        <NextImageFallback
-          width={87}
-          height={87}
-          fallbackSrc={
-            isDarkMode
+        <img
+          className="mt-[30px] mb-2.5 rounded-full h-[87px] w-[87px]"
+          alt="mobula logo"
+          src={
+            state.image.logo || state.image.uploaded_logo || isDarkMode
               ? "/mobula/mobula-logo.svg"
-              : "/mobula/mobula-light-logo.svg"
+              : "/mobula/mobula-logo-light.svg"
           }
-          style={{
-            marginTop: "30px",
-            marginBottom: "10px",
-            borderRadius: "50%",
-          }}
-          src={state.image.logo || state.image.uploaded_logo}
-          alt="token logo"
         />
         <LargeFont extraCss="mb-[30px]">Listing Form</LargeFont>
         <div className="flex flex-col w-full mb-5 relative">

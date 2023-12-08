@@ -123,7 +123,8 @@ export const useNftHoldings = (address?: string) => {
 };
 
 export const useMultiWalletNftHoldings = (addresses?: string[]) => {
-  const { nfts, setNfts, setIsNftLoading } = useContext(PortfolioV2Context);
+  const { nfts, setNfts, setIsNftLoading, nftsDeleted } =
+    useContext(PortfolioV2Context);
   //   useContext(PortfolioV2Context);
 
   useEffect(() => {
@@ -164,14 +165,23 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
             !entry.name?.toLowerCase().includes("reward") &&
             !entry.name?.toLowerCase().includes("event")
         );
+        const newArr = [];
+        const exist = new Set();
+        filteredHoldings?.forEach((nft) => {
+          if (nftsDeleted?.length > 0) {
+            if (nftsDeleted?.includes(nft.token_hash)) {
+              return;
+            } else {
+              if (!exist.has(nft?.token_hash)) {
+                exist.add(nft?.token_hash);
+                newArr.push(nft);
+              }
+            }
+          }
+        });
 
-        console.group();
-        console.log("Here is holdings", holdings);
-        console.log("Here is Filtered Holdings", filteredHoldings);
-        console.log("Here is response:", responses);
-        console.groupEnd();
         setNfts(
-          filteredHoldings
+          newArr
             ?.map((entry) => {
               try {
                 const url =

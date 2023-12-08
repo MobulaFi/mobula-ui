@@ -16,8 +16,8 @@ export const getPath = () => {
     {
       name: "Ecosystem",
       extends: [
-        { name: "Add Crypto-Asset ", url: "/list" },
-        { name: "Add Blockchain", url: "https://tally.so/r/mBaK0Q" },
+        { name: "List a token ", url: "/list" },
+        { name: "Add a Chain", url: "https://tally.so/r/mBaK0Q" },
         // { name: "Contribute", url: "/contribute" },
         { name: "Support", url: "https://discord.gg/2a8hqNzkzN" },
         { name: "Docs", url: "https://docs.mobula.fi/" },
