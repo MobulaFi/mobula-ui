@@ -10,6 +10,8 @@ import { memoryCache } from "../../../utils/redis";
 import AssetLayout from "../layout";
 
 export const revalidate = 3600;
+export const dynamic = "force-static";
+export const dynamicParams = true;
 
 async function fetchAssetData({ params }) {
   const cookieStore = cookies();

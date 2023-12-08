@@ -165,7 +165,7 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
             !entry.name?.toLowerCase().includes("reward") &&
             !entry.name?.toLowerCase().includes("event")
         );
-        const newArr = [];
+        const secondNftFilter = [];
         const exist = new Set();
         filteredHoldings?.forEach((nft) => {
           if (nftsDeleted?.length > 0) {
@@ -174,14 +174,14 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
             } else {
               if (!exist.has(nft?.token_hash)) {
                 exist.add(nft?.token_hash);
-                newArr.push(nft);
+                secondNftFilter.push(nft);
               }
             }
-          }
+          } else secondNftFilter.push(nft);
         });
 
         setNfts(
-          newArr
+          secondNftFilter
             ?.map((entry) => {
               try {
                 const url =
