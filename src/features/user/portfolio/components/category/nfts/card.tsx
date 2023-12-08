@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
@@ -57,7 +57,7 @@ export const NftPortfolioCard = ({
     <div
       className="flex flex-col m-[5px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
     min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px] sm:min-h-[160px] 
-    border border-light-border-primary dark:border-dark-border-primary x md:w-calc-half-10 w-calc-1/3-10   "
+    border border-light-border-primary dark:border-dark-border-primary md:w-calc-half-10 w-calc-1/3-10   "
       onMouseEnter={() => setIsHover(nft?.token_hash)}
       onMouseLeave={() => setIsHover("")}
     >
@@ -139,7 +139,7 @@ export const NftPortfolioCard = ({
       {isHover === nft?.token_hash && !showDeleteSelector ? (
         <button
           className={`flex items-center justify-center absolute  w-[100%] h-full transition-all duration-250 ${
-            isHover === nft.token_hash ? "opacity-100" : "opacity-0"
+            isHover === nft?.token_hash ? "opacity-100" : "opacity-0"
           } z-[1]`}
           onClick={() => {
             openInNewTab(

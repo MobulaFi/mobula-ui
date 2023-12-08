@@ -1,7 +1,6 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
 import { useTheme } from "next-themes";
-import React from "react";
 import { MediumFont } from "../../../../../../components/fonts";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -61,19 +60,23 @@ export const NFTs = () => {
     isNftLoading,
     transactions,
     showDeleteSelector,
+    nfts,
+    nftsDeleted,
   } = useContext(PortfolioV2Context);
-  const { nfts } = useContext(PortfolioV2Context);
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";
   useMultiWalletNftHoldings(
     isWalletExplorer ? [isWalletExplorer] : activePortfolio?.wallets
   );
-  console.log("TX IS HERE:", transactions);
+
   return (
     <div className="flex flex-col">
       {(nfts?.length > 0 && !isNftLoading) || isNftLoading ? (
         <div className="flex flex-wrap">
-          {(nfts || Array.from({ length: 3 })).map((nft, i) => (
+          {(
+            nfts?.filter((entry) => !nftsDeleted?.includes(entry.token_hash)) ||
+            Array.from({ length: 3 })
+          ).map((nft, i) => (
             <NftPortfolioCard
               key={nft?.token_hash || i}
               nft={nft}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
@@ -43,6 +43,10 @@ export const CategorySwitcher = () => {
     // },
   ];
   useEffect(() => {
+    console.log(
+      "localStorage.getItem('hiddenNft')",
+      JSON.parse(localStorage.getItem("hiddenNft"))
+    );
     setNftsDeleted(JSON.parse(localStorage.getItem("hiddenNft") as string));
   }, []);
 
@@ -56,7 +60,6 @@ export const CategorySwitcher = () => {
     });
     localStorage.setItem("hiddenNft", JSON.stringify(arrToDelete));
     setNftsDeleted(arrToDelete);
-    setNftToDelete([]);
     setShowDeleteSelector(false);
   };
   return (
