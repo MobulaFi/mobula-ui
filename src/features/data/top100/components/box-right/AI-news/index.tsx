@@ -105,7 +105,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
             src={
               (isDarkMode
                 ? "/mobula/mobula-logo.svg"
-                : "/mobula/mobula-light-logo.svg") || "/empty/unknown.png"
+                : "/mobula/mobula-logo-light.svg") || "/empty/unknown.png"
             }
             className="mr-[7.5px] rounded-full w-[15px] h-[15px]"
             alt="Mobula AI logo"
