@@ -1,4 +1,3 @@
-import React from "react";
 import { MediumFont } from "../../../../../../components/fonts";
 import { boxStyle } from "../constant";
 import CryptoFearAndGreedChart from "./crypto-fear-greed";
