@@ -240,9 +240,9 @@ export const TokenMainInfo = () => {
       </div>
       {baseAsset?.tracked ? (
         <div className="flex flex-col">
-          <div className="flex items-center justify-start lg:justify-between mt-[5px] mb-[7.5px]">
+          <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
             <LargeFont
-              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
+              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex  font-medium text-3xl lg:text-2xl md:text-xl`}
             >
               ${getFormattedAmount(marketMetrics.price)}
             </LargeFont>
