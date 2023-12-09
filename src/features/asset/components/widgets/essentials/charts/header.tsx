@@ -8,7 +8,6 @@ import { ComparePopover } from "../../../../../../features/user/portfolio/compon
 import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
-import { ChartType } from "../../../../models";
 import { TimeSwitcher } from "../time-switcher";
 
 export const ChartHeader = () => {
@@ -50,30 +49,34 @@ export const ChartHeader = () => {
       Cookies.set("hideTx", JSON.stringify(hideTx));
     }
   }, [hideTx]);
-  const fetchMarketHistory = () => {
-    console.log("clicked", unformattedHistoricalData?.market_cap);
-    console.log(
-      "fetchMarketHistory",
-      baseAsset.id,
-      unformattedHistoricalData,
-      historyData
-    );
-    if (unformattedHistoricalData?.market_cap?.["1M"]) return;
-    supabase
-      .from("history")
-      .select("market_cap_history")
-      .match({ asset: baseAsset.id })
-      .then((res) => {
-        if (res.data) {
-          setUnformattedHistoricalData({
-            ...unformattedHistoricalData,
-            market_cap: generateNewBuffer(
-              res?.data?.[0]?.market_cap_history || []
-            ),
-          });
-        }
-      });
-  };
+  // const fetchMarketHistory = () => {
+  //   console.log("clicked", unformattedHistoricalData?.market_cap);
+  //   console.log(
+  //     "fetchMarketHistory",
+  //     baseAsset.id,
+  //     unformattedHistoricalData,
+  //     historyData
+  //   );
+  //   supabase
+  //     .from("history")
+  //     .select("market_cap_history")
+  //     .match({ asset: baseAsset.id })
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setUnformattedHistoricalData({
+  //           ...unformattedHistoricalData,
+  //           market_cap: generateNewBuffer(
+  //             baseAsset?.market_cap_history?.market_cap || [],
+  //             res?.data?.[0]?.market_cap_history || []
+  //           ),
+  //         });
+  //       }
+  //       console.log(
+  //         "res?.data?.[0]?.market_cap_history",
+  //         res?.data?.[0]?.market_cap_history
+  //       );
+  //     });
+  // };
 
   return (
     <>
@@ -83,7 +86,7 @@ export const ChartHeader = () => {
         } w-full mx-auto mt-0  md:mt-[5px] z-[5]`}
       >
         <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll mb-2.5">
-          <div
+          {/* <div
             className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded p-0.5 bg-light-bg-secondary 
           dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary 
           relative mr-[7.5px] "
@@ -116,13 +119,12 @@ export const ChartHeader = () => {
               }  transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
               onClick={() => {
                 const newChartType = "market_cap" as ChartType;
-                fetchMarketHistory();
                 setChartType(newChartType);
               }}
             >
               {capitalizeFirstLetter("market cap")}
             </button>
-          </div>
+          </div> */}
           <div
             className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
            border border-light-border-primary dark:border-dark-border-primary relative"

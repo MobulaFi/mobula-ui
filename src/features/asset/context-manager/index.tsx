@@ -268,10 +268,6 @@ export const BaseAssetProvider = ({
           history?.data?.[0]?.price_history
         );
 
-        const newUnformattedBufferMarket = generateNewBuffer(
-          data[0].market_cap_history.market_cap
-        );
-
         if (history?.data?.[0]) {
           setHistoryData((freshHistoryData) => ({
             ...(freshHistoryData || {}),
@@ -281,12 +277,10 @@ export const BaseAssetProvider = ({
 
         setUnformattedHistoricalData({
           price: newUnformattedBuffer,
-          market_cap: newUnformattedBufferMarket,
         });
         setFormattedHistoricalData(
           formatHistoricalData({
             price: newUnformattedBuffer,
-            market_cap: newUnformattedBufferMarket,
           })
         );
       }
