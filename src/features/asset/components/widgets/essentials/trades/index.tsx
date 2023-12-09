@@ -156,7 +156,7 @@ export const TokenTrades = () => {
   }, []);
 
   return (
-    <div className="flex flex-col mt-5 w-full md:w-[95%] mx-auto">
+    <div className="flex flex-col mt-5 w-full mx-auto">
       <div className="flex items-center justify-between">
         <LargeFont>Live Trades</LargeFont>
       </div>
@@ -325,9 +325,9 @@ export const TokenTrades = () => {
                       border-t border-b border-light-border-primary dark:border-dark-border-primary px-2.5 
                       py-[10px] ${
                         isFirst
-                          ? "pl-5 md:pl-2.5 text-start"
+                          ? "pl-2.5 md:pl-0 text-start"
                           : "pl-2.5 text-end"
-                      } ${isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"} 
+                      } ${isLast || isExplorer ? "pr-2.5" : "pr-2.5"} 
                        table-cell ${
                          entry === "Unit Price" ||
                          entry === "Value" ||
@@ -340,11 +340,11 @@ export const TokenTrades = () => {
                       <SmallFont
                         extraCss={`${
                           isFirst
-                            ? " pl-5 md:pl-2.5  text-start"
+                            ? " pl-0 text-start"
+                            : entry === "Tokens"
+                            ? "pl-2.5 md:text-start md:pl-2.5"
                             : "pl-2.5 text-end"
-                        } ${
-                          isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"
-                        }`}
+                        } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
                       >
                         {entry}
                       </SmallFont>
@@ -508,7 +508,7 @@ export const TokenTrades = () => {
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                             px-2.5 pr-5 md:pr-2.5"
                   >
-                    <div className="flex items-center justify-end md:justify-start w-full">
+                    <div className="flex items-center justify-end  w-full">
                       {"blockchain" in trade || isMyTrades ? (
                         <>
                           {" "}
