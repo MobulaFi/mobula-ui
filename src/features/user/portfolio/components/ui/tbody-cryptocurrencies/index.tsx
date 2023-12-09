@@ -207,11 +207,10 @@ export const TbodyCryptocurrencies = ({
             </div>
           </td>
         )}
-
         {showCustomMenu && (
           <>
             <div
-              className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-light-font-20 dark:bg-light-font-20"
+              className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-background/80 backdrop-blur-sm"
               onClick={() => setShowCustomMenu(!showCustomMenu)}
             />
             <div
