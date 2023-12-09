@@ -37,11 +37,12 @@ export const ChangeSegment = ({
   const changeForType = getChangeFromType();
 
   return (
-    <Segment extraCss={`${extraCss} sm:px-[5px]`}>
-      <div className="flex items-center justify-end pr-[5px]">
+    <Segment extraCss={`${extraCss} md:px-[5px]`}>
+      <div className="flex items-center justify-end pr-[5px] md:pr-0">
         <TagPercentage
           percentage={Number(changeForType)}
           isUp={Number(changeForType) > 0}
+          extraCss="ml-0"
         />
       </div>
     </Segment>

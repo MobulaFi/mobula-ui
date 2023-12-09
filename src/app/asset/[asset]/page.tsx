@@ -1,13 +1,15 @@
 import { Metadata } from "next";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { cookies } from "next/headers";
+import React from "react";
 import { Assets } from "../../../features/asset";
+import { BaseAssetProvider } from "../../../features/asset/context-manager";
+import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
+import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
 import { unformatFilters } from "../../../utils/pages/asset";
-import { memoryCache } from "../../../utils/redis";
-import AssetLayout from "../layout";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
@@ -16,15 +18,6 @@ export const dynamicParams = true;
 async function fetchAssetData({ params }) {
   const cookieStore = cookies();
   try {
-    const cache: Asset = await memoryCache.get(`COIN_${params.asset}`);
-    if (cache) {
-      return {
-        asset: cache,
-        key: cache.id,
-        tradeHistory: cache.trade_history ?? [],
-      };
-    }
-
     const tradeCookie = cookieStore.get("trade-filters")?.value || null;
     const filters = tradeCookie ? unformatFilters(tradeCookie) : null;
     const supabase = createSupabaseDOClient();
@@ -89,9 +82,13 @@ async function fetchAssetData({ params }) {
   }
 }
 
-async function AssetPage({ params, searchParams }) {
+async function AssetPage({ params }) {
   const data = await fetchAssetData({ params });
-
+  console.log("My data is undefined?,", data);
+  const cookieStore = cookies();
+  const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
+  const tradeCookie =
+    unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
   //       try {
@@ -149,21 +146,31 @@ async function AssetPage({ params, searchParams }) {
 
   return (
     <>
-      <AssetLayout params={data as never}>
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <Assets />
-      </AssetLayout>
+      <BaseAssetProvider
+        token={data?.asset as any}
+        tradHistory={(data?.tradHistory as any) || []}
+        launchpad={data?.launchpads}
+        hideTxCookie={hideTxCookie}
+        tradeCookie={tradeCookie}
+      >
+        <ShowMoreProvider>
+          <NavActiveProvider>
+            <meta
+              property="og:image"
+              content="https://mobula.fi/metaimage/Generic/others.png"
+            />
+            <meta
+              name="twitter:image"
+              content="https://mobula.fi/metaimage/Generic/others.png"
+            />
+            <meta
+              itemProp="image"
+              content="https://mobula.fi/metaimage/Generic/others.png"
+            />
+            <Assets />
+          </NavActiveProvider>
+        </ShowMoreProvider>
+      </BaseAssetProvider>
     </>
   );
 }

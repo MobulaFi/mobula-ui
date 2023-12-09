@@ -51,7 +51,7 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
         <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0">
           {untracked.isUntracked ? null : <ChartHeader />}
           {untracked.isUntracked ? null : (
-            <TimeSwitcher extraCss="hidden md:flex mr-0" />
+            <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           )}
           {activeChart === "Trading view" && theme !== undefined ? (
             <ChartBox

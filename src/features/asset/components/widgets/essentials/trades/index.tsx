@@ -40,6 +40,7 @@ export const TokenTrades = () => {
     showTradeTokenAmount,
     filters,
     baseAsset,
+    setMarketMetrics,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -141,6 +142,7 @@ export const TokenTrades = () => {
   };
 
   useEffect(() => {
+    if (!baseAsset || (userTrades?.length || 0) > 0) return;
     GET("/api/1/wallet/transactions", {
       asset: baseAsset.name,
       wallet: address || "",
@@ -154,7 +156,7 @@ export const TokenTrades = () => {
   }, []);
 
   return (
-    <div className="flex flex-col mt-5 w-full md:w-[95%] mx-auto">
+    <div className="flex flex-col mt-5 w-full mx-auto">
       <div className="flex items-center justify-between">
         <LargeFont>Live Trades</LargeFont>
       </div>
@@ -197,7 +199,7 @@ export const TokenTrades = () => {
         </div>
         <div
           className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative px-2
-         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary"
+         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary mb-2"
         >
           <div
             className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"
@@ -323,11 +325,13 @@ export const TokenTrades = () => {
                       border-t border-b border-light-border-primary dark:border-dark-border-primary px-2.5 
                       py-[10px] ${
                         isFirst
-                          ? "pl-5 md:pl-2.5 text-start"
+                          ? "pl-2.5 md:pl-0 text-start"
                           : "pl-2.5 text-end"
-                      } ${isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"} 
+                      } ${isLast || isExplorer ? "pr-2.5" : "pr-2.5"} 
                        table-cell ${
-                         entry === "Unit Price" || entry === "Value"
+                         entry === "Unit Price" ||
+                         entry === "Value" ||
+                         entry === "Type"
                            ? "md:hidden"
                            : "md:table-cell"
                        } `}
@@ -336,11 +340,11 @@ export const TokenTrades = () => {
                       <SmallFont
                         extraCss={`${
                           isFirst
-                            ? " pl-5 md:pl-2.5  text-start"
+                            ? " pl-0 text-start"
+                            : entry === "Tokens"
+                            ? "pl-2.5 md:text-start md:pl-2.5"
                             : "pl-2.5 text-end"
-                        } ${
-                          isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"
-                        }`}
+                        } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
                       >
                         {entry}
                       </SmallFont>
@@ -372,7 +376,7 @@ export const TokenTrades = () => {
                 <tr>
                   <td
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px]"
+                  md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] md:hidden"
                   >
                     <div>
                       <SmallFont
@@ -388,9 +392,9 @@ export const TokenTrades = () => {
                   </td>
                   <td
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  px-2.5 pr-5 md:pr-2.5"
+                  px-2.5 pr-5 md:pr-2.5 md:py-1.5"
                   >
-                    <div className="flex items-end w-full justify-center flex-col">
+                    <div className="flex items-end md:items-start w-full justify-center flex-col">
                       {"blockchain" in trade || isMyTrades ? (
                         <SmallFont extraCss="font-medium">
                           <NextChakraLink
@@ -504,7 +508,7 @@ export const TokenTrades = () => {
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                             px-2.5 pr-5 md:pr-2.5"
                   >
-                    <div className="flex items-center justify-end md:justify-start w-full">
+                    <div className="flex items-center justify-end  w-full">
                       {"blockchain" in trade || isMyTrades ? (
                         <>
                           {" "}

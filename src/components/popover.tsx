@@ -20,7 +20,7 @@ export const Popover = ({
 }: PopoverProps) => {
   return (
     <div
-      className={`flex relative ${isFilters ? "pb-[5px]" : ""}`}
+      className={`flex relative ${isFilters ? "pb-[8px]" : ""}`}
       onMouseEnter={() => onToggle()}
       onMouseLeave={() => onToggle()}
     >

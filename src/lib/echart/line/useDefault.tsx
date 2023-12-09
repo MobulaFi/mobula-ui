@@ -122,7 +122,7 @@ export const useDefault = ({
 
       return {
         zoomPercentage: zoomPercentageBuffer,
-        chartColor: isBullish ? "#16C784" : "#ea3943",
+        chartColor: isBullish ? "#0ECB81" : "#ea3943",
         spread: spreadBuffer,
         firstPointIndex: index,
       };
