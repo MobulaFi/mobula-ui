@@ -284,7 +284,7 @@ export const CoreSearchBar = ({
   return (
     <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-xl">
       <div
-        className="flex w-full items-center p-[15px] border-b border-t sm:border-t-0 border-light-border-primary
+        className="flex w-full items-center p-[15px] md:py-[5px] md:px-2.5 border-b border-t sm:border-t-0 border-light-border-primary
        dark:border-dark-border-primary transition-all duration-300 rounded-t-2xl"
       >
         <FiSearch className="text-xl text-light-font-100 dark:text-dark-font-100" />
@@ -345,7 +345,7 @@ export const CoreSearchBar = ({
           className="pl-2.5 hidden md:flex"
           onClick={() => setTrigger(false)}
         >
-          <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-xs" />
+          <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-sm mr-2.5" />
         </button>
       </div>
       <div className="transition-all duration-300 flex flex-col max-h-[60vh] sm:max-h-calc-full-56 overflow-y-scroll scroll">

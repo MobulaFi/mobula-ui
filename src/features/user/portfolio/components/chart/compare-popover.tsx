@@ -13,12 +13,14 @@ interface ComparePopoverProps {
   setComparedEntities: Dispatch<SetStateAction<ComparedEntity[]>>;
   comparedEntities: ComparedEntity[];
   extraCss?: string;
+  isPortfolio?: boolean;
 }
 
 export const ComparePopover = ({
   setComparedEntities,
   comparedEntities,
   extraCss,
+  isPortfolio,
 }: ComparePopoverProps) => {
   const [showCompare, setShowCompare] = useState(false);
   const isMobile =
@@ -112,7 +114,9 @@ export const ComparePopover = ({
       }
       onToggle={() => {}}
       isOpen={showCompare}
-      extraCss="p-0 top-[40px] lg:top-[35px] left-0 lg:right-0 lg:left-auto z-[100] mr-2.5 min-w-[250px]"
+      extraCss={`p-0 top-[40px] lg:top-[40px] left-0 ${
+        isPortfolio ? "" : "lg:right-0 lg:left-auto"
+      } z-[100] mr-2.5 min-w-[300px] `}
     />
   );
 };
