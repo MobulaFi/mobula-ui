@@ -311,7 +311,7 @@ export const Entry = ({
       >
         <tr className="text-light-font-100 dark:text-dark-font-100">
           <Segment
-            extraCss={`pl-2.5 sm:pl-[5px] pr-0 sm:pr-2.5 max-w-auto md:max-w-5 sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
+            extraCss={`pl-2.5 md:px-[0px] pr-0   max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
             noLink
           >
             <WatchlistAdd
@@ -334,7 +334,7 @@ export const Entry = ({
           </Segment>
           <Segment
             // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[42px] z-[11] md:pr-1 ${background} md:pl-0`}
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[11] md:pr-1 ${background} md:pl-0`}
           >
             <TokenInfo
               token={token as Asset}

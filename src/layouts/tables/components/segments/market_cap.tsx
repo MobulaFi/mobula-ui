@@ -64,7 +64,7 @@ export const MarketCapSegment = ({
   const percentage = getPercentage();
 
   return (
-    <Segment extraCss={`${extraCss} text-end`}>
+    <Segment extraCss={`${extraCss} text-end md:px-[5px]`}>
       {display === "Circ. Supply" ? (
         <div className="w-full items-center justify-end">
           <Popover

@@ -207,7 +207,7 @@ export function AssetsTable({
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    }`}
+                    } md:px-0`}
                   />
                   <TableHeaderEntry
                     title="Name"
@@ -215,7 +215,7 @@ export function AssetsTable({
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } left-[73px] md:left-[24px]`}
+                    } left-[73px] md:left-[28px] md:px-[5px]`}
                     titleCssPosition="justify-start"
                   />
                   {(activeView?.display?.length || 0) > 0 &&
@@ -234,7 +234,7 @@ export function AssetsTable({
                             entry.value === "24h Chart"
                               ? "text-center"
                               : "text-end"
-                          } static`}
+                          } static md:px-[5px]`}
                         />
                       ))}
                       <TableHeaderEntry
@@ -247,11 +247,11 @@ export function AssetsTable({
                   activeView?.name === "All" ? (
                     <>
                       <TableHeaderEntry
-                        extraCss="hidden md:table-cell"
+                        extraCss="hidden md:table-cell md:px-[5px]"
                         title="Price"
                       />
                       <TableHeaderEntry
-                        extraCss="hidden md:table-cell"
+                        extraCss="hidden md:table-cell md:px-[5px]"
                         title={
                           activeView?.name === "Portfolio" ? "Balance" : "24h %"
                         }
