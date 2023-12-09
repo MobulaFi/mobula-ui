@@ -329,7 +329,9 @@ export const TokenTrades = () => {
                           : "pl-2.5 text-end"
                       } ${isLast || isExplorer ? "pr-5 md:pr-2.5" : "pr-2.5"} 
                        table-cell ${
-                         entry === "Unit Price" || entry === "Value"
+                         entry === "Unit Price" ||
+                         entry === "Value" ||
+                         entry === "Type"
                            ? "md:hidden"
                            : "md:table-cell"
                        } `}
@@ -374,7 +376,7 @@ export const TokenTrades = () => {
                 <tr>
                   <td
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px]"
+                  md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] md:hidden"
                   >
                     <div>
                       <SmallFont
@@ -390,9 +392,9 @@ export const TokenTrades = () => {
                   </td>
                   <td
                     className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  px-2.5 pr-5 md:pr-2.5"
+                  px-2.5 pr-5 md:pr-2.5 md:py-1.5"
                   >
-                    <div className="flex items-end w-full justify-center flex-col">
+                    <div className="flex items-end md:items-start w-full justify-center flex-col">
                       {"blockchain" in trade || isMyTrades ? (
                         <SmallFont extraCss="font-medium">
                           <NextChakraLink
