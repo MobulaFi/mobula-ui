@@ -244,12 +244,8 @@ export const BaseAssetProvider = ({
         noCacheSupabase
           .from("assets")
           .select(
-            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,twitter_history,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,trade_history(*),assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
+            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,twitter_history,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
           )
-          .limit(20, {
-            foreignTable: "trade_history",
-          })
-          .order("date", { foreignTable: "trade_history", ascending: false })
           .match({ id: token.id })
       );
 
@@ -260,16 +256,7 @@ export const BaseAssetProvider = ({
           .match({ asset: token.id })
       );
 
-      fetchPromise.push(
-        supabase
-          .from("history")
-          .select("market_cap_history")
-          .match({ asset: token.id })
-      );
-
-      const [{ data }, history, marketHistory] = await Promise.all(
-        fetchPromise
-      );
+      const [{ data }, history] = await Promise.all(fetchPromise);
 
       // console.log("dataaaaaa", marketHistory);
 
@@ -282,15 +269,13 @@ export const BaseAssetProvider = ({
         );
 
         const newUnformattedBufferMarket = generateNewBuffer(
-          data[0].market_cap_history.market_cap,
-          marketHistory?.data?.[0]?.market_cap_history
+          data[0].market_cap_history.market_cap
         );
 
         if (history?.data?.[0]) {
           setHistoryData((freshHistoryData) => ({
             ...(freshHistoryData || {}),
             price_history: history.data[0].price_history || [],
-            market_history: marketHistory.data[0].market_cap_history || [],
           }));
         }
 

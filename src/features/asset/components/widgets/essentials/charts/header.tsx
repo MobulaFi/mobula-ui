@@ -1,11 +1,12 @@
 import Cookies from "js-cookie";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
 import { ChartType } from "../../../../models";
 import { TimeSwitcher } from "../time-switcher";
@@ -25,7 +26,14 @@ export const ChartHeader = () => {
     transactions,
     setComparedEntities,
     comparedEntities,
+    baseAsset,
+    unformattedHistoricalData,
+    setUnformattedHistoricalData,
+    historyData,
+    setHistoryData,
+    generateNewBuffer,
   } = useContext(BaseAssetContext);
+  const supabase = createSupabaseDOClient();
 
   const capitalizeFirstLetter = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
@@ -42,6 +50,30 @@ export const ChartHeader = () => {
       Cookies.set("hideTx", JSON.stringify(hideTx));
     }
   }, [hideTx]);
+  const fetchMarketHistory = () => {
+    console.log("clicked", unformattedHistoricalData?.market_cap);
+    console.log(
+      "fetchMarketHistory",
+      baseAsset.id,
+      unformattedHistoricalData,
+      historyData
+    );
+    if (unformattedHistoricalData?.market_cap?.["1M"]) return;
+    supabase
+      .from("history")
+      .select("market_cap_history")
+      .match({ asset: baseAsset.id })
+      .then((res) => {
+        if (res.data) {
+          setUnformattedHistoricalData({
+            ...unformattedHistoricalData,
+            market_cap: generateNewBuffer(
+              res?.data?.[0]?.market_cap_history || []
+            ),
+          });
+        }
+      });
+  };
 
   return (
     <>
@@ -84,9 +116,7 @@ export const ChartHeader = () => {
               }  transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
               onClick={() => {
                 const newChartType = "market_cap" as ChartType;
-                if (shouldLoadHistory(newChartType, timeSelected))
-                  loadHistoryData(newChartType, timeSelected);
-
+                fetchMarketHistory();
                 setChartType(newChartType);
               }}
             >

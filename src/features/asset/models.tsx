@@ -34,6 +34,7 @@ export interface IBasetAssetContext {
   setShowTargetPrice: Dispatch<SetStateAction<boolean>>;
   loadHistoryData: (type: ChartType, time: TimeSelected) => Promise<void>;
   shouldLoadHistory: (type: ChartType, timeSelected: TimeSelected) => boolean;
+  generateNewBuffer: (data: [number, number][]) => [number, number][];
   chartType: ChartType;
   setChartType: Dispatch<SetStateAction<ChartType>>;
   wallet: UserHoldingsAsset[] | null;

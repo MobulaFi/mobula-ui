@@ -40,6 +40,7 @@ export const TokenTrades = () => {
     showTradeTokenAmount,
     filters,
     baseAsset,
+    setMarketMetrics,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -141,6 +142,7 @@ export const TokenTrades = () => {
   };
 
   useEffect(() => {
+    if (!baseAsset || (userTrades?.length || 0) > 0) return;
     GET("/api/1/wallet/transactions", {
       asset: baseAsset.name,
       wallet: address || "",
@@ -197,7 +199,7 @@ export const TokenTrades = () => {
         </div>
         <div
           className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative px-2
-         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary"
+         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary mb-2"
         >
           <div
             className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250"

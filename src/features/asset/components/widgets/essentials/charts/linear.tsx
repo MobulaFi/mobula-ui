@@ -8,6 +8,7 @@ import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
 import { TransactionResponse } from "../../../../../../interfaces/transactions";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
+import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import { colors } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -39,7 +40,9 @@ export const ChartLite = ({
     setTransactions,
     comparedEntities,
     historyData,
+    setUnformattedHistoricalData,
   } = useContext(BaseAssetContext);
+  const supabase = createSupabaseDOClient();
 
   const [isTracked, setIsTracked] = useState(false);
   const [countdown, setCountdown] = useState<Countdown | null>(
@@ -188,7 +191,7 @@ export const ChartLite = ({
       return (
         <div className="flex flex-col items-center justify-center">
           <AiOutlineInfoCircle className="text-[30px] mb-[15px] text-red dark:text-red rotate-180" />
-          <MediumFont>{baseAsset?.name} isn't launched yet.</MediumFont>
+          <MediumFont>{baseAsset?.name} isn&apos;t launched yet.</MediumFont>
           <div className="flex justify-around w-[180px] mt-5">
             <div className="flex flex-col items-center">
               <div
@@ -243,7 +246,6 @@ export const ChartLite = ({
     }
   };
   const chartMessage = renderChartMessage();
-  console.log("unformattedHistoricalData", unformattedHistoricalData);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
 

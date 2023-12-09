@@ -11,12 +11,14 @@ interface PopoverTradeProps {
   title: string | string[];
   isImage?: boolean;
   children: React.ReactNode;
+  extraCss?: string;
 }
 
 export const PopoverTrade = ({
   title,
   isImage,
   children,
+  extraCss = "",
 }: PopoverTradeProps) => {
   const [showContent, setShowContent] = React.useState(false);
   const onClose = () => setShowContent(false);
@@ -64,7 +66,7 @@ export const PopoverTrade = ({
       hiddenContent={React.cloneElement(children as never, { onClose })}
       isOpen={showContent}
       onToggle={() => setShowContent((prev) => !prev)}
-      extraCss="top-[30px]"
+      extraCss="top-[38px]"
     />
   );
 };
