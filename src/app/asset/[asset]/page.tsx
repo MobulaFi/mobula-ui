@@ -147,8 +147,8 @@ async function AssetPage({ params }) {
   return (
     <>
       <BaseAssetProvider
-        token={data?.asset}
-        tradHistory={data?.tradHistory || []}
+        token={data?.asset as any}
+        tradHistory={(data?.tradHistory as any) || []}
         launchpad={data?.launchpads}
         hideTxCookie={hideTxCookie}
         tradeCookie={tradeCookie}

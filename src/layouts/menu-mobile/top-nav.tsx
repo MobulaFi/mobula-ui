@@ -29,7 +29,7 @@ export const TopNav = ({
   };
   const width = getWidth();
 
-  const getColorFromItem = (item: string) => {
+  const getColorFromItem = (item) => {
     if (active === item || (isGeneral && active === item?.name))
       return "text-light-font-100 dark:text-dark-font-100";
     if (

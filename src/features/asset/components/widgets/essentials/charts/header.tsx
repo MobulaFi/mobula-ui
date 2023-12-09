@@ -30,7 +30,6 @@ export const ChartHeader = () => {
     setUnformattedHistoricalData,
     historyData,
     setHistoryData,
-    generateNewBuffer,
   } = useContext(BaseAssetContext);
   const supabase = createSupabaseDOClient();
 
