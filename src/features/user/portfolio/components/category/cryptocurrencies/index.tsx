@@ -246,7 +246,7 @@ export const Cryptocurrencies = () => {
                             <p className="text-light-font-100 md:hidden dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
                               {token?.name}
                             </p>
-                            <div className="flex items-center">
+                            <div className="flex items-center md:mb-[1px]">
                               <p className="text-light-font-100 hidden md:flex dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal">
                                 {token?.symbol}
                               </p>
@@ -279,12 +279,12 @@ export const Cryptocurrencies = () => {
                           </div>
                         </div>
                         <div className="flex items-center  p-2.5">
-                          <div className="flex flex-col items-end mr-5">
+                          <div className="flex flex-col items-end mr-5 md:mr-3">
                             {manager.privacy_mode ? (
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end md:font-normal whitespace-nowrap`}
+                                extraCss={`font-medium text-end md:font-normal whitespace-nowrap md:text-[13px]`}
                               >
                                 {Number(
                                   getFormattedAmount(token.token_balance)
@@ -299,7 +299,7 @@ export const Cryptocurrencies = () => {
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end whitespace-nowrap ${changeColor}`}
+                                extraCss={`font-medium text-end whitespace-nowrap md:font-normal md:text-[13px] ${changeColor}`}
                               >
                                 ${getFormattedAmount(token.estimated_balance)}
                               </SmallFont>

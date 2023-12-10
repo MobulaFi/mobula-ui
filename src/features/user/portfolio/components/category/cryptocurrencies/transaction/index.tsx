@@ -126,7 +126,6 @@ export const Transaction = ({
       if (!asset) return;
       fetchTransactions(true);
     } else isMounted.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asset?.id, wallet?.id]);
 
   // We want to make sure we set the "light" token to be:
@@ -388,6 +387,8 @@ export const Transaction = ({
 
   const [showTxDetails, setShowTxDetails] = useState(null);
 
+  console.log("transaction assset", asset, transactionsByDate);
+
   return (
     <div className="relative flex flex-col">
       {transactions?.length > 0 &&
@@ -548,6 +549,7 @@ export const Transaction = ({
                                     <Tooltip
                                       tooltipText="Transaction involving multiple wallets from this portfolio."
                                       iconCss="mb-0.5"
+                                      extraCss="top-[20px] left-1/2 -translate-x-1/2"
                                     />
                                   ) : null}
                                 </div>
