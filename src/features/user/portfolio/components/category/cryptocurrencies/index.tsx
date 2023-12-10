@@ -149,7 +149,6 @@ export const Cryptocurrencies = () => {
 
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
-
     return wallet.portfolio.filter((entry) => {
       const meetsBalanceCondition = showMore || entry.estimated_balance > 1;
       return isNormalBalance ? meetsBalanceCondition : true;
@@ -259,7 +258,9 @@ export const Cryptocurrencies = () => {
                   <caption
                     key={token?.name}
                     className={`${
-                      showTokenInfo === token?.id ? "h-[500px]" : "h-[70px]"
+                      showTokenInfo === token?.id
+                        ? "h-[500px] lg:h-[745px]"
+                        : "h-[70px]"
                     } bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
                   overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
                   border-light-border-primary dark:border-dark-border-primary pt-0`}
@@ -554,8 +555,8 @@ export const Cryptocurrencies = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div className="flex items-start">
-                        <div className="w-2/4 m-2.5 p-3 mr-0 pr-0 rounded-lg mt-[0px] relative">
+                      <div className="flex items-start lg:flex-col">
+                        <div className="w-2/4 lg:w-full m-2.5 lg:m-0 p-3 mr-0 pr-0 lg:mr-2 rounded-lg mt-[0px] relative">
                           <MediumFont extraCss="mt-5 absolute top-[-10px]">
                             {token?.name} Price Chart
                           </MediumFont>
@@ -573,7 +574,7 @@ export const Cryptocurrencies = () => {
                             noDataZoom
                           />
                         </div>
-                        <div className="w-2/4 m-2.5 mt-0 p-3 rounded-lg">
+                        <div className="w-2/4 lg:w-full m-2.5 lg:m-0 lg:mt-[-40px] mt-0 p-3 rounded-lg">
                           {editAssetManager.transactions ? (
                             <div className="flex flex-col w-full items-start rounded-lg pt-0">
                               <MediumFont extraCss="mb-4">
