@@ -524,20 +524,14 @@ export const Transaction = ({
                             <div className="flex flex-col ml-2.5 flex-wrap max-w-[200px]">
                               {transactionInfos.type === "execution" ? (
                                 <SmallFont
-                                  extraCss={`break-all whitespace-pre-wrap text-[13px] md:text-[13px]  ${
-                                    isSmallTable ? "font-medium" : " font-bold"
-                                  }`}
+                                  extraCss={`break-all whitespace-pre-wrap text-start text-[13px] md:text-[13px] font-medium`}
                                 >
                                   {transactionInfos.wording}
                                 </SmallFont>
                               ) : (
-                                <div className="flex justify-center">
+                                <div className="flex justify-start">
                                   <SmallFont
-                                    extraCss={`break-all whitespace-pre-wrap text-xs ${
-                                      isSmallTable
-                                        ? "font-medium"
-                                        : " font-bold"
-                                    }`}
+                                    extraCss={`break-all whitespace-pre-wrap text-xs font-medium text-start`}
                                   >
                                     {`${transactionInfos.wording} ${
                                       txTokens[0]?.symbol
@@ -671,7 +665,7 @@ export const Transaction = ({
                                     transaction.tx_cost_usd
                                   )}`}</SmallFont>
                                 </div>
-                                <div className="flex flex-col ml-8 md:hidden">
+                                <div className="flex flex-col ml-[3%] md:hidden">
                                   <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
                                     Transaction Hash
                                   </SmallFont>
@@ -693,7 +687,7 @@ export const Transaction = ({
                                     />
                                   </div>
                                 </div>
-                                <div className="flex flex-col ml-8 items-start">
+                                <div className="flex flex-col ml-[3%] items-start">
                                   <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
                                     Wallet
                                   </SmallFont>
@@ -701,7 +695,7 @@ export const Transaction = ({
                                     {addressSlicer(internalActor)}
                                   </SmallFont>
                                 </div>
-                                <div className="hidden md:flex flex-col ml-8">
+                                <div className="hidden md:flex flex-col ml-[3%]">
                                   <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
                                     Actor
                                   </SmallFont>
@@ -715,7 +709,7 @@ export const Transaction = ({
                                     className="bg-light-bg-hover dark:bg-dark-bg-hover w-18] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                     src={
                                       blockchainsIdContent[transaction.chain_id]
-                                        ?.logo || "/icon/unknown.png"
+                                        ?.logo || "/empty/unknown.png"
                                     }
                                     alt={`$${
                                       blockchainsIdContent[transaction.chain_id]
@@ -749,6 +743,7 @@ export const Transaction = ({
                           </div>
                         ) : null}
                       </div>
+
                       {/* <tr
                         className={`${
                           transaction.is_added

@@ -8,6 +8,7 @@ import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { Spinner } from "../../../../../../components/spinner";
 import {
   PopupStateContext,
   PopupUpdateContext,
@@ -214,46 +215,32 @@ export const Cryptocurrencies = () => {
             <th
               className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary sticky top-0 left-[-1px] text-start `}
               // bgColor={bg}
-            >
-              Asset
-            </th>
+            ></th>
             <th
               className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            >
-              Holdings
-            </th>
+            ></th>
             {isMobile ? null : (
               <th
                 className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              >
-                Price
-              </th>
+              ></th>
             )}
             <th
               className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            >
-              24h Profit
-            </th>
+            ></th>
             {isMobile ? null : (
               <th
                 className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              >
-                Realized PNL
-              </th>
+              ></th>
             )}
             {isMobile ? null : (
               <th
                 className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              >
-                Unrealized PNL
-              </th>
+              ></th>
             )}
             {!isMobile && (
               <th
                 className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              >
-                Actions
-              </th>
+              ></th>
             )}
           </tr>
         </thead>
@@ -608,7 +595,9 @@ export const Cryptocurrencies = () => {
                                     asset={asset}
                                     setIsLoadingFetch={setIsLoadingFetch}
                                   />
-                                ) : null}
+                                ) : (
+                                  <Spinner extraCss="h-[30px] w-[30px]" />
+                                )}
                                 <div className="h-[26px] bottom-0 w-full bg-gradient-to-t from-light-bg-terciary dark:from-dark-bg-terciary sticky z-[1]" />
                                 {/* ) : (
                                   <Spinner extraCss="h-[30px] w-[30px]" />
