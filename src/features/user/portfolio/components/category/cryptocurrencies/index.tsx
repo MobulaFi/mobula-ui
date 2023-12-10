@@ -289,95 +289,6 @@ export const Cryptocurrencies = () => {
                               </SmallFont>
                             )}
                           </div>
-                          {/* <div className="flex flex-col items-end w-full max-w-[60px]">
-                        <SmallFont
-                          extraCss={`font-medium text-end ${changeColor}`}
-                        >
-                          ${getFormattedAmount(token.price)}
-                        </SmallFont>
-                        <SmallFont
-                          extraCss={`font-medium text-end ${
-                            Number(getTokenPercentage(token.change_24h)) > 0
-                              ? "text-green dark:text-green"
-                              : "text-red dark:text-red"
-                          }`}
-                        >
-                          {getTokenPercentage(token.change_24h)}%
-                        </SmallFont>
-                      </div>
-                      <div className="flex w-full max-w-[60px]">
-                        {manager.privacy_mode ? (
-                          <Privacy extraCss="justify-end" />
-                        ) : (
-                          <div className="flex items-center justify-end">
-                            {isMobile ? null : (
-                              <TbTriangleFilled
-                                className={`font-medium text-[10px] mr-1.5 text-end ${
-                                  Number(
-                                    getAmountLoseOrWin(
-                                      token.change_24h,
-                                      token.estimated_balance
-                                    )
-                                  ) > 0
-                                    ? "text-green dark:text-green"
-                                    : "text-red dark:text-red rotate-180"
-                                }`}
-                              />
-                            )}
-                            <SmallFont
-                              extraCss={`font-medium text-end ${
-                                Number(
-                                  getAmountLoseOrWin(
-                                    token.change_24h,
-                                    token.estimated_balance
-                                  )
-                                ) > 0
-                                  ? "text-green dark:text-green"
-                                  : "text-red dark:text-red"
-                              }`}
-                            >
-                              {getFormattedAmount(
-                                getAmountLoseOrWin(
-                                  token.change_24h,
-                                  token.estimated_balance
-                                )
-                              )}
-                              $
-                            </SmallFont>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex w-full max-w-[60px]">
-                        {manager.privacy_mode ? (
-                          <Privacy extraCss="justify-end" />
-                        ) : (
-                          <SmallFont
-                            extraCss={`font-medium text-end ${
-                              Number(getTokenPercentage(token.realized_usd)) > 0
-                                ? "text-green dark:text-green"
-                                : "text-red dark:text-red"
-                            }`}
-                          >
-                            {getFormattedAmount(token.realized_usd)}$
-                          </SmallFont>
-                        )}
-                      </div>
-                      <div className="flex w-full max-w-[60px]">
-                        {manager.privacy_mode ? (
-                          <Privacy extraCss="justify-end" />
-                        ) : (
-                          <SmallFont
-                            extraCss={`font-medium text-end ${
-                              Number(getTokenPercentage(token.unrealized_usd)) >
-                              0
-                                ? "text-green dark:text-green"
-                                : "text-red dark:text-red"
-                            }`}
-                          >
-                            {getFormattedAmount(token.unrealized_usd)}$
-                          </SmallFont>
-                        )}
-                      </div> */}
                           <div className="flex justify-end items-start w-full max-w-[60px]">
                             <button
                               onClick={() => setShowBuyDrawer(token as any)}
@@ -528,8 +439,8 @@ export const Cryptocurrencies = () => {
                                 Transactions
                               </MediumFont>
                               <div className="overflow-y-scroll h-[215px] min-h-[215px] w-full relative">
-                                {/* {!isLoadingFetch ? ( */}
-                                {showTokenInfo === token?.id ? (
+                                {showTokenInfo === token?.id &&
+                                showTokenInfo === asset?.id ? (
                                   <Transaction
                                     isSmallTable
                                     asset={token}
@@ -537,9 +448,6 @@ export const Cryptocurrencies = () => {
                                   />
                                 ) : null}
                                 <div className="h-[26px] bottom-0 w-full bg-gradient-to-t from-light-bg-terciary dark:from-dark-bg-terciary sticky z-[1]" />
-                                {/* ) : (
-                                  <Spinner extraCss="h-[30px] w-[30px]" />
-                                )} */}
                               </div>
                             </div>
                           ) : null}
