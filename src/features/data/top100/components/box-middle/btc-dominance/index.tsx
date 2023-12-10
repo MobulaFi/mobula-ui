@@ -14,6 +14,8 @@ interface BtcDominanceProps {
 
 export const BtcDominance = ({ showPage }: BtcDominanceProps) => {
   const { btcDominance } = useTop100();
+
+  console.log("btcDominance", btcDominance);
   return (
     <div
       className={`${boxStyle}`}

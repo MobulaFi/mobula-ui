@@ -1,44 +1,45 @@
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { VscAdd, VscArrowUp } from "react-icons/vsc";
 import { useAccount } from "wagmi";
-import { MediumFont, SmallFont } from "../../../../../../components/fonts";
-import { Menu } from "../../../../../../components/menu";
-import { Spinner } from "../../../../../../components/spinner";
-import { Tooltip } from "../../../../../../components/tooltip";
-import { UserContext } from "../../../../../../contexts/user";
-import { GET } from "../../../../../../utils/fetch";
+import { SmallFont } from "../../../../../../../components/fonts";
+import { Menu } from "../../../../../../../components/menu";
+import { Tooltip } from "../../../../../../../components/tooltip";
+import { UserContext } from "../../../../../../../contexts/user";
+import { GET } from "../../../../../../../utils/fetch";
 import {
   addressSlicer,
   getFormattedAmount,
-} from "../../../../../../utils/formaters";
-import { PortfolioV2Context } from "../../../context-manager";
-import { useWebSocketResp } from "../../../hooks";
-import { flexGreyBoxStyle, tdStyle, thStyle } from "../../../style";
-import { getDate, getHours } from "../../../utils";
-import { Privacy } from "../../ui/privacy";
-import { TbodySkeleton } from "../../ui/tbody-skeleton";
+} from "../../../../../../../utils/formaters";
+import { PortfolioV2Context } from "../../../../context-manager";
+import { useWebSocketResp } from "../../../../hooks";
+import { flexGreyBoxStyle, tdStyle } from "../../../../style";
+import { getDate, getHours } from "../../../../utils";
 import {
   PublicTransaction,
   TransactionAsset,
   TransactionResponse,
-} from "./model";
-import { TransactionAmount } from "./transaction-amount";
-import { famousContractsLabel, wordingFromMethodId } from "./utils";
+} from "../../activity/model";
+import {
+  famousContractsLabel,
+  wordingFromMethodId,
+} from "../../activity/utils";
 
 interface ActivityProps {
   isSmallTable?: boolean;
   setIsLoadingFetch?: (isLoading: boolean) => void;
+  asset?: TransactionAsset;
 }
 
-export const Activity = ({
+export const Transaction = ({
   isSmallTable = false,
   setIsLoadingFetch,
+  asset,
 }: ActivityProps) => {
   const {
     setActivePortfolio,
@@ -48,7 +49,6 @@ export const Activity = ({
     isLoading,
     wallet,
     transactions,
-    asset,
     setTransactions,
   } = useContext(PortfolioV2Context);
   const [activeTransaction, setActiveTransaction] = useState<string>();
@@ -57,8 +57,6 @@ export const Activity = ({
   const { address } = useAccount();
 
   const isMounted = useRef(false);
-  const params = useParams();
-  const assetQuery = params.asset;
   const pathname = usePathname();
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";
@@ -91,7 +89,8 @@ export const Activity = ({
 
   const lowerCaseWallets = wallets.map((newWallet) => newWallet?.toLowerCase());
 
-  const txsLimit = assetQuery ? 200 : 20;
+  //   const txsLimit = assetQuery ? 200 : 20;
+  const txsLimit = 20;
 
   const fetchTransactions = (refresh = false) => {
     const txRequest: any = {
@@ -124,8 +123,7 @@ export const Activity = ({
 
   useEffect(() => {
     if (isMounted.current || !transactions?.length) {
-      if (assetQuery && !asset) return;
-      setTransactions([]);
+      if (!asset) return;
       fetchTransactions(true);
     } else isMounted.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -387,51 +385,24 @@ export const Activity = ({
     () => groupTransactionsByDate(transactions),
     [transactions]
   );
+
+  const [showTxDetails, setShowTxDetails] = useState(null);
+
   return (
-    <table className="relative pb-[100px] md:pb-5 overflow-x-scroll scroll w-full caption-bottom">
-      {isSmallTable ? null : (
-        <thead className="table-header-group md:hidden">
-          <tr>
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden text-start`}
-            >
-              Type
-            </th>
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-start`}
-            >
-              Amount
-            </th>
-            {isSmallTable ? null : (
-              <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden text-end`}
-              >
-                Actor
-              </th>
-            )}
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden text-end`}
-            >
-              Network
-            </th>
-          </tr>
-        </thead>
-      )}
+    <div className="relative flex flex-col">
       {transactions?.length > 0 &&
       Object.entries(transactionsByDate)?.length > 0 ? (
-        <tbody>
+        <>
           {Object.entries(transactionsByDate).map(
             ([date, transactionsForDate]: [string, PublicTransaction[]]) => (
               <>
-                <tr>
-                  <SmallFont
-                    extraCss={`px-2.5 ${
-                      isSmallTable ? "pt-2" : "pt-[15px] pb-1font-bold"
-                    }`}
-                  >
+                <div className="flex items-center mb-2">
+                  <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
+                  <SmallFont extraCss="px-2.5 text-[11px] md:text-[11px] text-light-font-40 dark:text-dark-font-40">
                     {date}
                   </SmallFont>
-                </tr>
+                  <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
+                </div>
                 {transactionsForDate.map((transaction) => {
                   // We check if we're in a swap where we need 2 tokens, or a simple transaction.
                   let txTokens =
@@ -484,60 +455,44 @@ export const Activity = ({
 
                   return (
                     <>
-                      <tr
+                      <div
                         className={`${
-                          transaction.is_added
-                            ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                            : ""
-                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250`}
+                          showTxDetails === transaction.hash
+                            ? "h-[90px]"
+                            : "h-[28px]"
+                        } transition-all duration-800 mb-3`}
                       >
-                        <td
-                          className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary max-w-[160px] pr-[5px] ${
-                            isActive ? "h-[120px]" : ""
-                          } ${
-                            transaction.hash !== "0x"
-                              ? "cursor-pointer"
-                              : "cursor-default"
-                          } ${isActive ? "pb-[80px]" : ""}`}
-                          onClick={() => {
-                            setActiveTransaction(
-                              isActive ? "" : transaction.hash + transaction.id
-                            );
-                          }}
-                        >
-                          <div className="flex items-center">
+                        <div className="flex items-center justify-between ">
+                          <div
+                            className="flex items-center w-full"
+                            onClick={() => {
+                              if (transaction.hash === showTxDetails)
+                                setShowTxDetails(null);
+                              else setShowTxDetails(transaction.hash);
+                            }}
+                          >
                             <div className="flex flex-col">
                               <div className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-full z-[1] -mb-2.5 w-fit h-fit">
                                 <img
-                                  className={`border border-light-border-primary dark:border-dark-border-primary ${
-                                    isSmallTable
-                                      ? "w-[22px] h-[22px] min-w-[22px] min-h-[22px]"
-                                      : "w-[24px] h-[24px] min-w-[24px] min-h-[24px]"
-                                  } rounded-full`}
+                                  className={`border border-light-border-primary dark:border-dark-border-primary w-[20px] h-[20px] min-w-[20px] min-h-[20px]
+                                 rounded-full`}
                                   src={txTokens[0]?.logo}
                                   alt={`${txTokens[0]?.name} logo`}
                                 />
                               </div>
-                              <div className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-full z-[0] ml-2.5">
+                              <div className="flex bg-dark-font-20 dark:bg-light-font-20 rounded-full z-[0] ml-2.5">
                                 {txTokens[1] ? (
                                   <img
                                     src={txTokens[1]?.logo}
-                                    className={`border border-light-border-primary dark:border-dark-border-primary ${
-                                      isSmallTable
-                                        ? "w-[22px] h-[22px] min-w-[22px] min-h-[22px]"
-                                        : "w-[24px] h-[24px] min-w-[24px] min-h-[24px]"
-                                    } rounded-full`}
+                                    className={`border border-light-font-10 dark:border-dark-font-10 w-[20px]
+                                   h-[20px] min-w-[20px] min-h-[20px] rounded-full`}
                                     alt={`${txTokens[1]?.name} logo`}
                                   />
                                 ) : (
                                   <>
                                     {transactionInfos.type === "transfert" ? (
                                       <div
-                                        className={`${
-                                          isSmallTable
-                                            ? "w-[20px] h-[20px] min-w-[20px] min-h-[20px]"
-                                            : "w-[24px] h-[24px] min-w-[24px] min-h-[24px]"
-                                        } md:w-[20px] md:h-[20px] md:min-w-[20px] md:min-h-[20px]  ${
+                                        className={` w-[18px] h-[18px] min-w-[18px] min-h-[18px]" ${
                                           transactionInfos.wording === "Receive"
                                             ? "bg-green dark:bg-green"
                                             : "bg-red dark:bg-red"
@@ -552,11 +507,7 @@ export const Activity = ({
                                       </div>
                                     ) : (
                                       <div
-                                        className={`${
-                                          isSmallTable
-                                            ? "w-[20px] h-[20px] min-w-[20px] min-h-[20px]"
-                                            : "w-[24px] h-[24px] min-w-[24px] min-h-[24px]"
-                                        } md:w-[20px] md:h-[20px] md:min-w-[20px] md:min-h-[20px] flex items-center justify-center`}
+                                        className={`w-[18px] h-[18px] min-w-[18px] min-h-[18px] flex items-center justify-center`}
                                       >
                                         {transactionInfos.type ===
                                         "internal" ? (
@@ -573,20 +524,14 @@ export const Activity = ({
                             <div className="flex flex-col ml-2.5 flex-wrap max-w-[200px]">
                               {transactionInfos.type === "execution" ? (
                                 <SmallFont
-                                  extraCss={`break-all whitespace-pre-wrap  ${
-                                    isSmallTable ? "font-medium" : " font-bold"
-                                  }`}
+                                  extraCss={`break-all whitespace-pre-wrap text-start text-[13px] md:text-[13px] font-medium`}
                                 >
                                   {transactionInfos.wording}
                                 </SmallFont>
                               ) : (
-                                <div className="flex justify-center">
+                                <div className="flex justify-start">
                                   <SmallFont
-                                    extraCss={`break-all whitespace-pre-wrap ${
-                                      isSmallTable
-                                        ? "font-medium"
-                                        : " font-bold"
-                                    }`}
+                                    extraCss={`break-all whitespace-pre-wrap text-xs font-medium text-start`}
                                   >
                                     {`${transactionInfos.wording} ${
                                       txTokens[0]?.symbol
@@ -607,13 +552,220 @@ export const Activity = ({
                                   ) : null}
                                 </div>
                               )}
-                              {isSmallTable ? null : (
-                                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                                  {` ${getHours(transaction.timestamp)}`}
-                                </SmallFont>
-                              )}
+                              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-xs text-start">
+                                {` ${getHours(transaction.timestamp)}`}
+                              </SmallFont>
                             </div>
                           </div>
+                          <div className="flex items-center justify-end">
+                            <div className="flex items-center">
+                              <img
+                                className="bg-light-bg-hover dark:bg-dark-bg-hover w-[18px] h-[18px] min-w-[18px] 
+                            border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
+                                src={
+                                  blockchainsIdContent[transaction.chain_id]
+                                    ?.logo || "/empty/unknown.png"
+                                }
+                                alt={`${
+                                  blockchainsIdContent[transaction.chain_id]
+                                    ?.name
+                                } logo`}
+                              />
+                            </div>
+                            {(transaction.chain_id ||
+                              (!isWalletExplorer &&
+                                activePortfolio?.user === user?.id)) && (
+                              <Menu
+                                title={
+                                  <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
+                                }
+                                titleCss="ml-2"
+                              >
+                                {transaction.chain_id ? (
+                                  <div
+                                    className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                                    onClick={() =>
+                                      window.open(
+                                        `${
+                                          blockchainsIdContent[
+                                            transaction.chain_id
+                                          ]?.explorer
+                                        }/tx/${transaction.hash}`
+                                      )
+                                    }
+                                  >
+                                    <div
+                                      className={`${flexGreyBoxStyle} bg-light-bg-hover dark:bg-dark-bg-hover`}
+                                    >
+                                      <img
+                                        className="w-[15px] h-[15px] min-w-[15px]"
+                                        src={
+                                          blockchainsIdContent[
+                                            transaction.chain_id
+                                          ]?.logo
+                                        }
+                                        alt={`${
+                                          blockchainsIdContent[
+                                            transaction.chain_id
+                                          ]?.name
+                                        } logo`}
+                                      />
+                                    </div>
+                                    <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100">
+                                      Open explorer
+                                      <FiExternalLink className="ml-[7.5px] text-light-font-40 dark:text-dark-font-40" />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {!isWalletExplorer &&
+                                  activePortfolio?.user === user?.id &&
+                                  transaction.id && (
+                                    <div
+                                      className="flex items-center text-sm text-[13px] md:text-xs
+                                       bg-light-bg-terciary dark:bg-dark-bg-terciary whitespace-nowrap 
+                                       mt-2.5 text-light-font-100 dark:text-dark-font-100"
+                                      onClick={() => {
+                                        handleRemoveTransaction(transaction.id);
+                                      }}
+                                    >
+                                      <div
+                                        className={`${flexGreyBoxStyle} flex bg-red dark:bg-red`}
+                                      >
+                                        <BsTrash3 className="text-light-font-100 dark:text-dark-font-100" />
+                                      </div>
+                                      Delete transaction
+                                    </div>
+                                  )}
+                              </Menu>
+                            )}
+                          </div>
+                        </div>
+                        {showTxDetails === transaction?.hash ? (
+                          <div
+                            className={`${tdStyle} flex items-center w-full`}
+                            onClick={() => {
+                              setActiveTransaction(
+                                isActive
+                                  ? ""
+                                  : transaction.hash + transaction.id
+                              );
+                            }}
+                          >
+                            {transaction.is_added ? (
+                              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap font-normal text-[13px]">
+                                Transaction added manually, no meta-data.
+                              </SmallFont>
+                            ) : (
+                              <>
+                                <div className="flex flex-col items-start">
+                                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
+                                    Fee
+                                  </SmallFont>
+                                  <SmallFont extraCss="font-normal text-xs md:text-xs">{`$${getFormattedAmount(
+                                    transaction.tx_cost_usd
+                                  )}`}</SmallFont>
+                                </div>
+                                <div className="flex flex-col ml-[3%] md:hidden">
+                                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
+                                    Transaction Hash
+                                  </SmallFont>
+                                  <div className="flex items-center">
+                                    <SmallFont extraCss="font-normal text-xs md:text-xs">
+                                      {addressSlicer(transaction.hash)}
+                                    </SmallFont>
+                                    <FiExternalLink
+                                      className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xs md:text-xs"
+                                      onClick={() =>
+                                        window.open(
+                                          `${
+                                            blockchainsIdContent[
+                                              transaction.chain_id
+                                            ]?.explorer
+                                          }/tx/${transaction.hash}`
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </div>
+                                <div className="flex flex-col ml-[3%] items-start">
+                                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
+                                    Wallet
+                                  </SmallFont>
+                                  <SmallFont extraCss="font-normal text-xs md:text-xs">
+                                    {addressSlicer(internalActor)}
+                                  </SmallFont>
+                                </div>
+                                <div className="hidden md:flex flex-col ml-[3%]">
+                                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
+                                    Actor
+                                  </SmallFont>
+                                  <SmallFont extraCss="font-normal text-xs md:text-xs">
+                                    {famousContractsLabel[externalActor]
+                                      ?.name || addressSlicer(externalActor)}
+                                  </SmallFont>
+                                </div>
+                                <div className="items-center ml-5 hidden md:flex">
+                                  <img
+                                    className="bg-light-bg-hover dark:bg-dark-bg-hover w-18] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
+                                    src={
+                                      blockchainsIdContent[transaction.chain_id]
+                                        ?.logo || "/empty/unknown.png"
+                                    }
+                                    alt={`$${
+                                      blockchainsIdContent[transaction.chain_id]
+                                        ?.name
+                                    } logo`}
+                                  />
+                                  <FiExternalLink
+                                    className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xl"
+                                    onClick={() =>
+                                      window.open(
+                                        `${
+                                          blockchainsIdContent[
+                                            transaction.chain_id
+                                          ]?.explorer
+                                        }/tx/${transaction.hash}`
+                                      )
+                                    }
+                                  />
+                                  {transaction.id &&
+                                  activePortfolio?.user === user?.id ? (
+                                    <BsTrash3
+                                      className="ml-[25px] text-light-font-100 dark:text-dark-font-100 text-lg"
+                                      onClick={() =>
+                                        handleRemoveTransaction(transaction.id)
+                                      }
+                                    />
+                                  ) : null}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        ) : null}
+                      </div>
+
+                      {/* <tr
+                        className={`${
+                          transaction.is_added
+                            ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                            : ""
+                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250`}
+                      >
+                        <td
+                          className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary max-w-[160px] pr-[5px] ${
+                            isActive ? "h-[120px]" : ""
+                          } ${
+                            transaction.hash !== "0x"
+                              ? "cursor-pointer"
+                              : "cursor-default"
+                          } ${isActive ? "pb-[80px]" : ""}`}
+                          onClick={() => {
+                            setActiveTransaction(
+                              isActive ? "" : transaction.hash + transaction.id
+                            );
+                          }}
+                        >
+                  
                         </td>
                         <td
                           className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary ${
@@ -868,16 +1020,16 @@ export const Activity = ({
                         className={`border-b border-light-border-primary dark:border-dark-border-primary ${
                           isActive ? "flex" : "hidden"
                         } transition-all duration-250`}
-                      />
+                      /> */}
                     </>
                   );
                 })}
               </>
             )
           )}
-        </tbody>
+        </>
       ) : null}
-      {(isLoading && transactions?.length === 0) ||
+      {/* {(isLoading && transactions?.length === 0) ||
       (transactions.length === 0 && !isSmallTable) ? (
         <tbody>
           {" "}
@@ -910,8 +1062,8 @@ export const Activity = ({
             </button>
           </div>
         </div>
-      ) : null}
-      {!wallet && !isLoading ? (
+      ) : null} */}
+      {/* {!wallet && !isLoading ? (
         <div className="flex h-[300px] w-full items-center justify-center flex-col rounded-r border border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary">
           <img
             className="h-[160px] -mb-[50px] mt-[25px]"
@@ -924,7 +1076,7 @@ export const Activity = ({
             </MediumFont>
           </div>
         </div>
-      ) : null}
-    </table>
+      ) : null} */}
+    </div>
   );
 };
