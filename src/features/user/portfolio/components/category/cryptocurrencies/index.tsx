@@ -107,7 +107,7 @@ export const Cryptocurrencies = () => {
 
   const triggerTokenInfo = (asset) => {
     if (showTokenInfo === asset?.id) {
-      setAsset(null);
+      setAsset(null as any);
       setShowTokenInfo(null);
     } else if (showTokenInfo && showTokenInfo !== asset?.id) {
       setAsset(asset);
@@ -196,8 +196,6 @@ export const Cryptocurrencies = () => {
       });
   }, [tokensData, showTokenInfo]);
 
-  const [test, setTest] = useState(false);
-
   const testStyle =
     "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
 
@@ -249,19 +247,19 @@ export const Cryptocurrencies = () => {
           <>
             {filteredData
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
-              .map((asset) => {
+              .map((token) => {
                 return (
                   // <TbodyCryptocurrencies
-                  //   key={asset.name}
-                  //   asset={asset}
+                  //   key={token.name}
+                  //   token={token}
                   //   setShowTokenInfo={setShowTokenInfo as never}
                   //   showTokenInfo={showTokenInfo}
-                  //   tokenInfo={tokensData[asset.id]}
+                  //   tokenInfo={tokensData[token.id]}
                   // />
                   <caption
-                    key={asset?.name}
+                    key={token?.name}
                     className={`${
-                      showTokenInfo === asset?.id ? "h-[500px]" : "h-[70px]"
+                      showTokenInfo === token?.id ? "h-[500px]" : "h-[70px]"
                     } bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
                   overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
                   border-light-border-primary dark:border-dark-border-primary pt-0`}
@@ -271,25 +269,25 @@ export const Cryptocurrencies = () => {
                         <div
                           className="h-full flex items-center w-full p-2.5"
                           onClick={() => {
-                            triggerTokenInfo(asset);
+                            triggerTokenInfo(token);
                           }}
                         >
                           <img
                             className="w-[34px] h-[34px] rounded-full mr-2"
-                            src={asset?.image || "/empty/unknown.png"}
+                            src={token?.image || "/empty/unknown.png"}
                             alt="logo"
                           />
                           <div className="flex flex-col items-start">
                             <p className="text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
-                              {asset?.symbol}
+                              {token?.symbol}
                             </p>
                             <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
                               {`${
-                                (Number(
-                                  getFormattedAmount(asset.token_balance)
-                                ) || 0) < 0.01
+                                Number(
+                                  getFormattedAmount(token.token_balance)
+                                ) < 0.01
                                   ? "<0.01"
-                                  : getFormattedAmount(asset.token_balance)
+                                  : getFormattedAmount(token.token_balance)
                               } `}
                             </p>
                           </div>
@@ -302,7 +300,7 @@ export const Cryptocurrencies = () => {
                               <SmallFont
                                 extraCss={`font-medium text-end whitespace-nowrap ${changeColor}`}
                               >
-                                ${getFormattedAmount(asset.estimated_balance)}
+                                ${getFormattedAmount(token.estimated_balance)}
                               </SmallFont>
                             )}
                             {manager.privacy_mode ? (
@@ -310,13 +308,13 @@ export const Cryptocurrencies = () => {
                             ) : (
                               <SmallFont
                                 extraCss={`font-medium text-end ${
-                                  Number(getTokenPercentage(asset.change_24h)) >
+                                  Number(getTokenPercentage(token.change_24h)) >
                                   0
                                     ? "text-green dark:text-green"
                                     : "text-red dark:text-red"
                                 }`}
                               >
-                                {getTokenPercentage(asset.change_24h)}%
+                                {getTokenPercentage(token.change_24h)}%
                               </SmallFont>
                             )}
                           </div>
@@ -324,16 +322,16 @@ export const Cryptocurrencies = () => {
                         <SmallFont
                           extraCss={`font-medium text-end ${changeColor}`}
                         >
-                          ${getFormattedAmount(asset.price)}
+                          ${getFormattedAmount(token.price)}
                         </SmallFont>
                         <SmallFont
                           extraCss={`font-medium text-end ${
-                            Number(getTokenPercentage(asset.change_24h)) > 0
+                            Number(getTokenPercentage(token.change_24h)) > 0
                               ? "text-green dark:text-green"
                               : "text-red dark:text-red"
                           }`}
                         >
-                          {getTokenPercentage(asset.change_24h)}%
+                          {getTokenPercentage(token.change_24h)}%
                         </SmallFont>
                       </div>
                       <div className="flex w-full max-w-[60px]">
@@ -346,8 +344,8 @@ export const Cryptocurrencies = () => {
                                 className={`font-medium text-[10px] mr-1.5 text-end ${
                                   Number(
                                     getAmountLoseOrWin(
-                                      asset.change_24h,
-                                      asset.estimated_balance
+                                      token.change_24h,
+                                      token.estimated_balance
                                     )
                                   ) > 0
                                     ? "text-green dark:text-green"
@@ -359,8 +357,8 @@ export const Cryptocurrencies = () => {
                               extraCss={`font-medium text-end ${
                                 Number(
                                   getAmountLoseOrWin(
-                                    asset.change_24h,
-                                    asset.estimated_balance
+                                    token.change_24h,
+                                    token.estimated_balance
                                   )
                                 ) > 0
                                   ? "text-green dark:text-green"
@@ -369,8 +367,8 @@ export const Cryptocurrencies = () => {
                             >
                               {getFormattedAmount(
                                 getAmountLoseOrWin(
-                                  asset.change_24h,
-                                  asset.estimated_balance
+                                  token.change_24h,
+                                  token.estimated_balance
                                 )
                               )}
                               $
@@ -384,12 +382,12 @@ export const Cryptocurrencies = () => {
                         ) : (
                           <SmallFont
                             extraCss={`font-medium text-end ${
-                              Number(getTokenPercentage(asset.realized_usd)) > 0
+                              Number(getTokenPercentage(token.realized_usd)) > 0
                                 ? "text-green dark:text-green"
                                 : "text-red dark:text-red"
                             }`}
                           >
-                            {getFormattedAmount(asset.realized_usd)}$
+                            {getFormattedAmount(token.realized_usd)}$
                           </SmallFont>
                         )}
                       </div>
@@ -399,19 +397,19 @@ export const Cryptocurrencies = () => {
                         ) : (
                           <SmallFont
                             extraCss={`font-medium text-end ${
-                              Number(getTokenPercentage(asset.unrealized_usd)) >
+                              Number(getTokenPercentage(token.unrealized_usd)) >
                               0
                                 ? "text-green dark:text-green"
                                 : "text-red dark:text-red"
                             }`}
                           >
-                            {getFormattedAmount(asset.unrealized_usd)}$
+                            {getFormattedAmount(token.unrealized_usd)}$
                           </SmallFont>
                         )}
                       </div> */}
                           <div className="flex justify-end items-start w-full max-w-[60px]">
                             <button
-                              onClick={() => setShowBuyDrawer(asset as any)}
+                              onClick={() => setShowBuyDrawer(token as any)}
                             >
                               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
                             </button>
@@ -437,14 +435,14 @@ export const Cryptocurrencies = () => {
                                   >
                                     <BiHide />
                                   </div>
-                                  Hide asset
+                                  Hide token
                                 </div>
                                 <div
                                   onMouseEnter={() => setIsHover(2)}
                                   onMouseLeave={() => setIsHover(null)}
                                   className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap"
                                   onClick={() => {
-                                    setTokenTsx(asset);
+                                    setTokenTsx(token);
                                     setShowAddTransaction(true);
                                     pushData("Add Asset Button Clicked");
                                   }}
@@ -493,18 +491,18 @@ export const Cryptocurrencies = () => {
                                   <SmallFont
                                     extraCss={`font-medium text-start text-[13px] ${changeColor}`}
                                   >
-                                    ${getFormattedAmount(asset.price)}
+                                    ${getFormattedAmount(token.price)}
                                   </SmallFont>
                                   <SmallFont
                                     extraCss={`font-medium text-start text-[13px] ${
                                       Number(
-                                        getTokenPercentage(asset.change_24h)
+                                        getTokenPercentage(token.change_24h)
                                       ) > 0
                                         ? "text-green dark:text-green"
                                         : "text-red dark:text-red"
                                     }`}
                                   >
-                                    {getTokenPercentage(asset.change_24h)}%
+                                    {getTokenPercentage(token.change_24h)}%
                                   </SmallFont>
                                 </div>
                               </td>
@@ -515,13 +513,13 @@ export const Cryptocurrencies = () => {
                                   <SmallFont
                                     extraCss={`font-medium text-end text-[13px] ${
                                       Number(
-                                        getTokenPercentage(asset.realized_usd)
+                                        getTokenPercentage(token.realized_usd)
                                       ) > 0
                                         ? "text-green dark:text-green"
                                         : "text-red dark:text-red"
                                     }`}
                                   >
-                                    {getFormattedAmount(asset.realized_usd)}$
+                                    {getFormattedAmount(token.realized_usd)}$
                                   </SmallFont>
                                 )}
                               </td>
@@ -532,13 +530,13 @@ export const Cryptocurrencies = () => {
                                   <SmallFont
                                     extraCss={`font-medium text-end text-[13px] ${
                                       Number(
-                                        getTokenPercentage(asset.unrealized_usd)
+                                        getTokenPercentage(token.unrealized_usd)
                                       ) > 0
                                         ? "text-green dark:text-green"
                                         : "text-red dark:text-red"
                                     }`}
                                   >
-                                    {getFormattedAmount(asset.unrealized_usd)}$
+                                    {getFormattedAmount(token.unrealized_usd)}$
                                   </SmallFont>
                                 )}
                               </td>
@@ -549,7 +547,7 @@ export const Cryptocurrencies = () => {
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
                                 <SmallFont extraCss="font-medium text-[13px]">
-                                  {getFormattedAmount(asset?.total_invested)}$
+                                  {getFormattedAmount(token?.total_invested)}$
                                 </SmallFont>
                               </td>
                             </tr>{" "}
@@ -559,18 +557,18 @@ export const Cryptocurrencies = () => {
                       <div className="flex items-start">
                         <div className="w-2/4 m-2.5 p-3 mr-0 pr-0 rounded-lg mt-[0px] relative">
                           <MediumFont extraCss="mt-5 absolute top-[-10px]">
-                            {asset?.name} Price Chart
+                            {token?.name} Price Chart
                           </MediumFont>
                           <EChart
                             data={
-                              tokensData?.[asset?.id]?.price_history?.price ||
+                              tokensData?.[token?.id]?.price_history?.price ||
                               []
                             }
                             timeframe={tokenTimeframe as TimeSelected}
                             height="300px"
                             width="100%"
                             leftMargin={["0%", "0%"]}
-                            type={tokensData[asset.id]?.name}
+                            type={tokensData[token.id]?.name}
                             unit="$"
                             noDataZoom
                           />
@@ -583,10 +581,10 @@ export const Cryptocurrencies = () => {
                               </MediumFont>
                               <div className="overflow-y-scroll h-[215px] min-h-[215px] w-full relative">
                                 {/* {!isLoadingFetch ? ( */}
-                                {showTokenInfo === asset?.id ? (
+                                {showTokenInfo === token?.id ? (
                                   <Transaction
                                     isSmallTable
-                                    asset={asset}
+                                    asset={token}
                                     setIsLoadingFetch={setIsLoadingFetch}
                                   />
                                 ) : null}
