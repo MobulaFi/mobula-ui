@@ -457,11 +457,7 @@ export const Cryptocurrencies = () => {
                               <div className="overflow-y-scroll h-[215px] min-h-[215px] w-full relative">
                                 {showTokenInfo === token?.id &&
                                 showTokenInfo === asset?.id ? (
-                                  <Transaction
-                                    isSmallTable
-                                    asset={token}
-                                    setIsLoadingFetch={setIsLoadingFetch}
-                                  />
+                                  <Transaction isSmallTable asset={token} />
                                 ) : null}
                                 <div className="h-[26px] bottom-0 w-full bg-gradient-to-t from-light-bg-terciary dark:from-dark-bg-terciary sticky z-[1]" />
                               </div>

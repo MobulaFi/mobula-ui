@@ -9,6 +9,7 @@ import { VscAdd, VscArrowUp } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../../../../../../components/fonts";
 import { Menu } from "../../../../../../../components/menu";
+import { Spinner } from "../../../../../../../components/spinner";
 import { Tooltip } from "../../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../../contexts/user";
 import { GET } from "../../../../../../../utils/fetch";
@@ -32,15 +33,10 @@ import {
 
 interface ActivityProps {
   isSmallTable?: boolean;
-  setIsLoadingFetch?: (isLoading: boolean) => void;
   asset?: TransactionAsset;
 }
 
-export const Transaction = ({
-  isSmallTable = false,
-  setIsLoadingFetch,
-  asset,
-}: ActivityProps) => {
+export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
   const {
     setActivePortfolio,
     manager,
@@ -55,6 +51,7 @@ export const Transaction = ({
   const { user } = useContext(UserContext);
   const refreshPortfolio = useWebSocketResp();
   const { address } = useAccount();
+  const [isLoadingFetch, setIsLoadingFetch] = useState(true);
 
   const isMounted = useRef(false);
   const pathname = usePathname();
@@ -93,6 +90,7 @@ export const Transaction = ({
   const txsLimit = 20;
 
   const fetchTransactions = (refresh = false) => {
+    setIsLoadingFetch(true);
     const txRequest: any = {
       should_fetch: false,
       limit: txsLimit,
@@ -113,7 +111,7 @@ export const Transaction = ({
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
         if (r) {
-          if (setIsLoadingFetch) setIsLoadingFetch(false);
+          setIsLoadingFetch(false);
           if (!refresh)
             setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
           else setTransactions(r.data.transactions);
@@ -122,7 +120,7 @@ export const Transaction = ({
   };
 
   useEffect(() => {
-    if (isMounted.current) {
+    if (isMounted.current || !transactions?.length) {
       fetchTransactions(true);
     } else isMounted.current = true;
   }, [asset, wallet?.id]);
@@ -387,7 +385,12 @@ export const Transaction = ({
   const [showTxDetails, setShowTxDetails] = useState(null);
 
   console.log("transaction assset", asset, transactionsByDate);
-
+  if (isLoadingFetch)
+    return (
+      <div className="flex justify-center items-center w-full h-[190px]">
+        <Spinner extraCss="w-[30px] h-[30px]" />
+      </div>
+    );
   return (
     <div className="relative flex flex-col">
       {transactions?.length > 0 &&
