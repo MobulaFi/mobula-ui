@@ -83,6 +83,13 @@ export const AINews = ({ showPage }: AINewsProps) => {
     }
   }, []);
 
+  const handleWrongFormat = (text: string) => {
+    if (text.includes("[]")) {
+      return text.replace("[]", "");
+    }
+    return text;
+  };
+
   return (
     <div
       className={`flex w-[200px] flex-col transition-all duration-300 ease-in-out min-w-full`}
@@ -97,7 +104,9 @@ export const AINews = ({ showPage }: AINewsProps) => {
         </div>
       </div>
       <SmallFont extraCss="scroll overflow-y-scroll max-h-[110px] mt-2.5 pt-0 px-[15px] pr-2.5">
-        {news ? formatNewsSummary(news) : "Loading..."}
+        {news
+          ? handleWrongFormat(formatNewsSummary(news) as never)
+          : "Loading..."}
       </SmallFont>
       <div className="flex items-center justify-between px-[15px] py-1.5 mt-auto border-t border-light-border-primary dark:border-dark-border-primary">
         <div className="flex items-center">

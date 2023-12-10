@@ -9,7 +9,7 @@ import { VscAdd, VscArrowUp } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../../../../../../components/fonts";
 import { Menu } from "../../../../../../../components/menu";
-import { Spinner } from "../../../../../../../components/spinner";
+import { Skeleton } from "../../../../../../../components/skeleton";
 import { Tooltip } from "../../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../../contexts/user";
 import { GET } from "../../../../../../../utils/fetch";
@@ -90,7 +90,6 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
   const txsLimit = 20;
 
   const fetchTransactions = (refresh = false) => {
-    setIsLoadingFetch(true);
     const txRequest: any = {
       should_fetch: false,
       limit: txsLimit,
@@ -297,19 +296,6 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
               )
               .sort(rankByAmountUsd)?.[0]?.transaction;
 
-            console.log(
-              "otherTx",
-              otherTx,
-              finalTx,
-              txsFromHash
-                .filter(
-                  (entry) =>
-                    entry.transaction.amount &&
-                    isOut(entry.transaction) !== isTxOut
-                )
-                .sort(rankByAmountUsd)
-            );
-
             if (!otherTx) return handleNormalCase();
 
             finalTx.type = "swap";
@@ -387,8 +373,38 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
   console.log("transaction assset", asset, transactionsByDate);
   if (isLoadingFetch)
     return (
-      <div className="flex justify-center items-center w-full h-[190px]">
-        <Spinner extraCss="w-[30px] h-[30px]" />
+      <div className="flex flex-col w-full h-[190px]">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <>
+            <div className="flex items-center mb-2 w-full">
+              <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
+              <Skeleton extraCss="h-[12px] w-[70px] mx-2 rounded" />
+              <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
+            </div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center w-full">
+                <div className="flex flex-col">
+                  <div className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-full z-[1] -mb-2.5 w-fit h-fit">
+                    <Skeleton extraCss="w-[20px] h-[20px] min-w-[20px] min-h-[20px] rounded-full" />
+                  </div>
+                  <div className="flex bg-dark-font-20 dark:bg-light-font-20 rounded-full z-[0] ml-2.5">
+                    <Skeleton extraCss="w-[20px] h-[20px] min-w-[20px] min-h-[20px] rounded-full" />
+                  </div>
+                </div>
+                <div className="flex flex-col mx-2.5 flex-wrap w-full">
+                  <Skeleton extraCss="w-[100px] h-[13px] rounded" />
+                  <Skeleton extraCss="w-[40px] h-[13px] rounded mt-1" />
+                </div>
+              </div>
+              <div className="flex items-center justify-end">
+                <div className="flex items-center">
+                  <Skeleton extraCss="w-[18px] h-[18px] min-w-[18px] min-h-[18px] rounded-full" />
+                </div>
+                <Skeleton extraCss="ml-2 h-[18px] w-[3px]" />
+              </div>
+            </div>
+          </>
+        ))}
       </div>
     );
   return (
@@ -399,7 +415,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
           {Object.entries(transactionsByDate).map(
             ([date, transactionsForDate]: [string, PublicTransaction[]]) => (
               <>
-                <div className="flex items-center mb-2">
+                <div className="flex items-center ">
                   <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
                   <SmallFont extraCss="px-2.5 text-[11px] md:text-[11px] text-light-font-40 dark:text-dark-font-40">
                     {date}
@@ -463,7 +479,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                           showTxDetails === transaction.hash
                             ? "h-[90px]"
                             : "h-[28px]"
-                        } transition-all duration-800 mb-3`}
+                        } transition-all duration-800 my-2`}
                       >
                         <div className="flex items-center justify-between ">
                           <div
@@ -625,9 +641,11 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                   activePortfolio?.user === user?.id &&
                                   transaction.id && (
                                     <div
-                                      className="flex items-center text-sm text-[13px] md:text-xs
+                                      className={`flex items-center text-sm text-[13px] md:text-xs
                                        bg-light-bg-terciary dark:bg-dark-bg-terciary whitespace-nowrap 
-                                       mt-2.5 text-light-font-100 dark:text-dark-font-100"
+                                       ${
+                                         transaction.chain_id ? "mt-2.5" : ""
+                                       } text-light-font-100 dark:text-dark-font-100`}
                                       onClick={() => {
                                         handleRemoveTransaction(transaction.id);
                                       }}
@@ -724,7 +742,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                   {transaction.id &&
                                   activePortfolio?.user === user?.id ? (
                                     <BsTrash3
-                                      className="ml-[25px] text-light-font-100 dark:text-dark-font-100 text-base"
+                                      className="ml-2.5 text-light-font-100 dark:text-dark-font-100 text-sm"
                                       onClick={() =>
                                         handleRemoveTransaction(transaction.id)
                                       }
