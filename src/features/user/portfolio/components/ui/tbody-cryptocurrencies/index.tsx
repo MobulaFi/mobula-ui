@@ -56,7 +56,7 @@ const LinkTd = ({ children, asset, extraCss, ...props }: LinkTdProps) => {
 
   return (
     <td
-      className={`${tdStyle} ${extraCss} border-b border-t border-light-border-primary dark:border-dark-border-primary md:px-[5px]`}
+      className={`${tdStyle} ${extraCss} border-t-0 mt-0 py-0  md:px-[5px]`}
       {...props}
     >
       {/* href={asset ? `${basePath}/${getUrlFromName(asset?.name)}` : "/"} */}
@@ -186,16 +186,9 @@ export const TbodyCryptocurrencies = ({
 
   return (
     <>
-      <tr className="h-[10px]"></tr>
-      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary">
+      <tr className="cursor-pointer relative w-full bg-red">
         {isMobile && (
-          <td
-            className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary rounded-l-2xl border-l border-t w-fit ${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            }`}
-          >
+          <td className={`${tdStyle} w-fit `}>
             <div className="flex justify-end">
               <button
                 onClick={() => {
@@ -273,15 +266,9 @@ export const TbodyCryptocurrencies = ({
           </>
         )}
         <LinkTd
-          extraCss={`sticky top-0 left-[-1px] ${
-            isMobile
-              ? "pl-0"
-              : "border-l border-light-border-primary dark:border-dark-border-primary rounded-l-2xl"
-          } ${
-            showTokenInfo === asset?.id
-              ? "pb-[300px] md:pb-[600px]"
-              : "pb-[15px]"
-          } `}
+          extraCss={`sticky top-0 left-[-1px] ${isMobile ? "pl-0" : ""} ${
+            showTokenInfo === asset?.id ? "h-[400px] md:h-[600px]" : "pb-[15px]"
+          } transition-all duration-300 ease-in-out`}
           asset={asset}
           onClick={triggerTokenInfo}
         >
@@ -305,11 +292,7 @@ export const TbodyCryptocurrencies = ({
           </div>
         </LinkTd>
         <LinkTd
-          extraCss={`${
-            showTokenInfo === asset?.id
-              ? "pb-[300px] md:pb-[600px]"
-              : "pb-[15px]"
-          } `}
+          extraCss={` transition-all duration-300 ease-in-out`}
           asset={asset}
           onClick={triggerTokenInfo}
         >
@@ -333,11 +316,7 @@ export const TbodyCryptocurrencies = ({
         {isMobile ? null : (
           <LinkTd
             asset={asset}
-            extraCss={`${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } `}
+            extraCss={` transition-all duration-300 ease-in-out`}
             onClick={triggerTokenInfo}
           >
             <div className="flex flex-col items-end w-full">
@@ -358,11 +337,7 @@ export const TbodyCryptocurrencies = ({
         )}
         <LinkTd
           asset={asset}
-          extraCss={`${
-            showTokenInfo === asset?.id
-              ? "pb-[300px] md:pb-[600px]"
-              : "pb-[15px]"
-          } ${isMobile ? "pr-5 md:pr-5 rounded-r-2xl border-r" : ""}`}
+          extraCss={`transition-all duration-300 ease-in-out `}
           onClick={triggerTokenInfo}
         >
           {manager.privacy_mode ? (
@@ -406,11 +381,7 @@ export const TbodyCryptocurrencies = ({
         {isMobile ? null : (
           <LinkTd
             asset={asset}
-            extraCss={`${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } `}
+            extraCss={` transition-all duration-300 ease-in-out`}
             onClick={triggerTokenInfo}
           >
             {manager.privacy_mode ? (
@@ -431,11 +402,7 @@ export const TbodyCryptocurrencies = ({
         {isMobile ? null : (
           <LinkTd
             asset={asset}
-            extraCss={`${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } `}
+            extraCss={`transition-all duration-300 ease-in-out`}
             onClick={triggerTokenInfo}
           >
             {manager.privacy_mode ? (
@@ -455,11 +422,7 @@ export const TbodyCryptocurrencies = ({
         )}
         {!isMobile && (
           <td
-            className={`${tdStyle} ${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } border-r border-b border-t border-light-border-primary dark:border-dark-border-primary rounded-r-2xl`}
+            className={`${tdStyle}  border-r border-b border-t border-light-border-primary dark:border-dark-border-primary rounded-r-2xl transition-all duration-300 ease-in-out`}
             // onClick={triggerTokenInfo}
           >
             <div className="flex justify-end items-start">
@@ -517,7 +480,7 @@ export const TbodyCryptocurrencies = ({
           </td>
         )}
         {showTokenInfo === asset.id ? (
-          <div className="absolute left-0 w-full bottom-0 h-[300px] md:h-[600px] flex pb-4 flex-col">
+          <div className="absolute left-0 w-full bottom-0 h-[300px] md:h-[600px] flex pb-4 flex-col transition-all duration-300 ease-in-out">
             <div className="flex w-full items-center"></div>
             <div className="flex md:flex-col">
               <div className="w-[50%] md:w-full px-5 relative ">

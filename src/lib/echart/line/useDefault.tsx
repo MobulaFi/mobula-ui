@@ -526,6 +526,7 @@ export const useDefault = ({
         type: "line",
         smooth: false,
         symbol: "circle",
+
         // animation: false,
         symbolSize: 10,
         showSymbol: false,

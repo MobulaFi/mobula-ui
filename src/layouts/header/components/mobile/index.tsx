@@ -16,6 +16,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
   const { isConnected } = useAccount();
   const { isMenuMobile, setIsMenuMobile, extended, setExtended } =
     useContext(CommonPageContext);
+
   return (
     <div className="flex flex-col w-full">
       {navigation.map((entry) => {
