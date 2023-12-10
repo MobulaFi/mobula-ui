@@ -7,7 +7,7 @@ import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { VscAdd, VscArrowUp } from "react-icons/vsc";
 import { useAccount } from "wagmi";
-import { SmallFont } from "../../../../../../components/fonts";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Spinner } from "../../../../../../components/spinner";
 import { Tooltip } from "../../../../../../components/tooltip";

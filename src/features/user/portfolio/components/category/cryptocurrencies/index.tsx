@@ -8,7 +8,6 @@ import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
-import { Spinner } from "../../../../../../components/spinner";
 import {
   PopupStateContext,
   PopupUpdateContext,
@@ -251,13 +250,6 @@ export const Cryptocurrencies = () => {
             {filteredData
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
               .map((asset) => {
-                console.log("assssss", asset);
-                console.log(
-                  "tokensData[asset.id]?.price_history?.price",
-                  asset?.price_history?.price,
-                  asset,
-                  tokensData
-                );
                 return (
                   // <TbodyCryptocurrencies
                   //   key={asset.name}
@@ -293,7 +285,9 @@ export const Cryptocurrencies = () => {
                             </p>
                             <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
                               {`${
-                                getFormattedAmount(asset.token_balance) < 0.01
+                                (Number(
+                                  getFormattedAmount(asset.token_balance)
+                                ) || 0) < 0.01
                                   ? "<0.01"
                                   : getFormattedAmount(asset.token_balance)
                               } `}
@@ -595,9 +589,7 @@ export const Cryptocurrencies = () => {
                                     asset={asset}
                                     setIsLoadingFetch={setIsLoadingFetch}
                                   />
-                                ) : (
-                                  <Spinner extraCss="h-[30px] w-[30px]" />
-                                )}
+                                ) : null}
                                 <div className="h-[26px] bottom-0 w-full bg-gradient-to-t from-light-bg-terciary dark:from-dark-bg-terciary sticky z-[1]" />
                                 {/* ) : (
                                   <Spinner extraCss="h-[30px] w-[30px]" />
