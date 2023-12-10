@@ -398,10 +398,10 @@ export const Transaction = ({
               <>
                 <div className="flex items-center mb-2">
                   <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
-                  <SmallFont extraCss="px-2.5 text-xs md:text-xs">
+                  <SmallFont extraCss="px-2.5 text-[11px] md:text-[11px] text-light-font-40 dark:text-dark-font-40">
                     {date}
                   </SmallFont>
-                  <div className="h-[1px] w-full bg-[] dark:bg-dark-font-10" />
+                  <div className="h-[1px] w-full bg-light-font-10 dark:bg-dark-font-10" />
                 </div>
                 {transactionsForDate.map((transaction) => {
                   // We check if we're in a swap where we need 2 tokens, or a simple transaction.
@@ -456,11 +456,21 @@ export const Transaction = ({
                   return (
                     <>
                       <div
-                        onClick={() => setShowTxDetails(transaction?.hash)}
-                        className="mb-2"
+                        className={`${
+                          showTxDetails === transaction.hash
+                            ? "h-[90px]"
+                            : "h-[28px]"
+                        } transition-all duration-800 mb-3`}
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
+                        <div className="flex items-center justify-between ">
+                          <div
+                            className="flex items-center w-full"
+                            onClick={() => {
+                              if (transaction.hash === showTxDetails)
+                                setShowTxDetails(null);
+                              else setShowTxDetails(transaction.hash);
+                            }}
+                          >
                             <div className="flex flex-col">
                               <div className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-full z-[1] -mb-2.5 w-fit h-fit">
                                 <img
@@ -638,7 +648,7 @@ export const Transaction = ({
                         </div>
                         {showTxDetails === transaction?.hash ? (
                           <div
-                            className={`${tdStyle} flex items-center w-full `}
+                            className={`${tdStyle} flex items-center w-full`}
                             onClick={() => {
                               setActiveTransaction(
                                 isActive
@@ -648,7 +658,7 @@ export const Transaction = ({
                             }}
                           >
                             {transaction.is_added ? (
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 whitespace-nowrap">
+                              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap font-normal text-[13px]">
                                 Transaction added manually, no meta-data.
                               </SmallFont>
                             ) : (

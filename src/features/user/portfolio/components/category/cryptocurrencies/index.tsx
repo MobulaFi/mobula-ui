@@ -199,7 +199,7 @@ export const Cryptocurrencies = () => {
   const [test, setTest] = useState(false);
 
   const testStyle =
-    "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-sm md:text-xs py-2";
+    "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
 
   return (
     <>
@@ -283,18 +283,20 @@ export const Cryptocurrencies = () => {
                     key={asset?.name}
                     className={`${
                       showTokenInfo === asset?.id ? "h-[500px]" : "h-[70px]"
-                    } bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-800 
+                    } bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
                   overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
-                  border-light-border-primary dark:border-dark-border-primary`}
-                    onClick={() => {
-                      triggerTokenInfo(asset);
-                    }}
+                  border-light-border-primary dark:border-dark-border-primary pt-0`}
                   >
                     <div className="flex flex-col w-full">
-                      <div className="flex justify-between items-center w-full h-[70px] p-2.5">
-                        <div className="flex items-center w-full max-w-[150px]">
+                      <div className="flex justify-between items-center w-full h-[70px] mt-0">
+                        <div
+                          className="h-full flex items-center w-full p-2.5"
+                          onClick={() => {
+                            triggerTokenInfo(asset);
+                          }}
+                        >
                           <img
-                            className="w-[30px] h-[30px] rounded-full mr-2"
+                            className="w-[34px] h-[34px] rounded-full mr-2"
                             src={asset?.image || "/empty/unknown.png"}
                             alt="logo"
                           />
@@ -302,12 +304,16 @@ export const Cryptocurrencies = () => {
                             <p className="text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
                               {asset?.symbol}
                             </p>
-                            <p className="text-light-font-40 dark:text-dark-font-40 text-xs lg:text-[11px] md:text-[10px]">
-                              {asset?.name}
+                            <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
+                              {`${
+                                getFormattedAmount(asset.token_balance) < 0.01
+                                  ? "<0.01"
+                                  : getFormattedAmount(asset.token_balance)
+                              } `}
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center  p-2.5">
                           <div className="flex flex-col items-end mr-5">
                             {manager.privacy_mode ? (
                               <Privacy extraCss="justify-end" />
@@ -321,10 +327,15 @@ export const Cryptocurrencies = () => {
                             {manager.privacy_mode ? (
                               <Privacy extraCss="justify-end" />
                             ) : (
-                              <SmallFont extraCss="font-medium text-light-font-40 whitespace-nowrap dark:text-dark-font-40 text-end">
-                                {`${getFormattedAmount(asset.token_balance)} ${
-                                  asset.symbol
+                              <SmallFont
+                                extraCss={`font-medium text-end ${
+                                  Number(getTokenPercentage(asset.change_24h)) >
+                                  0
+                                    ? "text-green dark:text-green"
+                                    : "text-red dark:text-red"
                                 }`}
+                              >
+                                {getTokenPercentage(asset.change_24h)}%
                               </SmallFont>
                             )}
                           </div>
@@ -499,12 +510,12 @@ export const Cryptocurrencies = () => {
                               <td className={`${testStyle} py-1.5 text-start`}>
                                 <div className="flex flex-col items-start w-full">
                                   <SmallFont
-                                    extraCss={`font-medium text-start ${changeColor}`}
+                                    extraCss={`font-medium text-start text-[13px] ${changeColor}`}
                                   >
                                     ${getFormattedAmount(asset.price)}
                                   </SmallFont>
                                   <SmallFont
-                                    extraCss={`font-medium text-start ${
+                                    extraCss={`font-medium text-start text-[13px] ${
                                       Number(
                                         getTokenPercentage(asset.change_24h)
                                       ) > 0
@@ -518,10 +529,10 @@ export const Cryptocurrencies = () => {
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
                                 {manager.privacy_mode ? (
-                                  <Privacy extraCss="justify-end" />
+                                  <Privacy extraCss="justify-end text-[13px]" />
                                 ) : (
                                   <SmallFont
-                                    extraCss={`font-medium text-end ${
+                                    extraCss={`font-medium text-end text-[13px] ${
                                       Number(
                                         getTokenPercentage(asset.realized_usd)
                                       ) > 0
@@ -535,10 +546,10 @@ export const Cryptocurrencies = () => {
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
                                 {manager.privacy_mode ? (
-                                  <Privacy extraCss="justify-end" />
+                                  <Privacy extraCss="justify-end text-[13px]" />
                                 ) : (
                                   <SmallFont
-                                    extraCss={`font-medium text-end ${
+                                    extraCss={`font-medium text-end text-[13px] ${
                                       Number(
                                         getTokenPercentage(asset.unrealized_usd)
                                       ) > 0
@@ -551,12 +562,12 @@ export const Cryptocurrencies = () => {
                                 )}
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
-                                <SmallFont extraCss="font-medium">
+                                <SmallFont extraCss="font-medium text-[13px]">
                                   {getFormattedAmount(newWallet?.price_bought)}$
                                 </SmallFont>
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
-                                <SmallFont extraCss="font-medium">
+                                <SmallFont extraCss="font-medium text-[13px]">
                                   {getFormattedAmount(asset?.total_invested)}$
                                 </SmallFont>
                               </td>
@@ -565,7 +576,7 @@ export const Cryptocurrencies = () => {
                         </table>
                       </div>
                       <div className="flex items-start">
-                        <div className="w-2/4 m-2.5 p-3 rounded-lg mt-[0px] relative">
+                        <div className="w-2/4 m-2.5 p-3 mr-0 pr-0 rounded-lg mt-[0px] relative">
                           <MediumFont extraCss="mt-5 absolute top-[-10px]">
                             {asset?.name} Price Chart
                           </MediumFont>
@@ -589,7 +600,7 @@ export const Cryptocurrencies = () => {
                               <MediumFont extraCss="mb-4">
                                 Transactions
                               </MediumFont>
-                              <div className="overflow-y-scroll h-[215px] min-h-[215px] w-full">
+                              <div className="overflow-y-scroll h-[215px] min-h-[215px] w-full relative">
                                 {/* {!isLoadingFetch ? ( */}
                                 {showTokenInfo === asset?.id ? (
                                   <Transaction
@@ -598,7 +609,7 @@ export const Cryptocurrencies = () => {
                                     setIsLoadingFetch={setIsLoadingFetch}
                                   />
                                 ) : null}
-
+                                <div className="h-[26px] bottom-0 w-full bg-gradient-to-t from-light-bg-terciary dark:from-dark-bg-terciary sticky z-[1]" />
                                 {/* ) : (
                                   <Spinner extraCss="h-[30px] w-[30px]" />
                                 )} */}
