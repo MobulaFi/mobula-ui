@@ -284,7 +284,7 @@ export const Cryptocurrencies = () => {
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end md:font-normal whitespace-nowrap md:text-[13px]`}
+                                extraCss={`font-medium text-end md:font-normal whitespace-nowrap text-[13px] md:text-[13px]`}
                               >
                                 {Number(
                                   getFormattedAmount(token.token_balance)
@@ -299,7 +299,7 @@ export const Cryptocurrencies = () => {
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end whitespace-nowrap md:font-normal md:text-[13px] ${changeColor}`}
+                                extraCss={`font-medium text-end whitespace-nowrap md:font-normal text-[13px] md:text-[13px] ${changeColor}`}
                               >
                                 ${getFormattedAmount(token.estimated_balance)}
                               </SmallFont>

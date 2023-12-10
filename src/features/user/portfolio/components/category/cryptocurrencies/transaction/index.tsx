@@ -122,11 +122,10 @@ export const Transaction = ({
   };
 
   useEffect(() => {
-    if (isMounted.current || !transactions?.length) {
-      if (!asset) return;
+    if (isMounted.current) {
       fetchTransactions(true);
     } else isMounted.current = true;
-  }, [asset?.id, wallet?.id]);
+  }, [asset, wallet?.id]);
 
   // We want to make sure we set the "light" token to be:
   // ETH is ETH vs Stable
