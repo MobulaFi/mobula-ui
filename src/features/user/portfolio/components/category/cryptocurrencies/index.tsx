@@ -565,8 +565,8 @@ export const Cryptocurrencies = () => {
                         </table>
                       </div>
                       <div className="flex items-start">
-                        <div className="w-2/4 m-2.5 p-3 rounded-lg mt-[-10px] relative">
-                          <MediumFont extraCss="mt-5 absolute top-0">
+                        <div className="w-2/4 m-2.5 p-3 rounded-lg mt-[0px] relative">
+                          <MediumFont extraCss="mt-5 absolute top-[-10px]">
                             {asset?.name} Price Chart
                           </MediumFont>
                           <EChart
@@ -586,8 +586,10 @@ export const Cryptocurrencies = () => {
                         <div className="w-2/4 m-2.5 mt-0 p-3 rounded-lg">
                           {editAssetManager.transactions ? (
                             <div className="flex flex-col w-full items-start rounded-lg pt-0">
-                              <MediumFont>Transactions</MediumFont>
-                              <div className="overflow-y-scroll h-[190px] min-h-[190px] w-full">
+                              <MediumFont extraCss="mb-4">
+                                Transactions
+                              </MediumFont>
+                              <div className="overflow-y-scroll h-[215px] min-h-[215px] w-full">
                                 {/* {!isLoadingFetch ? ( */}
                                 {showTokenInfo === asset?.id ? (
                                   <Transaction
