@@ -1,6 +1,6 @@
 import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
-import React, { Key, useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -24,9 +24,8 @@ import {
 import { TimeSelected } from "../../../../../asset/models";
 import { PortfolioV2Context } from "../../../context-manager";
 import { useWebSocketResp } from "../../../hooks";
-import { flexGreyBoxStyle, thStyle } from "../../../style";
+import { flexGreyBoxStyle } from "../../../style";
 import { Privacy } from "../../ui/privacy";
-import { TbodySkeleton } from "../../ui/tbody-skeleton";
 import { Transaction } from "./transaction";
 
 export const Cryptocurrencies = () => {
@@ -52,7 +51,7 @@ export const Cryptocurrencies = () => {
   const isWhiteMode = theme === "light";
   const [tokensData, setTokensData] = useState({});
   const [changeColor, setChangeColor] = useState(
-    "text-light-font-100 dark:text-dark-font-100"
+    "text-light-font-60 dark:text-dark-font-60"
   );
   const { setShowBuyDrawer, showBuyDrawer } = useContext(SettingsMetricContext);
   const [isLoadingFetch, setIsLoadingFetch] = useState(
@@ -167,13 +166,13 @@ export const Cryptocurrencies = () => {
       setChangeColor("text-green dark:text-green");
 
       setTimeout(() => {
-        setChangeColor("text-light-font-100 dark:text-dark-font-100");
+        setChangeColor("text-light-font-60 dark:text-dark-font-60");
       }, 1000);
     } else if (asset.estimated_balance_change === false) {
       setChangeColor("text-red dark:text-red");
 
       setTimeout(() => {
-        setChangeColor("text-light-font-100 dark:text-dark-font-100");
+        setChangeColor("text-light-font-60 dark:text-dark-font-60");
       }, 1000);
     }
   }, [asset]);
@@ -200,46 +199,7 @@ export const Cryptocurrencies = () => {
 
   return (
     <>
-      <table className="relative overflow-x-scroll md:pb-5 border-separate border-spacing-0 w-full caption-bottom">
-        <thead className="rounded-t-lg">
-          <tr>
-            {isMobile && (
-              <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-start w-2.5`}
-              />
-            )}
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary sticky top-0 left-[-1px] text-start `}
-              // bgColor={bg}
-            ></th>
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            ></th>
-            {isMobile ? null : (
-              <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              ></th>
-            )}
-            <th
-              className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-            ></th>
-            {isMobile ? null : (
-              <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              ></th>
-            )}
-            {isMobile ? null : (
-              <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              ></th>
-            )}
-            {!isMobile && (
-              <th
-                className={`${thStyle} border-b border-light-border-primary dark:border-dark-border-primary text-end`}
-              ></th>
-            )}
-          </tr>
-        </thead>
+      <div className="relative md:pb-5 w-full">
         {!isLoading &&
         filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
           .length > 0 ? (
@@ -255,7 +215,7 @@ export const Cryptocurrencies = () => {
                   //   showTokenInfo={showTokenInfo}
                   //   tokenInfo={tokensData[token.id]}
                   // />
-                  <caption
+                  <div
                     key={token?.name}
                     className={`${
                       showTokenInfo === token?.id
@@ -279,18 +239,27 @@ export const Cryptocurrencies = () => {
                             alt="logo"
                           />
                           <div className="flex flex-col items-start">
-                            <p className="text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
+                            <p className="text-light-font-100 md:hidden dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
+                              {token?.name}
+                            </p>
+                            <p className="text-light-font-100 hidden md:flex dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal">
                               {token?.symbol}
                             </p>
-                            <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
-                              {`${
-                                Number(
-                                  getFormattedAmount(token.token_balance)
-                                ) < 0.01
-                                  ? "<0.01"
-                                  : getFormattedAmount(token.token_balance)
-                              } `}
-                            </p>
+                            <div className="flex items-center">
+                              <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
+                                {getFormattedAmount(token.price)}$
+                              </p>
+                              <SmallFont
+                                extraCss={`font-medium text-end ml-2 md:font-normal ${
+                                  Number(getTokenPercentage(token.change_24h)) >
+                                  0
+                                    ? "text-green dark:text-green"
+                                    : "text-red dark:text-red"
+                                }`}
+                              >
+                                {getTokenPercentage(token.change_24h)}%
+                              </SmallFont>
+                            </div>
                           </div>
                         </div>
                         <div className="flex items-center  p-2.5">
@@ -299,23 +268,24 @@ export const Cryptocurrencies = () => {
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end whitespace-nowrap ${changeColor}`}
+                                extraCss={`font-medium text-end md:font-normal whitespace-nowrap`}
                               >
-                                ${getFormattedAmount(token.estimated_balance)}
+                                {Number(
+                                  getFormattedAmount(token.token_balance)
+                                ) < 0.01
+                                  ? `<0.01 ${token.symbol}}`
+                                  : `${getFormattedAmount(
+                                      token.token_balance
+                                    )} ${token.symbol}`}
                               </SmallFont>
                             )}
                             {manager.privacy_mode ? (
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end ${
-                                  Number(getTokenPercentage(token.change_24h)) >
-                                  0
-                                    ? "text-green dark:text-green"
-                                    : "text-red dark:text-red"
-                                }`}
+                                extraCss={`font-medium text-end whitespace-nowrap ${changeColor}`}
                               >
-                                {getTokenPercentage(token.change_24h)}%
+                                ${getFormattedAmount(token.estimated_balance)}
                               </SmallFont>
                             )}
                           </div>
@@ -469,50 +439,27 @@ export const Cryptocurrencies = () => {
                           <thead>
                             <tr>
                               <th className={`${testStyle} text-start`}>
-                                Price
-                              </th>
-                              <th className={`${testStyle} text-end`}>
                                 Realized PNL
                               </th>
-                              <th className={`${testStyle} text-end`}>
+                              <th className={`${testStyle} text-start`}>
                                 Unrealized PNL
                               </th>
-                              <th className={`${testStyle} text-end`}>
-                                Avg Price Bought
+                              <th className={`${testStyle} text-start`}>
+                                Avg Buy
                               </th>
                               <th className={`${testStyle} text-end`}>
-                                Total Invested
+                                Investment
                               </th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
                               <td className={`${testStyle} py-1.5 text-start`}>
-                                <div className="flex flex-col items-start w-full">
-                                  <SmallFont
-                                    extraCss={`font-medium text-start text-[13px] ${changeColor}`}
-                                  >
-                                    ${getFormattedAmount(token.price)}
-                                  </SmallFont>
-                                  <SmallFont
-                                    extraCss={`font-medium text-start text-[13px] ${
-                                      Number(
-                                        getTokenPercentage(token.change_24h)
-                                      ) > 0
-                                        ? "text-green dark:text-green"
-                                        : "text-red dark:text-red"
-                                    }`}
-                                  >
-                                    {getTokenPercentage(token.change_24h)}%
-                                  </SmallFont>
-                                </div>
-                              </td>
-                              <td className={`${testStyle} py-1.5 text-end`}>
                                 {manager.privacy_mode ? (
-                                  <Privacy extraCss="justify-end text-[13px]" />
+                                  <Privacy extraCss="justify-start text-[13px]" />
                                 ) : (
                                   <SmallFont
-                                    extraCss={`font-medium text-end text-[13px] ${
+                                    extraCss={`font-medium text-start md:font-normal text-[13px] ${
                                       Number(
                                         getTokenPercentage(token.realized_usd)
                                       ) > 0
@@ -524,12 +471,12 @@ export const Cryptocurrencies = () => {
                                   </SmallFont>
                                 )}
                               </td>
-                              <td className={`${testStyle} py-1.5 text-end`}>
+                              <td className={`${testStyle} py-1.5 text-start`}>
                                 {manager.privacy_mode ? (
-                                  <Privacy extraCss="justify-end text-[13px]" />
+                                  <Privacy extraCss="justify-start text-[13px]" />
                                 ) : (
                                   <SmallFont
-                                    extraCss={`font-medium text-end text-[13px] ${
+                                    extraCss={`font-medium text-start md:font-normal text-[13px] ${
                                       Number(
                                         getTokenPercentage(token.unrealized_usd)
                                       ) > 0
@@ -541,13 +488,13 @@ export const Cryptocurrencies = () => {
                                   </SmallFont>
                                 )}
                               </td>
-                              <td className={`${testStyle} py-1.5 text-end`}>
-                                <SmallFont extraCss="font-medium text-[13px]">
+                              <td className={`${testStyle} py-1.5 text-start`}>
+                                <SmallFont extraCss="font-medium md:font-normal text-[13px]">
                                   {getFormattedAmount(newWallet?.price_bought)}$
                                 </SmallFont>
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
-                                <SmallFont extraCss="font-medium text-[13px]">
+                                <SmallFont extraCss="font-medium md:font-normal text-[13px]">
                                   {getFormattedAmount(token?.total_invested)}$
                                 </SmallFont>
                               </td>
@@ -599,20 +546,20 @@ export const Cryptocurrencies = () => {
                         </div>
                       </div>
                     </div>
-                  </caption>
+                  </div>
                 );
               })}
           </>
         ) : null}
-        {isLoading ? (
+        {/* {isLoading ? (
           <tbody>
             {Array.from(Array(10).keys()).map((_, i) => (
               <TbodySkeleton key={i as Key} />
             ))}
           </tbody>
-        ) : null}
+        ) : null} */}
 
-        {isNormalBalance && numberOfAsset ? (
+        {/* {isNormalBalance && numberOfAsset ? (
           <caption
             className="bg-light-bg-secondary dark:bg-dark-bg-secondary text-start 
           rounded-xl pl-0 h-[40px] border border-light-border-primary dark:border-dark-border-primary 
@@ -629,8 +576,8 @@ export const Cryptocurrencies = () => {
                 : `Show low balances  (${numberOfAsset} assets) `}
             </button>
           </caption>
-        ) : null}
-      </table>
+        ) : null} */}
+      </div>
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
         <div
