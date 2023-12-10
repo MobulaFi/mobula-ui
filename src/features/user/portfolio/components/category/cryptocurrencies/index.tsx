@@ -219,7 +219,7 @@ export const Cryptocurrencies = () => {
                     key={token?.name}
                     className={`${
                       showTokenInfo === token?.id
-                        ? "h-[450px] lg:h-[745px]"
+                        ? "h-[450px] lg:h-[710px]"
                         : "h-[70px]"
                     } bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
                   overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
