@@ -521,7 +521,7 @@ export const Transaction = ({
                                 )}
                               </div>
                             </div>
-                            <div className="flex flex-col ml-2.5 flex-wrap max-w-[200px]">
+                            <div className="flex flex-col mx-2.5 flex-wrap w-full">
                               {transactionInfos.type === "execution" ? (
                                 <SmallFont
                                   extraCss={`break-all whitespace-pre-wrap text-start text-[13px] md:text-[13px] font-medium`}
@@ -704,20 +704,9 @@ export const Transaction = ({
                                       ?.name || addressSlicer(externalActor)}
                                   </SmallFont>
                                 </div>
-                                <div className="items-center ml-5 hidden md:flex">
-                                  <img
-                                    className="bg-light-bg-hover dark:bg-dark-bg-hover w-18] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
-                                    src={
-                                      blockchainsIdContent[transaction.chain_id]
-                                        ?.logo || "/empty/unknown.png"
-                                    }
-                                    alt={`$${
-                                      blockchainsIdContent[transaction.chain_id]
-                                        ?.name
-                                    } logo`}
-                                  />
+                                <div className="items-center hidden md:flex ml-auto">
                                   <FiExternalLink
-                                    className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xl"
+                                    className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-base"
                                     onClick={() =>
                                       window.open(
                                         `${
@@ -731,7 +720,7 @@ export const Transaction = ({
                                   {transaction.id &&
                                   activePortfolio?.user === user?.id ? (
                                     <BsTrash3
-                                      className="ml-[25px] text-light-font-100 dark:text-dark-font-100 text-lg"
+                                      className="ml-[25px] text-light-font-100 dark:text-dark-font-100 text-base"
                                       onClick={() =>
                                         handleRemoveTransaction(transaction.id)
                                       }
@@ -743,284 +732,6 @@ export const Transaction = ({
                           </div>
                         ) : null}
                       </div>
-
-                      {/* <tr
-                        className={`${
-                          transaction.is_added
-                            ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                            : ""
-                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250`}
-                      >
-                        <td
-                          className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary max-w-[160px] pr-[5px] ${
-                            isActive ? "h-[120px]" : ""
-                          } ${
-                            transaction.hash !== "0x"
-                              ? "cursor-pointer"
-                              : "cursor-default"
-                          } ${isActive ? "pb-[80px]" : ""}`}
-                          onClick={() => {
-                            setActiveTransaction(
-                              isActive ? "" : transaction.hash + transaction.id
-                            );
-                          }}
-                        >
-                  
-                        </td>
-                        <td
-                          className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary ${
-                            isActive ? "pb-[80px]" : ""
-                          }`}
-                          onClick={() => {
-                            setActiveTransaction(
-                              isActive ? "" : transaction.hash + transaction.id
-                            );
-                          }}
-                        >
-                          {manager.privacy_mode ? (
-                            <Privacy extraCss="justify-end" />
-                          ) : (
-                            <TransactionAmount
-                              transaction={transaction}
-                              tokens={txTokens as never}
-                            />
-                          )}
-                        </td>
-                        {isSmallTable ? null : (
-                          <td
-                            className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden text-end ${
-                              isActive ? "pb-[80px]" : ""
-                            }`}
-                            onClick={() => {
-                              setActiveTransaction(
-                                isActive
-                                  ? ""
-                                  : transaction.hash + transaction.id
-                              );
-                            }}
-                          >
-                            <div className="flex items-center justify-end">
-                              {famousContractsLabel[externalActor] ? (
-                                <img
-                                  className="w-[22px] h-[22px] min-w-[24px] rounded-full ml-auto mr-2"
-                                  src={famousContractsLabel[externalActor].logo}
-                                  alt={`${famousContractsLabel[externalActor].name} logo`}
-                                />
-                              ) : null}
-                              <SmallFont
-                                extraCss={`${
-                                  !famousContractsLabel[externalActor]
-                                    ? "ml-auto"
-                                    : ""
-                                } ${
-                                  transactionInfos.type === "internal"
-                                    ? "text-light-font-40 dark:text-dark-font-40"
-                                    : "text-light-font-100 dark:text-dark-font-100"
-                                } font-medium`}
-                              >
-                                {transaction.is_added
-                                  ? "--"
-                                  : famousContractsLabel[externalActor]?.name ||
-                                    addressSlicer(externalActor)}
-                              </SmallFont>
-                            </div>
-                          </td>
-                        )}
-
-                        <td
-                          className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary table-cell md:hidden ${
-                            isActive ? "pb-[80px]" : ""
-                          }`}
-                        >
-                          <div className="flex items-center justify-end">
-                            <div className="flex items-center">
-                              <img
-                                className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] 
-                            border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
-                                src={
-                                  blockchainsIdContent[transaction.chain_id]
-                                    ?.logo || "/empty/unknown.png"
-                                }
-                                alt={`${
-                                  blockchainsIdContent[transaction.chain_id]
-                                    ?.name
-                                } logo`}
-                              />
-                            </div>
-                            {(transaction.chain_id ||
-                              (!isWalletExplorer &&
-                                activePortfolio?.user === user?.id)) && (
-                              <Menu
-                                title={
-                                  <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
-                                }
-                                titleCss="ml-2"
-                              >
-                                {transaction.chain_id ? (
-                                  <div
-                                    className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                                    onClick={() =>
-                                      window.open(
-                                        `${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
-                                          ]?.explorer
-                                        }/tx/${transaction.hash}`
-                                      )
-                                    }
-                                  >
-                                    <div
-                                      className={`${flexGreyBoxStyle} bg-light-bg-hover dark:bg-dark-bg-hover`}
-                                    >
-                                      <img
-                                        className="w-[15px] h-[15px] min-w-[15px]"
-                                        src={
-                                          blockchainsIdContent[
-                                            transaction.chain_id
-                                          ]?.logo
-                                        }
-                                        alt={`${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
-                                          ]?.name
-                                        } logo`}
-                                      />
-                                    </div>
-                                    <div className="flex items-center whitespace-nowrap text-light-font-100 dark:text-dark-font-100">
-                                      Open explorer
-                                      <FiExternalLink className="ml-[7.5px] text-light-font-40 dark:text-dark-font-40" />
-                                    </div>
-                                  </div>
-                                ) : null}
-                                {!isWalletExplorer &&
-                                  activePortfolio?.user === user?.id &&
-                                  transaction.id && (
-                                    <div
-                                      className="flex items-center text-sm text-[13px] md:text-xs
-                                       bg-light-bg-terciary dark:bg-dark-bg-terciary whitespace-nowrap 
-                                       mt-2.5 text-light-font-100 dark:text-dark-font-100"
-                                      onClick={() => {
-                                        handleRemoveTransaction(transaction.id);
-                                      }}
-                                    >
-                                      <div
-                                        className={`${flexGreyBoxStyle} flex bg-red dark:bg-red`}
-                                      >
-                                        <BsTrash3 className="text-light-font-100 dark:text-dark-font-100" />
-                                      </div>
-                                      Delete transaction
-                                    </div>
-                                  )}
-                              </Menu>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                      <div
-                        className={`${tdStyle} absolute -mt-[75px] w-full flex items-center ${
-                          isActive ? "flex" : "hidden"
-                        } transition-all duration-250`}
-                        onClick={() => {
-                          setActiveTransaction(
-                            isActive ? "" : transaction.hash + transaction.id
-                          );
-                        }}
-                      >
-                        {transaction.is_added ? (
-                          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 whitespace-nowrap">
-                            Transaction added manually, no meta-data.
-                          </SmallFont>
-                        ) : (
-                          <>
-                            <div className="flex flex-col">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
-                                Fee
-                              </SmallFont>
-                              <SmallFont>{`$${getFormattedAmount(
-                                transaction.tx_cost_usd
-                              )}`}</SmallFont>
-                            </div>
-
-                            <div className="flex flex-col ml-8 md:hidden">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
-                                Transaction Hash
-                              </SmallFont>
-                              <div className="flex items-center">
-                                <SmallFont>
-                                  {addressSlicer(transaction.hash)}
-                                </SmallFont>
-                                <FiExternalLink
-                                  className="text-light-font-40 dark:text-dark-font-40 ml-[5px]"
-                                  onClick={() =>
-                                    window.open(
-                                      `${
-                                        blockchainsIdContent[
-                                          transaction.chain_id
-                                        ]?.explorer
-                                      }/tx/${transaction.hash}`
-                                    )
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="flex flex-col ml-8">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
-                                Wallet
-                              </SmallFont>
-                              <SmallFont>
-                                {addressSlicer(internalActor)}
-                              </SmallFont>
-                            </div>
-                            <div className="hidden md:flex flex-col ml-8">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
-                                Actor
-                              </SmallFont>
-                              <SmallFont>
-                                {famousContractsLabel[externalActor]?.name ||
-                                  addressSlicer(externalActor)}
-                              </SmallFont>
-                            </div>
-                            <div className="items-center ml-5 hidden md:flex">
-                              <img
-                                className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
-                                src={
-                                  blockchainsIdContent[transaction.chain_id]
-                                    ?.logo || "/icon/unknown.png"
-                                }
-                                alt={`$${
-                                  blockchainsIdContent[transaction.chain_id]
-                                    ?.name
-                                } logo`}
-                              />
-                              <FiExternalLink
-                                className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xl"
-                                onClick={() =>
-                                  window.open(
-                                    `${
-                                      blockchainsIdContent[transaction.chain_id]
-                                        ?.explorer
-                                    }/tx/${transaction.hash}`
-                                  )
-                                }
-                              />
-                              {transaction.id &&
-                              activePortfolio?.user === user?.id ? (
-                                <BsTrash3
-                                  className="ml-[25px] text-light-font-100 dark:text-dark-font-100 text-lg"
-                                  onClick={() =>
-                                    handleRemoveTransaction(transaction.id)
-                                  }
-                                />
-                              ) : null}
-                            </div>
-                          </>
-                        )}
-                      </div>
-                      <tr
-                        className={`border-b border-light-border-primary dark:border-dark-border-primary ${
-                          isActive ? "flex" : "hidden"
-                        } transition-all duration-250`}
-                      /> */}
                     </>
                   );
                 })}

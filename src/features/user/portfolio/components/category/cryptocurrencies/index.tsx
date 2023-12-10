@@ -8,6 +8,7 @@ import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { TagPercentage } from "../../../../../../components/tag-percentage";
 import {
   PopupStateContext,
   PopupUpdateContext,
@@ -194,6 +195,9 @@ export const Cryptocurrencies = () => {
       });
   }, [tokensData, showTokenInfo]);
 
+  console.log("asset is:", asset);
+  console.log("showTokenInfo is:", showTokenInfo);
+  console.log("tokensData[asset?.id] is:", tokensData[asset?.id]);
   const testStyle =
     "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
 
@@ -242,23 +246,35 @@ export const Cryptocurrencies = () => {
                             <p className="text-light-font-100 md:hidden dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
                               {token?.name}
                             </p>
-                            <p className="text-light-font-100 hidden md:flex dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal">
-                              {token?.symbol}
-                            </p>
+                            <div className="flex items-center">
+                              <p className="text-light-font-100 hidden md:flex dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal">
+                                {token?.symbol}
+                              </p>
+                              <TagPercentage
+                                extraCss="lg:text-xs px-1 lg:h-[16px] hidden md:flex"
+                                percentage={Number(
+                                  getTokenPercentage(token.change_24h)
+                                )}
+                                isUp={
+                                  Number(getTokenPercentage(token.change_24h)) >
+                                  0
+                                }
+                              />
+                            </div>
                             <div className="flex items-center">
                               <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
                                 {getFormattedAmount(token.price)}$
                               </p>
-                              <SmallFont
-                                extraCss={`font-medium text-end ml-2 md:font-normal ${
+                              <TagPercentage
+                                extraCss="text-xs px-1 py-[1px] lg:text-xs lg:h-[18px] min-h-auto md:hidden"
+                                percentage={Number(
+                                  getTokenPercentage(token.change_24h)
+                                )}
+                                isUp={
                                   Number(getTokenPercentage(token.change_24h)) >
                                   0
-                                    ? "text-green dark:text-green"
-                                    : "text-red dark:text-red"
-                                }`}
-                              >
-                                {getTokenPercentage(token.change_24h)}%
-                              </SmallFont>
+                                }
+                              />
                             </div>
                           </div>
                         </div>
@@ -414,7 +430,7 @@ export const Cryptocurrencies = () => {
                         </table>
                       </div>
                       <div className="flex items-start lg:flex-col">
-                        <div className="w-2/4 lg:w-full m-2.5 lg:m-0 p-3 mr-0 pr-0 lg:mr-2 rounded-lg mt-[0px] relative">
+                        <div className="w-2/4 lg:w-full m-2.5 lg:m-0 p-3 mr-0 pr-0 lg:pr-2 rounded-lg mt-[0px] relative">
                           <MediumFont extraCss="mt-5 absolute top-[-10px]">
                             {token?.name} Price Chart
                           </MediumFont>
