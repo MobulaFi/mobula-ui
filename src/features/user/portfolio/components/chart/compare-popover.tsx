@@ -90,7 +90,7 @@ export const ComparePopover = ({
       visibleContent={
         <Button
           extraCss={cn(
-            `mr-2.5 ml-auto h-[30px] z-[1] px-2 flex items-center justify-center whitespace-nowrap`,
+            `mr-2.5 ml-auto h-[30px] z-[1] px-2 flex items-center font-normal justify-center whitespace-nowrap`,
             extraCss
           )}
           onClick={() => {

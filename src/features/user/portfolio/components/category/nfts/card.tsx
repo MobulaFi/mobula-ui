@@ -95,7 +95,7 @@ export const NftPortfolioCard = ({
         {isNftLoading ? (
           <Skeleton extraCss="h-[20px] w-[90px]" />
         ) : (
-          <SmallFont extraCss="whitespace-pre-wrap font-medium">
+          <SmallFont extraCss="whitespace-pre-wrap font-normal">
             {nft.name} {showDeleteSelector}
             <span className="ml-[5px] text-light-font-60 dark:text-dark-font-60">
               {String(nft?.token_id).length < 10 ? `#${nft?.token_id}` : ""}

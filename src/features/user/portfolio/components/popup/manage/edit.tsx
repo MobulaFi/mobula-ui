@@ -109,7 +109,7 @@ export const ManageEdit = () => {
                 alt={`${tokenData.symbol} logo`}
                 fallbackSrc={""}
               />
-              <SmallFont extraCss="ml-2.5 font-medium">
+              <SmallFont extraCss="ml-2.5 font-normal">
                 {tokenData.symbol}
               </SmallFont>
             </div>

@@ -137,7 +137,7 @@ export const SelectorPortfolioPopup = () => {
                     <SmallFont>{otherPortfolio.name}</SmallFont>
                     <div className="ml-auto flex w-fit">
                       {totalBalance ? (
-                        <SmallFont className="text-light-font-40 dark:text-dark-font-40 font-medium">
+                        <SmallFont className="text-light-font-40 dark:text-dark-font-40 font-normal">
                           ${getFormattedAmount(totalBalance)}
                         </SmallFont>
                       ) : null}
@@ -209,7 +209,7 @@ export const SelectorPortfolioPopup = () => {
                                 <SmallFont className="mr-[5px] whitespace-nowrap">
                                   {asset.name}
                                 </SmallFont>{" "}
-                                <SmallFont className="text-light-font-60 dark:text-dark-font-60 font-medium">
+                                <SmallFont className="text-light-font-60 dark:text-dark-font-60 font-normal">
                                   ${getFormattedAmount(asset.balance_usd)}
                                 </SmallFont>
                               </div>

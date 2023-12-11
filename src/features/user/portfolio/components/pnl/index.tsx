@@ -51,7 +51,7 @@ export const PNL = () => {
                     <Skeleton extraCss="mb-[5px] w-[60px] h-[30px] lg:h-[24px] md:h-[18px] rounded-lg" />
                   ) : (
                     <p
-                      className={`text-3xl lg:text-2xl md:text-lg font-bold md:font-medium ${balanceColor} transition-all duration-250`}
+                      className={`text-3xl lg:text-2xl md:text-lg font-medium md:font-normal ${balanceColor} transition-all duration-250`}
                     >
                       $
                       {getFormattedAmount(wallet?.estimated_balance, 0, {

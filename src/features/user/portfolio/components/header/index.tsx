@@ -41,7 +41,7 @@ export const Header = () => {
           </LargeFont>
         ) : (
           <button
-            className={`flex items-center font-medium text-light-font-100 dark:text-dark-font-100 text-[24px] md:text-[16px] mr-0 sm:mr-[-5px] ${
+            className={`flex items-center font-normal text-light-font-100 dark:text-dark-font-100 text-[24px] md:text-[16px] mr-0 sm:mr-[-5px] ${
               activeStep.nbr === 5 ? "z-[5]" : "z-[0]"
             }`}
             onClick={() => setShowPortfolioSelector(true)}

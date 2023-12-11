@@ -159,7 +159,7 @@ export const Performers = () => {
                     {token.title}
                   </SmallFont>
                   <div className="flex items-center justify-between">
-                    <SmallFont extraCss="font-medium">
+                    <SmallFont extraCss="font-normal">
                       {token?.asset?.symbol}
                     </SmallFont>
                     <div className="flex items-center ml-[15px]">

@@ -41,7 +41,7 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
             alt="mobula logo"
           />
           <div className="flex flex-col ml-[7.5px]">
-            <SmallFont extraCss="font-medium">
+            <SmallFont extraCss="font-normal">
               {isWalletExplorer
                 ? addressSlicer(isWalletExplorer)
                 : activePortfolio?.name}

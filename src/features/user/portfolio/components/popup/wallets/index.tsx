@@ -109,7 +109,7 @@ export const WalletsPopup = () => {
               address={walletAddress}
             />
             <div className="flex flex-col ml-2.5">
-              <SmallFont className="font-medium">
+              <SmallFont className="font-normal">
                 {addressSlicer(walletAddress, 8)}
               </SmallFont>
             </div>

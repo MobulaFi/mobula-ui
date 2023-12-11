@@ -202,7 +202,7 @@ export const HoldingChart = ({ ...props }) => {
       className="flex bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl md:rounded-none mb-2.5 w-full flex-col"
       {...props}
     >
-      <p className="text-light-font-100 dark:text-dark-font-100 font-medium text-lg md:text-base mb-0">
+      <p className="text-light-font-100 dark:text-dark-font-100 font-normal text-lg md:text-base mb-0">
         Holdings
       </p>
       <div
@@ -222,7 +222,7 @@ export const HoldingChart = ({ ...props }) => {
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
           } 
-         transition-all duration-250 font-medium text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
+         transition-all duration-250 font-normal text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
           onClick={() => setTitle("asset")}
         >
           Assets
@@ -233,7 +233,7 @@ export const HoldingChart = ({ ...props }) => {
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
           }  
-          transition-all duration-250 font-medium text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
+          transition-all duration-250 font-normal text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
           onClick={() => setTitle("chain")}
         >
           Blockchains
