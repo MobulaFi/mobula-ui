@@ -46,6 +46,7 @@ export const TradeTypePopup = ({
   };
 
   const handleAddFilter = (reset: boolean) => {
+    console.log("Ive been called");
     setShouldInstantLoad(true);
     setMarketMetrics(
       (prev) =>
@@ -60,6 +61,7 @@ export const TradeTypePopup = ({
     if (index !== -1) filters.splice(index, 1);
     if (reset) return;
     if (selectedTradeFilters.type !== null) {
+      console.log("different null", index);
       setActiveName((prev) => ({
         ...prev,
         type: `${capitalizeFirstLetter(selectedTradeFilters?.type || "")} Tx`,
@@ -71,6 +73,7 @@ export const TradeTypePopup = ({
         action: "eq",
         value: ["trade_history.type", selectedTradeFilters.type || null],
       });
+      console.log("final", final);
       setFilters(final);
     } else {
       setActiveName((prev) => ({
@@ -82,7 +85,7 @@ export const TradeTypePopup = ({
     if (onClose) onClose();
     setShowTradeFilters(false);
   };
-
+  console.log("filfiltersfiltersters", filters);
   const resetFilter = () => {
     handleSelectType("all");
     setSelectedTradeFilters({
@@ -98,6 +101,8 @@ export const TradeTypePopup = ({
     setShowTradeFilters(false);
   };
 
+  console.log("selectedTradeFilters", selectedTradeFilters);
+
   return (
     <div className="flex flex-col">
       <div className="flex items-center mb-[7.5px]">
@@ -111,8 +116,10 @@ export const TradeTypePopup = ({
           >
             <BsCheckLg
               className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
-                selectedTradeFilters.type === "buy" ? "opacity-100" : ""
-              }"}`}
+                selectedTradeFilters.type === "buy"
+                  ? "opacity-100"
+                  : "opacity-0"
+              } transition-all duration-200 ease-in-out`}
             />
           </div>
           <div className="flex flex-col ml-[15px]">
@@ -133,8 +140,10 @@ export const TradeTypePopup = ({
           >
             <BsCheckLg
               className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
-                selectedTradeFilters.type === "sell" ? "opacity-100" : ""
-              }"}`}
+                selectedTradeFilters.type === "sell"
+                  ? "opacity-100"
+                  : "opacity-0"
+              } transition-all duration-200 ease-in-out`}
             />
           </div>
           <div className="flex flex-col ml-[15px]">
@@ -147,16 +156,16 @@ export const TradeTypePopup = ({
       <div className="flex items-center my-[7.5px]">
         <button
           className="flex items-center"
-          onClick={() => handleSelectType("buy/sell")}
+          onClick={() => handleSelectType("all")}
         >
           <div
             className="flex items-center justify-center w-[16px] h-[16px] rounded border
              border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
           >
             <BsCheckLg
-              className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
-                selectedTradeFilters.type === null ? "opacity-100" : ""
-              }"}`}
+              className={`text-[11px] text-light-font-100 dark:text-dark-font-100  ${
+                selectedTradeFilters.type === null ? "opacity-100" : "opacity-0"
+              } transition-all duration-200 ease-in-out`}
             />
           </div>
           <div className="flex flex-col ml-[15px]">
