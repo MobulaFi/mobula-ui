@@ -76,7 +76,7 @@ export const VoteBox = ({ typeVote, token }: VoteBoxProps) => {
               <div className="flex w-full justify-between items-center relative pl-5">
                 <div
                   className="flex absolute top-[3px] left-5 rounded h-[30px] text-light-font-100 
-                dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover transition-all duration-250"
+                dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover transition-all duration-200"
                   style={{
                     width: `${bar(score)}%`,
                   }}
@@ -88,7 +88,7 @@ export const VoteBox = ({ typeVote, token }: VoteBoxProps) => {
                   return (
                     <button
                       key={grade}
-                      className={`flex items-center w-[70px] justify-center transition-all duration-250 rounded-xl h-[34px] relative z-[2]
+                      className={`flex items-center w-[70px] justify-center transition-all duration-200 rounded-xl h-[34px] relative z-[2]
                       ${
                         score === grade
                           ? "bg-light-bg-hover dark:bg-dark-bg-hover"

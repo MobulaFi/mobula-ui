@@ -188,7 +188,7 @@ export const Views = ({ setResultsData }) => {
               <Button
                 extraCss={`${
                   i === (buttonTemplate?.length || 1) - 1 ? "mr-0" : "mr-2.5"
-                } mt-2.5 font-medium ${
+                } mt-2.5 font-normal ${
                   activeView?.name === content.name
                     ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
                     : ""
@@ -258,7 +258,7 @@ export const Views = ({ setResultsData }) => {
           <div className="flex w-fit ml-2.5 mt-2.5">
             {activeView?.name !== "Portfolio" ? (
               <Button
-                extraCss="px-3 sm:px-2 whitespace-nowrap"
+                extraCss="px-3 sm:px-2 whitespace-nowrap md:font-normal"
                 onClick={() => {
                   pushData("Edit View clicked");
                   if (isConnected) setTypePopup("edit");

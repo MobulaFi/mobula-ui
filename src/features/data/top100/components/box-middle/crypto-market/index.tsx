@@ -26,7 +26,7 @@ export const CryptoMarket = ({ showPage }: CryptoMarketProps) => {
             <MediumFont>Crypto Market Cap</MediumFont>
           </div>
           <div className="flex mt-1">
-            <LargeFont extraCss="mt-[-2px]">
+            <LargeFont extraCss="mt-[-2px] font-medium">
               $
               {getFormattedAmount(
                 totalMarketCap?.[totalMarketCap.length - 1 || 0]?.[1]

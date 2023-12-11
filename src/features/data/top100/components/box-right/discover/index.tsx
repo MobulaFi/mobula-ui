@@ -48,7 +48,7 @@ export const Discover = ({ showPage, info }) => {
           isHover
             ? "border-light-border-secondary dark:border-dark-border-secondary"
             : "border-light-border-primary dark:border-dark-border-primary"
-        } transition-all duration-250`}
+        } transition-all duration-200`}
         onClick={clickEvent}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}

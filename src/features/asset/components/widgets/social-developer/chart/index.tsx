@@ -52,7 +52,7 @@ export const Charts = ({
             <Menu title={chartType} extraCss="min-w-[145px]">
               {types.map((type) => (
                 <button
-                  className={`bg-light-bg-terciary dark:bg-dark-bg-terciary h-full transition-all duration-250 ease-in-out ${
+                  className={`bg-light-bg-terciary dark:bg-dark-bg-terciary h-full transition-all duration-200 ease-in-out ${
                     chartType === type
                       ? "text-light-font-100 dark:text-dark-font-100"
                       : "text-light-font-40 dark:text-dark-font-40"

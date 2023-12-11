@@ -28,7 +28,7 @@ export const ButtonSlider = ({
       )}
     >
       <div
-        className="h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-250 z-[0]"
+        className="h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200 z-[0]"
         style={{
           left: getPositionOfSwitcherButton(typeSelected),
           width: `${100 / switcherOptions.length}%`,
@@ -41,7 +41,7 @@ export const ButtonSlider = ({
             typeSelected === type
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
-          } h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 relative ${
+          } h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-200 relative ${
             type === "Activity" && activeStep.nbr === 4 ? "z-[5]" : "z-[1]"
           }`}
           style={{ width: `${100 / switcherOptions.length}%` }}

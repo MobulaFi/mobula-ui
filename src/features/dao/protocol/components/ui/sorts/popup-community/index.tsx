@@ -38,7 +38,7 @@ export const CommunityPopup = ({ token }: CommunityPopupProps) => {
             key={entry.url}
             className={`flex items-center relative justify-between rounded border border-light-border-primary 
           dark:border-dark-border-primary px-2.5 h-[30px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
-          transition-all duration-250 w-full bg-light-bg-terciary dark:bg-dark-bg-terciary ${
+          transition-all duration-200 w-full bg-light-bg-terciary dark:bg-dark-bg-terciary ${
             i !== socials.filter((social) => social.url).length - 1
               ? "mb-2.5"
               : ""

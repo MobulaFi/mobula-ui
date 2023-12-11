@@ -112,7 +112,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
           <SmallSwapLine position="out" />
           <button
             className="flex items-center justify-center text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-normal border
-             border-darkblue mt-2.5 rounded-lg h-[37px] hover:border-blue transition-all duration-250"
+             border-darkblue mt-2.5 rounded-lg h-[37px] hover:border-blue transition-all duration-200"
             onClick={handleButtonClick}
           >
             {buttonLoading || isFeesLoading ? (

@@ -78,7 +78,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   });
 
   const buttonPopover =
-    "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-250 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded font-medium hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
+    "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
     if (!displayedToken && !isFakeToken) return "60px";
@@ -157,7 +157,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
 
   return (
     <BoxContainer
-      extraCss={`mb-5 relative min-h-[210px] md:min-h-[160px] md:mb-2.5 md:min-h-auto transition-all duration-250 py-[15px] px-5 lg:px-[15px] 
+      extraCss={`mb-5 relative min-h-[210px] md:min-h-[160px] md:mb-2.5 md:min-h-auto transition-all duration-200 py-[15px] px-5 lg:px-[15px] 
     rounded-2xl sm:rounded-0 ${
       token?.alreadyVoted ? "cursor-not-allowed" : "cursor-pointer"
     }`}
@@ -388,7 +388,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                   <div
                     className={`flex text-light-font-100 dark:text-dark-font-100 border border-light-border-primary 
                 dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded px-2.5 
-                hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-250 py-1 ${
+                hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-200 py-1 ${
                   index > 0 ? "mt-2.5" : ""
                 }`}
                     key={audit}
@@ -431,7 +431,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                   <div
                     className={`flex text-light-font-100 dark:text-dark-font-100 border border-light-border-primary 
                 dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded px-2.5 
-                hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-250 py-1 ${
+                hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-200 py-1 ${
                   index > 0 ? "mt-2.5" : ""
                 }`}
                     key={kyc}
@@ -453,7 +453,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       <p
         className={`text-sm text-light-font-60 dark:text-dark-font-60 pb-0 
-        md:pb-2.5 transition-all duration-250 max-w-[600px] ${
+        md:pb-2.5 transition-all duration-200 max-w-[600px] ${
           displayedToken ? "mt-[15px] max-h-auto" : "mt-2.5 max-h-[300px]"
         } text-start`}
       >
@@ -500,7 +500,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       {(!token?.alreadyVoted && displayedToken) ||
       (!token?.alreadyVoted && displayedPool) ? (
         <div className="flex mt-5 items-center w-full pt-2.5 border-t border-light-border-primary dark:border-dark-border-primary">
-          <SmallFont extraCss="font-medium ml-[5px]">
+          <SmallFont extraCss="font-normal ml-[5px]">
             {token?.name} {getTypeOfToken()}
           </SmallFont>
           <BsCheckLg className="text-green dark:text-green ml-2.5" />

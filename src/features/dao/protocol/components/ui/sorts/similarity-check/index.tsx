@@ -70,7 +70,7 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
 
   return (
     <BoxContainer
-      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
+      extraCss={`mb-5 relative transition-all duration-200 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
       <div className="flex items-center">
         <SiConvertio className="text-blue dark:text-blue" />

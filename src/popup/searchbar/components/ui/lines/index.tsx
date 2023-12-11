@@ -53,19 +53,19 @@ export const Lines = ({
 
   return (
     <div
-      className={`flex items-center cursor-pointer transition-all duration-250 justify-between ${
+      className={`flex items-center cursor-pointer transition-all duration-200 justify-between ${
         active ? "bg-light-bg-hover dark:bg-dark-bg-hover" : ""
-      } py-[7px] px-[20px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ${extraCss}`}
+      } py-[7px] px-[20px] md:px-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ${extraCss}`}
       onMouseOver={() => setActive(index)}
       {...props}
     >
       <div className="flex items-center">
         {renderLogoOrAddressAvatar(token)}
         {icon || null}
-        <p className="text-md font-medium max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
+        <p className="text-md font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
           {token.name}
         </p>
-        <p className="text-md font-medium text-light-font-40 dark:text-dark-font-40">
+        <p className="text-md font-medium md:font-normal text-light-font-40 dark:text-dark-font-40">
           {"symbol" in token ? token.symbol : address}
         </p>
       </div>

@@ -28,13 +28,13 @@ export const MenuCommun = () => {
   const { setShowBuyDrawer } = useContext(SettingsMetricContext);
   const watchlist = user?.main_watchlist as IWatchlist;
   const router = useRouter();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const lineStyle =
-    "p-[15px] cursor-pointer flex items-center font-medium border-b border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 ease-in-out";
-  const isDarkMode = theme === "dark";
+    "p-[15px] cursor-pointer flex items-center font-medium border-b border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 ease-in-out";
+  const isDarkMode = resolvedTheme === "dark";
   const { inWatchlist, handleAddWatchlist } = useWatchlist(
     showMenuTableMobileForToken.id
   );

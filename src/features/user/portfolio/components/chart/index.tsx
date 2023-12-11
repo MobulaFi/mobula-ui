@@ -52,9 +52,10 @@ export const PortfolioChart = () => {
             setComparedEntities={setComparedEntities}
           />
           <ComparePopover
-            extraCss="hidden lg:flex mb-[-50px] sm:mt-2.5 h-[30px] mr-0"
+            extraCss="hidden lg:flex mb-[-50px] sm:mt-2.5 h-[30px] mr-0 md:left-0 md:right-auto"
             setComparedEntities={setComparedEntities}
             comparedEntities={comparedEntities}
+            isPortfolio
           />
         </div>
       </div>
@@ -85,7 +86,7 @@ export const PortfolioChart = () => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center w-full min-h-[320px] max-h-[320px] items-center relative max-w-full mr-5 mt-5 ">
+          <div className="flex justify-center w-full min-h-[320px] max-h-[320px] items-center relative max-w-full mr-5 mt-5 md:mt-[60px]">
             {isLoading ? (
               <Spinner extraCss="w-[60px] h-[60px]" />
             ) : (

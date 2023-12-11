@@ -38,7 +38,7 @@ interface DataProps {
 const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const id = useMemo(() => uuid(), []);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const createInstance = useCallback(() => {
     const instance = echarts.getInstanceByDom(
@@ -89,12 +89,17 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
       {
         type: "time",
         axisLabel: {
-          color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+          color:
+            resolvedTheme === "dark"
+              ? "rgba(255,255,255,0.8)"
+              : "rgba(0,0,0,0.8)",
         },
         axisLine: {
           lineStyle: {
             color:
-              theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
+              resolvedTheme === "dark"
+                ? "rgba(255,255,255,0.03)"
+                : "rgba(0,0,0,0.03)",
           },
         },
       },
@@ -106,7 +111,10 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
           formatter(value: number) {
             return getFormattedAmount(value);
           },
-          color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+          color:
+            resolvedTheme === "dark"
+              ? "rgba(255,255,255,0.8)"
+              : "rgba(0,0,0,0.8)",
         },
         axisLine: {
           lineStyle: {
@@ -144,7 +152,7 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
   useEffect(() => {
     const chart = createInstance();
     if (chart) chart.setOption(options);
-  }, [data, theme]);
+  }, [data, resolvedTheme]);
 
   useEffect(() => {
     const chart = createInstance();
@@ -160,7 +168,7 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
         });
       });
     }
-  }, [theme]);
+  }, [resolvedTheme]);
 
   return (
     <div

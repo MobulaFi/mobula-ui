@@ -4,7 +4,6 @@ import { useAccount } from "wagmi";
 import { Ths } from "../../../components/table";
 import { PopupStateContext } from "../../../contexts/popup";
 import { SettingsMetricContext } from "../../../contexts/settings";
-import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
 import { Query } from "../../../interfaces/pages/top100";
@@ -147,16 +146,8 @@ export function AssetsTable({
       (page && isConnected && activeView?.name !== "All") ||
       isConnected === false;
 
-    console.log(
-      "shouldFetchData",
-      shouldFetchData,
-      filters,
-      !activeView?.isFirst
-    );
-
     const filterOrPaginationChanged =
       (filters && !activeView?.isFirst) || (page && page !== "1");
-    console.log("filterOrPaginationChanged", filterOrPaginationChanged);
 
     if (
       (shouldFetchData && filterOrPaginationChanged) ||
@@ -165,14 +156,6 @@ export function AssetsTable({
       fetchData();
     }
   }, [filters, router, params, orderBy]);
-
-  const showMinimalMobile =
-    (isMobile &&
-      JSON.stringify(activeView?.display) ===
-        JSON.stringify(defaultTop100.display) &&
-      JSON.stringify(activeView?.filters) ===
-        JSON.stringify(defaultTop100.filters)) ||
-    (activeView?.name === "Portfolio" && isMobile);
 
   return (
     <TableContext.Provider value={value}>
@@ -207,7 +190,7 @@ export function AssetsTable({
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    }`}
+                    } md:px-0`}
                   />
                   <TableHeaderEntry
                     title="Name"
@@ -215,7 +198,7 @@ export function AssetsTable({
                       isTop100
                         ? "bg-light-bg-table dark:bg-dark-bg-table"
                         : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } left-[73px] md:left-[24px]`}
+                    } left-[73px] md:left-[28px] md:px-[5px]`}
                     titleCssPosition="justify-start"
                   />
                   {(activeView?.display?.length || 0) > 0 &&
@@ -234,7 +217,7 @@ export function AssetsTable({
                             entry.value === "24h Chart"
                               ? "text-center"
                               : "text-end"
-                          } static`}
+                          } static md:px-[5px]`}
                         />
                       ))}
                       <TableHeaderEntry
@@ -247,11 +230,11 @@ export function AssetsTable({
                   activeView?.name === "All" ? (
                     <>
                       <TableHeaderEntry
-                        extraCss="hidden md:table-cell"
+                        extraCss="hidden md:table-cell md:px-[5px]"
                         title="Price"
                       />
                       <TableHeaderEntry
-                        extraCss="hidden md:table-cell"
+                        extraCss="hidden md:table-cell md:px-[5px]"
                         title={
                           activeView?.name === "Portfolio" ? "Balance" : "24h %"
                         }
@@ -270,6 +253,7 @@ export function AssetsTable({
                               canOrder
                             />
                           ))}
+
                           <TableHeaderEntry
                             extraCss="w-[89px] table-cell md:hidden static"
                             title="Interact"

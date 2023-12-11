@@ -33,7 +33,7 @@ export const Test = ({ showPage }) => {
 
   return (
     <div
-      className="flex flex-col w-[200px] p-2.5 transition-all duration-250 ease-in-out min-w-full"
+      className="flex flex-col w-[200px] p-2.5 transition-all duration-200 ease-in-out min-w-full"
       style={{
         transform: `translateX(-${showPage * 100}%)`,
       }}

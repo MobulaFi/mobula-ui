@@ -179,7 +179,7 @@ export const EntryWatchlist = ({
                 ) : (
                   <AiOutlineStar
                     className="text-light-font-100 dark:text-dark-font-100 text-xl
-                   mx-auto transition-all duration-250 ease-in-out hover:text-yellow hover:dark:text-yellow text-sm"
+                   mx-auto transition-all duration-200 ease-in-out hover:text-yellow hover:dark:text-yellow text-sm"
                   />
                 )}
               </button>
@@ -292,7 +292,7 @@ export const EntryWatchlist = ({
           {watchlist && !isLoading ? (
             <div
               className="flex items-center cursor-pointer hover:text-blue
-             hover:dark:text-blue transition-all duration-250 ease-in-out 
+             hover:dark:text-blue transition-all duration-200 ease-in-out 
              text-light-font-100 dark:text-dark-font-100 justify-end"
               onClick={() =>
                 router.push(`/profile/${userOfWatchlist?.address}`)

@@ -266,7 +266,7 @@ export const Contribute = ({ token }: ContributeProps) => {
   };
 
   return (
-    <BoxContainer extraCss="mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0">
+    <BoxContainer extraCss="mb-5 relative transition-all duration-200 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0">
       <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
         <SiConvertio className="text-blue dark:text-blue" />
         <MediumFont extraCss="ml-2.5">Distribution</MediumFont>
@@ -334,7 +334,7 @@ export const Contribute = ({ token }: ContributeProps) => {
           />
         </Slider>
       </div> */}
-      <SmallFont extraCss="mt-[15px] text-light-font-100 dark:text-dark-font-100 font-medium">
+      <SmallFont extraCss="mt-[15px] text-light-font-100 dark:text-dark-font-100 font-normal">
         Enter an amount
       </SmallFont>
       <div className="mt-2.5 flex">
@@ -350,7 +350,7 @@ export const Contribute = ({ token }: ContributeProps) => {
           }}
         />
         <Menu
-          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded ml-2.5 transition-all duration-250
+          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded ml-2.5 transition-all duration-200
           border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
           bg-light-bg-terciary dark:bg-dark-bg-terciary"
           title={
@@ -371,7 +371,7 @@ export const Contribute = ({ token }: ContributeProps) => {
           {Object.keys(buyWith).map((key) => (
             <div
               key={key}
-              className="flex items-center w-full bg-light-bg-terciary dark:bg-dark-bg-terciary transition-all duration-250 text-light-font-100 dark:text-dark-font-100"
+              className="flex items-center w-full bg-light-bg-terciary dark:bg-dark-bg-terciary transition-all duration-200 text-light-font-100 dark:text-dark-font-100"
               onClick={() => setTokenToBuyWith(buyWith[key])}
             >
               <img

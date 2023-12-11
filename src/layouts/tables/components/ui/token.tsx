@@ -28,7 +28,7 @@ export const TokenInfo = ({ token, index, showRank }: TokenInfoProps) => {
             borderRadius: "100%",
           }}
           priority={index < 10}
-          fallbackSrc="/icon/unknown.png"
+          fallbackSrc="/empty/unknown.png"
         />
       </div>
       <div className="flex flex-col flex-wrap mr-2.5 sm:mr-0">

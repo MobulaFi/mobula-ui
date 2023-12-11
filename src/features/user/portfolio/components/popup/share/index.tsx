@@ -20,7 +20,7 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
   const [isCopied, setIsCopied] = useState("");
   const { activePortfolio, isWalletExplorer, wallet } =
     useContext(PortfolioV2Context);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <ModalContainer
@@ -34,14 +34,14 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
           <img
             className="w-[34px] h-[34px] mr-[5px]"
             src={
-              theme === "dark"
+              resolvedTheme === "dark"
                 ? "/mobula/fullicon.png"
                 : "/mobula/mobula-logo.svg"
             }
             alt="mobula logo"
           />
           <div className="flex flex-col ml-[7.5px]">
-            <SmallFont extraCss="font-medium">
+            <SmallFont extraCss="font-normal">
               {isWalletExplorer
                 ? addressSlicer(isWalletExplorer)
                 : activePortfolio?.name}

@@ -67,7 +67,7 @@ export const MetricsLine = ({
 
   return (
     <div
-      className={`flex w-full items-center justify-between transition-all duration-250
+      className={`flex w-full items-center justify-between transition-all duration-200
      ${
        isUrl
          ? "cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"

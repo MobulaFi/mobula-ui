@@ -22,9 +22,10 @@ interface LayoutProps {
 export default function AssetLayout({ params, children }: LayoutProps) {
   const cookieStore = cookies();
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
-  const pref = cookieStore.get("pref") || "";
   const tradeCookie =
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
+
+  console.log("paramsasset", params?.asset);
 
   return (
     <BaseAssetProvider

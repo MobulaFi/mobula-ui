@@ -33,13 +33,15 @@ export const Header = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center justify-between w-full flex-wrap">
+    <div className="flex items-center justify-between w-full">
       <div className="flex">
         {isWalletExplorer ? (
-          <LargeFont>{addressSlicer(isWalletExplorer)}</LargeFont>
+          <LargeFont extraCss="font-medium md:text-base">
+            {addressSlicer(isWalletExplorer)}
+          </LargeFont>
         ) : (
           <button
-            className={`flex items-center font-medium text-light-font-100 dark:text-dark-font-100 text-[24px] lg:text-[20px] md:text-[16px] mr-0 sm:mr-[-5px] ${
+            className={`flex items-center font-normal text-light-font-100 dark:text-dark-font-100 text-[24px] md:text-[16px] mr-0 sm:mr-[-5px] ${
               activeStep.nbr === 5 ? "z-[5]" : "z-[0]"
             }`}
             onClick={() => setShowPortfolioSelector(true)}
@@ -65,7 +67,7 @@ export const Header = () => {
           <AiOutlineSetting className="text-light-font-100 dark:text-dark-font-100 text-sm" />
         </Button>
       </div>
-      <div className="flex flex-wrap my-auto items-center">
+      <div className="flex my-auto items-center">
         <NetworkButton extraCss="flex-wrap" />
         {isWalletExplorer || isPortfolioExplorer ? null : (
           <Button

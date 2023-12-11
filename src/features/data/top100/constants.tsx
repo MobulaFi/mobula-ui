@@ -380,8 +380,8 @@ export const defaultTop100 = {
   is_top_100: true,
   display: [
     { type: "price", value: "Price USD" },
-    { type: "market_cap", value: "Market Cap" },
     { type: "change", value: "24h %" },
+    { type: "market_cap", value: "Market Cap" },
     { type: "volume", value: "24h Volume" },
     { type: "chart", value: "24h Chart" },
   ],

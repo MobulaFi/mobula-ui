@@ -81,7 +81,7 @@ export const MainSwap = ({
         <div className="flex">
           <button
             className="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100 py-1.5 px-2 min-w-[47px] 
-            h-[25px] rounded-full flex items-center justify-center nowrap text-xs border-light-border-primary font-medium 
+            h-[25px] rounded-full flex items-center justify-center nowrap text-xs border-light-border-primary font-normal 
              dark:border-dark-border-primary border"
           >
             {isMounted && data?.gasPrice
@@ -152,7 +152,7 @@ export const MainSwap = ({
         `}
           >
             <div className="flex text-center mt-[15px]">
-              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 mr-2.5 font-medium">
+              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 mr-2.5 font-normal">
                 Router used:{" "}
               </SmallFont>
               <InfoPopupQuotes isSwapRouter>

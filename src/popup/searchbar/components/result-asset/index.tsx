@@ -74,7 +74,7 @@ export const AssetsResults = ({
           setActive={setActive}
         >
           {result?.isTemplate ? (
-            <BiArrowToRight className="text-md text-light-font-60 dark:text-dark-font-60" />
+            <BiArrowToRight className="text-base md:text-sm text-light-font-60 dark:text-dark-font-60" />
           ) : (
             <Percentage
               isPercentage

@@ -594,18 +594,18 @@ export const ViewPopup = ({
                     </button>
                   </div>
                   <Button
-                    extraCss="relative ml-2.5 h-[35px] w-[35px] min-w-[35px] flex items-center justify-center"
+                    extraCss="relative ml-2.5 h-[35px] w-[35px] min-w-[35px] md:h-[35px] flex items-center justify-center"
                     onMouseEnter={() => setIsStarHover(true)}
                     onMouseLeave={() => setIsStarHover(false)}
                     onClick={() => dispatch({ type: ACTIONS.SET_FAVORITE })}
                   >
                     <AiOutlineStar
-                      className={`absolute text-base transition-all duration-250 ${
+                      className={`absolute text-base transition-all duration-200 ${
                         getStarIconFromActiveView().outline
                       }`}
                     />
                     <AiFillStar
-                      className={`absolute text-base text-yellow dark:text-yellow transition-all duration-250 ${
+                      className={`absolute text-base text-yellow dark:text-yellow transition-all duration-200 ${
                         getStarIconFromActiveView().fill
                       }`}
                     />
@@ -626,9 +626,9 @@ export const ViewPopup = ({
            mt-2.5 p-0.5 border border-light-border-primary dark:border-dark-border-primary"
             >
               <div
-                className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] w-1/2 ${
+                className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] md:h-[30px] w-1/2 ${
                   showTuto ? "z-[3]" : "z-[auto]"
-                } rounded transition-all duration-250 `}
+                } rounded transition-all duration-200 `}
                 style={{
                   left:
                     activeDisplay === "display"
@@ -639,7 +639,7 @@ export const ViewPopup = ({
               <button
                 className={`w-1/2 font-medium ${
                   activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
-                } h-[35px] text-sm md:text-xs 
+                } h-[35px] md:h-[30px] text-sm md:text-xs 
               ${
                 activeDisplay === "display"
                   ? "text-light-font-100 dark:text-dark-font-100"
@@ -653,7 +653,7 @@ export const ViewPopup = ({
               <button
                 className={`w-1/2 font-medium ${
                   activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-                } h-[35px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
+                } h-[35px] md:h-[30px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
                   activeDisplay === "filters"
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-40 dark:text-dark-font-40"
@@ -859,7 +859,7 @@ export const ViewPopup = ({
                                 .filter((_, idx) => idx < 5)
                                 .map((categorie) => (
                                   <button
-                                    className={`flex items-center px-2.5 rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
+                                    className={`flex items-center px-2.5 rounded-2xl mb-[7.5px] h-[30px] md:h-[25px] mr-[7.5px] ${
                                       state.filters.categories?.includes(
                                         categorie
                                       )
@@ -880,7 +880,7 @@ export const ViewPopup = ({
                                   </button>
                                 ))}
                               <Button
-                                extraCss="rounded-2xl mr-[7.5px] mt-[7.5px] h-[30px]"
+                                extraCss="rounded-2xl mr-[7.5px] mt-[7.5px] h-[30px] md:h-[25px]"
                                 onClick={() => setShowCategories(true)}
                               >
                                 <SmallFont>See all</SmallFont>
@@ -894,7 +894,7 @@ export const ViewPopup = ({
                 ))}
               </div>
             )}
-            <div className="flex mt-2.5">
+            <div className="flex mt-2.5 md:mt-0">
               <Button
                 extraCss="mr-[5px] w-full max-w-1/2 h-[40px] md:h-[35px]"
                 onClick={() => {

@@ -8,7 +8,7 @@ interface PrivacyProps {
 export const Privacy = ({ extraCss }: PrivacyProps) => (
   <div
     className={cn(
-      "rounded flex text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium transition-all duration-250 items-center justify-start",
+      "rounded flex text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal transition-all duration-200 items-center justify-start",
       extraCss
     )}
   >

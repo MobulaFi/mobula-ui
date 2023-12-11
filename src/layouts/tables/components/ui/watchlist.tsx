@@ -32,7 +32,7 @@ export const WatchlistAdd = ({
         <>
           {inWatchlist || addedToWatchlist || isHover ? (
             <AiFillStar
-              className="text-yellow dark:text-yellow text-lg transition-all duration-250 ease-in-out"
+              className="text-yellow dark:text-yellow text-lg transition-all duration-200 ease-in-out"
               onMouseLeave={() => setIsHover(false)}
               onClick={() => {
                 addOrRemoveFromWatchlist();
@@ -41,7 +41,7 @@ export const WatchlistAdd = ({
             />
           ) : (
             <AiOutlineStar
-              className="text-light-font-80 dark:text-dark-font-80 text-lg transition-all duration-250 ease-in-out"
+              className="text-light-font-80 dark:text-dark-font-80 text-lg transition-all duration-200 ease-in-out"
               onMouseEnter={() => setIsHover(true)}
               onClick={() => {
                 addOrRemoveFromWatchlist();

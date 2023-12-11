@@ -109,7 +109,7 @@ export const WalletsPopup = () => {
               address={walletAddress}
             />
             <div className="flex flex-col ml-2.5">
-              <SmallFont className="font-medium">
+              <SmallFont className="font-normal">
                 {addressSlicer(walletAddress, 8)}
               </SmallFont>
             </div>
@@ -161,14 +161,14 @@ export const WalletsPopup = () => {
               <div className="flex w-full">
                 <Button
                   extraCss={`border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary
-                   dark:bg-dark-bg-terciary transition-all duration-250 mr-2.5 hover:bg-light-bg-hover
+                   dark:bg-dark-bg-terciary transition-all duration-200 mr-2.5 hover:bg-light-bg-hover
                     hover:dark:bg-dark-bg-hover w-2/4 ${buttonPopupStyle}`}
                   onClick={() => setShowAddWallet(false)}
                 >
                   Cancel
                 </Button>
                 <Button
-                  extraCss={`border-darkblue dark:border-darkblue transition-all duration-250 hover:border-blue
+                  extraCss={`border-darkblue dark:border-darkblue transition-all duration-200 hover:border-blue
                    hover:dark:border-blue w-2/4 ${buttonPopupStyle}`}
                   onClick={() => addWallet(newWalletAddress)}
                 >

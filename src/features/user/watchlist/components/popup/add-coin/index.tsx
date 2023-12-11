@@ -92,7 +92,7 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
                 idx === 0 ? "border-t" : ""
               } py-2.5 px-[15px] w-full cursor-pointer flex justify-between items-center 
               bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover 
-              transition-all duration-250 ease-in-out`}
+              transition-all duration-200 ease-in-out`}
                 key={token.id}
                 onClick={() => {
                   if (isAlreadyAdded) {

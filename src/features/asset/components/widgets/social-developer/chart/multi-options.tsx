@@ -23,8 +23,8 @@ export const useDefault = ({
   type = "Price",
   unit = "$",
 }: UseDefaultProps) => {
-  const { theme } = useTheme();
-  const lightMode = theme === "light";
+  const { resolvedTheme } = useTheme();
+  const lightMode = resolvedTheme === "light";
   const { zoomPercentage, chartColor } = useMemo(() => {
     // No need to do anything if we want to display all the data
     const coverageNeeded = getTimeStampFromTimeFrame(timeframe);
@@ -60,7 +60,9 @@ export const useDefault = ({
       label: {
         shadowBlur: 0,
         backgroundColor:
-          theme === "dark" ? "rgba(23, 27, 43, 1)" : "rgba(250, 250, 250, 1)",
+          resolvedTheme === "dark"
+            ? "rgba(23, 27, 43, 1)"
+            : "rgba(250, 250, 250, 1)",
         shadowColor: "rgba(0, 0, 0, 0)",
         color: lightMode ? "rgba(0, 0, 0, 0.8)" : "rgba(255, 255, 255, 0.8)",
         // formatter: (axis: any) => {
@@ -70,15 +72,21 @@ export const useDefault = ({
       },
     },
     backgroundColor:
-      theme === "dark" ? "rgba(23, 27, 43, 1)" : "rgba(250, 250, 250, 1)",
+      resolvedTheme === "dark"
+        ? "rgba(23, 27, 43, 1)"
+        : "rgba(250, 250, 250, 1)",
     borderColor: lightMode
       ? "rgba(0, 0, 0, 0.03)"
       : "rgba(255, 255, 255, 0.03)",
     color:
-      theme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.95)",
+      resolvedTheme === "dark"
+        ? "rgba(255, 255, 255, 0.95)"
+        : "rgba(0, 0, 0, 0.95)",
     textStyle: {
       color:
-        theme === "dark" ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.95)",
+        resolvedTheme === "dark"
+          ? "rgba(255, 255, 255, 0.95)"
+          : "rgba(0, 0, 0, 0.95)",
     },
     borderWidth: 3,
     borderRadius: 8,

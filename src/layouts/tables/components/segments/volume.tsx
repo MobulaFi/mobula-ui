@@ -44,7 +44,7 @@ export const VolumeSegment = ({
   const renderVolumeOrBalance = getVolumeOrBalance();
 
   return (
-    <Segment extraCss={`${extraCss} md:px-0.5`}>
+    <Segment extraCss={`${extraCss} md:px-[5px]`}>
       <div
         className={`flex items-center justify-end font-medium ${
           isBalance

@@ -56,7 +56,7 @@ const LinkTd = ({ children, asset, extraCss, ...props }: LinkTdProps) => {
 
   return (
     <td
-      className={`${tdStyle} ${extraCss} border-b border-t border-light-border-primary dark:border-dark-border-primary md:px-[5px]`}
+      className={`${tdStyle} ${extraCss} border-t-0 mt-0 py-0  md:px-[5px]`}
       {...props}
     >
       {/* href={asset ? `${basePath}/${getUrlFromName(asset?.name)}` : "/"} */}
@@ -186,16 +186,9 @@ export const TbodyCryptocurrencies = ({
 
   return (
     <>
-      <tr className="h-[10px]"></tr>
-      <tr className="cursor-pointer relative bg-light-bg-secondary dark:bg-dark-bg-secondary">
+      <tr className="cursor-pointer relative">
         {isMobile && (
-          <td
-            className={`${tdStyle} border-b border-light-border-primary dark:border-dark-border-primary rounded-l-2xl border-l border-t w-fit ${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            }`}
-          >
+          <td className={`${tdStyle} w-fit `}>
             <div className="flex justify-end">
               <button
                 onClick={() => {
@@ -207,19 +200,18 @@ export const TbodyCryptocurrencies = ({
             </div>
           </td>
         )}
-
         {showCustomMenu && (
           <>
             <div
-              className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-light-font-20 dark:bg-light-font-20"
+              className="flex fixed w-screen h-screen left-[50%] z-[12] -translate-x-1/2 top-0 bg-background/80 backdrop-blur-sm"
               onClick={() => setShowCustomMenu(!showCustomMenu)}
             />
             <div
               className="flex flex-col fixed bottom-0 w-screen bg-light-bg-secondary dark:bg-dark-bg-secondary border-t-2
-           border-light-border-primary dark:border-dark-border-primary z-[13] left-0 transition-all duration-250"
+           border-light-border-primary dark:border-dark-border-primary z-[13] left-0 transition-all duration-200"
             >
               <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={() => setShowBuyDrawer(asset as any)}
               >
@@ -235,7 +227,7 @@ export const TbodyCryptocurrencies = ({
                 Swap
               </div>
               <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
            dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={hideAsset}
               >
@@ -251,7 +243,7 @@ export const TbodyCryptocurrencies = ({
                 Hide asset
               </div>
               <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={() => {
                   setTokenTsx(asset);
@@ -274,15 +266,9 @@ export const TbodyCryptocurrencies = ({
           </>
         )}
         <LinkTd
-          extraCss={`sticky top-0 left-[-1px] ${
-            isMobile
-              ? "pl-0"
-              : "border-l border-light-border-primary dark:border-dark-border-primary rounded-l-2xl"
-          } ${
-            showTokenInfo === asset?.id
-              ? "pb-[300px] md:pb-[600px]"
-              : "pb-[15px]"
-          } `}
+          extraCss={`sticky top-0 left-[-1px] ${isMobile ? "pl-0" : ""} ${
+            showTokenInfo === asset?.id ? "h-[400px] md:h-[600px]" : "pb-[15px]"
+          } transition-all duration-300 ease-in-out`}
           asset={asset}
           onClick={triggerTokenInfo}
         >
@@ -295,22 +281,18 @@ export const TbodyCryptocurrencies = ({
               alt={`${asset.name} logo`}
               fallbackSrc={""}
             />
-            <div className="flex flex-col overflow-x-hidden truncate ml-2.5 lg:ml-[7.5px] font-medium text-sm lg:text-[13px] md:text-xs">
-              <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium text-sm md:text-[13px]">
+            <div className="flex flex-col overflow-x-hidden truncate ml-2.5 lg:ml-[7.5px] font-normal text-sm lg:text-[13px] md:text-xs">
+              <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-normal text-sm md:text-[13px]">
                 {asset.symbol}
               </SmallFont>
-              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium text-sm md:text-[13px] max-w-[130px] truncate md:max-w-[77px]">
+              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-sm md:text-[13px] max-w-[130px] truncate md:max-w-[77px]">
                 {asset?.name}
               </SmallFont>
             </div>
           </div>
         </LinkTd>
         <LinkTd
-          extraCss={`${
-            showTokenInfo === asset?.id
-              ? "pb-[300px] md:pb-[600px]"
-              : "pb-[15px]"
-          } `}
+          extraCss={` transition-all duration-300 ease-in-out`}
           asset={asset}
           onClick={triggerTokenInfo}
         >
@@ -318,14 +300,14 @@ export const TbodyCryptocurrencies = ({
             {manager.privacy_mode ? (
               <Privacy extraCss="justify-end" />
             ) : (
-              <SmallFont extraCss={`font-medium text-end ${changeColor}`}>
+              <SmallFont extraCss={`font-normal text-end ${changeColor}`}>
                 ${getFormattedAmount(asset.estimated_balance)}
               </SmallFont>
             )}
             {manager.privacy_mode ? (
               <Privacy extraCss="justify-end" />
             ) : (
-              <SmallFont extraCss="font-medium text-light-font-40 dark:text-dark-font-40 text-end">
+              <SmallFont extraCss="font-normal text-light-font-40 dark:text-dark-font-40 text-end">
                 {`${getFormattedAmount(asset.token_balance)} ${asset.symbol}`}
               </SmallFont>
             )}
@@ -334,19 +316,15 @@ export const TbodyCryptocurrencies = ({
         {isMobile ? null : (
           <LinkTd
             asset={asset}
-            extraCss={`${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } `}
+            extraCss={` transition-all duration-300 ease-in-out`}
             onClick={triggerTokenInfo}
           >
             <div className="flex flex-col items-end w-full">
-              <SmallFont extraCss={`font-medium text-end ${changeColor}`}>
+              <SmallFont extraCss={`font-normal text-end ${changeColor}`}>
                 ${getFormattedAmount(asset.price)}
               </SmallFont>
               <SmallFont
-                extraCss={`font-medium text-end ${
+                extraCss={`font-normal text-end ${
                   Number(getTokenPercentage(asset.change_24h)) > 0
                     ? "text-green dark:text-green"
                     : "text-red dark:text-red"
@@ -359,11 +337,7 @@ export const TbodyCryptocurrencies = ({
         )}
         <LinkTd
           asset={asset}
-          extraCss={`${
-            showTokenInfo === asset?.id
-              ? "pb-[300px] md:pb-[600px]"
-              : "pb-[15px]"
-          } ${isMobile ? "pr-5 md:pr-5 rounded-r-2xl border-r" : ""}`}
+          extraCss={`transition-all duration-300 ease-in-out `}
           onClick={triggerTokenInfo}
         >
           {manager.privacy_mode ? (
@@ -372,7 +346,7 @@ export const TbodyCryptocurrencies = ({
             <div className="flex items-center justify-end">
               {isMobile ? null : (
                 <TbTriangleFilled
-                  className={`font-medium text-[10px] mr-1.5 text-end ${
+                  className={`font-normal text-[10px] mr-1.5 text-end ${
                     Number(
                       getAmountLoseOrWin(
                         asset.change_24h,
@@ -385,7 +359,7 @@ export const TbodyCryptocurrencies = ({
                 />
               )}
               <SmallFont
-                extraCss={`font-medium text-end ${
+                extraCss={`font-normal text-end ${
                   Number(
                     getAmountLoseOrWin(
                       asset.change_24h,
@@ -407,18 +381,14 @@ export const TbodyCryptocurrencies = ({
         {isMobile ? null : (
           <LinkTd
             asset={asset}
-            extraCss={`${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } `}
+            extraCss={` transition-all duration-300 ease-in-out`}
             onClick={triggerTokenInfo}
           >
             {manager.privacy_mode ? (
               <Privacy extraCss="justify-end" />
             ) : (
               <SmallFont
-                extraCss={`font-medium text-end ${
+                extraCss={`font-normal text-end ${
                   Number(getTokenPercentage(asset.realized_usd)) > 0
                     ? "text-green dark:text-green"
                     : "text-red dark:text-red"
@@ -432,18 +402,14 @@ export const TbodyCryptocurrencies = ({
         {isMobile ? null : (
           <LinkTd
             asset={asset}
-            extraCss={`${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } `}
+            extraCss={`transition-all duration-300 ease-in-out`}
             onClick={triggerTokenInfo}
           >
             {manager.privacy_mode ? (
               <Privacy extraCss="justify-end" />
             ) : (
               <SmallFont
-                extraCss={`font-medium text-end ${
+                extraCss={`font-normal text-end ${
                   Number(getTokenPercentage(asset.unrealized_usd)) > 0
                     ? "text-green dark:text-green"
                     : "text-red dark:text-red"
@@ -456,11 +422,7 @@ export const TbodyCryptocurrencies = ({
         )}
         {!isMobile && (
           <td
-            className={`${tdStyle} ${
-              showTokenInfo === asset?.id
-                ? "pb-[300px] md:pb-[600px]"
-                : "pb-[15px]"
-            } border-r border-b border-t border-light-border-primary dark:border-dark-border-primary rounded-r-2xl`}
+            className={`${tdStyle}  border-r border-b border-t border-light-border-primary dark:border-dark-border-primary rounded-r-2xl transition-all duration-300 ease-in-out`}
             // onClick={triggerTokenInfo}
           >
             <div className="flex justify-end items-start">
@@ -518,24 +480,24 @@ export const TbodyCryptocurrencies = ({
           </td>
         )}
         {showTokenInfo === asset.id ? (
-          <div className="absolute left-0 w-full bottom-0 h-[300px] md:h-[600px] flex pb-4 flex-col">
+          <div className="absolute left-0 w-full bottom-0 h-[300px] md:h-[600px] flex pb-4 flex-col transition-all duration-300 ease-in-out">
             <div className="flex w-full items-center"></div>
             <div className="flex md:flex-col">
               <div className="w-[50%] md:w-full px-5 relative ">
                 <div className="flex items-center pr-5 pt-5 w-full">
                   <div className="mr-8">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium  mb-0.5">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal  mb-0.5">
                       Avg Price bought
                     </SmallFont>
-                    <SmallFont extraCss="font-medium">
+                    <SmallFont extraCss="font-normal">
                       {getFormattedAmount(newWallet?.price_bought)}$
                     </SmallFont>
                   </div>
                   <div>
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium mb-0.5">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal mb-0.5">
                       Total Invested
                     </SmallFont>
-                    <SmallFont extraCss="font-medium">
+                    <SmallFont extraCss="font-normal">
                       {getFormattedAmount(asset?.total_invested)}$
                     </SmallFont>
                   </div>
@@ -544,7 +506,7 @@ export const TbodyCryptocurrencies = ({
                   <MediumFont>{asset?.symbol} Price History</MediumFont>
                   <div className="flex z-10">
                     <button
-                      className={`w-full px-1.5 font-medium ${
+                      className={`w-full px-1.5 font-normal ${
                         tokenTimeframe === "24H"
                           ? "text-light-font-100 dark:text-dark-font-100"
                           : "text-light-font-40 dark:text-dark-font-40"
@@ -554,7 +516,7 @@ export const TbodyCryptocurrencies = ({
                       24H
                     </button>
                     <button
-                      className={`w-full px-1.5 font-medium ${
+                      className={`w-full px-1.5 font-normal ${
                         tokenTimeframe === "7D"
                           ? "text-light-font-100 dark:text-dark-font-100"
                           : "text-light-font-40 dark:text-dark-font-40"
@@ -581,7 +543,7 @@ export const TbodyCryptocurrencies = ({
               <div className="w-[50%] md:w-full flex flex-col p-2.5 pt-2.5 md:pt-0 md:mt-[-15px]">
                 <div className="flex items-center pr-5 pt-0 w-full pb-5">
                   <div className="flex flex-col w-full h-full">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-medium mb-1">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal mb-1">
                       Buy Price Range
                     </SmallFont>
                     <div className="w-full h-[5px] rounded-full bg-light-border-primary dark:bg-dark-border-primary">
@@ -590,10 +552,10 @@ export const TbodyCryptocurrencies = ({
                         style={{ width: `${getPercentageOfBuyRange()}%` }}
                       />
                       <div className="flex items-center justify-between mt-1">
-                        <p className="text-xs lg:text-[11px] md:text-[10px] font-medium">
+                        <p className="text-xs lg:text-[11px] md:text-[10px] font-normal">
                           ${getFormattedAmount(newWallet?.min_buy_price)}
                         </p>
-                        <p className="text-xs lg:text-[11px] md:text-[10px] font-medium">
+                        <p className="text-xs lg:text-[11px] md:text-[10px] font-normal">
                           ${getFormattedAmount(newWallet?.max_buy_price)}
                         </p>
                       </div>

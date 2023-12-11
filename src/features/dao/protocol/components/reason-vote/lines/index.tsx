@@ -30,7 +30,7 @@ export const Lines = ({ idx, setReason, texts, reason }: LinesProps) => {
           <BsCheckLg
             className={`${
               reason === idx + 1 ? "" : "opacity-0"
-            } text-light-font-100 dark:text-dark-font-100 transition-all duration-250 ease-in-out`}
+            } text-light-font-100 dark:text-dark-font-100 transition-all duration-200 ease-in-out`}
           />
         </div>
       </button>
