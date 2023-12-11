@@ -42,7 +42,7 @@ export const LargeFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
-        "text-light-font-100 dark:text-dark-font-100 text-lg lg:text-base font-bold ",
+        "text-light-font-100 dark:text-dark-font-100 text-lg lg:text-base font-medium ",
         extraCss
       )}
     >

@@ -67,7 +67,10 @@ export const BuySell = ({ token }: BuySellProps) => {
       ) : null} */}
       <Container extraCss="flex flex-row items-center lg:flex-col bg-top mt-[70px] lg:mt-[40px] md:mt-[28px] mb-[90px] lg:mb-[40px] md:mb-[28px] min-h-[60vh] lg:min-h-full">
         <div className="flex flex-col w-2/4 md:w-[95%] mr-[30px] md:mr-0">
-          <p className="text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 lg:mb-[15px] md:mb-[5px] leading-[60px] lg:leading-[30px]">
+          <p
+            className="text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
+          lg:mb-[15px] md:mb-[5px] leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins']"
+          >
             Buy any crypto, at the best price.
           </p>
           <div>
