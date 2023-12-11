@@ -43,7 +43,7 @@ export function Tabs() {
                         {entry.icon}
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-[15px] font-medium leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
+                        <div className="text-[15px] font-normal leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
                           {entry.name}
                         </div>
                         <p className="text-[13px] text-light-font-40 dark:text-dark-font-40 ">
@@ -88,7 +88,7 @@ export function Tabs() {
                         {entry.icon}
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-[15px] font-medium leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
+                        <div className="text-[15px] font-normal leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
                           {entry.name}
                         </div>
                         <p className="text-[13px] text-light-font-40 dark:text-dark-font-40 ">
@@ -118,7 +118,7 @@ export function Tabs() {
         <NavigationMenuItem>
           <NextChakraLink
             href={navigation?.[1]?.url}
-            extraCss="text-sm font-medium hover:text-light-font-60 hover:dark:text-dark-font-60 transition-all duration-250"
+            extraCss="text-sm font-normal hover:text-light-font-60 hover:dark:text-dark-font-60 transition-all duration-250"
           >
             {navigation?.[1]?.name}
           </NextChakraLink>
@@ -169,7 +169,7 @@ const ListItem = React.forwardRef<
           className
         )}
       >
-        <div className="text-sm font-medium leading-none text-light-font-100 dark:text-dark-font-100">
+        <div className="text-sm font-normal leading-none text-light-font-100 dark:text-dark-font-100">
           {title}
         </div>
         <p className="line-clamp-2 text-[13px] leading-snug text-muted-foreground text-light-font-60 dark:text-dark-font-60">

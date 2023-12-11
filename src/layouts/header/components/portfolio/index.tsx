@@ -32,7 +32,7 @@ export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
       {userBalance?.actual_balance !== 0 && !isDisconnected ? (
         <div className="flex items-center">
           <p
-            className={`text-sm md:text-xs font-medium md:font-normal transition-all duration-250 ${
+            className={`text-sm md:text-xs font-normal transition-all duration-250 ${
               userBalance?.change_color
                 ? userBalance?.color
                 : "text-light-font-100 dark:text-dark-font-100"
@@ -45,7 +45,7 @@ export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
       ) : null}
       {userBalance?.actual_balance === 0 || isDisconnected ? (
         <div className="flex items-center">
-          <p className="text-light-font-100 dark:text-dark-font-100 text-sm font-medium  md:font-normal flex lg:hidden">
+          <p className="text-light-font-100 dark:text-dark-font-100 text-sm font-normal flex lg:hidden">
             Portfolio
           </p>
           <AiOutlineLineChart className="ml-[7.5px] lg:ml-0 text-base lg:text-lg text-light-font-100 dark:text-dark-font-100" />

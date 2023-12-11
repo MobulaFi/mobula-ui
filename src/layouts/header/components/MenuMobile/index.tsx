@@ -123,7 +123,7 @@ export const MenuMobile = ({
               >
                 <div className="flex items-center text-light-font-100 dark:text-dark-font-100">
                   <BsPower className="text-lg mr-2.5" />
-                  <p className="text-base font-medium">Log Out</p>
+                  <p className="text-base font-normal">Log Out</p>
                 </div>
               </button>
             </div>{" "}
