@@ -91,7 +91,7 @@ export const ChartHeader = () => {
           relative mr-[7.5px] "
           >
             <div
-              className="flex h-[90%] top-[50%] z-[0] -translate-y-[50%] w-[50%] transition-all duration-250 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover"
+              className="flex h-[90%] top-[50%] z-[0] -translate-y-[50%] w-[50%] transition-all duration-200 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover"
               style={{ left: buttonPosition }}
             />
             <button
@@ -99,7 +99,7 @@ export const ChartHeader = () => {
                 chartType === "price"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              } transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
+              } transition-all duration-200 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
               disabled={activeChart === "Trading view"}
               onClick={() => {
                 const newChartType = "price" as ChartType;
@@ -115,7 +115,7 @@ export const ChartHeader = () => {
                 chartType === "market_cap"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              }  transition-all duration-250 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
+              }  transition-all duration-200 text-sm lg:text-[13px] md:text-xs z-[2] whitespace-nowrap`}
               onClick={() => {
                 const newChartType = "market_cap" as ChartType;
                 setChartType(newChartType);
@@ -129,7 +129,7 @@ export const ChartHeader = () => {
            border border-light-border-primary dark:border-dark-border-primary relative"
           >
             <div
-              className={`h-[90%] top-[50%] -translate-y-[50%] w-[50%] transition-all duration-250
+              className={`h-[90%] top-[50%] -translate-y-[50%] w-[50%] transition-all duration-200
              rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0] ${
                activeChart !== "Trading view" ? "ml-0.5 mr-0" : ""
              }`}
@@ -147,7 +147,7 @@ export const ChartHeader = () => {
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } 
-            transition-all duration-250 z-[2]`}
+            transition-all duration-200 z-[2]`}
               onClick={() => {
                 pushData("Chart Button", {
                   "Chart Type": "Linear",
@@ -164,7 +164,7 @@ export const ChartHeader = () => {
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
               } ${untracked.isUntracked ? "opacity-50 not-allowed" : ""} 
-              transition-all duration-250 z-[2]`}
+              transition-all duration-200 z-[2]`}
               disabled={untracked.isUntracked}
               onClick={() => {
                 pushData("Chart Button", {

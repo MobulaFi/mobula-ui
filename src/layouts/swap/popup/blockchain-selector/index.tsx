@@ -47,7 +47,7 @@ export const BlockchainSelector = ({
               <div
                 className={`flex items-center mr-2.5 mt-2.5 px-[7.5px] py-[5px] h-[30px] rounded-lg w-fit bg-light-bg-terciary
                  dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary
-                  cursor-pointer hover:border-light-border-secondary dark:hover:border-dark-border-secondary transition-all duration-250 ${
+                  cursor-pointer hover:border-light-border-secondary dark:hover:border-dark-border-secondary transition-all duration-200 ${
                     isFrom ? "cursor-pointer" : "cursor-not-allowed"
                   }`}
                 key={(entry || i) as Key}

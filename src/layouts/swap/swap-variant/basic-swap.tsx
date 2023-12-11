@@ -58,7 +58,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const switchTokenButtonStyle =
-    "h-[35px] rounded-full w-fit ml-auto p-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 ease-in-out";
+    "h-[35px] rounded-full w-fit ml-auto p-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 ease-in-out";
   const gasCost = tx?.gasLimit
     ? cleanNumber(tx.gasLimit, 9) *
       cleanNumber(gasData?.gasPrice, 9) *
@@ -157,7 +157,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           />
           {tokenIn && tokenIn.balance !== null && (
             <button
-              className="text-md mr-2.5 rounded px-2 text-light-font-100 dark:text-dark-font-100 border border-darkblue hover:border-blue transition-all duration-250"
+              className="text-md mr-2.5 rounded px-2 text-light-font-100 dark:text-dark-font-100 border border-darkblue hover:border-blue transition-all duration-200"
               onClick={() => {
                 setAmountIn(
                   tokenIn && "coin" in tokenIn
@@ -303,7 +303,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
       </SmallFont>
       <button
         className="flex items-center justify-center text-sm text-medium w-full rounded-lg text-light-font-100 dark:text-dark-font-100 border
-         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-250"
+         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200"
         onClick={() => handleButtonClick()}
         id={`trade-${buttonStatus?.toLowerCase()}`}
       >

@@ -154,13 +154,13 @@ export const Liquidity = ({ extraCss }: LiquidityProps) => {
         <div
           className="flex absolute w-calc-half-2 h-[32px] lg:h-[30px] md:h-[28px] rounded
          bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary
-          dark:border-dark-border-primary transition-all duration-250"
+          dark:border-dark-border-primary transition-all duration-200"
           style={{
             left: title === "asset" ? "calc(0% + 3px)" : "calc(50% - 2px)",
           }}
         />
         <button
-          className={`w-2/4 h-[36px] lg:h-[34px] md:h-[32px] transition-all duration-250 
+          className={`w-2/4 h-[36px] lg:h-[34px] md:h-[32px] transition-all duration-200 
         font-medium text-sm lg:text-[13px] md:text-xs ${
           title === "asset"
             ? "text-light-font-100 dark:text-dark-font-100"
@@ -172,7 +172,7 @@ export const Liquidity = ({ extraCss }: LiquidityProps) => {
         </button>
         <button
           onClick={() => setTitle("chain")}
-          className={`w-2/4 h-[36px] lg:h-[34px] md:h-[32px] transition-all duration-250 
+          className={`w-2/4 h-[36px] lg:h-[34px] md:h-[32px] transition-all duration-200 
           font-medium text-sm lg:text-[13px] md:text-xs ${
             title === "chain"
               ? "text-light-font-100 dark:text-dark-font-100"

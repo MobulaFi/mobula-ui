@@ -199,14 +199,14 @@ export const EditTransactionPopup = () => {
           >
             <div
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-t transition-all
-                   duration-250 text-sm lg:text-[13px] md:text-xs"
+                   duration-200 text-sm lg:text-[13px] md:text-xs"
               onClick={() => setTransferType("Transfer In")}
             >
               Transfer In
             </div>
             <div
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-b transition-all
-                   duration-250 text-sm lg:text-[13px] md:text-xs"
+                   duration-200 text-sm lg:text-[13px] md:text-xs"
               onClick={() => setTransferType("Transfer Out")}
             >
               Transfer Out

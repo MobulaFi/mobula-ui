@@ -180,7 +180,7 @@ export const BasicInformation = ({ state, dispatch }) => {
             className={`flex w-full h-full ${
               isImageHover ? "opacity-100" : "opacity-0"
             } 
-          transition-all duration-250 rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
+          transition-all duration-200 rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
           items-center absolute justify-center cursor-pointer`}
           >
             {!state.image.loading ? (

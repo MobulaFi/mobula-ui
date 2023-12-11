@@ -208,10 +208,10 @@ export const TbodyCryptocurrencies = ({
             />
             <div
               className="flex flex-col fixed bottom-0 w-screen bg-light-bg-secondary dark:bg-dark-bg-secondary border-t-2
-           border-light-border-primary dark:border-dark-border-primary z-[13] left-0 transition-all duration-250"
+           border-light-border-primary dark:border-dark-border-primary z-[13] left-0 transition-all duration-200"
             >
               <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={() => setShowBuyDrawer(asset as any)}
               >
@@ -227,7 +227,7 @@ export const TbodyCryptocurrencies = ({
                 Swap
               </div>
               <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
            dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={hideAsset}
               >
@@ -243,7 +243,7 @@ export const TbodyCryptocurrencies = ({
                 Hide asset
               </div>
               <div
-                className="flex p-[15px] transition-all duration-250 border-b border-light-border-primary
+                className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
                 onClick={() => {
                   setTokenTsx(asset);

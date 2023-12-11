@@ -32,7 +32,7 @@ export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
       {userBalance?.actual_balance !== 0 && !isDisconnected ? (
         <div className="flex items-center">
           <p
-            className={`text-sm md:text-xs font-normal transition-all duration-250 ${
+            className={`text-sm md:text-xs font-normal transition-all duration-200 ${
               userBalance?.change_color
                 ? userBalance?.color
                 : "text-light-font-100 dark:text-dark-font-100"

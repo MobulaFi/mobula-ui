@@ -155,7 +155,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
       >
         {isConnected ? (
           <div
-            className={`min-w-full  flex flex-col w-[200px] transition-all duration-250`}
+            className={`min-w-full  flex flex-col w-[200px] transition-all duration-200`}
           >
             <div className="flex flex-col z-[1] top-2.5 px-2.5">
               <div className="flex justify-between w-full mb-0.5">
@@ -177,7 +177,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                       isHover
                         ? "border-light-font-100 dark:border-dark-font-100"
                         : "border-light-bg-secondary dark:border-dark-bg-secondary"
-                    } transition-all duration-250 ease-in-out`}
+                    } transition-all duration-200 ease-in-out`}
                     style={{
                       width: isHover ? "100%" : "0%",
                     }}

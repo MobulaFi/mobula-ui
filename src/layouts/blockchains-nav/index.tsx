@@ -41,7 +41,7 @@ export const BlockchainsNav = ({
                 ? "text-light-font-100 dark:text-dark-font-100 border-blue dark:border-blue"
                 : "text-light-font-40 dark:text-dark-font-40 border-0 bg-inherit dark:bg-inherit"
             } hover:bg-inherit hover:dark:bg-inherit hover:text-light-font-100 hover:dark:text-dark-font-100 
-            transition-all duration-250 font-normal`}
+            transition-all duration-200 font-normal`}
             onClick={() => {
               if (setIsFirstRequest) setIsFirstRequest(false);
               if (setIsLoading) setIsLoading(true);

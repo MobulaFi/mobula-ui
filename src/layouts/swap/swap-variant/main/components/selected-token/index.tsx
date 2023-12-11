@@ -18,7 +18,7 @@ export const SelectedToken = ({ isTokenIn, isDefault }: SelectedTokenProps) => {
     <div
       className="flex items-center px-2.5 rounded-full border-light-border-primary dark:border-dark-border-primary 
     h-[30px] bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
-    transition-all duration-250 ease-in-out"
+    transition-all duration-200 ease-in-out"
     >
       {!isDefault ? (
         <img

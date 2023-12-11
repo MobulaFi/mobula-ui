@@ -101,7 +101,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
             {editName.newname.length}/32 characters
           </ExtraSmallFont>
           <div
-            className="opacity-0 transition-all duration-250 ease-in-out"
+            className="opacity-0 transition-all duration-200 ease-in-out"
             ref={errorRef}
           >
             <ExtraSmallFont extraCss="text-red dark:text-red font-medium">

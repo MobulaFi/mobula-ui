@@ -55,7 +55,7 @@ export const TopNav = ({
                 active === item || (isGeneral && active === item?.name)
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              } transition-all duration-250`}
+              } transition-all duration-200`}
               style={{
                 width: `${100 / (list?.length || 0)}%`,
               }}

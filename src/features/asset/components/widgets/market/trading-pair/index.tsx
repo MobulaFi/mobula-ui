@@ -127,7 +127,7 @@ export const TradingPairs = () => {
          border-light-border-primary dark:border-dark-border-primary"
         >
           <div
-            className="flex transition-all z-[0] duration-250 rounded absolute
+            className="flex transition-all z-[0] duration-200 rounded absolute
              bg-light-bg-hover dark:bg-dark-bg-hover h-[30px] md:h-[25px] w-[33.33%]"
             style={{ left: getPositionFromPair(activePairs) }}
           />
@@ -137,7 +137,7 @@ export const TradingPairs = () => {
             disabled
           >
             <SmallFont
-              extraCss={`transition-all duration-250 font-medium ${
+              extraCss={`transition-all duration-200 font-medium ${
                 activePairs === "all"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
@@ -152,7 +152,7 @@ export const TradingPairs = () => {
             disabled
           >
             <SmallFont
-              extraCss={`transition-all duration-250 font-medium ${
+              extraCss={`transition-all duration-200 font-medium ${
                 activePairs === "cex"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
@@ -166,7 +166,7 @@ export const TradingPairs = () => {
             onClick={() => setActivePairs("dex")}
           >
             <SmallFont
-              extraCss={`transition-all duration-250 font-medium ${
+              extraCss={`transition-all duration-200 font-medium ${
                 activePairs === "dex"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"

@@ -95,7 +95,7 @@ export const ManageEdit = () => {
           <div
             className={`flex items-center justify-center mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
           border border-light-border-primary dark:border-dark-border-primary rounded w-calc-half-10
-           cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250
+           cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200
             ease-in-out ${index % 2 === 0 ? "mr-2.5" : "ml-2.5"}`}
             key={index}
             onClick={() => handleCheckboxChange(Number(tokenId))}
@@ -120,7 +120,7 @@ export const ManageEdit = () => {
               <BsCheckLg
                 className={`text-[10px] ${
                   isCheck[Number(tokenId)] ? "opacity-100" : "opacity-0"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               />
             </div>
           </div>

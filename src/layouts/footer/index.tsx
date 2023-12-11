@@ -57,7 +57,7 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-250`}
+                        } transition-all duration-200`}
                       >
                         {page.name}
                       </SmallFont>
@@ -101,7 +101,7 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-250 font-normal text-start w-fit`}
+                        } transition-all duration-200 font-normal text-start w-fit`}
                       >
                         {page.name}
                         <div

@@ -53,7 +53,7 @@ export const MenuFixedMobile = () => {
     <div
       className={`w-full h-[75px] items-center flex-col pb-2.5 border-t border-light-border-primary
      dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary z-[11] hidden md:flex 
-     transition-all duration-250 ease-in-out fixed shadow-md ${
+     transition-all duration-200 ease-in-out fixed shadow-md ${
        visible ? "bottom-0" : "bottom-[-80px]"
      }`}
     >
@@ -73,14 +73,14 @@ export const MenuFixedMobile = () => {
                   isHover.home
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-60 dark:text-dark-font-60"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               />
               <SmallFont
                 extraCss={` ${
                   isHover.home
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-60 dark:text-dark-font-60"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               >
                 Home
               </SmallFont>
@@ -102,14 +102,14 @@ export const MenuFixedMobile = () => {
                   isHover.swap
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-60 dark:text-dark-font-60"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               />
               <SmallFont
                 extraCss={` ${
                   isHover.swap
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-60 dark:text-dark-font-60"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               >
                 Swap
               </SmallFont>
@@ -132,14 +132,14 @@ export const MenuFixedMobile = () => {
                   isHover.portfolio
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-60 dark:text-dark-font-60"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               />
               <SmallFont
                 extraCss={` ${
                   isHover.portfolio
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-60 dark:text-dark-font-60"
-                } transition-all duration-250 ease-in-out`}
+                } transition-all duration-200 ease-in-out`}
               >
                 Portfolio
               </SmallFont>

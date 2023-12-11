@@ -21,7 +21,7 @@ export const TopConvertion = () => {
         {/* <div className="w-full flex items-center flex-wrap justify-between lg:w-[85%] lg:justify-center mx-auto">
           {fiats.map((fiat) => (
             <button
-              className="h-10 md:h-[35px] w-[fit-content] px-2.5 rounded-lg flex items-center justify-center hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary transition-all duration-250"
+              className="h-10 md:h-[35px] w-[fit-content] px-2.5 rounded-lg flex items-center justify-center hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary transition-all duration-200"
               onClick={() => setShowCard(fiat.name)}
             >
               <img

@@ -483,7 +483,7 @@ export const Cryptocurrencies = () => {
           <caption
             className="bg-light-bg-secondary dark:bg-dark-bg-secondary text-start 
           rounded-xl pl-0 h-[40px] border border-light-border-primary dark:border-dark-border-primary 
-          hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover cursor-pointer transition-all duration-250
+          hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover cursor-pointer transition-all duration-200
            mt-2.5 md:mt-[-10px] caption-bottom"
           >
             <button

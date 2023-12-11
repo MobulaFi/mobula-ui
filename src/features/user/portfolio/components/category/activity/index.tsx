@@ -489,7 +489,7 @@ export const Activity = ({
                           transaction.is_added
                             ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                             : ""
-                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250`}
+                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200`}
                       >
                         <td
                           className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary max-w-[160px] pr-[5px] ${
@@ -769,7 +769,7 @@ export const Activity = ({
                       <div
                         className={`${tdStyle} absolute -mt-[75px] w-full flex items-center ${
                           isActive ? "flex" : "hidden"
-                        } transition-all duration-250`}
+                        } transition-all duration-200`}
                         onClick={() => {
                           setActiveTransaction(
                             isActive ? "" : transaction.hash + transaction.id
@@ -869,7 +869,7 @@ export const Activity = ({
                       <tr
                         className={`border-b border-light-border-primary dark:border-dark-border-primary ${
                           isActive ? "flex" : "hidden"
-                        } transition-all duration-250`}
+                        } transition-all duration-200`}
                       />
                     </>
                   );

@@ -47,7 +47,7 @@ export const MultiChart = ({
          dark:border-dark-border-primary"
         >
           <div
-            className={`flex h-[90%] top-1/2 -translate-y-1/2 w-[16.66%] transition-all duration-250 
+            className={`flex h-[90%] top-1/2 -translate-y-1/2 w-[16.66%] transition-all duration-200 
           ease-in-out rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover ${
             timestamps.indexOf(timeSelected) === 0 ? "ml-0.5" : ""
           } ${

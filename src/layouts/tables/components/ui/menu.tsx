@@ -33,7 +33,7 @@ export const MenuCommun = () => {
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const lineStyle =
-    "p-[15px] cursor-pointer flex items-center font-medium border-b border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 ease-in-out";
+    "p-[15px] cursor-pointer flex items-center font-medium border-b border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 ease-in-out";
   const isDarkMode = resolvedTheme === "dark";
   const { inWatchlist, handleAddWatchlist } = useWatchlist(
     showMenuTableMobileForToken.id

@@ -205,7 +205,7 @@ export const Overview = () => {
               <>
                 <button
                   className="mx-[15px] my-[15px] md:mt-[15px] flex items-center justify-center text-light-font-100 
-                  dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-250"
+                  dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-200"
                   onClick={() => {
                     setShowMore(false);
                     setMoreHistory(10);
@@ -218,7 +218,7 @@ export const Overview = () => {
             )}
             <button
               className="mx-[15px] my-2.5 flex items-center justify-center text-light-font-100 
-            dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-250"
+            dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-200"
               onClick={() => {
                 setShowMore(true);
                 setMoreHistory(moreHistory + 10);

@@ -59,7 +59,7 @@ export const Nav = ({ state }) => {
                 <div className="flex items-center">
                   <button
                     className={`w-6 h-6 rounded-full text-light-font-100 dark:text-dark-font-100 
-                  transition-all duration-250 text-sm border ${
+                  transition-all duration-200 text-sm border ${
                     i <= actualPage
                       ? "border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
                       : "border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-hover dark:bg-dark-bg-hover hover:border-blue hover:dark:border-blue"

@@ -52,7 +52,7 @@ export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
                 onMouseEnter={() => handleMouseEnter(score)}
                 onMouseLeave={handleMouseLeave}
                 onClick={() => handleClick(score)}
-                className={`text-yellow dark:text-yellow mt-2.5 transition-all duration-250 cursor-pointer text-[35px] lg:text-[31px] md:text-[26px]`}
+                className={`text-yellow dark:text-yellow mt-2.5 transition-all duration-200 cursor-pointer text-[35px] lg:text-[31px] md:text-[26px]`}
               />
             );
           } else {
@@ -61,7 +61,7 @@ export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
                 onMouseEnter={() => handleMouseEnter(score)}
                 onMouseLeave={handleMouseLeave}
                 onClick={() => handleClick(score)}
-                className={`text-light-font-60 dark:text-dark-font-60 mt-2.5 transition-all duration-250 cursor-pointer text-[35px] lg:text-[31px] md:text-[26px]`}
+                className={`text-light-font-60 dark:text-dark-font-60 mt-2.5 transition-all duration-200 cursor-pointer text-[35px] lg:text-[31px] md:text-[26px]`}
               />
             );
           }

@@ -16,7 +16,7 @@ export const Connect = () => {
   const [userMail, setUserMail] = useState("");
   const { resolvedTheme } = useTheme();
   const buttonStyle =
-    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
+    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
   const { connect, connectors, pendingConnector } = useConnect({
     onError: () => {
       setStatus("error");

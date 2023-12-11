@@ -124,7 +124,7 @@ export const Entry = ({
     ) : (
       isBalance && (
         <button
-          className="ml-[30px] md:ml-0 w-[80%] md:w-full text-xs transition-all duration-250 ease-in-out border
+          className="ml-[30px] md:ml-0 w-[80%] md:w-full text-xs transition-all duration-200 ease-in-out border
            border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary 
            dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
            text-light-font-100 dark:text-dark-font-100 font-medium"

@@ -231,7 +231,7 @@ export const TokenMainInfo = () => {
           {/* <Button
             extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
              mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 
-             hover:dark:text-dark-font-100 transition-all duration-250 w-[25px] h-[25px] p-0"
+             hover:dark:text-dark-font-100 transition-all duration-200 w-[25px] h-[25px] p-0"
             onClick={() => setShowTargetPrice(true)}
           >
             <TbBellRinging className="text-lg" />
@@ -262,7 +262,7 @@ export const TokenMainInfo = () => {
               <Menu
                 titleCss="px-[7.5px] h-[28px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
                 rounded text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
-                transition-all duration-250 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
+                transition-all duration-200 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
                 title={
                   <div className="flex items-center">
                     <SmallFont>{timeSelected}</SmallFont>
@@ -274,7 +274,7 @@ export const TokenMainInfo = () => {
                   <button
                     key={time}
                     onClick={() => setTimeSelected(time)}
-                    className={`transition-all duration-250 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
+                    className={`transition-all duration-200 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
                        rounded ${
                          timeSelected === time
                            ? "text-light-font-100 dark:text-dark-font-100"

@@ -31,14 +31,14 @@ export function Tabs() {
                 >
                   <div
                     key={entry.url}
-                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded p-4 transition-all duration-250"
+                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded p-4 transition-all duration-200"
                     onMouseEnter={() => setIsHover(entry.name)}
                     onMouseLeave={() => setIsHover("")}
                   >
                     <div className="flex items-center">
                       <div
                         className={`flex items-center justify-center h-[34px] w-[34px] mr-2.5 min-w-[34px]
-               bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
+               bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-200`}
                       >
                         {entry.icon}
                       </div>
@@ -76,14 +76,14 @@ export function Tabs() {
                 >
                   <div
                     key={entry.url}
-                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded p-4 transition-all duration-250"
+                    className="flex items-center justify-between hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded p-4 transition-all duration-200"
                     onMouseEnter={() => setIsHover(entry.name)}
                     onMouseLeave={() => setIsHover("")}
                   >
                     <div className="flex items-center">
                       <div
                         className={`flex items-center justify-center h-[34px] w-[34px] mr-2.5 min-w-[34px]
-               bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-250`}
+               bg-light-bg-hover dark:bg-dark-bg-hover rounded transition-all duration-200`}
                       >
                         {entry.icon}
                       </div>
@@ -118,7 +118,7 @@ export function Tabs() {
         <NavigationMenuItem>
           <NextChakraLink
             href={navigation?.[1]?.url}
-            extraCss="text-sm font-normal hover:text-light-font-60 hover:dark:text-dark-font-60 transition-all duration-250"
+            extraCss="text-sm font-normal hover:text-light-font-60 hover:dark:text-dark-font-60 transition-all duration-200"
           >
             {navigation?.[1]?.name}
           </NextChakraLink>

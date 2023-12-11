@@ -114,7 +114,7 @@ export const SelectorPortfolioPopup = () => {
           return (
             <div className="flex flex-col" key={otherPortfolio.id}>
               <div
-                className={`flex items-center justify-between mt-2.5 transition-all duration-250 py-2.5 rounded-lg flex-col cursor-pointer ${
+                className={`flex items-center justify-between mt-2.5 transition-all duration-200 py-2.5 rounded-lg flex-col cursor-pointer ${
                   isActive || isHover === index
                     ? "bg-light-bg-hover dark:bg-dark-bg-hover"
                     : ""
@@ -149,7 +149,7 @@ export const SelectorPortfolioPopup = () => {
                     }
                   >
                     <div
-                      className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs w-fit transition-all duration-250"
+                      className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs w-fit transition-all duration-200"
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowEditName(otherPortfolio.id);

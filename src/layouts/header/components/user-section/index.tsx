@@ -245,7 +245,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   }, [isConnected, isConnecting]);
 
   const telegramStyleButton =
-    "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 font-normal transition-all duration-250 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
+    "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 font-normal transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
   const squareBox =
     "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
@@ -266,7 +266,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             <div
               className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
-            dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-250 
+            dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-200 
             max-w-[16vw] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
             hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out overflow-hidden"
               onClick={() => {
@@ -290,7 +290,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         <div className="flex relative">
           <button
             className={`flex items-center w-fit min-w-[35px] p-0.5 md:hidden bg-light-bg-terciary
-           dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 border 
+           dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 border 
            border-light-border-primary dark:border-dark-border-primary ${
              isDisconnected || (isConnecting && !addressFromCookie)
                ? "rounded"

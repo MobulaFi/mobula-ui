@@ -222,7 +222,7 @@ export const HoldingChart = ({ ...props }) => {
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
           } 
-         transition-all duration-250 font-normal text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
+         transition-all duration-200 font-normal text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
           onClick={() => setTitle("asset")}
         >
           Assets
@@ -233,7 +233,7 @@ export const HoldingChart = ({ ...props }) => {
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
           }  
-          transition-all duration-250 font-normal text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
+          transition-all duration-200 font-normal text-sm lg:text-[13px] md:text-xs bg-transparent z-[1]`}
           onClick={() => setTitle("chain")}
         >
           Blockchains

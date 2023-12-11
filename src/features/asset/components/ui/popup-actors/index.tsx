@@ -107,7 +107,7 @@ export const ActorsPopup = ({
                 {item.links?.map((link) => (
                   <div
                     className="flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary
-                     transition-all duration-250 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+                     transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
                      text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
                     key={link.link}
                     onClick={() => window.open(link.link, "_blank")}

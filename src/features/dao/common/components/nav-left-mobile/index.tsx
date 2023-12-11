@@ -72,7 +72,7 @@ export const LeftNavigationMobile = ({ page }: LeftNavigationMobileProps) => {
           </p>
         </div>
         <ButtonOutlined
-          extraCss="flex justify-center items-center w-[90px] h-[25px] text-[13px] md:text-xs font-medium cursor-not-allowed opacity-50"
+          extraCss="flex justify-center items-center w-[90px] h-[25px] text-[13px] md:text-xs font-normal cursor-not-allowed opacity-50"
           onClick={() => {
             // router.push(`/discover/${page}`)
           }}
