@@ -1,9 +1,12 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { NextChakraLink } from "../../../components/link";
 import { GridBox } from "./components/grid-box";
-import { gridBoxContent } from "./constant";
+import { gridBoxContent, questions } from "./constant";
 
 export const HomeLanding = () => {
   const containerStyle = "flex flex-col max-w-[1200px] w-[90%] lg:w-[95%]";
+  const [triggerAccordion, setTriggerAccordion] = useState<number>(0);
 
   return (
     <div>
@@ -94,6 +97,51 @@ export const HomeLanding = () => {
                 image={content.image}
                 description={content.description}
               />
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="w-screen flex justify-center items-center h-screen">
+        <div className={containerStyle}>
+          <div>
+            <h1
+              className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-center 
+              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+              style={{
+                "-webkit-text-fill-color": "transparent",
+              }}
+            >
+              Frequently Asked
+              <br />
+              Questions
+            </h1>
+            <p className="text-xl font-[Poppins] text-light-font-60 dark:text-dark-font-60 mt-[70px] mb-[100px] text-center">
+              Have more questions?{" "}
+              <NextChakraLink className="text-xl font-[Poppins] text-light-font-100 dark:text-dark-font-100 underline underline-offset-4 decoration-1">
+                {" "}
+                Contact us
+              </NextChakraLink>
+            </p>
+            {questions.map((content, i) => (
+              <div
+                key={content.title}
+                className={`flex flex-col cursor-pointer 
+                border-b border-light-border-primary dark:border-dark-border-primary ${
+                  triggerAccordion === i + 1 ? "h-[200px]" : "h-[97px] "
+                }  transition-all duration-300 ease-in-out overflow-hidden`}
+                onMouseEnter={() => setTriggerAccordion(i + 1)}
+                onMouseLeave={() => setTriggerAccordion(0)}
+              >
+                <div className="w-full py-8">
+                  <p className="text-2xl font-[Poppins] text-light-font-100 dark:text-dark-font-100">
+                    {content.title}
+                  </p>
+                </div>
+                <p className="text-lg font-[Poppins] text-light-font-60 dark:text-dark-font-60 pb-8">
+                  {content.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
