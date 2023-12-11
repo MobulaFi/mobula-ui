@@ -99,7 +99,7 @@ export const Top100 = ({
       </div>
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Views setResultsData={setResultsData} />
-        <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0">
+        <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0 mb-0 md:mb-0">
           <AssetsTable
             resultsData={resultsData}
             setResultsData={setResultsData}
