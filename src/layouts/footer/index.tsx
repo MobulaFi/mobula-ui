@@ -10,7 +10,7 @@ import { getPath } from "./constant";
 
 export const Footer = () => {
   const pages = getPath();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [isHover, setIsHover] = useState(null);
   return (
     <CommonPageProvider>
@@ -25,7 +25,7 @@ export const Footer = () => {
               <img
                 className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 sm:ml-[20px] mb-auto"
                 src={
-                  theme === "dark"
+                  resolvedTheme === "dark"
                     ? "/mobula/mobula-logo.svg"
                     : "/mobula/mobula-logo-light.svg"
                 }

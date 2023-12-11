@@ -33,8 +33,8 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   const [hasCopied, setHasCopied] = useState(false);
   const signerGuard = useSignerGuard();
   const [name, setName] = useState("");
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
 
   const onCopy = () => {
     navigator.clipboard.writeText(

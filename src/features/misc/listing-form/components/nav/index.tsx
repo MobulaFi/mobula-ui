@@ -7,8 +7,8 @@ import { ListingContext } from "../../context-manager";
 
 export const Nav = ({ state }) => {
   const { actualPage, setActualPage } = useContext(ListingContext);
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
   const infos = [
     {
       name: "Asset Info",

@@ -14,8 +14,8 @@ interface CoreActorProps {
 
 export const CoreActor = ({ extraCss }: CoreActorProps) => {
   const { baseAsset } = useContext(BaseAssetContext);
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
   const router = useRouter();
   return (
     <div

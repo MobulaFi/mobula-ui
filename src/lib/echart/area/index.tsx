@@ -38,7 +38,7 @@ interface DataProps {
 
 const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const id = useMemo(() => uuid(), []);
 
   const createInstance = useCallback(() => {
@@ -58,10 +58,13 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
     },
     tooltip: {
       trigger: "axis",
-      backgroundColor: theme === "dark" ? "#222531" : "#F5F5F5",
+      backgroundColor: resolvedTheme === "dark" ? "#222531" : "#F5F5F5",
       confine: true,
       textStyle: {
-        color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+        color:
+          resolvedTheme === "dark"
+            ? "rgba(255,255,255,0.8)"
+            : "rgba(0,0,0,0.8)",
       },
       padding: 15,
       borderRadius: 12,
@@ -69,8 +72,11 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
       axisPointer: {
         type: "cross",
         label: {
-          backgroundColor: theme === "dark" ? "#222531" : "#F5F5F5",
-          color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+          backgroundColor: resolvedTheme === "dark" ? "#222531" : "#F5F5F5",
+          color:
+            resolvedTheme === "dark"
+              ? "rgba(255,255,255,0.8)"
+              : "rgba(0,0,0,0.8)",
         },
       },
       formatter(params) {
@@ -115,7 +121,10 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
           formatter(value: number) {
             return getFormattedAmount(value);
           },
-          color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)",
+          color:
+            resolvedTheme === "dark"
+              ? "rgba(255,255,255,0.8)"
+              : "rgba(0,0,0,0.8)",
         },
         axisLine: {
           lineStyle: {
@@ -147,7 +156,9 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
             lineStyle: {
               type: "dotted",
               color:
-                theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
+                resolvedTheme === "dark"
+                  ? "rgba(255,255,255,0.1)"
+                  : "rgba(0,0,0,0.1)",
             },
             symbol: "none",
             label: {
@@ -180,7 +191,7 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
   useEffect(() => {
     const chart = createInstance();
     if (chart) chart.setOption(options);
-  }, [data, theme]);
+  }, [data, resolvedTheme]);
 
   useEffect(() => {
     const chart = createInstance();
@@ -196,7 +207,7 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
         });
       });
     }
-  }, [theme]);
+  }, [resolvedTheme]);
 
   return (
     <div

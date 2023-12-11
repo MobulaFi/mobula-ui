@@ -17,8 +17,8 @@ export const Rounds = () => {
   const { baseAsset } = useContext(BaseAssetContext);
   const [hasError, setHasError] = useState(false);
   const arr = [1, 2, 3, 4, 5, 5];
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const [showPopover, setShowPopover] = useState("");
   const getTokenomics = (sale) => [
     {

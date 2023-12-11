@@ -26,8 +26,8 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
   const { setShowEdit, showEdit, setEditName, editName, activeWatchlist } =
     useContext(WatchlistContext);
   const { address } = useAccount();
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
   const { user, setUser } = useContext(UserContext);
   const errorRef = useRef<HTMLDivElement>();
   const [isPublic, setIsPublic] = useState(watchlist?.public);

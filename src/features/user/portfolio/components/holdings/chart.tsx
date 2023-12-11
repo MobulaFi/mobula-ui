@@ -24,8 +24,8 @@ export const HoldingChart = ({ ...props }) => {
   type EChartsOption = echarts.EChartsOption;
   const id = useMemo(() => uuid(), []);
   const [title, setTitle] = useState("asset");
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
 
   const sortedHoldings = useMemo(
     () =>

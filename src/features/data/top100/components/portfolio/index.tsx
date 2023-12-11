@@ -28,8 +28,8 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const { isConnected, isDisconnected } = useAccount();
   const [wallet, setWallet] = useState<IWSWallet>({} as IWSWallet);
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
   const firstRender = useRef(true);
   const { setConnect } = useContext(PopupUpdateContext);
   const handleConnect = useShouldConnect(() => router.push("/portfolio"));

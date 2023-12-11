@@ -18,8 +18,8 @@ interface VestingInformationProps {
 }
 
 export const VestingInformation = ({ token }: VestingInformationProps) => {
-  const { theme } = useTheme();
-  const whiteMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const whiteMode = resolvedTheme === "dark";
 
   function formatDate(timestamp: number) {
     const date = new Date(timestamp);

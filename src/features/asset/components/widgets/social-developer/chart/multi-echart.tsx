@@ -51,7 +51,7 @@ const EChart: React.FC<EChartProps> = ({
   leftMargin = ["13%", "4.5%"],
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const id = useMemo(() => uuid(), []);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -81,9 +81,14 @@ const EChart: React.FC<EChartProps> = ({
     if (chart)
       chart.setOption({
         backgroundColor:
-          theme === "dark" ? "rgba(19, 22, 39, 1)" : "rgba(255,255,255,1)",
+          resolvedTheme === "dark"
+            ? "rgba(19, 22, 39, 1)"
+            : "rgba(255,255,255,1)",
         textStyle: {
-          color: theme === "dark" ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)",
+          color:
+            resolvedTheme === "dark"
+              ? "rgba(0,0,0,0.8)"
+              : "rgba(255,255,255,0.8)",
         },
         grid: {
           bottom: "15%",
