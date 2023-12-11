@@ -600,12 +600,12 @@ export const ViewPopup = ({
                     onClick={() => dispatch({ type: ACTIONS.SET_FAVORITE })}
                   >
                     <AiOutlineStar
-                      className={`absolute text-base transition-all duration-250 ${
+                      className={`absolute text-base transition-all duration-200 ${
                         getStarIconFromActiveView().outline
                       }`}
                     />
                     <AiFillStar
-                      className={`absolute text-base text-yellow dark:text-yellow transition-all duration-250 ${
+                      className={`absolute text-base text-yellow dark:text-yellow transition-all duration-200 ${
                         getStarIconFromActiveView().fill
                       }`}
                     />
@@ -628,7 +628,7 @@ export const ViewPopup = ({
               <div
                 className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] md:h-[30px] w-1/2 ${
                   showTuto ? "z-[3]" : "z-[auto]"
-                } rounded transition-all duration-250 `}
+                } rounded transition-all duration-200 `}
                 style={{
                   left:
                     activeDisplay === "display"

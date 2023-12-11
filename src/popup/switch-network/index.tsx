@@ -61,7 +61,7 @@ export const SwitchNetworkPopup = () => {
         <div className="flex flex-col w-full">
           <button
             className="text-light-font-100 dark:text-dark-font-100 text-center mt-[15px] text-sm md:text-xs w-full flex items-center justify-center
-             border border-darkblue hover:border-blue transition-all duration-250 ease-in-out h-[35px] md:h-[30px] rounded"
+             border border-darkblue hover:border-blue transition-all duration-200 ease-in-out h-[35px] md:h-[30px] rounded"
             onClick={async () => {
               if (!chain) {
                 setConnect(true);
@@ -80,7 +80,7 @@ export const SwitchNetworkPopup = () => {
             className="text-light-font-100 dark:text-dark-font-100 text-center mt-2.5 
            text-sm md:text-xs w-full flex items-center justify-center bg-light-bg-terciary dark:bg-dark-bg-terciary
             border border-light-border-primary dark:border-dark-border-primary rounded hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
-             transition-all duration-250 ease-in-out h-[35px] md:h-[30px]"
+             transition-all duration-200 ease-in-out h-[35px] md:h-[30px]"
             onClick={() => {
               setShowSwitchNetwork(false);
               disconnect();

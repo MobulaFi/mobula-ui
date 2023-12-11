@@ -138,7 +138,7 @@ export const ChainsChanger = ({
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg ${
                        isLasts ? "" : "mb-2.5"
                      }
-                     text-sm md:text-xs transition-all duration-250`}
+                     text-sm md:text-xs transition-all duration-200`}
                       onClick={() => {
                         if (!chain) {
                           setConnect(true);
@@ -149,7 +149,7 @@ export const ChainsChanger = ({
                         );
                       }}
                     >
-                      <div className="flex items-center w-full h-full px-2.5 font-medium">
+                      <div className="flex items-center w-full h-full px-2.5 font-normal">
                         <img
                           src={
                             blockchainsContent[entry.name || "Ethereum"]?.logo
@@ -172,7 +172,7 @@ export const ChainsChanger = ({
                 <button
                   className={`h-[40px] w-[185px] lg:w-[145px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
-                     text-sm md:text-xs transition-all duration-250 ${
+                     text-sm md:text-xs transition-all duration-200 mr-2.5 ${
                        showXBlockchains[1] === 8
                          ? "opacity-50 cursor-not-allowed"
                          : ""
@@ -183,7 +183,7 @@ export const ChainsChanger = ({
                   disabled={showXBlockchains[1] === 8}
                 >
                   <div className="flex items-center w-full h-full px-2.5">
-                    <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-medium" />
+                    <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
                     Previous
                   </div>
                 </button>
@@ -191,7 +191,7 @@ export const ChainsChanger = ({
               <button
                 className={`h-[40px] w-[185px] lg:w-[145px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
-                     text-sm md:text-xs transition-all duration-250 ${
+                     text-sm md:text-xs transition-all duration-200 ${
                        showNextButton ? "" : "opacity-50 cursor-not-allowed"
                      }`}
                 onClick={() => {
@@ -201,7 +201,7 @@ export const ChainsChanger = ({
                 disabled={!showNextButton}
               >
                 <div className="flex items-center w-full h-full px-2.5">
-                  <AiOutlineDoubleRight className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-medium" />
+                  <AiOutlineDoubleRight className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
                   Next
                   {showNextButton
                     ? ` (${

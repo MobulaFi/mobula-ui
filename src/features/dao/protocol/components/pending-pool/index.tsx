@@ -23,8 +23,8 @@ import { VestingInformation } from "../ui/sorts/vesting-information";
 export const PendingPool = () => {
   const pathname = usePathname();
   const { tokenDivs, displayedPool } = useContext(SortContext);
-  const { theme } = useTheme();
-  const isWhiteMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isWhiteMode = resolvedTheme === "dark";
   useSort();
 
   const renderToken = (token: Asset) => (

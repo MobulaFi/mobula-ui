@@ -18,8 +18,8 @@ interface VestingInformationProps {
 }
 
 export const VestingInformation = ({ token }: VestingInformationProps) => {
-  const { theme } = useTheme();
-  const whiteMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const whiteMode = resolvedTheme === "dark";
 
   function formatDate(timestamp: number) {
     const date = new Date(timestamp);
@@ -45,7 +45,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
 
   return (
     <BoxContainer
-      extraCss={`mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
+      extraCss={`mb-5 relative transition-all duration-200 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0 ${display}`}
     >
       <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5">
         <AiOutlineLineChart className="text-blue dark:text-blue text-lg" />
@@ -89,7 +89,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
         vestingFormatted?.[1][0] &&
         vestingFormatted?.[1][1] ? (
           <>
-            <SmallFont extraCss="absolute font-medium left-0 top-0 z-[1]">
+            <SmallFont extraCss="absolute font-normal left-0 top-0 z-[1]">
               Vesting schedule chart
             </SmallFont>
             <EChart

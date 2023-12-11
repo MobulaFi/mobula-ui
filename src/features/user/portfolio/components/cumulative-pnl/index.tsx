@@ -45,7 +45,7 @@ export const CumulativePnl = () => {
     <div
       className={`${boxStyle} flex-col border border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary my-2.5 w-[320px] lg:w-full`}
     >
-      <LargeFont extraCss="text-light-font-100 dark:text-dark-font-100 mb-2.5 ml-[5px] font-bold">
+      <LargeFont extraCss="text-light-font-100 dark:text-dark-font-100 mb-2.5 ml-[5px] font-medium">
         Cumulative P&L
       </LargeFont>
       {cumulativePNL?.length === 0 && !isLoading ? (

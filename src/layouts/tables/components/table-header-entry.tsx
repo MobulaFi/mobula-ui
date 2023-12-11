@@ -76,12 +76,12 @@ export const TableHeaderEntry = ({
       }}
     >
       {!isLoading ? (
-        <div className={cn("flex items-center", titleCssPosition)}>
+        <div className={cn("flex items-center font-normal", titleCssPosition)}>
           {smaller && isMobile ? smaller : title}
           {canOrder &&
             (titleToDBKey[title] === orderBy?.type ? (
               <FaArrowUp
-                className={`text-light-font-100 dark:text-dark-font-100 ml-[5px] text-xs transition-all duration-250 ease-in-out ${
+                className={`text-light-font-100 dark:text-dark-font-100 ml-[5px] text-xs transition-all duration-200 ease-in-out ${
                   !orderBy?.ascending ? "rotate-180" : "rotate-0"
                 }`}
               />

@@ -426,7 +426,7 @@ export const Activity = ({
                 <tr>
                   <SmallFont
                     extraCss={`px-2.5 ${
-                      isSmallTable ? "pt-2" : "pt-[15px] pb-1font-bold"
+                      isSmallTable ? "pt-2" : "pt-[15px] pb-1 font-medium"
                     }`}
                   >
                     {date}
@@ -489,7 +489,7 @@ export const Activity = ({
                           transaction.is_added
                             ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                             : ""
-                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250`}
+                        }  align-top cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200`}
                       >
                         <td
                           className={`${tdStyle} py-[10px] border-b border-light-border-primary dark:border-dark-border-primary max-w-[160px] pr-[5px] ${
@@ -574,7 +574,9 @@ export const Activity = ({
                               {transactionInfos.type === "execution" ? (
                                 <SmallFont
                                   extraCss={`break-all whitespace-pre-wrap  ${
-                                    isSmallTable ? "font-medium" : " font-bold"
+                                    isSmallTable
+                                      ? "font-normal"
+                                      : " font-medium"
                                   }`}
                                 >
                                   {transactionInfos.wording}
@@ -584,8 +586,8 @@ export const Activity = ({
                                   <SmallFont
                                     extraCss={`break-all whitespace-pre-wrap ${
                                       isSmallTable
-                                        ? "font-medium"
-                                        : " font-bold"
+                                        ? "font-normal"
+                                        : " font-medium"
                                     }`}
                                   >
                                     {`${transactionInfos.wording} ${
@@ -650,7 +652,7 @@ export const Activity = ({
                             <div className="flex items-center justify-end">
                               {famousContractsLabel[externalActor] ? (
                                 <img
-                                  className="w-[22px] h-[22px] min-w-[24px] rounded-full ml-auto mr-2"
+                                  className="w-[20px] h-[20px] min-w-[20px] rounded-full ml-auto mr-2"
                                   src={famousContractsLabel[externalActor].logo}
                                   alt={`${famousContractsLabel[externalActor].name} logo`}
                                 />
@@ -664,7 +666,7 @@ export const Activity = ({
                                   transactionInfos.type === "internal"
                                     ? "text-light-font-40 dark:text-dark-font-40"
                                     : "text-light-font-100 dark:text-dark-font-100"
-                                } font-medium`}
+                                } font-normal`}
                               >
                                 {transaction.is_added
                                   ? "--"
@@ -767,7 +769,7 @@ export const Activity = ({
                       <div
                         className={`${tdStyle} absolute -mt-[75px] w-full flex items-center ${
                           isActive ? "flex" : "hidden"
-                        } transition-all duration-250`}
+                        } transition-all duration-200`}
                         onClick={() => {
                           setActiveTransaction(
                             isActive ? "" : transaction.hash + transaction.id
@@ -781,7 +783,7 @@ export const Activity = ({
                         ) : (
                           <>
                             <div className="flex flex-col">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
+                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal">
                                 Fee
                               </SmallFont>
                               <SmallFont>{`$${getFormattedAmount(
@@ -790,7 +792,7 @@ export const Activity = ({
                             </div>
 
                             <div className="flex flex-col ml-8 md:hidden">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
+                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal">
                                 Transaction Hash
                               </SmallFont>
                               <div className="flex items-center">
@@ -812,7 +814,7 @@ export const Activity = ({
                               </div>
                             </div>
                             <div className="flex flex-col ml-8">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
+                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal">
                                 Wallet
                               </SmallFont>
                               <SmallFont>
@@ -820,7 +822,7 @@ export const Activity = ({
                               </SmallFont>
                             </div>
                             <div className="hidden md:flex flex-col ml-8">
-                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-medium">
+                              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal">
                                 Actor
                               </SmallFont>
                               <SmallFont>
@@ -867,7 +869,7 @@ export const Activity = ({
                       <tr
                         className={`border-b border-light-border-primary dark:border-dark-border-primary ${
                           isActive ? "flex" : "hidden"
-                        } transition-all duration-250`}
+                        } transition-all duration-200`}
                       />
                     </>
                   );

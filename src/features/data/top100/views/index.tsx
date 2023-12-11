@@ -188,11 +188,11 @@ export const Views = ({ setResultsData }) => {
               <Button
                 extraCss={`${
                   i === (buttonTemplate?.length || 1) - 1 ? "mr-0" : "mr-2.5"
-                } mt-2.5 font-medium ${
+                } mt-2.5 font-normal ${
                   activeView?.name === content.name
                     ? "bg-light-bg-hover dark:bg-dark-bg-hover border-light-border-secondary dark:border-dark-border-secondary"
                     : ""
-                } whitespace-nowrap md:font-normal`}
+                } whitespace-nowrap`}
                 key={`${content.name}${buttonTemplate[i - 1]?.name}`}
                 onClick={() => {
                   setIsLoading(true);

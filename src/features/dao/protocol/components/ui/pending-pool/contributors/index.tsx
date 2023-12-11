@@ -37,7 +37,7 @@ export const Contributors = () => {
   ];
 
   return (
-    <BoxContainer extraCss="mb-5 relative transition-all duration-250 ease-in-out py-[15px] px-5 lg:px-[15px] md:p-2.5 rounded-2xl sm:rounded-0">
+    <BoxContainer extraCss="mb-5 relative transition-all duration-200 ease-in-out py-[15px] px-5 lg:px-[15px] md:p-2.5 rounded-2xl sm:rounded-0">
       <div className="flex items-center pb-5 lg:pb-[15px] md:pb-2.5 border-b border-light-border-primary dark:border-dark-border-primary">
         <SiConvertio className="text-blue dark:text-blue" />
         <MediumFont extraCss="ml-2.5">Contributors</MediumFont>

@@ -19,12 +19,12 @@ export const SwapPopup = () => {
 
   return (
     <Container
-      extraCss={`${swapPosition} translate-x-[50%] right-[50%] fixed z-10 mb-0 justify-end transition-all duration-250 hidden lg:flex`}
+      extraCss={`${swapPosition} translate-x-[50%] right-[50%] fixed z-10 mb-0 justify-end transition-all duration-200 hidden lg:flex`}
     >
       <div
         className="flex flex-col max-w-[420px] w-full ml-auto mr-0 lg:mr-auto bg-light-bg-terciary 
       dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded-l-2xl 
-      shadow-md transition-all duration-250"
+      shadow-md transition-all duration-200"
       >
         <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-l-2xl justify-between flex items-center px-[15px] h-[50px]">
           <LargeFont>Trade {baseAsset?.symbol}</LargeFont>
@@ -38,7 +38,7 @@ export const SwapPopup = () => {
             <BsChevronDown
               className={`${
                 showSwap ? "rotate-180" : ""
-              } text-blue dark:text-blue transition-all duration-250 text-3xl`}
+              } text-blue dark:text-blue transition-all duration-200 text-3xl`}
             />
           </Button>
         </div>

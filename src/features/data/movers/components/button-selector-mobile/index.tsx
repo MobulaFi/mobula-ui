@@ -17,7 +17,7 @@ export const ButtonSelectorMobile = ({
         ? "text-light-font-100 dark:text-dark-font-100 border-blue dark:border-dark-blue"
         : "text-light-font-40 dark:text-dark-font-40 border-light-border-primary dark:border-dark-border-primary"
     } rounded min-w-[90px] h-[30px] px-3 mr-2.5 text-sm md:text-xs hover:text-light-font-100 dark:hover:text-dark-font-100
-     transition-all duration-250 ease-in-out`}
+     transition-all duration-200 ease-in-out`}
     {...props}
   >
     {isGainer ? "Gainers" : "Losers"}

@@ -136,7 +136,7 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
         >
           {showMore ? "Show less" : "Show more"}
           <BsChevronDown
-            className={`ml-[5px] text-base transition-all duration-250 ${
+            className={`ml-[5px] text-base transition-all duration-200 ${
               showMore ? "rotate-180" : ""
             }`}
           />

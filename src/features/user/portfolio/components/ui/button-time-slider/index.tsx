@@ -32,12 +32,12 @@ export const ButtonTimeSlider = ({
       )}
     >
       <div
-        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-250 z-[0]"
+        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-200 z-[0]"
         style={{ left: getPosition(timeframe) }}
       />
       {timeframes.map((time) => (
         <button
-          className={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-250 w-[40px] sm:w-1/5 ${
+          className={`h-[30px] text-sm lg:text-[13px] md:text-xs transition-all duration-200 w-[40px] sm:w-1/5 ${
             timeframe === time
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"

@@ -80,7 +80,8 @@ export const TradeValueAmountPopup = ({
       if (index !== -1) filters.splice(index, 1);
     });
 
-    const finalFilters = [];
+    const finalFilters = [...filters.filter((f) => f.value[0] !== req)];
+    console.log("filters", selectedTradeFilters, filters);
 
     filters.forEach((f) => {
       if (

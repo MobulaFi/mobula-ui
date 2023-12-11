@@ -53,7 +53,7 @@ export const Lines = ({
 
   return (
     <div
-      className={`flex items-center cursor-pointer transition-all duration-250 justify-between ${
+      className={`flex items-center cursor-pointer transition-all duration-200 justify-between ${
         active ? "bg-light-bg-hover dark:bg-dark-bg-hover" : ""
       } py-[7px] px-[20px] md:px-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ${extraCss}`}
       onMouseOver={() => setActive(index)}

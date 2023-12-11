@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { cookies } from "next/headers";
-import React from "react";
 import { Assets } from "../../../features/asset";
 import { BaseAssetProvider } from "../../../features/asset/context-manager";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
@@ -84,7 +83,6 @@ async function fetchAssetData({ params }) {
 
 async function AssetPage({ params }) {
   const data = await fetchAssetData({ params });
-  console.log("My data is undefined?,", data);
   const cookieStore = cookies();
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
   const tradeCookie =

@@ -68,7 +68,7 @@ export const MenuMobile = ({
       >
         <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
           <AiFillStar className="text-yellow dark:text-yellow text-base mr-[5px]" />
-          <p className="text-base">Watchlist</p>
+          <p className="text-base font-normal">Watchlist</p>
         </div>
       </NextChakraLink>
       <NextChakraLink
@@ -85,48 +85,37 @@ export const MenuMobile = ({
           <div className="opacity-80 w-4 h-4 mr-[5px]">
             <AiFillPieChart className="text-blue dark:text-blue text-base" />
           </div>
-          <p className="text-base">Portfolio</p>
+          <p className="text-base  font-normal">Portfolio</p>
         </div>
       </NextChakraLink>
-      <div className="flex justify-between items-center mt-5">
-        <ToggleColorMode isMobile />
-        <div className="flex mr-[15px]">
-          <ChainsChanger
-            isMobileVersion
-            showChainPopover={showChainPopover}
-            setShowChainPopover={setShowChainPopover}
-            setShowInfoPopover={setShowInfoPopover}
-            showInfoPopover={showInfoPopover}
-          />
-        </div>
-      </div>
       <ClientOnly>
         {isConnected ? (
           <>
             <div className="flex mt-5 bg-light-bg-terciary dark:bg-dark-bg-terciary items-center h-[40px] px-[30px]">
-              <p className="text-base text-light-font-100 dark:text-dark-font-100">
-                {!user?.username && user?.address && address
-                  ? addressSlicer(address)
-                  : user?.username || "Nickname"}
-              </p>
-              {address && user?.username ? (
-                <p className="text-base text-light-font-40 dark:text-dark-font-40 ml-[5px]">
-                  ({addressSlicer(address)})
-                </p>
-              ) : null}
-            </div>
-            <div className="flex px-[30px] mt-[15px] items-center w-full justify-between">
-              <button
-                onClick={() => {
-                  disconnect();
-                }}
-              >
-                <div className="flex items-center text-light-font-100 dark:text-dark-font-100">
-                  <BsPower className="text-lg mr-2.5" />
-                  <p className="text-base font-medium">Log Out</p>
+              <div className="flex items-center justify-between w-full">
+                <div className="w-fit flex items-center mr-2.5">
+                  <p className="text-base text-light-font-100 dark:text-dark-font-100">
+                    {!user?.username && user?.address && address
+                      ? addressSlicer(address)
+                      : user?.username || "Nickname"}
+                  </p>
+                  {address && user?.username ? (
+                    <p className="text-base text-light-font-40 dark:text-dark-font-40 ml-[5px]">
+                      ({addressSlicer(address)})
+                    </p>
+                  ) : null}
                 </div>
-              </button>
-            </div>{" "}
+                <button
+                  onClick={() => {
+                    disconnect();
+                  }}
+                >
+                  <div className="flex items-center text-light-font-100 dark:text-dark-font-100">
+                    <BsPower className="text-lg mr-2" />
+                  </div>
+                </button>
+              </div>
+            </div>
           </>
         ) : (
           <button
@@ -140,6 +129,18 @@ export const MenuMobile = ({
           </button>
         )}
       </ClientOnly>
+      <div className="flex justify-between items-center mt-5">
+        <ToggleColorMode isMobile />
+        <div className="flex mr-[15px]">
+          <ChainsChanger
+            isMobileVersion
+            showChainPopover={showChainPopover}
+            setShowChainPopover={setShowChainPopover}
+            setShowInfoPopover={setShowInfoPopover}
+            showInfoPopover={showInfoPopover}
+          />
+        </div>
+      </div>
     </div>
   );
 };

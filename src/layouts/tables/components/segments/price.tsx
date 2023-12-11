@@ -57,7 +57,7 @@ export const PriceSegment = ({
       <SmallFont
         extraCss={`${
           activeView?.name === "Portfolio" ? "md:text-xs" : "md:text-[13px]"
-        } transition-all duration-250 ease-in-out font-medium ${marketColor}`}
+        } transition-all duration-200 ease-in-out font-medium ${marketColor}`}
       >
         {getPriceFromType}
       </SmallFont>

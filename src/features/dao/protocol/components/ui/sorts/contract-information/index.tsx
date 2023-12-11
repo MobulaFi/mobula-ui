@@ -19,7 +19,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
   };
 
   return (
-    <BoxContainer extraCss="mb-5 relative transition-all duration-250 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0">
+    <BoxContainer extraCss="mb-5 relative transition-all duration-200 py-[15px] md:py-2.5 px-5 lg:px-[15px] md:px-2.5 rounded-2xl sm:rounded-0">
       <div className="flex items-center border-b border-light-border-primary dark:border-dark-border-primary pb-5 lg:pb-[15px] md:pb-2.5">
         <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100" />
         <MediumFont extraCss="ml-2.5">Contract & Information</MediumFont>
@@ -28,7 +28,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
         .length > 0 ? (
         <div className="flex mt-[15px] flex-row md:flew-col">
           <div className="flex flex-col w-full">
-            <SmallFont extraCss="mb-2.5 font-medium">
+            <SmallFont extraCss="mb-2.5 font-normal">
               Excluded Addresses
             </SmallFont>
             <div className="flex flex-wrap">
@@ -54,7 +54,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
                     />
                     <MediumFont>{addressSlicer(address)}</MediumFont>
                     <button
-                      className="flex items-center justify-center opacity-60 hover:opacity-100 ml-auto w-fit transition-all duration-250"
+                      className="flex items-center justify-center opacity-60 hover:opacity-100 ml-auto w-fit transition-all duration-200"
                       onClick={() => {
                         copyToClipboard(address);
                         setIsCopied(true);
@@ -76,7 +76,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
           </div>
         </div>
       ) : null}
-      <SmallFont extraCss="mb-2.5 mt-[30px] lg:mt-5 md:mt-[15px] font-medium">
+      <SmallFont extraCss="mb-2.5 mt-[30px] lg:mt-5 md:mt-[15px] font-normal">
         Total supply details
       </SmallFont>
       {token?.totalSupplyContracts[0]?.address ===

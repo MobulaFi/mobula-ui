@@ -32,7 +32,7 @@ export const Pagination = ({
     <div
       className={`flex items-center justify-center w-full ${
         bg ? "bg-light-bg-table dark:bg-dark-bg-table" : ""
-      } py-2.5`}
+      } pb-[100px] md:pb-[50px] pt-[50px] md:pt-2.5`}
     >
       <div className="flex items-center p-0.5">
         <NextChakraLink

@@ -95,7 +95,7 @@ export const NftPortfolioCard = ({
         {isNftLoading ? (
           <Skeleton extraCss="h-[20px] w-[90px]" />
         ) : (
-          <SmallFont extraCss="whitespace-pre-wrap font-medium">
+          <SmallFont extraCss="whitespace-pre-wrap font-normal">
             {nft.name} {showDeleteSelector}
             <span className="ml-[5px] text-light-font-60 dark:text-dark-font-60">
               {String(nft?.token_id).length < 10 ? `#${nft?.token_id}` : ""}
@@ -112,7 +112,7 @@ export const NftPortfolioCard = ({
       </div>
       <div
         className={`flex absolute w-full h-full max-h-[250px] bg-light-bg-primary dark:bg-dark-bg-primary rounded
-       transition-all duration-250 min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px]
+       transition-all duration-200 min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px]
         sm:min-h-[160px] ${
           showDeleteSelector || isHover ? "opacity-80" : "opacity-0"
         } ${
@@ -138,7 +138,7 @@ export const NftPortfolioCard = ({
       ) : null}
       {isHover === nft?.token_hash && !showDeleteSelector ? (
         <button
-          className={`flex items-center justify-center absolute  w-[100%] h-full transition-all duration-250 ${
+          className={`flex items-center justify-center absolute  w-[100%] h-full transition-all duration-200 ${
             isHover === nft?.token_hash ? "opacity-100" : "opacity-0"
           } z-[1]`}
           onClick={() => {

@@ -243,7 +243,7 @@ export const Cryptocurrencies = () => {
                             alt="logo"
                           />
                           <div className="flex flex-col items-start">
-                            <p className="text-light-font-100 md:hidden dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-medium md:font-normal">
+                            <p className="text-light-font-100 md:hidden dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs font-normal md:font-normal">
                               {token?.name}
                             </p>
                             <div className="flex items-center md:mb-[1px]">
@@ -262,7 +262,7 @@ export const Cryptocurrencies = () => {
                               />
                             </div>
                             <div className="flex items-center">
-                              <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-medium md:font-normal">
+                              <p className="text-light-font-60 dark:text-dark-font-60 text-sm lg:text-[13px] font-normal md:font-normal">
                                 {getFormattedAmount(token.price)}$
                               </p>
                               <TagPercentage
@@ -284,7 +284,7 @@ export const Cryptocurrencies = () => {
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end md:font-normal whitespace-nowrap text-[13px] md:text-[13px]`}
+                                extraCss={`font-normal text-end md:font-normal whitespace-nowrap text-[13px] md:text-[13px]`}
                               >
                                 {Number(
                                   getFormattedAmount(token.token_balance)
@@ -299,7 +299,7 @@ export const Cryptocurrencies = () => {
                               <Privacy extraCss="justify-end" />
                             ) : (
                               <SmallFont
-                                extraCss={`font-medium text-end whitespace-nowrap md:font-normal text-[13px] md:text-[13px] ${changeColor}`}
+                                extraCss={`font-normal text-end whitespace-nowrap md:font-normal text-[13px] md:text-[13px] ${changeColor}`}
                               >
                                 ${getFormattedAmount(token.estimated_balance)}
                               </SmallFont>
@@ -386,7 +386,7 @@ export const Cryptocurrencies = () => {
                                   <Privacy extraCss="justify-start text-[13px]" />
                                 ) : (
                                   <SmallFont
-                                    extraCss={`font-medium text-start md:font-normal text-[13px] ${
+                                    extraCss={`font-normal text-start md:font-normal text-[13px] ${
                                       Number(
                                         getTokenPercentage(token.realized_usd)
                                       ) > 0
@@ -403,7 +403,7 @@ export const Cryptocurrencies = () => {
                                   <Privacy extraCss="justify-start text-[13px]" />
                                 ) : (
                                   <SmallFont
-                                    extraCss={`font-medium text-start md:font-normal text-[13px] ${
+                                    extraCss={`font-normal text-start md:font-normal text-[13px] ${
                                       Number(
                                         getTokenPercentage(token.unrealized_usd)
                                       ) > 0
@@ -416,12 +416,12 @@ export const Cryptocurrencies = () => {
                                 )}
                               </td>
                               <td className={`${testStyle} py-1.5 text-start`}>
-                                <SmallFont extraCss="font-medium md:font-normal text-[13px]">
+                                <SmallFont extraCss="font-normal md:font-normal text-[13px]">
                                   {getFormattedAmount(newWallet?.price_bought)}$
                                 </SmallFont>
                               </td>
                               <td className={`${testStyle} py-1.5 text-end`}>
-                                <SmallFont extraCss="font-medium md:font-normal text-[13px]">
+                                <SmallFont extraCss="font-normal md:font-normal text-[13px]">
                                   {getFormattedAmount(token?.total_invested)}$
                                 </SmallFont>
                               </td>
@@ -483,11 +483,11 @@ export const Cryptocurrencies = () => {
           <caption
             className="bg-light-bg-secondary dark:bg-dark-bg-secondary text-start 
           rounded-xl pl-0 h-[40px] border border-light-border-primary dark:border-dark-border-primary 
-          hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover cursor-pointer transition-all duration-250
+          hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover cursor-pointer transition-all duration-200
            mt-2.5 md:mt-[-10px] caption-bottom"
           >
             <button
-              className="flex items-center font-medium text-light-font-100 dark:text-dark-font-100 text-sm
+              className="flex items-center font-normal text-light-font-100 dark:text-dark-font-100 text-sm
                lg:text-[13px] md:text-xs h-full pl-5 sticky top-0 left-[-1px] "
               onClick={() => setShowMore(!showMore)}
             >

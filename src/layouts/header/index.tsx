@@ -10,7 +10,6 @@ import { useContext, useEffect } from "react";
 // import {CommonPageProvider} from "../common/context-manager";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
@@ -25,7 +24,7 @@ export const Header = ({ addressCookie }) => {
   usePageLoad();
   const { showNotif } = useContext(AccountHeaderContext);
   const { showAddedToWatchlist } = useContext(PopupStateContext);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
@@ -38,6 +37,7 @@ export const Header = ({ addressCookie }) => {
       handleRouteChange();
     }, 2000);
   }, [pathname]);
+
   return (
     <CommonPageProvider>
       {/* Banner to replace with new feature */}
@@ -63,7 +63,7 @@ export const Header = ({ addressCookie }) => {
           </TextLandingSmall>
         </Flex> */}
       <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
-        <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] ">
+        <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px]">
           <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto">
             <NextChakraLink
               href="/"
@@ -73,7 +73,7 @@ export const Header = ({ addressCookie }) => {
                 <img
                   className="w-[30px] h-[30px]"
                   src={
-                    theme === "dark"
+                    resolvedTheme === "dark"
                       ? "/mobula/mobula-logo.svg"
                       : "/mobula/mobula-logo-light.svg"
                   }
@@ -84,7 +84,7 @@ export const Header = ({ addressCookie }) => {
                 <img
                   className="w-[135px] h-[35px] max-w-[200px] "
                   src={
-                    theme === "dark"
+                    resolvedTheme === "dark"
                       ? "/mobula/mobula-logo-text.svg"
                       : "/mobula/mobula-logo-text-light.svg"
                   }

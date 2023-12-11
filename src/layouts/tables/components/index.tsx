@@ -4,7 +4,6 @@ import { useAccount } from "wagmi";
 import { Ths } from "../../../components/table";
 import { PopupStateContext } from "../../../contexts/popup";
 import { SettingsMetricContext } from "../../../contexts/settings";
-import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
 import { Query } from "../../../interfaces/pages/top100";
@@ -147,16 +146,8 @@ export function AssetsTable({
       (page && isConnected && activeView?.name !== "All") ||
       isConnected === false;
 
-    console.log(
-      "shouldFetchData",
-      shouldFetchData,
-      filters,
-      !activeView?.isFirst
-    );
-
     const filterOrPaginationChanged =
       (filters && !activeView?.isFirst) || (page && page !== "1");
-    console.log("filterOrPaginationChanged", filterOrPaginationChanged);
 
     if (
       (shouldFetchData && filterOrPaginationChanged) ||
@@ -165,14 +156,6 @@ export function AssetsTable({
       fetchData();
     }
   }, [filters, router, params, orderBy]);
-
-  const showMinimalMobile =
-    (isMobile &&
-      JSON.stringify(activeView?.display) ===
-        JSON.stringify(defaultTop100.display) &&
-      JSON.stringify(activeView?.filters) ===
-        JSON.stringify(defaultTop100.filters)) ||
-    (activeView?.name === "Portfolio" && isMobile);
 
   return (
     <TableContext.Provider value={value}>
@@ -270,6 +253,7 @@ export function AssetsTable({
                               canOrder
                             />
                           ))}
+
                           <TableHeaderEntry
                             extraCss="w-[89px] table-cell md:hidden static"
                             title="Interact"

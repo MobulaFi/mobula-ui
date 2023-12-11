@@ -33,8 +33,8 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   const [hasCopied, setHasCopied] = useState(false);
   const signerGuard = useSignerGuard();
   const [name, setName] = useState("");
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
 
   const onCopy = () => {
     navigator.clipboard.writeText(
@@ -130,7 +130,7 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
             {name.length}/32 characters
           </ExtraSmallFont>
           <div
-            className="opacity-0 transition-all duration-250 ease-in-out"
+            className="opacity-0 transition-all duration-200 ease-in-out"
             ref={errorRef}
           >
             <ExtraSmallFont extraCss="text-red dark:text-red font-medium">
@@ -139,7 +139,7 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
           </div>
           <div
             ref={errorNameRef}
-            className="opacity-0 transition-all duration-250 ease-in-out"
+            className="opacity-0 transition-all duration-200 ease-in-out"
           >
             <ExtraSmallFont extraCss="text-red dark:text-red font-medium">
               Name already exists

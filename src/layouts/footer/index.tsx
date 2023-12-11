@@ -10,7 +10,7 @@ import { getPath } from "./constant";
 
 export const Footer = () => {
   const pages = getPath();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [isHover, setIsHover] = useState(null);
   return (
     <CommonPageProvider>
@@ -25,7 +25,7 @@ export const Footer = () => {
               <img
                 className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 sm:ml-[20px] mb-auto"
                 src={
-                  theme === "dark"
+                  resolvedTheme === "dark"
                     ? "/mobula/mobula-logo.svg"
                     : "/mobula/mobula-logo-light.svg"
                 }
@@ -57,7 +57,7 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-250`}
+                        } transition-all duration-200`}
                       >
                         {page.name}
                       </SmallFont>
@@ -101,7 +101,7 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-250 font-medium text-start w-fit`}
+                        } transition-all duration-200 font-normal text-start w-fit`}
                       >
                         {page.name}
                         <div

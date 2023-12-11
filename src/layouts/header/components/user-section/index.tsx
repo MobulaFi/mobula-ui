@@ -238,14 +238,14 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const connectMemo = useMemo(() => {
     if (isConnected || (isConnecting && addressFromCookie)) return null;
     return (
-      <div className="ml-[7.5px] mr-[7.5px] transition-all duration-400 whitespace-nowrap text-sm font-medium text-light-font-100 dark:text-dark-font-100 h-[28px] flex items-center justify-center z-[4]">
+      <div className="ml-[7.5px] mr-[7.5px] transition-all duration-400 whitespace-nowrap text-sm font-normal text-light-font-100 dark:text-dark-font-100 h-[28px] flex items-center justify-center z-[4]">
         {isConnected ? "" : "Connect"}
       </div>
     );
   }, [isConnected, isConnecting]);
 
   const telegramStyleButton =
-    "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 font-medium transition-all duration-250 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
+    "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 font-normal transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
   const squareBox =
     "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
@@ -266,7 +266,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             <div
               className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
-            dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-250 
+            dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-200 
             max-w-[16vw] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
             hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out overflow-hidden"
               onClick={() => {
@@ -290,7 +290,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         <div className="flex relative">
           <button
             className={`flex items-center w-fit min-w-[35px] p-0.5 md:hidden bg-light-bg-terciary
-           dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 border 
+           dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 border 
            border-light-border-primary dark:border-dark-border-primary ${
              isDisconnected || (isConnecting && !addressFromCookie)
                ? "rounded"
@@ -347,7 +347,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             >
               <div className="flex flex-col w-full p-2.5">
                 <p
-                  className="text-lg md:text-md font-medium text-light-font-100 dark:text-dark-font-100
+                  className="text-lg md:text-md font-normal text-light-font-100 dark:text-dark-font-100
                 pr-2.5 truncate max-w-full overflow-hidden"
                 >
                   {user?.username || addressSlicer(user?.address)}{" "}
@@ -370,10 +370,10 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                 )}
               </div>
               <div className="flex items-center justify-between mt-[5px] w-full p-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary">
-                <SmallFont extraCss="font-medium text-light-font-60 dark:text-dark-font-60">
+                <SmallFont extraCss="font-normal text-light-font-60 dark:text-dark-font-60">
                   Balance:
                 </SmallFont>
-                <SmallFont extraCss="font-medium text-light-font-100 dark:text-dark-font-100">
+                <SmallFont extraCss="font-normal text-light-font-100 dark:text-dark-font-100">
                   {getFormattedAmount(
                     (user?.balance || 0) + (balanceMOBL || 0)
                   )}{" "}

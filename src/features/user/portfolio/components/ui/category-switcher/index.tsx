@@ -115,13 +115,13 @@ export const CategorySwitcher = () => {
           </div>
         ))}
       </div>
-      <div className="ml-auto flex text-xs mr-2.5">
+      <div className="ml-auto flex text-sm lg:text-[13px] mr-2.5 ">
         Need data?
         <NextChakraLink
           href="https://developer.mobula.fi/reference/wallet-explorer-api?utm_source=website&utm_medium=portfolio&utm_campaign=portfolio"
           target="_blank"
           rel="noreferrer"
-          extraCss="text-blue dark:text-blue ml-[5px] font-medium"
+          extraCss="text-blue dark:text-blue ml-[5px] mb-[1px] font-medium"
           onClick={() => {
             pushData("API Clicked");
           }}

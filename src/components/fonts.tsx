@@ -16,7 +16,7 @@ export const SmallFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
-        "text-light-font-100 dark:text-dark-font-100 text-sm  md:text-xs font-normal",
+        "text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-normal",
         extraCss
       )}
     >
@@ -29,7 +29,7 @@ export const MediumFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
-        "text-light-font-100 dark:text-dark-font-100 text-base lg:text-sm font-medium",
+        "text-light-font-100 dark:text-dark-font-100 text-base lg:text-sm font-normal",
         extraCss
       )}
     >
@@ -42,7 +42,7 @@ export const LargeFont = ({ extraCss, children }: defaultProps) => {
   return (
     <p
       className={cn(
-        "text-light-font-100 dark:text-dark-font-100 text-lg lg:text-base font-bold ",
+        "text-light-font-100 dark:text-dark-font-100 text-lg lg:text-base font-medium ",
         extraCss
       )}
     >

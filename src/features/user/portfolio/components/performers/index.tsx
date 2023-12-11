@@ -142,7 +142,7 @@ export const Performers = () => {
                 key={token.title}
                 className={`${boxStyle} border border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary
              dark:bg-dark-bg-terciary flex-row items-center mt-[7.5px] w-full hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
-             transition-all duration-250 cursor-pointer`}
+             transition-all duration-200 cursor-pointer`}
                 onClick={() =>
                   router.push(
                     `/asset/${getUrlFromName(token?.asset?.name as string)}`
@@ -159,7 +159,7 @@ export const Performers = () => {
                     {token.title}
                   </SmallFont>
                   <div className="flex items-center justify-between">
-                    <SmallFont extraCss="font-medium">
+                    <SmallFont extraCss="font-normal">
                       {token?.asset?.symbol}
                     </SmallFont>
                     <div className="flex items-center ml-[15px]">

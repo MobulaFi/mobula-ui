@@ -1,4 +1,5 @@
 "use client";
+import { useTheme } from "next-themes";
 import { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDash } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
@@ -13,8 +14,9 @@ export const Connect = () => {
   const { connect: isVisible } = useContext(PopupStateContext);
   const [status, setStatus] = useState("idle");
   const [userMail, setUserMail] = useState("");
+  const { resolvedTheme } = useTheme();
   const buttonStyle =
-    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-250 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
+    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
   const { connect, connectors, pendingConnector } = useConnect({
     onError: () => {
       setStatus("error");
@@ -191,7 +193,11 @@ export const Connect = () => {
                 <AiOutlineDash className="text-light-font-60 dark:text-dark-font-60 text-6xl mx-2.5 my-4" />
                 {status === "loading" ? (
                   <img
-                    src="/mobula/icon.png"
+                    src={
+                      resolvedTheme === "dark"
+                        ? "/mobula/mobula-logo.svg"
+                        : "/mobula/mobula-logo-light.svg"
+                    }
                     className="h-[50px] w-[50px] rounded-full my-4"
                   />
                 ) : null}

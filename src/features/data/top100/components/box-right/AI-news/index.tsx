@@ -64,8 +64,8 @@ const formatNewsSummary = (news: INewsGeneral) => {
 
 export const AINews = ({ showPage }: AINewsProps) => {
   const { news, setNews } = useTop100();
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
 
   useEffect(() => {
     if (news === undefined) {

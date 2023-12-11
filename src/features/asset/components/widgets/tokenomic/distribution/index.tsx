@@ -16,8 +16,8 @@ export const Distribution = ({ extraCss }: DistributionProps) => {
   type EChartsOption = echarts.EChartsOption;
   let options: EChartsOption;
   const id = useMemo(() => uuid(), []);
-  const { theme } = useTheme();
-  const isDarkMode = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
   const data =
     baseAsset?.distribution.length > 0
       ? baseAsset?.distribution?.map((entry) => ({

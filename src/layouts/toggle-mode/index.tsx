@@ -31,14 +31,14 @@ export const ToggleColorMode = ({
         <div className="flex items-center">
           <BsMoon className="text-lg text-light-font-100 dark:text-dark-font-100" />
           {isMobile ? (
-            <p className="ml-2.5 text-base font-medium">Dark Mode</p>
+            <p className="ml-2.5 text-base font-normal">Dark Mode</p>
           ) : null}
         </div>
       ) : (
         <div className="flex items-center">
           <BsSun className="text-lg text-light-font-100 dark:text-dark-font-100" />
           {isMobile ? (
-            <p className="ml-2.5 text-base font-medium">Light Mode</p>
+            <p className="ml-2.5 text-base font-normal">Light Mode</p>
           ) : null}
         </div>
       )}
