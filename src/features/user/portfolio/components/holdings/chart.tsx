@@ -202,7 +202,7 @@ export const HoldingChart = ({ ...props }) => {
       className="flex bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl md:rounded-none mb-2.5 w-full flex-col"
       {...props}
     >
-      <LargeFont extraCss="text-light-font-100 dark:text-dark-font-100 mb-2.5 ml-[5px] font-medium">
+      <LargeFont extraCss="text-light-font-100 dark:text-dark-font-100 mb-0 ml-[5px] font-medium">
         Holdings
       </LargeFont>
       <div
