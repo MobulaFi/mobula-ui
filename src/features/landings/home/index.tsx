@@ -4,6 +4,7 @@ import { gridBoxContent } from "./constant";
 
 export const HomeLanding = () => {
   const containerStyle = "flex flex-col max-w-[1200px] w-[90%] lg:w-[95%]";
+
   return (
     <div>
       <section
