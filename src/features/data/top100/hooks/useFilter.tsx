@@ -109,7 +109,6 @@ export const useFilter = ({ setFilters, orderBy }: IUseFilter) => {
         }
       });
     }
-    console.log("AM I TRIGGERED ?", filteredValues);
     if (!filteredValues.length) return [...defaultFilter];
     return filteredValues;
   };

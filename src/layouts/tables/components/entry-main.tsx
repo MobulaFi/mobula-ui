@@ -297,8 +297,6 @@ export const Entry = ({
       }
     });
 
-  console.log("actitititit", activeView?.display);
-
   return (
     <EntryContext.Provider value={value}>
       <tbody

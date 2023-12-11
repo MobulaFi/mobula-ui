@@ -146,16 +146,8 @@ export function AssetsTable({
       (page && isConnected && activeView?.name !== "All") ||
       isConnected === false;
 
-    console.log(
-      "shouldFetchData",
-      shouldFetchData,
-      filters,
-      !activeView?.isFirst
-    );
-
     const filterOrPaginationChanged =
       (filters && !activeView?.isFirst) || (page && page !== "1");
-    console.log("filterOrPaginationChanged", filterOrPaginationChanged);
 
     if (
       (shouldFetchData && filterOrPaginationChanged) ||
