@@ -63,7 +63,7 @@ export const Header = ({ addressCookie }) => {
           </TextLandingSmall>
         </Flex> */}
       <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
-        <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] ">
+        <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px]">
           <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto">
             <NextChakraLink
               href="/"
