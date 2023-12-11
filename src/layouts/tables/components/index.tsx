@@ -4,7 +4,6 @@ import { useAccount } from "wagmi";
 import { Ths } from "../../../components/table";
 import { PopupStateContext } from "../../../contexts/popup";
 import { SettingsMetricContext } from "../../../contexts/settings";
-import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
 import { Query } from "../../../interfaces/pages/top100";
@@ -166,14 +165,6 @@ export function AssetsTable({
     }
   }, [filters, router, params, orderBy]);
 
-  const showMinimalMobile =
-    (isMobile &&
-      JSON.stringify(activeView?.display) ===
-        JSON.stringify(defaultTop100.display) &&
-      JSON.stringify(activeView?.filters) ===
-        JSON.stringify(defaultTop100.filters)) ||
-    (activeView?.name === "Portfolio" && isMobile);
-
   return (
     <TableContext.Provider value={value}>
       <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px] lg:mt-0">
@@ -270,6 +261,7 @@ export function AssetsTable({
                               canOrder
                             />
                           ))}
+
                           <TableHeaderEntry
                             extraCss="w-[89px] table-cell md:hidden static"
                             title="Interact"

@@ -297,6 +297,8 @@ export const Entry = ({
       }
     });
 
+  console.log("actitititit", activeView?.display);
+
   return (
     <EntryContext.Provider value={value}>
       <tbody
@@ -358,7 +360,7 @@ export const Entry = ({
               <ChangeSegment
                 token={token}
                 display="24h %"
-                extraCss="md:hidden"
+                extraCss="md:hidden "
               />
               {activeView?.name === "All" ? (
                 <ChangeSegment
