@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { v4 as uuid } from "uuid";
-import { SmallFont } from "../../../../../components/fonts";
+import { LargeFont, SmallFont } from "../../../../../components/fonts";
 import {
   getFormattedAmount,
   getTokenPercentage,
@@ -202,9 +202,9 @@ export const HoldingChart = ({ ...props }) => {
       className="flex bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl md:rounded-none mb-2.5 w-full flex-col"
       {...props}
     >
-      <p className="text-light-font-100 dark:text-dark-font-100 font-normal text-lg md:text-base mb-0">
+      <LargeFont extraCss="text-light-font-100 dark:text-dark-font-100 mb-2.5 ml-[5px] font-medium">
         Holdings
-      </p>
+      </LargeFont>
       <div
         className="flex w-full h-fit bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-lg p-[1px] relative border 
       border-light-border-primary dark:border-dark-border-primary items-center mt-2.5"
