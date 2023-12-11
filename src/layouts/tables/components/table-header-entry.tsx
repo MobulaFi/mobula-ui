@@ -76,7 +76,7 @@ export const TableHeaderEntry = ({
       }}
     >
       {!isLoading ? (
-        <div className={cn("flex items-center", titleCssPosition)}>
+        <div className={cn("flex items-center font-normal", titleCssPosition)}>
           {smaller && isMobile ? smaller : title}
           {canOrder &&
             (titleToDBKey[title] === orderBy?.type ? (

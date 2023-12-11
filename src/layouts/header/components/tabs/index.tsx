@@ -43,7 +43,7 @@ export function Tabs() {
                         {entry.icon}
                       </div>
                       <div className="flex flex-col">
-                        <div className="text-[15px] font-normal leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
+                        <div className="text-[15px] font-medium leading-none text-light-font-100 dark:text-dark-font-100 mb-1">
                           {entry.name}
                         </div>
                         <p className="text-[13px] text-light-font-40 dark:text-dark-font-40 ">
