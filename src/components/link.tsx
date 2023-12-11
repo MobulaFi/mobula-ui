@@ -20,7 +20,7 @@ export const NextChakraLink = ({
     return (
       <span
         className={cn(
-          "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",
+          "text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs",
           extraCss
         )}
         {...props}
@@ -32,7 +32,7 @@ export const NextChakraLink = ({
     <Link href={href}>
       <span
         className={cn(
-          "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs",
+          "text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs",
           extraCss
         )}
         {...props}
