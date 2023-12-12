@@ -69,12 +69,15 @@ export const BuySell = ({ token }: BuySellProps) => {
         <div className="flex flex-col w-2/4 md:w-[95%] mr-[30px] md:mr-0">
           <p
             className="text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
-           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-5"
+           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-2"
+            style={{
+              "text-wrap": "balance",
+            }}
           >
             Buy any crypto, at the best price.
           </p>
           <div className="flex lg:hidden">
-            <LargeFont extraCss="max-w-[540px] font-normal">
+            <LargeFont extraCss="max-w-[540px] md:text-sm font-normal">
               Buy Bitcoin and +1.3M other cryptos from any blockchain, at the
               best price, with{" "}
               <span className="text-xl lg:text-[17px] md:text-sm text-light-font-100 dark:text-dark-font-100 font-medium">
@@ -98,10 +101,10 @@ export const BuySell = ({ token }: BuySellProps) => {
           ) : null} */}
         </div>
         <div className="hidden lg:flex mt-5 mb-2">
-          <LargeFont extraCss="w-[80%] max-w-[520px] font-light text-center mx-auto">
+          <LargeFont extraCss="w-[80%] max-w-[520px] md:text-sm font-light text-center mx-auto">
             Buy Bitcoin and +1.3M other cryptos from any blockchain, at the best
             price, with{" "}
-            <span className="text-xl lg:text-[17px] md:text-sm text-light-font-100 dark:text-dark-font-100 font-normal">
+            <span className="text-xl md:text-sm text-light-font-100 dark:text-dark-font-100 font-normal">
               0% fees from Mobula.
             </span>
           </LargeFont>
