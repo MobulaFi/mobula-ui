@@ -242,31 +242,31 @@ export const TokenMainInfo = () => {
         <div className="flex flex-col">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
             <LargeFont
-              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex  font-medium text-3xl lg:text-2xl md:text-xl`}
+              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
             >
               ${getFormattedAmount(marketMetrics.price)}
             </LargeFont>
             <div className="flex items-center">
-              <div className={`flex mr-2.5 ${percentageTags(isUp)}`}>
+              <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>
                 <MediumFont
-                  extraCss={
+                  extraCss={`md:text-xs lg:text-xs ${
                     isUp
                       ? "text-green dark:text-green"
                       : "text-red dark:text-red"
-                  }
+                  }`}
                 >
                   {isUp ? "+" : ""}
                   {getTokenPercentage(priceChange)}%
                 </MediumFont>
               </div>
               <Menu
-                titleCss="px-[7.5px] h-[28px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
+                titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
                 rounded text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
                 transition-all duration-200 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
                 title={
                   <div className="flex items-center">
                     <SmallFont>{timeSelected}</SmallFont>
-                    <BsChevronDown className="ml-[7.5px] text-light-font-100 dark:text-dark-font-100" />
+                    <BsChevronDown className="ml-[7.5px] md:ml-[5px] text-sm md:text-xs text-light-font-100 dark:text-dark-font-100" />
                   </div>
                 }
               >
