@@ -4,7 +4,7 @@ import { PendingPool } from "../../../../features/dao/protocol/components/pendin
 import GeneralLayout from "../layout";
 
 export const metadata: Metadata = {
-  title: "Protocol DAO Pending Pools - Mobula",
+  title: "Protocol DAO Pending Pools | Mobula",
   description:
     "Explore Mobula's Protocol DAO Pending Pools, where community-driven assets await listing. Delve into a unique ecosystem where user donations play a pivotal role in bringing new assets to our platform. An engaging space for those who influence and fund the future of asset inclusion",
   robots: "index, follow",

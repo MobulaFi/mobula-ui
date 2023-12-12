@@ -110,7 +110,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
 };
 
 export const metadata: Metadata = {
-  title: "Crypto Live Prices, Market caps, Charts and Volumes - Mobula",
+  title: "Crypto Live Prices, Market caps, Charts and Volumes | Mobula",
   description:
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.",
   keywords: "Mobula, Mobula crypto, Mobula Crypto Data Aggregator",
@@ -121,7 +121,7 @@ const HomePage = async ({ searchParams }) => {
   const props = await fetchAssetsAndViews({ searchParams });
   const description =
     "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.";
-  const title = "Crypto Live Prices, Market caps, Charts and Volumes - Mobula";
+  const title = "Crypto Live Prices, Market caps, Charts and Volumes | Mobula";
   return (
     <>
       <meta property="og:title" content={title} />

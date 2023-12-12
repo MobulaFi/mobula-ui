@@ -43,10 +43,6 @@ export const CategorySwitcher = () => {
     // },
   ];
   useEffect(() => {
-    console.log(
-      "localStorage.getItem('hiddenNft')",
-      JSON.parse(localStorage.getItem("hiddenNft"))
-    );
     setNftsDeleted(JSON.parse(localStorage.getItem("hiddenNft") as string));
   }, []);
 

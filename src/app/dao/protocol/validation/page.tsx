@@ -4,7 +4,7 @@ import { Sort } from "../../../../features/dao/protocol/components/sorts";
 import GeneralLayout from "../layout";
 
 export const metadata: Metadata = {
-  title: "Protocol DAO Final Review - Mobula",
+  title: "Protocol DAO Final Review | Mobula",
   description:
     "Explore the decisive review of listing a new asset on Mobula. This final analysis covers key metrics, community consensus, and strategic considerations shaping the verdict. ",
   robots: "index, follow",

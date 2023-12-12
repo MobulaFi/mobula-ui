@@ -4,7 +4,7 @@ import { Listing } from "../../features/misc/listing-form";
 import { ListingProvider } from "../../features/misc/listing-form/context-manager";
 
 export const metadata: Metadata = {
-  title: "Request a crypto asset listing - Mobula",
+  title: "Request a crypto asset listing | Mobula",
   description:
     "List a cryptocurrency in the Mobula ecosystem. Make your crypto-currency project available to millions on the first decentralized data aggregator.",
   robots: "index, follow",

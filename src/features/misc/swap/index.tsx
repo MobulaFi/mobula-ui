@@ -69,11 +69,11 @@ export const BuySell = ({ token }: BuySellProps) => {
         <div className="flex flex-col w-2/4 md:w-[95%] mr-[30px] md:mr-0">
           <p
             className="text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
-          lg:mb-[15px] md:mb-[5px] leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins']"
+           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-5"
           >
             Buy any crypto, at the best price.
           </p>
-          <div>
+          <div className="flex lg:hidden">
             <LargeFont extraCss="max-w-[540px] font-normal">
               Buy Bitcoin and +1.3M other cryptos from any blockchain, at the
               best price, with{" "}
@@ -82,9 +82,9 @@ export const BuySell = ({ token }: BuySellProps) => {
               </span>
             </LargeFont>
           </div>
-          <CardsAndCTA extraCss="flex md:hidden mt-0" />
+          <CardsAndCTA extraCss="flex lg:hidden mt-0" />
         </div>
-        <div className="flex justify-center w-2/4 lg:w-[100%] ml-auto lg:ml-0 lg:mt-[30px]">
+        <div className="flex justify-center w-2/4 lg:w-[100%] ml-auto lg:ml-0 lg:mt-[20px]">
           <SwapProvider tokenOutBuffer={token} lockToken={token ? ["out"] : []}>
             <BasicSwap activeStep={activeStep.nbr} />
           </SwapProvider>
@@ -97,7 +97,16 @@ export const BuySell = ({ token }: BuySellProps) => {
             />
           ) : null} */}
         </div>
-        <CardsAndCTA extraCss="hidden md:flex mt-[30px] md:mt-0" />
+        <div className="hidden lg:flex mt-5 mb-2">
+          <LargeFont extraCss="w-[80%] max-w-[520px] font-light text-center mx-auto">
+            Buy Bitcoin and +1.3M other cryptos from any blockchain, at the best
+            price, with{" "}
+            <span className="text-xl lg:text-[17px] md:text-sm text-light-font-100 dark:text-dark-font-100 font-normal">
+              0% fees from Mobula.
+            </span>
+          </LargeFont>
+        </div>
+        <CardsAndCTA extraCss="hidden lg:flex lg:mt-0" />
       </Container>
       <div className="flex h-[1px] w-full bg-light-border-primary dark:bg-dark-border-primary my-8 md:mb-2" />
       <TopConvertion />

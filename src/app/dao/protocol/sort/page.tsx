@@ -4,7 +4,7 @@ import { Sort } from "../../../../features/dao/protocol/components/sorts";
 import GeneralLayout from "../layout";
 
 export const metadata: Metadata = {
-  title: "Protocol DAO First Sort - Mobula",
+  title: "Protocol DAO First Sort | Mobula",
   description:
     "Initial review for asset listing on Mobula: key criteria and community insights guiding our early selection process. A vital snapshot for understanding our governance fundamentals.",
   robots: "index, follow",

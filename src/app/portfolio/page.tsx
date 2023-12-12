@@ -4,7 +4,7 @@ import { Portfolio } from "../../features/user/portfolio";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Analyze Your Crypto Portfolio - On-Chain & Off-Chain - Mobula",
+  title: "Analyze Your Crypto Portfolio - On-Chain & Off-Chain | Mobula",
   description:
     "Track multiple wallets on multiple chains, add CeFi transactions, NFTs, calculate PNL, ROI, historical balances, and more.",
   keywords:
