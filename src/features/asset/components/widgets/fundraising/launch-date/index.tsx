@@ -74,14 +74,6 @@ export const LaunchDate = () => {
 
   const listingRange = athListingPercentage - atlListingPercentage;
 
-  console.group("Percentage:");
-  console.log("actualPricePercentage", actualPricePercentage);
-  console.log("listingPricePercentage", listingPricePercentage);
-  console.log("atlListingPercentage", atlListingPercentage);
-  console.log("athListingPercentage", athListingPercentage);
-  console.log("listingRange", listingRange);
-  console.groupEnd();
-
   const [showRangeInfo, setShowRangeInfo] = React.useState(false);
   const [showPriceInfo, setShowPriceInfo] = React.useState(false);
   const [showListingPriceInfo, setShowListingPriceInfo] = React.useState(false);

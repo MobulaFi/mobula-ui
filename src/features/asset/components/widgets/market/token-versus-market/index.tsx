@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { Ths } from "../../../../../../components/table";
@@ -131,8 +131,6 @@ export const TokenVersusMarket = () => {
   };
 
   const stateOfMarket = getStateOfMarket();
-
-  console.log("isLoading", isLoading);
 
   return (
     <div className="flex flex-col mt-5 w-full">
