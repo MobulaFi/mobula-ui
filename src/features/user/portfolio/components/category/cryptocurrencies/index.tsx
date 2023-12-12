@@ -1,6 +1,7 @@
+import { Spinner } from "components/spinner";
 import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -149,10 +150,7 @@ export const Cryptocurrencies = () => {
 
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
-    return wallet.portfolio.filter((entry) => {
-      const meetsBalanceCondition = showMore || entry.estimated_balance > 1;
-      return isNormalBalance ? meetsBalanceCondition : true;
-    });
+    return wallet.portfolio;
   };
 
   const filteredData = useMemo(
@@ -289,7 +287,7 @@ export const Cryptocurrencies = () => {
                                 {Number(
                                   getFormattedAmount(token.token_balance)
                                 ) < 0.01
-                                  ? `<0.01 ${token.symbol}}`
+                                  ? `<0.01 ${token.symbol}`
                                   : `${getFormattedAmount(
                                       token.token_balance
                                     )} ${token.symbol}`}
@@ -434,19 +432,42 @@ export const Cryptocurrencies = () => {
                           <MediumFont extraCss="mt-5 absolute top-[-10px]">
                             {token?.name} Price Chart
                           </MediumFont>
-                          <EChart
-                            data={
-                              tokensData?.[token?.id]?.price_history?.price ||
-                              []
-                            }
-                            timeframe={tokenTimeframe as TimeSelected}
-                            height="300px"
-                            width="100%"
-                            leftMargin={["0%", "0%"]}
-                            type={tokensData[token.id]?.name}
-                            unit="$"
-                            noDataZoom
-                          />
+                          {tokensData?.[token?.id]?.price_history?.price
+                            ?.length > 0 && token?.price !== 0 ? (
+                            <EChart
+                              data={
+                                tokensData?.[token?.id]?.price_history?.price ||
+                                []
+                              }
+                              timeframe={tokenTimeframe as TimeSelected}
+                              height="300px"
+                              width="100%"
+                              leftMargin={["0%", "0%"]}
+                              type={tokensData[token.id]?.name}
+                              unit="$"
+                              noDataZoom
+                            />
+                          ) : null}
+                          {!tokensData?.[token?.id]?.price_history?.price
+                            ?.length && token?.price !== 0 ? (
+                            <div className="flex flex-col w-full h-[300px] items-center justify-center">
+                              <Spinner extraCss="h-[30px] w-[30px]" />
+                            </div>
+                          ) : null}
+                          {token?.price === 0 ? (
+                            <div className="flex flex-col w-full h-[300px] items-center justify-center">
+                              <img
+                                className="h-[90px]"
+                                src="/empty/ray.png"
+                                alt="empty logo"
+                              />
+                              <div className="flex w-[80%] flex-col items-center justify-center">
+                                <MediumFont extraCss="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40 font-normal">
+                                  No data found
+                                </MediumFont>
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
                         <div className="w-2/4 lg:w-full m-2.5 lg:m-0 lg:mt-[-40px] mt-0 p-3 rounded-lg">
                           {editAssetManager.transactions ? (
