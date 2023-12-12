@@ -45,7 +45,7 @@ async function fetchWatchlist() {
 }
 
 export const metadata: Metadata = {
-  title: " Manage Your Crypto Watchlist - ROI Analysis, Tracking - Mobula",
+  title: " Manage Your Crypto Watchlist - ROI Analysis, Tracking | Mobula",
   description:
     "Take control of your crypto investments with our powerful watchlist manager. Analyze ROI, track growth, and optimize your portfolio for maximum returns.",
   keywords:

@@ -1,6 +1,5 @@
-import { Metadata } from "next";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { cookies } from "next/headers";
+import React from "react";
 import { Assets } from "../../../features/asset";
 import { BaseAssetProvider } from "../../../features/asset/context-manager";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
@@ -153,37 +152,33 @@ async function AssetPage({ params }) {
       >
         <ShowMoreProvider>
           <NavActiveProvider>
-            <meta
-              property="og:image"
-              content="https://mobula.fi/metaimage/Generic/others.png"
-            />
-            <meta
-              name="twitter:image"
-              content="https://mobula.fi/metaimage/Generic/others.png"
-            />
-            <meta
-              itemProp="image"
-              content="https://mobula.fi/metaimage/Generic/others.png"
-            />
+            <head>
+              <title>
+                {`${data?.asset?.name} on-chain data: price, liquidity, volume, trades & insights | Mobula`}
+              </title>
+              <meta
+                name="description"
+                content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
+              />
+              <meta
+                property="og:image"
+                content="https://mobula.fi/metaimage/Generic/others.png"
+              />
+              <meta
+                name="twitter:image"
+                content="https://mobula.fi/metaimage/Generic/others.png"
+              />
+              <meta
+                itemProp="image"
+                content="https://mobula.fi/metaimage/Generic/others.png"
+              />
+            </head>
             <Assets />
           </NavActiveProvider>
         </ShowMoreProvider>
       </BaseAssetProvider>
     </>
   );
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
-  const { asset } = params;
-  const assetName = fromUrlToName(asset);
-  return {
-    title: `${assetName} Real Time Price, Chart, and Liquidity on Mobula - Mobula`,
-    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${assetName} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
-  };
 }
 
 export default AssetPage;

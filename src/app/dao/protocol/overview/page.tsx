@@ -52,7 +52,7 @@ async function fetchOverviewData() {
 }
 
 export const metadata: Metadata = {
-  title: "Protocol DAO Overview - Mobula",
+  title: "Protocol DAO Overview | Mobula",
   description:
     "Discover the Protocol DAO Overview on Mobula, your central dashboard for DAO insights. A comprehensive hub for members to monitor their impact and the collective progress of the DAO.",
   robots: "index, follow",

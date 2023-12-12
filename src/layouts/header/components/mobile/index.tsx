@@ -38,7 +38,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
           );
         return (
           <div
-            className="flex py-2.5 flex-col px-[30px] border-b border-light-bg-primary dark:border-dark-bg-primary"
+            className="flex py-2.5 flex-col px-[30px] border-b border-light-bg-primary dark:border-dark-bg-primary "
             key={`${entry.url}-${entry.name}`}
             onClick={() => {
               if (entry.url) {
@@ -55,7 +55,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
               }
             }}
           >
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer">
               <p className="text-base text-light-font-100 dark:text-dark-font-100">
                 {entry.name}
               </p>
@@ -70,7 +70,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
               ) : null}
             </div>
             <Collapse isOpen={extended[entry.name]} startingHeight="0px">
-              <div className="flex mt-2.5 flex-col text-base">
+              <div className="flex mt-2.5 flex-col text-base cursor-pointer">
                 {entry.extends.map((submenu, i) => (
                   <NextChakraLink
                     href={

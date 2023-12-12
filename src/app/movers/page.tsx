@@ -53,7 +53,7 @@ async function fetchMoversAssets() {
 }
 
 export const metadata: Metadata = {
-  title: "Biggest Crypto Gainers and Losers Today - Mobula",
+  title: "Biggest Crypto Gainers and Losers Today | Mobula",
   description:
     "Discover the biggest crypto movers of the day, their real time price, chart, liquidity, and more.",
   robots: "index, follow",

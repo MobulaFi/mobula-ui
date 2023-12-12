@@ -106,7 +106,7 @@ async function fetchProtocolMetrics() {
 }
 
 export const metadata: Metadata = {
-  title: "Protocol DAO Metrics - Mobula",
+  title: "Protocol DAO Metrics | Mobula",
   description:
     "Explore the DAO Metrics page on Mobula, a detailed analytics platform showcasing recent token listings, their acceptance or rejection status by DAO members, and comprehensive statistical data.",
   robots: "index, follow",
