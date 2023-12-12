@@ -12,7 +12,7 @@ export async function generateMetadata({
 }: PortfolioProps): Promise<Metadata> {
   const { address } = params;
   return {
-    title: `Explore ${address} Portfolio on Mobula - Mobula`,
+    title: `Explore ${address} Portfolio on Mobula | Mobula`,
     keywords:
       "Mobula, Mobula portfolio, portfolio tracker, crypto portfolio tracker",
     description: `Uncover the composition and value of any cryptocurrency wallet with Mobula's Portfolio Tracker. Enter any wallet address to access a detailed view of its holdings, including asset distribution, current market values, and historical performance. A powerful tool for market analysis and insight into diverse investment strategies.`,

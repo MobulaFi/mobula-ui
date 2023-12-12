@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { Collapse } from "components/collapse";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -57,7 +57,6 @@ export const WalletsPopup = () => {
       setShowWallet(false);
 
       setTimeout(() => {
-        console.log("Refreshing portfolio 156 wallets/index.tsx");
         refreshPortfolio();
       }, 2000);
     });

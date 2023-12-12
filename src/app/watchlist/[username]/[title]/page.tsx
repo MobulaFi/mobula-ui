@@ -79,7 +79,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { title, username } = params;
   return {
-    title: `${username} Watchlist Analyis on Mobula - Mobula`,
+    title: `${username} Watchlist Analyis on Mobula | Mobula`,
     robots: "index, follow",
     keywords:
       "Mobula, Mobula watchlist, watchlist tracker, crypto watchlist tracker,crypto,mobula, mobl",

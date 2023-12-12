@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -311,7 +311,7 @@ export const Assets = () => {
           active={activeTab}
           setPreviousTab={setPreviousTab as never}
         />
-        <Container extraCss="md:w-full mb-2 lg:mb-1 pb-0 h-[21px]">
+        <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
               <NextChakraLink
@@ -367,7 +367,7 @@ export const Assets = () => {
               </Button>
             </div>
           ) : null}
-          <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[95%] mx-auto pb-0 md:pb-2.5">
+          <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
             <TokenMainInfo />
             <TokenSocialsInfo />
           </div>

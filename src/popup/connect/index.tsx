@@ -195,8 +195,8 @@ export const Connect = () => {
                   <img
                     src={
                       resolvedTheme === "dark"
-                        ? "/mobula/mobula-logo.png"
-                        : "/mobula/mobula-logo-light.png"
+                        ? "/mobula/mobula-logo.svg"
+                        : "/mobula/mobula-logo-light.svg"
                     }
                     className="h-[50px] w-[50px] rounded-full my-4"
                   />

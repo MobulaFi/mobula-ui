@@ -182,8 +182,6 @@ export const TbodyCryptocurrencies = ({
     });
   };
 
-  console.log("setShowBuyDrawer", showBuyDrawer);
-
   return (
     <>
       <tr className="cursor-pointer relative">

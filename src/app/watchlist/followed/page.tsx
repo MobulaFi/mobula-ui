@@ -33,7 +33,7 @@ const fetchWatchlistFollowed = async () => {
 };
 
 export const metadata: Metadata = {
-  title: "Follow Top Crypto Traders Watchlists - Mobula",
+  title: "Follow Top Crypto Traders Watchlists | Mobula",
   description:
     "Stay informed and follow the watchlists of the most successful crypto traders. Gain insights into their strategies and make informed investment decisions.",
   keywords:

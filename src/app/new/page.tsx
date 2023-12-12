@@ -43,7 +43,7 @@ async function fetchNewAssets() {
 }
 
 export const metadata: Metadata = {
-  title: "New Cryptocurrencies listed today and this week on Mobula - Mobula",
+  title: "New Cryptocurrencies listed today and this week on Mobula | Mobula",
   description:
     "Discover the assets recently added on Mobula, their real time price, chart, liquidity, and more.",
   robots: "index, follow",

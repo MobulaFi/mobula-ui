@@ -3,7 +3,7 @@ export const squareBox = "rounded ml-2.5 mt-[5px]";
 export const percentageTags = (isUp: boolean) =>
   `${
     isUp ? "bg-darkgreen dark:bg-darkgreen" : "bg-darkred dark:bg-darkred"
-  } h-[30px] lg:h-[26px] md:h-[22px] px-2.5 lg:px-[7.5px] md:px-[5px] rounded ml-2.5 items-center justify-center`;
+  } h-[30px] md:h-[22px] px-2.5 md:px-[5px] rounded ml-2.5 items-center justify-center`;
 
 export const mainButtonStyle =
   "h-[30px] px-2.5 lg:px-[5px] mr-[7.5px] lg:mr-0 ml-0 lg:ml-[7.5px] rounded transition-all duration-200 font-medium";

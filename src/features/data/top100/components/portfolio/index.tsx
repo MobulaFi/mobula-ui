@@ -1,11 +1,12 @@
 "use client";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { Skeleton } from "../../../../../components/skeleton";
+import { Spinner } from "../../../../../components/spinner";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
@@ -197,7 +198,12 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 )}
               </div>
               {isLoading && !wallet?.estimated_balance_history ? (
-                <Skeleton extraCss="h-[25px] w-[80px]" />
+                <>
+                  <Skeleton extraCss="h-[25px] w-[80px]" />
+                  <div className="flex items-center justify-center h-[110px] lg:h-[90px]">
+                    <Spinner extraCss="h-[30px] w-[30px]" />{" "}
+                  </div>
+                </>
               ) : null}
               {wallet?.estimated_balance_history?.length === 0 ||
               !wallet?.estimated_balance_history?.length ? null : (
@@ -237,79 +243,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   noAxis
                 />
               ) : null}
-              {isLoading && !firstRender.current ? (
-                <svg
-                  width="1140"
-                  height="160"
-                  viewBox="0 0 1140 160"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    transform="scale(1, 3.5)"
-                    d="M108.354 62.0435L1 79H571H1139L1067.39 54.6957L1011.15 75.0435L899.708 59.2174L835.296 54.6957L782.13 36.0435L722.83 59.2174L629.789 33.2174L556.175 66L483.583 54.6957H384.408L329.197 27L249.448 44.5217L190.148 33.2174L108.354 62.0435Z"
-                    fill="url(#chart-shine)"
-                    stroke={
-                      isDarkMode
-                        ? "rgba(34, 37, 49, 1)"
-                        : "rgba(245, 245, 245, 1)"
-                    }
-                    strokeWidth="2"
-                  />
-                  <defs>
-                    <linearGradient
-                      id="chart-shine"
-                      x1="0"
-                      y1="100%"
-                      x2="100%"
-                      y2="100%"
-                      gradientUnits="userSpaceOnUse"
-                    >
-                      <stop
-                        stopColor={
-                          isDarkMode
-                            ? "rgba(34, 37, 49, 1)"
-                            : "rgba(245, 245, 245, 1)"
-                        }
-                      />
-                      <stop
-                        offset="12%"
-                        stopColor={
-                          isDarkMode
-                            ? "rgba(34, 37, 49, 1)"
-                            : "rgba(245, 245, 245, 1)"
-                        }
-                        stopOpacity="0.1"
-                      />
-                      <stop
-                        offset="30%"
-                        stopColor={
-                          isDarkMode
-                            ? "rgba(34, 37, 49, 1)"
-                            : "rgba(245, 245, 245, 1)"
-                        }
-                      />
-                      <stop
-                        offset="100%"
-                        stopColor={
-                          isDarkMode
-                            ? "rgba(34, 37, 49, 1)"
-                            : "rgba(245, 245, 245, 1)"
-                        }
-                      />
-                      <animate
-                        id="gradient"
-                        attributeName="x1"
-                        dur="1s"
-                        from="0"
-                        to="100%"
-                        repeatCount="indefinite"
-                        begin="0s"
-                      />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              ) : null}
+
               {wallet === null && !isLoading ? (
                 <div className="my-auto mt-[40px] lg:mt-[35px] flex items-center">
                   <img
@@ -365,80 +299,6 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 </Button>
               </div>
             </div>
-          </>
-        ) : null}
-        {isLoading && isDisconnected ? (
-          <>
-            <MediumFont>Portfolio</MediumFont>
-            <svg
-              width="1140"
-              height="160"
-              viewBox="0 0 1140 160"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                transform="scale(1, 3.5)"
-                d="M108.354 62.0435L1 79H571H1139L1067.39 54.6957L1011.15 75.0435L899.708 59.2174L835.296 54.6957L782.13 36.0435L722.83 59.2174L629.789 33.2174L556.175 66L483.583 54.6957H384.408L329.197 27L249.448 44.5217L190.148 33.2174L108.354 62.0435Z"
-                fill="url(#chart-shine)"
-                stroke={
-                  isDarkMode ? "rgba(34, 37, 49, 1)" : "rgba(245, 245, 245, 1)"
-                }
-                strokeWidth="2"
-              />
-              <defs>
-                <linearGradient
-                  id="chart-shine"
-                  x1="0"
-                  y1="100%"
-                  x2="100%"
-                  y2="100%"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop
-                    stopColor={
-                      isDarkMode
-                        ? "rgba(34, 37, 49, 1)"
-                        : "rgba(245, 245, 245, 1)"
-                    }
-                  />
-                  <stop
-                    offset="12%"
-                    stopColor={
-                      isDarkMode
-                        ? "rgba(34, 37, 49, 1)"
-                        : "rgba(245, 245, 245, 1)"
-                    }
-                    stopOpacity="0.1"
-                  />
-                  <stop
-                    offset="30%"
-                    stopColor={
-                      isDarkMode
-                        ? "rgba(34, 37, 49, 1)"
-                        : "rgba(245, 245, 245, 1)"
-                    }
-                  />
-                  <stop
-                    offset="100%"
-                    stopColor={
-                      isDarkMode
-                        ? "rgba(34, 37, 49, 1)"
-                        : "rgba(245, 245, 245, 1)"
-                    }
-                  />
-                  <animate
-                    id="gradient"
-                    attributeName="x1"
-                    dur="1s"
-                    from="0"
-                    to="100%"
-                    repeatCount="indefinite"
-                    begin="0s"
-                  />
-                </linearGradient>
-              </defs>
-            </svg>
           </>
         ) : null}
       </div>
