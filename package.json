@@ -30,6 +30,7 @@
     "echarts": "^5.4.3",
     "framer-motion": "^10.16.4",
     "fs": "^0.0.1-security",
+    "gsap": "^3.12.3",
     "image-conversion": "^2.1.1",
     "ipfs-api": "^26.1.2",
     "js-cookie": "^3.0.5",

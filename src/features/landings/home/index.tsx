@@ -17,16 +17,16 @@ export const HomeLanding = () => {
         <div className={containerStyle}>
           <div>
             <h1
-              className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto 
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+              className="scramble text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto 
+              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color transition-all
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none 
+              duration-300 ease-in-out"
               style={{
                 "-webkit-text-fill-color": "transparent",
               }}
             >
-              The last web3 data
-              <br />
-              API you&apos;ll ever need
+              The last web3 data <br />
+              API you'll ever need
             </h1>
             <div className="flex items-center justify-center mt-[60px]">
               <button className="w-[140px] mr-5 rounded h-[50px] bg-light-bg-terciary dark:bg-dark-bg-terciary">
@@ -104,7 +104,7 @@ export const HomeLanding = () => {
       <section className="w-screen flex justify-center items-center h-screen">
         <div className={containerStyle}>
           <div>
-            <h1
+            <h2
               className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-center 
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
               bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
@@ -115,10 +115,14 @@ export const HomeLanding = () => {
               Frequently Asked
               <br />
               Questions
-            </h1>
+            </h2>
             <p className="text-xl font-[Poppins] text-light-font-60 dark:text-dark-font-60 mt-[70px] mb-[100px] text-center">
               Have more questions?{" "}
-              <NextChakraLink className="text-xl font-[Poppins] text-light-font-100 dark:text-dark-font-100 underline underline-offset-4 decoration-1">
+              <NextChakraLink
+                className="text-xl font-[Poppins] text-light-font-100 dark:text-dark-font-100 underline 
+              underline-offset-4 decoration-1 hover:text-blue hover:dark:text-blue cursor-pointer transition-all
+               ease-in-out duration-200"
+              >
                 {" "}
                 Contact us
               </NextChakraLink>
