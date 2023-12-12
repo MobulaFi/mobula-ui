@@ -63,7 +63,7 @@ export const allPages = [
   {
     requests: ["protocol", "dao protocol", "listing", "vote"],
     name: "DAO Protocol Page",
-    url: "/dao/protocol",
+    url: "/dao/protocol/overview",
   },
   {
     requests: ["listing", "list", "add", "add asset", "new", "form"],

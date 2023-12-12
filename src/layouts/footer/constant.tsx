@@ -18,7 +18,7 @@ export const getPath = () => {
       extends: [
         { name: "List a token ", url: "/list" },
         { name: "Add a Chain", url: "https://tally.so/r/mBaK0Q" },
-        { name: "Protocol DAO", url: "/dao/protocol" },
+        { name: "Protocol DAO", url: "/dao/protocol/overview" },
         // { name: "Contribute", url: "/contribute" },
         { name: "Support", url: "https://discord.gg/2a8hqNzkzN" },
         { name: "Docs", url: "https://docs.mobula.fi/" },
