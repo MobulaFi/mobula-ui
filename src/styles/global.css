@@ -11,6 +11,10 @@
   --toastify-color-error: #ea3943;
 }
 
+.hljs {
+  background-color: #131627; /* Remplacez par la couleur de votre choix */
+}
+
 .Toastify__toast-icon {
   margin-bottom: auto;
   font-size: 14px;

@@ -39,6 +39,10 @@ module.exports = {
           "0%, 100%": { backgroundPosition: "200% 0" },
           "50%": { backgroundPosition: "0 0" },
         },
+        fadeIn: {
+          "0%": { opacity: 0, transform: "translateX(-10%)" },
+          "100%": { opacity: 1, transform: "translateX(0%)" },
+        },
         tabs: {
           "0%": {
             opacity: 0,
@@ -67,6 +71,7 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         widthbar: "widthbar 5200ms linear",
+        fadeIn: "fadeIn 0.5s ease-out",
       },
     },
     // Header animation come from screens object
