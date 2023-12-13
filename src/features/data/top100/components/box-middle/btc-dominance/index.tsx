@@ -28,7 +28,7 @@ export const BtcDominance = ({ showPage }: BtcDominanceProps) => {
           <div className="flex mt-1">
             <MediumFont extraCss="flex mt-[-2px] font-medium">
               {getTokenPercentage(
-                btcDominance?.[(btcDominance?.length || 1) - 1]?.[1] || 0
+                btcDominance?.[(btcDominance?.length || 1) - 1]?.[1] * 100 || 0
               )}
               %
             </MediumFont>

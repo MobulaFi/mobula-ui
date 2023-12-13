@@ -245,7 +245,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   }, [isConnected, isConnecting]);
 
   const telegramStyleButton =
-    "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 font-normal transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
+    "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 flex items-center justify-center font-normal transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
   const squareBox =
     "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
