@@ -5,6 +5,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
 import React, { useEffect, useState } from "react";
+import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
 import { GridBox } from "./components/grid-box";
@@ -130,7 +131,7 @@ export const HomeLanding = () => {
         </div>
       </section>
       <section
-        className="h-screen w-screen flex justify-center items-center relative snap-center"
+        className="h-[70vh] w-screen flex justify-center items-center relative snap-center"
         style={{
           background:
             "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
@@ -241,10 +242,10 @@ export const HomeLanding = () => {
         }}
       >
         <div className={containerStyle}>
-          <div className="grid grid-rows-2 grid-flow-col gap-10 ">
+          <div className="grid grid-rows-2 grid-flow-col gap-20 ">
             <div
               className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-     border-light-border-primary dark:border-dark-border-primary flex flex-col"
+              border-light-border-primary dark:border-dark-border-primary flex flex-col"
             >
               <div className="flex justify-between items-center">
                 <div
@@ -289,7 +290,7 @@ export const HomeLanding = () => {
                     <input
                       type="text"
                       placeholder="Mobula"
-                      className="h-full w-full px-2.5 bg-[rgba(23, 27, 43, 0.22)] dark:bg-[rgba(23, 27, 43, 0.22)]
+                      className="h-full w-full px-2.5 bg-[#101A32]
                        text-light-font-100 dark:text-dark-font-100 font-[Poppins] "
                       style={{
                         background: "transparent",
@@ -301,9 +302,9 @@ export const HomeLanding = () => {
                     <span className="text-red dark:text-red">*</span>
                   </p>
                   <div
-                    className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-            border-light-border-primary dark:border-dark-border-primary flex items-center
-             h-[38px] w-full  relative"
+                    className="shadow-xl bg-[#101A32] rounded-2xl backdrop-blur-md border
+                    border-light-border-primary dark:border-dark-border-primary flex items-center
+                    h-[38px] w-full  relative"
                   >
                     {/* <p className="text-sm absolute top-[-12px] left-[15px] text-light-font-100 dark:text-dark-font-100 font-['Source Code Pro']">
                       blockchain string
@@ -321,24 +322,47 @@ export const HomeLanding = () => {
                 </div>
               </div>
             </div>
-            <div className=" flex-col flex border border-light-border-primary dark:border-dark-border-primary rounded-b-xl rounded-xl">
-              <div className="flex items-center justify-between bg-light-bg-terciary dark:bg-dark-bg-terciary py-3 rounded-t-xl">
-                <div className="flex items-center">
-                  <button className="mr-2.5 ml-5">cURL</button>
-                  <button className="mr-2.5">Python</button>
-                  <button className="mr-2.5">JavaScript</button>
-                  <button className="mr-2.5">PHP</button>
-                  <button className="mr-2.5">Go</button>
-                  <button className="mr-2.5">Java</button>
+
+            <div
+              className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+                    border-light-border-primary dark:border-dark-border-primary flex items-center
+                    w-full relative flex-col h-fit min-h-[270px]"
+            >
+              <div
+                className="flex items-center justify-between py-3 rounded-t-xl w-full 
+                bg-[rgba(139, 141, 149, 1)] dark:bg-[rgba(139, 141, 149, 1)] border-b border-light-border-primary dark:border-dark-border-primary"
+              >
+                <div className="flex items-center w-full justify-between px-5">
+                  <div className="flex items-center">
+                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
+                      cURL
+                    </button>
+                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
+                      Python
+                    </button>
+                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
+                      JavaScript
+                    </button>
+                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
+                      PHP
+                    </button>
+                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
+                      Go
+                    </button>
+                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
+                      Java
+                    </button>
+                  </div>
+                  <BiCopy className="text-light-font-60 dark:text-dark-font-60 text-base" />
                 </div>
               </div>
-              <div className="rounded-b-xl">
-                <pre>
-                  <code>{jsonContent}</code>
+              <div className="rounded-b-xl p-0 mt-[-20px] ml-[-30px]">
+                <pre className="p-0">
+                  <code className="p-0 w-full">{jsonContent}</code>
                 </pre>
               </div>
             </div>
-            <div>
+            <div className="flex flex-col justify-center h-full">
               <h2
                 className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit 
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
@@ -364,21 +388,32 @@ export const HomeLanding = () => {
                 and inaccessible to anyone.
               </p>
             </div>
-
-            <div className=" flex-col flex border border-light-border-primary dark:border-dark-border-primary rounded-b-xl rounded-xl">
-              <div className="flex items-center justify-between bg-light-bg-terciary dark:bg-dark-bg-terciary py-3 rounded-t-xl">
-                <div className="flex items-center">
-                  <button className="mr-2.5 ml-5">cURL</button>
-                  <button className="mr-2.5">Python</button>
-                  <button className="mr-2.5">JavaScript</button>
-                  <button className="mr-2.5">PHP</button>
-                  <button className="mr-2.5">Go</button>
-                  <button className="mr-2.5">Java</button>
+            <div
+              className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+                    border-light-border-primary dark:border-dark-border-primary flex items-center
+                    w-full relative flex-col h-fit min-h-[270px] max-h-[270px]"
+            >
+              <div
+                className="flex items-center justify-between py-3 rounded-t-xl w-full 
+                bg-[rgba(139, 141, 149, 1)] dark:bg-[rgba(139, 141, 149, 1)] border-b border-light-border-primary dark:border-dark-border-primary"
+              >
+                <div className="flex items-center w-full justify-between px-5">
+                  <p className="text-blue dark:text-blue text-base">200</p>
+                  <BiCopy className="text-light-font-60 dark:text-dark-font-60 text-base" />
                 </div>
               </div>
-              <div className="rounded-b-xl">
-                <pre>
-                  <code>{jsonContent}</code>
+              <div className="rounded-b-xl p-0 mt-[-20px] ml-[-30px]">
+                <pre className="p-0">
+                  <code className="p-0 w-full">{`
+                  {
+                    "data": {
+                      "asset": "bitcoin",
+                      "blockchain": "ethereum",
+                      "price": 0.000000000000000001,
+                      "timestamp": 1634179200
+                    }
+                  }
+                  `}</code>
                 </pre>
               </div>
             </div>

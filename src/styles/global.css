@@ -12,7 +12,7 @@
 }
 
 .hljs {
-  background-color: #131627; /* Remplacez par la couleur de votre choix */
+  background-color: transparent; /* Remplacez par la couleur de votre choix */
 }
 
 .Toastify__toast-icon {
@@ -29,6 +29,7 @@
 
 input {
   background: none;
+  background-image: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
