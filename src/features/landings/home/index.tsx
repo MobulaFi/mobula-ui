@@ -94,7 +94,7 @@ export const HomeLanding = () => {
                 //   }}
                 id="text"
                 style={{
-                  "-webkit-text-fill-color": "transparent",
+                  WebkitTextFillColor: "transparent",
                 }}
                 className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-transparent 
                 text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
@@ -107,7 +107,7 @@ export const HomeLanding = () => {
             <div className="h-fit w-fit overflow-hidden mx-auto">
               <h1
                 style={{
-                  "-webkit-text-fill-color": "transparent",
+                  WebkitTextFillColor: "transparent",
                 }}
                 id="text"
                 className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-transparent 
@@ -144,8 +144,8 @@ export const HomeLanding = () => {
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
               bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
                 style={{
-                  "-webkit-text-fill-color": "transparent",
-                  "text-wrap": "balance",
+                  WebkitTextFillColor: "transparent",
+                  ...{ "--text-wrap": "balance" },
                 }}
               >
                 Get any data downloaded to your database
@@ -207,8 +207,8 @@ export const HomeLanding = () => {
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
               bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none text-center"
             style={{
-              "-webkit-text-fill-color": "transparent",
-              "text-wrap": "balance",
+              WebkitTextFillColor: "transparent",
+              ...{ "--text-wrap": "balance" },
             }}
           >
             Get any data downloaded to your database
@@ -264,7 +264,7 @@ export const HomeLanding = () => {
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
               bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
               style={{
-                "-webkit-text-fill-color": "transparent",
+                WebkitTextFillColor: "transparent",
               }}
             >
               Frequently Asked
