@@ -188,7 +188,9 @@ export const HomeLanding = () => {
       <section
         className="h-screen w-screen flex justify-center items-center snap-center"
         style={{
-          background: "radial-gradient(at right top, #112B52, #131627)",
+          background:
+            "radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+          // background: "radial-gradient(at right top, #112B52, #131627)",
         }}
       >
         <div className={containerStyle}>

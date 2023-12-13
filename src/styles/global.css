@@ -55,6 +55,37 @@ body::-webkit-scrollbar {
   box-shadow: none !important;
 }
 
+.mouse-cursor-gradient-tracking {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+}
+
+.mouse-cursor-gradient-tracking span {
+  position: relative;
+}
+
+.mouse-cursor-gradient-tracking::before {
+  --size: 0;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: var(--x);
+  top: var(--y);
+  width: calc(var(--size) * 2);
+  height: calc(var(--size) * 2);
+  background: radial-gradient(circle closest-side, #0b2040, transparent);
+  backdrop-filter: blur(10px);
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease;
+}
+
+.mouse-cursor-gradient-tracking:hover::before {
+  --size: 200px;
+}
+
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
     width: 0px; /* width of the entire scrollbar */

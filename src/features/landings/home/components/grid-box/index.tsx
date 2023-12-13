@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-export const GridBox = ({ title, image, description }) => {
+type GridBoxProps = {
+  title: string;
+  image: string;
+  description: string;
+};
+
+export const GridBox = ({ title, image, description }: GridBoxProps) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("mousemove", (e) => {
+        let x = e.pageX - container.offsetLeft;
+        let y = e.pageY - container.offsetTop;
+        container.style.setProperty("--x", x + "px");
+        container.style.setProperty("--y", y + "px");
+      });
+    }
+  }, []);
   return (
     <div
-      className="p-8 rounded-2xl shadow-xl"
-      style={{
-        background: "rgba(23, 27, 43, 0.22)",
-        borderRadius: "16px",
-        backdropFilter: "blur(3.2px)",
-        border: "1px solid rgba(23, 27, 43, 0.4)",
-        "-webkit-backdrop-filter": " blur(3.2px)",
-      }}
+      className="p-8 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+     border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking"
+      ref={containerRef}
     >
       <img
         src={image}
