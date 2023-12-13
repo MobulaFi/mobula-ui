@@ -21,7 +21,7 @@ export const thStyle =
   "text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs py-[15px] px-2.5";
 
 export const flexGreyBoxStyle =
-  "w-[24px] h-[24px] min-w-[24px] flex items-center justify-center mr-2.5 transition-all duration-200 rounded-md";
+  "w-[22px] h-[22px] min-w-[22px] flex items-center justify-center mr-2.5 transition-all duration-200 rounded-md";
 
 export const tdStyle = "py-[15px] px-2.5";
 
