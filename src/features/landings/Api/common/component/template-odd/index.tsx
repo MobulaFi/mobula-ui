@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -30,9 +31,9 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
           {content.subtitle}
         </p>
         <MediumFont
-          className={`${
+          extraCss={`${
             isOdd ? "text-start" : "text-end"
-          } md:text-center max-w-[500px] lg:max-w-[90%] mx-0 md:mx-auto`}
+          }  md:text-center max-w-[500px] lg:max-w-[90%] mx-0 md:mx-auto`}
         >
           {content.description}
         </MediumFont>
@@ -49,7 +50,7 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
                 "Destination URL": content.url,
               });
             }}
-            extraCss="w-[40px] mt-[30px] lg:mt-[15px] text-sm mx-0 md:mx-auto px-[15px] mb-0 lg:mb-5"
+            extraCss="w-fit mt-[30px] lg:mt-[15px] text-sm mx-0 md:h-[40px] md:mx-auto px-[15px] mb-0 lg:mb-5"
           >
             {content.button_name}
             <FaArrowRightLong className="ml-2.5 text-lg" />
