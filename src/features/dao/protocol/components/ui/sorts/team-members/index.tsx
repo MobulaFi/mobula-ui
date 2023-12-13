@@ -28,21 +28,20 @@ export const TeamMembers = ({ token }: TeamMembersProps) => {
         <MediumFont extraCss="ml-2.5">Team members</MediumFont>
       </div>
       <div className="w-full mt-5 lg:mt-[15px] md:mt-2.5 overflow-x-scroll scroll">
-        <table>
+        <table className="w-full">
           <thead>
             <tr>
               <Ths extraCss={thStyles}>Role</Ths>
               <Ths extraCss={thStyles}>Name</Ths>
               <Ths extraCss={thStyles}>Telegram</Ths>
               <Ths extraCss={thStyles}>Twitter</Ths>
-              <Ths extraCss={thStyles}>Contract</Ths>
-              <Ths extraCss={thStyles}>Linkedin</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Contract</Ths>
+              <Ths extraCss={`${thStyles} text-end`}>Linkedin</Ths>
             </tr>
           </thead>
           <tbody>
             {token?.team?.map((member) => {
-              console.log(member.linkedin.split("/in/")[1]);
-              console.log(member.twitter.split("twitter.com/")[1]);
+              console.log("member", member);
               return (
                 <tr key={member}>
                   <Tds extraCss="px-2.5 py-[25px]">
@@ -90,24 +89,33 @@ export const TeamMembers = ({ token }: TeamMembersProps) => {
                     </NextChakraLink>
                   </Tds>
                   <Tds extraCss="px-2.5 py-[25px]">
-                    <div className="flex items-center"></div>
-                    <NextChakraLink
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      extraCss={`${
-                        member.linkedin
-                          ? "text-blue dark:text-blue"
-                          : "text-light-font-40 dark:text-dark-font-40"
-                      }`}
-                    >
-                      <div className="flex items-center">
-                        {member.linkedin?.split("/in/")[1] || "--"}
-                        {member.linkedin ? (
-                          <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
-                        ) : null}
-                      </div>
-                    </NextChakraLink>
+                    <div className="flex items-center justify-end">
+                      {member.linkedin !== "" && member.linkedin ? (
+                        <NextChakraLink
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          extraCss={`${
+                            member.linkedin
+                              ? "text-blue dark:text-blue"
+                              : "text-light-font-40 dark:text-dark-font-40"
+                          }`}
+                        >
+                          <div className="flex items-center">
+                            {member.linkedin
+                              ? member.linkedin?.split("/in/")[1]
+                              : "--"}
+                            {member.linkedin ? (
+                              <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
+                            ) : null}
+                          </div>
+                        </NextChakraLink>
+                      ) : (
+                        <div className="flex items-center text-light-font-100 dark:text-dark-font-100 justify-end w-full">
+                          --
+                        </div>
+                      )}
+                    </div>
                   </Tds>
                 </tr>
               );

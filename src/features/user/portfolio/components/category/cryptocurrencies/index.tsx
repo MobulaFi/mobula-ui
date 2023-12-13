@@ -1,7 +1,7 @@
 import { Spinner } from "components/spinner";
 import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
-import { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -314,6 +314,7 @@ export const Cryptocurrencies = () => {
                               title={
                                 <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
                               }
+                              extraCss="top-[45%] -translate-y-1/2 right-[20px] p-1.5"
                             >
                               <div>
                                 <div

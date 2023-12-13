@@ -15,6 +15,7 @@ import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
 import { NotificationDrawer } from "../../drawer/notif";
 import { WatchlistDrawer } from "../../drawer/watchlist";
+import { useAnalytics } from "../../hooks/analytics";
 import { usePageLoad } from "../../hooks/pageload";
 import { Tabs } from "./components/tabs";
 import { UserSection } from "./components/user-section";
@@ -28,7 +29,7 @@ export const Header = ({ addressCookie }) => {
   const pathname = usePathname();
   const cookie = parse(addressCookie);
   const addressFromCookie = cookie.address;
-
+  useAnalytics();
   useEffect(() => {
     const handleRouteChange = () => {
       localStorage.setItem("previousPath", pathname); // Set current path as previous before the route changes

@@ -186,7 +186,9 @@ export const Connect = () => {
             <div className="w-full flex flex-col relative items-center">
               <div className="flex items-center">
                 <img
-                  src={conenctorImage?.["connect-image"]}
+                  src={
+                    conenctorImage?.["connect-image"] || "/empty/unknown.png"
+                  }
                   className="h-[50px] w-[50px] rounded-full my-4 mr-1"
                   alt="Pending connector logo"
                 />

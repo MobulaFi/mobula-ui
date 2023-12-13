@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "../../../../../components/button";
 import { BtcDominance } from "../box-middle/btc-dominance";
 import { AINews } from "./AI-news";
 
@@ -52,8 +51,8 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
     >
       <div className="flex items-center absolute top-0 right-0 h-[35px] px-[15px] bg-light-bg-secondary dark:bg-dark-bg-secondary z-[1]">
         {render.map((_, idx) => (
-          <Button
-            extraCss={`rounded-full ${
+          <button
+            className={`rounded-full ${
               showPage === idx ? "w-[9px]" : "w-[8px]"
             } ${showPage === idx ? "h-[9px]" : "h-[8px]"} ${
               showPage === idx ? "max-w-[9px]" : "max-w-[8px]"

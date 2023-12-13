@@ -115,7 +115,6 @@ export const DoughnutsChart = ({ token, whiteMode }) => {
           show: false,
           position: "center",
         },
-
         emphasis: {
           label: {
             show: true,

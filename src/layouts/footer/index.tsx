@@ -1,10 +1,14 @@
 "use client";
 import { useTheme } from "next-themes";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useAccount } from "wagmi";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
+import { useShouldConnect } from "../../hooks/connect";
+import { useUrl } from "../../hooks/url";
 import { pushData } from "../../lib/mixpanel";
 import { getPath } from "./constant";
 
@@ -12,6 +16,10 @@ export const Footer = () => {
   const pages = getPath();
   const { resolvedTheme } = useTheme();
   const [isHover, setIsHover] = useState(null);
+  const router = useRouter();
+  const { portfolioUrl } = useUrl();
+  const { isDisconnected } = useAccount();
+  const handleConnect = useShouldConnect(() => router.push(portfolioUrl));
   return (
     <CommonPageProvider>
       <div
@@ -39,13 +47,20 @@ export const Footer = () => {
                   {entry.extends.map((page) => (
                     <NextChakraLink
                       extraCss="w-fit"
-                      href={page.url}
+                      href={
+                        isDisconnected && page.name === "Portfolio"
+                          ? (null as any)
+                          : page.url
+                      }
                       key={page.url}
                       target="_blank"
                       rel="noreferrer"
                       onMouseEnter={() => setIsHover(page.name)}
                       onMouseLeave={() => setIsHover(null)}
                       onClick={() => {
+                        if (page.name === "Portfolio") {
+                          handleConnect();
+                        }
                         pushData("Footer Clicked", {
                           "Destination URL": page.url,
                           name: page.name,
@@ -57,15 +72,15 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-200`}
+                        } transition-all duration-200 w-fit`}
                       >
                         {page.name}
+                        <div
+                          className={`h-[1px] mt-1 transition-all duration-150 bg-light-font-60 dark:bg-dark-font-60 mb-1.5 ${
+                            isHover === page.name ? "w-full" : "w-0"
+                          }`}
+                        />
                       </SmallFont>
-                      <div
-                        className={`h-[1px] mt-1 transition-all duration-150 bg-light-font-60 dark:bg-dark-font-60 mb-1.5 ${
-                          isHover === page.name ? "w-full" : "w-0"
-                        }`}
-                      />
                     </NextChakraLink>
                   ))}
                 </div>
@@ -90,6 +105,9 @@ export const Footer = () => {
                       onMouseEnter={() => setIsHover(page.name)}
                       onMouseLeave={() => setIsHover(null)}
                       onClick={() => {
+                        if (page.name === "Portfolio") {
+                          handleConnect();
+                        }
                         pushData("Footer Clicked", {
                           "Destination URL": page.url,
                           name: page.name,

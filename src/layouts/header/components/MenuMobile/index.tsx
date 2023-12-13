@@ -1,16 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiFillPieChart, AiFillStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { useAccount } from "wagmi";
-import { disconnect } from "wagmi/actions";
+import { disconnect, readContract } from "wagmi/actions";
 import { ClientOnly } from "../../../../components/client-only";
 import { NextChakraLink } from "../../../../components/link";
+import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
 import { useUrl } from "../../../../hooks/url";
 import { pushData } from "../../../../lib/mixpanel";
-import { addressSlicer } from "../../../../utils/formaters";
+import { balanceOfAbi } from "../../../../utils/abi";
+import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { ToggleColorMode } from "../../../toggle-mode";
 import { navigation } from "../../constants";
 import { ChainsChanger } from "../chains-changer";
@@ -34,6 +36,21 @@ export const MenuMobile = ({
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
   const { watchlistUrl } = useUrl();
   const { setConnect } = useContext(PopupUpdateContext);
+  const [balanceMOBL, setBalanceMOBL] = useState<number | null>(null);
+
+  const getBalanceOfMOBL = async () => {
+    const balance = await readContract({
+      address: MOBL_ADDRESS as `0x${string}`,
+      abi: balanceOfAbi,
+      functionName: "balanceOf",
+      args: [address],
+    });
+    setBalanceMOBL(Number(balance) / 10 ** 18 || null);
+  };
+
+  useEffect(() => {
+    if (isConnected) getBalanceOfMOBL();
+  }, [isConnected]);
 
   useEffect(() => {
     window.onscroll = () => {
@@ -105,15 +122,17 @@ export const MenuMobile = ({
                     </p>
                   ) : null}
                 </div>
-                <button
-                  onClick={() => {
-                    disconnect();
-                  }}
-                >
-                  <div className="flex items-center text-light-font-100 dark:text-dark-font-100">
-                    <BsPower className="text-lg mr-2" />
+                {balanceMOBL ? (
+                  <div className="flex items-center">
+                    <p className="text-sm text-light-font-100 dark:text-dark-font-100">
+                      {getFormattedAmount(balanceMOBL + (user?.balance || 0))}
+                    </p>
+                    <img
+                      src="/mobula/fullicon.png"
+                      className="w-[18px] h-[18px] rounded-full ml-[5px]"
+                    />
                   </div>
-                </button>
+                ) : null}
               </div>
             </div>
           </>
@@ -140,7 +159,18 @@ export const MenuMobile = ({
             showInfoPopover={showInfoPopover}
           />
         </div>
-      </div>
+      </div>{" "}
+      <button
+        className="ml-[28px] mt-3.5"
+        onClick={() => {
+          disconnect();
+        }}
+      >
+        <div className="flex items-center text-light-font-100 dark:text-dark-font-100 text-base">
+          <BsPower className="text-xl mr-2.5" />
+          Log Out
+        </div>
+      </button>
     </div>
   );
 };
