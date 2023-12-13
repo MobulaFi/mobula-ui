@@ -6,15 +6,7 @@ import { TemplateTitle } from "../../features/landings/Api/common/component/temp
 import { getApisContent } from "../../features/landings/Api/common/constants";
 import { ContentType } from "../../features/landings/Api/common/models";
 
-export function getServerSideProps({ req }) {
-  return {
-    props: {
-      cookies: req.headers.cookie ?? "",
-    },
-  };
-}
-
-export default function apis() {
+export default function ApiPage() {
   const contents = getApisContent();
   return (
     <>
