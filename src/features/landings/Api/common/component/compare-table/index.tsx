@@ -28,8 +28,8 @@ export const CompareTable = ({ title, contents }) => {
         const icon = getIcon(isCheck, isError, entry);
         return (
           <div
-            className={`flex items-center justify-center h-[53px] w-full border border-light-bg-primary
-           dark:border-dark-bg-primary border-t-0 md:border-t text-base md:text-xs text-light-font-100 dark:text-dark-font-100 
+            className={`flex items-center justify-center h-[53px] w-full border border-light-border-primary
+           dark:border-dark-border-primary border-t-0 md:border-t text-base md:text-xs text-light-font-100 dark:text-dark-font-100 
            ${color}`}
           >
             {icon}

@@ -1,7 +1,7 @@
-import { Container } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 import { BsChevronDown } from "react-icons/bs";
+import { Container } from "../../components/container";
 import { LargeFont, MediumFont } from "../../components/fonts";
 import { CompareHeaderTable } from "../../features/landings/Api/common/component/compare-header-table";
 import { CompareTable } from "../../features/landings/Api/common/component/compare-table";
@@ -64,7 +64,7 @@ export default function BotPage() {
         <p className="text-light-font-100 dark:text-dark-font-100 ml-0 md:ml-[15px] text-4xl md:text-xl mb-3 md:mb-[-40px]">
           Compare
         </p>
-        <div>
+        <div className="flex">
           <div className="w-full max-w-[340px] mt-0 md:mt-[54px]">
             <MediumFont extraCss="flex md:hidden text-light-font-40 dark:text-dark-font-40 mb-[35px]">
               Mobula smokes the competition.
