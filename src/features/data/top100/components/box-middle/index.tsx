@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Button } from "../../../../../components/button";
+import React, { Key, useEffect, useState } from "react";
 import { useTop100 } from "../../context-manager";
 import { CryptoMarket } from "./crypto-market";
 import { FearGreed } from "./fear-greed";
@@ -68,8 +67,8 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     >
       <div className="flex items-center absolute top-0 right-0 h-[35px] px-[15px] bg-light-bg-secondary dark:bg-dark-bg-secondary z-[1]">
         {render.map((_, idx) => (
-          <Button
-            extraCss={`rounded-full ${
+          <button
+            className={`rounded-full ${
               showPage === idx ? "w-[9px]" : "w-[8px]"
             } ${showPage === idx ? "h-[9px]" : "h-[8px]"} ${
               showPage === idx ? "max-w-[9px]" : "max-w-[8px]"
@@ -80,7 +79,7 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
                 ? "bg-light-font-80 dark:bg-dark-font-80"
                 : "bg-light-font-40 dark:bg-dark-font-40"
             } `}
-            key={_.key}
+            key={idx as Key}
             onClick={() => setShowPage(idx)}
           />
         ))}
