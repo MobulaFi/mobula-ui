@@ -17,7 +17,7 @@ export const PortfolioButton = ({ extraCss }: PortfolioButtonProps) => {
   const { portfolioUrl } = useUrl();
   const router = useRouter();
   const { userBalance } = useUserBalance();
-  const { isDisconnected, isConnected } = useAccount();
+  const { isDisconnected } = useAccount();
   const handleConnect = useShouldConnect(() => router.push(portfolioUrl));
   return (
     <Button
