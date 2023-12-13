@@ -74,9 +74,11 @@ export const HomeLanding = () => {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
 
       <section
-        className="w-screen flex justify-center items-center bg-[url('/landing/main-background.svg')] 
-        bg-no-repeat bg-cover bg-center relative snap-center"
-        style={{ height: "calc(100vh - 65px)" }}
+        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center"
+        style={{
+          height: "calc(100vh - 65px)",
+          backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
+        }}
       >
         <div className={containerStyle}>
           <div>
@@ -127,7 +129,13 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
-      <section className="h-screen w-screen flex justify-center items-center relative snap-center">
+      <section
+        className="h-screen w-screen flex justify-center items-center relative snap-center"
+        style={{
+          background:
+            "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+        }}
+      >
         <div className={containerStyle}>
           <div className="flex items-center">
             <div className="w-2/4">
@@ -195,9 +203,9 @@ export const HomeLanding = () => {
       >
         <div className={containerStyle}>
           <h2
-            className="text-[64px] font-bold leading-[65px] font-['Poppins'] w-fit mx-auto 
+            className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit mx-auto 
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none text-center"
             style={{
               "-webkit-text-fill-color": "transparent",
               "text-wrap": "balance",
@@ -205,7 +213,7 @@ export const HomeLanding = () => {
           >
             Get any data downloaded to your database
           </h2>
-          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl max-w-[800px]">
+          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl max-w-[800px] text-center mx-auto">
             Mobula prioritizes privacy by employing{" "}
             <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
               decentralized servers
