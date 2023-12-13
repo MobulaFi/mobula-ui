@@ -49,7 +49,7 @@ export const Footer = () => {
                       extraCss="w-fit"
                       href={
                         isDisconnected && page.name === "Portfolio"
-                          ? null
+                          ? (null as any)
                           : page.url
                       }
                       key={page.url}
@@ -72,15 +72,15 @@ export const Footer = () => {
                           isHover === page.name
                             ? "text-light-font-100 dark:text-dark-font-100"
                             : "text-light-font-60 dark:text-dark-font-60"
-                        } transition-all duration-200`}
+                        } transition-all duration-200 w-fit`}
                       >
                         {page.name}
+                        <div
+                          className={`h-[1px] mt-1 transition-all duration-150 bg-light-font-60 dark:bg-dark-font-60 mb-1.5 ${
+                            isHover === page.name ? "w-full" : "w-0"
+                          }`}
+                        />
                       </SmallFont>
-                      <div
-                        className={`h-[1px] mt-1 transition-all duration-150 bg-light-font-60 dark:bg-dark-font-60 mb-1.5 ${
-                          isHover === page.name ? "w-full" : "w-0"
-                        }`}
-                      />
                     </NextChakraLink>
                   ))}
                 </div>
