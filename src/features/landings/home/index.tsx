@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
 import { GridBox } from "./components/grid-box";
@@ -185,9 +185,33 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
-      <section className="h-screen w-screen flex justify-center items-center snap-center">
+      <section
+        className="h-screen w-screen flex justify-center items-center snap-center"
+        style={{
+          background: "radial-gradient(at right top, #112B52, #131627)",
+        }}
+      >
         <div className={containerStyle}>
-          <div className="grid grid-rows-2 grid-flow-col gap-10">
+          <h2
+            className="text-[64px] font-bold leading-[65px] font-['Poppins'] w-fit mx-auto 
+              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+            style={{
+              "-webkit-text-fill-color": "transparent",
+              "text-wrap": "balance",
+            }}
+          >
+            Get any data downloaded to your database
+          </h2>
+          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl max-w-[800px]">
+            Mobula prioritizes privacy by employing{" "}
+            <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
+              decentralized servers
+            </span>
+            , ensuring that user data is not stored at all. This approach
+            guarantees that sensitive
+          </p>
+          <div className="grid grid-rows-2 grid-flow-col gap-10 mt-[100px]">
             {gridBoxContent.map((content) => (
               <GridBox
                 key={content.title}

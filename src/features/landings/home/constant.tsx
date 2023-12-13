@@ -1,37 +1,37 @@
 export const gridBoxContent = [
   {
-    title: "Any title here",
-    image: "/logo/bitcoin.png",
+    title: "99% Coverage",
+    image: "/landing/icon-coverage.svg",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
   },
   {
-    title: "Any title here",
-    image: "/logo/bitcoin.png",
+    title: "+2,3M Assets",
+    image: "/landing/icon-asset.svg",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
   },
   {
-    title: "Any title here",
-    image: "/logo/bitcoin.png",
+    title: "+150 Blockchains",
+    image: "/landing/icon-chains.png",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
   },
   {
-    title: "Any title here",
-    image: "/logo/bitcoin.png",
+    title: "50% Cheaper",
+    image: "/landing/icon-cheaper.png",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
   },
   {
-    title: "Any title here",
-    image: "/logo/bitcoin.png",
+    title: "API Dashboard",
+    image: "/landing/icon-dashboard.svg",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
   },
   {
-    title: "Any title here",
-    image: "/logo/bitcoin.png",
+    title: "Custom Endpoints",
+    image: "/landing/icon-endpoint.svg",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
   },
