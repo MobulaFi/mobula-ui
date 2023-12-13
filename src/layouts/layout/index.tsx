@@ -13,6 +13,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const cookieStore = cookies();
   const addressCookie = cookieStore["address"]?.value;
+
   return (
     <div className="bg-light-bg-primary dark:bg-dark-bg-primary">
       <NextTopLoader
