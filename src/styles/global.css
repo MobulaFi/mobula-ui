@@ -61,6 +61,8 @@ body::-webkit-scrollbar {
   cursor: pointer;
   outline: none;
   overflow: hidden;
+  /* transform: rotateX(calc(var(--rotateX) * 2)) rotateY(calc(var(--rotateY) * 2));
+  transition: transform 0.1s ease-out; */
 }
 
 .mouse-cursor-gradient-tracking span {

@@ -233,10 +233,139 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
-      <section className="h-screen w-screen flex justify-center items-center snap-center">
+      <section
+        className="h-screen w-screen flex justify-center items-center snap-center"
+        style={{
+          background:
+            "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+        }}
+      >
         <div className={containerStyle}>
           <div className="grid grid-rows-2 grid-flow-col gap-10 ">
-            <div className="w-2/4 flex-col flex border border-light-border-primary dark:border-dark-border-primary rounded-b-xl rounded-xl">
+            <div
+              className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+     border-light-border-primary dark:border-dark-border-primary flex flex-col"
+            >
+              <div className="flex justify-between items-center">
+                <div
+                  className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking flex items-center
+             h-[38px] w-full"
+                >
+                  <div className="bg-darkblue dark:bg-darkblue rounded-md py-1 px-2 ml-1">
+                    <p className="text-blue dark:text-blue text-sm font-medium font-['Poppins']">
+                      GET
+                    </p>
+                  </div>
+                </div>{" "}
+                <button
+                  className="border border-blue dark:border-blue h-[35px] px-2.5 rounded-lg 
+                ml-2.5 text-sm text-light-font-100 dark:text-dark-font-100 font-[Poppins] "
+                >
+                  Send
+                </button>
+              </div>
+              <div className="flex flex-col rounded-2xl mt-5">
+                <div
+                  className="flex items-center h-[42px] rounded-t-2xl bg-[rgba(23, 27, 43, 0.62)] text-light-font-100
+                 dark:text-dark-font-100 border-light-border-primary dark:border-dark-border-primary border px-5 font-['Poppins']"
+                >
+                  Query
+                </div>
+                <div
+                  className="rounded-b-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary flex
+             w-full p-5 flex-col"
+                >
+                  <p className="text-base text-light-font-80 dark:text-dark-font-80 font-['Poppins'] mt-2 mb-2.5">
+                    asset string{" "}
+                    <span className="text-red dark:text-red">*</span>
+                  </p>
+                  <div
+                    className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary flex items-center
+             h-[38px] w-full relative"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Mobula"
+                      className="h-full w-full px-2.5 bg-[rgba(23, 27, 43, 0.22)] dark:bg-[rgba(23, 27, 43, 0.22)]
+                       text-light-font-100 dark:text-dark-font-100 font-[Poppins] "
+                      style={{
+                        background: "transparent",
+                      }}
+                    />
+                  </div>
+                  <p className="text-base text-light-font-80 dark:text-dark-font-80 font-['Poppins'] mt-7 mb-2.5">
+                    blockchain string{" "}
+                    <span className="text-red dark:text-red">*</span>
+                  </p>
+                  <div
+                    className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary flex items-center
+             h-[38px] w-full  relative"
+                  >
+                    {/* <p className="text-sm absolute top-[-12px] left-[15px] text-light-font-100 dark:text-dark-font-100 font-['Source Code Pro']">
+                      blockchain string
+                    </p> */}
+                    <input
+                      type="text"
+                      placeholder="Blockhain"
+                      className="h-full w-full px-2.5 bg-[rgba(23, 27, 43, 0.22)] dark:bg-[rgba(23, 27, 43, 0.22)]
+                       text-light-font-100 dark:text-dark-font-100 font-[Poppins]"
+                      style={{
+                        background: "transparent",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className=" flex-col flex border border-light-border-primary dark:border-dark-border-primary rounded-b-xl rounded-xl">
+              <div className="flex items-center justify-between bg-light-bg-terciary dark:bg-dark-bg-terciary py-3 rounded-t-xl">
+                <div className="flex items-center">
+                  <button className="mr-2.5 ml-5">cURL</button>
+                  <button className="mr-2.5">Python</button>
+                  <button className="mr-2.5">JavaScript</button>
+                  <button className="mr-2.5">PHP</button>
+                  <button className="mr-2.5">Go</button>
+                  <button className="mr-2.5">Java</button>
+                </div>
+              </div>
+              <div className="rounded-b-xl">
+                <pre>
+                  <code>{jsonContent}</code>
+                </pre>
+              </div>
+            </div>
+            <div>
+              <h2
+                className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit 
+              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+                style={{
+                  WebkitTextFillColor: "transparent",
+                  ...{ "--text-wrap": "balance" },
+                }}
+              >
+                Safer, faster
+                <br /> and smarter
+              </h2>
+              <p className="text-light-font-60 dark:text-dark-font-60 text-xl max-w-[460px] mt-5">
+                Mobula prioritizes privacy by employing{" "}
+                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
+                  decentralized servers
+                </span>
+                , ensuring that user data is not stored at all. This approach
+                guarantees that sensitive information{" "}
+                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
+                  remains secure
+                </span>{" "}
+                and inaccessible to anyone.
+              </p>
+            </div>
+
+            <div className=" flex-col flex border border-light-border-primary dark:border-dark-border-primary rounded-b-xl rounded-xl">
               <div className="flex items-center justify-between bg-light-bg-terciary dark:bg-dark-bg-terciary py-3 rounded-t-xl">
                 <div className="flex items-center">
                   <button className="mr-2.5 ml-5">cURL</button>
