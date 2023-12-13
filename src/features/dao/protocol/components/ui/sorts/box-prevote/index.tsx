@@ -279,7 +279,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               isOpen={showPopover.community}
             />
           ) : null}
-          {token?.contracts ? (
+          {token?.contracts?.length > 0 ? (
             <Popover
               extraCss="top-[35px] left-1/2 -translate-x-1/2"
               visibleContent={
@@ -344,29 +344,32 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           </button>
           <ModalContainer
             title="Raw Data"
-            extraCss="w-[90vw] lg:w-[85vw] md:w-[90vw] h-fit"
+            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             isOpen={showRawData}
             onClose={() => setShowRawData(false)}
           >
-            <div className="flex w-full text-light-font-100 dark:text-dark-font-100 flex-wrap overflow-y-hidden">
+            <div className="flex w-full text-light-font-100 dark:text-dark-font-100 flex-wrap overflow-scroll max-h-[80vh]">
               {token ? (
                 <pre
                   style={{
                     width: "100%",
                     wordWrap: "break-word",
                     whiteSpace: "pre-wrap",
+                    fontSize: "12px",
                   }}
                 >
-                  {JSON.stringify(
-                    token,
-                    (_, v) => {
-                      if (typeof v === "bigint") {
-                        return v.toString();
-                      }
-                      return v;
-                    },
-                    2
-                  )}
+                  <code>
+                    {JSON.stringify(
+                      token,
+                      (_, v) => {
+                        if (typeof v === "bigint") {
+                          return v.toString();
+                        }
+                        return v;
+                      },
+                      2
+                    )}
+                  </code>
                 </pre>
               ) : null}
             </div>
