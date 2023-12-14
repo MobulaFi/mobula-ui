@@ -3,6 +3,7 @@ import { generateFilters } from "@utils/filters";
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
+import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
 import { BlockchainsNav } from "../../../layouts/blockchains-nav";
 import { tabs } from "../../../layouts/menu-mobile/constant";
@@ -55,14 +56,22 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
             setFilters={setFilters}
           />
           <div className="mt-2.5">
-            <AssetsTable
-              resultsData={resultsData}
-              setResultsData={setResultsData}
-              filters={filters}
-              orderBy={orderBy}
-              setOrderBy={setOrderBy}
-              isMobile={isMobile}
-            />
+            {resultsData?.data?.length > 0 ? (
+              <AssetsTable
+                resultsData={resultsData}
+                setResultsData={setResultsData}
+                lastColumn="Added"
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                filters={filters}
+                hideDEXVolume
+                isMobile={isMobile}
+              />
+            ) : (
+              <div className="w-full h-[600px] flex items-center justify-center">
+                <Spinner extraCss="w-[60px] h-[60px]" />
+              </div>
+            )}
           </div>
         </div>
       </Container>
