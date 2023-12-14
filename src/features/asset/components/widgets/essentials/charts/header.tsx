@@ -1,11 +1,9 @@
 import Cookies from "js-cookie";
 import { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
-import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
 import { TimeSwitcher } from "../time-switcher";
@@ -124,7 +122,7 @@ export const ChartHeader = () => {
               {capitalizeFirstLetter("market cap")}
             </button>
           </div> */}
-          <div
+          {/* <div
             className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
            border border-light-border-primary dark:border-dark-border-primary relative"
           >
@@ -175,7 +173,7 @@ export const ChartHeader = () => {
             >
               <MdCandlestickChart className="text-xl" />
             </button>
-          </div>
+          </div> */}
           {(transactions?.length as number) > 0 ? (
             <Button
               extraCss="flex items-center justify-center h-[30px] ml-2.5 px-2.5 "

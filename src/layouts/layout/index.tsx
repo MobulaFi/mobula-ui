@@ -8,8 +8,6 @@ import { Header } from "../header";
 import { HeaderBanner } from "../header-banner";
 import { MenuFixedMobile } from "../menu-mobile";
 
-export const dynamic = "force-static";
-
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -29,7 +27,6 @@ const Layout = async ({ children }: LayoutProps) => {
   const cookieStore = cookies();
   const addressCookie = cookieStore["address"]?.value;
   const assets = await fetchAssets();
-  console.log("datadatadata", assets);
 
   return (
     <div className="bg-light-bg-primary dark:bg-dark-bg-primary">

@@ -65,6 +65,7 @@ body::-webkit-scrollbar {
 
 .scrollerAnimated {
   max-width: 100%;
+  display: flex;
 }
 
 .scrollerAnimated-inner {
