@@ -570,7 +570,14 @@ export const HomeLanding = () => {
         </div>
       </section>
       {/* QUESTIONS ASKED */}
-      <section className="w-screen flex justify-center items-center h-screen snap-center">
+      <section
+        className="w-screen flex justify-center items-center h-screen snap-center"
+        style={{
+          background:
+            "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+          // background: "radial-gradient(at right top, #112B52, #131627)",
+        }}
+      >
         <div className={containerStyle}>
           <div>
             <h2
