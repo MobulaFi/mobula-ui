@@ -94,7 +94,7 @@ body::-webkit-scrollbar {
 }
 
 .scrollerAnimated {
-  max-width: 400px;
+  max-width: 500px;
 }
 
 .scrollerAnimated-inner {

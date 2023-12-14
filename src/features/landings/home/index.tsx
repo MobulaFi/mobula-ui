@@ -84,11 +84,13 @@ export const HomeLanding = () => {
 
       scrollers.forEach((scroller) => {
         scroller.setAttribute("data-animated", "true");
-        const scrollerInner = scroller.querySelector(".scrollerAnimated-inner");
-        const scrollerContent = Array.from(scrollerInner.children);
+        const scrollerInner: any = scroller.querySelector(
+          ".scrollerAnimated-inner"
+        );
+        const scrollerContent: any = Array.from(scrollerInner.children);
 
         scrollerContent.forEach((item) => {
-          const duplicated = item?.cloneNode(true);
+          const duplicated: any = item?.cloneNode(true);
           duplicated.setAttribute("aria-hidden", "true");
           scrollerInner.appendChild(duplicated);
         });
@@ -449,7 +451,7 @@ export const HomeLanding = () => {
       </section>
       {/* NETWORKS SECTION */}
       <section
-        className="h-screen w-screen flex justify-center items-center snap-center"
+        className="h-[60vh] w-screen flex justify-center items-center snap-center"
         style={{
           background:
             "radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
