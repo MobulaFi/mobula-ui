@@ -18,7 +18,7 @@ const fetchAssets = async () => {
   const supabasse = createSupabaseDOClient();
   const { data, error } = await supabasse
     .from("assets")
-    .select("logo,price_change_24h,price")
+    .select("logo,price_change_24h,price,symbol,price")
     .order("global_volume", { ascending: false })
     .limit(50);
   if (error) return [];
