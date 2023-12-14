@@ -130,8 +130,7 @@ body::-webkit-scrollbar {
 .scrollerAnimated[data-animated="true"] .scrollerAnimated-inner {
   width: fit-content;
   flex-wrap: nowrap;
-  animation: scroller var(--_animation-duration, 50s)
-    var(--_animation-direction, forwards) linear infinite;
+  animation: scroller 50s var(--_animation-direction, forwards) linear infinite;
 }
 
 .scrollerAnimated[data-direction="right"] {

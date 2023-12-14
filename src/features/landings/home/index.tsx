@@ -488,11 +488,16 @@ export const HomeLanding = () => {
                   {firstChains?.map((content, i) => (
                     <div
                       key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
-                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                      style={{
+                        background:
+                          "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+                        // background: "radial-gradient(at right top, #112B52, #131627)",
+                      }}
                     >
                       <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl min-w-[45px] min-h-[45px]"
                         src={content?.logo}
                       />
                     </div>
@@ -504,11 +509,16 @@ export const HomeLanding = () => {
                   {secChains?.map((content, i) => (
                     <div
                       key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
-                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                 border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                      style={{
+                        background:
+                          "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+                        // background: "radial-gradient(at right top, #112B52, #131627)",
+                      }}
                     >
                       <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
                         src={content?.logo}
                       />
                     </div>
@@ -520,11 +530,16 @@ export const HomeLanding = () => {
                   {thirdChains?.map((content, i) => (
                     <div
                       key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
-                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                      style={{
+                        background:
+                          "radial-gradient(at left top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+                        // background: "radial-gradient(at right top, #112B52, #131627)",
+                      }}
                     >
                       <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
                         src={content?.logo}
                       />
                     </div>
@@ -536,8 +551,13 @@ export const HomeLanding = () => {
                   {quarthChains?.map((content, i) => (
                     <div
                       key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
-                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                      style={{
+                        background:
+                          "radial-gradient(at right top, rgba(11, 32, 64, 0.4), rgba(19, 22, 39, 0.4))",
+                        // background: "radial-gradient(at right top, #112B52, #131627)",
+                      }}
                     >
                       <img
                         className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
