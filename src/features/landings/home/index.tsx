@@ -5,7 +5,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
@@ -70,6 +70,31 @@ export const HomeLanding = () => {
       --url 'https://api.mobula.exchange/v1/market/data?
             asset=bitcoin&blockchain=ethereum'
   `;
+
+  const scrollers = useRef(null);
+  const chains = Object.values(blockchainsContent);
+  const firstChains = chains.filter((_, i) => i < 6);
+  const secChains = chains.filter((_, i) => i >= 6 && i < 13);
+  const thirdChains = chains.filter((_, i) => i >= 13 && i < 20);
+  const quarthChains = chains.filter((_, i) => i >= 20);
+
+  useEffect(() => {
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const scrollers = document.querySelectorAll(".scrollerAnimated");
+
+      scrollers.forEach((scroller) => {
+        scroller.setAttribute("data-animated", "true");
+        const scrollerInner = scroller.querySelector(".scrollerAnimated-inner");
+        const scrollerContent = Array.from(scrollerInner.children);
+
+        scrollerContent.forEach((item) => {
+          const duplicated = item?.cloneNode(true);
+          duplicated.setAttribute("aria-hidden", "true");
+          scrollerInner.appendChild(duplicated);
+        });
+      });
+    }
+  }, []);
 
   return (
     <div>
@@ -454,18 +479,72 @@ export const HomeLanding = () => {
                 guarantees that sensitive
               </p>
             </div>
-            <div className="w-2/4 flex justify-end items-center flex-wrap ">
-              {Object.values(blockchainsContent)?.map((content, i) => (
-                <div
-                  className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
+            {/* TODO: COMPONENTS */}
+            <div className="w-2/4 ml-auto flex flex-col items-end">
+              <div className="scrollerAnimated ">
+                <div className="scrollerAnimated-inner flex">
+                  {firstChains?.map((content, i) => (
+                    <div
+                      key={content.chainId}
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
                    border border-light-border-primary dark:border-dark-border-primary skewBox"
-                >
-                  <img
-                    className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl "
-                    src={content?.logo}
-                  />
+                    >
+                      <img
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        src={content?.logo}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="scrollerAnimated">
+                <div className="scrollerAnimated-inner flex">
+                  {secChains?.map((content, i) => (
+                    <div
+                      key={content.chainId}
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
+                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                    >
+                      <img
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        src={content?.logo}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="scrollerAnimated">
+                <div className="scrollerAnimated-inner flex">
+                  {thirdChains?.map((content, i) => (
+                    <div
+                      key={content.chainId}
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
+                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                    >
+                      <img
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        src={content?.logo}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="scrollerAnimated">
+                <div className="scrollerAnimated-inner flex">
+                  {quarthChains?.map((content, i) => (
+                    <div
+                      key={content.chainId}
+                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
+                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                    >
+                      <img
+                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                        src={content?.logo}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex flex-col w-full">

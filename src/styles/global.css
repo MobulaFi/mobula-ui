@@ -87,11 +87,50 @@ body::-webkit-scrollbar {
 .mouse-cursor-gradient-tracking:hover::before {
   --size: 200px;
 }
+@keyframes scroller {
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
 
-.skewBox {
+.scrollerAnimated {
+  max-width: 400px;
+}
+
+.scrollerAnimated-inner {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.scrollerAnimated[data-animated="true"] {
+  overflow: hidden;
+  mask: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.scrollerAnimated[data-animated="true"] .scrollerAnimated-inner {
+  width: fit-content;
+  flex-wrap: nowrap;
+  animation: scroller 40s linear infinite;
+}
+
+/* .skewBox {
   transform: rotateX(calc(var(--rotateX) * 2)) rotateY(calc(var(--rotateY) * 2));
   transition: transform 0.1s ease-out;
-}
+} */
 
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
