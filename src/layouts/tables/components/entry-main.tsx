@@ -113,7 +113,7 @@ export const Entry = ({
           height={45}
           alt={`${token.name} sparkline`}
           src={
-            `https://mobula-assets.s3.eu-west-3.amazonaws.com/sparklines/${token.id}/24h.png` ||
+            `https://storage.googleapis.com/mobula-assets/sparklines/${token.id}/24h.png` ||
             "/empty/sparkline.png"
           }
           fallbackSrc="/empty/sparkline.png"

@@ -40,7 +40,7 @@ export default function BuilderPage() {
           subtitle="Grow your community passively, integrate customizable widgets, get exposure on Mobula."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>

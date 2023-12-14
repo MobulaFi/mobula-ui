@@ -8,6 +8,7 @@ export function NextImageFallback({
   const [imgSrc, setImgSrc] = useState(props.src);
   return (
     <Image
+      unoptimized
       {...props}
       src={imgSrc}
       onError={() => {
