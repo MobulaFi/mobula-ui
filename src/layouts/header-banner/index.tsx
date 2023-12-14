@@ -37,7 +37,8 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           {assets
             ?.filter((entry) => entry.price_change_24h < 1000)
             .map((asset) => {
-              const isUp = getTokenPercentage(asset?.price_change_24h) > 0;
+              const isUp =
+                (getTokenPercentage(asset?.price_change_24h) as never) > 0;
               return (
                 <div
                   key={asset?.id}
