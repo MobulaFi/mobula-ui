@@ -37,7 +37,7 @@ export const getPath = () => {
       ],
     },
     {
-      name: "Developper",
+      name: "Developer",
       extends: [
         // { name: "Widgets", url: "/widget" },
         { name: "Mobula For Builders", url: "/builder" },
