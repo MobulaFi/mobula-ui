@@ -499,7 +499,7 @@ export const HomeLanding = () => {
                   ))}
                 </div>
               </div>
-              <div className="scrollerAnimated">
+              <div className="scrollerAnimated" data-direction="right">
                 <div className="scrollerAnimated-inner flex">
                   {secChains?.map((content, i) => (
                     <div
@@ -531,7 +531,7 @@ export const HomeLanding = () => {
                   ))}
                 </div>
               </div>
-              <div className="scrollerAnimated">
+              <div className="scrollerAnimated" data-direction="right">
                 <div className="scrollerAnimated-inner flex">
                   {quarthChains?.map((content, i) => (
                     <div

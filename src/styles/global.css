@@ -93,6 +93,12 @@ body::-webkit-scrollbar {
   }
 }
 
+@keyframes scrollerReverse {
+  to {
+    transform: translateX(calc(50% - 0.5rem));
+  }
+}
+
 .scrollerAnimated {
   max-width: 500px;
 }
@@ -124,7 +130,12 @@ body::-webkit-scrollbar {
 .scrollerAnimated[data-animated="true"] .scrollerAnimated-inner {
   width: fit-content;
   flex-wrap: nowrap;
-  animation: scroller 40s linear infinite;
+  animation: scroller var(--_animation-duration, 50s)
+    var(--_animation-direction, forwards) linear infinite;
+}
+
+.scrollerAnimated[data-direction="right"] {
+  --_animation-direction: reverse;
 }
 
 /* .skewBox {
