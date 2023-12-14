@@ -40,7 +40,7 @@ export default function MetadexPage() {
           subtitle="Discover the Meta DEX Aggregator API. +17 DEX Aggregators fetched, +25 blockchains supported for any trade & exchange."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>

@@ -40,7 +40,7 @@ export default function MarketPage() {
           subtitle="Discover the Market API. Get price, volume, market cap, liquidity and +10 other on-chain metrics for 30,000 assets."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>
