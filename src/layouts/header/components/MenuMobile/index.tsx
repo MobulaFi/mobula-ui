@@ -142,6 +142,7 @@ export const MenuMobile = ({
            h-[30px] w-fit  px-2 text-light-font-100 dark:text-dark-font-100 text-base ml-[30px] mt-5"
             onClick={() => {
               setConnect(true);
+              setIsMenuMobile(false);
             }}
           >
             Connect
