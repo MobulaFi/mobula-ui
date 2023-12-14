@@ -78,7 +78,6 @@ body::-webkit-scrollbar {
 
 .scroll {
   overflow-y: scroll;
-
   scrollbar-width: none !important;
 }
 
