@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Button } from "../../components/button";
 import { NextChakraLink } from "../../components/link";
 import { Asset } from "../../interfaces/assets";
+import { pushData } from "../../lib/mixpanel";
 import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
 import { ToggleColorMode } from "../toggle-mode";
 
@@ -79,13 +80,22 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           <NextChakraLink
             extraCss="text-[13px]"
             href="https://docs.mobula.fi/?utm_source=header"
+            onClick={() => {
+              pushData("Header Free API Key Clicked");
+            }}
           >
             Free API Key
           </NextChakraLink>
         </Button>
         <Button extraCss="h-[30px] mx-2.5">
           {" "}
-          <NextChakraLink extraCss="text-[13px]" href="/list?utm_source=header">
+          <NextChakraLink
+            extraCss="text-[13px]"
+            href="/list?utm_source=header"
+            onClick={() => {
+              pushData("Header Get listed Clicked");
+            }}
+          >
             Get listed
           </NextChakraLink>
         </Button>
