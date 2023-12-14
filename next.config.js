@@ -43,6 +43,16 @@ const nextConfig = {
         destination: "https://docs.mobula.io/:path*",
         permanent: true,
       },
+      {
+        source: "http://developer.mobula.fi/:path*",
+        destination: "http://docs.mobula.io/:path*",
+        permanent: true,
+      },
+      {
+        source: "https://developer.mobula.fi/:path*",
+        destination: "https://docs.mobula.io/:path*",
+        permanent: true,
+      },
     ];
   },
   experimental: {
