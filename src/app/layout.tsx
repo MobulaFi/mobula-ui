@@ -61,7 +61,6 @@ async function RootLayout({
           itemProp="image"
           content="https://mobula.fi/metaimage/Generic/others.png"
         />
-        <script src="https://mobula-error.s3.eu-north-1.amazonaws.com/sentry.browser.5.20.1.min.js" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="stylesheet"
