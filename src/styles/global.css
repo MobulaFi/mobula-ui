@@ -46,6 +46,7 @@ body {
   overflow-y: scroll;
   scrollbar-width: none;
   overflow-x: hidden;
+  position: relative;
 }
 
 body::-webkit-scrollbar {
@@ -62,8 +63,6 @@ body::-webkit-scrollbar {
   cursor: pointer;
   outline: none;
   overflow: hidden;
-  /* transform: rotateX(calc(var(--rotateX) * 2)) rotateY(calc(var(--rotateY) * 2));
-  transition: transform 0.1s ease-out; */
 }
 
 .mouse-cursor-gradient-tracking span {
@@ -87,6 +86,11 @@ body::-webkit-scrollbar {
 
 .mouse-cursor-gradient-tracking:hover::before {
   --size: 200px;
+}
+
+.skewBox {
+  transform: rotateX(calc(var(--rotateX) * 2)) rotateY(calc(var(--rotateY) * 2));
+  transition: transform 0.1s ease-out;
 }
 
 @media screen and (max-width: 991px) {

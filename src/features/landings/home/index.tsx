@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useEffect, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
@@ -234,6 +235,7 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
+      {/* QUERY SECTION */}
       <section
         className="h-screen w-screen flex justify-center items-center snap-center"
         style={{
@@ -420,6 +422,75 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
+      {/* NETWORKS SECTION */}
+      <section
+        className="h-screen w-screen flex justify-center items-center snap-center"
+        style={{
+          background:
+            "radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+          // background: "radial-gradient(at right top, #112B52, #131627)",
+        }}
+      >
+        <div className={containerStyle}>
+          <div className="w-full flex items-center justify-between">
+            <div className="w-2/4 flex flex-col">
+              <h2
+                className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit mx-auto 
+              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+                style={{
+                  WebkitTextFillColor: "transparent",
+                  ...{ "--text-wrap": "balance" },
+                }}
+              >
+                Get any data downloaded to your database
+              </h2>
+              <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl max-w-[800px]">
+                Mobula prioritizes privacy by employing{" "}
+                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
+                  decentralized servers
+                </span>
+                , ensuring that user data is not stored at all. This approach
+                guarantees that sensitive
+              </p>
+            </div>
+            <div className="w-2/4 flex justify-end items-center flex-wrap ">
+              {Object.values(blockchainsContent)?.map((content, i) => (
+                <div
+                  className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 bg-[rgba(23, 27, 43, 0.22)]
+                   border border-light-border-primary dark:border-dark-border-primary skewBox"
+                >
+                  <img
+                    className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl "
+                    src={content?.logo}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col w-full">
+            <div className="flex items-center justify-between mt-[100px]">
+              <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
+              <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5">
+                They using our APIs
+              </p>
+              <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
+            </div>
+            <div className="grid grid-cols-5 gap-10 mt-[50px]">
+              <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
+              <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
+              <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
+              <img
+                src="/landing/partner/embr.svg"
+                alt="embr logo"
+                className="mx-auto"
+              />
+              <img src="/landing/partner/etherspot.svg" alt="etherspot logo" />
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* QUESTIONS ASKED */}
       <section className="w-screen flex justify-center items-center h-screen snap-center">
         <div className={containerStyle}>
           <div>
