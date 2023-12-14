@@ -40,7 +40,7 @@ export default function MetadataPage() {
           subtitle="Discover the Meta Data API. Get metadata like website, twitter, discord, links about any crypto, in a fully decentralized way."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>

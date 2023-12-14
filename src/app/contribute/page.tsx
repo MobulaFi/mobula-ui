@@ -40,7 +40,7 @@ export default function ContributePage() {
           subtitle="Contribute to the next-gen crypto aggregator. Help us building a better, seamless & open crypto future."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>

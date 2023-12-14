@@ -49,7 +49,7 @@ export default function BotPage() {
           subtitle="Create the Telegram & Discord community of your dreams, manage your group in auto-pilot, make it grow passively with on-chain incentives, and more."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
         <div className="flex flex-col items-start md:items-center">
           <LargeFont>Not yet convinced?</LargeFont>

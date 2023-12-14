@@ -44,7 +44,7 @@ export default function ExplorerPage() {
           subtitle="Discover the Wallet Explorer API. Get information about any crypto, token and NFT. Get balance, ROI, transaction history..."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>
