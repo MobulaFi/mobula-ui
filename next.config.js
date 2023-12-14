@@ -50,9 +50,12 @@ const nextConfig = {
         protocol: "http",
         hostname: "*",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.mobula.fi",
+      },
     ],
   },
-
   eslint: {
     ignoreDuringBuilds: true,
   },
