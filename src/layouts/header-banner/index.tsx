@@ -82,7 +82,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
             })}
         </div>
       </div>
-      <div className="pl-5 h-full w-fit flex items-center">
+      <div className="pl-5 h-full w-fit flex items-center md:hidden">
         <Button extraCss="h-[30px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue">
           <NextChakraLink
             extraCss="text-[13px]"
