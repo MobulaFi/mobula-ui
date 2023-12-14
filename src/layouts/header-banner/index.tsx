@@ -4,11 +4,16 @@ import { Button } from "../../components/button";
 import { NextChakraLink } from "../../components/link";
 import { Asset } from "../../interfaces/assets";
 import { pushData } from "../../lib/mixpanel";
-import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
+import {
+  getFormattedAmount,
+  getTokenPercentage,
+  getUrlFromName,
+} from "../../utils/formaters";
 import { ToggleColorMode } from "../toggle-mode";
 
 export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
   const animationRef = React.useRef(null);
+  const [isAnimationPlaying, setIsAnimationPlaying] = React.useState(true);
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -33,44 +38,46 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
         ref={animationRef}
         data-speed="slow"
         data-animated="true"
+        data-paused={!isAnimationPlaying}
       >
-        <div className="scrollerAnimated-inner flex">
+        <div
+          className="scrollerAnimated-inner flex"
+          onMouseEnter={() => setIsAnimationPlaying(false)}
+          onMouseLeave={() => setIsAnimationPlaying(true)}
+        >
           {assets
             ?.filter((entry) => entry.price_change_24h < 1000)
             .map((asset) => {
               const isUp =
                 (getTokenPercentage(asset?.price_change_24h) as never) > 0;
               return (
-                <div
+                <NextChakraLink
                   key={asset?.id}
-                  className={`flex items-center justify-center h-full w-full mx-1`}
+                  href={`/asset/${getUrlFromName(asset?.name || "")}`}
                 >
-                  {/* <span className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] rounded-full bg-[#fff] dark:bg-[#fff]">
-                    <img
-                      src={asset?.logo}
-                      alt="blockchain"
-                      className="rounded-full w-full h-full shadow-2xl"
-                    />{" "}
-                  </span> */}
-                  <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] ml-[5px] font-['Poppins']">
-                    {asset?.symbol}
-                  </p>
-                  <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] ml-1.5 font-['Poppins']">
-                    ${getFormattedAmount(asset?.price)}
-                  </p>
-                  <p
-                    className={`${
-                      isUp
-                        ? "text-green dark:text-green"
-                        : "text-red dark:text-red"
-                    } text-[13px] ml-1.5 font-['Poppins']`}
+                  <div
+                    className={`flex items-center justify-center h-full w-full mx-1`}
                   >
-                    {isUp
-                      ? `+${getTokenPercentage(asset?.price_change_24h)}`
-                      : getTokenPercentage(asset?.price_change_24h)}
-                    %
-                  </p>
-                </div>
+                    <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] ml-[5px] font-['Poppins']">
+                      {asset?.symbol}
+                    </p>
+                    <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] ml-1.5 font-['Poppins']">
+                      ${getFormattedAmount(asset?.price)}
+                    </p>
+                    <p
+                      className={`${
+                        isUp
+                          ? "text-green dark:text-green"
+                          : "text-red dark:text-red"
+                      } text-[13px] ml-1.5 font-['Poppins']`}
+                    >
+                      {isUp
+                        ? `+${getTokenPercentage(asset?.price_change_24h)}`
+                        : getTokenPercentage(asset?.price_change_24h)}
+                      %
+                    </p>{" "}
+                  </div>{" "}
+                </NextChakraLink>
               );
             })}
         </div>

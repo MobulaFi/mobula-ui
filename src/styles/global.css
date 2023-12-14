@@ -106,6 +106,10 @@ body::-webkit-scrollbar {
   --_animation-speed: 250s;
 }
 
+.scrollerAnimated[data-paused="true"] .scrollerAnimated-inner {
+  animation-play-state: paused !important;
+}
+
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
     width: 0px; /* width of the entire scrollbar */
