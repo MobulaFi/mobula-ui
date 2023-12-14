@@ -44,19 +44,6 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     minimumCacheTTL: 60,
     remotePatterns: [
-      // {
-      //   protocol: "https",
-      //   hostname: "assets.coingecko.com",
-      //   port: "",
-      //   pathname: "/**",
-      // },
-      // {
-      //   protocol: "https",
-      //   hostname: "ipfs.io",
-      //   port: "",
-      //   pathname: "/**",
-      // },
-
       {
         protocol: "https",
         hostname: "*",
