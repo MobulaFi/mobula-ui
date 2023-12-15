@@ -1,11 +1,9 @@
 "use client";
-import { RefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
-import { BlockchainsNav } from "../../../layouts/blockchains-nav";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { createSupabaseDOClient } from "../../../lib/supabase";
 import { ButtonSelectorMobile } from "./components/button-selector-mobile";
 import { MoversTable } from "./components/table-mover";
 import { MoversType } from "./models";
@@ -16,18 +14,7 @@ interface MoversProps {
 }
 
 export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
-  const gainersRef: RefObject<HTMLDivElement> = useRef();
   const [isGainer, setIsGainer] = useState(true);
-  const losersRef: RefObject<HTMLDivElement> | undefined = useRef();
-  const [blockchain, setBlockchain] = useState("all");
-  const [isFirstRequest, setIsFirstRequest] = useState(true);
-  const [activeTab, setActiveTab] = useState("Gainers");
-  const [gainers, setGainers] = useState<MoversType[]>(
-    (gainersBuffer as MoversType[]) || []
-  );
-  const [losers, setLosers] = useState<MoversType[]>(
-    (losersBuffer as MoversType[]) || []
-  );
 
   const moverPath = {
     url: "/movers",
@@ -42,54 +29,6 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
   useEffect(() => {
     localStorage.setItem("path", JSON.stringify(moverPath));
   }, []);
-
-  useEffect(() => {
-    if (isFirstRequest) return;
-    const supabase = createSupabaseDOClient();
-    const winnersQuery = supabase
-      .from("assets")
-      .select(
-        "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap, price, rank,contracts,blockchains"
-      )
-      .gte("price_change_24h", 0)
-      .order("price_change_24h", { ascending: false })
-      .filter("liquidity", "gt", 1000)
-      .filter("global_volume", "gt", 1000);
-
-    const loserQuery = supabase
-      .from("assets")
-      .select(
-        "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap, price, rank,contracts,blockchains"
-      )
-      .lte("price_change_24h", 0)
-      .order("price_change_24h", { ascending: true })
-      .filter("liquidity", "gt", 1000)
-      .filter("global_volume", "gt", 1000);
-
-    if (blockchain !== "all") {
-      loserQuery.contains("blockchains", [blockchain]);
-      winnersQuery.contains("blockchains", [blockchain]);
-    }
-
-    winnersQuery.limit(100).then((r) => {
-      if (r.error) {
-        // console.log(r.error);
-      } else {
-        setGainers(
-          r.data.filter((entry) => entry.contracts.length > 0).slice(0, 25)
-        );
-      }
-    });
-    loserQuery.limit(100).then((r) => {
-      if (r.error) {
-        // console.log(r.error);
-      } else {
-        setLosers(
-          r.data.filter((entry) => entry.contracts.length > 0).slice(0, 25)
-        );
-      }
-    });
-  }, [blockchain]);
 
   return (
     <>
@@ -114,14 +53,6 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
               />
             </div>
           </div>
-          <div className="flex w-full md:pt-0">
-            <BlockchainsNav
-              isMovers
-              blockchain={blockchain}
-              setBlockchain={setBlockchain}
-              setIsFirstRequest={setIsFirstRequest}
-            />
-          </div>
         </div>
         <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
           <div
@@ -129,17 +60,15 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
               isGainer ? "" : "lg:hidden"
             }`}
             id="left"
-            ref={gainersRef}
           >
-            <MoversTable assets={isGainer ? gainers : losers} />
+            <MoversTable assets={isGainer ? gainersBuffer : losersBuffer} />
           </div>
           <div
             className={`flex ml-3 lg:ml-0 w-2/4 lg:w-full ${
               !isGainer ? "" : "lg:hidden"
             }`}
-            ref={losersRef}
           >
-            <MoversTable assets={losers} />
+            <MoversTable assets={losersBuffer} />
           </div>
         </div>
       </Container>
