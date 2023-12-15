@@ -1,7 +1,7 @@
 import { ChartType, TimeSelected } from "./models";
 
 export const supabaseAssetQuery =
-  "id,price,ath,price_history,volume_history,circulating_supply,market_cap_history,total_supply,decimals,atl,volume,ath_volume,liquidity,logo,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,website,kyc,audit,utility_score,circulating_supply,trade_history(*),price_change_24h,tracked,assets_social(*)";
+  "id,price,ath,price_history,volume_history,circulating_supply,market_cap_history,total_supply,decimals,atl,volume,ath_volume,liquidity,logo,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,website,kyc,audit,utility_score,circulating_supply,trade_history(*),price_change_24h,assets_social(*)";
 
 export const types: ChartType[] = ["price", "liquidity"];
 

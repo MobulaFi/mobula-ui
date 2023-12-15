@@ -164,7 +164,7 @@ export const useQuote = () => {
         );
 
         filteredProtocols.forEach((protocol) => {
-          GET("/swap", {
+          GET("/api/1/quote", {
             fromToken:
               "address" in tokenIn
                 ? tokenIn.address || null

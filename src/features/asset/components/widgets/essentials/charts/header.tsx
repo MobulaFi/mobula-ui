@@ -16,7 +16,6 @@ export const ChartHeader = () => {
     loadHistoryData,
     setChartType,
     activeChart,
-    untracked,
     setActiveChart,
     setHideTx,
     hideTx,
