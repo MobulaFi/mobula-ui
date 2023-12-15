@@ -157,7 +157,7 @@ export const EditTransactionPopup = () => {
     if (!settings.quantity) triggerAlert("Error", "You must enter a quantity");
   };
   useEffect(() => {
-    loadHistory(initialToken as any);
+    loadHistory(initialToken);
   }, []);
 
   useEffect(() => {

@@ -416,7 +416,7 @@ export const ViewPopup = ({
   }, [state.display]);
 
   const newDefault = [...defaultCategories];
-  const ReactSortableAny = ReactSortable as any;
+  const ReactSortableAny = ReactSortable;
 
   const createButtonHandler = () => {
     pushData("View popup", {

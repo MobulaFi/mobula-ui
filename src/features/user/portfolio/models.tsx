@@ -61,8 +61,8 @@ export interface IPortfolioV2 {
   /** Data Handling */
   wallet: UserHoldings | null;
   setWallet: React.Dispatch<React.SetStateAction<UserHoldings | null>>;
-  asset: UserHoldingsAsset;
-  setAsset: Dispatch<SetStateAction<UserHoldingsAsset>>;
+  asset: UserHoldingsAsset | null;
+  setAsset: Dispatch<SetStateAction<UserHoldingsAsset | null>>;
   userPortfolio: IPortfolio[];
   setUserPortfolio: Dispatch<SetStateAction<IPortfolio[]>>;
   transactions: PublicTransaction[];

@@ -137,20 +137,20 @@ export const cleanNumber = (
 export const formatAsset = (
   asset: (Asset | MultichainAsset | Coin) & Results,
   chainName: BlockchainName
-): (Asset | Coin) & Results => {
+) => {
   if ("coin" in asset) return asset;
   return {
     ...asset,
     logo: asset.logo || "/icon/unknown.png",
     address:
       asset.address ||
-      asset.contracts[asset?.blockchain?.indexOf(chainName) as any] ||
+      asset.contracts[asset?.blockchain?.indexOf(chainName) || 0] ||
       asset.contracts[0],
     blockchain:
       (asset.blockchain as BlockchainName) ||
       chainName ||
       (asset?.blockchain?.[0] as BlockchainName),
-  } as any;
+  };
 };
 
 export const getAmountOut = (
@@ -163,11 +163,11 @@ export const getAmountOut = (
   if (!tx) return 0;
   if (!tx.logs) return 0;
   // Search for the Transfer event that includes "address" as the recipient (the second topic)
-  let event = (tx.logs as any).filter(
+  let event = tx.logs.filter(
     (log) =>
       log.topics[0] ===
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
-      log.topics[2].includes(address.slice(2, 42).toLowerCase())
+      log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
   );
 
   // If there are more than one Transfer events, filter the one that includes the token address (i.e. reward token)
@@ -180,7 +180,7 @@ export const getAmountOut = (
   [event] = event;
 
   if (!event) {
-    event = (tx.logs as any).find(
+    event = tx.logs.find(
       (log) =>
         log.topics[0] ===
         "0x7fcf532c15f0a6db0bd6d0e038bea71d30d808c7d98cb3bf7268a95bf5081b65"

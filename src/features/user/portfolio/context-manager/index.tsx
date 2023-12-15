@@ -121,7 +121,7 @@ export const PortfolioV2Provider = ({
   /** PORTFOLIO DATA */
   const [wallet, setWallet] = useState();
   const [transactions, setTransactions] = useState<PublicTransaction[]>([]);
-  const [asset, setAsset] = useState();
+  const [asset, setAsset] = useState(null);
 
   /** UI MANAGERS */
   const [editAssetManager, setEditAssetManager] = useState<ManageAsset>({

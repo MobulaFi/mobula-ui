@@ -31,7 +31,7 @@ export const useFilter = ({ setFilters, orderBy }: IUseFilter) => {
     const filteredValues: { action: string; value: string[] }[] = [];
     if (actualView) {
       Object.keys(actualView).forEach((key) => {
-        const value = (actualView as any)[key];
+        const value = actualView[key];
         const top100Filter: {
           blockchains: string[];
           [key: string]: string[] | { from: number; to: number };

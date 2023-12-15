@@ -80,35 +80,20 @@ export const Cryptocurrencies = () => {
   const { address } = useAccount();
 
   useEffect(() => {
-    setIsInWatchlist(inWatchlist);
+    setIsInWatchlist(inWatchlist as boolean);
   }, [inWatchlist]);
 
   useEffect(() => {
     setIsLoadingFetch(showTokenInfo ? true : false);
   }, [showTokenInfo]);
 
-  const newWallet = wallet?.portfolio.filter(
+  const newWallet = wallet?.portfolio?.filter(
     (entry) => entry.name === asset?.name
   )[0];
 
-  const getPercentageOfBuyRange = () => {
-    if (newWallet) {
-      const minPriceBought = newWallet?.min_buy_price;
-      const maxPriceBought = newWallet?.max_buy_price;
-      const priceBought = newWallet?.price_bought;
-
-      const priceRange = maxPriceBought - Number(minPriceBought);
-      const priceDifference = priceBought - Number(minPriceBought);
-
-      const result = (priceDifference * 100) / priceRange;
-      return getFormattedAmount(result);
-    }
-    return 0;
-  };
-
   const triggerTokenInfo = (asset) => {
     if (showTokenInfo === asset?.id) {
-      setAsset(null as any);
+      setAsset(null);
       setShowTokenInfo(null);
     } else if (showTokenInfo && showTokenInfo !== asset?.id) {
       setAsset(asset);
@@ -193,9 +178,6 @@ export const Cryptocurrencies = () => {
       });
   }, [tokensData, showTokenInfo]);
 
-  console.log("asset is:", asset);
-  console.log("showTokenInfo is:", showTokenInfo);
-  console.log("tokensData[asset?.id] is:", tokensData[asset?.id]);
   const testStyle =
     "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
 
@@ -304,9 +286,7 @@ export const Cryptocurrencies = () => {
                             )}
                           </div>
                           <div className="flex justify-end items-start w-full max-w-[60px]">
-                            <button
-                              onClick={() => setShowBuyDrawer(token as any)}
-                            >
+                            <button onClick={() => setShowBuyDrawer(token)}>
                               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
                             </button>
                             <Menu

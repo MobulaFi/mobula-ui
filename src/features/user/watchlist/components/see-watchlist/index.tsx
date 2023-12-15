@@ -40,7 +40,7 @@ export const SeeWatchlist = ({
     ascending: false,
     type: "market_cap",
     first: true,
-  } as any);
+  });
   const getUsername = () => {
     if (userOfWatchlist) {
       if (userOfWatchlist?.username) return userOfWatchlist.username;
