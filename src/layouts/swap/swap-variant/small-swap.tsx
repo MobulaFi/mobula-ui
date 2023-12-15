@@ -42,8 +42,8 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   } = useContext(SwapContext);
 
   const checkValidity = () => {
-    if (asset) return asset?.contracts?.length === 0 || !asset?.tracked;
-    return baseAsset?.contracts?.length === 0 || !baseAsset?.tracked;
+    if (asset) return asset?.contracts?.length === 0;
+    return baseAsset?.contracts?.length === 0;
   };
 
   const isValid = checkValidity();

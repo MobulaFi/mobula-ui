@@ -34,7 +34,6 @@ export const useTrendings = () => {
       .from("assets")
       .select("name,price_change_24h,logo,id,views_change_24h,price")
       .order("market_cap", { ascending: false })
-      .match({ tracked: true })
       .limit(30)
       .then((r) => {
         if (r.data) {

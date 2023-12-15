@@ -116,7 +116,6 @@ export type Asset = {
   kyc: string;
   atl?: [number, number];
   ath?: [number, number];
-  tracked: boolean;
   assets_raw_pairs?: RawPairs;
   assets_social?: Socials;
   coin: boolean;
