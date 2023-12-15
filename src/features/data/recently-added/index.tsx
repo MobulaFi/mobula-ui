@@ -62,22 +62,24 @@ export const RecentlyAdded = ({
             subtitle="Discover the latest cryptocurrencies listed on Mobula, their price, volume, chart, liquidity, and more."
             extraCss="mb-5"
           />
-          {!isLoading ? (
-            <AssetsTable
-              resultsData={resultsData}
-              setResultsData={setResultsData}
-              lastColumn="Added"
-              orderBy={orderBy}
-              setOrderBy={setOrderBy}
-              filters={filters}
-              hideDEXVolume
-              isMobile={isMobile}
-            />
-          ) : (
-            <div className="w-full h-[600px] flex items-center justify-center">
-              <Spinner extraCss="w-[60px] h-[60px]" />
-            </div>
-          )}
+          <div className="mt-2.5">
+            {!isLoading ? (
+              <AssetsTable
+                resultsData={resultsData}
+                setResultsData={setResultsData}
+                lastColumn="Added"
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                filters={filters}
+                hideDEXVolume
+                isMobile={isMobile}
+              />
+            ) : (
+              <div className="w-full h-[600px] flex items-center justify-center">
+                <Spinner extraCss="w-[60px] h-[60px]" />
+              </div>
+            )}
+          </div>
         </div>
       </Container>
     </>
