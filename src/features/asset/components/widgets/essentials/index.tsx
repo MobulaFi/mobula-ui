@@ -1,4 +1,3 @@
-import { useTheme } from "next-themes";
 import React, { useContext, useEffect } from "react";
 import { MarketMetrics } from "../../../../../interfaces/trades";
 import { SwapProvider } from "../../../../../layouts/swap";
@@ -28,11 +27,9 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     activeChart,
     setShowMobileMetric,
     setActiveMetric,
-    untracked,
   } = useContext(BaseAssetContext);
-  const { theme } = useTheme();
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
-  const isOffChain = !baseAsset?.blockchains?.length || !baseAsset?.tracked;
+  const isOffChain = !baseAsset?.blockchains?.length;
   const hasBeenListed =
     (baseAsset?.trust_score || 0) +
       (baseAsset?.social_score || 0) +
@@ -48,10 +45,8 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
         <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0">
-          {untracked.isUntracked ? null : <ChartHeader />}
-          {untracked.isUntracked ? null : (
-            <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
-          )}
+          <ChartHeader />
+          <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           {/* {activeChart === "Trading view" && theme !== undefined ? (
             <ChartBox
               baseAsset={baseAsset}
@@ -63,13 +58,12 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
           ) : ( */}
           <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           {/* )} */}
-          {!untracked.isUntracked ? (
-            <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
-          ) : null}
-          {untracked.isUntracked || isOffChain ? null : <TokenTrades />}
+
+          <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
+          {isOffChain ? null : <TokenTrades />}
           <Description />
           <Socials />
-          {!untracked.isUntracked ? <PriceData /> : null}
+          <PriceData />
           <CoreActor
             extraCss={`${
               baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"
@@ -98,25 +92,19 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
               </SwapProvider>
             )}
           </div>
-          {!untracked.isUntracked ? <TokenMetrics /> : null}
+          <TokenMetrics />
           <CoreActor
             extraCss={`${
               baseAsset?.investors?.length > 0 ? "flex" : "hidden"
             } lg:hidden`}
           />
-          {untracked.isUntracked ? (
-            <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
-          ) : null}
-          {untracked.isUntracked ? (
-            <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
-          ) : null}
-          {untracked.isUntracked ? (
-            <ListingDetails
-              extraCss={`${
-                hasBeenListed ? "md:flex" : "md:hidden"
-              } hidden mt-2.5`}
-            />
-          ) : null}
+          <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
+          <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
+          <ListingDetails
+            extraCss={`${
+              hasBeenListed ? "md:flex" : "md:hidden"
+            } hidden mt-2.5`}
+          />
         </div>
       </div>
       <SimilarAsset />

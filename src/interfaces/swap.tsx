@@ -98,7 +98,6 @@ export interface Asset {
   blockchain: BlockchainName;
   balance?: number;
   name?: string;
-  tracked?: boolean;
 }
 
 export interface Coin {

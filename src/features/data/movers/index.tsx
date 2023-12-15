@@ -52,7 +52,6 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
         "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap, price, rank,contracts,blockchains"
       )
       .gte("price_change_24h", 0)
-      .match({ tracked: true })
       .order("price_change_24h", { ascending: false })
       .filter("liquidity", "gt", 1000)
       .filter("global_volume", "gt", 1000);
@@ -62,7 +61,6 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
       .select(
         "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap, price, rank,contracts,blockchains"
       )
-      .match({ tracked: true })
       .lte("price_change_24h", 0)
       .order("price_change_24h", { ascending: true })
       .filter("liquidity", "gt", 1000)

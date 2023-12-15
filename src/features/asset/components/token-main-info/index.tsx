@@ -238,94 +238,91 @@ export const TokenMainInfo = () => {
           </Button> */}
         </div>
       </div>
-      {baseAsset?.tracked ? (
-        <div className="flex flex-col">
-          <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
-            <LargeFont
-              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
-            >
-              ${getFormattedAmount(marketMetrics.price)}
-            </LargeFont>
-            <div className="flex items-center">
-              <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>
-                <MediumFont
-                  extraCss={`md:text-xs lg:text-xs ${
-                    isUp
-                      ? "text-green dark:text-green"
-                      : "text-red dark:text-red"
-                  }`}
-                >
-                  {isUp ? "+" : ""}
-                  {getTokenPercentage(priceChange)}%
-                </MediumFont>
-              </div>
-              <Menu
-                titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
+      <div className="flex flex-col">
+        <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
+          <LargeFont
+            extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
+          >
+            ${getFormattedAmount(marketMetrics.price)}
+          </LargeFont>
+          <div className="flex items-center">
+            <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>
+              <MediumFont
+                extraCss={`md:text-xs lg:text-xs ${
+                  isUp ? "text-green dark:text-green" : "text-red dark:text-red"
+                }`}
+              >
+                {isUp ? "+" : ""}
+                {getTokenPercentage(priceChange)}%
+              </MediumFont>
+            </div>
+            <Menu
+              titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
                 rounded text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
                 transition-all duration-200 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
-                title={
-                  <div className="flex items-center">
-                    <SmallFont>{timeSelected}</SmallFont>
-                    <BsChevronDown className="ml-[7.5px] md:ml-[5px] text-sm md:text-xs text-light-font-100 dark:text-dark-font-100" />
-                  </div>
-                }
-              >
-                {timestamps.map((time) => (
-                  <button
-                    key={time}
-                    onClick={() => setTimeSelected(time)}
-                    className={`transition-all duration-200 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
+              title={
+                <div className="flex items-center">
+                  <SmallFont>{timeSelected}</SmallFont>
+                  <BsChevronDown className="ml-[7.5px] md:ml-[5px] text-sm md:text-xs text-light-font-100 dark:text-dark-font-100" />
+                </div>
+              }
+            >
+              {timestamps.map((time) => (
+                <button
+                  key={time}
+                  onClick={() => setTimeSelected(time)}
+                  className={`transition-all duration-200 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
                        rounded ${
                          timeSelected === time
                            ? "text-light-font-100 dark:text-dark-font-100"
                            : "text-light-font-40 dark:text-dark-font-40 hover:text-light-font-100 hover:dark:text-dark-font-100"
                        }`}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </Menu>
-            </div>
+                >
+                  {time}
+                </button>
+              ))}
+            </Menu>
           </div>
-          <div className="flex flex-col">
-            <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[2.5px]">
-              <div
-                className={`rounded h-full ${
-                  isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
-                }`}
-                style={{
-                  width:
-                    priceLow && priceHigh
-                      ? `${
-                          ((marketMetrics.price - priceLow) /
-                            (priceHigh - priceLow)) *
-                          100
-                        }%`
-                      : "0%",
-                }}
-              />
+        </div>
+        <div className="flex flex-col">
+          <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[2.5px]">
+            <div
+              className={`rounded h-full ${
+                isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
+              }`}
+              style={{
+                width:
+                  priceLow && priceHigh
+                    ? `${
+                        ((marketMetrics.price - priceLow) /
+                          (priceHigh - priceLow)) *
+                        100
+                      }%`
+                    : "0%",
+              }}
+            />
+          </div>
+          <div className="flex justify-between mt-[7.5px] md:mt-[5px] w-[50%] lg:w-full">
+            <div className="flex items-center">
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
+                Low
+              </SmallFont>
+              <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
+                ${getFormattedAmount(priceLow)}
+              </SmallFont>
             </div>
-            <div className="flex justify-between mt-[7.5px] md:mt-[5px] w-[50%] lg:w-full">
-              <div className="flex items-center">
-                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
-                  Low
-                </SmallFont>
-                <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  ${getFormattedAmount(priceLow)}
-                </SmallFont>
-              </div>
-              <div className="flex items-center">
-                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
-                  High
-                </SmallFont>
-                <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  ${getFormattedAmount(priceHigh)}
-                </SmallFont>
-              </div>
+            <div className="flex items-center">
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
+                High
+              </SmallFont>
+              <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
+                ${getFormattedAmount(priceHigh)}
+              </SmallFont>
             </div>
           </div>
         </div>
-      ) : (
+      </div>
+      {/* ) : (
         <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[25px] md:mt-2.5">
           <div
             className={`rounded h-full ${
@@ -343,7 +340,7 @@ export const TokenMainInfo = () => {
             }}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
