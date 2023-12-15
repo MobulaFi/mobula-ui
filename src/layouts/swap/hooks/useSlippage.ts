@@ -47,9 +47,9 @@ export const useSlippage = () => {
             !Number.isNaN(r?.result?.trade?.buyFee) &&
             !Number.isNaN(r?.result?.trade?.sellFee)
           ) {
-            if (position === "in")
+            if (position === "in") {
               setSlippageTokenIn(r.result.trade.sellFee * 1.1 + 0.25);
-            else setSlippageTokenOut(r.result.trade.buyFee * 1.1 + 0.25);
+            } else setSlippageTokenOut(r.result.trade.buyFee * 1.1 + 0.25);
           } else setSlippage[position](0.25);
         });
     } else setSlippage[position](0.25);

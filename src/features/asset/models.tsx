@@ -70,10 +70,6 @@ export interface IBasetAssetContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsMarketMetricsLoading: Dispatch<SetStateAction<boolean>>;
   isMarketMetricsLoading: boolean;
-  untracked: { isUntracked: boolean; showChart: boolean };
-  setUntracked: Dispatch<
-    SetStateAction<{ isUntracked: boolean; showChart: boolean }>
-  >;
   setShouldInstantLoad: Dispatch<SetStateAction<boolean>>;
   shouldInstantLoad: boolean;
   tradeHistory: Trade[];
@@ -204,7 +200,6 @@ export type Asset = {
   kyc: string;
   atl?: [number, number];
   ath?: [number, number];
-  tracked: boolean;
   assets_raw_pairs?: RawPairs;
   assets_social?: Socials;
   coin: boolean;

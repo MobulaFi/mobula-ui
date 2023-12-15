@@ -85,10 +85,6 @@ export const BaseAssetProvider = ({
   const [launchpads, setLaunchpads] = useState<ILaunchpad[] | undefined[]>(
     (launchpad as ILaunchpad[]) || []
   );
-  const [untracked, setUntracked] = useState({
-    isUntracked: !token.tracked,
-    showChart: false,
-  });
 
   let tradeFromCookie = {
     blockchains: [],
@@ -428,8 +424,6 @@ export const BaseAssetProvider = ({
       setFilters,
       setIsMarketMetricsLoading,
       isMarketMetricsLoading,
-      untracked,
-      setUntracked,
       setIsLoading,
       setShouldInstantLoad,
       shouldInstantLoad,
@@ -506,8 +500,6 @@ export const BaseAssetProvider = ({
     setFilters,
     setIsMarketMetricsLoading,
     isMarketMetricsLoading,
-    untracked,
-    setUntracked,
     setIsLoading,
     setShouldInstantLoad,
     shouldInstantLoad,
