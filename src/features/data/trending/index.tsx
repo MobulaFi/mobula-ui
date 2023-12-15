@@ -5,7 +5,6 @@ import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
-import { BlockchainsNav } from "../../../layouts/blockchains-nav";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components/index";
@@ -13,6 +12,7 @@ import { Query } from "../top100/models";
 
 export default function Trendings({ tokensBuffer, isMobile, count }) {
   const [blockchain, setBlockchain] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
   const [resultsData, setResultsData] = useState({
     data: tokensBuffer,
     count,
@@ -37,6 +37,12 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
     localStorage.setItem("path", JSON.stringify(trendingPath));
   }, []);
 
+  useEffect(() => {
+    if (resultsData?.data?.length > 0) {
+      setIsLoading(false);
+    }
+  }, [resultsData]);
+
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Trending" isGeneral /> : null}
@@ -49,14 +55,8 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
           factors)."
             extraCss="mb-5"
           />
-          <BlockchainsNav
-            isMovers
-            blockchain={blockchain}
-            setBlockchain={setBlockchain}
-            setFilters={setFilters}
-          />
           <div className="mt-2.5">
-            {resultsData?.data?.length > 0 ? (
+            {!isLoading ? (
               <AssetsTable
                 resultsData={resultsData}
                 setResultsData={setResultsData}
