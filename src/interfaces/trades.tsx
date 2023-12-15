@@ -1,3 +1,5 @@
+import { TradeHistory } from "../features/asset/models";
+
 export interface Trade {
   hash: string;
   value_usd: number;
@@ -34,7 +36,7 @@ export interface MarketMetrics {
   volume: number;
   volumeChange: boolean | null;
   market_cap: number;
-  trade_history: Trade[];
+  trade_history: TradeHistory[] | null;
 }
 
 export interface MarketMetricsNullable {

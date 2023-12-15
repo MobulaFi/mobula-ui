@@ -129,7 +129,7 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
           show: false,
           position: "center",
         },
-        data: data as any[],
+        data,
         color: newColors,
       },
     ],

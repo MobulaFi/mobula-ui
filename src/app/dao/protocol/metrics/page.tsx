@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import React from "react";
 import { Metrics } from "../../../../features/dao/protocol/components/metrics";
-import { Member } from "../../../../features/dao/protocol/models";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
 
 export interface NotifHistoryType {
@@ -134,9 +133,9 @@ export default async function metricsProtocol() {
       <meta name="author" content="Mobula" />
       <meta name="copyright" content="Mobula" />
       <Metrics
-        total_mobulers={data?.total_mobulers as Member[]}
-        dao_members={data?.dao_members as Member[]}
-        total_proposals={data?.total_proposals as any}
+        total_mobulers={data?.total_mobulers || []}
+        dao_members={data?.dao_members || []}
+        total_proposals={data?.total_proposals || []}
       />
     </>
   );

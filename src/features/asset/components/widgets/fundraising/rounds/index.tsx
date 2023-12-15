@@ -13,6 +13,8 @@ import {
 import { NextImageFallback } from "../../../../../../components/image";
 import { BaseAssetContext } from "../../../../context-manager";
 
+type OptionProps = { day: string; month: string; year: string };
+
 export const Rounds = () => {
   const { baseAsset } = useContext(BaseAssetContext);
   const [hasError, setHasError] = useState(false);
@@ -62,11 +64,15 @@ export const Rounds = () => {
 
   function formatDate(timestamp) {
     const date = new Date(timestamp);
-    const options = { day: "numeric", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options as any);
+    const options = {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    } as OptionProps as never;
+    return date.toLocaleDateString("en-US", options);
   }
 
-  const getLogoFromLaunchPlatform = (name) => {
+  const getLogoFromLaunchPlatform = (name: string) => {
     if (name === ("Series A" || "Series B")) return "/";
     if (!name.includes("Public Sale (")) return "/mobula/unknown.png";
     const extractPlatform = (str) => str.match(/\(([^)]+)\)/)?.[1];
@@ -113,8 +119,8 @@ export const Rounds = () => {
           const percentageOfVestingShare: any = getTokenPercentage(
             getPercentageFromVestingType(
               (sale?.unlockType as string) || ("0/0" as string)
-            ) as any
-          ) as any;
+            )
+          );
           const unlockedAmount =
             (Number(sale.amount) * Number(percentageOfVestingShare)) / 100 || 0;
           const platformImage = getLogoFromLaunchPlatform(sale.name);

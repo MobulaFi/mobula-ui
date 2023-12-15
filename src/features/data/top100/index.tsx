@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -25,7 +25,7 @@ interface Top100Props {
   metrics?: {
     fear_and_greed_value: number;
     fear_and_greed_value_classification: string;
-  };
+  } | null;
   actualView?: View;
 }
 

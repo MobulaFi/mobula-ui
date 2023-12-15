@@ -1,7 +1,8 @@
 import { LargeFont } from "components/fonts";
 import dynamic from "next/dynamic";
-import { useContext, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { BaseAssetContext } from "../../../context-manager";
+import { CategoriesProps } from "../../../models";
 import { Allocation } from "../fundraising/allocation";
 import { CalendarEvent } from "./calendar-event";
 import { NextUnlockEvent } from "./next-unlock-event";
@@ -43,7 +44,7 @@ export const Vesting = () => {
 
   const getVestingChartData = () => {
     if (!baseAsset?.release_schedule) return;
-    const categories = {};
+    const categories: CategoriesProps = {} as CategoriesProps;
     const seen = new Set();
     newVesting?.forEach(([timestamp, , types], idx) => {
       if (idx === 0) {
@@ -65,10 +66,10 @@ export const Vesting = () => {
         });
       }
     });
-    return { categories };
+    return categories;
   };
 
-  const { categories } = useMemo(
+  const categories = useMemo(
     () => getVestingChartData(),
     [baseAsset?.release_schedule]
   );
@@ -80,7 +81,7 @@ export const Vesting = () => {
         {baseAsset?.release_schedule?.length > 0 ? (
           <>
             <LargeFont extraCss="mb-5 z-[1]">Vesting schedules</LargeFont>
-            <AreaChart data={(categories as any) || []} />
+            <AreaChart data={categories} />
           </>
         ) : null}
         <CalendarEvent />

@@ -74,8 +74,7 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
         console.log(e, "e");
       })
       .then((res) => {
-        console.log(res, "res");
-        r(res as any);
+        r(res);
       });
   });
 

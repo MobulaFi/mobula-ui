@@ -1,4 +1,5 @@
 import { BlockchainName } from "mobula-lite/lib/model";
+import { TradeHistory } from "../features/asset/models";
 import { Trade } from "./trades";
 
 export interface OrderBy {
@@ -102,7 +103,7 @@ export type Asset = {
   decimals: number;
   blockchains: BlockchainName[];
   contracts: string[] | any;
-  trade_history: Trade[];
+  trade_history: TradeHistory[] | null;
   created_at: string;
   symbol: string;
   name: string;
