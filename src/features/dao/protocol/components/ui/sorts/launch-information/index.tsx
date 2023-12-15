@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { SiConvertio } from "react-icons/si";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
 
 interface LaunchInformationProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 function getCountdown(targetDate: number) {

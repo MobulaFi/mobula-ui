@@ -4,15 +4,15 @@ import { FiChevronDown } from "react-icons/fi";
 import { SiConvertio } from "react-icons/si";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { Tds, Ths } from "../../../../../../../components/table";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { addressSlicer } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { colors } from "../../../../constants";
+import { TokenDivs } from "../../../../models";
 import { thStyles } from "../../../../style";
 import { PopupAddress } from "../../popup-address";
 
 interface DistributionProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const Distribution = ({ token }: DistributionProps) => {

@@ -3,12 +3,12 @@ import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import React, { useContext } from "react";
 import { Container } from "../../../../../components/container";
-import { Asset } from "../../../../../interfaces/assets";
 import { RightContainer } from "../../../common/components/container-right";
 import { LeftNavigation } from "../../../common/components/nav-left";
 import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
 import { SortContext } from "../../context-manager";
 import { useSort } from "../../hooks/use-sort";
+import { TokenDivs } from "../../models";
 import { Contribute } from "../ui/pending-pool/contribute";
 import { BoxPreVote } from "../ui/sorts/box-prevote";
 import { ContractInformation } from "../ui/sorts/contract-information";
@@ -27,7 +27,7 @@ export const PendingPool = () => {
   const isWhiteMode = resolvedTheme === "dark";
   useSort();
 
-  const renderToken = (token: Asset) => (
+  const renderToken = (token: TokenDivs) => (
     <>
       <BoxPreVote token={token} />
       <SimiliratyCheck token={token} />
@@ -48,11 +48,11 @@ export const PendingPool = () => {
       if (displayedPool) {
         return tokenDivs
           .filter((entry) => entry.name === displayedPool)
-          .map((token) => renderToken(token as any));
+          .map((token) => renderToken(token));
       }
       return tokenDivs
         .sort((a, b) => Number(b.coeff) - Number(a.coeff))
-        .map((token) => <BoxPreVote key={token.id} token={token as any} />);
+        .map((token) => <BoxPreVote key={token.id} token={token} />);
     }
     return (
       <BoxPreVote
@@ -63,7 +63,7 @@ export const PendingPool = () => {
             logo: isWhiteMode
               ? "/mobula/mobula-logo-light.svg"
               : "/mobula/mobula-logo.svg",
-          } as Asset
+          } as TokenDivs
         }
         isFakeToken
       />

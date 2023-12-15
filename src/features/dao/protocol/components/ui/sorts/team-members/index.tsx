@@ -4,12 +4,12 @@ import { RiTeamFill } from "react-icons/ri";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../../components/link";
 import { Tds, Ths } from "../../../../../../../components/table";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
 import { thStyles } from "../../../../style";
 
 interface TeamMembersProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const TeamMembers = ({ token }: TeamMembersProps) => {
