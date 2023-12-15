@@ -13,6 +13,7 @@ import { Query } from "../top100/models";
 
 export default function Trendings({ tokensBuffer, isMobile, count }) {
   const [blockchain, setBlockchain] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
   const [resultsData, setResultsData] = useState({
     data: tokensBuffer,
     count,
@@ -37,6 +38,12 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
     localStorage.setItem("path", JSON.stringify(trendingPath));
   }, []);
 
+  useEffect(() => {
+    if (resultsData?.data?.length > 0) {
+      setIsLoading(false);
+    }
+  }, [resultsData]);
+
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Trending" isGeneral /> : null}
@@ -56,7 +63,7 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
             setFilters={setFilters}
           />
           <div className="mt-2.5">
-            {resultsData?.data?.length > 0 ? (
+            {resultsData?.data?.length > 0 && !isLoading ? (
               <AssetsTable
                 resultsData={resultsData}
                 setResultsData={setResultsData}
