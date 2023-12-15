@@ -63,7 +63,7 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
             setFilters={setFilters}
           />
           <div className="mt-2.5">
-            {resultsData?.data?.length > 0 && !isLoading ? (
+            {!isLoading ? (
               <AssetsTable
                 resultsData={resultsData}
                 setResultsData={setResultsData}
