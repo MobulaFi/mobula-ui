@@ -5,7 +5,6 @@ import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
-import { BlockchainsNav } from "../../../layouts/blockchains-nav";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components/index";
@@ -55,12 +54,6 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
           price, liquidity and rank (based on visits, trades and 10+ other
           factors)."
             extraCss="mb-5"
-          />
-          <BlockchainsNav
-            isMovers
-            blockchain={blockchain}
-            setBlockchain={setBlockchain}
-            setFilters={setFilters}
           />
           <div className="mt-2.5">
             {!isLoading ? (

@@ -6,7 +6,6 @@ import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
-import { BlockchainsNav } from "../../../layouts/blockchains-nav";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components/index";
@@ -23,8 +22,8 @@ export const RecentlyAdded = ({
   isMobile,
   count,
 }: recentlyAddedProps) => {
-  const [blockchain, setBlockchain] = useState("all");
   const [resultsData, setResultsData] = useState({ data: tokensBuffer, count });
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<Query[]>([
     // To avoid the first render
     { action: "", value: [], isFirst: true },
@@ -47,7 +46,11 @@ export const RecentlyAdded = ({
     );
   }, []);
 
-  console.log("tokensBuffer", tokensBuffer);
+  useEffect(() => {
+    if (resultsData?.data?.length > 0) {
+      setIsLoading(false);
+    }
+  }, [resultsData]);
 
   return (
     <>
@@ -59,13 +62,7 @@ export const RecentlyAdded = ({
             subtitle="Discover the latest cryptocurrencies listed on Mobula, their price, volume, chart, liquidity, and more."
             extraCss="mb-5"
           />
-          <BlockchainsNav
-            page="recently"
-            blockchain={blockchain}
-            setBlockchain={setBlockchain}
-            setFilters={setFilters}
-          />
-          {resultsData?.data?.length > 0 ? (
+          {!isLoading ? (
             <AssetsTable
               resultsData={resultsData}
               setResultsData={setResultsData}
