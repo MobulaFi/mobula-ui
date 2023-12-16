@@ -26,9 +26,6 @@ export const useVote = () => {
       : ("voteSorting" as never),
   });
 
-  console.log("isSuccess", isSuccess);
-  console.log("error", error);
-
   useEffect(() => {
     const endingVoteFunction = async () => {
       if (isSuccess) {
