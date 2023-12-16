@@ -243,7 +243,6 @@ async function RootLayout({
            rounded-xl shadow-md border border-light-border-primary dark:border-dark-border-primary pt-3 px-3"
             bodyClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
           />
-
           <UserBalanceProvider balanceCookies={userCookie}>
             <GeneralContext>
               <WatchlistProvider watchlist={params.watchlist}>

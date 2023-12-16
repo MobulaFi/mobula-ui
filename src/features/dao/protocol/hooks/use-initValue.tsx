@@ -5,14 +5,13 @@ import { polygon } from "viem/chains";
 import { useAccount } from "wagmi";
 import { PROTOCOL_ADDRESS, VAULT_ADDRESS } from "../../../../constants";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
+import { OverviewContext } from "../../protocol/context-manager/overview";
 import { PROTOCOL_ABI, VAULT_ABI } from "../constants/abi";
-import { OverviewContext } from "../context-manager/overview";
 
 export const useInitValues = () => {
   const { address } = useAccount();
-  const { setTokensOwed, setCountdown, setClaimed, setUserRank } =
+  const { setTokensOwed, tokensOwed, setCountdown, setClaimed, setUserRank } =
     useContext(OverviewContext);
-
   const initValues = async () => {
     try {
       const supabase = createSupabaseDOClient();
@@ -47,10 +46,7 @@ export const useInitValues = () => {
         vaultContract.read.lastClaim([address]),
       ]);
 
-      const tokensPerVote = parseInt(
-        formatEther(tokenPerVoteRead as never),
-        10
-      );
+      const tokensPerVote = parseInt(formatEther(tokenPerVoteRead));
 
       setTokensOwed(
         ((Number(owedRewardRead) - Number(paidRewardsRead)) * tokensPerVote) /
