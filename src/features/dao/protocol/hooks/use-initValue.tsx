@@ -46,7 +46,7 @@ export const useInitValues = () => {
         vaultContract.read.lastClaim([address]),
       ]);
 
-      const tokensPerVote = parseInt(formatEther(tokenPerVoteRead), 10);
+      const tokensPerVote = parseInt(formatEther(tokenPerVoteRead));
 
       setTokensOwed(
         ((Number(owedRewardRead) - Number(paidRewardsRead)) * tokensPerVote) /
