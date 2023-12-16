@@ -47,11 +47,11 @@ export const useInitValues = () => {
       ]);
 
       const tokensPerVote = parseInt(formatEther(tokenPerVoteRead));
-
-      setTokensOwed(
+      const tokenOwed =
         ((Number(owedRewardRead) - Number(paidRewardsRead)) * tokensPerVote) /
-          1000
-      );
+        1000;
+
+      setTokensOwed(tokenOwed < 0 ? 0 : tokenOwed);
 
       setClaimed(Number(totalClaimRead));
       if (
