@@ -45,7 +45,6 @@ export const RankBox = ({ goodChoice, badChoice }: RankBoxProps) => {
       return;
     }
     try {
-      console.log("I tried to claim", address);
       await writeContract({
         address: PROTOCOL_ADDRESS,
         abi: [
