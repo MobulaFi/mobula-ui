@@ -77,11 +77,7 @@ export const Overview = () => {
       <RightContainer>
         {/* RANK BOXS */}
         <div className="flex items-center flex-row md:flex-col mt-3 md:mt-0.5">
-          <RankBox
-            goodChoice={goodDecisions}
-            badChoice={badDecisions}
-            tokensOwed={tokensOwed}
-          />
+          <RankBox goodChoice={goodDecisions} badChoice={badDecisions} />
         </div>
         {/* MATIC FAUCET */}
         <BoxContainer extraCss="justify-between flex-col mb-5 md:mb-0 h-auto p-0 items-center md:items-start">
