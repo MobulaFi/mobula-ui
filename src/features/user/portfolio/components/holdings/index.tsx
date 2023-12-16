@@ -27,7 +27,7 @@ export const Holdings = ({
   return (
     <div
       className={`${boxStyle} flex-col mt-2.5 border border-light-border-primary dark:border-dark-border-primary
-    bg-light-bg-secondary dark:bg-dark-bg-secondary w-[320px] lg:w-full font-medium ml-2.5 lg:ml-0`}
+    bg-light-bg-secondary dark:bg-dark-bg-secondary w-[320px] lg:w-full font-medium`}
     >
       {(!wallet && !isLoading) ||
       ((isAsset || typeSelected === "Blockchains") &&

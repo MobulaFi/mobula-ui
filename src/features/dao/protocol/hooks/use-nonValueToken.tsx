@@ -57,7 +57,7 @@ export const useNonValueToken = () => {
     supabase
       .from<Member>("members")
       .select("*")
-      .match({ address })
+      .eq("address", address)
       .single()
       .then((r) => {
         if (r.data) {
