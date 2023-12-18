@@ -226,7 +226,6 @@ export const Select = ({
                 let color = "text-light-font-40 dark:text-dark-font-40";
                 if (isGainer) color = "text-green dark:text-green";
                 else if (isLoser) color = "text-red dark:text-red";
-                console.log("searchToken", searchToken);
                 return (
                   <div
                     className={`flex border-b border-light-border-primary dark:border-dark-border-primary py-1.5

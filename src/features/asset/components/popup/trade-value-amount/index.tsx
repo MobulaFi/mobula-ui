@@ -78,7 +78,6 @@ export const TradeValueAmountPopup = ({
     });
 
     const finalFilters = [...filters.filter((f) => f.value[0] !== req)];
-    console.log("filters", selectedTradeFilters, filters);
 
     filters.forEach((f) => {
       if (

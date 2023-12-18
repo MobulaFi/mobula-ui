@@ -239,7 +239,6 @@ export const AddTransactionPopup = () => {
               !Number.isNaN(parseFloat(e.target.value)) ||
               e.target.value === ""
             ) {
-              console.log("coucou", e.target.value);
               setSettings((prev) => ({
                 ...prev,
                 quantity: e.target.value,

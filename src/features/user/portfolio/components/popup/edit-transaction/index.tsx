@@ -125,7 +125,6 @@ export const EditTransactionPopup = () => {
       (history?.price_history || []).concat(asset?.price_history?.price || [])
     );
   };
-  console.log(showEditTransaction);
   const submitTransaction = () => {
     pushData("ADD-TRANSACTION-CONFIRM");
     const timestamp =

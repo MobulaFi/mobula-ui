@@ -46,7 +46,6 @@ export const TradeTypePopup = ({
   };
 
   const handleAddFilter = (reset: boolean) => {
-    console.log("Ive been called");
     setShouldInstantLoad(true);
     setMarketMetrics((prev) => ({
       ...prev,
@@ -58,7 +57,6 @@ export const TradeTypePopup = ({
     if (index !== -1) filters.splice(index, 1);
     if (reset) return;
     if (selectedTradeFilters.type !== null) {
-      console.log("different null", index);
       setActiveName((prev) => ({
         ...prev,
         type: `${capitalizeFirstLetter(selectedTradeFilters?.type || "")} Tx`,
@@ -70,7 +68,6 @@ export const TradeTypePopup = ({
         action: "eq",
         value: ["trade_history.type", selectedTradeFilters.type || null],
       });
-      console.log("final", final);
       setFilters(final);
     } else {
       setActiveName((prev) => ({
@@ -82,7 +79,6 @@ export const TradeTypePopup = ({
     if (onClose) onClose();
     setShowTradeFilters(false);
   };
-  console.log("filfiltersfiltersters", filters);
   const resetFilter = () => {
     handleSelectType("all");
     setSelectedTradeFilters({
@@ -97,8 +93,6 @@ export const TradeTypePopup = ({
     if (onClose) onClose();
     setShowTradeFilters(false);
   };
-
-  console.log("selectedTradeFilters", selectedTradeFilters);
 
   return (
     <div className="flex flex-col">

@@ -56,7 +56,6 @@ export const Sort = () => {
     }
   }, []);
 
-  console.log("tokenDivs", tokenDivs);
   const renderNonListingToken = (token: TokenDivs) => (
     <div className={token.alreadyVoted ? "opacity-50" : "opacity-100"}>
       {token.edits?.map((edit) => (

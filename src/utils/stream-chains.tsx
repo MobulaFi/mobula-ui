@@ -94,12 +94,11 @@ export const useLiteStreamMarketData = (
           };
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }, 5 * 1000);
 
     return () => {
-      console.log("Rerender, clearing interval");
       clearInterval(stream);
     };
   }, [filters]);

@@ -57,8 +57,8 @@ export const ManageEdit = () => {
       refreshPortfolio(freshPortfolio);
 
       try {
-        const data = await GET("/portfolio/edit", {
-          account: address,
+        await GET("/portfolio/edit", {
+          account: address as string,
           removed_assets: [activePortfolio.removed_assets].join(","),
           removed_transactions: activePortfolio.removed_transactions.join(","),
           wallets: activePortfolio.wallets.join(","),
@@ -68,7 +68,7 @@ export const ManageEdit = () => {
           public: activePortfolio.public,
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
 
       setIsLoading(false);

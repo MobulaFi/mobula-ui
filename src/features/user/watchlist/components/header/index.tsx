@@ -140,7 +140,6 @@ export const Header = ({
         .then((r) => r.json())
         .then((r) => {
           if (r.error) {
-            console.log(r.error);
             triggerAlert(
               "Error",
               "Something went wrong while unfollowing this watchlist"
@@ -159,7 +158,6 @@ export const Header = ({
           }
         });
   };
-  console.log(activeWatchlist);
   if (pathname !== "/watchlist/followed")
     return (
       <div className="flex items-center justify-between rounded-t border-t border-light-border-primary dark:border-dark-border-primary py-2.5">

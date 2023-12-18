@@ -355,8 +355,6 @@ export const Submit = ({ state }) => {
 
   const fallbackMessage = getFallBack();
 
-  console.log("fastTrack", fastTrack);
-
   return hasPaid ? (
     <div className="flex flex-col w-[450px] md:w-full">
       <ExtraLargeFont>Congratulations!</ExtraLargeFont>

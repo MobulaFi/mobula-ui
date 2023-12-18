@@ -51,7 +51,6 @@ export const Contribute = ({ token }: ContributeProps) => {
   const [contributeAmount, setContributeAmount] = useState(
     getPricing(token?.coeff)
   );
-  console.log("tokentoken", tokenToBuyWith);
   const [balance, setBalance] = useState({
     usdt: {
       owned: 0,
@@ -223,7 +222,7 @@ export const Contribute = ({ token }: ContributeProps) => {
         });
         triggerAlert("Success", "The vote has been taken in account");
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
     if (chain?.id === 56) {
@@ -237,7 +236,7 @@ export const Contribute = ({ token }: ContributeProps) => {
         });
         triggerAlert("Success", "The vote has been taken in account");
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };

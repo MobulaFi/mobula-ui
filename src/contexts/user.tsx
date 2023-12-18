@@ -54,7 +54,7 @@ export const UserProvider = ({ children }) => {
                 is_governance_member: data[0]?.stacked_mobl > 0,
               });
             } catch (err) {
-              console.log(err);
+              // console.log(err);
             }
           }
         }, 1000);

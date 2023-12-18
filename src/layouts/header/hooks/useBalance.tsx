@@ -14,7 +14,7 @@ export const useBalance = () => {
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.error) console.log("r.error", r.error);
+          if (r.error) return;
           else {
             const newBalance = r.success;
             const hasBalanceChanged = userBalance.actual_balance !== newBalance;

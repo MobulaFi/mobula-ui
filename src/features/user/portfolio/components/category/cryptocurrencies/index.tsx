@@ -172,7 +172,6 @@ export const Cryptocurrencies = () => {
       .single()
       .then(({ data, error }) => {
         if (error) {
-          console.log(error);
           return;
         }
         setTokensData({ ...tokensData, [data.id]: data });

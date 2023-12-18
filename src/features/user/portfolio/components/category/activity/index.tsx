@@ -244,7 +244,6 @@ export const Activity = ({
       Object.values(txsByHash).forEach((txsFromHash) => {
         // Transfert or Swap (gas + tx token(s))
         if (txsFromHash.length > 1) {
-          console.log("txsFromHash", txsFromHash);
           const transfers = txsFromHash.filter(
             (entry) => entry.transaction.amount
           );
@@ -287,14 +286,6 @@ export const Activity = ({
               txsFromHash[0].transaction;
             const isTxOut = isOut(finalTx);
 
-            console.log("isTxOut", isTxOut, finalTx);
-            console.log(
-              txsFromHash.map((e) => ({
-                ...e.transaction,
-                isOut: isOut(e.transaction),
-              }))
-            );
-
             const otherTx = txsFromHash
               .filter(
                 (entry) =>
@@ -302,19 +293,6 @@ export const Activity = ({
                   isOut(entry.transaction) !== isTxOut
               )
               .sort(rankByAmountUsd)?.[0]?.transaction;
-
-            console.log(
-              "otherTx",
-              otherTx,
-              finalTx,
-              txsFromHash
-                .filter(
-                  (entry) =>
-                    entry.transaction.amount &&
-                    isOut(entry.transaction) !== isTxOut
-                )
-                .sort(rankByAmountUsd)
-            );
 
             if (!otherTx) return handleNormalCase();
 

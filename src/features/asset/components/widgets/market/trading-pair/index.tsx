@@ -60,8 +60,6 @@ export const TradingPairs = () => {
               top: containerRef.current?.scrollHeight * data.pairs.length + 51,
               behavior: "smooth",
             });
-        } else {
-          console.log("ERROR:", data);
         }
         setIsLoading(false);
       });
