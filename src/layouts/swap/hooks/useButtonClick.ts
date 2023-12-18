@@ -238,7 +238,7 @@ export const useButtonClick = () => {
                 e.transactionHash
               );
               setCompletedTx({
-                ...(completedTx as any),
+                ...completedTx,
                 timestamp: Date.now(),
               });
             }

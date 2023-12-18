@@ -8,6 +8,7 @@ import { Button } from "../../../../../components/button";
 import { Container } from "../../../../../components/container";
 import { MediumFont, SmallFont } from "../../../../../components/fonts";
 import { TitleContainer } from "../../../../../components/title";
+import { triggerAlert } from "../../../../../lib/toastify";
 import { BoxContainer } from "../../../common/components/box-container";
 import { RightContainer } from "../../../common/components/container-right";
 import { MetricsLine } from "../../../common/components/line-metric";
@@ -41,7 +42,7 @@ export const Overview = () => {
       initValues();
     } else {
       const timeout = setTimeout(() => {
-        // alert.show("You must connect your wallet to earn MOBL.");
+        triggerAlert("Warning", "You must connect your wallet to earn MOBL.");
       }, 300);
       return () => {
         clearTimeout(timeout);
@@ -76,11 +77,7 @@ export const Overview = () => {
       <RightContainer>
         {/* RANK BOXS */}
         <div className="flex items-center flex-row md:flex-col mt-3 md:mt-0.5">
-          <RankBox
-            goodChoice={goodDecisions}
-            badChoice={badDecisions}
-            tokensOwed={tokensOwed}
-          />
+          <RankBox goodChoice={goodDecisions} badChoice={badDecisions} />
         </div>
         {/* MATIC FAUCET */}
         <BoxContainer extraCss="justify-between flex-col mb-5 md:mb-0 h-auto p-0 items-center md:items-start">

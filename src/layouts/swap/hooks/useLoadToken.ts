@@ -9,6 +9,7 @@ import { createSupabaseDOClient } from "../../../lib/supabase";
 import { idToWagmiChain } from "../../../utils/chains";
 import { MetaSwapContext } from "../meta";
 import { Asset, Coin, ISwapContext, Loaded } from "../model";
+import { SearchTokenProps } from "../popup/select/model";
 
 export const useLoadToken = () => {
   const defaultContext = useContext(MetaSwapContext);
@@ -18,7 +19,7 @@ export const useLoadToken = () => {
   const loadToken = useCallback(
     async (
       position: "in" | "out",
-      tokenParam: Asset | Coin,
+      tokenParam: SearchTokenProps,
       {
         contextBuffer,
         chainBuffer,
@@ -66,7 +67,7 @@ export const useLoadToken = () => {
       const isCoin =
         blockchainsContent[token.blockchain].eth.symbol === token.symbol;
 
-      const newToken: Asset | Coin = {
+      const newToken: SearchTokenProps = {
         ...token,
       };
 

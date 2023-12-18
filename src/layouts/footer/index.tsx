@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAccount } from "wagmi";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
@@ -49,7 +49,7 @@ export const Footer = () => {
                       extraCss="w-fit"
                       href={
                         isDisconnected && page.name === "Portfolio"
-                          ? (null as any)
+                          ? null
                           : page.url
                       }
                       key={page.url}

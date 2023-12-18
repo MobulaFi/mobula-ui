@@ -7,12 +7,14 @@ import {
   http,
 } from "viem";
 import { erc20ABI } from "wagmi";
-import { MultichainAsset } from "../../interfaces/holdings";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { idToWagmiChain } from "../../utils/chains";
 import { toNumber } from "../../utils/formaters";
-import { Asset, Coin } from "./model";
-import { Results } from "./popup/select/model";
+import { SearchTokenProps } from "./popup/select/model";
+
+interface ExtendedTransactionReceipt extends TransactionReceipt {
+  topics: string[];
+}
 
 export const fetchContract = (search: string) => {
   const supabase = createSupabaseDOClient();
@@ -68,13 +70,13 @@ export const cleanNumber = (
 };
 
 export const formatAsset = (
-  asset: (Asset | MultichainAsset | Coin) & Results,
+  asset: SearchTokenProps,
   chainName: BlockchainName
-): (Asset | Coin) & Results => {
+) => {
   if ("coin" in asset) return asset;
   return {
     ...asset,
-    logo: asset.logo || "/icon/unknown.png",
+    logo: asset.logo || "/empty/unknown.png",
     address:
       asset.address ||
       asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
@@ -87,7 +89,7 @@ export const formatAsset = (
 };
 
 export const getAmountOut = (
-  tx: TransactionReceipt,
+  tx: ExtendedTransactionReceipt,
   address: string,
   tokenAddress: string,
   decimals = 18
@@ -96,11 +98,11 @@ export const getAmountOut = (
   if (!tx) return 0;
   if (!tx.logs) return 0;
   // Search for the Transfer event that includes "address" as the recipient (the second topic)
-  let event = (tx.logs as any).filter(
+  let event = tx.logs.filter(
     (log) =>
-      log.topics[0] ===
+      log?.topics?.[0] ===
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
-      log.topics[2].includes(address.slice(2, 42).toLowerCase())
+      log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
   );
 
   // If there are more than one Transfer events, filter the one that includes the token address (i.e. reward token)
