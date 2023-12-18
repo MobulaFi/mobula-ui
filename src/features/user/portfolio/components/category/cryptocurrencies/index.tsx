@@ -482,18 +482,10 @@ export const Cryptocurrencies = () => {
                       <Skeleton extraCss="w-[34px] h-[34px] rounded-full mr-2" />
                       <div className="flex flex-col items-start">
                         <Skeleton extraCss="lg:h-3 h-[13px] w-[90px] mb-1" />
-                        <Skeleton extraCss="lg:h-3 hidden md:flex h-[13px] md:mb-[1px] w-[60px]" />
-                        <div className="flex items-center md:mb-[1px]">
-                          <TagPercentage
-                            extraCss="lg:text-xs px-1 h-[16px] rounded max-h-[16px] hidden md:flex"
-                            percentage={0}
-                            isUp={false}
-                            isLoading={true}
-                          />
-                        </div>
+
                         <div className="flex items-center">
                           <Skeleton extraCss="lg:h-3 h-[13px] md:mb-[1px] w-[60px]" />
-                          <Skeleton extraCss="px-1 h-[18px] rounded max-h-[18px] max-w-[50px] w-[50px] ml-2 flex md:hidden" />
+                          <Skeleton extraCss="px-1 h-[18px] rounded max-h-[18px] max-w-[50px] w-[50px] ml-2" />
                         </div>
                       </div>
                     </div>
