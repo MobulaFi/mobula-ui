@@ -11,10 +11,6 @@ import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
-import {
-  PopupStateContext,
-  PopupUpdateContext,
-} from "../../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
 import { TableAsset } from "../../../../../../interfaces/assets";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
@@ -35,16 +31,12 @@ import { Transaction } from "./transaction";
 export const Cryptocurrencies = () => {
   const {
     wallet,
-    hiddenTokens,
-    setHiddenTokens,
     isLoading,
     activePortfolio,
-    isMobile,
     manager,
     asset,
     setShowAddTransaction,
     editAssetManager,
-    tokenTsx,
     setTokenTsx,
     setAsset,
     setActivePortfolio,
@@ -65,20 +57,7 @@ export const Cryptocurrencies = () => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isHover, setIsHover] = useState<number | null>(null);
   const [tokenTimeframe, setTokenTimeframe] = useState("24H");
-
-  const {
-    setShowAddedToWatchlist,
-    setShowMenuTableMobileForToken,
-    setShowMenuTableMobile,
-    setShowAlert,
-  } = useContext(PopupUpdateContext);
-
-  const [showCustomMenu, setShowCustomMenu] = useState(false);
-
-  const { showMenuTableMobileForToken } = useContext(PopupStateContext);
-
   const refreshPortfolio = useWebSocketResp();
-
   const { address } = useAccount();
 
   useEffect(() => {
@@ -527,10 +506,7 @@ export const Cryptocurrencies = () => {
       </div>
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
-        <div
-          className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col"
-          // bg={boxBg1}
-        >
+        <div className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col">
           <img
             className="h-[160px] mb-[-50px] mt-[25px]"
             src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}
