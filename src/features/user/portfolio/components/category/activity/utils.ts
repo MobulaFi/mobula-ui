@@ -174,36 +174,32 @@ export const getAmountOut = (
   if (!address) return 0;
   if (!tx) return 0;
   if (!tx.logs) return 0;
-  // Search for the Transfer event that includes "address" as the recipient (the second topic)
-  let event = tx.logs.filter(
-    (log: EventProps) =>
-      log.topics[0] ===
-        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
-      log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
-  );
 
-  // If there are more than one Transfer events, filter the one that includes the token address (i.e. reward token)
-  if (event.length > 1) {
-    event = event.filter(
+  const event: EventProps | undefined = tx.logs
+    .filter(
+      (log: EventProps) =>
+        log.topics[0] ===
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
+        log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
+    )
+    .find(
       (log: EventProps) =>
         log.address.toLowerCase() === tokenAddress.toLowerCase()
     );
-  }
 
-  [event] = event;
-
-  if (!event) {
-    event = tx.logs.find(
+  const alternativeEvent =
+    !event &&
+    tx.logs.find(
       (log: EventProps) =>
         log.topics[0] ===
         "0x7fcf532c15f0a6db0bd6d0e038bea71d30d808c7d98cb3bf7268a95bf5081b65"
     );
-  }
 
-  if (!event) return 0;
+  const finalEvent = event || alternativeEvent;
 
-  // The "amount" is the data of the event, so we need to convert it to a regular number string, then to a BigNumber and divide it by 10^decimals
-  return toNumber(BigInt(event.data), decimals);
+  if (!finalEvent) return 0;
+
+  return toNumber(BigInt(finalEvent.data), decimals);
 };
 
 export const generateTxError = (

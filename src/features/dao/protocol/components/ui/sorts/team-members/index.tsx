@@ -40,10 +40,9 @@ export const TeamMembers = ({ token }: TeamMembersProps) => {
             </tr>
           </thead>
           <tbody>
-            {token?.team?.map((member) => {
-              console.log("member", member);
+            {token?.team?.map((member, i) => {
               return (
-                <tr key={member}>
+                <tr key={i}>
                   <Tds extraCss="px-2.5 py-[25px]">
                     <div className="flex items-center">
                       <SmallFont>{member.role}</SmallFont>

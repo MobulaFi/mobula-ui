@@ -22,13 +22,9 @@ export const BlockchainSelector = ({
   const { tokenIn, setChainNeeded, chainNeeded } = useContext(SwapContext);
   const { chain } = useNetwork();
   const { setShowSwitchNetwork } = useContext(PopupUpdateContext);
-  let blockchains: (BlockchainName | undefined)[] | undefined = [];
+  let blockchains: (string | undefined)[] | undefined = [];
 
-  if (isFrom)
-    blockchains =
-      tokenIn && "blockchains" in tokenIn
-        ? tokenIn.blockchains
-        : [tokenIn?.blockchain];
+  if (isFrom) blockchains = tokenIn?.blockchains ?? [tokenIn?.blockchain];
 
   return (
     <ModalContainer

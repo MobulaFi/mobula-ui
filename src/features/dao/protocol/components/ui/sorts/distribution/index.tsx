@@ -16,7 +16,7 @@ interface DistributionProps {
 }
 
 export const Distribution = ({ token }: DistributionProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<string | null>(null);
 
   const getDisplay = () => {
     if (token?.tokenomics?.distribution?.length > 0) return "flex";
@@ -50,7 +50,7 @@ export const Distribution = ({ token }: DistributionProps) => {
           </thead>
           <tbody>
             {token?.tokenomics.distribution?.map((distribution, i) => (
-              <tr key={distribution}>
+              <tr key={i}>
                 <Tds extraCss="px-2.5 py-[1(px] w-[33%]">
                   {distribution.name}
                 </Tds>
@@ -69,8 +69,8 @@ export const Distribution = ({ token }: DistributionProps) => {
                       className="rounded-full w-4 h-4 mr-[7.5px]"
                       src={
                         blockchainsContent[
-                          distribution.addresses?.[0]?.blockchain
-                        ]?.logo || "/icon/unkown.png"
+                          distribution.addresses?.[0]?.blockchain_id || 1
+                        ]?.logo || "/empty/unkown.png"
                       }
                       alt="blockchain logo"
                     />
@@ -102,7 +102,7 @@ export const Distribution = ({ token }: DistributionProps) => {
       <div className="flex items-center w-full h-[15px] lg:h-3 md:h-2.5 rounded">
         {token?.tokenomics?.distribution?.map(({ percentage }, i: number) => (
           <div
-            key={percentage + i}
+            key={i}
             className={`h-full ${colors[i]} ${getRadiusFromIndex(i)}`}
             style={{
               width: `${percentage}%`,

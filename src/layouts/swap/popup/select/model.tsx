@@ -8,7 +8,7 @@ export interface Results {
 
 export interface SearchTokenProps {
   address?: string;
-  blockchain: BlockchainName;
+  blockchain: string | BlockchainName;
   logo?: string;
   name?: string;
   price?: number;
@@ -23,4 +23,5 @@ export interface SearchTokenProps {
   switch?: boolean;
   coin?: boolean;
   chainId?: number;
+  image?: string;
 }

@@ -2,16 +2,17 @@
 import { useEffect, useState } from "react";
 // import { SwapProvider } from "../../../common/providers/swap";
 // import { BuySellSwap } from "../../../common/providers/swap/components/buy-sell";
+import React from "react";
 import { Container } from "../../../components/container";
 import { LargeFont } from "../../../components/fonts";
-import { Asset, Coin } from "../../../interfaces/swap";
 import { SwapProvider } from "../../../layouts/swap";
+import { SearchTokenProps } from "../../../layouts/swap/popup/select/model";
 import { BasicSwap } from "../../../layouts/swap/swap-variant/basic-swap";
 import { CardsAndCTA } from "./components/cards-and-cta";
 import { TopConvertion } from "./components/top-convertion";
 
 interface BuySellProps {
-  token?: Asset | Coin;
+  token?: SearchTokenProps;
 }
 
 export const BuySell = ({ token }: BuySellProps) => {

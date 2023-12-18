@@ -1,5 +1,11 @@
 import { BaseAssetContext } from "features/asset/context-manager";
-import { useContext, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -146,7 +152,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
       {selectVisible && (
         <Select
           visible={!!selectVisible}
-          setVisible={setSelectVisible}
+          setVisible={setSelectVisible as Dispatch<SetStateAction<boolean>>}
           position={"in"}
         />
       )}

@@ -16,6 +16,7 @@ import { colors } from "features/asset/constant";
 import { useTheme } from "next-themes";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { v4 as uuid } from "uuid";
+import { CategoriesProps } from "../../../features/asset/models";
 
 echarts.use([
   CanvasRenderer,
@@ -31,7 +32,7 @@ echarts.use([
 ]);
 
 interface DataProps {
-  data: [number, number, [string, number]][];
+  data: CategoriesProps;
   height?: string;
   width?: string;
 }
@@ -42,7 +43,9 @@ const AreaChart: React.FC<DataProps> = ({ data, height, width }: DataProps) => {
   const id = useMemo(() => uuid(), []);
 
   const createInstance = useCallback(() => {
-    const instance = echarts.getInstanceByDom(document.getElementById(id));
+    const instance = echarts.getInstanceByDom(
+      document.getElementById(id) as HTMLElement
+    );
 
     return (
       instance ||

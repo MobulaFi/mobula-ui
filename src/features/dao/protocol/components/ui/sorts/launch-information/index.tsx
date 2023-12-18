@@ -8,7 +8,7 @@ interface LaunchInformationProps {
   token: TokenDivs;
 }
 
-function getCountdown(targetDate: number) {
+function getCountdown(targetDate: string) {
   const target = new Date(targetDate);
   const now = new Date();
   const difference = target.getTime() - now.getTime();

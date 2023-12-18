@@ -122,6 +122,8 @@ export type Asset = {
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
+  blockchain: BlockchainName;
+  address: string;
 };
 
 export interface RawPairs {

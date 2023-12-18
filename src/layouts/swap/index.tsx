@@ -216,10 +216,12 @@ export const SwapProvider = ({
   const [tokenOut, setTokenOut] = useState<
     (SearchTokenProps & Loaded) | undefined
   >();
-  const [tokenOutBuffer, setTokenOutBuffer] =
-    useState<SearchTokenProps>(tokenOutBufferParam);
-  const [tokenInBuffer, setTokenInBuffer] =
-    useState<SearchTokenProps>(tokenInBufferParam);
+  const [tokenOutBuffer, setTokenOutBuffer] = useState<SearchTokenProps>(
+    tokenOutBufferParam as SearchTokenProps
+  );
+  const [tokenInBuffer, setTokenInBuffer] = useState<SearchTokenProps>(
+    tokenInBufferParam as SearchTokenProps
+  );
   const [lockToken, setLockToken] = useState<("in" | "out")[]>(bufferLockToken);
 
   // Swap-related hooks

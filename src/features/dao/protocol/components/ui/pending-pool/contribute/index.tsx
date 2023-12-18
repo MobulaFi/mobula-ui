@@ -262,7 +262,8 @@ export const Contribute = ({ token }: ContributeProps) => {
   }, []);
 
   useEffect(() => {
-    if (buyWith) setTokenToBuyWith(buyWith.usdc);
+    if (buyWith)
+      setTokenToBuyWith(buyWith.usdc as unknown as tokenToBuyWithProps);
   }, [buyWith]);
 
   const labelStyles = {

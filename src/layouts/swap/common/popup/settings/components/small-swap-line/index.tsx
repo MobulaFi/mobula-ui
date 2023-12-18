@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, SetStateAction, useContext } from "react";
+import React, { Dispatch, RefObject, SetStateAction, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { SwapContext } from "../../../../..";
 import { SmallFont } from "../../../../../../../components/fonts";
@@ -7,12 +7,12 @@ import { getRightPrecision } from "../../../../../../../utils/formaters";
 interface SmallSwapLineProps {
   position?: "in" | "out";
   setSelectVisible?: Dispatch<SetStateAction<string | boolean | undefined>>;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement>;
 }
 
 export const SmallSwapLine = ({
   setSelectVisible,
-  inputRef = null,
+  inputRef,
   position,
 }: SmallSwapLineProps) => {
   const { tokenIn, tokenOut, setAmountIn, amountIn, amountOut } =

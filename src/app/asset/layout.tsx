@@ -1,7 +1,7 @@
 import { BaseAssetProvider } from "features/asset/context-manager";
 import { unformatFilters } from "features/asset/utils";
 import { cookies } from "next/headers";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { ShowMoreProvider } from "../../features/asset/context-manager/navActive";
 import { NavActiveProvider } from "../../features/asset/context-manager/showMore";
 import { Asset } from "../../interfaces/assets";
@@ -25,11 +25,9 @@ export default function AssetLayout({ params, children }: LayoutProps) {
   const tradeCookie =
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
 
-  console.log("paramsasset", params?.asset);
-
   return (
     <BaseAssetProvider
-      token={params?.asset || ({} as Asset)}
+      token={(params?.asset as Asset) || ({} as Asset)}
       tradHistory={params?.tradHistory || []}
       launchpad={params?.launchpads}
       hideTxCookie={hideTxCookie}

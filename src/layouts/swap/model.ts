@@ -69,9 +69,7 @@ export interface IMetaSwapContext {
   setWishedAmountOut: Dispatch<SetStateAction<string>>;
   lockToken: ("in" | "out")[];
   setLockToken: Dispatch<SetStateAction<("in" | "out")[]>>;
-  completedTx:
-    | ((TransactionReceipt & { timestamp: number }) & { hash: string })
-    | undefined;
+  completedTx: (TransactionReceipt & { timestamp: number }) & { hash: string };
   setCompletedTx: Dispatch<
     SetStateAction<(TransactionReceipt & { timestamp: number }) | undefined>
   >;

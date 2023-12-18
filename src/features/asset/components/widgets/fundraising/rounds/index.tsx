@@ -2,7 +2,7 @@ import { getFormattedAmount, getTokenPercentage } from "@utils/formaters";
 import { Popover } from "components/popover";
 import { TagPercentage } from "components/tag-percentage";
 import { useTheme } from "next-themes";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { MdCurrencyExchange } from "react-icons/md";
 import { Accordion } from "../../../../../../components/accordion";
 import {
@@ -116,9 +116,11 @@ export const Rounds = () => {
         ?.filter((entry) => entry.date)
         ?.map((sale) => {
           const leadInvestor = sale.investors?.find((entry) => entry.lead);
-          const percentageOfVestingShare: any = getTokenPercentage(
-            getPercentageFromVestingType(
-              (sale?.unlockType as string) || ("0/0" as string)
+          const percentageOfVestingShare = getTokenPercentage(
+            Number(
+              getPercentageFromVestingType(
+                (sale?.unlockType as string) || "0/0"
+              )
             )
           );
           const unlockedAmount =

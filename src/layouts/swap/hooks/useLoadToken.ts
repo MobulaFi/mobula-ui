@@ -8,7 +8,7 @@ import { Chain, erc20ABI, useAccount, useNetwork } from "wagmi";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { idToWagmiChain } from "../../../utils/chains";
 import { MetaSwapContext } from "../meta";
-import { Asset, Coin, ISwapContext, Loaded } from "../model";
+import { Coin, ISwapContext, Loaded } from "../model";
 import { SearchTokenProps } from "../popup/select/model";
 
 export const useLoadToken = () => {
@@ -111,13 +111,13 @@ export const useLoadToken = () => {
       }
       // Setting token in context
       context[position === "in" ? "setTokenIn" : "setTokenOut"]({
-        blockchains: data?.[0]?.blockchains,
-        contracts: data?.[0]?.contracts,
         ...newToken,
         price: data?.[0]?.price,
         balance,
         decimals: decimalsResult || 18,
-      } as (Asset | Coin) & Loaded);
+        blockchains: data?.[0]?.blockchains,
+        contracts: data?.[0]?.contracts,
+      } as SearchTokenProps & Loaded);
 
       // Setting buffer to undefined
       context[position === "in" ? "setTokenInBuffer" : "setTokenOutBuffer"](

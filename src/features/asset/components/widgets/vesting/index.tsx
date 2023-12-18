@@ -81,7 +81,7 @@ export const Vesting = () => {
         {baseAsset?.release_schedule?.length > 0 ? (
           <>
             <LargeFont extraCss="mb-5 z-[1]">Vesting schedules</LargeFont>
-            <AreaChart data={categories} />
+            <AreaChart data={categories as CategoriesProps} />
           </>
         ) : null}
         <CalendarEvent />
