@@ -5,24 +5,8 @@ import { erc20ABI } from "wagmi";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { idToWagmiChain } from "../../utils/chains";
 import { toNumber } from "../../utils/formaters";
+import { EventProps, LogProps } from "./model";
 import { SearchTokenProps } from "./popup/select/model";
-
-interface EventProps {
-  topics: string[];
-  data: string;
-  address: string;
-}
-interface LogProps {
-  address: `0x${string}`;
-  blockHash: `0x${string}`;
-  blockNumber: bigint;
-  data: `0x${string}`;
-  logIndex: number;
-  transactionHash: `0x${string}`;
-  transactionIndex: number;
-  removed: boolean;
-  logs: [];
-}
 
 export const fetchContract = (search: string) => {
   const supabase = createSupabaseDOClient();

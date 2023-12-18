@@ -434,13 +434,12 @@ export const Activity = ({
                 </tr>
                 {transactionsForDate.map((transaction) => {
                   // We check if we're in a swap where we need 2 tokens, or a simple transaction.
-                  let txTokens =
+                  let txTokens: TransactionAsset[] =
                     transaction.type === "swap"
                       ? [transaction.in, transaction.out]
                       : [transaction.asset];
 
-                  if (txTokens.length > 1)
-                    txTokens = getRightOrder(txTokens as never);
+                  if (txTokens.length > 1) txTokens = getRightOrder(txTokens);
 
                   if (
                     activePortfolio?.removed_transactions?.includes(
@@ -465,21 +464,20 @@ export const Activity = ({
                     ? transaction.to
                     : transaction.from;
 
-                  let tokenAmount = transaction.amount;
-                  let tokenUsdAmount = transaction.amount_usd;
+                  let tokenAmount: number | undefined = transaction.amount || 0;
+                  let tokenUsdAmount: number | undefined =
+                    transaction.amount_usd || 0;
 
                   if (transaction.type === "swap") {
-                    tokenAmount = (
+                    tokenAmount =
                       txTokens?.[0]?.id === transaction?.in?.id
                         ? transaction?.in?.amount
-                        : transaction?.out?.amount
-                    ) as never;
+                        : transaction?.out?.amount;
 
-                    tokenUsdAmount = (
+                    tokenUsdAmount =
                       txTokens?.[0]?.id === transaction?.in?.id
                         ? transaction?.in?.amount_usd
-                        : transaction?.out?.amount_usd
-                    ) as never;
+                        : transaction?.out?.amount_usd;
                   }
 
                   return (
@@ -595,7 +593,7 @@ export const Activity = ({
                                     }${
                                       tokenUsdAmount
                                         ? ` at $${getFormattedAmount(
-                                            tokenUsdAmount / tokenAmount,
+                                            tokenUsdAmount / (tokenAmount || 0),
                                             2
                                           )}`
                                         : ""
@@ -632,7 +630,7 @@ export const Activity = ({
                           ) : (
                             <TransactionAmount
                               transaction={transaction}
-                              tokens={txTokens as never}
+                              tokens={txTokens}
                             />
                           )}
                         </td>

@@ -1,7 +1,7 @@
 import { famousContractsLabelFromName } from "layouts/swap/utils";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
@@ -30,7 +30,7 @@ export const TradingPairs = () => {
   const [page, setPage] = useState(0);
   const [isTradeScrollLoading, setIsTradeScrollLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLTableElement>(null);
   const [totalPairs, setTotalPairs] = useState(0);
   const titles = [
     "DEX",
@@ -178,7 +178,7 @@ export const TradingPairs = () => {
         </div>
       </div>
       <div className="max-h-[500px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
-        <table className="relative w-full" ref={containerRef as never}>
+        <table className="relative w-full" ref={containerRef}>
           <thead>
             <tr>
               {titles

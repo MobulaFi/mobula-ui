@@ -202,13 +202,10 @@ export const ViewPopup = ({
           triggerAlert("Error", r.error);
           return;
         } else {
-          setUser(
-            (prev) =>
-              ({
-                ...prev,
-                views: [...(user?.views || []), r.view[0]],
-              } as never)
-          );
+          setUser((prev) => ({
+            ...prev,
+            views: [...(user?.views || []), r.view[0]],
+          }));
           setActiveView(r.view[0]);
           setType("");
           setIsViewsLoading(false);
@@ -244,18 +241,15 @@ export const ViewPopup = ({
           triggerAlert("Error", r.error);
           return;
         } else {
-          setUser(
-            (prev) =>
-              ({
-                ...prev,
-                views: [
-                  ...(prev?.views?.filter(
-                    (entry) => entry.name !== activeView?.name
-                  ) || []),
-                  r.view[0],
-                ],
-              } as never)
-          );
+          setUser((prev) => ({
+            ...prev,
+            views: [
+              ...(prev?.views?.filter(
+                (entry) => entry.name !== activeView?.name
+              ) || []),
+              r.view[0],
+            ],
+          }));
           setIsViewsLoading(false);
         }
       });
@@ -278,15 +272,12 @@ export const ViewPopup = ({
             triggerAlert("Error", r.error);
             return;
           } else {
-            setUser(
-              (prev) =>
-                ({
-                  ...prev,
-                  views: user?.views.filter(
-                    (entry) => entry.name !== activeView?.name
-                  ),
-                } as never)
-            );
+            setUser((prev) => ({
+              ...prev,
+              views: user?.views.filter(
+                (entry) => entry.name !== activeView?.name
+              ),
+            }));
             setType("");
             setActiveView(
               JSON.stringify(user?.views[0]) !== JSON.stringify(activeView)

@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -291,7 +291,7 @@ export const Assets = () => {
       name: format(pathname),
       url: pathname,
     });
-    setPrevPaths(previous as never);
+    setPrevPaths(previous);
     setIsBreadCrumbLoading(false);
   };
   useEffect(() => {
@@ -307,7 +307,7 @@ export const Assets = () => {
           list={tabs}
           setActive={setActiveTab}
           active={activeTab}
-          setPreviousTab={setPreviousTab as never}
+          setPreviousTab={setPreviousTab}
         />
         <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (

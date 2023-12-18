@@ -248,7 +248,7 @@ export const Portfolio = ({
       setAsset({
         ...rightAsset,
         uniqueIdentifier: assetName,
-      } as never);
+      });
       setIsAssetPage(true);
     } else if (isAssetPage) setIsAssetPage(false);
   }, [wallet, assetName]);

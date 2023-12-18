@@ -1,11 +1,7 @@
+import { EventProps, LogProps } from "layouts/swap/model";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import {
-  TransactionReceipt,
-  createPublicClient,
-  getContract,
-  http,
-} from "viem";
+import { createPublicClient, getContract, http } from "viem";
 import { erc20ABI } from "wagmi";
 import { MultichainAsset } from "../../../../../../interfaces/holdings";
 import { Coin } from "../../../../../../interfaces/swap";
@@ -14,6 +10,22 @@ import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { idToWagmiChain } from "../../../../../../utils/chains";
 import { toNumber } from "../../../../../../utils/formaters";
 import { Asset } from "../../../../../asset/models";
+
+interface ContractResult {
+  symbol?: string;
+  blockchain?: string;
+}
+
+interface AssetResult {
+  logo: string;
+  contracts: string[];
+  blockchains: string[];
+  price: number;
+  price_change_24h: number;
+}
+[];
+
+type FetchPromiseResult = ContractResult | AssetResult | null;
 
 export const wordingFromMethodId = {
   "0xa140ae23": "Mint",
@@ -83,7 +95,7 @@ export const famousContractsLabel = {
 
 export const fetchContract = (search: string) => {
   const supabase = createSupabaseDOClient();
-  const fetchPromises: any[] = [];
+  const fetchPromises: Promise<FetchPromiseResult>[] = [];
 
   fetchPromises.push(
     new Promise((r) => {
@@ -118,7 +130,7 @@ export const fetchContract = (search: string) => {
     supabase
       .from("assets")
       .select("logo,contracts,blockchains,price,price_change_24h")
-      .contains("contracts", [search.toLowerCase()])
+      .contains("contracts", [search.toLowerCase()]) as never
   );
 
   return fetchPromises;
@@ -154,7 +166,7 @@ export const formatAsset = (
 };
 
 export const getAmountOut = (
-  tx: TransactionReceipt,
+  tx: LogProps,
   address: string,
   tokenAddress: string,
   decimals = 18
@@ -164,7 +176,7 @@ export const getAmountOut = (
   if (!tx.logs) return 0;
   // Search for the Transfer event that includes "address" as the recipient (the second topic)
   let event = tx.logs.filter(
-    (log) =>
+    (log: EventProps) =>
       log.topics[0] ===
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
       log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
@@ -173,7 +185,8 @@ export const getAmountOut = (
   // If there are more than one Transfer events, filter the one that includes the token address (i.e. reward token)
   if (event.length > 1) {
     event = event.filter(
-      (log) => log.address.toLowerCase() === tokenAddress.toLowerCase()
+      (log: EventProps) =>
+        log.address.toLowerCase() === tokenAddress.toLowerCase()
     );
   }
 
@@ -181,7 +194,7 @@ export const getAmountOut = (
 
   if (!event) {
     event = tx.logs.find(
-      (log) =>
+      (log: EventProps) =>
         log.topics[0] ===
         "0x7fcf532c15f0a6db0bd6d0e038bea71d30d808c7d98cb3bf7268a95bf5081b65"
     );

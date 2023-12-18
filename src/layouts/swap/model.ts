@@ -22,6 +22,22 @@ export type SyntaxicTokensBuffer = Record<
   SearchTokenProps | undefined
 >;
 
+export interface EventProps {
+  topics: string[];
+  data: string;
+  address: string;
+}
+export interface LogProps {
+  address: `0x${string}`;
+  blockHash: `0x${string}`;
+  blockNumber: bigint;
+  data: `0x${string}`;
+  logIndex: number;
+  transactionHash: `0x${string}`;
+  transactionIndex: number;
+  removed: boolean;
+  logs: [];
+}
 export interface IMetaSwapContext {
   tokenIn: (SearchTokenProps & Loaded) | undefined;
   tokenOut: (SearchTokenProps & Loaded) | undefined;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -48,13 +48,10 @@ export const TradeTypePopup = ({
   const handleAddFilter = (reset: boolean) => {
     console.log("Ive been called");
     setShouldInstantLoad(true);
-    setMarketMetrics(
-      (prev) =>
-        ({
-          ...prev,
-          trade_history: [],
-        } as never)
-    );
+    setMarketMetrics((prev) => ({
+      ...prev,
+      trade_history: [],
+    }));
     const index = filters.findIndex(
       (entry) => entry.value[0] === "trade_history.type"
     );
