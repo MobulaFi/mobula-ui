@@ -2,13 +2,13 @@ import React from "react";
 import { SiConvertio } from "react-icons/si";
 import { MediumFont } from "../../../../../../../components/fonts";
 import { Tds, Ths } from "../../../../../../../components/table";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { getFormattedAmount } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
 import { thStyles } from "../../../../style";
 
 interface SalesInformationProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const SalesInformation = ({ token }: SalesInformationProps) => {
@@ -50,7 +50,7 @@ export const SalesInformation = ({ token }: SalesInformationProps) => {
           </thead>
           <tbody>
             {token?.tokenomics.sales?.map((sale) => (
-              <tr key={sale}>
+              <tr key={sale.name}>
                 <Tds extraCss="px-2.5 py-[15px]">{sale.name}</Tds>
                 <Tds extraCss="px-2.5 py-[15px]">
                   {`${sale.amount} ${token.symbol}`}
@@ -61,7 +61,7 @@ export const SalesInformation = ({ token }: SalesInformationProps) => {
                 <Tds extraCss="px-2.5 py-[15px]">{sale.platform}</Tds>
                 <Tds extraCss="px-2.5 py-[15px]">{sale.valuation}%</Tds>
                 <Tds extraCss="px-2.5 py-[15px] text-end">
-                  {formatDate(sale.date)}
+                  {formatDate(Number(sale.date))}
                 </Tds>
               </tr>
             ))}

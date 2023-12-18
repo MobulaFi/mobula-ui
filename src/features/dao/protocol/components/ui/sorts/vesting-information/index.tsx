@@ -4,9 +4,9 @@ import React from "react";
 import { AiOutlineLineChart } from "react-icons/ai";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { Tds, Ths } from "../../../../../../../components/table";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { getFormattedAmount } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
 import { thStyles } from "../../../../style";
 
 const EChart = dynamic(() => import("../../../../../../../lib/echart/line"), {
@@ -14,7 +14,7 @@ const EChart = dynamic(() => import("../../../../../../../lib/echart/line"), {
 });
 
 interface VestingInformationProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const VestingInformation = ({ token }: VestingInformationProps) => {
@@ -30,7 +30,9 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
   }
 
   const formatVesting = () => {
-    const vesting = token?.tokenomics.vestingSchedule.map((v) => [v[0], v[1]]);
+    const vesting: [number, number][] = token?.tokenomics.vestingSchedule.map(
+      (v) => [v[0], v[1]]
+    );
     return vesting;
   };
 
@@ -62,7 +64,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
           </thead>
           <tbody>
             {token?.tokenomics.vestingSchedule?.map((vesting) => (
-              <tr key={vesting}>
+              <tr key={vesting[1]}>
                 <Tds extraCss="px-2.5 py-[15px]">
                   {getFormattedAmount(vesting[1])} {token?.symbol}
                 </Tds>

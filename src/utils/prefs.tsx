@@ -18,7 +18,6 @@ export function getUserPrefCookie(cookieString: string) {
   for (const cookie of cookies) {
     const [name, value] = cookie.trim().split("=");
     if (name === "mobula-user-pref") {
-      console.log(JSON.parse(decodeURIComponent(value)) as Pref);
       return JSON.parse(decodeURIComponent(value)) as Pref;
     }
   }

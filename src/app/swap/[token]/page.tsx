@@ -61,7 +61,6 @@ async function fetchAsset(params) {
 }
 
 export default async function SwapPage({ params }) {
-  console.log(params);
   const data = await fetchAsset(params);
   return (
     <>

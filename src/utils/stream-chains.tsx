@@ -43,7 +43,7 @@ export const useLiteStreamMarketData = (
     volume: baseAsset.volume,
     volumeChange: null,
     market_cap: baseAsset.market_cap,
-    trade_history: (baseAsset?.trade_history as any) || [],
+    trade_history: baseAsset?.trade_history || [],
   });
 
   useEffect(() => {
@@ -94,12 +94,11 @@ export const useLiteStreamMarketData = (
           };
         });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }, 5 * 1000);
 
     return () => {
-      console.log("Rerender, clearing interval");
       clearInterval(stream);
     };
   }, [filters]);

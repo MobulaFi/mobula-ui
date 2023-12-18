@@ -4,12 +4,12 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { AiOutlinePieChart } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { DoughnutsChart } from "../../../../chart-options";
+import { TokenDivs } from "../../../../models";
 
 interface TokenFeesProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const TokenFees = ({ token }: TokenFeesProps) => {
@@ -20,7 +20,9 @@ export const TokenFees = ({ token }: TokenFeesProps) => {
   const { options1, options2 } = DoughnutsChart({ token, whiteMode });
   const createInstance = useCallback(
     (newId) => {
-      const instance = echarts.getInstanceByDom(document.getElementById(newId));
+      const instance = echarts.getInstanceByDom(
+        document.getElementById(newId) as HTMLElement
+      );
       return (
         instance ||
         echarts.init(document.getElementById(newId), null, {

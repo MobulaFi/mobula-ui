@@ -85,12 +85,10 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
               <td className={`${tdStyle} text-end }`}>
                 <div className="w-full flex justify-end">
                   <TagPercentage
-                    percentage={
-                      getTokenPercentage(asset.price_change_24h) as never
-                    }
+                    percentage={getTokenPercentage(asset.price_change_24h)}
                     isUp={
-                      ((getTokenPercentage(asset.price_change_24h) ||
-                        0) as never) > 0
+                      (Number(getTokenPercentage(asset.price_change_24h)) ||
+                        0) > 0
                     }
                   />
                 </div>

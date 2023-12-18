@@ -2,24 +2,19 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import { Token } from "mobula-lite/lib/model";
 import { useContext, useEffect, useState } from "react";
 import { isAddress } from "viem";
 import { useNetwork } from "wagmi";
 import { SwapContext } from "..";
-import { MultichainAsset } from "../../../interfaces/holdings";
 import { createSupabaseDOClient } from "../../../lib/supabase";
-import { Asset, Coin } from "../model";
-import { Results } from "../popup/select/model";
+import { SearchTokenProps } from "../popup/select/model";
 import { fetchContract } from "../utils";
 
 export const useUpdateSearch = (position: string) => {
   const { holdings } = useContext(SwapContext);
   const { chain } = useNetwork();
   const [isLoading, setIsLoading] = useState(true);
-  const [results, setResults] = useState<
-    ((Token | Asset | Coin | MultichainAsset) & Results)[]
-  >([]);
+  const [results, setResults] = useState<SearchTokenProps[]>([]);
 
   const currentChain = chain?.id || 1;
   const chainData = blockchainsIdContent[currentChain];
@@ -41,14 +36,14 @@ export const useUpdateSearch = (position: string) => {
         setResults([
           {
             symbol,
-            logo: data?.[0]?.logo || "/icon/unknown.png",
+            logo: data?.[0]?.logo || "/empty/unknown.png",
             address: search,
             blockchain,
             contracts: data?.[0]?.contracts || [search],
             blockchains: data?.[0]?.blockchains || [blockchain],
             switch: blockchain !== chainData.name,
             price_change_24h: data?.[0]?.price_change_24h || 0,
-          } as Asset & Results,
+          },
         ]);
         setIsLoading(false);
       }

@@ -43,11 +43,7 @@ export const DailyPnl = ({ wallet }: DailyPnlProps) => {
       ) : (
         <div className="flex mt-[15px] mb-[5px] h-[170px] items-center justify-center">
           {formattedPNL?.length > 0 && !isLoading ? (
-            <BarChartComponent
-              data={formattedPNL as never}
-              width="100%"
-              height="100%"
-            />
+            <BarChartComponent data={formattedPNL} width="100%" height="100%" />
           ) : null}
           {isLoading ? <Spinner extraCss="w-[50px] h-[50px] mb-5" /> : null}
         </div>

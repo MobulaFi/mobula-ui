@@ -22,8 +22,8 @@ export const useVote = () => {
     address: PROTOCOL_ADDRESS as never,
     abi: listingAbi as never,
     functionName: pathname.includes("validation")
-      ? ("voteValidation" as never)
-      : ("voteSorting" as never),
+      ? "voteValidation"
+      : "voteSorting",
   });
 
   useEffect(() => {

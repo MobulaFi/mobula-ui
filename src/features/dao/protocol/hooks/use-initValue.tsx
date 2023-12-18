@@ -5,6 +5,7 @@ import { polygon } from "viem/chains";
 import { useAccount } from "wagmi";
 import { PROTOCOL_ADDRESS, VAULT_ADDRESS } from "../../../../constants";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
+import { triggerAlert } from "../../../../lib/toastify";
 import { OverviewContext } from "../../protocol/context-manager/overview";
 import { PROTOCOL_ABI, VAULT_ABI } from "../constants/abi";
 
@@ -75,8 +76,10 @@ export const useInitValues = () => {
           }
         });
     } catch (e) {
-      // alert.show("You must connect your wallet to access your Dashboard.");
-      console.log(e);
+      triggerAlert(
+        "Error",
+        "You must connect your wallet to access your Dashboard."
+      );
     }
   };
 

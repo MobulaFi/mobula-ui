@@ -58,10 +58,6 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
         const socket = new WebSocket(
           process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
         );
-        console.log(
-          "NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT",
-          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
-        );
         setIsLoading(true);
         socket.addEventListener("open", () => {
           socket.send(

@@ -49,7 +49,7 @@ export const HeaderMenu = () => {
               watchlist: user?.watchlist.filter(
                 (w) => w.name !== activeWatchlist.name
               ),
-            } as never);
+            });
             setActiveWatchlist(
               user?.watchlist.filter((w) => w.name !== activeWatchlist.name)[0]
             );
@@ -71,11 +71,10 @@ export const HeaderMenu = () => {
         .then((r) => r.json())
         .then((r) => {
           if (r.error) {
-            console.log(r.error);
-            // alert.error(r.error);
+            triggerAlert("Error", "Something went wrong. Please try again.");
           } else {
             setIsMainWatchlist(true);
-            // alert.success("This watchlist is now the main one.");
+            triggerAlert("Success", "This watchlist is now the main one.");
           }
         });
   };
@@ -90,8 +89,7 @@ export const HeaderMenu = () => {
         .then((response) => response.json())
         .then((add) => {
           if (add.error) {
-            console.log(add.error);
-            // alert.error(r.error);
+            triggerAlert("Error", "Something went wrong. Please try again.");
           } else {
             const newName = incrementWatchlistName(
               activeWatchlist.name,
@@ -103,14 +101,16 @@ export const HeaderMenu = () => {
                 ...(user?.watchlist || []),
                 { ...activeWatchlist, name: newName },
               ],
-            } as never);
-            // alert.success("Your watchlist has been duplicated");
+            });
+            triggerAlert("Success", "Your watchlist has been duplicated.");
           }
         });
+    } else {
+      triggerAlert(
+        "Error",
+        "Please connect your wallet to duplicate a watchlist"
+      );
     }
-    // else {
-    //   alert.show("Please connect your wallet to duplicate a watchlist");
-    // }
   };
 
   const squareBox =

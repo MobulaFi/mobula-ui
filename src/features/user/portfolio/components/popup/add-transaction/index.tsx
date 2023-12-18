@@ -50,7 +50,7 @@ export const AddTransactionPopup = () => {
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
   const [activePrice, setActivePrice] = useState("Market Price");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date>(new Date());
   const [typeSelected, setTypeSelected] = useState("Buy");
   const switcherOptions = ["Buy", "Sell", "Transfer"];
   const [isUSDInput, setIsUSDInput] = useState(false);
@@ -91,15 +91,12 @@ export const AddTransactionPopup = () => {
   const getPriceFromActivePriceOption = (type) => {
     if (type === "Market Price") {
       setSettings((prev) => ({ ...prev, price: tokenTsx?.price }));
-      setSettings(
-        (prev) =>
-          ({
-            ...prev,
-            total_spent: tokenTsx?.price
-              ? tokenTsx.price * parseFloat(prev.quantity)
-              : null,
-          } as never)
-      );
+      setSettings((prev) => ({
+        ...prev,
+        total_spent: tokenTsx?.price
+          ? tokenTsx.price * parseFloat(prev.quantity)
+          : null,
+      }));
     }
     if (type === "Custom Price") {
       setSettings((prev) => ({ ...prev, price: 0 }));
@@ -110,15 +107,12 @@ export const AddTransactionPopup = () => {
     }
     if (type === "Ico Price") {
       setSettings((prev) => ({ ...prev, price: tokenTsx?.ico_price }));
-      setSettings(
-        (prev) =>
-          ({
-            ...prev,
-            total_spent: tokenTsx?.ico_price
-              ? tokenTsx.ico_price * parseFloat(prev.quantity)
-              : null,
-          } as never)
-      );
+      setSettings((prev) => ({
+        ...prev,
+        total_spent: tokenTsx?.ico_price
+          ? tokenTsx.ico_price * parseFloat(prev.quantity)
+          : null,
+      }));
     }
   };
 
@@ -190,7 +184,7 @@ export const AddTransactionPopup = () => {
     if (!settings.quantity) triggerAlert("Error", "You must enter a quantity");
   };
   useEffect(() => {
-    loadHistory(initialToken as any);
+    loadHistory(initialToken);
   }, []);
 
   useEffect(() => {
@@ -245,7 +239,6 @@ export const AddTransactionPopup = () => {
               !Number.isNaN(parseFloat(e.target.value)) ||
               e.target.value === ""
             ) {
-              console.log("coucou", e.target.value);
               setSettings((prev) => ({
                 ...prev,
                 quantity: e.target.value,
@@ -261,7 +254,7 @@ export const AddTransactionPopup = () => {
             typeof window !== "undefined" &&
             inputRef.current === document?.activeElement
               ? settings.quantity
-              : getRightPrecision(settings.quantity)
+              : (getRightPrecision(settings.quantity) as number)
           }
         />
         <div className="flex items-center text-light-font-100 dark:text-dark-font-100 h-full px-2.5">
@@ -328,8 +321,8 @@ export const AddTransactionPopup = () => {
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
               type="number"
               lang="en"
-              value={getFormattedAmount(settings.price as any)}
-              placeholder={getFormattedAmount(settings.price as any) as any}
+              value={getFormattedAmount(settings.price) as string}
+              placeholder={getFormattedAmount(settings.price) as string}
               readOnly={activePrice !== "Custom Price"}
               onChange={(e) => {
                 setSettings((prev) => ({
@@ -383,7 +376,7 @@ export const AddTransactionPopup = () => {
             >
               <input
                 className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
-                value={getDate(date.getTime())}
+                value={getDate(date?.getTime() as number)}
               />
               <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
             </div>

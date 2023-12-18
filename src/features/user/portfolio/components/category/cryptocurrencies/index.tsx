@@ -15,6 +15,7 @@ import {
   PopupUpdateContext,
 } from "../../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
+import { TableAsset } from "../../../../../../interfaces/assets";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
 import EChart from "../../../../../../lib/echart/line";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -80,35 +81,20 @@ export const Cryptocurrencies = () => {
   const { address } = useAccount();
 
   useEffect(() => {
-    setIsInWatchlist(inWatchlist);
+    setIsInWatchlist(inWatchlist as boolean);
   }, [inWatchlist]);
 
   useEffect(() => {
     setIsLoadingFetch(showTokenInfo ? true : false);
   }, [showTokenInfo]);
 
-  const newWallet = wallet?.portfolio.filter(
+  const newWallet = wallet?.portfolio?.filter(
     (entry) => entry.name === asset?.name
   )[0];
 
-  const getPercentageOfBuyRange = () => {
-    if (newWallet) {
-      const minPriceBought = newWallet?.min_buy_price;
-      const maxPriceBought = newWallet?.max_buy_price;
-      const priceBought = newWallet?.price_bought;
-
-      const priceRange = maxPriceBought - Number(minPriceBought);
-      const priceDifference = priceBought - Number(minPriceBought);
-
-      const result = (priceDifference * 100) / priceRange;
-      return getFormattedAmount(result);
-    }
-    return 0;
-  };
-
   const triggerTokenInfo = (asset) => {
     if (showTokenInfo === asset?.id) {
-      setAsset(null as any);
+      setAsset(null);
       setShowTokenInfo(null);
     } else if (showTokenInfo && showTokenInfo !== asset?.id) {
       setAsset(asset);
@@ -150,7 +136,7 @@ export const Cryptocurrencies = () => {
 
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
-    return wallet.portfolio;
+    return wallet.portfolio as unknown as TableAsset;
   };
 
   const filteredData = useMemo(
@@ -186,16 +172,12 @@ export const Cryptocurrencies = () => {
       .single()
       .then(({ data, error }) => {
         if (error) {
-          console.log(error);
           return;
         }
         setTokensData({ ...tokensData, [data.id]: data });
       });
   }, [tokensData, showTokenInfo]);
 
-  console.log("asset is:", asset);
-  console.log("showTokenInfo is:", showTokenInfo);
-  console.log("tokensData[asset?.id] is:", tokensData[asset?.id]);
   const testStyle =
     "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
 
@@ -210,13 +192,6 @@ export const Cryptocurrencies = () => {
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
               .map((token) => {
                 return (
-                  // <TbodyCryptocurrencies
-                  //   key={token.name}
-                  //   token={token}
-                  //   setShowTokenInfo={setShowTokenInfo as never}
-                  //   showTokenInfo={showTokenInfo}
-                  //   tokenInfo={tokensData[token.id]}
-                  // />
                   <div
                     key={token?.name}
                     className={`${
@@ -304,9 +279,7 @@ export const Cryptocurrencies = () => {
                             )}
                           </div>
                           <div className="flex justify-end items-start w-full max-w-[60px]">
-                            <button
-                              onClick={() => setShowBuyDrawer(token as any)}
-                            >
+                            <button onClick={() => setShowBuyDrawer(token)}>
                               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
                             </button>
                             <Menu

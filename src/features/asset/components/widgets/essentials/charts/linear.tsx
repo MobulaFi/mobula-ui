@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../../../../components/spinner";
 import { UserContext } from "../../../../../../contexts/user";
 import { TransactionResponse } from "../../../../../../interfaces/transactions";
@@ -119,7 +119,7 @@ export const ChartLite = ({
             transactions={hideTx ? [] : transactions}
             height={isMobile ? 400 : 500}
             extraData={
-              (comparedEntities.filter((entity) => entity.data.length).length
+              comparedEntities.filter((entity) => entity.data.length).length
                 ? comparedEntities
                     .filter((entity) => entity.data.length)
                     .map((entity, i) => ({
@@ -127,7 +127,7 @@ export const ChartLite = ({
                       name: entity.label,
                       color: colors[i],
                     }))
-                : null) as never
+                : null
             }
             unit={comparedEntities.length ? "%" : "$"}
             unitPosition={comparedEntities.length ? "after" : "before"}

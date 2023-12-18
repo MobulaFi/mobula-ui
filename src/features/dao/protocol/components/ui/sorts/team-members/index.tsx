@@ -4,12 +4,12 @@ import { RiTeamFill } from "react-icons/ri";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../../components/link";
 import { Tds, Ths } from "../../../../../../../components/table";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
 import { thStyles } from "../../../../style";
 
 interface TeamMembersProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const TeamMembers = ({ token }: TeamMembersProps) => {
@@ -40,10 +40,9 @@ export const TeamMembers = ({ token }: TeamMembersProps) => {
             </tr>
           </thead>
           <tbody>
-            {token?.team?.map((member) => {
-              console.log("member", member);
+            {token?.team?.map((member, i) => {
               return (
-                <tr key={member}>
+                <tr key={i}>
                   <Tds extraCss="px-2.5 py-[25px]">
                     <div className="flex items-center">
                       <SmallFont>{member.role}</SmallFont>

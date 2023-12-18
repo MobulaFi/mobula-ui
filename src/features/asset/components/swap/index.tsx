@@ -44,18 +44,16 @@ export const SwapPopup = () => {
         </div>
         <div className="flex md:hidden">
           <SwapProvider
-            tokenOutBuffer={
-              {
-                ...baseAsset,
-                blockchain: baseAsset?.blockchains[0],
-                address:
-                  baseAsset && "contracts" in baseAsset
-                    ? baseAsset.contracts[0]
-                    : undefined,
-                logo: baseAsset?.image || baseAsset?.logo,
-                name: baseAsset?.name || baseAsset?.symbol,
-              } as never
-            }
+            tokenOutBuffer={{
+              ...baseAsset,
+              blockchain: baseAsset?.blockchains[0],
+              address:
+                baseAsset && "contracts" in baseAsset
+                  ? baseAsset.contracts[0]
+                  : undefined,
+              logo: baseAsset?.image || baseAsset?.logo,
+              name: baseAsset?.name || baseAsset?.symbol,
+            }}
             lockToken={["out"]}
           >
             <BasicSwap activeStep={0} />

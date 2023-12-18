@@ -50,7 +50,7 @@ export const TransactionReceipt = () => {
   try {
     finalGasUsed =
       Number(
-        ((completedTx.gasUsed || 0n) * completedTx.effectiveGasPrice) /
+        ((completedTx?.gasUsed || 0n) * completedTx.effectiveGasPrice) /
           1000000000n
       ) / 1e9;
   } catch (e) {
@@ -140,9 +140,11 @@ export const TransactionReceipt = () => {
                         ? getFormattedAmount(
                             getAmountOut(
                               completedTx,
-                              address,
-                              "address" in tokenOut
-                                ? tokenOut.address
+                              address as string,
+                              tokenOut && "address" in tokenOut
+                                ? tokenOut.address ||
+                                    blockchainsIdContent[chain?.id || 1].eth
+                                      .address
                                 : blockchainsIdContent[chain?.id || 1].eth
                                     .address,
                               tokenOut?.decimals
@@ -167,8 +169,9 @@ export const TransactionReceipt = () => {
                     ? getAmountOut(
                         completedTx,
                         address!,
-                        "address" in tokenOut
-                          ? tokenOut.address
+                        tokenOut && "address" in tokenOut
+                          ? tokenOut.address ||
+                              blockchainsIdContent[chain?.id || 1].eth.address
                           : blockchainsIdContent[chain?.id || 1].eth.address,
                         tokenOut?.decimals
                       )

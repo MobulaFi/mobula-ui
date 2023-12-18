@@ -73,7 +73,7 @@ function Calendar({
       }}
       mode="single"
       selected={selectedDay}
-      onSelect={setSelectedDay as any}
+      onSelect={setSelectedDay}
       footer={footer}
       {...props}
     />

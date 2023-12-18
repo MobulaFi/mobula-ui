@@ -13,7 +13,6 @@ const fetchWatchlist = async ({ params }) => {
   const title = params.title;
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
-  //   console.log("searchParams", searchParams);
   try {
     const supabase = createSupabaseDOClient();
     const { data: userOfWatchlist } = await supabase

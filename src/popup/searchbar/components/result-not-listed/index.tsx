@@ -46,7 +46,7 @@ export const NotListed = ({
               name: unknownSC?.name,
             });
             router.push("/list");
-            setUnknownSC(null as never);
+            setUnknownSC(null);
           }}
         >
           List it

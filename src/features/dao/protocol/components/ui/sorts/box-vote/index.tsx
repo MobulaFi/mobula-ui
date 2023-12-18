@@ -1,15 +1,15 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { MediumFont } from "../../../../../../../components/fonts";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { getScores } from "../../../../constants/sorts";
 import { ShowReasonContext } from "../../../../context-manager/reason-vote";
 import { VoteContext } from "../../../../context-manager/vote";
+import { TokenDivs } from "../../../../models";
 import { ButtonVote } from "../button-vote";
 import { Countdown } from "../countdown";
 
 interface VoteBoxProps {
-  token: Asset;
+  token: TokenDivs;
   typeVote: string;
 }
 

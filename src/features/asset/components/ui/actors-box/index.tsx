@@ -20,7 +20,6 @@ export const ActorsBox = ({ data, title }: ActorsBoxProps) => {
        bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover items-center
         w-full hover:cursor-pointer transition-all duration-200 mt-[15px] lg:mt-2.5 md:mt-[7.5px]`}
         onClick={() => {
-          console.log("clicked", showActors);
           if (data?.[0].name === "Click here to add some") router.push("/list");
           else setShowActors(true);
         }}
@@ -45,7 +44,6 @@ export const ActorsBox = ({ data, title }: ActorsBoxProps) => {
                   {data
                     .filter((_, i) => i !== 0)
                     .map((item, i) => {
-                      console.log(item.image);
                       if (i < 5)
                         return (
                           <img
