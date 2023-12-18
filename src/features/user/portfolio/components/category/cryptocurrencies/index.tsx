@@ -9,6 +9,7 @@ import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
 import {
   PopupStateContext,
@@ -466,13 +467,52 @@ export const Cryptocurrencies = () => {
               })}
           </>
         ) : null}
-        {/* {isLoading ? (
-          <tbody>
+        {isLoading ? (
+          <div className="w-full">
             {Array.from(Array(10).keys()).map((_, i) => (
-              <TbodySkeleton key={i as Key} />
+              <div
+                key={i}
+                className={`h-[70px] bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
+            overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
+            border-light-border-primary dark:border-dark-border-primary pt-0`}
+              >
+                <div className="flex flex-col w-full">
+                  <div className="flex justify-between items-center w-full h-[70px] mt-0">
+                    <div className="h-full flex items-center w-full p-2.5">
+                      <Skeleton extraCss="w-[34px] h-[34px] rounded-full mr-2" />
+                      <div className="flex flex-col items-start">
+                        <Skeleton extraCss="lg:h-3 h-[13px] w-[90px] mb-1" />
+                        <Skeleton extraCss="lg:h-3 hidden md:flex h-[13px] md:mb-[1px] w-[60px]" />
+                        <div className="flex items-center md:mb-[1px]">
+                          <TagPercentage
+                            extraCss="lg:text-xs px-1 h-[16px] rounded max-h-[16px] hidden md:flex"
+                            percentage={0}
+                            isUp={false}
+                            isLoading={true}
+                          />
+                        </div>
+                        <div className="flex items-center">
+                          <Skeleton extraCss="lg:h-3 h-[13px] md:mb-[1px] w-[60px]" />
+                          <Skeleton extraCss="px-1 h-[18px] rounded max-h-[18px] max-w-[50px] w-[50px] ml-2 flex md:hidden" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center  p-2.5">
+                      <div className="flex flex-col items-end mr-5 md:mr-3">
+                        <Skeleton extraCss="lg:h-3 h-[13px] w-[90px] mb-1" />
+                        <Skeleton extraCss="lg:h-3 h-[13px] w-[75px]" />
+                      </div>
+                      <div className="flex justify-end items-start w-full max-w-[60px]">
+                        <Skeleton extraCss="h-[22px] w-[22px] rounded-full" />
+                        <Skeleton extraCss="h-[22px] w-[22px] rounded-full ml-2" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
-          </tbody>
-        ) : null} */}
+          </div>
+        ) : null}
 
         {/* {isNormalBalance && numberOfAsset ? (
           <caption
