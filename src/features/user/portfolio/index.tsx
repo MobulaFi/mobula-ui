@@ -2,7 +2,6 @@
 import Cookies from "js-cookie";
 import { useContext, useEffect, useRef } from "react";
 import { getAddress } from "viem";
-import NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT from "../../../../";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -69,11 +68,6 @@ export const Portfolio = ({
 
       const socket = new WebSocket(
         process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
-      );
-
-      console.log(
-        "NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT",
-        NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
       );
 
       socket.addEventListener("open", () => {
@@ -179,7 +173,6 @@ export const Portfolio = ({
           // Basically, refreshing will keep the little weel spinning while starting to display first data.
           setIsRefreshing(true);
         } catch (e) {
-          console.log(event.data, event.data === "Goodbye.");
           if (event.data === "Goodbye.") {
             setIsRefreshing(false);
             if (failed) {
@@ -223,7 +216,6 @@ export const Portfolio = ({
 
   useEffect(() => {
     if (!isWalletExplorer && id && String(activePortfolio?.id) !== id) {
-      console.log("indeed");
       const supabase = createSupabaseDOClient();
       supabase
         .from("portfolios")
@@ -233,7 +225,6 @@ export const Portfolio = ({
         .eq("id", id)
         .then((r) => {
           if (r.data) {
-            console.log("setting active portfolio", r.data[0]);
             setActivePortfolio(r.data[0]);
           }
         });
@@ -248,7 +239,7 @@ export const Portfolio = ({
       setAsset({
         ...rightAsset,
         uniqueIdentifier: assetName,
-      } as never);
+      });
       setIsAssetPage(true);
     } else if (isAssetPage) setIsAssetPage(false);
   }, [wallet, assetName]);
@@ -276,10 +267,8 @@ export const Portfolio = ({
           .in("id", ids || [])
           .then((r) => {
             if (r.error) {
-              console.log(r.error);
               return;
             }
-
             if (threadId.current !== threadId.current) return;
 
             const newWallet = { ...wallet };

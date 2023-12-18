@@ -64,7 +64,7 @@ export const RankBox = ({ goodChoice, badChoice }: RankBoxProps) => {
       triggerAlert("Success", "You successfully claimed your rewards.");
       setTokensOwed(0);
     } catch (error) {
-      if (error.detailsN.includes("User denied")) {
+      if (error?.details?.includes("User denied")) {
         triggerAlert("Error", "You rejected the transaction.");
       } else triggerAlert("Error", "You don't have anything to claim.");
     }

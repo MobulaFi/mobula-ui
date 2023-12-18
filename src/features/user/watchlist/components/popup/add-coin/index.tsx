@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../../components/button";
@@ -7,6 +7,7 @@ import { NextImageFallback } from "../../../../../../components/image";
 import { Input } from "../../../../../../components/input";
 import { ModalContainer } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
+import { UserExtended } from "../../../../../../interfaces/user";
 import { useUpdateSearch } from "../../../../../../layouts/swap/hooks/useUpdateSearch";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
 import { triggerAlert } from "../../../../../../lib/toastify";
@@ -166,7 +167,10 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
                 ...(filteredWL || []),
                 updatedActiveWatchlist,
               ];
-              setUser({ ...(user as any), watchlist: updatedWatchlists });
+              setUser({
+                ...user,
+                watchlist: updatedWatchlists,
+              } as UserExtended);
               setTokenToAdd([]);
             } else triggerAlert("Error", "Please create a watchlist first.");
           }}

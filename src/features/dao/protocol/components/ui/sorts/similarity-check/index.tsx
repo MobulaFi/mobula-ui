@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { SiConvertio } from "react-icons/si";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { Tds, Ths } from "../../../../../../../components/table";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../../../../../lib/supabase";
 import {
   addressSlicer,
@@ -15,7 +14,7 @@ import { thStyles } from "../../../../style";
 import { getClosestSimilarToken } from "../../../../utils";
 
 interface SimilarityCheckProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 const REQUEST_SELECT =

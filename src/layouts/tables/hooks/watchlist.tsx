@@ -78,19 +78,13 @@ export const useWatchlist = (id?: number) => {
               });
 
               if (setIsLoading) setIsLoading(false);
-              setUser(
-                (userBuffer) =>
-                  ({
-                    ...userBuffer,
-                    main_watchlist: {
-                      ...userBuffer.main_watchlist,
-                      assets: [
-                        ...userBuffer.main_watchlist.assets,
-                        idBuffer || id,
-                      ],
-                    },
-                  } as never)
-              );
+              setUser((userBuffer) => ({
+                ...userBuffer,
+                main_watchlist: {
+                  ...userBuffer.main_watchlist,
+                  assets: [...userBuffer.main_watchlist.assets, idBuffer || id],
+                },
+              }));
               // }
             });
 

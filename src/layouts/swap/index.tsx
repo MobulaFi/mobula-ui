@@ -16,7 +16,6 @@ import { useUpdateBalance } from "./hooks/useUpdateBalance";
 import { MetaSwapContext } from "./meta";
 import {
   Asset,
-  Coin,
   ISwapContext,
   Loaded,
   Quote,
@@ -25,6 +24,7 @@ import {
   SyntaxicTokensBuffer,
 } from "./model";
 import { TransactionReceipt } from "./popup/receipt";
+import { SearchTokenProps } from "./popup/select/model";
 import { cleanNumber } from "./utils";
 
 export const SwapContext = createContext({} as ISwapContext);
@@ -206,22 +206,22 @@ export const SwapProvider = ({
 }: {
   children: React.ReactNode;
   lockToken?: ("in" | "out")[];
-  tokenInBuffer?: Asset | Coin;
-  tokenOutBuffer?: Asset | Coin;
+  tokenInBuffer?: SearchTokenProps;
+  tokenOutBuffer?: SearchTokenProps;
 }) => {
   // Token-related hooks
   const [tokenIn, setTokenIn] = useState<
-    ((Asset | Coin) & Loaded) | undefined
+    (SearchTokenProps & Loaded) | undefined
   >();
   const [tokenOut, setTokenOut] = useState<
-    ((Asset | Coin) & Loaded) | undefined
+    (SearchTokenProps & Loaded) | undefined
   >();
-  const [tokenOutBuffer, setTokenOutBuffer] = useState<
-    (Asset | Coin) | undefined
-  >(tokenOutBufferParam);
-  const [tokenInBuffer, setTokenInBuffer] = useState<
-    (Asset | Coin) | undefined
-  >(tokenInBufferParam);
+  const [tokenOutBuffer, setTokenOutBuffer] = useState<SearchTokenProps>(
+    tokenOutBufferParam as SearchTokenProps
+  );
+  const [tokenInBuffer, setTokenInBuffer] = useState<SearchTokenProps>(
+    tokenInBufferParam as SearchTokenProps
+  );
   const [lockToken, setLockToken] = useState<("in" | "out")[]>(bufferLockToken);
 
   // Swap-related hooks

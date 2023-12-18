@@ -96,7 +96,7 @@ export const Liquidity = ({ extraCss }: LiquidityProps) => {
           show: false,
           position: "center",
         },
-        data: data as any[],
+        data: data as any,
         color: [
           "#165DFF",
           "#D91AD9",

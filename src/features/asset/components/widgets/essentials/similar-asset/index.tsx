@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import React from "react";
 import { Button } from "../../../../../../components/button";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
@@ -49,15 +48,13 @@ export const SimilarAsset = () => {
                       </div>
                       <TagPercentage
                         percentage={
-                          (parseFloat(
+                          parseFloat(
                             getTokenPercentage(trending.price_change_24h)
                           ) > 0
                             ? `+${getTokenPercentage(
                                 trending.price_change_24h
                               )}`
-                            : getTokenPercentage(
-                                trending.price_change_24h
-                              )) as never
+                            : getTokenPercentage(trending.price_change_24h)
                         }
                         isUp={
                           parseFloat(

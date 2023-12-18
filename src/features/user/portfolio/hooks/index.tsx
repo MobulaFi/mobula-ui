@@ -1,6 +1,6 @@
-import {useCallback, useContext} from "react";
-import {PortfolioV2Context} from "../context-manager";
-import {IPortfolio} from "../models";
+import { useContext } from "react";
+import { PortfolioV2Context } from "../context-manager";
+import { IPortfolio } from "../models";
 
 export const useWebSocketResp = () => {
   const {
@@ -14,31 +14,30 @@ export const useWebSocketResp = () => {
 
   const refreshPortfolio = (activePortfolioBuffer?: IPortfolio) => {
     const activePortfolio = activePortfolioBuffer || unsafeActivePortfolio;
-    console.log("Refreshing called", activePortfolio);
     if (activePortfolio) {
       const socket = new WebSocket(
-        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT,
+        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
       );
       setIsLoading(true);
       socket.addEventListener("open", () => {
         const settingsString = activePortfolio.wallets
           ? `, "settings": { "wallets": ${JSON.stringify(
-              activePortfolio.wallets,
+              activePortfolio.wallets
             )}, "removed_assets": ${JSON.stringify(
-              activePortfolio.removed_assets,
+              activePortfolio.removed_assets
             )}, "removed_transactions": ${JSON.stringify(
-              activePortfolio.removed_transactions,
+              activePortfolio.removed_transactions
             )}}`
           : "";
 
         socket.send(
           isWalletExplorer
             ? `{"explorer": {"wallet": "${isWalletExplorer}"}, "force": true}`
-            : `{"portfolio": {"id": ${activePortfolio?.id}${settingsString}}, "force": true}`,
+            : `{"portfolio": {"id": ${activePortfolio?.id}${settingsString}}, "force": true}`
         );
       });
       let failed = true;
-      socket.addEventListener("message", event => {
+      socket.addEventListener("message", (event) => {
         try {
           const portfolio = JSON.parse(event.data);
           if (portfolio !== null) {
@@ -46,7 +45,7 @@ export const useWebSocketResp = () => {
               setIsLoading(false);
               setIsRefreshing(false);
               setError(
-                "Invalid address. Mobula Portfolio does not support smart-contracts.",
+                "Invalid address. Mobula Portfolio does not support smart-contracts."
               );
               setWallet(null);
             } else {

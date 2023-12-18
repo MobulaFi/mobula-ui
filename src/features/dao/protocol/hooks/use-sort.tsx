@@ -122,7 +122,6 @@ export const useSort = () => {
             }
           } catch (e) {
             fails += 1;
-            console.log(e);
           }
         });
       });

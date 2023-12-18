@@ -19,10 +19,7 @@ export const Pagination = ({
   const params = useSearchParams();
   const pageNumber = params.get("page");
   const page = pageNumber
-    ? Math.min(
-        parseInt(pageNumber as string, 10),
-        parseInt(maxPage as never, 10)
-      )
+    ? Math.min(parseInt(pageNumber as string, 10), maxPage)
     : 1;
 
   const options =

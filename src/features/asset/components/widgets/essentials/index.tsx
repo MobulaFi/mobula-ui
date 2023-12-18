@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { MarketMetrics } from "../../../../../interfaces/trades";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
@@ -74,21 +74,19 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
           <div className="flex">
             {isDesktop && (
               <SwapProvider
-                tokenOutBuffer={
-                  {
-                    ...baseAsset,
-                    blockchain: baseAsset?.blockchains[0],
-                    address:
-                      baseAsset && "contracts" in baseAsset
-                        ? baseAsset.contracts[0]
-                        : undefined,
-                    logo: baseAsset?.image || baseAsset?.logo,
-                    name: baseAsset?.name || baseAsset?.symbol,
-                  } as never
-                }
+                tokenOutBuffer={{
+                  ...baseAsset,
+                  blockchain: baseAsset?.blockchains[0],
+                  address:
+                    baseAsset && "contracts" in baseAsset
+                      ? baseAsset.contracts[0]
+                      : undefined,
+                  logo: baseAsset?.image || baseAsset?.logo,
+                  name: baseAsset?.name || baseAsset?.symbol,
+                }}
                 lockToken={["out"]}
               >
-                <SmallSwap asset={baseAsset as never} />
+                <SmallSwap asset={baseAsset} />
               </SwapProvider>
             )}
           </div>

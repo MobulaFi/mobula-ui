@@ -4,6 +4,7 @@ import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { Select } from "../../../layouts/swap/popup/select";
 import { pushData } from "../../../lib/mixpanel";
+import { Asset } from "../../asset/models";
 import { Activity } from "./components/category/activity";
 import { Cryptocurrencies } from "./components/category/cryptocurrencies";
 import { NFTs } from "./components/category/nfts";
@@ -50,7 +51,7 @@ export const PortfolioMain = () => {
     isMobile,
     showHiddenTokensPopup,
   } = useContext(PortfolioV2Context);
-  const [previousTab, setPreviousTab] = useState<string | undefined>("");
+  const [previousTab, setPreviousTab] = useState<string>("");
   const firstRender = useRef(true);
   const isMoreThan991 =
     (typeof window !== "undefined" ? window.innerWidth : 0) > 991;
@@ -62,7 +63,7 @@ export const PortfolioMain = () => {
 
   useEffect(() => {
     setIsAssetPage(false);
-    setAsset(null as never);
+    setAsset(null);
   }, []);
 
   useEffect(() => {
@@ -154,7 +155,7 @@ export const PortfolioMain = () => {
           list={["General", "Widgets", "NFTs", "Activity"]}
           setActive={setActiveCategory}
           active={activeCategory}
-          setPreviousTab={setPreviousTab as never}
+          setPreviousTab={setPreviousTab}
           isPortfolio
         />
       ) : null}
@@ -272,7 +273,7 @@ export const PortfolioMain = () => {
             visible={showSelect}
             setVisible={setShowSelect}
             callback={(token) => {
-              setTokenTsx(token);
+              setTokenTsx(token as Asset);
               setShowAddTransaction(true);
               pushData("Add Asset Button Clicked");
             }}

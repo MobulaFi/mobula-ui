@@ -1,6 +1,6 @@
 "use client";
-import React, { createContext, useEffect, useMemo, useState } from "react";
-import { Asset } from "../interfaces/assets";
+import { createContext, useEffect, useMemo, useState } from "react";
+import { TableAsset } from "../interfaces/assets";
 import { IPopupStateContext, IPopupUpdateContext } from "../interfaces/popup";
 import { WalkthroughBuffer } from "../interfaces/transactions";
 import { pushData } from "../lib/mixpanel";
@@ -22,7 +22,7 @@ export const PopupProvider = ({ children }) => {
   );
   const [showMenuTableMobile, setShowMenuTableMobile] = useState(false);
   const [showMenuTableMobileForToken, setShowMenuTableMobileForToken] =
-    useState({} as Asset);
+    useState({} as TableAsset);
   const [showAlert, setShowAlert] = useState("");
 
   useEffect(() => {

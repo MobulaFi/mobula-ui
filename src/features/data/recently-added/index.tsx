@@ -1,11 +1,11 @@
 "use client";
 import { generateFilters } from "@utils/filters";
 import { Asset } from "features/asset/models";
-import React, { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
-import { OrderBy } from "../../../interfaces/assets";
+import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components/index";
@@ -65,8 +65,20 @@ export const RecentlyAdded = ({
           <div className="mt-2.5">
             {!isLoading ? (
               <AssetsTable
-                resultsData={resultsData}
-                setResultsData={setResultsData}
+                resultsData={
+                  resultsData as unknown as {
+                    data: TableAsset[];
+                    count: number;
+                  }
+                }
+                setResultsData={
+                  setResultsData as unknown as React.Dispatch<
+                    SetStateAction<{
+                      data: TableAsset[];
+                      count: number;
+                    }>
+                  >
+                }
                 lastColumn="Added"
                 orderBy={orderBy}
                 setOrderBy={setOrderBy}

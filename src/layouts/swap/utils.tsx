@@ -7,12 +7,11 @@ import {
   http,
 } from "viem";
 import { erc20ABI } from "wagmi";
-import { MultichainAsset } from "../../interfaces/holdings";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { idToWagmiChain } from "../../utils/chains";
 import { toNumber } from "../../utils/formaters";
-import { Asset, Coin } from "./model";
-import { Results } from "./popup/select/model";
+import { EventProps, LogProps } from "./model";
+import { SearchTokenProps } from "./popup/select/model";
 
 export const fetchContract = (search: string) => {
   const supabase = createSupabaseDOClient();
@@ -68,13 +67,13 @@ export const cleanNumber = (
 };
 
 export const formatAsset = (
-  asset: (Asset | MultichainAsset | Coin) & Results,
+  asset: SearchTokenProps,
   chainName: BlockchainName
-): (Asset | Coin) & Results => {
+) => {
   if ("coin" in asset) return asset;
   return {
     ...asset,
-    logo: asset.logo || "/icon/unknown.png",
+    logo: asset.logo || "/empty/unknown.png",
     address:
       asset.address ||
       asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
@@ -87,43 +86,39 @@ export const formatAsset = (
 };
 
 export const getAmountOut = (
-  tx: TransactionReceipt,
+  tx: LogProps | TransactionReceipt,
   address: string,
   tokenAddress: string,
   decimals = 18
 ) => {
-  if (!address) return 0;
-  if (!tx) return 0;
-  if (!tx.logs) return 0;
-  // Search for the Transfer event that includes "address" as the recipient (the second topic)
-  let event = (tx.logs as any).filter(
-    (log) =>
-      log.topics[0] ===
+  if (!address || !tx || !tx.logs) return 0;
+
+  let events: any = tx.logs.filter(
+    (log: EventProps) =>
+      log?.topics?.[0] ===
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
-      log.topics[2].includes(address.slice(2, 42).toLowerCase())
+      log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
   );
 
-  // If there are more than one Transfer events, filter the one that includes the token address (i.e. reward token)
-  if (event.length > 1) {
-    event = event.filter(
-      (log) => log.address.toLowerCase() === tokenAddress.toLowerCase()
+  if (events.length > 1) {
+    events = events.filter(
+      (log: EventProps) =>
+        log.address.toLowerCase() === tokenAddress.toLowerCase()
     );
   }
 
-  [event] = event;
-
-  if (!event) {
-    event = (tx.logs as any).find(
-      (log) =>
-        log.topics[0] ===
+  let selectedEvent: any = events[0];
+  if (!selectedEvent) {
+    selectedEvent = tx.logs.find(
+      (log: EventProps) =>
+        log?.topics?.[0] ===
         "0x7fcf532c15f0a6db0bd6d0e038bea71d30d808c7d98cb3bf7268a95bf5081b65"
     );
   }
 
-  if (!event) return 0;
+  if (!selectedEvent) return 0;
 
-  // The "amount" is the data of the event, so we need to convert it to a regular number string, then to a BigNumber and divide it by 10^decimals
-  return toNumber(BigInt(event.data), decimals);
+  return toNumber(BigInt(selectedEvent.data), decimals);
 };
 
 export const generateTxError = (

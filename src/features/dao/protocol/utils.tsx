@@ -71,11 +71,10 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
     contract.read
       .assetById([tokenId])
       .catch((e) => {
-        console.log(e, "e");
+        // console.log(e, "e");
       })
       .then((res) => {
-        console.log(res, "res");
-        r(res as any);
+        r(res);
       });
   });
 

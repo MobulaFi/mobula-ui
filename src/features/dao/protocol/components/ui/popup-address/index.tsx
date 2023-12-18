@@ -4,7 +4,6 @@ import { SmallFont } from "../../../../../../components/fonts";
 import { ModalContainer } from "../../../../../../components/modal-container";
 
 export const PopupAddress = ({ isOpen, setIsOpen, distribution }) => {
-  console.log("DISTRIB", distribution);
   return (
     <ModalContainer
       title={distribution?.name || "Distribution"}

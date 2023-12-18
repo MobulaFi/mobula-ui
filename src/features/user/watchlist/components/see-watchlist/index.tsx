@@ -1,7 +1,7 @@
 "use client";
 import { User } from "mobula-utils/lib/user/model";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import React, { SetStateAction, useContext, useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../components/avatar";
@@ -13,6 +13,7 @@ import {
   PopupUpdateContext,
 } from "../../../../../contexts/popup";
 import { WatchlistDrawer } from "../../../../../drawer/watchlist";
+import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
 import { AssetsTable } from "../../../../../layouts/tables/components";
 import { addressSlicer } from "../../../../../utils/formaters";
 import { Asset } from "../../../../asset/models";
@@ -36,11 +37,11 @@ export const SeeWatchlist = ({
   const router = useRouter();
   const { isConnected } = useAccount();
   const { setConnect } = useContext(PopupUpdateContext);
-  const [orderBy, setOrderBy] = useState({
+  const [orderBy, setOrderBy] = useState<OrderBy>({
     ascending: false,
     type: "market_cap",
     first: true,
-  } as any);
+  });
   const getUsername = () => {
     if (userOfWatchlist) {
       if (userOfWatchlist?.username) return userOfWatchlist.username;
@@ -101,8 +102,14 @@ export const SeeWatchlist = ({
         <>
           <Header assets={tokens} activeWatchlist={watchlist} />
           <AssetsTable
-            resultsData={resultsData}
-            setResultsData={setResultsData as never}
+            resultsData={
+              resultsData as unknown as { data: TableAsset[]; count: number }
+            }
+            setResultsData={
+              setResultsData as unknown as React.Dispatch<
+                SetStateAction<{ data: TableAsset[]; count: number }>
+              >
+            }
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             isMobile={isMobile}

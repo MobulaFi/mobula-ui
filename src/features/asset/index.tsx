@@ -57,8 +57,8 @@ export const Assets = () => {
 
   useLiteStreamMarketDataModule(
     baseAsset,
-    marketMetrics as any,
-    setMarketMetrics as any,
+    marketMetrics,
+    setMarketMetrics,
     filters,
     setIsMarketMetricsLoading,
     shouldInstantLoad
@@ -77,9 +77,7 @@ export const Assets = () => {
         volumeChange: null,
         liquidity: 0,
         market_cap: baseAsset.market_cap,
-        trade_history: (filters.length > 0
-          ? []
-          : baseAsset?.trade_history) as any,
+        trade_history: filters.length > 0 ? [] : baseAsset?.trade_history,
       });
   }, [baseAsset]);
 
@@ -293,7 +291,7 @@ export const Assets = () => {
       name: format(pathname),
       url: pathname,
     });
-    setPrevPaths(previous as never);
+    setPrevPaths(previous);
     setIsBreadCrumbLoading(false);
   };
   useEffect(() => {
@@ -309,7 +307,7 @@ export const Assets = () => {
           list={tabs}
           setActive={setActiveTab}
           active={activeTab}
-          setPreviousTab={setPreviousTab as never}
+          setPreviousTab={setPreviousTab}
         />
         <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
@@ -415,7 +413,7 @@ export const Assets = () => {
                 position: activeTab === "Essentials" ? "static" : "absolute",
               }}
             >
-              <Essentials marketMetrics={marketMetrics as any} />
+              <Essentials marketMetrics={marketMetrics} />
             </div>
           ) : null}
           {activeTab === "Market" ? (

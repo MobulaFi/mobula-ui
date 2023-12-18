@@ -112,6 +112,12 @@ export interface TokenDivs {
     distribution: {
       name: string;
       amount: number;
+      percentage?: number;
+      addresses?: {
+        address: string;
+        blockchain: BlockchainName | string;
+        blockchain_id: number;
+      }[];
     }[];
     fees: {
       name: string;

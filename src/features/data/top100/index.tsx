@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
@@ -25,7 +25,7 @@ interface Top100Props {
   metrics?: {
     fear_and_greed_value: number;
     fear_and_greed_value_classification: string;
-  };
+  } | null;
   actualView?: View;
 }
 
@@ -78,10 +78,7 @@ export const Top100 = ({
                     <Portfolio showPageMobile={showPage} />
                   </div>
                   <div className="swiper-slide flex justify-center">
-                    <BoxMiddle
-                      showPageMobile={showPage}
-                      metrics={metrics as never}
-                    />
+                    <BoxMiddle showPageMobile={showPage} metrics={metrics} />
                   </div>
                   <div className="swiper-slide flex justify-center">
                     <BoxRight showPageMobile={showPage} />
@@ -92,7 +89,7 @@ export const Top100 = ({
           </Container>
           <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
             <Portfolio />
-            <BoxMiddle metrics={metrics as never} />
+            <BoxMiddle metrics={metrics} />
             <BoxRight />
           </Container>
         </div>

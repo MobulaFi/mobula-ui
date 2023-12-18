@@ -186,7 +186,7 @@ export type Asset = {
   decimals: number;
   blockchains: BlockchainName[];
   contracts: string[];
-  trade_history: Trade[];
+  trade_history: TradeHistory[] | null;
   created_at: string;
   symbol: string;
   name: string;
@@ -205,7 +205,13 @@ export type Asset = {
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
+  blockchain: BlockchainName;
+  address: string;
 };
+
+export interface CategoriesProps {
+  categories: { [key: string]: [number, number, [string, number]][] };
+}
 
 export interface RawPairs {
   pairs_data?: Record<string, number>;

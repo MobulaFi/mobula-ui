@@ -73,7 +73,6 @@ export const ComparePopover = ({
       ]);
 
       loadWalletPortfolio(content).then((walletResult: UserHoldings) => {
-        console.log("result", walletResult);
         if (!walletResult) return;
         setComparedEntities((prev) => {
           const newPrev = [...prev];

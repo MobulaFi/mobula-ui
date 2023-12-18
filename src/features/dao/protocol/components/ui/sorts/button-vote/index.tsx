@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { triggerAlert } from "../../../../../../../lib/toastify";
 import { ButtonOutlined } from "../../../../../common/components/button-outlined";
 import { ReasonVoteContext } from "../../../../context-manager/reason-vote";
 import { VoteContext } from "../../../../context-manager/vote";
 import { useVote } from "../../../../hooks/use-vote";
+import { TokenDivs } from "../../../../models";
 
 interface ButtonVoteProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const ButtonVote = ({ token }: ButtonVoteProps) => {
@@ -54,13 +54,7 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
             if (isAbleToSubmit) {
               if (hasVoted || !token.isListing) {
                 const { utilityScore, socialScore, trustScore } = vote;
-                voteToken(
-                  token as any,
-                  0,
-                  utilityScore,
-                  socialScore,
-                  trustScore
-                );
+                voteToken(token, 0, utilityScore, socialScore, trustScore);
               } else {
                 triggerAlert(
                   "Error",
@@ -86,7 +80,7 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
           onClick={() => {
             if (isAbleToSubmit) {
               const { utilityScore, socialScore, trustScore } = vote;
-              voteToken(token as any, 1, utilityScore, socialScore, trustScore);
+              voteToken(token, 1, utilityScore, socialScore, trustScore);
             }
           }}
         >
