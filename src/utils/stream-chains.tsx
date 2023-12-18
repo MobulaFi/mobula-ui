@@ -43,7 +43,7 @@ export const useLiteStreamMarketData = (
     volume: baseAsset.volume,
     volumeChange: null,
     market_cap: baseAsset.market_cap,
-    trade_history: (baseAsset?.trade_history as any) || [],
+    trade_history: baseAsset?.trade_history || [],
   });
 
   useEffect(() => {

@@ -336,11 +336,7 @@ export const Entry = ({
             // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
             extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${background} md:pl-0`}
           >
-            <TokenInfo
-              token={token as Asset}
-              showRank={showRank}
-              index={index}
-            />
+            <TokenInfo token={token} showRank={showRank} index={index} />
           </Segment>
           {(activeView?.display?.length || 0) > 0 &&
           (pathname === "/" || pathname === "/?page=" + page) &&
@@ -436,7 +432,7 @@ export const Entry = ({
                 <Button
                   extraCss="px-0 w-[28px] h-[28px]"
                   onClick={() => {
-                    setShowBuyDrawer(token as Asset);
+                    setShowBuyDrawer(token as unknown as Asset);
                     pushData("Interact", {
                       name: "Swap Drawer",
                       from_page: pathname,
@@ -455,7 +451,7 @@ export const Entry = ({
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}
           setShow={setShow}
-          asset={token as Asset}
+          asset={token as unknown as Asset}
         />
       ) : null}
     </EntryContext.Provider>

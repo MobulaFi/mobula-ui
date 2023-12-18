@@ -50,7 +50,7 @@ export const AddTransactionPopup = () => {
   const minutesRef = useRef<HTMLInputElement>(null);
   const [showNote, setShowNote] = useState(false);
   const [activePrice, setActivePrice] = useState("Market Price");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date>(new Date());
   const [typeSelected, setTypeSelected] = useState("Buy");
   const switcherOptions = ["Buy", "Sell", "Transfer"];
   const [isUSDInput, setIsUSDInput] = useState(false);

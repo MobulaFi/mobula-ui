@@ -1,19 +1,27 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import {
-  TransactionReceipt,
-  createPublicClient,
-  getContract,
-  http,
-} from "viem";
+import { createPublicClient, getContract, http } from "viem";
 import { erc20ABI } from "wagmi";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { idToWagmiChain } from "../../utils/chains";
 import { toNumber } from "../../utils/formaters";
 import { SearchTokenProps } from "./popup/select/model";
 
-interface ExtendedTransactionReceipt extends TransactionReceipt {
+interface EventProps {
   topics: string[];
+  data: string;
+  address: string;
+}
+interface LogProps {
+  address: `0x${string}`;
+  blockHash: `0x${string}`;
+  blockNumber: bigint;
+  data: `0x${string}`;
+  logIndex: number;
+  transactionHash: `0x${string}`;
+  transactionIndex: number;
+  removed: boolean;
+  logs: [];
 }
 
 export const fetchContract = (search: string) => {
@@ -89,7 +97,7 @@ export const formatAsset = (
 };
 
 export const getAmountOut = (
-  tx: ExtendedTransactionReceipt,
+  tx: LogProps,
   address: string,
   tokenAddress: string,
   decimals = 18
@@ -98,8 +106,8 @@ export const getAmountOut = (
   if (!tx) return 0;
   if (!tx.logs) return 0;
   // Search for the Transfer event that includes "address" as the recipient (the second topic)
-  let event = tx.logs.filter(
-    (log) =>
+  let event: EventProps[] = tx.logs.filter(
+    (log: EventProps) =>
       log?.topics?.[0] ===
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" &&
       log?.topics?.[2]?.includes(address.slice(2, 42).toLowerCase())
@@ -108,16 +116,17 @@ export const getAmountOut = (
   // If there are more than one Transfer events, filter the one that includes the token address (i.e. reward token)
   if (event.length > 1) {
     event = event.filter(
-      (log) => log.address.toLowerCase() === tokenAddress.toLowerCase()
+      (log: EventProps) =>
+        log.address.toLowerCase() === tokenAddress.toLowerCase()
     );
   }
 
   [event] = event;
 
   if (!event) {
-    event = (tx.logs as any).find(
-      (log) =>
-        log.topics[0] ===
+    event = tx?.logs?.find(
+      (log: EventProps) =>
+        log?.topics?.[0] ===
         "0x7fcf532c15f0a6db0bd6d0e038bea71d30d808c7d98cb3bf7268a95bf5081b65"
     );
   }
