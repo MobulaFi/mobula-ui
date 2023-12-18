@@ -100,7 +100,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         <Header
           assets={tokens}
           activeWatchlist={activeWatchlist as IWatchlist}
-          setActiveWatchlist={setActiveWatchlist as never}
+          setActiveWatchlist={setActiveWatchlist}
           setShowCreateWL={setShowCreateWL}
         />
         {activeWatchlist ||
@@ -108,7 +108,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         tokens?.length > 0 ? (
           <AssetsTable
             resultsData={resultsData}
-            setResultsData={setResultsData as never}
+            setResultsData={setResultsData}
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             isMobile={isMobile}

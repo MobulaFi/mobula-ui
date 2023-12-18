@@ -1,13 +1,7 @@
 import * as echarts from "echarts";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../components/fonts";
 import {
@@ -48,9 +42,7 @@ export const HoldingChart = ({ ...props }) => {
       .sort((a, b) => b.estimated_balance - a.estimated_balance)
       .filter((_, i) => i >= MAX_DISPLAY) || [];
 
-  const initialChains = getChainsBreakdownFromPortfolio(
-    wallet?.portfolio as never
-  );
+  const initialChains = getChainsBreakdownFromPortfolio(wallet?.portfolio);
   const sortedBlockchains = Object.entries(initialChains)
     .sort((a, b) => b[1] - a[1])
     .slice(0, MAX_DISPLAY);
@@ -168,7 +160,7 @@ export const HoldingChart = ({ ...props }) => {
   const createInstance = useCallback(() => {
     if (!sortedHoldings.length || !sortedBlockchains?.length) return;
     const instance = echarts.getInstanceByDom(
-      document.getElementById(id) as never
+      document.getElementById(id) as HTMLElement
     );
     return (
       instance ||

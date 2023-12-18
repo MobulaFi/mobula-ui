@@ -123,16 +123,13 @@ export const Header = ({
               watchlist_id: watchlistID,
             });
             triggerAlert("Success", "Successfully followed this watchlist.");
-            setUser(
-              (userBuffer) =>
-                ({
-                  ...userBuffer,
-                  watchlists_followed: [
-                    ...(userBuffer?.watchlists_followed || []),
-                    watchlistID,
-                  ],
-                } as never)
-            );
+            setUser((userBuffer) => ({
+              ...userBuffer,
+              watchlists_followed: [
+                ...(userBuffer?.watchlists_followed || []),
+                watchlistID,
+              ],
+            }));
           }
         });
     if (address && user?.watchlists_followed.includes(watchlistID))
@@ -153,15 +150,12 @@ export const Header = ({
               watchlist_id: watchlistID,
             });
             triggerAlert("Success", "Successfully unfollowed this watchlist.");
-            setUser(
-              (userBuffer) =>
-                ({
-                  ...userBuffer,
-                  watchlists_followed: userBuffer?.watchlists_followed.filter(
-                    (entry) => entry !== watchlistID
-                  ),
-                } as never)
-            );
+            setUser((userBuffer) => ({
+              ...userBuffer,
+              watchlists_followed: userBuffer?.watchlists_followed.filter(
+                (entry) => entry !== watchlistID
+              ),
+            }));
           }
         });
   };

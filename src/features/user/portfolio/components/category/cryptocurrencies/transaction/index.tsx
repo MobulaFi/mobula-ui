@@ -1,7 +1,7 @@
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
@@ -429,8 +429,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                       ? [transaction.in, transaction.out]
                       : [transaction.asset];
 
-                  if (txTokens.length > 1)
-                    txTokens = getRightOrder(txTokens as never);
+                  if (txTokens.length > 1) txTokens = getRightOrder(txTokens);
 
                   if (
                     activePortfolio?.removed_transactions?.includes(
@@ -444,7 +443,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
 
                   const transactionInfos = getTransactionInfos(
                     transaction,
-                    txTokens as never
+                    txTokens
                   );
 
                   const isTransactionOut = isOut(transaction);
@@ -459,17 +458,15 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                   let tokenUsdAmount = transaction.amount_usd;
 
                   if (transaction.type === "swap") {
-                    tokenAmount = (
+                    tokenAmount =
                       txTokens?.[0]?.id === transaction?.in?.id
                         ? transaction?.in?.amount
-                        : transaction?.out?.amount
-                    ) as never;
+                        : transaction?.out?.amount;
 
-                    tokenUsdAmount = (
+                    tokenUsdAmount =
                       txTokens?.[0]?.id === transaction?.in?.id
                         ? transaction?.in?.amount_usd
-                        : transaction?.out?.amount_usd
-                    ) as never;
+                        : transaction?.out?.amount_usd;
                   }
 
                   return (

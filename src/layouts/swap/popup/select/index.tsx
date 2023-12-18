@@ -149,8 +149,8 @@ export const Select = ({
       setLockToken([]);
       setTokenOutBuffer(tokenOut);
       setTokenInBuffer(tokenIn);
-      loadToken("out", tokenIn as never);
-      loadToken("in", tokenOut as never);
+      loadToken("out", tokenIn);
+      loadToken("in", tokenOut);
       setVisible(false);
     }
   };
@@ -323,7 +323,7 @@ export const Select = ({
         {coinDecisionPopup && (
           <CoinDecision
             asset={coinDecisionPopup as Asset}
-            setAsset={setCoinDecisionPopoup as never}
+            setAsset={setCoinDecisionPopoup}
             callback={selectAToken}
           />
         )}

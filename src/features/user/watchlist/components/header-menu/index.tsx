@@ -49,7 +49,7 @@ export const HeaderMenu = () => {
               watchlist: user?.watchlist.filter(
                 (w) => w.name !== activeWatchlist.name
               ),
-            } as never);
+            });
             setActiveWatchlist(
               user?.watchlist.filter((w) => w.name !== activeWatchlist.name)[0]
             );
@@ -103,7 +103,7 @@ export const HeaderMenu = () => {
                 ...(user?.watchlist || []),
                 { ...activeWatchlist, name: newName },
               ],
-            } as never);
+            });
             // alert.success("Your watchlist has been duplicated");
           }
         });

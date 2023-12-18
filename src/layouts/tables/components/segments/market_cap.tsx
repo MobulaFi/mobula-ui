@@ -53,7 +53,7 @@ export const MarketCapSegment = ({
   const marketCapFromType = getMarketCapFromType();
 
   const getPercentage = () => {
-    const parsedCirculating = parseFloat(token?.circulating_supply as never);
+    const parsedCirculating = parseFloat(token?.circulating_supply);
     const parsedMax = parseFloat(token?.max_supply);
     if (parsedCirculating && parsedMax) {
       const percentage = (parsedCirculating / parsedMax) * 100;

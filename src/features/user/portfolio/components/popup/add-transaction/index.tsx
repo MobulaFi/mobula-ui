@@ -2,7 +2,7 @@ import { Button } from "components/button";
 import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -91,15 +91,12 @@ export const AddTransactionPopup = () => {
   const getPriceFromActivePriceOption = (type) => {
     if (type === "Market Price") {
       setSettings((prev) => ({ ...prev, price: tokenTsx?.price }));
-      setSettings(
-        (prev) =>
-          ({
-            ...prev,
-            total_spent: tokenTsx?.price
-              ? tokenTsx.price * parseFloat(prev.quantity)
-              : null,
-          } as never)
-      );
+      setSettings((prev) => ({
+        ...prev,
+        total_spent: tokenTsx?.price
+          ? tokenTsx.price * parseFloat(prev.quantity)
+          : null,
+      }));
     }
     if (type === "Custom Price") {
       setSettings((prev) => ({ ...prev, price: 0 }));
@@ -110,15 +107,12 @@ export const AddTransactionPopup = () => {
     }
     if (type === "Ico Price") {
       setSettings((prev) => ({ ...prev, price: tokenTsx?.ico_price }));
-      setSettings(
-        (prev) =>
-          ({
-            ...prev,
-            total_spent: tokenTsx?.ico_price
-              ? tokenTsx.ico_price * parseFloat(prev.quantity)
-              : null,
-          } as never)
-      );
+      setSettings((prev) => ({
+        ...prev,
+        total_spent: tokenTsx?.ico_price
+          ? tokenTsx.ico_price * parseFloat(prev.quantity)
+          : null,
+      }));
     }
   };
 

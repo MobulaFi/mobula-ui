@@ -164,7 +164,7 @@ export const useButtonClick = () => {
           while (!completedTx) {
             try {
               completedTx = await publicClient.getTransactionReceipt({
-                hash: transaction as never,
+                hash: transaction,
               });
             } catch (e) {
               // Do nothing

@@ -226,7 +226,7 @@ export interface PopupToken {
 
 export interface BuySettings {
   quantity: string;
-  token: Asset | null;
+  token: Partial<Asset> | null;
   price?: number;
   date: Date;
   fee: string;
@@ -262,12 +262,12 @@ export interface ActiveStep {
   nbr: number;
   title: string;
   subtitle: string;
-  top: string[];
-  right: string[];
-  transform: string[];
-  arrowRight?: string[];
-  arrowLeft?: string[];
-  arrowTop?: string[];
+  top: string;
+  right: string;
+  transform: string;
+  arrowRight?: string;
+  arrowLeft?: string;
+  arrowTop?: string;
   arrowPosition: "top" | "bottom" | "none";
 }
 

@@ -102,7 +102,7 @@ export const SeeWatchlist = ({
           <Header assets={tokens} activeWatchlist={watchlist} />
           <AssetsTable
             resultsData={resultsData}
-            setResultsData={setResultsData as never}
+            setResultsData={setResultsData}
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             isMobile={isMobile}

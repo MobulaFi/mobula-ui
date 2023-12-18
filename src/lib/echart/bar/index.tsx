@@ -30,7 +30,7 @@ echarts.use([
 ]);
 
 interface DataProps {
-  data: [number, number, [string, number]][];
+  data: [number, number][];
   height?: string;
   width?: string;
 }

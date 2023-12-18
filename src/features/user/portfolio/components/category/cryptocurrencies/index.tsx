@@ -1,7 +1,7 @@
 import { Spinner } from "components/spinner";
 import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -192,13 +192,6 @@ export const Cryptocurrencies = () => {
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
               .map((token) => {
                 return (
-                  // <TbodyCryptocurrencies
-                  //   key={token.name}
-                  //   token={token}
-                  //   setShowTokenInfo={setShowTokenInfo as never}
-                  //   showTokenInfo={showTokenInfo}
-                  //   tokenInfo={tokensData[token.id]}
-                  // />
                   <div
                     key={token?.name}
                     className={`${

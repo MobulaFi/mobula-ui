@@ -161,14 +161,11 @@ export const EditTransactionPopup = () => {
   }, []);
 
   useEffect(() => {
-    setSettings(
-      (prev) =>
-        ({
-          ...prev,
-          price: tokenTsx?.price,
-          token: tokenTsx,
-        } as never)
-    );
+    setSettings((prev) => ({
+      ...prev,
+      price: tokenTsx?.price,
+      token: tokenTsx,
+    }));
     loadHistory(tokenTsx);
   }, [tokenTsx]);
 

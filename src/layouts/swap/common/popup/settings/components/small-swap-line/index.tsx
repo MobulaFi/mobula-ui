@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, RefObject, SetStateAction, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { SwapContext } from "../../../../..";
 import { SmallFont } from "../../../../../../../components/fonts";
@@ -7,12 +7,12 @@ import { getRightPrecision } from "../../../../../../../utils/formaters";
 interface SmallSwapLineProps {
   position?: "in" | "out";
   setSelectVisible?: Dispatch<SetStateAction<string | boolean | undefined>>;
-  inputRef?: HTMLInputElement | any;
+  inputRef: RefObject<HTMLInputElement>;
 }
 
 export const SmallSwapLine = ({
   setSelectVisible,
-  inputRef,
+  inputRef = null,
   position,
 }: SmallSwapLineProps) => {
   const { tokenIn, tokenOut, setAmountIn, amountIn, amountOut } =
@@ -54,7 +54,7 @@ export const SmallSwapLine = ({
           className="text-sm text-light-font-100 dark:text-dark-font-100 my-auto text-end pr-[5px] bg-light-bg-secondary dark:bg-dark-bg-secondary"
           type="number"
           lang="en"
-          ref={inputRef as never}
+          ref={inputRef}
           onChange={(e) => {
             if (!setAmount) return;
             if (

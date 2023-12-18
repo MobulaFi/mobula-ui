@@ -37,7 +37,7 @@ export const useUpdateBalance = () => {
       contract.read.balanceOf([address]).then((balance) => {
         setTokenIn({
           ...tokenIn,
-          balance: String(toNumber(BigInt(balance), tokenIn.decimals)) as never,
+          balance: toNumber(BigInt(balance), tokenIn.decimals),
         });
       });
     }

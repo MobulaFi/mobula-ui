@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { SwapContext } from "../../../../..";
-import { SmallFont } from "../../../../../../../components/fonts";
-import { getRightPrecision } from "../../../../../../../utils/formaters";
+import { SwapContext } from "../..";
+import { SmallFont } from "../../../../components/fonts";
+import { getRightPrecision } from "../../../../utils/formaters";
 
 interface SmallSwapLineProps {
   position?: "in" | "out";
@@ -53,7 +53,7 @@ export const SmallSwapLine = ({
           className="text-sm text-light-font-100 dark:text-dark-font-100 my-auto text-end pr-[5px] bg-light-bg-secondary dark:bg-dark-bg-secondary"
           type="number"
           lang="en"
-          ref={inputRef as never}
+          ref={inputRef}
           onChange={(e) => {
             if (!setAmount) return;
             if (

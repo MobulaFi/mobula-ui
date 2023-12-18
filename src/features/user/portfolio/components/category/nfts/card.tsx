@@ -49,7 +49,7 @@ export const NftPortfolioCard = ({
       if (isWhiteMode) return "/asset/no-image.png";
       return "/asset/no-image-dark.png";
     }
-    return (nft?.image as never) || nftImage || "/asset/no-image-dark.png";
+    return nft?.image || nftImage || "/asset/no-image-dark.png";
   };
   const image = getNftImage();
 
