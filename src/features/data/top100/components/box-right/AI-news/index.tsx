@@ -13,6 +13,7 @@ interface AINewsProps {
 }
 
 const formatNewsSummary = (news: INewsGeneral) => {
+  if (!news.summary) return "Loading...";
   const elements: React.ReactNode[] = [];
   let lastIndex = 0;
 

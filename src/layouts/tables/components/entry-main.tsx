@@ -1,6 +1,14 @@
 "use client";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { NextImageFallback } from "../../../components/image";
@@ -10,7 +18,6 @@ import { SettingsMetricContext } from "../../../contexts/settings";
 import { UserContext } from "../../../contexts/user";
 import { defaultTop100 } from "../../../features/data/top100/constants";
 import { useTop100 } from "../../../features/data/top100/context-manager";
-import { Asset } from "../../../interfaces/assets";
 import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -144,47 +151,50 @@ export const Entry = ({
     ),
   };
 
+  const fetchPrice = () => {
+    const supabase = createSupabaseDOClient();
+    supabase
+      .from("assets")
+      .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
+      .match({ id: token.id })
+      .single()
+      .then((r) => {
+        if (
+          r.data &&
+          (r.data.price !== token.price ||
+            r.data.global_volume !== token.global_volume ||
+            r.data.market_cap !== token.market_cap ||
+            r.data.rank !== token.rank)
+        ) {
+          setToken({
+            ...token,
+            price: r.data.price,
+            priceChange:
+              r.data.price !== token.price
+                ? r.data.price > token.price
+                : undefined,
+            market_cap: r.data.market_cap,
+            marketCapChange:
+              r.data.market_cap !== token.market_cap
+                ? r.data.market_cap > token.market_cap
+                : undefined,
+            volume: r.data.global_volume,
+            rank: r.data.rank,
+            volumeChange:
+              r.data.global_volume !== token.global_volume
+                ? r.data.global_volume > token.global_volume
+                : undefined,
+            price_change_24h: r.data.price_change_24h,
+          });
+        }
+      });
+  };
+
   useEffect(() => {
     if (isVisible) {
+      fetchPrice();
       const interval = setInterval(() => {
-        const supabase = createSupabaseDOClient();
-        supabase
-          .from("assets")
-          .select(
-            "price,market_cap,global_volume,rank,created_at,price_change_24h"
-          )
-          .match({ id: token.id })
-          .single()
-          .then((r) => {
-            if (
-              r.data &&
-              (r.data.price !== token.price ||
-                r.data.global_volume !== token.global_volume ||
-                r.data.market_cap !== token.market_cap ||
-                r.data.rank !== token.rank)
-            ) {
-              setToken({
-                ...token,
-                price: r.data.price,
-                priceChange:
-                  r.data.price !== token.price
-                    ? r.data.price > token.price
-                    : undefined,
-                market_cap: r.data.market_cap,
-                marketCapChange:
-                  r.data.market_cap !== token.market_cap
-                    ? r.data.market_cap > token.market_cap
-                    : undefined,
-                volume: r.data.global_volume,
-                rank: r.data.rank,
-                volumeChange:
-                  r.data.global_volume !== token.global_volume
-                    ? r.data.global_volume > token.global_volume
-                    : undefined,
-                price_change_24h: r.data.price_change_24h,
-              });
-            }
-          });
+        fetchPrice();
       }, 5000);
 
       return () => clearInterval(interval);
@@ -433,7 +443,7 @@ export const Entry = ({
                 <Button
                   extraCss="px-0 w-[28px] h-[28px]"
                   onClick={() => {
-                    setShowBuyDrawer(token as TableAsset);
+                    setShowBuyDrawer(token);
                     pushData("Interact", {
                       name: "Swap Drawer",
                       from_page: pathname,
@@ -450,9 +460,9 @@ export const Entry = ({
       </tbody>
       {show || (isMobile && showAlert === token?.name) ? (
         <PriceAlertPopup
-          show={(show as any) || (showAlert as any)}
-          setShow={setShow}
-          asset={token as unknown as Asset}
+          show={show || showAlert}
+          setShow={setShow as Dispatch<SetStateAction<string | boolean>>}
+          asset={token}
         />
       ) : null}
     </EntryContext.Provider>
