@@ -15,7 +15,6 @@ import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
-import React from "react";
 import { Button } from "../../../components/button";
 import useDeviceDetect from "../../../hooks/detect-device";
 import { useIsInViewport } from "../../../hooks/viewport";
@@ -144,47 +143,50 @@ export const Entry = ({
     ),
   };
 
+  const fetchPrice = () => {
+    const supabase = createSupabaseDOClient();
+    supabase
+      .from("assets")
+      .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
+      .match({ id: token.id })
+      .single()
+      .then((r) => {
+        if (
+          r.data &&
+          (r.data.price !== token.price ||
+            r.data.global_volume !== token.global_volume ||
+            r.data.market_cap !== token.market_cap ||
+            r.data.rank !== token.rank)
+        ) {
+          setToken({
+            ...token,
+            price: r.data.price,
+            priceChange:
+              r.data.price !== token.price
+                ? r.data.price > token.price
+                : undefined,
+            market_cap: r.data.market_cap,
+            marketCapChange:
+              r.data.market_cap !== token.market_cap
+                ? r.data.market_cap > token.market_cap
+                : undefined,
+            volume: r.data.global_volume,
+            rank: r.data.rank,
+            volumeChange:
+              r.data.global_volume !== token.global_volume
+                ? r.data.global_volume > token.global_volume
+                : undefined,
+            price_change_24h: r.data.price_change_24h,
+          });
+        }
+      });
+  };
+
   useEffect(() => {
     if (isVisible) {
+      fetchPrice();
       const interval = setInterval(() => {
-        const supabase = createSupabaseDOClient();
-        supabase
-          .from("assets")
-          .select(
-            "price,market_cap,global_volume,rank,created_at,price_change_24h"
-          )
-          .match({ id: token.id })
-          .single()
-          .then((r) => {
-            if (
-              r.data &&
-              (r.data.price !== token.price ||
-                r.data.global_volume !== token.global_volume ||
-                r.data.market_cap !== token.market_cap ||
-                r.data.rank !== token.rank)
-            ) {
-              setToken({
-                ...token,
-                price: r.data.price,
-                priceChange:
-                  r.data.price !== token.price
-                    ? r.data.price > token.price
-                    : undefined,
-                market_cap: r.data.market_cap,
-                marketCapChange:
-                  r.data.market_cap !== token.market_cap
-                    ? r.data.market_cap > token.market_cap
-                    : undefined,
-                volume: r.data.global_volume,
-                rank: r.data.rank,
-                volumeChange:
-                  r.data.global_volume !== token.global_volume
-                    ? r.data.global_volume > token.global_volume
-                    : undefined,
-                price_change_24h: r.data.price_change_24h,
-              });
-            }
-          });
+        fetchPrice();
       }, 5000);
 
       return () => clearInterval(interval);
@@ -337,7 +339,11 @@ export const Entry = ({
             // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
             extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${background} md:pl-0`}
           >
-            <TokenInfo token={token} showRank={showRank} index={index} />
+            <TokenInfo
+              token={token as Asset}
+              showRank={showRank}
+              index={index}
+            />
           </Segment>
           {(activeView?.display?.length || 0) > 0 &&
           (pathname === "/" || pathname === "/?page=" + page) &&
@@ -433,7 +439,7 @@ export const Entry = ({
                 <Button
                   extraCss="px-0 w-[28px] h-[28px]"
                   onClick={() => {
-                    setShowBuyDrawer(token as TableAsset);
+                    setShowBuyDrawer(token as Asset);
                     pushData("Interact", {
                       name: "Swap Drawer",
                       from_page: pathname,
@@ -452,7 +458,7 @@ export const Entry = ({
         <PriceAlertPopup
           show={(show as any) || (showAlert as any)}
           setShow={setShow}
-          asset={token as unknown as Asset}
+          asset={token as Asset}
         />
       ) : null}
     </EntryContext.Provider>
