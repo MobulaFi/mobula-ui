@@ -1,4 +1,10 @@
-import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
@@ -7,16 +13,16 @@ import { ModalContainer } from "../../components/modal-container";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { UserContext } from "../../contexts/user";
 import { BaseAssetContext } from "../../features/asset/context-manager";
-import { Asset } from "../../interfaces/assets";
+import { TableAsset } from "../../interfaces/assets";
 import { pushData } from "../../lib/mixpanel";
 import { GET } from "../../utils/fetch";
 import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
 import { PopupTelegram } from "../telegram-connect";
 
 interface PriceAlertPopupProps {
-  show: boolean;
-  setShow: Dispatch<SetStateAction<boolean>>;
-  asset?: Asset;
+  show: boolean | string;
+  setShow: Dispatch<SetStateAction<boolean | string>>;
+  asset?: TableAsset;
 }
 
 export const PriceAlertPopup = ({
@@ -36,8 +42,8 @@ export const PriceAlertPopup = ({
 
   const percentageFromActualPrice = () =>
     getTokenPercentage(
-      ((Number(targetPrice) - (asset?.price || token.price)) /
-        (asset?.price || token.price)) *
+      ((Number(targetPrice) - ((asset?.price as number) || token.price)) /
+        ((asset?.price as number) || token.price)) *
         100
     );
 
@@ -80,7 +86,7 @@ export const PriceAlertPopup = ({
           : `Get a price alert for ${asset?.name || token.name}`
       }
       extraCss="max-w-[480px]"
-      isOpen={show}
+      isOpen={show as boolean}
       onClose={() => {
         setShowAlert("");
         setShow(false);
