@@ -3,15 +3,15 @@ import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Container } from "../../components/container";
 import { LargeFont, MediumFont } from "../../components/fonts";
-import { CompareHeaderTable } from "../../features/landings/Api/common/component/compare-header-table";
-import { CompareTable } from "../../features/landings/Api/common/component/compare-table";
-import { TemplateOdd } from "../../features/landings/Api/common/component/template-odd";
-import { TemplateTitle } from "../../features/landings/Api/common/component/template-title";
+import { CompareHeaderTable } from "../../features/landings/template/component/compare-header-table";
+import { CompareTable } from "../../features/landings/template/component/compare-table";
+import { TemplateOdd } from "../../features/landings/template/component/template-odd";
+import { TemplateTitle } from "../../features/landings/template/component/template-title";
 import {
   getBotContents,
   getContentsTable,
-} from "../../features/landings/Api/common/constants";
-import { ContentType } from "../../features/landings/Api/common/models";
+} from "../../features/landings/template/constants";
+import { ContentType } from "../../features/landings/template/models";
 
 export default function BotPage() {
   const contents = getBotContents();

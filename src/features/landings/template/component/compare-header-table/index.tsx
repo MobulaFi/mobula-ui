@@ -1,3 +1,4 @@
+import React from "react";
 import { AiFillGift, AiOutlineAreaChart } from "react-icons/ai";
 import {
   BsDoorOpenFill,
@@ -8,9 +9,7 @@ import {
 import { FiActivity } from "react-icons/fi";
 import { GiThreeFriends } from "react-icons/gi";
 import { MdNotifications, MdNotificationsActive } from "react-icons/md";
-
-import React from "react";
-import { MediumFont } from "../../../../../../components/fonts";
+import { MediumFont } from "../../../../../components/fonts";
 
 export const CompareHeaderTable = () => {
   const contents = [

@@ -2,9 +2,9 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { Button } from "../../../../../../components/button";
-import { MediumFont } from "../../../../../../components/fonts";
-import { pushData } from "../../../../../../lib/mixpanel";
+import { Button } from "../../../../../components/button";
+import { MediumFont } from "../../../../../components/fonts";
+import { pushData } from "../../../../../lib/mixpanel";
 import { BuilderType } from "../../models";
 
 export const TemplateOdd = ({ isOdd, content }: BuilderType) => {

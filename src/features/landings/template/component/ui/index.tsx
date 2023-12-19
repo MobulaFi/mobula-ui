@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { Button } from "../../../../../../components/button";
-import { Title } from "../../../../../../components/fonts";
-import { PopupUpdateContext } from "../../../../../../contexts/popup";
+import { Button } from "../../../../../components/button";
+import { Title } from "../../../../../components/fonts";
+import { PopupUpdateContext } from "../../../../../contexts/popup";
 
 interface WatchlistProps {
   isMobile?: boolean;
