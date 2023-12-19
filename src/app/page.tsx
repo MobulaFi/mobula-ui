@@ -15,7 +15,8 @@ import { createSupabaseDOClient } from "../lib/supabase";
 
 export const dynamic = "force-static";
 export const revalidate = 86400;
-export const runtime = "edge";
+// export const runtime = "edge";
+export const dynamicParams = true;
 
 const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
