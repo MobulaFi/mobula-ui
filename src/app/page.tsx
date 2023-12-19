@@ -1,10 +1,16 @@
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
+import React from "react";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../features/data/top100/utils";
-import { View } from "../interfaces/pages/top100";
+import {
+  INewsGeneral,
+  StaticHomeQueries,
+  View,
+} from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
 
 export const dynamic = "force-static";
@@ -53,12 +59,38 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     return result;
   };
 
-  const { data, count } = await getViewQuery();
+  async function fetchNews(): Promise<PostgrestSingleResponse<INewsGeneral>> {
+    return supabase
+      .from("news")
+      .select("news, news_count, summary, created_at")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+  }
 
-  const metrics = [];
-  const ethPrice = 0;
-  const btcPrice = 0;
-  const aiNews = [];
+  const queries: StaticHomeQueries = [
+    supabase
+      .from("metrics")
+      .select("fear_and_greed_value,fear_and_greed_value_classification")
+      .match({ id: 1 })
+      .single(),
+    getViewQuery(),
+    supabase
+      .from("assets")
+      .select("name,price")
+      .eq("name", "Ethereum")
+      .single(),
+    supabase.from("assets").select("name,price").eq("name", "Bitcoin").single(),
+    fetchNews(),
+  ];
+
+  const [
+    { data: metrics },
+    { data, count },
+    { data: ethPrice },
+    { data: btcPrice },
+    { data: aiNews },
+  ] = await Promise.all(queries);
 
   const props = {
     tokens: data || [],
@@ -112,19 +144,21 @@ const HomePage = async ({ searchParams }) => {
       <meta name="url" content="https://mobula.fi" />
       <Top100Provider
         activeViewCookie={props.actualView}
-        ethPrice={props.ethPrice as any}
-        btcPrice={props.btcPrice as any}
+        ethPrice={props.ethPrice}
+        btcPrice={props.btcPrice}
         page={props.page}
-        aiNews={props.aiNews as any}
+        aiNews={props.aiNews}
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >
+        {/* <Suspense fallback={<p>Loading feed...</p>}> */}
         <Top100
           tokens={props.tokens}
-          count={props.count as any}
+          count={props.count}
           defaultFilter={props.filteredValues}
-          metrics={props.metrics as any}
+          metrics={props.metrics}
         />
+        {/* </Suspense> */}
       </Top100Provider>
     </>
   );
