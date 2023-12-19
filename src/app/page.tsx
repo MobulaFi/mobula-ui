@@ -1,4 +1,4 @@
-import { defaultFilter } from "features/data/top100/constants";
+import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { Top100 } from "../features/data/top100";
@@ -9,6 +9,7 @@ import { createSupabaseDOClient } from "../lib/supabase";
 
 export const dynamic = "force-static";
 export const revalidate = 86400;
+export const runtime = "edge";
 
 const fetchAssetsAndViews = async ({ searchParams }) => {
   const getCookie = (name: string) => cookies().get(name);
@@ -23,18 +24,41 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
 
   let actualView: View | null = null;
 
-  const { data, count } = await supabase
-    .from("assets")
-    .select(TABLE_ASSETS_QUERY, {
-      count: "exact",
-    })
-    .order("market_cap", { ascending: false });
+  const filteredValues: { action: string; value: any[] }[] = [];
+  filteredValues.push(...defaultFilter);
+  actualView = {
+    ...defaultTop100,
+    name: "All",
+    color: "grey",
+    isFirst: true,
+    disconnected: true,
+  };
+
+  const getViewQuery = async () => {
+    const query = supabase
+      .from("assets")
+      .select(TABLE_ASSETS_QUERY, {
+        count: "exact",
+      })
+      .order("market_cap", { ascending: false });
+
+    if (filteredValues) {
+      filteredValues
+        .filter((entry) => entry.action)
+        .forEach((filter) => {
+          query[filter.action]?.(...filter.value);
+        });
+    }
+    const result = await query.limit(100);
+    return result;
+  };
+
+  const { data, count } = await getViewQuery();
 
   const metrics = [];
   const ethPrice = 0;
   const btcPrice = 0;
   const aiNews = [];
-  const filteredValues = defaultFilter;
 
   const props = {
     tokens: data || [],
