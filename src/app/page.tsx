@@ -52,7 +52,12 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     return result;
   };
 
-  const { data, count } = await getViewQuery();
+  const { data, count } = await supabase
+    .from("assets")
+    .select(TABLE_ASSETS_QUERY, {
+      count: "exact",
+    })
+    .order("market_cap", { ascending: false });
 
   const metrics = [];
   const ethPrice = 0;
