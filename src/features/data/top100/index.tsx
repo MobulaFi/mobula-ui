@@ -126,18 +126,8 @@ export const Top100 = ({
           const tableBottomPosition =
             tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-          const basicCondition =
-            scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading;
-          if (
-            basicCondition &&
-            Math.round(resultsData?.data?.length) / 100 === activePage
-          ) {
-            setActivePage((prevPage) => prevPage + 1);
-          } else if (
-            basicCondition &&
-            Math.round(resultsData?.data?.length) / 100 !== activePage
-          ) {
-            fetchAssets();
+          if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
+            setActivePage(Math.round(resultsData?.data?.length) / 100 + 1);
           }
           ticking = false;
         });
