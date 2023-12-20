@@ -18,13 +18,13 @@ async function fetchTrendingsAssets() {
   const { data, count } = await supabase
     .from("assets")
     .select(
-      "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap,price,liquidity,rank,rank_change_24h,contracts,blockchains,twitter,website,chat,created_at",
+      "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap,price,liquidity,rank,contracts,blockchains,twitter,website,chat,created_at",
       { count: "exact" }
     )
     .gte("liquidity", settings.liquidity)
     .gte("global_volume", settings.volume)
     .gte("market_cap", 0)
-    .order("views_change_24h", { ascending: false })
+    .order("trending_score", { ascending: false })
     .limit(100);
   return {
     tokens: data || [],

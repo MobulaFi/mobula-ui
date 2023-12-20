@@ -33,7 +33,7 @@ export interface TrendsType {
   price_change_24h: number;
   logo: string;
   id: number;
-  views_change_24h: number;
+  trending_score: number;
 }
 
 export interface Token {
