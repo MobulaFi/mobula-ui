@@ -210,7 +210,7 @@ export const unformatFilters = (cookieStr) => {
       const action = filter.split(":")[0].replace("(", "");
       const value = filter.split(":")[1].split(",");
       if (value[0] !== "trade_history.blockchain")
-        newFilters.push({ action, value } as never);
+        newFilters.push({ action, value });
     }
   });
   return newFilters;

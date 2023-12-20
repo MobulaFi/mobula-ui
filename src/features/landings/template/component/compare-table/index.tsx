@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
-import { MediumFont } from "../../../../../../components/fonts";
+import { MediumFont } from "../../../../../components/fonts";
 
 export const CompareTable = ({ title, contents }) => {
   const getColor = (isCheck: boolean, isError: boolean) => {

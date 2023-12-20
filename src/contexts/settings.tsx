@@ -1,8 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
 import { ISettingMetric } from "../features/data/top100/models";
-import { Asset } from "../interfaces/assets";
-import { Coin } from "../interfaces/swap";
+import { TableAsset } from "../interfaces/assets";
 
 export const SettingsMetricContext = React.createContext({} as ISettingMetric);
 
@@ -10,7 +9,7 @@ export const SettingsMetricProvider = ({ children }) => {
   const [metrics, setMetrics] = useState<string[]>([]);
   const [type, setType] = useState<string>("Custom");
   const [sortBy, setSortBy] = useState("Current Page");
-  const [showBuyDrawer, setShowBuyDrawer] = useState<Asset | Coin | null>(null);
+  const [showBuyDrawer, setShowBuyDrawer] = useState<TableAsset | null>(null);
   const value = useMemo(
     () => ({
       metrics,

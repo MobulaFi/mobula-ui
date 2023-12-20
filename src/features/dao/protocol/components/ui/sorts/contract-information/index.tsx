@@ -4,12 +4,12 @@ import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { HiOutlineNewspaper } from "react-icons/hi";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { addressSlicer } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
+import { TokenDivs } from "../../../../models";
 
 interface ContractInformationProps {
-  token: Asset;
+  token: TokenDivs;
 }
 
 export const ContractInformation = ({ token }: ContractInformationProps) => {

@@ -45,7 +45,6 @@ export const RankBox = ({ goodChoice, badChoice }: RankBoxProps) => {
       return;
     }
     try {
-      console.log("I tried to claim", address);
       await writeContract({
         address: PROTOCOL_ADDRESS,
         abi: [
@@ -65,7 +64,7 @@ export const RankBox = ({ goodChoice, badChoice }: RankBoxProps) => {
       triggerAlert("Success", "You successfully claimed your rewards.");
       setTokensOwed(0);
     } catch (error) {
-      if (error.details.includes("User denied")) {
+      if (error?.details?.includes("User denied")) {
         triggerAlert("Error", "You rejected the transaction.");
       } else triggerAlert("Error", "You don't have anything to claim.");
     }

@@ -53,13 +53,10 @@ export const TradeValueAmountPopup = ({
     if (title === "Value") filterName = "value";
     if (title === "token_amount") filterName = "token_amount";
     setShouldInstantLoad(true);
-    setMarketMetrics(
-      (prev) =>
-        ({
-          ...prev,
-          trade_history: [],
-        } as never)
-    );
+    setMarketMetrics((prev) => ({
+      ...prev,
+      trade_history: [],
+    }));
 
     setActiveName((prev) => ({
       ...prev,
@@ -81,7 +78,6 @@ export const TradeValueAmountPopup = ({
     });
 
     const finalFilters = [...filters.filter((f) => f.value[0] !== req)];
-    console.log("filters", selectedTradeFilters, filters);
 
     filters.forEach((f) => {
       if (

@@ -2,7 +2,7 @@ import { getFormattedAmount, getTokenPercentage } from "@utils/formaters";
 import { Popover } from "components/popover";
 import { TagPercentage } from "components/tag-percentage";
 import { useTheme } from "next-themes";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { MdCurrencyExchange } from "react-icons/md";
 import { Accordion } from "../../../../../../components/accordion";
 import {
@@ -12,6 +12,8 @@ import {
 } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
 import { BaseAssetContext } from "../../../../context-manager";
+
+type OptionProps = { day: string; month: string; year: string };
 
 export const Rounds = () => {
   const { baseAsset } = useContext(BaseAssetContext);
@@ -62,11 +64,15 @@ export const Rounds = () => {
 
   function formatDate(timestamp) {
     const date = new Date(timestamp);
-    const options = { day: "numeric", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options as any);
+    const options = {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    } as OptionProps as never;
+    return date.toLocaleDateString("en-US", options);
   }
 
-  const getLogoFromLaunchPlatform = (name) => {
+  const getLogoFromLaunchPlatform = (name: string) => {
     if (name === ("Series A" || "Series B")) return "/";
     if (!name.includes("Public Sale (")) return "/mobula/unknown.png";
     const extractPlatform = (str) => str.match(/\(([^)]+)\)/)?.[1];
@@ -110,11 +116,13 @@ export const Rounds = () => {
         ?.filter((entry) => entry.date)
         ?.map((sale) => {
           const leadInvestor = sale.investors?.find((entry) => entry.lead);
-          const percentageOfVestingShare: any = getTokenPercentage(
-            getPercentageFromVestingType(
-              (sale?.unlockType as string) || ("0/0" as string)
-            ) as any
-          ) as any;
+          const percentageOfVestingShare = getTokenPercentage(
+            Number(
+              getPercentageFromVestingType(
+                (sale?.unlockType as string) || "0/0"
+              )
+            )
+          );
           const unlockedAmount =
             (Number(sale.amount) * Number(percentageOfVestingShare)) / 100 || 0;
           const platformImage = getLogoFromLaunchPlatform(sale.name);

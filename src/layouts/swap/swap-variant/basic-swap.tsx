@@ -2,6 +2,7 @@ import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 // import {InfoPopup} from "../../../../components/popup-hover";
+import React from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";

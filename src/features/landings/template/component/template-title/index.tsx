@@ -1,5 +1,5 @@
 import React from "react";
-import { LargeFont } from "../../../../../../components/fonts";
+import { LargeFont } from "../../../../../components/fonts";
 
 interface TemplateTitleProps {
   title: string;

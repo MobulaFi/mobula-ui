@@ -211,7 +211,7 @@ export const TbodyCryptocurrencies = ({
               <div
                 className="flex p-[15px] transition-all duration-200 border-b border-light-border-primary
              dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover"
-                onClick={() => setShowBuyDrawer(asset as any)}
+                onClick={() => setShowBuyDrawer(asset)}
               >
                 <div
                   className={`${flexGreyBoxStyle} ${
@@ -424,7 +424,7 @@ export const TbodyCryptocurrencies = ({
             // onClick={triggerTokenInfo}
           >
             <div className="flex justify-end items-start">
-              <button onClick={() => setShowBuyDrawer(asset as any)}>
+              <button onClick={() => setShowBuyDrawer(asset)}>
                 <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
               </button>
               <Menu

@@ -93,7 +93,7 @@ export const PopupTelegram = ({
             }
             await new Promise((resolve) => setTimeout(resolve, 1000));
           } catch (e) {
-            console.log(e);
+            // console.log(e);
           }
         }
         triggerAlert(

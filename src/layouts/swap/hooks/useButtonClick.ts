@@ -164,7 +164,7 @@ export const useButtonClick = () => {
           while (!completedTx) {
             try {
               completedTx = await publicClient.getTransactionReceipt({
-                hash: transaction as never,
+                hash: transaction,
               });
             } catch (e) {
               // Do nothing
@@ -238,7 +238,7 @@ export const useButtonClick = () => {
                 e.transactionHash
               );
               setCompletedTx({
-                ...(completedTx as any),
+                ...completedTx,
                 timestamp: Date.now(),
               });
             }

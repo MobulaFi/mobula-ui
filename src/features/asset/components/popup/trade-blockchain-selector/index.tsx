@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -48,13 +48,10 @@ export const TradeBlockchainPopup = ({
 
   const handleAddFilter = (reset: boolean) => {
     setShouldInstantLoad(true);
-    setMarketMetrics(
-      (prev) =>
-        ({
-          ...prev,
-          trade_history: [],
-        } as never)
-    );
+    setMarketMetrics((prev) => ({
+      ...prev,
+      trade_history: [],
+    }));
     const index = filters.findIndex(
       (entry) => entry.value[0] === "trade_history.blockchain"
     );
@@ -96,15 +93,12 @@ export const TradeBlockchainPopup = ({
               key={entry}
               onClick={() => {
                 if (selectedTradeFilters?.blockchains?.includes(entry)) {
-                  setSelectedTradeFilters(
-                    (prevState) =>
-                      ({
-                        ...prevState,
-                        blockchains: prevState?.blockchains?.filter(
-                          (item) => item !== entry
-                        ),
-                      } as never)
-                  );
+                  setSelectedTradeFilters((prevState) => ({
+                    ...prevState,
+                    blockchains: prevState?.blockchains?.filter(
+                      (item) => item !== entry
+                    ),
+                  }));
                 } else {
                   setSelectedTradeFilters((prev) => ({
                     ...prev,

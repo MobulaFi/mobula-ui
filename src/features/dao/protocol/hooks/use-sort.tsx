@@ -109,7 +109,7 @@ export const useSort = () => {
             JSONrep.alreadyVoted =
               isAlreadyVoted.status === "fulfilled"
                 ? isAlreadyVoted.value
-                : (false as any);
+                : false;
             JSONrep.isListing = oldResponse === undefined;
             JSONrep.edits = edits;
             JSONrep.oldToken = oldJSONrep;
@@ -122,7 +122,6 @@ export const useSort = () => {
             }
           } catch (e) {
             fails += 1;
-            console.log(e);
           }
         });
       });

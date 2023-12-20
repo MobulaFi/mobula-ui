@@ -54,7 +54,6 @@ export const metadata: Metadata = {
 export default async function recentlyAdded() {
   const data = await fetchNewAssets();
 
-  console.log("THIS IS MY DATA", data);
   return (
     <>
       <meta

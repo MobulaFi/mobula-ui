@@ -82,7 +82,7 @@ export const NoResult = () => {
             return null;
           })
         : trends?.map((entry) => (
-            <Lines key={entry as never} token={entry} active={false}>
+            <Lines key={entry.id} token={entry} active={false}>
               <Percentage
                 isPercentage
                 value={getTokenPercentage(entry.price_change_24h)}

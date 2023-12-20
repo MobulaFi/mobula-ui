@@ -11,7 +11,6 @@ export const DeleteNftPopup = () => {
   const getNftHidden = () => {
     const nfts = localStorage.getItem("hiddenNft");
     if (nfts) {
-      console.log(JSON.parse(nfts));
       localStorage.setItem(
         "hiddenNft",
         JSON.stringify([...JSON.parse(nfts), showDeleteNft.token_hash])

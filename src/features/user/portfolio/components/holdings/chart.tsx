@@ -1,13 +1,7 @@
 import * as echarts from "echarts";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../components/fonts";
 import {
@@ -48,12 +42,12 @@ export const HoldingChart = ({ ...props }) => {
       .sort((a, b) => b.estimated_balance - a.estimated_balance)
       .filter((_, i) => i >= MAX_DISPLAY) || [];
 
-  const initialChains = getChainsBreakdownFromPortfolio(
-    wallet?.portfolio as never
-  );
+  const initialChains = getChainsBreakdownFromPortfolio(wallet?.portfolio);
   const sortedBlockchains = Object.entries(initialChains)
     .sort((a, b) => b[1] - a[1])
     .slice(0, MAX_DISPLAY);
+
+  console.log("ddddd", initialChains);
 
   const blockchains = {};
   sortedBlockchains.forEach((entry) => {
@@ -90,6 +84,35 @@ export const HoldingChart = ({ ...props }) => {
         amount: chain[1],
       };
     });
+
+  // alert(`data ${title}: ` + JSON.stringify(data));
+  console.log(
+    "dkkdd",
+    sortedHoldings?.concat(otherHoldings).map((token) => {
+      if (!seen.has(token.symbol)) {
+        seen.add(token.symbol);
+        return {
+          name: token.symbol,
+          value: getTokenPercentage(token.allocation),
+          logo: token.image,
+          amount: token.estimated_balance,
+        };
+      }
+    })
+  );
+  console.log(
+    "yoooo",
+    sortedBlockchains.map((chain) => {
+      const percentage = (chain[1] / total) * 100;
+      console.log("percentage", percentage, chain);
+      return {
+        name: chain[0],
+        value: getTokenPercentage(percentage),
+        logo: blockchainsContent[chain[0]]?.logo,
+        amount: chain[1],
+      };
+    })
+  );
 
   const options: EChartsOption = {
     legend: {
@@ -168,7 +191,7 @@ export const HoldingChart = ({ ...props }) => {
   const createInstance = useCallback(() => {
     if (!sortedHoldings.length || !sortedBlockchains?.length) return;
     const instance = echarts.getInstanceByDom(
-      document.getElementById(id) as never
+      document.getElementById(id) as HTMLElement
     );
     return (
       instance ||

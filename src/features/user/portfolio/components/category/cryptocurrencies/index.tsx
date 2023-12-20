@@ -9,12 +9,10 @@ import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
-import {
-  PopupStateContext,
-  PopupUpdateContext,
-} from "../../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
+import { TableAsset } from "../../../../../../interfaces/assets";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
 import EChart from "../../../../../../lib/echart/line";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -33,16 +31,12 @@ import { Transaction } from "./transaction";
 export const Cryptocurrencies = () => {
   const {
     wallet,
-    hiddenTokens,
-    setHiddenTokens,
     isLoading,
     activePortfolio,
-    isMobile,
     manager,
     asset,
     setShowAddTransaction,
     editAssetManager,
-    tokenTsx,
     setTokenTsx,
     setAsset,
     setActivePortfolio,
@@ -63,52 +57,24 @@ export const Cryptocurrencies = () => {
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isHover, setIsHover] = useState<number | null>(null);
   const [tokenTimeframe, setTokenTimeframe] = useState("24H");
-
-  const {
-    setShowAddedToWatchlist,
-    setShowMenuTableMobileForToken,
-    setShowMenuTableMobile,
-    setShowAlert,
-  } = useContext(PopupUpdateContext);
-
-  const [showCustomMenu, setShowCustomMenu] = useState(false);
-
-  const { showMenuTableMobileForToken } = useContext(PopupStateContext);
-
   const refreshPortfolio = useWebSocketResp();
-
   const { address } = useAccount();
 
   useEffect(() => {
-    setIsInWatchlist(inWatchlist);
+    setIsInWatchlist(inWatchlist as boolean);
   }, [inWatchlist]);
 
   useEffect(() => {
     setIsLoadingFetch(showTokenInfo ? true : false);
   }, [showTokenInfo]);
 
-  const newWallet = wallet?.portfolio.filter(
+  const newWallet = wallet?.portfolio?.filter(
     (entry) => entry.name === asset?.name
   )[0];
 
-  const getPercentageOfBuyRange = () => {
-    if (newWallet) {
-      const minPriceBought = newWallet?.min_buy_price;
-      const maxPriceBought = newWallet?.max_buy_price;
-      const priceBought = newWallet?.price_bought;
-
-      const priceRange = maxPriceBought - Number(minPriceBought);
-      const priceDifference = priceBought - Number(minPriceBought);
-
-      const result = (priceDifference * 100) / priceRange;
-      return getFormattedAmount(result);
-    }
-    return 0;
-  };
-
   const triggerTokenInfo = (asset) => {
     if (showTokenInfo === asset?.id) {
-      setAsset(null as any);
+      setAsset(null);
       setShowTokenInfo(null);
     } else if (showTokenInfo && showTokenInfo !== asset?.id) {
       setAsset(asset);
@@ -150,7 +116,7 @@ export const Cryptocurrencies = () => {
 
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
-    return wallet.portfolio;
+    return wallet.portfolio as unknown as TableAsset;
   };
 
   const filteredData = useMemo(
@@ -186,16 +152,12 @@ export const Cryptocurrencies = () => {
       .single()
       .then(({ data, error }) => {
         if (error) {
-          console.log(error);
           return;
         }
         setTokensData({ ...tokensData, [data.id]: data });
       });
   }, [tokensData, showTokenInfo]);
 
-  console.log("asset is:", asset);
-  console.log("showTokenInfo is:", showTokenInfo);
-  console.log("tokensData[asset?.id] is:", tokensData[asset?.id]);
   const testStyle =
     "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
 
@@ -210,13 +172,6 @@ export const Cryptocurrencies = () => {
               ?.sort((a, b) => b.estimated_balance - a.estimated_balance)
               .map((token) => {
                 return (
-                  // <TbodyCryptocurrencies
-                  //   key={token.name}
-                  //   token={token}
-                  //   setShowTokenInfo={setShowTokenInfo as never}
-                  //   showTokenInfo={showTokenInfo}
-                  //   tokenInfo={tokensData[token.id]}
-                  // />
                   <div
                     key={token?.name}
                     className={`${
@@ -304,9 +259,7 @@ export const Cryptocurrencies = () => {
                             )}
                           </div>
                           <div className="flex justify-end items-start w-full max-w-[60px]">
-                            <button
-                              onClick={() => setShowBuyDrawer(token as any)}
-                            >
+                            <button onClick={() => setShowBuyDrawer(token)}>
                               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
                             </button>
                             <Menu
@@ -493,13 +446,44 @@ export const Cryptocurrencies = () => {
               })}
           </>
         ) : null}
-        {/* {isLoading ? (
-          <tbody>
+        {isLoading ? (
+          <div className="w-full">
             {Array.from(Array(10).keys()).map((_, i) => (
-              <TbodySkeleton key={i as Key} />
+              <div
+                key={i}
+                className={`h-[70px] bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
+            overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
+            border-light-border-primary dark:border-dark-border-primary pt-0`}
+              >
+                <div className="flex flex-col w-full">
+                  <div className="flex justify-between items-center w-full h-[70px] mt-0">
+                    <div className="h-full flex items-center w-full p-2.5">
+                      <Skeleton extraCss="w-[34px] h-[34px] rounded-full mr-2" />
+                      <div className="flex flex-col items-start">
+                        <Skeleton extraCss="lg:h-3 h-[13px] w-[90px] mb-1" />
+
+                        <div className="flex items-center">
+                          <Skeleton extraCss="lg:h-3 h-[13px] md:mb-[1px] w-[60px]" />
+                          <Skeleton extraCss="px-1 h-[18px] rounded max-h-[18px] max-w-[50px] w-[50px] ml-2" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center  p-2.5">
+                      <div className="flex flex-col items-end mr-5 md:mr-3">
+                        <Skeleton extraCss="lg:h-3 h-[13px] w-[90px] mb-1" />
+                        <Skeleton extraCss="lg:h-3 h-[13px] w-[75px]" />
+                      </div>
+                      <div className="flex justify-end items-start w-full max-w-[60px]">
+                        <Skeleton extraCss="h-[22px] w-[22px] rounded-full" />
+                        <Skeleton extraCss="h-[22px] w-[22px] rounded-full ml-2" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
-          </tbody>
-        ) : null} */}
+          </div>
+        ) : null}
 
         {/* {isNormalBalance && numberOfAsset ? (
           <caption
@@ -522,10 +506,7 @@ export const Cryptocurrencies = () => {
       </div>
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
-        <div
-          className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col"
-          // bg={boxBg1}
-        >
+        <div className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col">
           <img
             className="h-[160px] mb-[-50px] mt-[25px]"
             src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}

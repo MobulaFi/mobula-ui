@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import React from "react";
 import { Assets } from "../../../features/asset";
 import { BaseAssetProvider } from "../../../features/asset/context-manager";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
@@ -143,8 +144,8 @@ async function AssetPage({ params }) {
   return (
     <>
       <BaseAssetProvider
-        token={data?.asset as any}
-        tradHistory={(data?.tradHistory as any) || []}
+        token={data?.asset}
+        tradHistory={data?.tradHistory || []}
         launchpad={data?.launchpads}
         hideTxCookie={hideTxCookie}
         tradeCookie={tradeCookie}

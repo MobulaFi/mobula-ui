@@ -17,7 +17,6 @@ import { ModalContainer } from "../../../../../../../components/modal-container"
 import { Popover } from "../../../../../../../components/popover";
 import { Skeleton } from "../../../../../../../components/skeleton";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { getUrlFromName } from "../../../../../../../utils/formaters";
 import { Contracts } from "../../../../../../asset/components/contracts";
 import { BoxContainer } from "../../../../../common/components/box-container";
@@ -25,11 +24,12 @@ import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
+import { TokenDivs } from "../../../../models";
 import styles from "../box-prevote/Prevote.module.scss";
 import { CommunityPopup } from "../popup-community";
 
 interface BoxPreVoteProps {
-  token: Asset;
+  token: TokenDivs;
   isFakeToken?: boolean;
 }
 
@@ -269,7 +269,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                   <BsChevronDown className="text-[13px] ml-[5px]" />
                 </button>
               }
-              hiddenContent={<CommunityPopup token={token as any} />}
+              hiddenContent={<CommunityPopup token={token} />}
               onToggle={() =>
                 setShowPopover((prev) => ({
                   ...prev,

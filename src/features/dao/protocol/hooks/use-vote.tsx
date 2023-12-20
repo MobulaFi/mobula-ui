@@ -22,12 +22,9 @@ export const useVote = () => {
     address: PROTOCOL_ADDRESS as never,
     abi: listingAbi as never,
     functionName: pathname.includes("validation")
-      ? ("voteValidation" as never)
-      : ("voteSorting" as never),
+      ? "voteValidation"
+      : "voteSorting",
   });
-
-  console.log("isSuccess", isSuccess);
-  console.log("error", error);
 
   useEffect(() => {
     const endingVoteFunction = async () => {

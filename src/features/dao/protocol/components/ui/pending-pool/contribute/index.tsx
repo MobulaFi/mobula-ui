@@ -16,7 +16,6 @@ import {
   USDT_BNB_ADDRESS,
   USDT_MATIC_ADDRESS,
 } from "../../../../../../../constants";
-import { Asset } from "../../../../../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../../../../../lib/supabase";
 import { triggerAlert } from "../../../../../../../lib/toastify";
 import { allowanceAbi, balanceOfAbi } from "../../../../../../../utils/abi";
@@ -25,17 +24,27 @@ import {
   listingAxelarAbi,
 } from "../../../../../../misc/listing-form/constant";
 import { BoxContainer } from "../../../../../common/components/box-container";
-import { TokenToBuyWith } from "../../../../models";
+import { TokenDivs, TokenToBuyWith } from "../../../../models";
 import { getPricing } from "../../../../utils";
 
 interface ContributeProps {
-  token: Asset;
+  token: TokenDivs;
 }
+
+type tokenToBuyWithProps = {
+  name: string;
+  logo: string;
+  symbol: string;
+  decimals: number;
+  contracts: string[];
+  blockchains: string[];
+};
 
 export const Contribute = ({ token }: ContributeProps) => {
   const text80 = "#8C8C8C";
-  const hover = "fjirf";
-  const [tokenToBuyWith, setTokenToBuyWith] = useState({} as any);
+  const [tokenToBuyWith, setTokenToBuyWith] = useState<tokenToBuyWithProps>(
+    {} as tokenToBuyWithProps
+  );
   const [amount, setAmount] = useState(0);
   const { address } = useAccount();
   const { chain } = useNetwork();
@@ -213,7 +222,7 @@ export const Contribute = ({ token }: ContributeProps) => {
         });
         triggerAlert("Success", "The vote has been taken in account");
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
     if (chain?.id === 56) {
@@ -227,7 +236,7 @@ export const Contribute = ({ token }: ContributeProps) => {
         });
         triggerAlert("Success", "The vote has been taken in account");
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };
@@ -252,7 +261,8 @@ export const Contribute = ({ token }: ContributeProps) => {
   }, []);
 
   useEffect(() => {
-    if (buyWith) setTokenToBuyWith(buyWith.usdc);
+    if (buyWith)
+      setTokenToBuyWith(buyWith.usdc as unknown as tokenToBuyWithProps);
   }, [buyWith]);
 
   const labelStyles = {

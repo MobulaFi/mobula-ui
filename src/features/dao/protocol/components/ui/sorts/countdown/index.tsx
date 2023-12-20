@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FaHourglassEnd, FaHourglassHalf } from "react-icons/fa";
 import { MediumFont } from "../../../../../../../components/fonts";
-import { Asset } from "../../../../../../../interfaces/assets";
+import { TokenDivs } from "../../../../models";
 
 interface CountdownProps {
-  token: Asset;
+  token: TokenDivs;
   extraCss?: string;
 }
 

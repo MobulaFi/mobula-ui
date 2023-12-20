@@ -2,6 +2,7 @@ import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
+import React from "react";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../features/data/top100/utils";
@@ -141,11 +142,11 @@ const HomePage = async ({ searchParams }) => {
       />
       <meta name="url" content="https://mobula.fi" />
       <Top100Provider
-        activeViewCookie={props.actualView as any}
-        ethPrice={props.ethPrice as any}
-        btcPrice={props.btcPrice as any}
+        activeViewCookie={props.actualView}
+        ethPrice={props.ethPrice}
+        btcPrice={props.btcPrice}
         page={props.page}
-        aiNews={props.aiNews as any}
+        aiNews={props.aiNews}
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >

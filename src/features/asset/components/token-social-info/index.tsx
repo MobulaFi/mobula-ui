@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -89,7 +89,7 @@ export const TokenSocialsInfo = () => {
   }
 
   const { newChains, newContracts } = reorganizeArrays(
-    chain?.name,
+    chain?.name as string,
     baseAsset?.blockchains,
     baseAsset?.contracts
   );
@@ -160,7 +160,7 @@ export const TokenSocialsInfo = () => {
             {baseAsset.website ? (
               <Button
                 extraCss={`${mainButtonStyle} mb-[5px]`}
-                onClick={() => openInNewTab(baseAsset.website)}
+                onClick={() => openInNewTab(baseAsset.website as string)}
               >
                 <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
                 Website
@@ -183,29 +183,30 @@ export const TokenSocialsInfo = () => {
               position="left-1/2 -translate-x-1/2"
               isMobile
             >
-              {newChains?.map(
-                (blockchain, index: number) =>
-                  blockchain && (
-                    <div
-                      className={`flex text-light-font-100 dark:text-dark-font-100 ${
-                        index > 0 ? "mt-2.5" : "mt-0"
-                      }`}
-                      key={(newContracts?.[index] || 0) + blockchain}
-                    >
-                      <Contracts
-                        contract={newContracts?.[index]}
-                        blockchain={blockchain}
-                      />
-                    </div>
-                  )
+              {newChains?.map((blockchain, index: number) =>
+                blockchain ? (
+                  <div
+                    className={`flex text-light-font-100 dark:text-dark-font-100 ${
+                      index > 0 ? "mt-2.5" : "mt-0"
+                    }`}
+                    key={(newContracts?.[index] || 0) + blockchain}
+                  >
+                    <Contracts
+                      contract={newContracts?.[index]}
+                      blockchain={blockchain}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )
               )}
             </CustomPopOver>
           </div>
           <div className="hidden lg:flex">
-            {baseAsset.website ? (
+            {baseAsset?.website ? (
               <Button
                 extraCss={`${mainButtonStyle} mb-[5px] px-[5px]`}
-                onClick={() => openInNewTab(baseAsset?.website)}
+                onClick={() => openInNewTab(baseAsset.website as string)}
               >
                 <BsGlobe className="text-base text-light-font-100 dark:text-dark-font-100" />
               </Button>
@@ -235,24 +236,26 @@ export const TokenSocialsInfo = () => {
               }
               position="left-1/2 -translate-x-1/2"
             >
-              {(newChains as any)?.map((blockchain, index: number) => {
-                if (blockchain) {
-                  return (
-                    <div
-                      className={`flex text-light-font-100 dark:text-dark-font-100 ${
-                        index > 0 ? "mt-2.5" : "mt-0"
-                      }`}
-                      key={(newContracts?.[index] || 0) + blockchain}
-                    >
-                      <Contracts
-                        contract={newContracts?.[index]}
-                        blockchain={blockchain}
-                      />
-                    </div>
-                  );
-                }
-                return null;
-              })}
+              {newChains
+                ?.filter((element) => element !== null)
+                ?.map((blockchain, index: number) => {
+                  if (blockchain) {
+                    return (
+                      <div
+                        className={`flex text-light-font-100 dark:text-dark-font-100 ${
+                          index > 0 ? "mt-2.5" : "mt-0"
+                        }`}
+                        key={(newContracts?.[index] || 0) + blockchain}
+                      >
+                        <Contracts
+                          contract={newContracts?.[index]}
+                          blockchain={blockchain}
+                        />
+                      </div>
+                    );
+                  }
+                  return <></>;
+                })}
             </CustomPopOver>{" "}
           </div>
           <div
@@ -308,7 +311,7 @@ export const TokenSocialsInfo = () => {
                         </NextChakraLink>
                       );
                     }
-                    return null;
+                    return <></>;
                   })}
               </CustomPopOver>
             ) : null}{" "}
@@ -348,7 +351,9 @@ export const TokenSocialsInfo = () => {
                       </NextChakraLink>
                     </div>
                   </div>
-                ) : null}
+                ) : (
+                  <></>
+                )}
                 {baseAsset.kyc !== "null" ? (
                   <div
                     className={`${PopOverLinesStyle} border border-light-border-primary dark:border-dark-border-primary mt-[7.5px] mb-0`}
@@ -370,7 +375,9 @@ export const TokenSocialsInfo = () => {
                       </NextChakraLink>
                     </div>
                   </div>
-                ) : null}
+                ) : (
+                  <></>
+                )}
               </CustomPopOver>
             ) : null}
           </div>

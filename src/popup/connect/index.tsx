@@ -28,7 +28,7 @@ export const Connect = () => {
       }, 1000);
     },
   });
-  const conenctorImage = pendingConnector?.["storage" as never];
+  const conenctorImage = pendingConnector?.["storage"];
 
   const getTitle = () => {
     switch (status) {

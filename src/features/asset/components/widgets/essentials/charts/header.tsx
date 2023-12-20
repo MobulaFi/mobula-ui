@@ -195,7 +195,7 @@ export const ChartHeader = () => {
           ) : null}
         </div>
         <ComparePopover
-          setComparedEntities={setComparedEntities as never}
+          setComparedEntities={setComparedEntities}
           comparedEntities={comparedEntities}
           extraCss="ml-2.5 mb-0 md:mb-2"
         />
@@ -207,7 +207,7 @@ export const ChartHeader = () => {
         <CompareButtons
           buttonH="h-[30px] ml-0"
           comparedEntities={comparedEntities}
-          setComparedEntities={setComparedEntities as never}
+          setComparedEntities={setComparedEntities}
         />
       )}
     </>

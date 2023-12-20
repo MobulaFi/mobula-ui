@@ -61,8 +61,8 @@ export interface IPortfolioV2 {
   /** Data Handling */
   wallet: UserHoldings | null;
   setWallet: React.Dispatch<React.SetStateAction<UserHoldings | null>>;
-  asset: UserHoldingsAsset;
-  setAsset: Dispatch<SetStateAction<UserHoldingsAsset>>;
+  asset: UserHoldingsAsset | null | undefined;
+  setAsset: Dispatch<SetStateAction<UserHoldingsAsset | null | undefined>>;
   userPortfolio: IPortfolio[];
   setUserPortfolio: Dispatch<SetStateAction<IPortfolio[]>>;
   transactions: PublicTransaction[];
@@ -201,7 +201,14 @@ export interface UserHoldingsAsset {
   estimated_balance: number;
   estimated_balance_change?: boolean;
   token_balance: number;
-  cross_chain_balances: Record<BlockchainName, number>;
+  cross_chain_balances: {
+    [key: string]: {
+      balance: number;
+      address: string;
+      balanceRaw: string;
+      chainId: number;
+    };
+  };
 
   logo: string;
   id: number;
@@ -226,7 +233,7 @@ export interface PopupToken {
 
 export interface BuySettings {
   quantity: string;
-  token: Asset | null;
+  token: Partial<Asset> | null;
   price?: number;
   date: Date;
   fee: string;
@@ -262,12 +269,12 @@ export interface ActiveStep {
   nbr: number;
   title: string;
   subtitle: string;
-  top: string[];
-  right: string[];
-  transform: string[];
-  arrowRight?: string[];
-  arrowLeft?: string[];
-  arrowTop?: string[];
+  top: string;
+  right: string;
+  transform: string;
+  arrowRight?: string;
+  arrowLeft?: string;
+  arrowTop?: string;
   arrowPosition: "top" | "bottom" | "none";
 }
 

@@ -4,7 +4,7 @@ import {
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -302,7 +302,7 @@ export const Submit = ({ state }) => {
     const decimal: any = await getDecimals(paymentContractAddress);
 
     pushData("Listing Form Submit Pending", {
-      chain: blockchainsIdContent[chain?.id]?.name,
+      chain: blockchainsIdContent[chain?.id as number]?.name,
       hash,
     });
 
@@ -317,7 +317,7 @@ export const Submit = ({ state }) => {
       }
       if (chain?.id === 56) {
         await writeContract({
-          address: PROTOCOL_BNB_ADDRESS as never,
+          address: PROTOCOL_BNB_ADDRESS,
           abi: listingAxelarAbi as never,
           functionName: "submitTokenAxelar" as never,
           args: [hash, paymentContractAddress, amount, 0] as never,
@@ -326,7 +326,7 @@ export const Submit = ({ state }) => {
       }
 
       pushData("Listing Form Submit Validated", {
-        chain: blockchainsIdContent[chain?.id]?.name,
+        chain: blockchainsIdContent[chain?.id as number]?.name,
       });
       setHasPaid(true);
       setPending(false);
@@ -340,7 +340,7 @@ export const Submit = ({ state }) => {
       }
 
       pushData("Listing Form Submit Error", {
-        chain: blockchainsIdContent[chain?.id]?.name,
+        chain: blockchainsIdContent[chain?.id as number]?.name,
         error: e.toString(),
       });
       setPending(false);
@@ -354,8 +354,6 @@ export const Submit = ({ state }) => {
   };
 
   const fallbackMessage = getFallBack();
-
-  console.log("fastTrack", fastTrack);
 
   return hasPaid ? (
     <div className="flex flex-col w-[450px] md:w-full">

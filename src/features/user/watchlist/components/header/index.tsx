@@ -123,16 +123,13 @@ export const Header = ({
               watchlist_id: watchlistID,
             });
             triggerAlert("Success", "Successfully followed this watchlist.");
-            setUser(
-              (userBuffer) =>
-                ({
-                  ...userBuffer,
-                  watchlists_followed: [
-                    ...(userBuffer?.watchlists_followed || []),
-                    watchlistID,
-                  ],
-                } as never)
-            );
+            setUser((userBuffer) => ({
+              ...userBuffer,
+              watchlists_followed: [
+                ...(userBuffer?.watchlists_followed || []),
+                watchlistID,
+              ],
+            }));
           }
         });
     if (address && user?.watchlists_followed.includes(watchlistID))
@@ -143,7 +140,6 @@ export const Header = ({
         .then((r) => r.json())
         .then((r) => {
           if (r.error) {
-            console.log(r.error);
             triggerAlert(
               "Error",
               "Something went wrong while unfollowing this watchlist"
@@ -153,19 +149,15 @@ export const Header = ({
               watchlist_id: watchlistID,
             });
             triggerAlert("Success", "Successfully unfollowed this watchlist.");
-            setUser(
-              (userBuffer) =>
-                ({
-                  ...userBuffer,
-                  watchlists_followed: userBuffer?.watchlists_followed.filter(
-                    (entry) => entry !== watchlistID
-                  ),
-                } as never)
-            );
+            setUser((userBuffer) => ({
+              ...userBuffer,
+              watchlists_followed: userBuffer?.watchlists_followed.filter(
+                (entry) => entry !== watchlistID
+              ),
+            }));
           }
         });
   };
-  console.log(activeWatchlist);
   if (pathname !== "/watchlist/followed")
     return (
       <div className="flex items-center justify-between rounded-t border-t border-light-border-primary dark:border-dark-border-primary py-2.5">
