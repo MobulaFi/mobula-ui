@@ -82,7 +82,12 @@ export const Top100 = ({
       })
       .order("market_cap", { ascending: false })
       .range(activePage * 100 - 100, activePage * 100 - 1);
-
+    console.log(
+      "activePage * 100 - 100",
+      activePage * 100 - 100,
+      "activePage * 100 - 1",
+      activePage * 100 - 1
+    );
     if (filters) {
       filters
         .filter((entry) => entry.action)

@@ -5,7 +5,6 @@ interface ContainerProps {
   extraCss?: string;
   children: React.ReactNode;
   isMobile?: boolean;
-  [key: string]: any;
 }
 
 export const Container = ({
