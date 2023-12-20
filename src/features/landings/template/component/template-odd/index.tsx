@@ -50,7 +50,7 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
                 "Destination URL": content.url,
               });
               // Google Ads conversion tracking
-              if (typeof window !== "undefined" && window?.gtag) {
+              if (typeof window !== "undefined" && (window as any).gtag) {
                 window.gtag("event", "conversion", {
                   send_to: "AW-11451783005/d2flCIaL34AZEN2u0dQq",
                 });
