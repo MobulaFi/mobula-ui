@@ -49,6 +49,12 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
                 "Button Name": content.button_name,
                 "Destination URL": content.url,
               });
+              // Google Ads conversion tracking
+              if (typeof window !== "undefined" && (window as any).gtag) {
+                (window as any).gtag("event", "conversion", {
+                  send_to: "AW-11451783005/d2flCIaL34AZEN2u0dQq",
+                });
+              }
             }}
             extraCss="w-fit mt-[30px] lg:mt-[15px] text-sm mx-0 md:h-[40px] md:mx-auto px-[15px] mb-0 lg:mb-5"
           >
@@ -80,6 +86,11 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
                 "Button Name": content.button_name,
                 "Destination URL": content.url,
               });
+              if (typeof window !== "undefined" && (window as any).gtag) {
+                (window as any).gtag("event", "conversion", {
+                  send_to: "AW-11451783005/d2flCIaL34AZEN2u0dQq",
+                });
+              }
             }}
           >
             {content.button_name}
