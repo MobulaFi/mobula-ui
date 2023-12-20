@@ -125,8 +125,11 @@ export const Top100 = ({
 
           const tableBottomPosition =
             tableRef.current.offsetTop + tableRef.current.offsetHeight;
-
-          if (scrollPosition >= tableBottomPosition * 0.85 && !isPageLoading) {
+          if (
+            scrollPosition >= tableBottomPosition * 0.8 &&
+            !isPageLoading &&
+            Math.round(resultsData?.data?.length) / 100 === activePage
+          ) {
             setActivePage((prevPage) => prevPage + 1);
           }
           ticking = false;
