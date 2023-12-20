@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import { FaGithub } from "react-icons/fa6";
 import { Button } from "../../components/button";
 import { NextChakraLink } from "../../components/link";
 import { Asset } from "../../interfaces/assets";
@@ -106,6 +107,9 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
             Get listed
           </NextChakraLink>
         </Button>
+        <NextChakraLink href="https://github.com/MobulaFi/mobula-ui">
+          <FaGithub className="text-xl mr-3 text-light-font-100 dark:text-dark-font-100" />
+        </NextChakraLink>
         <ToggleColorMode extraCss="mr-2 md:mr-0" />
       </div>
     </div>

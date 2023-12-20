@@ -32,6 +32,10 @@ export const getPath = () => {
         { name: "Twitter", url: "https://twitter.com/MobulaFi" },
         { name: "Telegram", url: "https://t.me/MobulaFi" },
         { name: "Discord", url: "https://discord.gg/2a8hqNzkzN " },
+        {
+          name: "Open-source codebase",
+          url: "https://github.com/MobulaFi/mobula-ui",
+        },
         // { name: "Forum", url: "/forum" },
         // { name: "Help Desk", url: "/forum/help" },
       ],
