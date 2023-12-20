@@ -51,7 +51,7 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
               });
               // Google Ads conversion tracking
               if (typeof window !== "undefined" && (window as any).gtag) {
-                window.gtag("event", "conversion", {
+                (window as any).gtag("event", "conversion", {
                   send_to: "AW-11451783005/d2flCIaL34AZEN2u0dQq",
                 });
               }
@@ -86,6 +86,11 @@ export const TemplateOdd = ({ isOdd, content }: BuilderType) => {
                 "Button Name": content.button_name,
                 "Destination URL": content.url,
               });
+              if (typeof window !== "undefined" && (window as any).gtag) {
+                (window as any).gtag("event", "conversion", {
+                  send_to: "AW-11451783005/d2flCIaL34AZEN2u0dQq",
+                });
+              }
             }}
           >
             {content.button_name}

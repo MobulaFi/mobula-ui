@@ -13,10 +13,12 @@ declare global {
   }
 }
 if (typeof window !== "undefined") {
-  window.gtag =
-    window.gtag ||
+  (window as any).gtag =
+    (window as any).gtag ||
     function () {
-      (window.dataLayer = window.dataLayer || []).push(arguments);
+      ((window as any).dataLayer = (window as any).dataLayer || []).push(
+        arguments
+      );
     };
 }
 
@@ -71,17 +73,19 @@ export const useAnalytics = () => {
     if (typeof window !== "undefined") {
       // Function to load the gtag script
       function loadGtagScript() {
-        if (window.dataLayer) return; // Prevent duplicate loading
+        if ((window as any).dataLayer) return; // Prevent duplicate loading
 
-        const script = document.createElement("script");
+        const script = (window as any).createElement("script");
         script.async = true;
         script.src = `https://www.googletagmanager.com/gtag/js?id=AW-11451783005`;
         document.head.appendChild(script);
 
-        window.dataLayer = window.dataLayer || [];
+        (window as any).dataLayer = (window as any).dataLayer || [];
         script.onload = () => {
-          window.gtag("js", new Date());
-          window.gtag("config", "AW-11451783005", { page_path: pathname });
+          (window as any).gtag("js", new Date());
+          (window as any).gtag("config", "AW-11451783005", {
+            page_path: pathname,
+          });
         };
       }
 
