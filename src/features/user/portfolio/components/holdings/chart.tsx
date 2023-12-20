@@ -47,6 +47,8 @@ export const HoldingChart = ({ ...props }) => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, MAX_DISPLAY);
 
+  console.log("ddddd", initialChains);
+
   const blockchains = {};
   sortedBlockchains.forEach((entry) => {
     blockchains[entry[0]] = entry[1];
@@ -82,6 +84,35 @@ export const HoldingChart = ({ ...props }) => {
         amount: chain[1],
       };
     });
+
+  // alert(`data ${title}: ` + JSON.stringify(data));
+  console.log(
+    "dkkdd",
+    sortedHoldings?.concat(otherHoldings).map((token) => {
+      if (!seen.has(token.symbol)) {
+        seen.add(token.symbol);
+        return {
+          name: token.symbol,
+          value: getTokenPercentage(token.allocation),
+          logo: token.image,
+          amount: token.estimated_balance,
+        };
+      }
+    })
+  );
+  console.log(
+    "yoooo",
+    sortedBlockchains.map((chain) => {
+      const percentage = (chain[1] / total) * 100;
+      console.log("percentage", percentage, chain);
+      return {
+        name: chain[0],
+        value: getTokenPercentage(percentage),
+        logo: blockchainsContent[chain[0]]?.logo,
+        amount: chain[1],
+      };
+    })
+  );
 
   const options: EChartsOption = {
     legend: {

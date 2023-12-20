@@ -201,7 +201,14 @@ export interface UserHoldingsAsset {
   estimated_balance: number;
   estimated_balance_change?: boolean;
   token_balance: number;
-  cross_chain_balances: Record<BlockchainName, number>;
+  cross_chain_balances: {
+    [key: string]: {
+      balance: number;
+      address: string;
+      balanceRaw: string;
+      chainId: number;
+    };
+  };
 
   logo: string;
   id: number;
