@@ -1,20 +1,24 @@
 "use client";
+import { createSupabaseDOClient } from "lib/supabase";
 import React, { useEffect, useState } from "react";
+import { AiOutlineArrowUp } from "react-icons/ai";
 import Swiper from "swiper";
 import "swiper/css";
 import { register } from "swiper/element/bundle";
+import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
+import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
-import { Pagination } from "./components/pagination";
 import { Portfolio } from "./components/portfolio";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
+import { TABLE_ASSETS_QUERY } from "./utils";
 import { Views } from "./views";
 
 interface Top100Props {
@@ -45,6 +49,12 @@ export const Top100 = ({
   const { isMobile } = useTop100();
   const [resultsData, setResultsData] = useState({ data: bufferTokens, count });
   const [showPage, setShowPage] = useState(0);
+  const [activePage, setActivePage] = useState(1);
+  const supabase = createSupabaseDOClient();
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  const tableRef = React.useRef<HTMLDivElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [filters, setFilters] = useState<Query[] | null>(
     defaultFilter || [{ action: "", value: [], isFirst: true }]
   );
@@ -61,6 +71,86 @@ export const Top100 = ({
       longSwipes: false,
     });
   }, []);
+
+  const fetchAssets = async () => {
+    if (activePage === 1) return;
+    setIsPageLoading(true);
+    const query = supabase
+      .from("assets")
+      .select(TABLE_ASSETS_QUERY, {
+        count: "exact",
+      })
+      .order("market_cap", { ascending: false })
+      .range(activePage * 100 - 100, activePage * 100 - 1);
+    console.log(
+      "activePage * 100 - 100",
+      activePage * 100 - 100,
+      "activePage * 100 - 1",
+      activePage * 100 - 1
+    );
+    if (filters) {
+      filters
+        .filter((entry) => entry.action)
+        .forEach((filter) => {
+          query[filter.action]?.(...filter.value);
+        });
+    }
+    const result = await query.limit(100);
+
+    if (result.error) setIsPageLoading(false);
+    else {
+      setResultsData((prev) => ({
+        ...prev,
+        data: [...prev.data, ...result.data],
+        count: result.count,
+      }));
+
+      setIsPageLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (tableRef?.current) fetchAssets();
+  }, [activePage]);
+
+  let ticking = false;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!tableRef.current) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const windowHeight = window.innerHeight;
+          const scrollPosition = window.scrollY + windowHeight;
+          const triggerHeight = windowHeight * 1.5;
+          if (scrollPosition > triggerHeight && !isButtonVisible)
+            setIsButtonVisible(true);
+          if (scrollPosition <= triggerHeight && isButtonVisible)
+            setIsButtonVisible(false);
+
+          const tableBottomPosition =
+            tableRef.current.offsetTop + tableRef.current.offsetHeight;
+
+          if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
+            setActivePage(Math.round(resultsData?.data?.length) / 100 + 1);
+          }
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isPageLoading, isButtonVisible]);
+
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <>
@@ -97,41 +187,36 @@ export const Top100 = ({
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
         <Views setResultsData={setResultsData} />
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0 mb-0 md:mb-0">
-          <AssetsTable
-            resultsData={resultsData}
-            setResultsData={setResultsData}
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-            filters={filters}
-            isTop100
-            showRank
-            isMobile={isMobile}
-            // noResult={!(resultsData?.data?.length > 0)}
-          />
+          <div className="w-full h-full" ref={tableRef}>
+            <AssetsTable
+              resultsData={resultsData}
+              setResultsData={setResultsData}
+              orderBy={orderBy}
+              setOrderBy={setOrderBy}
+              filters={filters}
+              isTop100
+              showRank
+              isMobile={isMobile}
+              // noResult={!(resultsData?.data?.length > 0)}
+            />
+            {isPageLoading ? (
+              <div className="w-full h-[60px] mb-[50px] flex items-center justify-center">
+                <Spinner extraCss="h-[30px] w-[30px]" />
+              </div>
+            ) : null}
+          </div>
         </Container>
       </div>
-
-      {resultsData.count > 100 && (
-        <Pagination maxPage={Math.floor(resultsData.count / 100)} />
-      )}
-      {/* 
-      <Flex h="1400px" w="100%" bg={bgTable} pt="150px" direction="column">
-        <Flex maxW="1300px" mx="auto" h="200px">
-          <Button bg="#FFA519" h="40px" w="120px">
-            Depot
-          </Button>
-        </Flex>
-        <Flex maxW="1300px" mx="auto" h="200px">
-          <Button bg="rebeccapurple" h="40px" w="120px">
-            Depot
-          </Button>
-        </Flex>
-        <Flex maxW="1300px" mx="auto" h="200px">
-          <Button bg="#E4C9B0" h="40px" w="120px" color="rgba(0,0,0,0.8)">
-            Depot
-          </Button>
-        </Flex>
-      </Flex> */}
+      {isButtonVisible ? (
+        <Button
+          extraCss="fixed bottom-[50px] md:bottom-[100px] right-[50px] md:right-[30px] z-[2] rounded-full
+         h-[45px] w-[45px] min-h-[45px] flex items-center justify-center shadow-lg"
+          ref={buttonRef}
+          onClick={scrollTop}
+        >
+          <AiOutlineArrowUp className="text-2xl text-light-font-100 dark:text-dark-font-100 font-bold" />
+        </Button>
+      ) : null}
     </>
   );
 };

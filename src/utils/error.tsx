@@ -1,3 +1,5 @@
+import { triggerAlert } from "../lib/toastify";
+
 interface EthersError extends Error {
   data?: {
     message?: string;
@@ -7,15 +9,15 @@ interface EthersError extends Error {
 
 export const handleEthersError = (e: EthersError, alert: any) => {
   if (e.data && e.data.message) {
-    alert.error(e.data.message);
+    triggerAlert("Error", e.data.message);
   } else if (e.reason) {
     const errorMessage = e.reason.split(": ")[1] || e.reason;
-    alert.error(errorMessage);
+    triggerAlert("Error", errorMessage);
   } else {
-    alert.error("Something went wrong.");
+    triggerAlert("Error", "Something went wrong.");
   }
 };
 
 export const handleViewError = (e: Error, alert: any) => {
-  alert.error(e.message);
+  triggerAlert("Error", e.message);
 };

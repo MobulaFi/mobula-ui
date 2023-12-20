@@ -1,20 +1,22 @@
-import {UserHoldingsAsset} from "../../models";
+import { UserHoldingsAsset } from "../../models";
 
 export const getChainsBreakdownFromPortfolio = (
-  assets: UserHoldingsAsset[],
+  assets: UserHoldingsAsset[]
 ) => {
-  const newBlockchains: {[key: string]: number} = {};
+  const newBlockchains: { [key: string]: number } = {};
 
-  assets?.forEach(token => {
+  assets?.forEach((token) => {
     let totalOnChain = 0;
 
-    Object.entries(token.cross_chain_balances).forEach(entry => {
+    Object.entries(token.cross_chain_balances).forEach((entry) => {
+      const balance: number = (entry[1] as { balance: number })?.balance;
+
       if (newBlockchains[entry[0]]) {
-        newBlockchains[entry[0]] += entry[1] * token.price;
+        newBlockchains[entry[0]] += balance * token.price;
       } else {
-        newBlockchains[entry[0]] = entry[1] * token.price;
+        newBlockchains[entry[0]] = balance * token.price;
       }
-      totalOnChain += entry[1];
+      totalOnChain += balance;
     });
 
     if (totalOnChain > 0 && totalOnChain !== token.token_balance) {
