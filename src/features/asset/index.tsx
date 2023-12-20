@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -86,7 +86,6 @@ export const Assets = () => {
 
   const tabs = [
     "Essentials",
-    // "Tokenomic",
     "Market",
     "Fundraising",
     "Vesting",
@@ -485,27 +484,6 @@ export const Assets = () => {
               >
                 <BasicSwap activeStep={0} />
               </SwapProvider>
-              {/* <div className="flex items-center">
-                <Button
-                  extraCss="my-2.5 h-[45px] md:h-[40px] w-full"
-                  onClick={() => {
-                    pushData("Buy with Credit Card on Asset Page");
-                    setShowCard("USD");
-                  }}
-                >
-                  Buy with credit-card
-                  <img
-                    className="h-[15px] mx-[7.5px]"
-                    src="/logo/mastercard.png"
-                    alt="mastercard logo"
-                  />
-                  <img
-                    src="/logo/visa.png"
-                    className="h-[13px]"
-                    alt="visa logo"
-                  />
-                </Button>
-              </div>{" "} */}
             </div>
           ) : null}
 
