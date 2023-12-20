@@ -40,18 +40,18 @@ const formatNewsSummary = (news: INewsGeneral) => {
         <TbTriangleInvertedFilled className="text-[10px] text-red mx-[3px]" />
       );
     }
-
-    elements.push(
-      <NextChakraLink
-        // TODO: add this
-        key={offset}
-        // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
-        // as={Link}
-        href={`https://mobula.fi/asset/${getUrlFromName(assetData.name)}`}
-      >
-        {p1} {priceChangeIcon}
-      </NextChakraLink>
-    );
+    if (assetData.name)
+      elements.push(
+        <NextChakraLink
+          // TODO: add this
+          key={offset}
+          // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
+          // as={Link}
+          href={`https://mobula.fi/asset/${getUrlFromName(assetData.name)}`}
+        >
+          {p1} {priceChangeIcon}
+        </NextChakraLink>
+      );
 
     lastIndex = offset + fullMatch.length;
   });

@@ -117,14 +117,10 @@ export const Top100 = ({
       else if (scrollPosition < 3000 && isButtonVisible)
         setIsButtonVisible(false);
 
-      console.log(
-        scrollPosition > 3000 && !isButtonVisible,
-        scrollPosition < 3000 && isButtonVisible
-      );
       const tableBottomPosition =
         tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-      if (scrollPosition >= tableBottomPosition * 0.9 && !isPageLoading) {
+      if (scrollPosition >= tableBottomPosition * 0.85 && !isPageLoading) {
         setActivePage((prevPage) => prevPage + 1);
       }
     };
