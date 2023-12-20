@@ -108,20 +108,37 @@ export const Top100 = ({
     if (tableRef?.current) fetchAssets();
   }, [activePage]);
 
+  let lastKnownScrollPosition = 0;
+  let ticking = false;
+
   useEffect(() => {
     const handleScroll = () => {
       if (!tableRef.current) return;
+      lastKnownScrollPosition = window.scrollY;
+      let amountToScroll = 0;
+      if (window.innerWidth > 991) amountToScroll = 3000;
+      else amountToScroll = 2000;
 
-      const scrollPosition = window.scrollY + window.innerHeight;
-      if (scrollPosition > 3000 && !isButtonVisible) setIsButtonVisible(true);
-      else if (scrollPosition < 3000 && isButtonVisible)
-        setIsButtonVisible(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const windowHeight = window.innerHeight;
+          const scrollPosition = window.scrollY + windowHeight;
+          const triggerHeight = windowHeight * 1.5;
+          if (scrollPosition > triggerHeight && !isButtonVisible)
+            setIsButtonVisible(true);
+          if (scrollPosition <= triggerHeight && isButtonVisible)
+            setIsButtonVisible(false);
 
-      const tableBottomPosition =
-        tableRef.current.offsetTop + tableRef.current.offsetHeight;
+          const tableBottomPosition =
+            tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-      if (scrollPosition >= tableBottomPosition * 0.85 && !isPageLoading) {
-        setActivePage((prevPage) => prevPage + 1);
+          if (scrollPosition >= tableBottomPosition * 0.85 && !isPageLoading) {
+            setActivePage((prevPage) => prevPage + 1);
+          }
+          ticking = false;
+        });
+
+        ticking = true;
       }
     };
 
@@ -130,10 +147,9 @@ export const Top100 = ({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isPageLoading]);
+  }, [isPageLoading, isButtonVisible]);
 
   const scrollTop = () => {
-    console.log(window.scrollY + window.innerHeight);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
