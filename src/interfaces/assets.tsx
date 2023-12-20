@@ -157,7 +157,6 @@ export interface Token {
   price_change_24h: number;
   price_change_7d: number;
   rank: number;
-  rank_change_24h: number;
   symbol: string;
   twitter: string;
   volume: number;

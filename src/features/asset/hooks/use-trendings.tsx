@@ -32,7 +32,7 @@ export const useTrendings = () => {
     const supabase = createSupabaseDOClient();
     supabase
       .from("assets")
-      .select("name,price_change_24h,logo,id,views_change_24h,price")
+      .select("name,price_change_24h,logo,id,trending_score,price")
       .order("market_cap", { ascending: false })
       .limit(30)
       .then((r) => {

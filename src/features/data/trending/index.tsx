@@ -22,7 +22,7 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
     ...generateFilters("all"),
   ]);
   const [orderBy, setOrderBy] = useState<OrderBy>({
-    type: "views_change_24h",
+    type: "trending_score",
     ascending: false,
     first: true,
   });
