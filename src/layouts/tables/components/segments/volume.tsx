@@ -37,8 +37,6 @@ export const VolumeSegment = ({
       return `$${getFormattedAmount(token.global_volume)}`;
     if (display === "7d Volume" && token.global_volume_7d)
       return `$${getFormattedAmount(token.global_volume_7d)}`;
-    if (display === "1m Volume" && token.global_volume_1m)
-      return `$${getFormattedAmount(token.global_volume_1m)}`;
     return "-";
   };
   const renderVolumeOrBalance = getVolumeOrBalance();

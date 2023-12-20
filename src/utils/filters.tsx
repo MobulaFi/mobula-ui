@@ -47,7 +47,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];
@@ -78,7 +78,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];
@@ -108,7 +108,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];
@@ -138,7 +138,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];
@@ -168,7 +168,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];
@@ -198,7 +198,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];
@@ -228,7 +228,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           : [
               {
                 action: "order",
-                value: ["views_change_24h", { ascending: false }],
+                value: ["trending_score", { ascending: false }],
               },
             ]),
       ];

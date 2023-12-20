@@ -14,8 +14,8 @@ export const NoResult = () => {
   useEffect(() => {
     supabase
       .from("assets")
-      .select("name,price_change_24h,logo,id,views_change_24h")
-      .order("views_change_24h", { ascending: false })
+      .select("name,price_change_24h,logo,id,trending_score")
+      .order("trending_score", { ascending: false })
       .limit(3)
       .then((r) => {
         if (r.data) setTrends(r.data);
