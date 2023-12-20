@@ -2,7 +2,10 @@
 <br />
 Mobula is built using a modern tech stack comprising Next.js 13, Tailwind CSS, PostgREST, TypeScript and relies on npm for package management.
 This documentation provides an overview of the setup process and outlines the project's folder structure and the role of each component within the architecture.
-<br /><br />Check it out live: https://mobula.io
+<br />
+<br />
+<img src="./public/mobula/main-page.png" width="500" h="auto" alt="Mobula top 100" />
+Check it out live: https://mobula.io
 <br />
 
 
