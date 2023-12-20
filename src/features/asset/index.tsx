@@ -92,56 +92,6 @@ export const Assets = () => {
     ...(isMobile ? ["Buy"] : []),
   ];
 
-  // console.log("baseAsset", baseAsset);
-  // const token =
-  //   "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";
-
-  // const formatGithub = url => {
-  //   const site = url.split("github.com");
-  //   const apiRepo = `https://api.github.com/repos${site[1]}`;
-  //   return apiRepo;
-  // };
-
-  // useEffect(() => {
-  //   if (!baseAsset) return;
-
-  //   // fetch(commits, {
-  //   //   headers: {
-  //   //     Authorization: `token ${token}`,
-  //   //   },
-  //   // })
-  //   //   .then(res => res.json())
-  //   //   .then(data => {
-  //   //     console.log("data", data);
-  //   //   });
-
-  //   const fetchCommits = async () => {
-  //     let commits = [];
-  //     const github = formatGithub(baseAsset?.github);
-  //     let url = `${github}/commits?per_page=100`;
-  //     do {
-  //       const response = await axios.get(url, {
-  //         // Ajout de await ici
-  //         headers: {Authorization: `token ${token}`},
-  //       });
-
-  //       commits = commits.concat(response.data);
-
-  //       const linkHeader = response.headers.link || "";
-  //       const nextLink = linkHeader
-  //         .split(",")
-  //         .find(s => s.includes('rel="next"'));
-
-  //       url = nextLink ? nextLink.match(/<(.*)>/)[1] : null;
-  //     } while (url);
-
-  //     console.log("THEY ARE HERE", commits);
-  //     return commits;
-  //   };
-
-  //   fetchCommits();
-  // }, [baseAsset]);
-
   function switchTab(dir) {
     setPreviousTab(activeTab);
     if (isMobile) {
