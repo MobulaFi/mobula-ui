@@ -108,17 +108,11 @@ export const Top100 = ({
     if (tableRef?.current) fetchAssets();
   }, [activePage]);
 
-  let lastKnownScrollPosition = 0;
   let ticking = false;
 
   useEffect(() => {
     const handleScroll = () => {
       if (!tableRef.current) return;
-      lastKnownScrollPosition = window.scrollY;
-      let amountToScroll = 0;
-      if (window.innerWidth > 991) amountToScroll = 3000;
-      else amountToScroll = 2000;
-
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const windowHeight = window.innerHeight;
