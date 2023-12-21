@@ -26,7 +26,7 @@ export const CuratedBox = ({ content }) => {
   return (
     <div
       className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-         border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full mb-2.5"
+         border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full"
       ref={containerRef}
     >
       <div className="flex items-center">

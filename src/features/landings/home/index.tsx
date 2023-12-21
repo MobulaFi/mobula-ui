@@ -103,14 +103,17 @@ export const HomeLanding = () => {
   }, []);
 
   const containerRef = useRef(null);
+  const indexingRef = useRef(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (container) {
+    const indexing = indexingRef.current;
+    if (container && indexing) {
       container.addEventListener("mousemove", (e) => {
         const rect = container.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
+
         // const dx = x - rect.width / 2;
         // const dy = y - rect.height / 2;
         // const tiltX = dy / rect.height;
@@ -118,8 +121,16 @@ export const HomeLanding = () => {
 
         container.style.setProperty("--x", x + "px");
         container.style.setProperty("--y", y + "px");
+
         // container.style.setProperty("--rotateX", tiltX * 20 + "deg");
         // container.style.setProperty("--rotateY", tiltY * 20 + "deg");
+      });
+      indexing.addEventListener("mousemove", (e) => {
+        const rectIndexing = indexing.getBoundingClientRect();
+        const xIndexing = e.clientX - rectIndexing.left;
+        const yIndexing = e.clientY - rectIndexing.top;
+        indexing.style.setProperty("--x", xIndexing + "px");
+        indexing.style.setProperty("--y", yIndexing + "px");
       });
     }
   }, []);
@@ -210,9 +221,8 @@ export const HomeLanding = () => {
 
       {/* SECTION 2 */}
       <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center"
+        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
         style={{
-          height: "calc(100vh - 65px)",
           backgroundImage: `radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
         }}
       >
@@ -264,7 +274,9 @@ export const HomeLanding = () => {
                   </button>
                 ))}
               </div>
-              <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px] relative">
+            </div>
+            <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px]">
+              <div className="h-full w-full max-w-[900px] relative mx-auto">
                 <div
                   className="h-full w-[33.33%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
                   style={{
@@ -274,7 +286,7 @@ export const HomeLanding = () => {
                         33.33 +
                       "%",
                   }}
-                />
+                />{" "}
               </div>
             </div>
             <div className="flex w-full justify-between mt-[100px]">
@@ -300,7 +312,7 @@ export const HomeLanding = () => {
                   , ensuring that user data is not stored at all. This approach
                   guarantees that sensitive
                 </p>
-                <div className="w-full my-8 flex items-center">
+                <div className="w-full my-[50px] flex items-center">
                   <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
                   <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
@@ -334,10 +346,74 @@ export const HomeLanding = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col max-w-[450px]">
+              <div className="flex flex-col max-w-[450px] justify-between">
                 {activeDataset.contents.map((content, i) => (
                   <CuratedBox key={i} content={content} />
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION INDEXING */}
+
+      <section
+        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
+        style={{
+          backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
+        }}
+      >
+        <div className={containerStyle}>
+          <div>
+            <div className="h-fit w-fit overflow-hidden mx-auto">
+              <h1
+                id="text"
+                style={{
+                  WebkitTextFillColor: "transparent",
+                }}
+                className="text-[72px] font-bold font-poppins w-fit mx-auto text-transparent 
+                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
+                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
+                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
+              >
+                Indexing Supercharged
+              </h1>
+            </div>
+            <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center">
+              A new way of using subgraphs, livestreamed, multi-chain & enriched
+            </p>
+            <div
+              className="p-8 flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
+                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full h-[400px] 
+                   overflow-hidden"
+              ref={indexingRef}
+            >
+              <div className="w-2/4 flex flex-col">
+                <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium">
+                  Livestreamed to your DB
+                </h2>
+                <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-7 text-lg mb-9 max-w-[500px]">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Dolore, facilis consequuntur quasi corrupti sequi, minima sit
+                  aspernatur ea ullam aut corporis dolores ut vel ratione porro
+                  voluptate
+                </p>
+                <button
+                  className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md
+                 rounded h-[35px] w-fit px-2.5 border border-light-border-primary dark:border-dark-border-primary 
+                 text-light-font-100 dark:text-dark-font-100"
+                >
+                  Read Docs
+                </button>
+              </div>
+              <div className="w-2/4 flex flex-col">
+                <div className="rounded-lg shadow-2xl w-fit h-fit">
+                  <img
+                    className="absolute bottom-[-20px] right-[-20px]"
+                    src="/landing/supercharged/db.png"
+                  />
+                </div>
               </div>
             </div>
           </div>
