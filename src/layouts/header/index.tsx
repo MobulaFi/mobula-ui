@@ -18,6 +18,7 @@ import { NotificationDrawer } from "../../drawer/notif";
 import { WatchlistDrawer } from "../../drawer/watchlist";
 import { useAnalytics } from "../../hooks/analytics";
 import { usePageLoad } from "../../hooks/pageload";
+import { GET } from "../../utils/fetch";
 import { Tabs } from "./components/tabs";
 import { UserSection } from "./components/user-section";
 import { AccountHeaderContext } from "./context-manager";
@@ -38,6 +39,7 @@ export const Header = ({ addressCookie }) => {
     setTimeout(() => {
       handleRouteChange();
     }, 2000);
+    GET("/connection", {});
   }, [pathname]);
 
   return (
