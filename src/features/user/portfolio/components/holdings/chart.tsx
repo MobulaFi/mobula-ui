@@ -1,7 +1,13 @@
 import * as echarts from "echarts";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../components/fonts";
 import {
@@ -85,39 +91,10 @@ export const HoldingChart = ({ ...props }) => {
       };
     });
 
-  // alert(`data ${title}: ` + JSON.stringify(data));
-  console.log(
-    "dkkdd",
-    sortedHoldings?.concat(otherHoldings).map((token) => {
-      if (!seen.has(token.symbol)) {
-        seen.add(token.symbol);
-        return {
-          name: token.symbol,
-          value: getTokenPercentage(token.allocation),
-          logo: token.image,
-          amount: token.estimated_balance,
-        };
-      }
-    })
-  );
-  console.log(
-    "yoooo",
-    sortedBlockchains.map((chain) => {
-      const percentage = (chain[1] / total) * 100;
-      console.log("percentage", percentage, chain);
-      return {
-        name: chain[0],
-        value: getTokenPercentage(percentage),
-        logo: blockchainsContent[chain[0]]?.logo,
-        amount: chain[1],
-      };
-    })
-  );
-
   const options: EChartsOption = {
     legend: {
       show: true,
-      bottom: "4%",
+      bottom: data?.length > 6 ? "0%" : "4%",
       orient: "horizontal",
       textStyle: {
         color: isDarkMode ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.95)",
@@ -167,7 +144,7 @@ export const HoldingChart = ({ ...props }) => {
         name: "Liquidity",
         type: "pie",
         radius: ["55%", "70%"],
-        center: ["50%", "42%"],
+        center: ["50%", data?.length > 6 ? "39%" : "42%"],
         avoidLabelOverlap: false,
         label: {
           show: false,
