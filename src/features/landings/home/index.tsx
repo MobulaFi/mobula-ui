@@ -10,8 +10,7 @@ import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
 import { CuratedBox } from "./components/curated-box";
-import { GridBox } from "./components/grid-box";
-import { curatedDatasets, gridBoxContent, questions } from "./constant";
+import { curatedDatasets, questions } from "./constant";
 import { useHomeLanding } from "./context-manager";
 
 gsap.registerPlugin(MotionPathPlugin);
@@ -416,11 +415,11 @@ export const HomeLanding = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full flex">
+            <div className="w-full flex justify-between">
               <div
                 className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
                    border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[40%]  
-                   overflow-hidden"
+                   overflow-hidden p-5 pb-0"
                 ref={indexingRef}
               >
                 <div className="w-full flex flex-col">
@@ -508,7 +507,7 @@ export const HomeLanding = () => {
                       ))}
                     </div>
                   </div>
-                  <div className="px-8 mt-10">
+                  <div className="mt-8 p-3 pb-0">
                     <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium ">
                       Multi-chain Indexing
                     </h2>
@@ -521,116 +520,37 @@ export const HomeLanding = () => {
                   </div>
                 </div>
               </div>
+              <div
+                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
+                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[55%]  
+                   overflow-hidden p-5 pb-0"
+                ref={indexingRef}
+              >
+                <div className="w-full flex flex-col mt-3 mb-auto">
+                  <div className="p-3 pt-0">
+                    <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium mt-4">
+                      Multi-chain Indexing
+                    </h2>
+                    <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-7 text-lg mb-9 max-w-[500px]">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Dolore, facilis consequuntur quasi corrupti sequi, minima
+                      sit aspernatur ea ullam aut corporis dolores ut vel
+                      ratione porro voluptate
+                    </p>{" "}
+                  </div>
+                  <div className="rounded-lg shadow-2xl w-fit h-fit">
+                    <img
+                      className="absolute bottom-[-10px] left-[-10px]"
+                      src="/landing/supercharged/dashboard.png"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 3 */}
-      <section
-        className="h-[70vh] w-screen flex justify-center items-center relative snap-center"
-        style={{
-          background:
-            "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-        }}
-      >
-        <div className={containerStyle}>
-          <div className="flex items-center">
-            <div className="w-2/4">
-              <h2
-                className="text-[64px] font-bold leading-[65px] font-['Poppins'] w-fit mx-auto 
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
-                style={{
-                  WebkitTextFillColor: "transparent",
-                  ...{ "--text-wrap": "balance" },
-                }}
-              >
-                Get any data downloaded to your database
-              </h2>
-              <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl">
-                Mobula prioritizes privacy by employing{" "}
-                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  decentralized servers
-                </span>
-                , ensuring that user data is not stored at all. This approach
-                guarantees that sensitive
-              </p>
-              <div className="mt-8 flex items-center w-full max-w-[460px] rounded-xl p-2.5 justify-between">
-                <div className="flex items-center">
-                  <img src="/landing/icon-key.svg" alt="secure" />
-                  <p className="text-light-font-100 dark:text-dark-font-100 font-[Poppins] ml-2.5 text-xl tracking-tighter">
-                    Secure
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <img src="/landing/icon-lock.svg" alt="secure" />
-                  <p className="text-light-font-100 dark:text-dark-font-100 font-[Poppins] ml-2.5 text-xl tracking-tighter">
-                    Accurate
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <img src="/landing/icon-shield.svg" alt="secure" />
-                  <p className="text-light-font-100 dark:text-dark-font-100 font-[Poppins] ml-2.5 text-xl tracking-tighter">
-                    Transparent
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="w-2/4 flex justify-end">
-              <div className="w-fit h-fit relative">
-                <img src="/landing/ecosystem.svg" alt="ecosystem" />
-                <img
-                  src="/landing/ecosystem-planet.svg"
-                  alt="ecosystem planet"
-                  className="absolute top-1/2 left-1/2  z-[1]"
-                  id="planets"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="h-screen w-screen flex justify-center items-center snap-center"
-        style={{
-          background:
-            "radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-          // background: "radial-gradient(at right top, #112B52, #131627)",
-        }}
-      >
-        <div className={containerStyle}>
-          <h2
-            className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit mx-auto 
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none text-center"
-            style={{
-              WebkitTextFillColor: "transparent",
-              ...{ "--text-wrap": "balance" },
-            }}
-          >
-            Get any data downloaded to your database
-          </h2>
-          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl max-w-[800px] text-center mx-auto">
-            Mobula prioritizes privacy by employing{" "}
-            <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
-              decentralized servers
-            </span>
-            , ensuring that user data is not stored at all. This approach
-            guarantees that sensitive
-          </p>
-          <div className="grid grid-rows-2 grid-flow-col gap-10 mt-[100px]">
-            {gridBoxContent.map((content) => (
-              <GridBox
-                key={content.title}
-                title={content.title}
-                image={content.image}
-                description={content.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
       {/* QUERY SECTION */}
       <section
         className="h-screen w-screen flex justify-center items-center snap-center"
@@ -818,128 +738,7 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
-      {/* NETWORKS SECTION */}
-      <section
-        className="h-[60vh] w-screen flex justify-center items-center snap-center"
-        style={{
-          background:
-            "radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-          // background: "radial-gradient(at right top, #112B52, #131627)",
-        }}
-      >
-        <div className={containerStyle}>
-          <div className="w-full flex items-center justify-between">
-            <div className="w-2/4 flex flex-col">
-              <h2
-                className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit mx-auto 
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
-                style={{
-                  WebkitTextFillColor: "transparent",
-                  ...{ "--text-wrap": "balance" },
-                }}
-              >
-                Get any data downloaded to your database
-              </h2>
-              <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl max-w-[800px]">
-                Mobula prioritizes privacy by employing{" "}
-                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  decentralized servers
-                </span>
-                , ensuring that user data is not stored at all. This approach
-                guarantees that sensitive
-              </p>
-            </div>
-            {/* TODO: COMPONENTS */}
-            <div className="w-2/4 ml-auto flex flex-col items-end">
-              <div className="scrollerAnimated ">
-                <div className="scrollerAnimated-inner flex">
-                  {firstChains?.map((content, i) => (
-                    <div
-                      key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                      style={{
-                        background:
-                          "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-                        // background: "radial-gradient(at right top, #112B52, #131627)",
-                      }}
-                    >
-                      <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl min-w-[45px] min-h-[45px]"
-                        src={content?.logo}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="scrollerAnimated" data-direction="right">
-                <div className="scrollerAnimated-inner flex">
-                  {secChains?.map((content, i) => (
-                    <div
-                      key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                 border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                      style={{
-                        background:
-                          "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-                        // background: "radial-gradient(at right top, #112B52, #131627)",
-                      }}
-                    >
-                      <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
-                        src={content?.logo}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="scrollerAnimated">
-                <div className="scrollerAnimated-inner flex">
-                  {thirdChains?.map((content, i) => (
-                    <div
-                      key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                      style={{
-                        background:
-                          "radial-gradient(at left top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-                        // background: "radial-gradient(at right top, #112B52, #131627)",
-                      }}
-                    >
-                      <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
-                        src={content?.logo}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="scrollerAnimated" data-direction="right">
-                <div className="scrollerAnimated-inner flex">
-                  {quarthChains?.map((content, i) => (
-                    <div
-                      key={content.chainId}
-                      className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                      style={{
-                        background:
-                          "radial-gradient(at right top, rgba(11, 32, 64, 0.4), rgba(19, 22, 39, 0.4))",
-                        // background: "radial-gradient(at right top, #112B52, #131627)",
-                      }}
-                    >
-                      <img
-                        className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
-                        src={content?.logo}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
       {/* QUESTIONS ASKED */}
       <section
         className="w-screen flex justify-center items-center h-screen snap-center"
