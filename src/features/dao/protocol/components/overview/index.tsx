@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsKey } from "react-icons/bs";
 import { RiWallet3Line } from "react-icons/ri";
