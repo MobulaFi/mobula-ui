@@ -140,3 +140,96 @@ export const curatedDatasets = [
     id: 3,
   },
 ];
+
+export const legacyStacks = [
+  {
+    title: "Coingecko",
+    description: "From",
+    image: "/landing/curated-datasets/walletdata.svg",
+    content: {
+      description:
+        "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
+      title: "Coingecko",
+      image: "/landing/curated-datasets/walletdata.svg",
+      percentage: 83,
+      values: [
+        { name: "Average Spending Cut", value: 83 },
+        { name: "Assets Covered", value: -234 },
+        { name: "Add something", value: 83 },
+      ],
+    },
+
+    id: 1,
+  },
+  {
+    title: "CoinMarketCap",
+    description: "From",
+    image: "/landing/curated-datasets/walletdata.svg",
+    content: {
+      description:
+        "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
+      title: "Coingecko",
+      image: "/landing/curated-datasets/walletdata.svg",
+      percentage: 83,
+      values: [
+        { name: "Average Spending Cut", value: 83 },
+        { name: "Assets Covered", value: -234 },
+        { name: "Add something", value: 83 },
+      ],
+    },
+
+    id: 2,
+  },
+  {
+    title: "Covalent",
+    description: "From",
+    image: "/landing/curated-datasets/walletdata.svg",
+    content: {
+      description:
+        "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
+      title: "Coingecko",
+      image: "/landing/curated-datasets/walletdata.svg",
+      percentage: 83,
+      values: [
+        { name: "Average Spending Cut", value: 83 },
+        { name: "Assets Covered", value: -234 },
+        { name: "Add something", value: 83 },
+      ],
+    },
+    id: 3,
+  },
+  {
+    title: "TheGraph",
+    description: "From",
+    image: "/landing/curated-datasets/walletdata.svg",
+    content: {
+      description:
+        "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
+      title: "Coingecko",
+      image: "/landing/curated-datasets/walletdata.svg",
+      percentage: 83,
+      values: [
+        { name: "Average Spending Cut", value: 83 },
+        { name: "Assets Covered", value: -234 },
+        { name: "Add something", value: 83 },
+      ],
+    },
+    id: 4,
+  },
+  {
+    title: "BitQuery",
+    description: "From",
+    image: "/landing/curated-datasets/walletdata.svg",
+    contents: {
+      title: "Coingecko",
+      image: "/landing/curated-datasets/walletdata.svg",
+      percentage: 83,
+      values: [
+        { name: "Average Spending Cut", value: 83 },
+        { name: "Assets Covered", value: -234 },
+        { name: "Add something", value: 83 },
+      ],
+    },
+    id: 5,
+  },
+];

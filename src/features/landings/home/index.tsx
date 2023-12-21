@@ -9,6 +9,7 @@ import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
 import { CuratedDataset } from "./components/curated-dataset";
+import { LegacyStack } from "./components/legacy-stack";
 import { IndexingSupercharged } from "./components/supercharged";
 import { questions } from "./constant";
 import { containerStyle } from "./style";
@@ -188,9 +189,8 @@ export const HomeLanding = () => {
 
       {/* SECTION 2 */}
       <CuratedDataset />
-      {/* SECTION INDEXING */}
-
       <IndexingSupercharged />
+      <LegacyStack />
 
       {/* QUERY SECTION */}
       <section

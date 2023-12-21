@@ -94,7 +94,7 @@ body::-webkit-scrollbar {
 }
 
 .mouse-cursor-gradient-tracking:hover::before {
-  --size: 200px;
+  --size: 220px;
 }
 @keyframes scroller {
   to {

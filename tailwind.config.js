@@ -78,6 +78,10 @@ module.exports = {
         widthbar: "widthbar 5200ms linear",
         fadeIn: "fadeIn 0.5s ease-out",
       },
+      boxShadow: {
+        "top-bottom":
+          "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 -10px 15px -3px rgba(0, 0, 0, 0.1)",
+      },
     },
     // Header animation come from screens object
     screens: {
