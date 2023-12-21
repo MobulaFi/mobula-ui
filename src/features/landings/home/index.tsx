@@ -9,8 +9,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
+import { CuratedBox } from "./components/curated-box";
 import { GridBox } from "./components/grid-box";
-import { gridBoxContent, questions } from "./constant";
+import { curatedDatasets, gridBoxContent, questions } from "./constant";
+import { useHomeLanding } from "./context-manager";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -19,6 +21,8 @@ export const dynamic = "force-static";
 export const HomeLanding = () => {
   const containerStyle = "flex flex-col max-w-[1200px] w-[90%] lg:w-[95%]";
   const [triggerAccordion, setTriggerAccordion] = useState<number>(0);
+  const { activeDataset, setActiveDataset } = useHomeLanding();
+  const [datasetHover, setDatasetHover] = useState<number>(0);
 
   useEffect(() => {
     hljs.highlightAll();
@@ -98,6 +102,28 @@ export const HomeLanding = () => {
     }
   }, []);
 
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("mousemove", (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        // const dx = x - rect.width / 2;
+        // const dy = y - rect.height / 2;
+        // const tiltX = dy / rect.height;
+        // const tiltY = -dx / rect.width;
+
+        container.style.setProperty("--x", x + "px");
+        container.style.setProperty("--y", y + "px");
+        // container.style.setProperty("--rotateX", tiltX * 20 + "deg");
+        // container.style.setProperty("--rotateY", tiltY * 20 + "deg");
+      });
+    }
+  }, []);
+
   return (
     <div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
@@ -155,9 +181,170 @@ export const HomeLanding = () => {
                 Learn More
               </button>
             </div>
+            <div className="flex flex-col w-full">
+              <div className="flex items-center justify-between mt-[100px]">
+                <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
+                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5">
+                  They using our APIs
+                </p>
+                <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
+              </div>
+              <div className="grid grid-cols-5 gap-10 mt-[50px]">
+                <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
+                <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
+                <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
+                <img
+                  src="/landing/partner/embr.svg"
+                  alt="embr logo"
+                  className="mx-auto"
+                />
+                <img
+                  src="/landing/partner/etherspot.svg"
+                  alt="etherspot logo"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* SECTION 2 */}
+      <section
+        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center"
+        style={{
+          height: "calc(100vh - 65px)",
+          backgroundImage: `radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
+        }}
+      >
+        <div className={containerStyle}>
+          <div>
+            <div className="h-fit w-fit overflow-hidden mx-auto">
+              <h1
+                id="text"
+                style={{
+                  WebkitTextFillColor: "transparent",
+                }}
+                className="text-[72px] font-bold leading-[75px]  font-poppins w-fit mx-auto text-transparent 
+                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
+                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
+                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
+              >
+                Curated datasets
+              </h1>
+            </div>
+            <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center">
+              A new way of using subgraphs, livestreamed, multi-chain & enriched
+            </p>
+            <div className="max-w-[900px] mx-auto">
+              <div className="flex items-center mt-[50px] w-full justify-around">
+                {curatedDatasets.map((dataset) => (
+                  <button
+                    key={dataset.id}
+                    className={`${
+                      datasetHover === dataset.id ||
+                      activeDataset.id === dataset.id
+                        ? "opacity-100"
+                        : "opacity-40"
+                    } flex flex-col items-center justify-start h-[130px] w-[33.33%] transition-all duration-300 ease-in-out`}
+                    onMouseEnter={() => setDatasetHover(dataset.id)}
+                    onMouseLeave={() => setDatasetHover(0)}
+                    onClick={() => setActiveDataset(dataset)}
+                  >
+                    <img
+                      className="w-[40px] h-[40px] rounded-full"
+                      src={dataset.image}
+                      alt={`${dataset.title} logo`}
+                    />
+                    <p className="text-light-font-100 dark:text-dark-font-100 font-poppins tracking-tight mt-3 text-4xl text-center font-medium ">
+                      {dataset.title}
+                    </p>
+                    <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-3 text-xl text-center">
+                      {dataset.description}
+                    </p>
+                  </button>
+                ))}
+              </div>
+              <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px] relative">
+                <div
+                  className="h-full w-[33.33%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
+                  style={{
+                    left:
+                      ((datasetHover !== 0 ? datasetHover : activeDataset.id) -
+                        1) *
+                        33.33 +
+                      "%",
+                  }}
+                />
+              </div>
+            </div>
+            <div className="flex w-full justify-between mt-[100px]">
+              <div className="flex flex-col max-w-[650px]">
+                <h2
+                  className="text-[64px] font-bold leading-[65px] font-['Poppins'] w-fit  
+              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
+              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
+                  style={{
+                    WebkitTextFillColor: "transparent",
+                    ...{ "--text-wrap": "balance" },
+                  }}
+                >
+                  Serverless SQL for
+                  <br />
+                  the frontend cloud
+                </h2>
+                <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl ">
+                  Mobula prioritizes privacy by employing{" "}
+                  <span className="text-light-font-100 dark:text-dark-font-100">
+                    decentralized servers
+                  </span>
+                  , ensuring that user data is not stored at all. This approach
+                  guarantees that sensitive
+                </p>
+                <div className="w-full my-8 flex items-center">
+                  <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
+                  <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
+                  <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
+                </div>
+                <div
+                  className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full"
+                  ref={containerRef}
+                >
+                  <div className="flex items-center">
+                    <div
+                      className="p-1 flex items-center justify-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md border
+                   border-light-border-primary dark:border-dark-border-primary rounded-lg"
+                    >
+                      <img
+                        className="w-[30px] h-[30px]"
+                        src="/landing/curated-datasets/octopus.svg"
+                        alt="secure"
+                      />
+                    </div>
+                    <p className="text-light-font-100 dark:text-dark-font-100 font-poppins text-xl ml-2.5">
+                      30+ Blockchains
+                    </p>
+                  </div>
+                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins text-base mt-4">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Quos, odit deleniti? Explicabo laborum eveniet facere,
+                    asperiores repellendus, sed voluptatum dolorem illo soluta
+                    consectetur laudantium quos libero optio maxime consequatur
+                    commodi.
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col max-w-[450px]">
+                {activeDataset.contents.map((content, i) => (
+                  <CuratedBox key={i} content={content} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 */}
       <section
         className="h-[70vh] w-screen flex justify-center items-center relative snap-center"
         style={{
@@ -567,26 +754,6 @@ export const HomeLanding = () => {
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col w-full">
-            <div className="flex items-center justify-between mt-[100px]">
-              <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
-              <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5">
-                They using our APIs
-              </p>
-              <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
-            </div>
-            <div className="grid grid-cols-5 gap-10 mt-[50px]">
-              <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
-              <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
-              <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
-              <img
-                src="/landing/partner/embr.svg"
-                alt="embr logo"
-                className="mx-auto"
-              />
-              <img src="/landing/partner/etherspot.svg" alt="etherspot logo" />
             </div>
           </div>
         </div>
