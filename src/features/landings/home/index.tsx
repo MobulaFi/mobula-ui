@@ -416,6 +416,112 @@ export const HomeLanding = () => {
                 </div>
               </div>
             </div>
+            <div className="w-full flex">
+              <div
+                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
+                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[40%]  
+                   overflow-hidden"
+                ref={indexingRef}
+              >
+                <div className="w-full flex flex-col">
+                  <div className="scrollerAnimated ">
+                    <div className="scrollerAnimated-inner flex">
+                      {firstChains?.map((content, i) => (
+                        <div
+                          key={content.chainId}
+                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                          style={{
+                            background:
+                              "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+                            // background: "radial-gradient(at right top, #112B52, #131627)",
+                          }}
+                        >
+                          <img
+                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl min-w-[45px] min-h-[45px]"
+                            src={content?.logo}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="scrollerAnimated" data-direction="right">
+                    <div className="scrollerAnimated-inner flex">
+                      {secChains?.map((content, i) => (
+                        <div
+                          key={content.chainId}
+                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                 border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                          style={{
+                            background:
+                              "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+                            // background: "radial-gradient(at right top, #112B52, #131627)",
+                          }}
+                        >
+                          <img
+                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
+                            src={content?.logo}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="scrollerAnimated">
+                    <div className="scrollerAnimated-inner flex">
+                      {thirdChains?.map((content, i) => (
+                        <div
+                          key={content.chainId}
+                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                          style={{
+                            background:
+                              "radial-gradient(at left top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+                            // background: "radial-gradient(at right top, #112B52, #131627)",
+                          }}
+                        >
+                          <img
+                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
+                            src={content?.logo}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="scrollerAnimated" data-direction="right">
+                    <div className="scrollerAnimated-inner flex">
+                      {quarthChains?.map((content, i) => (
+                        <div
+                          key={content.chainId}
+                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
+                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
+                          style={{
+                            background:
+                              "radial-gradient(at right top, rgba(11, 32, 64, 0.4), rgba(19, 22, 39, 0.4))",
+                            // background: "radial-gradient(at right top, #112B52, #131627)",
+                          }}
+                        >
+                          <img
+                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
+                            src={content?.logo}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="px-8 mt-10">
+                    <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium ">
+                      Multi-chain Indexing
+                    </h2>
+                    <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-7 text-lg mb-9 max-w-[500px]">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Dolore, facilis consequuntur quasi corrupti sequi, minima
+                      sit aspernatur ea ullam aut corporis dolores ut vel
+                      ratione porro voluptate
+                    </p>{" "}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
