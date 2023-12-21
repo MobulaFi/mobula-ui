@@ -71,22 +71,19 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
               "Success",
               "Your watchlist has been created successfully"
             );
-            setUser(
-              (userBuffer) =>
-                ({
-                  ...userBuffer,
-                  watchlist: [
-                    ...(userBuffer?.watchlist || []),
-                    {
-                      name,
-                      assets: [],
-                      id: add.id,
-                      user_id: user.id,
-                      created_at: new Date(),
-                    },
-                  ],
-                } as never)
-            );
+            setUser((userBuffer) => ({
+              ...userBuffer,
+              watchlist: [
+                ...(userBuffer?.watchlist || []),
+                {
+                  name,
+                  assets: [],
+                  id: add.id,
+                  user_id: user.id,
+                  created_at: new Date(),
+                },
+              ],
+            }));
           }
         });
     } else {

@@ -1,5 +1,5 @@
 import React from "react";
-import { LargeFont, MediumFont } from "../../../../../../components/fonts";
+import { LargeFont, MediumFont } from "../../../../../components/fonts";
 
 export const ThreeDescription = ({ infoDescription }) => {
   return (

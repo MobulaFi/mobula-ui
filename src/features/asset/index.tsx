@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -57,8 +57,8 @@ export const Assets = () => {
 
   useLiteStreamMarketDataModule(
     baseAsset,
-    marketMetrics as any,
-    setMarketMetrics as any,
+    marketMetrics,
+    setMarketMetrics,
     filters,
     setIsMarketMetricsLoading,
     shouldInstantLoad
@@ -77,9 +77,7 @@ export const Assets = () => {
         volumeChange: null,
         liquidity: 0,
         market_cap: baseAsset.market_cap,
-        trade_history: (filters.length > 0
-          ? []
-          : baseAsset?.trade_history) as any,
+        trade_history: filters.length > 0 ? [] : baseAsset?.trade_history,
       });
   }, [baseAsset]);
 
@@ -88,62 +86,11 @@ export const Assets = () => {
 
   const tabs = [
     "Essentials",
-    // "Tokenomic",
     "Market",
     "Fundraising",
     "Vesting",
     ...(isMobile ? ["Buy"] : []),
   ];
-
-  // console.log("baseAsset", baseAsset);
-  // const token =
-  //   "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";
-
-  // const formatGithub = url => {
-  //   const site = url.split("github.com");
-  //   const apiRepo = `https://api.github.com/repos${site[1]}`;
-  //   return apiRepo;
-  // };
-
-  // useEffect(() => {
-  //   if (!baseAsset) return;
-
-  //   // fetch(commits, {
-  //   //   headers: {
-  //   //     Authorization: `token ${token}`,
-  //   //   },
-  //   // })
-  //   //   .then(res => res.json())
-  //   //   .then(data => {
-  //   //     console.log("data", data);
-  //   //   });
-
-  //   const fetchCommits = async () => {
-  //     let commits = [];
-  //     const github = formatGithub(baseAsset?.github);
-  //     let url = `${github}/commits?per_page=100`;
-  //     do {
-  //       const response = await axios.get(url, {
-  //         // Ajout de await ici
-  //         headers: {Authorization: `token ${token}`},
-  //       });
-
-  //       commits = commits.concat(response.data);
-
-  //       const linkHeader = response.headers.link || "";
-  //       const nextLink = linkHeader
-  //         .split(",")
-  //         .find(s => s.includes('rel="next"'));
-
-  //       url = nextLink ? nextLink.match(/<(.*)>/)[1] : null;
-  //     } while (url);
-
-  //     console.log("THEY ARE HERE", commits);
-  //     return commits;
-  //   };
-
-  //   fetchCommits();
-  // }, [baseAsset]);
 
   function switchTab(dir) {
     setPreviousTab(activeTab);
@@ -293,7 +240,7 @@ export const Assets = () => {
       name: format(pathname),
       url: pathname,
     });
-    setPrevPaths(previous as never);
+    setPrevPaths(previous);
     setIsBreadCrumbLoading(false);
   };
   useEffect(() => {
@@ -309,7 +256,7 @@ export const Assets = () => {
           list={tabs}
           setActive={setActiveTab}
           active={activeTab}
-          setPreviousTab={setPreviousTab as never}
+          setPreviousTab={setPreviousTab}
         />
         <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
@@ -415,7 +362,7 @@ export const Assets = () => {
                 position: activeTab === "Essentials" ? "static" : "absolute",
               }}
             >
-              <Essentials marketMetrics={marketMetrics as any} />
+              <Essentials marketMetrics={marketMetrics} />
             </div>
           ) : null}
           {activeTab === "Market" ? (
@@ -487,27 +434,6 @@ export const Assets = () => {
               >
                 <BasicSwap activeStep={0} />
               </SwapProvider>
-              {/* <div className="flex items-center">
-                <Button
-                  extraCss="my-2.5 h-[45px] md:h-[40px] w-full"
-                  onClick={() => {
-                    pushData("Buy with Credit Card on Asset Page");
-                    setShowCard("USD");
-                  }}
-                >
-                  Buy with credit-card
-                  <img
-                    className="h-[15px] mx-[7.5px]"
-                    src="/logo/mastercard.png"
-                    alt="mastercard logo"
-                  />
-                  <img
-                    src="/logo/visa.png"
-                    className="h-[13px]"
-                    alt="visa logo"
-                  />
-                </Button>
-              </div>{" "} */}
             </div>
           ) : null}
 

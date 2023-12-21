@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { VscArrowSwap } from "react-icons/vsc";
 import { Drawer } from "../../../../components/drawer";
 import { WatchlistContext } from "../../../../contexts/pages/watchlist";
@@ -110,7 +110,7 @@ export const MenuCommun = () => {
           <div
             className={lineStyle}
             onClick={() => {
-              setShowBuyDrawer(showMenuTableMobileForToken as never);
+              setShowBuyDrawer(showMenuTableMobileForToken);
               setShowMenuTableMobileForToken(null);
               setShowMenuTableMobile(false);
             }}

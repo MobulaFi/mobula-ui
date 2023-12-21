@@ -39,7 +39,6 @@ import { PopupTelegram } from "../../../../popup/telegram-connect";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
-import { ToggleColorMode } from "../../../toggle-mode";
 import { AccountHeaderContext } from "../../context-manager";
 import { useUserBalance } from "../../context-manager/balance";
 import { useBalance } from "../../hooks/useBalance";
@@ -291,7 +290,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
           <button
             className={`flex items-center w-fit min-w-[35px] p-0.5 md:hidden bg-light-bg-terciary
            dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 border 
-           border-light-border-primary dark:border-dark-border-primary ${
+           border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue ${
              isDisconnected || (isConnecting && !addressFromCookie)
                ? "rounded"
                : "rounded-full"
@@ -339,7 +338,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
           {showInfoPopover ? (
             <div
               className="flex items-center absolute flex-col w-[230px] top-[56px] 
-            right-[-40px] lg:right-[-30px] z-[100] max-w-[230px] rounded border border-light-border-primary 
+            right-[-0px] lg:right-[-30px] z-[100] max-w-[230px] rounded border border-light-border-primary 
             dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary shadow-md"
               onMouseLeave={() => {
                 if (isConnected) setShowInfoPopover(false);
@@ -421,8 +420,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         )}
         <Connect />
         <SwitchNetworkPopup />
-        <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary mx-2.5 flex lg:hidden" />
-        <ToggleColorMode extraCss="flex lg:hidden" />
         <button
           className="hidden lg:flex ml-2.5 lg:ml-1 min-w-[22px]"
           onClick={() => {

@@ -37,7 +37,7 @@ export const DexDrawer = () => {
             <LargeFont>Buy or Sell {token ? token?.symbol : ""}</LargeFont>
           </>
         }
-        isOpen={!!showBuyDrawer as never}
+        isOpen={!!showBuyDrawer}
         onClose={() => setShowBuyDrawer(null)}
       >
         <SwapProvider tokenOutBuffer={token} lockToken={["out"]}>

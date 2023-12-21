@@ -2,16 +2,17 @@
 import { useEffect, useState } from "react";
 // import { SwapProvider } from "../../../common/providers/swap";
 // import { BuySellSwap } from "../../../common/providers/swap/components/buy-sell";
+import React from "react";
 import { Container } from "../../../components/container";
 import { LargeFont } from "../../../components/fonts";
-import { Asset, Coin } from "../../../interfaces/swap";
 import { SwapProvider } from "../../../layouts/swap";
+import { SearchTokenProps } from "../../../layouts/swap/popup/select/model";
 import { BasicSwap } from "../../../layouts/swap/swap-variant/basic-swap";
 import { CardsAndCTA } from "./components/cards-and-cta";
 import { TopConvertion } from "./components/top-convertion";
 
 interface BuySellProps {
-  token?: Asset | Coin;
+  token?: SearchTokenProps;
 }
 
 export const BuySell = ({ token }: BuySellProps) => {
@@ -65,13 +66,19 @@ export const BuySell = ({ token }: BuySellProps) => {
       {/* {activeStep.nbr <= 3 && showTuto ? (
         <div className="flex w-screen h-screen top-0 fixed z-[3] bg-[rgba(0,0,0,0.3)]" />
       ) : null} */}
-      <Container extraCss="flex flex-row items-center lg:flex-col bg-top mt-[70px] lg:mt-[40px] md:mt-[28px] mb-[90px] lg:mb-[40px] md:mb-[28px] min-h-[60vh] lg:min-h-full">
+      <Container extraCss="flex flex-row items-center lg:flex-col bg-top mt-[70px] lg:mt-[28px] mb-[90px] lg:mb-[40px] md:mb-[28px] min-h-[60vh] lg:min-h-full">
         <div className="flex flex-col w-2/4 md:w-[95%] mr-[30px] md:mr-0">
           <p
-            className="text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
+            className="sm:hidden flex text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
            leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-2 sm:max-w-[80%] mx-auto"
           >
             Buy any crypto, at the best price.
+          </p>
+          <p
+            className="sm:flex hidden text-5xl lg:text-xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
+           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-2  mx-auto"
+          >
+            Buy any crypto at the best price.
           </p>
           <div className="flex lg:hidden">
             <LargeFont extraCss="max-w-[540px] md:text-sm font-normal">

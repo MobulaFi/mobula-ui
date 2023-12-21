@@ -178,10 +178,6 @@ export interface IBasetAssetContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsMarketMetricsLoading: Dispatch<SetStateAction<boolean>>;
   isMarketMetricsLoading: boolean;
-  untracked: { isUntracked: boolean; showChart: boolean };
-  setUntracked: Dispatch<
-    SetStateAction<{ isUntracked: boolean; showChart: boolean }>
-  >;
   setShouldInstantLoad: Dispatch<SetStateAction<boolean>>;
   shouldInstantLoad: boolean;
   setUserActiveChart: (value: string) => void;

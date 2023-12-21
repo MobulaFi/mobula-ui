@@ -125,7 +125,6 @@ export const EditTransactionPopup = () => {
       (history?.price_history || []).concat(asset?.price_history?.price || [])
     );
   };
-  console.log(showEditTransaction);
   const submitTransaction = () => {
     pushData("ADD-TRANSACTION-CONFIRM");
     const timestamp =
@@ -157,18 +156,15 @@ export const EditTransactionPopup = () => {
     if (!settings.quantity) triggerAlert("Error", "You must enter a quantity");
   };
   useEffect(() => {
-    loadHistory(initialToken as any);
+    loadHistory(initialToken);
   }, []);
 
   useEffect(() => {
-    setSettings(
-      (prev) =>
-        ({
-          ...prev,
-          price: tokenTsx?.price,
-          token: tokenTsx,
-        } as never)
-    );
+    setSettings((prev) => ({
+      ...prev,
+      price: tokenTsx?.price,
+      token: tokenTsx,
+    }));
     loadHistory(tokenTsx);
   }, [tokenTsx]);
 

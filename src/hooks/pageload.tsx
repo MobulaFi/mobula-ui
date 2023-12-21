@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { pushData } from "../lib/mixpanel";
-import { GET } from "../utils/fetch";
 import { askPermission, subscribeUserToPush } from "../utils/notif";
 
 export const pathToUrl = (path: string) => {
@@ -52,16 +51,7 @@ export const usePageLoad = () => {
 
   useEffect(() => {
     if (address && isAddress(address) && pathname) {
-      const ref = localStorage.getItem("ref");
       const notificationAsked = localStorage.getItem("notification");
-      const offset = new Date().getTimezoneOffset() / 60;
-
-      GET("/connection", {
-        account: address,
-        ref,
-        page: pathname.split("?")[0],
-        offset,
-      });
 
       if (!localStorage.getItem(`session-${address}`)) {
         pushData("CONNECT-VALIDATED");

@@ -1,7 +1,6 @@
 import React from "react";
-import { Asset } from "../../../interfaces/assets";
+import { Asset, TableAsset } from "../../../interfaces/assets";
 import { IPortfolio } from "../../../interfaces/pages/portfolio";
-import { Coin } from "../../../interfaces/swap";
 
 export interface RecomandationType {
   title: string;
@@ -39,8 +38,8 @@ export interface ISettingMetric {
   setType: React.Dispatch<React.SetStateAction<string>>;
   sortBy: string;
   setSortBy: React.Dispatch<React.SetStateAction<string>>;
-  showBuyDrawer: Coin | Asset | null;
-  setShowBuyDrawer: React.Dispatch<React.SetStateAction<Coin | Asset | null>>;
+  showBuyDrawer: TableAsset | null;
+  setShowBuyDrawer: React.Dispatch<React.SetStateAction<TableAsset | null>>;
 }
 
 export interface TableButton {

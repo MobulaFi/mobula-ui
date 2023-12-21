@@ -2,6 +2,7 @@ import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { TransactionReceipt } from "viem";
 import { HoldingsResponse } from "../../interfaces/holdings";
+import { SearchTokenProps } from "./popup/select/model";
 
 export interface TemporaryTransaction {
   to: `0x${string}`;
@@ -13,19 +14,37 @@ export interface TemporaryTransaction {
 
 export type SyntaxicTokens = Record<
   "in" | "out",
-  ((Asset | Coin) & Loaded) | undefined
+  (SearchTokenProps & Loaded) | undefined
 >;
 
 export type SyntaxicTokensBuffer = Record<
   "in" | "out",
-  (Asset | Coin) | undefined
+  SearchTokenProps | undefined
 >;
 
+export interface EventProps {
+  topics: string[];
+  data: string;
+  address: string;
+}
+export interface LogProps {
+  address: `0x${string}`;
+  blockHash: `0x${string}`;
+  blockNumber: bigint;
+  data: `0x${string}`;
+  logIndex: number;
+  transactionHash: `0x${string}`;
+  transactionIndex: number;
+  removed: boolean;
+  logs: [];
+}
 export interface IMetaSwapContext {
-  tokenIn: ((Asset | Coin) & Loaded) | undefined;
-  tokenOut: ((Asset | Coin) & Loaded) | undefined;
-  setTokenIn: Dispatch<SetStateAction<((Asset | Coin) & Loaded) | undefined>>;
-  setTokenOut: Dispatch<SetStateAction<((Asset | Coin) & Loaded) | undefined>>;
+  tokenIn: (SearchTokenProps & Loaded) | undefined;
+  tokenOut: (SearchTokenProps & Loaded) | undefined;
+  setTokenIn: Dispatch<SetStateAction<(SearchTokenProps & Loaded) | undefined>>;
+  setTokenOut: Dispatch<
+    SetStateAction<(SearchTokenProps & Loaded) | undefined>
+  >;
   chainNeeded: number | undefined;
   setChainNeeded: Dispatch<SetStateAction<number | undefined>>;
   amountIn: string;
@@ -40,19 +59,17 @@ export interface IMetaSwapContext {
   setIsFeesLoading: Dispatch<SetStateAction<boolean>>;
   settings: Settings;
   setSettings: Dispatch<SetStateAction<Settings>>;
-  tokenInBuffer: (Asset | Coin) | undefined;
-  setTokenInBuffer: Dispatch<SetStateAction<(Asset | Coin) | undefined>>;
-  tokenOutBuffer: (Asset | Coin) | undefined;
-  setTokenOutBuffer: Dispatch<SetStateAction<(Asset | Coin) | undefined>>;
+  tokenInBuffer: SearchTokenProps | undefined;
+  setTokenInBuffer: Dispatch<SetStateAction<SearchTokenProps | undefined>>;
+  tokenOutBuffer: SearchTokenProps | undefined;
+  setTokenOutBuffer: Dispatch<SetStateAction<SearchTokenProps | undefined>>;
   manualQuote: Quote | undefined;
   setManualQuote: Dispatch<SetStateAction<Quote | undefined>>;
   wishedAmountOut: string;
   setWishedAmountOut: Dispatch<SetStateAction<string>>;
   lockToken: ("in" | "out")[];
   setLockToken: Dispatch<SetStateAction<("in" | "out")[]>>;
-  completedTx:
-    | ((TransactionReceipt & { timestamp: number }) & { hash: string })
-    | undefined;
+  completedTx: (TransactionReceipt & { timestamp: number }) & { hash: string };
   setCompletedTx: Dispatch<
     SetStateAction<(TransactionReceipt & { timestamp: number }) | undefined>
   >;

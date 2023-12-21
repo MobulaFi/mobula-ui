@@ -1,5 +1,11 @@
 import { BaseAssetContext } from "features/asset/context-manager";
-import { useContext, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -42,8 +48,8 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   } = useContext(SwapContext);
 
   const checkValidity = () => {
-    if (asset) return asset?.contracts?.length === 0 || !asset?.tracked;
-    return baseAsset?.contracts?.length === 0 || !baseAsset?.tracked;
+    if (asset) return asset?.contracts?.length === 0;
+    return baseAsset?.contracts?.length === 0;
   };
 
   const isValid = checkValidity();
@@ -77,7 +83,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
         <div className="p-2.5 flex flex-col relative">
           <SmallSwapLine
             setSelectVisible={setSelectVisible}
-            inputRef={inputInRef as never}
+            inputRef={inputInRef}
             position="in"
           />
           <button
@@ -146,7 +152,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
       {selectVisible && (
         <Select
           visible={!!selectVisible}
-          setVisible={setSelectVisible as never}
+          setVisible={setSelectVisible as Dispatch<SetStateAction<boolean>>}
           position={"in"}
         />
       )}

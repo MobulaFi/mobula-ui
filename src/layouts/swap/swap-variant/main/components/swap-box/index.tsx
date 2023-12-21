@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 import { SwapContext } from "../../../..";
 import { SmallFont } from "../../../../../../components/fonts";
@@ -151,7 +151,7 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
               typeof window !== "undefined" &&
               inputRef.current === document?.activeElement
                 ? amount
-                : (getRightPrecision(amount) as never)
+                : getRightPrecision(amount)
             }
           />
         ) : (

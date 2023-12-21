@@ -50,7 +50,7 @@ export const BaseAssetProvider = ({
   const [hideTx, setHideTx] = useState(JSON.parse(hideTxCookie));
   const [tokenVsMarket, setTokenVsMarket] = useState(null);
   const [pairs, setPairs] = useState([]);
-  const [chartType, setChartType] = useState<ChartType>("price" as any);
+  const [chartType, setChartType] = useState<ChartType>("price");
   const [showTargetPrice, setShowTargetPrice] = useState<boolean>(false);
   const [activeChart, setActiveChart] = useState("Linear");
   const [wallet, setWallet] = useState(null);
@@ -85,10 +85,6 @@ export const BaseAssetProvider = ({
   const [launchpads, setLaunchpads] = useState<ILaunchpad[] | undefined[]>(
     (launchpad as ILaunchpad[]) || []
   );
-  const [untracked, setUntracked] = useState({
-    isUntracked: !token.tracked,
-    showChart: false,
-  });
 
   let tradeFromCookie = {
     blockchains: [],
@@ -244,7 +240,7 @@ export const BaseAssetProvider = ({
         noCacheSupabase
           .from("assets")
           .select(
-            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,twitter_history,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
+            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
           )
           .match({ id: token.id })
       );
@@ -428,8 +424,6 @@ export const BaseAssetProvider = ({
       setFilters,
       setIsMarketMetricsLoading,
       isMarketMetricsLoading,
-      untracked,
-      setUntracked,
       setIsLoading,
       setShouldInstantLoad,
       shouldInstantLoad,
@@ -506,8 +500,6 @@ export const BaseAssetProvider = ({
     setFilters,
     setIsMarketMetricsLoading,
     isMarketMetricsLoading,
-    untracked,
-    setUntracked,
     setIsLoading,
     setShouldInstantLoad,
     shouldInstantLoad,

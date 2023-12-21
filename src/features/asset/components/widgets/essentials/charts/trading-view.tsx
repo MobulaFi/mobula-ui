@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   IChartingLibraryWidget,
   ResolutionString,
@@ -224,8 +224,8 @@ const ChartBox = ({
   const [widgetReady, setWidgetReady] = useState(false);
   const [updateCallback, setUpdateCallback] = useState<any | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
-  const isWhiteMode = theme === "light";
+  const { resolvedTheme } = useTheme();
+  const isWhiteMode = resolvedTheme === "light";
 
   useEffect(() => {
     let localUserId = localStorage.getItem("userId");
@@ -243,11 +243,9 @@ const ChartBox = ({
         ({ widget: Widget }) => {
           if (!ref.current) return;
           freshWidget = new Widget({
-            charts_storage_url: "https://tdv.mobula.fi",
-            charts_storage_api_version: "1.1",
             load_last_chart: true,
             auto_save_delay: 10,
-            symbol: "PRICE",
+            // symbol: "PRICE",
             datafeed: Datafeed(
               baseAsset,
               historyData,
@@ -257,8 +255,7 @@ const ChartBox = ({
             ),
             interval: "60" as ResolutionString,
             container_id: ref.current.id,
-
-            // symbol: baseAsset?.symbol + "USD",
+            symbol: baseAsset?.symbol + "/USD",
             container: ref.current,
             library_path: "/static/charting_library/",
             locale: "en",
@@ -276,10 +273,10 @@ const ChartBox = ({
               .timeZone as Timezone, // ,
             autosize: true,
             theme: isWhiteMode ? "Light" : "Dark",
-            toolbar_bg: background,
+            toolbar_bg: "transparent",
             custom_css_url,
             overrides: {
-              "paneProperties.background": `${background}`,
+              "paneProperties.background": `transparent`,
               "paneProperties.backgroundType": "solid",
               "paneProperties.vertGridProperties.color": isWhiteMode
                 ? "#0D0D0D08"
@@ -296,7 +293,7 @@ const ChartBox = ({
               "mainSeriesProperties.candleStyle.wickDownColor": "#F6465D",
               "mainSeriesProperties.candleStyle.upColor": "#0CCB81",
               "mainSeriesProperties.candleStyle.downColor": "#F6465D",
-              "scalesProperties.backgroundColor": `${background}`,
+              "scalesProperties.backgroundColor": `transparent`,
               "paneProperties.legendProperties.showStudyArguments": true,
               "paneProperties.legendProperties.showStudyTitles": true,
               "paneProperties.legendProperties.showStudyValues": true,
@@ -390,7 +387,6 @@ const ChartBox = ({
   );
 
   const { activeChart } = useContext(BaseAssetContext);
-
   return (
     <div
       className={cn(

@@ -5,7 +5,8 @@ import {
 import { BlockchainParams } from "mobula-lite/lib/model";
 import { useCallback } from "react";
 import { Chain, useNetwork } from "wagmi";
-import { Asset, Coin, Loaded, SyntaxicTokens } from "../model";
+import { Coin, Loaded, SyntaxicTokens } from "../model";
+import { SearchTokenProps } from "../popup/select/model";
 import { useLoadToken } from "./useLoadToken";
 import { useMetaContext } from "./useSwapCommon";
 
@@ -52,14 +53,14 @@ export const useTokenManager = () => {
         if (tokenOut && "coin" in tokenOut) {
           loadToken("in", finalChainData.stable);
         } else {
-          loadToken("in", nativeEthereum(finalChainData) as Coin);
+          loadToken("in", nativeEthereum(finalChainData) as SearchTokenProps);
         }
       } else if (
         tokenIn &&
         "address" in tokenIn &&
         (tokenIn.address || "").toLowerCase() === chainData.stable.address
       ) {
-        loadToken("out", nativeEthereum(finalChainData) as Coin);
+        loadToken("out", nativeEthereum(finalChainData) as SearchTokenProps);
       } else {
         loadToken("out", chainData.stable);
       }
@@ -88,10 +89,12 @@ export const useTokenManager = () => {
 
   const updateToken = useCallback(
     (position: "in" | "out") => {
-      let token: (Asset | Coin) | ((Asset | Coin) & Loaded) | undefined =
+      let token: SearchTokenProps | (SearchTokenProps & Loaded) | undefined =
         position === "in" ? tokenIn : tokenOut;
-      const otherToken: (Asset | Coin) | ((Asset | Coin) & Loaded) | undefined =
-        position === "in" ? tokenOut : tokenIn;
+      const otherToken:
+        | SearchTokenProps
+        | (SearchTokenProps & Loaded)
+        | undefined = position === "in" ? tokenOut : tokenIn;
       const tokenBuffer = position === "in" ? tokenInBuffer : tokenOutBuffer;
       const otherTokenBuffer =
         position === "in" ? tokenOutBuffer : tokenInBuffer;
@@ -128,7 +131,7 @@ export const useTokenManager = () => {
           (!("coin" in otherToken) &&
             nativeEthereum(chainData)?.symbol !== otherToken.symbol))
       ) {
-        loadToken(position, nativeEthereum(chainData) as Coin);
+        loadToken(position, nativeEthereum(chainData) as SearchTokenProps);
       } else if ("coin" in token) {
         setTokenBuffer(chainData.stable);
         loadToken(position, chainData.stable);

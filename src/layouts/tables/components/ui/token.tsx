@@ -1,8 +1,8 @@
 import { NextImageFallback } from "../../../../components/image";
-import { Asset } from "../../../../interfaces/assets";
+import { Asset, TableAsset } from "../../../../interfaces/assets";
 
 interface TokenInfoProps {
-  token: Asset;
+  token: Asset | TableAsset;
   index: number;
   showRank: boolean;
 }

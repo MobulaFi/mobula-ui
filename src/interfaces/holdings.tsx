@@ -7,7 +7,6 @@ export interface MultichainAsset {
   blockchains: BlockchainName[];
   logo?: string;
   rank?: number;
-  rank_change_24h?: number;
   balance: number;
   website?: string;
   twitter?: string;
@@ -26,7 +25,6 @@ export interface SolochainAsset {
   blockchain: BlockchainName;
   logo?: string;
   rank?: number;
-  rank_change_24h?: number;
   balance: number;
   website?: string;
   twitter?: string;

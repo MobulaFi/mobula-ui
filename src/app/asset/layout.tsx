@@ -25,11 +25,9 @@ export default function AssetLayout({ params, children }: LayoutProps) {
   const tradeCookie =
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
 
-  console.log("paramsasset", params?.asset);
-
   return (
     <BaseAssetProvider
-      token={params?.asset || ({} as Asset)}
+      token={(params?.asset as Asset) || ({} as Asset)}
       tradHistory={params?.tradHistory || []}
       launchpad={params?.launchpads}
       hideTxCookie={hideTxCookie}

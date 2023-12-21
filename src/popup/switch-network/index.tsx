@@ -70,7 +70,7 @@ export const SwitchNetworkPopup = () => {
               const result = await handleSwitchNetwork(blockchain.name);
 
               if (result && "error" in result) {
-                setError(result?.error as never);
+                setError(result?.error);
               }
             }}
           >

@@ -70,10 +70,6 @@ export interface IBasetAssetContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsMarketMetricsLoading: Dispatch<SetStateAction<boolean>>;
   isMarketMetricsLoading: boolean;
-  untracked: { isUntracked: boolean; showChart: boolean };
-  setUntracked: Dispatch<
-    SetStateAction<{ isUntracked: boolean; showChart: boolean }>
-  >;
   setShouldInstantLoad: Dispatch<SetStateAction<boolean>>;
   shouldInstantLoad: boolean;
   tradeHistory: Trade[];
@@ -190,7 +186,7 @@ export type Asset = {
   decimals: number;
   blockchains: BlockchainName[];
   contracts: string[];
-  trade_history: Trade[];
+  trade_history: TradeHistory[] | null;
   created_at: string;
   symbol: string;
   name: string;
@@ -204,13 +200,18 @@ export type Asset = {
   kyc: string;
   atl?: [number, number];
   ath?: [number, number];
-  tracked: boolean;
   assets_raw_pairs?: RawPairs;
   assets_social?: Socials;
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
+  blockchain: BlockchainName;
+  address: string;
 };
+
+export interface CategoriesProps {
+  categories: { [key: string]: [number, number, [string, number]][] };
+}
 
 export interface RawPairs {
   pairs_data?: Record<string, number>;

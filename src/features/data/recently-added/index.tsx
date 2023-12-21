@@ -1,11 +1,11 @@
 "use client";
 import { generateFilters } from "@utils/filters";
 import { Asset } from "features/asset/models";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
-import { OrderBy } from "../../../interfaces/assets";
-import { BlockchainsNav } from "../../../layouts/blockchains-nav";
+import { Spinner } from "../../../components/spinner";
+import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components/index";
@@ -22,8 +22,8 @@ export const RecentlyAdded = ({
   isMobile,
   count,
 }: recentlyAddedProps) => {
-  const [blockchain, setBlockchain] = useState("all");
   const [resultsData, setResultsData] = useState({ data: tokensBuffer, count });
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<Query[]>([
     // To avoid the first render
     { action: "", value: [], isFirst: true },
@@ -46,7 +46,11 @@ export const RecentlyAdded = ({
     );
   }, []);
 
-  console.log("tokensBuffer", tokensBuffer);
+  useEffect(() => {
+    if (resultsData?.data?.length > 0) {
+      setIsLoading(false);
+    }
+  }, [resultsData]);
 
   return (
     <>
@@ -58,22 +62,36 @@ export const RecentlyAdded = ({
             subtitle="Discover the latest cryptocurrencies listed on Mobula, their price, volume, chart, liquidity, and more."
             extraCss="mb-5"
           />
-          <BlockchainsNav
-            page="recently"
-            blockchain={blockchain}
-            setBlockchain={setBlockchain}
-            setFilters={setFilters}
-          />
-          <AssetsTable
-            resultsData={resultsData}
-            setResultsData={setResultsData}
-            lastColumn="Added"
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-            filters={filters}
-            hideDEXVolume
-            isMobile={isMobile}
-          />
+          <div className="mt-2.5">
+            {!isLoading ? (
+              <AssetsTable
+                resultsData={
+                  resultsData as unknown as {
+                    data: TableAsset[];
+                    count: number;
+                  }
+                }
+                setResultsData={
+                  setResultsData as unknown as React.Dispatch<
+                    SetStateAction<{
+                      data: TableAsset[];
+                      count: number;
+                    }>
+                  >
+                }
+                lastColumn="Added"
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                filters={filters}
+                hideDEXVolume
+                isMobile={isMobile}
+              />
+            ) : (
+              <div className="w-full h-[600px] flex items-center justify-center">
+                <Spinner extraCss="w-[60px] h-[60px]" />
+              </div>
+            )}
+          </div>
         </div>
       </Container>
     </>

@@ -1,6 +1,6 @@
 import * as echarts from "echarts";
 import { useTheme } from "next-themes";
-import React, { useCallback, useContext, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
@@ -51,21 +51,21 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
     vestings?.forEach(([, , type], idx) => {
       if (idx === 0) {
         Object.keys(type)?.forEach((key) => {
-          types.push(key as never);
+          types.push(key);
           seen.add(key);
         });
       } else {
         Object.keys(type)?.forEach((key) => {
           if (!seen.has(key)) {
             seen.add(key);
-            types.push(key as never);
+            types.push(key);
           }
         });
       }
     });
     const typeWithColor = [];
     types.forEach((type, i) => {
-      typeWithColor.push({ name: type, color: colors[i] } as never);
+      typeWithColor.push({ name: type, color: colors[i] });
     });
 
     return typeWithColor;
@@ -129,7 +129,7 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
           show: false,
           position: "center",
         },
-        data: data as any[],
+        data,
         color: newColors,
       },
     ],

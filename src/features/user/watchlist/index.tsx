@@ -1,5 +1,6 @@
 "use client";
 import React, {
+  SetStateAction,
   createRef,
   useContext,
   useEffect,
@@ -8,7 +9,7 @@ import React, {
 } from "react";
 import { Container } from "../../../components/container";
 import { UserContext } from "../../../contexts/user";
-import { OrderBy } from "../../../interfaces/assets";
+import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { AssetsTable } from "../../../layouts/tables/components";
@@ -100,15 +101,21 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         <Header
           assets={tokens}
           activeWatchlist={activeWatchlist as IWatchlist}
-          setActiveWatchlist={setActiveWatchlist as never}
+          setActiveWatchlist={setActiveWatchlist}
           setShowCreateWL={setShowCreateWL}
         />
         {activeWatchlist ||
-        activeWatchlist?.assets.length > 0 ||
+        activeWatchlist?.assets?.length > 0 ||
         tokens?.length > 0 ? (
           <AssetsTable
-            resultsData={resultsData}
-            setResultsData={setResultsData as never}
+            resultsData={
+              resultsData as unknown as { data: TableAsset[]; count: number }
+            }
+            setResultsData={
+              setResultsData as unknown as React.Dispatch<
+                SetStateAction<{ data: TableAsset[]; count: number }>
+              >
+            }
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             isMobile={isMobile}
@@ -120,9 +127,9 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           <SkeletonTable />
         ) : null}
         <SharePopup watchlist={activeWatchlist as IWatchlist} />
-        <EditPopup watchlist={activeWatchlist} />
+        <EditPopup watchlist={activeWatchlist as IWatchlist} />
         <AddCoinPopup watchlist={activeWatchlist as IWatchlist} />
-        <CreatePopup watchlist={activeWatchlist} />
+        <CreatePopup watchlist={activeWatchlist as IWatchlist} />
       </Container>
     </>
   );

@@ -46,9 +46,9 @@ export const useQuote = () => {
 
     provider
       .estimateGas({
-        account: quote.tx.from as never,
-        to: quote.tx.to as never,
-        value: BigInt(quote.tx.value) as never,
+        account: quote.tx.from,
+        to: quote.tx.to,
+        value: BigInt(quote.tx.value),
       })
       .catch(() => 1000000n)
       .then((gasLimit) => {
@@ -164,7 +164,7 @@ export const useQuote = () => {
         );
 
         filteredProtocols.forEach((protocol) => {
-          GET("/swap", {
+          GET("/api/1/quote", {
             fromToken:
               "address" in tokenIn
                 ? tokenIn.address || null

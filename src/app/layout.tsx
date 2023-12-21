@@ -61,7 +61,6 @@ async function RootLayout({
           itemProp="image"
           content="https://mobula.fi/metaimage/Generic/others.png"
         />
-        <script src="https://mobula-error.s3.eu-north-1.amazonaws.com/sentry.browser.5.20.1.min.js" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="stylesheet"
@@ -244,7 +243,6 @@ async function RootLayout({
            rounded-xl shadow-md border border-light-border-primary dark:border-dark-border-primary pt-3 px-3"
             bodyClassName="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100"
           />
-
           <UserBalanceProvider balanceCookies={userCookie}>
             <GeneralContext>
               <WatchlistProvider watchlist={params.watchlist}>

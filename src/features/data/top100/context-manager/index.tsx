@@ -8,6 +8,18 @@ const Top100Context = createContext<ITop100>({} as ITop100);
 
 export const useTop100 = () => useContext(Top100Context);
 
+interface Top100ProviderProps {
+  children: JSX.Element | JSX.Element[];
+  activeViewCookie?: View | null;
+  portfolioCookie?: IPortfolio | null;
+  btcPrice: { name: string; price: number } | null;
+  ethPrice: { name: string; price: number } | null;
+  aiNews: INewsGeneral | null;
+  page: number | null;
+  isMobile: boolean;
+  isTablet: boolean;
+}
+
 export const Top100Provider = ({
   children,
   activeViewCookie = null,
@@ -18,17 +30,7 @@ export const Top100Provider = ({
   page,
   isMobile,
   isTablet,
-}: {
-  children: JSX.Element | JSX.Element[];
-  activeViewCookie?: View | null;
-  portfolioCookie?: IPortfolio | null;
-  btcPrice: { name: string; price: number } | undefined;
-  ethPrice: { name: string; price: number } | undefined;
-  aiNews: INewsGeneral;
-  page: number | null;
-  isMobile: boolean;
-  isTablet: boolean;
-}) => {
+}: Top100ProviderProps) => {
   const activeViewBuffer = activeViewCookie || {};
   const [activeDisplay, setActiveDisplay] = useState("display");
   const [news, setNews] = useState(aiNews as INewsGeneral);

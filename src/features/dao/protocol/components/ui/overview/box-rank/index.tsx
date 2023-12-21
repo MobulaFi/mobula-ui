@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import { OverviewContext } from "features/dao/protocol/context-manager/overview";
+import { useContext } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
-import { useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { writeContract } from "wagmi/actions";
 import { Button } from "../../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
@@ -11,23 +12,18 @@ import { PopupUpdateContext } from "../../../../../../../contexts/popup";
 import { triggerAlert } from "../../../../../../../lib/toastify";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { BoxTime } from "../../../../../common/components/box-time";
-import { OverviewContext } from "../../../../context-manager/overview";
 
 interface RankBoxProps {
   goodChoice: number;
   badChoice: number;
-  tokensOwed?: number;
 }
 
-export const RankBox = ({
-  goodChoice,
-  badChoice,
-  tokensOwed,
-}: RankBoxProps) => {
+export const RankBox = ({ goodChoice, badChoice }: RankBoxProps) => {
   const { setConnect } = useContext(PopupUpdateContext);
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
-  const { setTokensOwed } = useContext(OverviewContext);
+  const { setTokensOwed, tokensOwed } = useContext(OverviewContext);
+  const { address } = useAccount();
 
   const handleClaim = async (e: {
     preventDefault: () => void;
@@ -50,21 +46,27 @@ export const RankBox = ({
     }
     try {
       await writeContract({
-        address: PROTOCOL_ADDRESS as never,
+        address: PROTOCOL_ADDRESS,
         abi: [
           {
-            inputs: [],
-            outputs: [],
+            inputs: [
+              { internalType: "address", name: "user", type: "address" },
+            ],
             name: "claimRewards",
-            type: "function",
+            outputs: [],
             stateMutability: "nonpayable",
+            type: "function",
           },
-        ] as never,
-        functionName: "claimRewards" as never,
+        ],
+        functionName: "claimRewards",
+        args: [address],
       });
+      triggerAlert("Success", "You successfully claimed your rewards.");
       setTokensOwed(0);
     } catch (error) {
-      triggerAlert("Error", "You don't have anything to claim.");
+      if (error?.details?.includes("User denied")) {
+        triggerAlert("Error", "You rejected the transaction.");
+      } else triggerAlert("Error", "You don't have anything to claim.");
     }
   };
 
@@ -119,7 +121,7 @@ export const RankBox = ({
                 ? "border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
                 : "border-light-border-primary dark:border-dark-border-primary"
             } h-[30px] w-full`}
-            onClick={(e: { preventDefault: () => void }) => handleClaim(e)}
+            onClick={(e) => handleClaim(e)}
           >
             Claim
           </Button>
@@ -132,7 +134,7 @@ export const RankBox = ({
               ? "border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
               : "border-light-border-primary dark:border-dark-border-primary"
           } h-[30px] w-full`}
-          onClick={(e: { preventDefault: () => void }) => handleClaim(e)}
+          onClick={(e) => handleClaim(e)}
         >
           Claim
         </Button>

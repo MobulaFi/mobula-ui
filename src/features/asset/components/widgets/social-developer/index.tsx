@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { BaseAssetContext } from "../../../context-manager";
-import { MultiChart } from "./chart/social-chart";
 import { SocialInfo } from "./social-info";
 
 export const SocialsDeveloper = () => {
@@ -30,9 +29,9 @@ export const SocialsDeveloper = () => {
             take it with caution!
           </TextSmall>
         </Flex> */}
-        {baseAsset?.twitter_history?.length > 0 ? (
+        {/* {baseAsset?.twitter_history?.length > 0 ? (
           <MultiChart chartId="social-chart" />
-        ) : null}
+        ) : null} */}
         <SocialInfo extraCss="hidden lg:flex mt-[5px] mb-2.5" />
         {/* <Flex
           w="100%"

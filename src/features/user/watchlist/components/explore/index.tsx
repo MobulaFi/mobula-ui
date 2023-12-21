@@ -133,8 +133,6 @@ export const WatchlistExplore = ({
     }
   }, [watchlists, searchWatchlist]);
 
-  console.log("usersOwner", usersOwner);
-
   return (
     <Container extraCss="w-[90%] lg:w-[95%]">
       <ButtonsHeader />

@@ -1,10 +1,10 @@
 import Head from "next/head";
 import React from "react";
 import { Container } from "../../components/container";
-import { TemplateOdd } from "../../features/landings/Api/common/component/template-odd";
-import { TemplateTitle } from "../../features/landings/Api/common/component/template-title";
-import { getMetaDataAPIContents } from "../../features/landings/Api/common/constants";
-import { ContentType } from "../../features/landings/Api/common/models";
+import { TemplateOdd } from "../../features/landings/template/component/template-odd";
+import { TemplateTitle } from "../../features/landings/template/component/template-title";
+import { getMetaDataAPIContents } from "../../features/landings/template/constants";
+import { ContentType } from "../../features/landings/template/models";
 
 export default function MetadataPage() {
   const contents = getMetaDataAPIContents();
@@ -40,7 +40,7 @@ export default function MetadataPage() {
           subtitle="Discover the Meta Data API. Get metadata like website, twitter, discord, links about any crypto, in a fully decentralized way."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>

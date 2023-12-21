@@ -3,15 +3,15 @@ import React from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Container } from "../../components/container";
 import { LargeFont, MediumFont } from "../../components/fonts";
-import { CompareHeaderTable } from "../../features/landings/Api/common/component/compare-header-table";
-import { CompareTable } from "../../features/landings/Api/common/component/compare-table";
-import { TemplateOdd } from "../../features/landings/Api/common/component/template-odd";
-import { TemplateTitle } from "../../features/landings/Api/common/component/template-title";
+import { CompareHeaderTable } from "../../features/landings/template/component/compare-header-table";
+import { CompareTable } from "../../features/landings/template/component/compare-table";
+import { TemplateOdd } from "../../features/landings/template/component/template-odd";
+import { TemplateTitle } from "../../features/landings/template/component/template-title";
 import {
   getBotContents,
   getContentsTable,
-} from "../../features/landings/Api/common/constants";
-import { ContentType } from "../../features/landings/Api/common/models";
+} from "../../features/landings/template/constants";
+import { ContentType } from "../../features/landings/template/models";
 
 export default function BotPage() {
   const contents = getBotContents();
@@ -49,7 +49,7 @@ export default function BotPage() {
           subtitle="Create the Telegram & Discord community of your dreams, manage your group in auto-pilot, make it grow passively with on-chain incentives, and more."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
         <div className="flex flex-col items-start md:items-center">
           <LargeFont>Not yet convinced?</LargeFont>

@@ -5,10 +5,13 @@ import { FearGreed } from "./fear-greed";
 
 interface BoxMiddleProps {
   showPageMobile?: number;
-  metrics: {
-    fear_and_greed_value: number;
-    fear_and_greed_value_classification: string;
-  };
+  metrics:
+    | {
+        fear_and_greed_value: number;
+        fear_and_greed_value_classification: string;
+      }
+    | null
+    | undefined;
 }
 
 export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {

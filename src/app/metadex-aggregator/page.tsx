@@ -1,10 +1,10 @@
 import Head from "next/head";
 import React from "react";
 import { Container } from "../../components/container";
-import { TemplateOdd } from "../../features/landings/Api/common/component/template-odd";
-import { TemplateTitle } from "../../features/landings/Api/common/component/template-title";
-import { getMetaDexContents } from "../../features/landings/Api/common/constants";
-import { ContentType } from "../../features/landings/Api/common/models";
+import { TemplateOdd } from "../../features/landings/template/component/template-odd";
+import { TemplateTitle } from "../../features/landings/template/component/template-title";
+import { getMetaDexContents } from "../../features/landings/template/constants";
+import { ContentType } from "../../features/landings/template/models";
 
 export default function MetadexPage() {
   const contents = getMetaDexContents();
@@ -40,7 +40,7 @@ export default function MetadexPage() {
           subtitle="Discover the Meta DEX Aggregator API. +17 DEX Aggregators fetched, +25 blockchains supported for any trade & exchange."
         />
         {contents.map((content: ContentType, idx: number) => (
-          <TemplateOdd content={content} isOdd={idx % 2 === 0} />
+          <TemplateOdd key={idx} content={content} isOdd={idx % 2 === 0} />
         ))}
       </Container>
     </>

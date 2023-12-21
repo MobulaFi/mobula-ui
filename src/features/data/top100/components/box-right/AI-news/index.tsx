@@ -13,6 +13,7 @@ interface AINewsProps {
 }
 
 const formatNewsSummary = (news: INewsGeneral) => {
+  if (!news.summary) return "Loading...";
   const elements: React.ReactNode[] = [];
   let lastIndex = 0;
 
@@ -39,18 +40,18 @@ const formatNewsSummary = (news: INewsGeneral) => {
         <TbTriangleInvertedFilled className="text-[10px] text-red mx-[3px]" />
       );
     }
-
-    elements.push(
-      <NextChakraLink
-        // TODO: add this
-        key={offset}
-        // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
-        // as={Link}
-        href={`https://mobula.fi/asset/${getUrlFromName(assetData.name)}`}
-      >
-        {p1} {priceChangeIcon}
-      </NextChakraLink>
-    );
+    if (assetData.name)
+      elements.push(
+        <NextChakraLink
+          // TODO: add this
+          key={offset}
+          // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
+          // as={Link}
+          href={`https://mobula.fi/asset/${getUrlFromName(assetData.name)}`}
+        >
+          {p1} {priceChangeIcon}
+        </NextChakraLink>
+      );
 
     lastIndex = offset + fullMatch.length;
   });
@@ -58,7 +59,6 @@ const formatNewsSummary = (news: INewsGeneral) => {
   if (lastIndex < news.summary.length) {
     elements.push(news.summary.slice(lastIndex));
   }
-
   return elements;
 };
 
@@ -83,13 +83,6 @@ export const AINews = ({ showPage }: AINewsProps) => {
     }
   }, []);
 
-  const handleWrongFormat = (text: string) => {
-    if (text.includes("[]")) {
-      return text.replace("[]", "");
-    }
-    return text;
-  };
-
   return (
     <div
       className={`flex w-[200px] flex-col transition-all duration-300 ease-in-out min-w-full`}
@@ -103,10 +96,8 @@ export const AINews = ({ showPage }: AINewsProps) => {
           </MediumFont>
         </div>
       </div>
-      <SmallFont extraCss="scroll overflow-y-scroll max-h-[110px] mt-2.5 pt-0 px-[15px] pr-2.5">
-        {news
-          ? handleWrongFormat(formatNewsSummary(news) as never)
-          : "Loading..."}
+      <SmallFont extraCss="scroll overflow-y-scroll max-h-[102px] mt-2.5 pt-0 px-[15px] pr-2.5">
+        {news ? formatNewsSummary(news) : "Loading..."}
       </SmallFont>
       <div className="flex items-center justify-between px-[15px] py-1.5 mt-auto border-t border-light-border-primary dark:border-dark-border-primary">
         <div className="flex items-center">

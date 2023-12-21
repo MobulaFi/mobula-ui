@@ -3,7 +3,6 @@ import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import { Container } from "../../../../../components/container";
-import { Asset } from "../../../../../interfaces/assets";
 import { RightContainer } from "../../../common/components/container-right";
 import { LeftNavigation } from "../../../common/components/nav-left";
 import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
@@ -13,6 +12,7 @@ import {
   ShowReasonContext,
 } from "../../context-manager/reason-vote";
 import { useSort } from "../../hooks/use-sort";
+import { TokenDivs } from "../../models";
 import { ReasonVote } from "../reason-vote";
 import { BoxPreVote } from "../ui/sorts/box-prevote";
 import { VoteBox } from "../ui/sorts/box-vote";
@@ -56,8 +56,7 @@ export const Sort = () => {
     }
   }, []);
 
-  console.log("tokenDivs", tokenDivs);
-  const renderNonListingToken = (token: Asset) => (
+  const renderNonListingToken = (token: TokenDivs) => (
     <div className={token.alreadyVoted ? "opacity-50" : "opacity-100"}>
       {token.edits?.map((edit) => (
         <ChangeTemplate
@@ -76,7 +75,7 @@ export const Sort = () => {
     </div>
   );
 
-  const renderToken = (token: Asset) => (
+  const renderToken = (token: TokenDivs) => (
     <>
       <BoxPreVote token={token} />
       {token.isListing ? (
@@ -105,11 +104,11 @@ export const Sort = () => {
             (entry) =>
               entry.name === displayedToken || entry.name === displayedPool
           )
-          .map((token) => renderToken(token as never));
+          .map((token) => renderToken(token));
       }
       return tokenDivs
         .sort((a, b) => Number(b.coeff) - Number(a.coeff))
-        .map((token) => <BoxPreVote key={token.name} token={token as never} />);
+        .map((token) => <BoxPreVote key={token.name} token={token} />);
     }
     return (
       <BoxPreVote
@@ -120,7 +119,7 @@ export const Sort = () => {
             logo: isWhiteMode
               ? "/mobula/mobula-logo-light.svg"
               : "/mobula/mobula-logo.svg",
-          } as Asset
+          } as TokenDivs
         }
         isFakeToken
       />

@@ -39,7 +39,7 @@ export const Tutorial = ({ setActiveDisplay, setShowTuto }: TutorialProps) => {
      p-[15px] md:px-2.5 absolute rounded-2xl border border-light-border-primary
       dark:border-dark-border-primary w-[290px]"
       style={{
-        right: activeStep.right as never,
+        right: activeStep.right,
         top: "50px",
         transform: "translateX(50%)",
       }}

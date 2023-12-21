@@ -16,23 +16,22 @@ import { SwapContext } from "../..";
 import { ModalContainer } from "../../../../components/modal-container";
 import { Skeleton } from "../../../../components/skeleton";
 import { PopupUpdateContext } from "../../../../contexts/popup";
-import { MultichainAsset } from "../../../../interfaces/holdings";
 import {
   getFormattedAmount,
   getTokenPercentage,
 } from "../../../../utils/formaters";
 import { useLoadToken } from "../../hooks/useLoadToken";
 import { useUpdateSearch } from "../../hooks/useUpdateSearch";
-import { Asset, Coin } from "../../model";
+import { Asset } from "../../model";
 import { formatAsset } from "../../utils";
 import { CoinDecision } from "./coin-decision";
-import { Results } from "./model";
+import { SearchTokenProps } from "./model";
 
 interface SelectProps {
   position: "in" | "out";
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
-  callback?: (token: (Asset | Coin | MultichainAsset) & Results) => void;
+  callback?: (token: SearchTokenProps) => void;
 }
 
 export const Select = ({
@@ -52,9 +51,8 @@ export const Select = ({
     setLockToken,
     holdings,
   } = swapContext;
-  const [coinDecisionPopup, setCoinDecisionPopoup] = useState<
-    (Coin & Results) | null
-  >(null);
+  const [coinDecisionPopup, setCoinDecisionPopoup] =
+    useState<SearchTokenProps | null>(null);
   const [token, setToken] = useState("");
   const { chain } = useNetwork();
   const chainRef = useRef<Chain>();
@@ -70,7 +68,7 @@ export const Select = ({
     updateSearch(token, !callback);
   }, [token, position]);
 
-  const isOldToken = (oldToken: (Coin | Asset) & Results) => {
+  const isOldToken = (oldToken: SearchTokenProps) => {
     if (tokenIn?.symbol === oldToken.symbol) {
       return "in";
     }
@@ -100,30 +98,33 @@ export const Select = ({
           )
         : results
     );
-    return filteredArray as any;
+    return filteredArray;
   };
 
-  const selectAToken = async (selectedToken: (Coin | Asset) & Results) => {
+  const selectAToken = async (selectedToken: SearchTokenProps) => {
     if (!isOldToken(selectedToken)) {
       const shouldSwitch = selectedToken.blockchain !== connectedChain;
 
       const finalToken =
         "address" in selectedToken
-          ? ({
+          ? {
               logo: selectedToken.logo,
               symbol: selectedToken.symbol,
               address: selectedToken.address,
               blockchain: selectedToken.blockchain,
               blockchains: selectedToken.blockchains,
               contracts: selectedToken.contracts,
-            } as Asset)
-          : ({
+            }
+          : {
               logo: selectedToken.logo,
               symbol: selectedToken.symbol,
               blockchain: selectedToken.blockchain,
               chainId: blockchainsContent[selectedToken.blockchain].chainId,
               coin: true,
-            } as Coin);
+              address: "",
+              blockchains: [],
+              contracts: [],
+            };
 
       setBufferToken(finalToken);
       setLockToken([position]);
@@ -148,13 +149,13 @@ export const Select = ({
       setLockToken([]);
       setTokenOutBuffer(tokenOut);
       setTokenInBuffer(tokenIn);
-      loadToken("out", tokenIn as never);
-      loadToken("in", tokenOut as never);
+      loadToken("out", tokenIn);
+      loadToken("in", tokenOut);
       setVisible(false);
     }
   };
 
-  const filteredTokens = filterArrayIfTwoNameAreSame();
+  const filteredTokens: SearchTokenProps[] = filterArrayIfTwoNameAreSame();
 
   return (
     <ModalContainer
@@ -238,7 +239,7 @@ export const Select = ({
                       } else if (
                         searchToken.switch &&
                         "coin" in searchToken &&
-                        searchToken.blockchains.includes(connectedChain)
+                        searchToken?.blockchains?.includes(connectedChain)
                       )
                         setCoinDecisionPopoup(searchToken);
                       else
@@ -321,7 +322,7 @@ export const Select = ({
         {coinDecisionPopup && (
           <CoinDecision
             asset={coinDecisionPopup as Asset}
-            setAsset={setCoinDecisionPopoup as never}
+            setAsset={setCoinDecisionPopoup}
             callback={selectAToken}
           />
         )}

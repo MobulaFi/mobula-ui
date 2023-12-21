@@ -1,4 +1,5 @@
 import { BlockchainName } from "mobula-lite/lib/model";
+import { TradeHistory } from "../features/asset/models";
 import { Trade } from "./trades";
 
 export interface OrderBy {
@@ -102,7 +103,7 @@ export type Asset = {
   decimals: number;
   blockchains: BlockchainName[];
   contracts: string[] | any;
-  trade_history: Trade[];
+  trade_history: TradeHistory[] | null;
   created_at: string;
   symbol: string;
   name: string;
@@ -116,12 +117,13 @@ export type Asset = {
   kyc: string;
   atl?: [number, number];
   ath?: [number, number];
-  tracked: boolean;
   assets_raw_pairs?: RawPairs;
   assets_social?: Socials;
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
+  blockchain: BlockchainName;
+  address: string;
 };
 
 export interface RawPairs {
@@ -158,7 +160,6 @@ export interface Token {
   price_change_24h: number;
   price_change_7d: number;
   rank: number;
-  rank_change_24h: number;
   symbol: string;
   twitter: string;
   volume: number;

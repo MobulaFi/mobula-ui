@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
@@ -77,8 +77,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
     );
     const extractNames = [];
     fusionArr.forEach((entry) => {
-      if (!extractNames.includes(entry?.[0] as never))
-        extractNames.push(entry?.[0] as never);
+      if (!extractNames.includes(entry?.[0])) extractNames.push(entry?.[0]);
     });
     const colorsForRound = {};
     extractNames.forEach((entry, i) => {

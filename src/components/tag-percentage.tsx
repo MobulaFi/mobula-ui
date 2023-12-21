@@ -1,10 +1,9 @@
-import React from "react";
 import { cn } from "../lib/shadcn/lib/utils";
 import { getTokenPercentage } from "../utils/formaters";
 import { Skeleton } from "./skeleton";
 
 interface TagPercentageProps {
-  percentage: number;
+  percentage: number | string;
   isUp: boolean;
   isLoading?: boolean;
   h?: string;
@@ -23,9 +22,9 @@ export const TagPercentage = ({
   extraCss = "",
 }: TagPercentageProps) => {
   const getDisplay = () => {
-    if (isMultiple) return `x${getTokenPercentage(percentage)}`;
-    if (isUp) return `+${getTokenPercentage(percentage)}%`;
-    return `${getTokenPercentage(percentage)}%`;
+    if (isMultiple) return `x${getTokenPercentage(Number(percentage))}`;
+    if (isUp) return `+${getTokenPercentage(Number(percentage))}%`;
+    return `${getTokenPercentage(Number(percentage))}%`;
   };
 
   const finalPercentage = getDisplay();
