@@ -4,24 +4,22 @@ import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useEffect, useRef, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
-import { CuratedBox } from "./components/curated-box";
-import { curatedDatasets, questions } from "./constant";
-import { useHomeLanding } from "./context-manager";
+import { CuratedDataset } from "./components/curated-dataset";
+import { IndexingSupercharged } from "./components/supercharged";
+import { questions } from "./constant";
+import { containerStyle } from "./style";
+import { blurEffectAnimation } from "./utils";
 
 gsap.registerPlugin(MotionPathPlugin);
 
 export const dynamic = "force-static";
 
 export const HomeLanding = () => {
-  const containerStyle = "flex flex-col max-w-[1200px] w-[90%] lg:w-[95%]";
   const [triggerAccordion, setTriggerAccordion] = useState<number>(0);
-  const { activeDataset, setActiveDataset } = useHomeLanding();
-  const [datasetHover, setDatasetHover] = useState<number>(0);
 
   useEffect(() => {
     hljs.highlightAll();
@@ -74,13 +72,6 @@ export const HomeLanding = () => {
             asset=bitcoin&blockchain=ethereum'
   `;
 
-  const scrollers = useRef(null);
-  const chains = Object.values(blockchainsContent);
-  const firstChains = chains.filter((_, i) => i < 6);
-  const secChains = chains.filter((_, i) => i >= 6 && i < 13);
-  const thirdChains = chains.filter((_, i) => i >= 13 && i < 20);
-  const quarthChains = chains.filter((_, i) => i >= 20);
-
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const scrollers = document.querySelectorAll(".scrollerAnimated");
@@ -107,31 +98,8 @@ export const HomeLanding = () => {
   useEffect(() => {
     const container = containerRef.current;
     const indexing = indexingRef.current;
-    if (container && indexing) {
-      container.addEventListener("mousemove", (e) => {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // const dx = x - rect.width / 2;
-        // const dy = y - rect.height / 2;
-        // const tiltX = dy / rect.height;
-        // const tiltY = -dx / rect.width;
-
-        container.style.setProperty("--x", x + "px");
-        container.style.setProperty("--y", y + "px");
-
-        // container.style.setProperty("--rotateX", tiltX * 20 + "deg");
-        // container.style.setProperty("--rotateY", tiltY * 20 + "deg");
-      });
-      indexing.addEventListener("mousemove", (e) => {
-        const rectIndexing = indexing.getBoundingClientRect();
-        const xIndexing = e.clientX - rectIndexing.left;
-        const yIndexing = e.clientY - rectIndexing.top;
-        indexing.style.setProperty("--x", xIndexing + "px");
-        indexing.style.setProperty("--y", yIndexing + "px");
-      });
-    }
+    blurEffectAnimation(container);
+    blurEffectAnimation(indexing);
   }, []);
 
   return (
@@ -219,337 +187,10 @@ export const HomeLanding = () => {
       </section>
 
       {/* SECTION 2 */}
-      <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
-        style={{
-          backgroundImage: `radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
-        }}
-      >
-        <div className={containerStyle}>
-          <div>
-            <div className="h-fit w-fit overflow-hidden mx-auto">
-              <h1
-                id="text"
-                style={{
-                  WebkitTextFillColor: "transparent",
-                }}
-                className="text-[72px] font-bold leading-[75px]  font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
-              >
-                Curated datasets
-              </h1>
-            </div>
-            <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center">
-              A new way of using subgraphs, livestreamed, multi-chain & enriched
-            </p>
-            <div className="max-w-[900px] mx-auto">
-              <div className="flex items-center mt-[50px] w-full justify-around">
-                {curatedDatasets.map((dataset) => (
-                  <button
-                    key={dataset.id}
-                    className={`${
-                      datasetHover === dataset.id ||
-                      activeDataset.id === dataset.id
-                        ? "opacity-100"
-                        : "opacity-40"
-                    } flex flex-col items-center justify-start h-[130px] w-[33.33%] transition-all duration-300 ease-in-out`}
-                    onMouseEnter={() => setDatasetHover(dataset.id)}
-                    onMouseLeave={() => setDatasetHover(0)}
-                    onClick={() => setActiveDataset(dataset)}
-                  >
-                    <img
-                      className="w-[40px] h-[40px] rounded-full"
-                      src={dataset.image}
-                      alt={`${dataset.title} logo`}
-                    />
-                    <p className="text-light-font-100 dark:text-dark-font-100 font-poppins tracking-tight mt-3 text-4xl text-center font-medium ">
-                      {dataset.title}
-                    </p>
-                    <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-3 text-xl text-center">
-                      {dataset.description}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px]">
-              <div className="h-full w-full max-w-[900px] relative mx-auto">
-                <div
-                  className="h-full w-[33.33%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
-                  style={{
-                    left:
-                      ((datasetHover !== 0 ? datasetHover : activeDataset.id) -
-                        1) *
-                        33.33 +
-                      "%",
-                  }}
-                />{" "}
-              </div>
-            </div>
-            <div className="flex w-full justify-between mt-[100px]">
-              <div className="flex flex-col max-w-[650px]">
-                <h2
-                  className="text-[64px] font-bold leading-[65px] font-['Poppins'] w-fit  
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
-                  style={{
-                    WebkitTextFillColor: "transparent",
-                    ...{ "--text-wrap": "balance" },
-                  }}
-                >
-                  Serverless SQL for
-                  <br />
-                  the frontend cloud
-                </h2>
-                <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 text-xl ">
-                  Mobula prioritizes privacy by employing{" "}
-                  <span className="text-light-font-100 dark:text-dark-font-100">
-                    decentralized servers
-                  </span>
-                  , ensuring that user data is not stored at all. This approach
-                  guarantees that sensitive
-                </p>
-                <div className="w-full my-[50px] flex items-center">
-                  <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
-                  <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
-                  <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
-                </div>
-                <div
-                  className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full"
-                  ref={containerRef}
-                >
-                  <div className="flex items-center">
-                    <div
-                      className="p-1 flex items-center justify-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md border
-                   border-light-border-primary dark:border-dark-border-primary rounded-lg"
-                    >
-                      <img
-                        className="w-[30px] h-[30px]"
-                        src="/landing/curated-datasets/octopus.svg"
-                        alt="secure"
-                      />
-                    </div>
-                    <p className="text-light-font-100 dark:text-dark-font-100 font-poppins text-xl ml-2.5">
-                      30+ Blockchains
-                    </p>
-                  </div>
-                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins text-base mt-4">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Quos, odit deleniti? Explicabo laborum eveniet facere,
-                    asperiores repellendus, sed voluptatum dolorem illo soluta
-                    consectetur laudantium quos libero optio maxime consequatur
-                    commodi.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col max-w-[450px] justify-between">
-                {activeDataset.contents.map((content, i) => (
-                  <CuratedBox key={i} content={content} />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <CuratedDataset />
       {/* SECTION INDEXING */}
 
-      <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
-        style={{
-          backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
-        }}
-      >
-        <div className={containerStyle}>
-          <div>
-            <div className="h-fit w-fit overflow-hidden mx-auto">
-              <h1
-                id="text"
-                style={{
-                  WebkitTextFillColor: "transparent",
-                }}
-                className="text-[72px] font-bold font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
-              >
-                Indexing Supercharged
-              </h1>
-            </div>
-            <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center">
-              A new way of using subgraphs, livestreamed, multi-chain & enriched
-            </p>
-            <div
-              className="p-8 flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full h-[400px] 
-                   overflow-hidden"
-              ref={indexingRef}
-            >
-              <div className="w-2/4 flex flex-col">
-                <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium">
-                  Livestreamed to your DB
-                </h2>
-                <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-7 text-lg mb-9 max-w-[500px]">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Dolore, facilis consequuntur quasi corrupti sequi, minima sit
-                  aspernatur ea ullam aut corporis dolores ut vel ratione porro
-                  voluptate
-                </p>
-                <button
-                  className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md
-                 rounded h-[35px] w-fit px-2.5 border border-light-border-primary dark:border-dark-border-primary 
-                 text-light-font-100 dark:text-dark-font-100"
-                >
-                  Read Docs
-                </button>
-              </div>
-              <div className="w-2/4 flex flex-col">
-                <div className="rounded-lg shadow-2xl w-fit h-fit">
-                  <img
-                    className="absolute bottom-[-20px] right-[-20px]"
-                    src="/landing/supercharged/db.png"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="w-full flex justify-between">
-              <div
-                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[40%]  
-                   overflow-hidden p-5 pb-0"
-                ref={indexingRef}
-              >
-                <div className="w-full flex flex-col">
-                  <div className="scrollerAnimated ">
-                    <div className="scrollerAnimated-inner flex">
-                      {firstChains?.map((content, i) => (
-                        <div
-                          key={content.chainId}
-                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                          style={{
-                            background:
-                              "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-                            // background: "radial-gradient(at right top, #112B52, #131627)",
-                          }}
-                        >
-                          <img
-                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl min-w-[45px] min-h-[45px]"
-                            src={content?.logo}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="scrollerAnimated" data-direction="right">
-                    <div className="scrollerAnimated-inner flex">
-                      {secChains?.map((content, i) => (
-                        <div
-                          key={content.chainId}
-                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                 border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                          style={{
-                            background:
-                              "radial-gradient(at left bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-                            // background: "radial-gradient(at right top, #112B52, #131627)",
-                          }}
-                        >
-                          <img
-                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
-                            src={content?.logo}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="scrollerAnimated">
-                    <div className="scrollerAnimated-inner flex">
-                      {thirdChains?.map((content, i) => (
-                        <div
-                          key={content.chainId}
-                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                          style={{
-                            background:
-                              "radial-gradient(at left top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-                            // background: "radial-gradient(at right top, #112B52, #131627)",
-                          }}
-                        >
-                          <img
-                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-4xl shadow-2xl min-w-[45px] min-h-[45px]"
-                            src={content?.logo}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="scrollerAnimated" data-direction="right">
-                    <div className="scrollerAnimated-inner flex">
-                      {quarthChains?.map((content, i) => (
-                        <div
-                          key={content.chainId}
-                          className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 
-                   border border-light-border-primary dark:border-dark-border-primary shadow-4xl skewBox "
-                          style={{
-                            background:
-                              "radial-gradient(at right top, rgba(11, 32, 64, 0.4), rgba(19, 22, 39, 0.4))",
-                            // background: "radial-gradient(at right top, #112B52, #131627)",
-                          }}
-                        >
-                          <img
-                            className="h-[45px] w-[45px] rounded-full opacity-80 shadow-2xl min-w-[45px] min-h-[45px]"
-                            src={content?.logo}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mt-8 p-3 pb-0">
-                    <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium ">
-                      Multi-chain Indexing
-                    </h2>
-                    <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-7 text-lg mb-9 max-w-[500px]">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Dolore, facilis consequuntur quasi corrupti sequi, minima
-                      sit aspernatur ea ullam aut corporis dolores ut vel
-                      ratione porro voluptate
-                    </p>{" "}
-                  </div>
-                </div>
-              </div>
-              <div
-                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[55%]  
-                   overflow-hidden p-5 pb-0"
-                ref={indexingRef}
-              >
-                <div className="w-full flex flex-col mt-3 mb-auto">
-                  <div className="p-3 pt-0">
-                    <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl font-medium mt-4">
-                      Multi-chain Indexing
-                    </h2>
-                    <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-7 text-lg mb-9 max-w-[500px]">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Dolore, facilis consequuntur quasi corrupti sequi, minima
-                      sit aspernatur ea ullam aut corporis dolores ut vel
-                      ratione porro voluptate
-                    </p>{" "}
-                  </div>
-                  <div className="rounded-lg shadow-2xl w-fit h-fit">
-                    <img
-                      className="absolute bottom-[-10px] left-[-10px]"
-                      src="/landing/supercharged/dashboard.png"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <IndexingSupercharged />
 
       {/* QUERY SECTION */}
       <section
