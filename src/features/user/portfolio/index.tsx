@@ -343,10 +343,13 @@ export const Portfolio = ({
     }
 
     return () => {
-      if (interval) clearInterval(interval);
-      threadId.current = Math.round(100000000 * Math.random());
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [wallet?.id, showPortfolioSelector, wallet?.portfolio?.length]);
+
+  threadId.current = Math.round(100000000 * Math.random());
 
   return <PortfolioMain />;
 };
