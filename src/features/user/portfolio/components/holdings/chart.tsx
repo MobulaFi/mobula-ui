@@ -1,9 +1,10 @@
 import * as echarts from "echarts";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../components/fonts";
+import { Skeleton } from "../../../../../components/skeleton";
 import {
   getFormattedAmount,
   getTokenPercentage,
@@ -16,7 +17,7 @@ export const HoldingChart = ({ ...props }) => {
   const { wallet, asset, manager, isLoading } = useContext(PortfolioV2Context);
   const [biggestPairs, setBiggestPairs] = useState<[string, number][]>([]);
   type EChartsOption = echarts.EChartsOption;
-  const id = useMemo(() => uuid(), []);
+  const id = useMemo(() => uuid(), [isLoading]);
   const [title, setTitle] = useState("asset");
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
@@ -47,8 +48,6 @@ export const HoldingChart = ({ ...props }) => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, MAX_DISPLAY);
 
-  console.log("ddddd", initialChains);
-
   const blockchains = {};
   sortedBlockchains.forEach((entry) => {
     blockchains[entry[0]] = entry[1];
@@ -67,7 +66,7 @@ export const HoldingChart = ({ ...props }) => {
           seen.add(token.symbol);
           return {
             name: token.symbol,
-            value: getTokenPercentage(token.allocation),
+            value: getTokenPercentage(Number(token.allocation)),
             logo: token.image,
             amount: token.estimated_balance,
           };
@@ -79,40 +78,13 @@ export const HoldingChart = ({ ...props }) => {
       const percentage = (chain[1] / total) * 100;
       return {
         name: chain[0],
-        value: getTokenPercentage(percentage),
+        value: getTokenPercentage(Number(percentage)),
         logo: blockchainsContent[chain[0]]?.logo,
         amount: chain[1],
       };
     });
 
   // alert(`data ${title}: ` + JSON.stringify(data));
-  console.log(
-    "dkkdd",
-    sortedHoldings?.concat(otherHoldings).map((token) => {
-      if (!seen.has(token.symbol)) {
-        seen.add(token.symbol);
-        return {
-          name: token.symbol,
-          value: getTokenPercentage(token.allocation),
-          logo: token.image,
-          amount: token.estimated_balance,
-        };
-      }
-    })
-  );
-  console.log(
-    "yoooo",
-    sortedBlockchains.map((chain) => {
-      const percentage = (chain[1] / total) * 100;
-      console.log("percentage", percentage, chain);
-      return {
-        name: chain[0],
-        value: getTokenPercentage(percentage),
-        logo: blockchainsContent[chain[0]]?.logo,
-        amount: chain[1],
-      };
-    })
-  );
 
   const options: EChartsOption = {
     legend: {
@@ -188,37 +160,30 @@ export const HoldingChart = ({ ...props }) => {
     ],
   };
 
-  const createInstance = useCallback(() => {
-    if (!sortedHoldings.length || !sortedBlockchains?.length) return;
-    const instance = echarts.getInstanceByDom(
-      document.getElementById(id) as HTMLElement
-    );
+  const createInstance = () => {
+    if (!sortedHoldings.length || !sortedBlockchains?.length || !id) return;
+    const element = document.getElementById(id) as HTMLElement;
+    if (!element) return;
+    const instance = echarts.getInstanceByDom(element);
     return (
       instance ||
-      echarts.init(document.getElementById(id), null, {
+      echarts.init(element, null, {
         renderer: "canvas",
       })
     );
-  }, [id, sortedHoldings, sortedBlockchains, title]);
+  };
 
   useEffect(() => {
-    if (!sortedHoldings.length || !sortedBlockchains?.length) return;
-    const chart = createInstance();
-    if (chart) chart.setOption(options);
-  }, [sortedHoldings, sortedBlockchains, title]);
-
-  useEffect(() => {
-    if (title !== "chain" ? !sortedHoldings.length : !sortedBlockchains?.length)
-      return;
-    const chart = createInstance();
-    if (!chart) return;
-    const handleResize = () => chart.resize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [sortedHoldings, sortedBlockchains, title]);
+    if (!isLoading && data.length > 0) {
+      const chart = createInstance();
+      if (chart) {
+        chart.setOption(options);
+        const handleResize = () => chart.resize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }
+    }
+  }, [isLoading, data, id, sortedHoldings, sortedBlockchains, options, title]);
 
   return (
     <div
@@ -262,22 +227,43 @@ export const HoldingChart = ({ ...props }) => {
           Blockchains
         </button>
       </div>
-      {data.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-5 mx-auto h-[300px] ">
-          <img
-            className="w-[150px] h-[150px] min-w-[150px]"
-            src={
-              isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
-            }
-            alt="empty roi logo"
-          />
-          <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
-        </div>
-      ) : (
-        <div className="flex h-[300px] w-[320px] md:w-[278px] mx-auto flex-col">
-          <div id={id} className="h-[300px] w-[278px] min-w-[278px]" />
-        </div>
-      )}
+      <div className="min-h-[300px]">
+        {data.length === 0 && !isLoading ? (
+          <div className="flex flex-col items-center justify-center mt-5 mx-auto h-[300px] ">
+            <img
+              className="w-[150px] h-[150px] min-w-[150px]"
+              src={
+                isDarkMode
+                  ? "/asset/empty-roi.png"
+                  : "/asset/empty-roi-light.png"
+              }
+              alt="empty roi logo"
+            />
+            <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
+          </div>
+        ) : null}
+        {data.length > 0 && !isLoading ? (
+          <div className="flex h-[300px] md:w-[278px] mx-auto flex-col">
+            <div id={id} className="h-[300px] w-[278px] min-w-[278px]" />
+          </div>
+        ) : null}
+        {isLoading ? (
+          <>
+            <div className="relative h-[185px] mt-5 w-full flex items-center justify-center">
+              <Skeleton extraCss="h-[185px] w-[185px] rounded-full" />
+              <div className="h-[140px] w-[140px] rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary absolute" />
+            </div>
+            <div className="w-full flex items-center mt-2.5 flex-wrap">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <>
+                  <Skeleton extraCss="h-[14px] w-[14px] rounded mt-2.5" />
+                  <Skeleton extraCss="h-[14px] w-[40px] rounded ml-2 mr-2.5 mt-2.5" />
+                </>
+              ))}
+            </div>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 };
