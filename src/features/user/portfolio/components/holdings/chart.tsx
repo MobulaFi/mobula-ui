@@ -1,17 +1,7 @@
 import * as echarts from "echarts";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-<<<<<<< HEAD
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-=======
 import React, { useContext, useEffect, useMemo, useState } from "react";
->>>>>>> e5a90da9f25f92f5977c2d50d9904b6d375a1d8c
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../components/fonts";
 import { Skeleton } from "../../../../../components/skeleton";
@@ -94,15 +84,10 @@ export const HoldingChart = ({ ...props }) => {
       };
     });
 
-<<<<<<< HEAD
-=======
-  // alert(`data ${title}: ` + JSON.stringify(data));
-
->>>>>>> e5a90da9f25f92f5977c2d50d9904b6d375a1d8c
   const options: EChartsOption = {
     legend: {
       show: true,
-      bottom: data?.length > 6 ? "0%" : "4%",
+      bottom: data?.length < 3 ? "4%" : "3%",
       orient: "horizontal",
       textStyle: {
         color: isDarkMode ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.95)",
@@ -110,7 +95,7 @@ export const HoldingChart = ({ ...props }) => {
       },
       itemWidth: 10,
       itemHeight: 10,
-      data: data.filter((_, i) => i < 9),
+      data: data.filter((_, i) => i < 7),
       borderRadius: 100,
       formatter(params) {
         const foundData = data.find((item) => item.name === params);
@@ -152,7 +137,7 @@ export const HoldingChart = ({ ...props }) => {
         name: "Liquidity",
         type: "pie",
         radius: ["55%", "70%"],
-        center: ["50%", data?.length > 6 ? "39%" : "42%"],
+        center: ["50%", "42%"],
         avoidLabelOverlap: false,
         label: {
           show: false,
@@ -262,7 +247,7 @@ export const HoldingChart = ({ ...props }) => {
         ) : null}
         {isLoading ? (
           <>
-            <div className="relative h-[185px] mt-5 w-full flex items-center justify-center">
+            <div className="relative h-[185px] mt-8 w-full flex items-center justify-center mb-5">
               <Skeleton extraCss="h-[185px] w-[185px] rounded-full" />
               <div className="h-[140px] w-[140px] rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary absolute" />
             </div>
