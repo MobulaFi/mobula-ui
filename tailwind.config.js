@@ -11,6 +11,11 @@ module.exports = {
     borderWidth: {
       DEFAULT: "1px",
     },
+    fontFamily: {
+      inter: "Inter",
+      jetBrains: "JetBrains Mono",
+      poppins: "Poppins",
+    },
     extend: {
       width: {
         "90per": "90%",
@@ -126,6 +131,7 @@ module.exports = {
       darkgreen: "rgba(2, 192, 118, 0.2)",
       blue: "#5c7df9",
       darkblue: "rgba(43, 58, 117, 1)",
+      cyan: "rgba(60, 200, 200, 1)",
       telegram: "#30A7DE",
       twitter: "#1C97EA",
       discord: "#5062F0",
