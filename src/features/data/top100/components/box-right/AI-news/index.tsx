@@ -96,7 +96,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
           </MediumFont>
         </div>
       </div>
-      <SmallFont extraCss="scroll overflow-y-scroll max-h-[110px] mt-2.5 pt-0 px-[15px] pr-2.5">
+      <SmallFont extraCss="scroll overflow-y-scroll max-h-[102px] mt-2.5 pt-0 px-[15px] pr-2.5">
         {news ? formatNewsSummary(news) : "Loading..."}
       </SmallFont>
       <div className="flex items-center justify-between px-[15px] py-1.5 mt-auto border-t border-light-border-primary dark:border-dark-border-primary">
