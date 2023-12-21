@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { pushData } from "../lib/mixpanel";
-import { GET } from "../utils/fetch";
 import { askPermission, subscribeUserToPush } from "../utils/notif";
 
 export const pathToUrl = (path: string) => {
@@ -24,8 +23,6 @@ export const usePageLoad = () => {
   const { address } = useAccount();
   const params = useParams();
   const ref = params.ref;
-
-  GET("/connection", {});
 
   useEffect(() => {
     if (pathToUrl(pathname))
