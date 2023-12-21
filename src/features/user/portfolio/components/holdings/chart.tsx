@@ -227,39 +227,43 @@ export const HoldingChart = ({ ...props }) => {
           Blockchains
         </button>
       </div>
-      {data.length === 0 && !isLoading ? (
-        <div className="flex flex-col items-center justify-center mt-5 mx-auto h-[300px] ">
-          <img
-            className="w-[150px] h-[150px] min-w-[150px]"
-            src={
-              isDarkMode ? "/asset/empty-roi.png" : "/asset/empty-roi-light.png"
-            }
-            alt="empty roi logo"
-          />
-          <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
-        </div>
-      ) : null}
-      {data.length > 0 && !isLoading ? (
-        <div className="flex h-[300px] md:w-[278px] mx-auto flex-col">
-          <div id={id} className="h-[300px] w-[278px] min-w-[278px]" />
-        </div>
-      ) : null}
-      {isLoading ? (
-        <>
-          <div className="relative h-[185px] mt-5 w-full flex items-center justify-center">
-            <Skeleton extraCss="h-[185px] w-[185px] rounded-full" />
-            <div className="h-[140px] w-[140px] rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary absolute" />
+      <div className="min-h-[300px]">
+        {data.length === 0 && !isLoading ? (
+          <div className="flex flex-col items-center justify-center mt-5 mx-auto h-[300px] ">
+            <img
+              className="w-[150px] h-[150px] min-w-[150px]"
+              src={
+                isDarkMode
+                  ? "/asset/empty-roi.png"
+                  : "/asset/empty-roi-light.png"
+              }
+              alt="empty roi logo"
+            />
+            <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
           </div>
-          <div className="w-full flex items-center mt-2.5 flex-wrap">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <>
-                <Skeleton extraCss="h-[14px] w-[14px] rounded mt-2.5" />
-                <Skeleton extraCss="h-[14px] w-[40px] rounded ml-2 mr-2.5 mt-2.5" />
-              </>
-            ))}
+        ) : null}
+        {data.length > 0 && !isLoading ? (
+          <div className="flex h-[300px] md:w-[278px] mx-auto flex-col">
+            <div id={id} className="h-[300px] w-[278px] min-w-[278px]" />
           </div>
-        </>
-      ) : null}
+        ) : null}
+        {isLoading ? (
+          <>
+            <div className="relative h-[185px] mt-5 w-full flex items-center justify-center">
+              <Skeleton extraCss="h-[185px] w-[185px] rounded-full" />
+              <div className="h-[140px] w-[140px] rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary absolute" />
+            </div>
+            <div className="w-full flex items-center mt-2.5 flex-wrap">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <>
+                  <Skeleton extraCss="h-[14px] w-[14px] rounded mt-2.5" />
+                  <Skeleton extraCss="h-[14px] w-[40px] rounded ml-2 mr-2.5 mt-2.5" />
+                </>
+              ))}
+            </div>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 };
