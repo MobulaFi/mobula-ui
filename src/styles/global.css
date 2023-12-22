@@ -60,16 +60,12 @@ body::-webkit-scrollbar {
 
 .water-button {
   position: relative;
-  height: 50px;
-  width: 150px;
   border-radius: 30px;
   box-shadow: 5px 5px 10px #13162788, 10px 6px 15px #13162788 inset,
     -5px -5px 8px #131627ff, 10px 6px 15px #13162744 inset, 0 0 8px #13162755;
   display: grid;
   place-items: center;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.8);
   text-shadow: 2px 2px 5px #0008;
   transition: all 0.3s ease-in-out;
   cursor: pointer;

@@ -24,7 +24,7 @@ export const LegacyStack = () => {
       <div className={containerStyle}>
         <div>
           <div className="h-fit w-fit overflow-hidden mx-auto">
-            <h1
+            <h2
               id="text"
               style={{
                 WebkitTextFillColor: "transparent",
@@ -35,7 +35,7 @@ export const LegacyStack = () => {
                  dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
             >
               Migrate your legacy stacks
-            </h1>
+            </h2>
           </div>
           <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center">
             A new way of using subgraphs, livestreamed, multi-chain & enriched

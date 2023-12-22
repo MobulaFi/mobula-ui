@@ -5,11 +5,11 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
 import React, { useEffect, useRef, useState } from "react";
-import { BiCopy } from "react-icons/bi";
 import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
 import { CuratedDataset } from "./components/curated-dataset";
 import { LegacyStack } from "./components/legacy-stack";
+import { Playground } from "./components/playground";
 import { IndexingSupercharged } from "./components/supercharged";
 import { questions } from "./constant";
 import { containerStyle } from "./style";
@@ -143,8 +143,12 @@ export const HomeLanding = () => {
             </div>
 
             <div className="flex items-center justify-center mt-[60px]">
-              <button className="water-button">Get Started</button>
-              <button className="water-button ml-8">Learn More</button>
+              <button className="water-button w-[150px] h-[50px] text-[15px] font-medium">
+                Get Started
+              </button>
+              <button className="water-button ml-8 w-[150px] h-[50px] text-[15px] font-medium">
+                Learn More
+              </button>
             </div>
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between mt-[100px]">
@@ -172,199 +176,10 @@ export const HomeLanding = () => {
           </div>
         </div>
       </section>
-
-      {/* SECTION 2 */}
       <CuratedDataset />
       <IndexingSupercharged />
       <LegacyStack />
-
-      {/* QUERY SECTION */}
-      <section
-        className="h-screen w-screen flex justify-center items-center snap-center"
-        style={{
-          background:
-            "radial-gradient(at center bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
-        }}
-      >
-        <div className={containerStyle}>
-          <div className="grid grid-rows-2 grid-flow-col gap-20 ">
-            <div
-              className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-              border-light-border-primary dark:border-dark-border-primary flex flex-col"
-            >
-              <div className="flex justify-between items-center">
-                <div
-                  className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-            border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking flex items-center
-             h-[38px] w-full"
-                >
-                  <div className="bg-darkblue dark:bg-darkblue rounded-md py-1 px-2 ml-1">
-                    <p className="text-blue dark:text-blue text-sm font-medium font-['Poppins']">
-                      GET
-                    </p>
-                  </div>
-                </div>{" "}
-                <button
-                  className="border border-blue dark:border-blue h-[35px] px-2.5 rounded-lg 
-                ml-2.5 text-sm text-light-font-100 dark:text-dark-font-100 font-[Poppins] "
-                >
-                  Send
-                </button>
-              </div>
-              <div className="flex flex-col rounded-2xl mt-5">
-                <div
-                  className="flex items-center h-[42px] rounded-t-2xl bg-[rgba(23, 27, 43, 0.62)] text-light-font-100
-                 dark:text-dark-font-100 border-light-border-primary dark:border-dark-border-primary border px-5 font-['Poppins']"
-                >
-                  Query
-                </div>
-                <div
-                  className="rounded-b-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md border
-            border-light-border-primary dark:border-dark-border-primary flex
-             w-full p-5 flex-col"
-                >
-                  <p className="text-base text-light-font-80 dark:text-dark-font-80 font-['Poppins'] mt-2 mb-2.5">
-                    asset string{" "}
-                    <span className="text-red dark:text-red">*</span>
-                  </p>
-                  <div
-                    className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-            border-light-border-primary dark:border-dark-border-primary flex items-center
-             h-[38px] w-full relative"
-                  >
-                    <input
-                      type="text"
-                      placeholder="Mobula"
-                      className="h-full w-full px-2.5 bg-[#101A32]
-                       text-light-font-100 dark:text-dark-font-100 font-[Poppins] "
-                      style={{
-                        background: "transparent",
-                      }}
-                    />
-                  </div>
-                  <p className="text-base text-light-font-80 dark:text-dark-font-80 font-['Poppins'] mt-7 mb-2.5">
-                    blockchain string{" "}
-                    <span className="text-red dark:text-red">*</span>
-                  </p>
-                  <div
-                    className="shadow-xl bg-[#101A32] rounded-2xl backdrop-blur-md border
-                    border-light-border-primary dark:border-dark-border-primary flex items-center
-                    h-[38px] w-full  relative"
-                  >
-                    {/* <p className="text-sm absolute top-[-12px] left-[15px] text-light-font-100 dark:text-dark-font-100 font-['Source Code Pro']">
-                      blockchain string
-                    </p> */}
-                    <input
-                      type="text"
-                      placeholder="Blockhain"
-                      className="h-full w-full px-2.5 bg-[rgba(23, 27, 43, 0.22)] dark:bg-[rgba(23, 27, 43, 0.22)]
-                       text-light-font-100 dark:text-dark-font-100 font-[Poppins]"
-                      style={{
-                        background: "transparent",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-                    border-light-border-primary dark:border-dark-border-primary flex items-center
-                    w-full relative flex-col h-fit min-h-[270px]"
-            >
-              <div
-                className="flex items-center justify-between py-3 rounded-t-xl w-full 
-                bg-[rgba(139, 141, 149, 1)] dark:bg-[rgba(139, 141, 149, 1)] border-b border-light-border-primary dark:border-dark-border-primary"
-              >
-                <div className="flex items-center w-full justify-between px-5">
-                  <div className="flex items-center">
-                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
-                      cURL
-                    </button>
-                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
-                      Python
-                    </button>
-                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
-                      JavaScript
-                    </button>
-                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
-                      PHP
-                    </button>
-                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
-                      Go
-                    </button>
-                    <button className="mr-2.5 text-light-font-100 dark:text-dark-font-100">
-                      Java
-                    </button>
-                  </div>
-                  <BiCopy className="text-light-font-60 dark:text-dark-font-60 text-base" />
-                </div>
-              </div>
-              <div className="rounded-b-xl p-0 mt-[-20px] ml-[-30px]">
-                <pre className="p-0">
-                  <code className="p-0 w-full">{jsonContent}</code>
-                </pre>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center h-full">
-              <h2
-                className="text-[72px] font-bold leading-[75px] font-['Poppins'] w-fit 
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
-                style={{
-                  WebkitTextFillColor: "transparent",
-                  ...{ "--text-wrap": "balance" },
-                }}
-              >
-                Safer, faster
-                <br /> and smarter
-              </h2>
-              <p className="text-light-font-60 dark:text-dark-font-60 text-xl max-w-[460px] mt-5">
-                Mobula prioritizes privacy by employing{" "}
-                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  decentralized servers
-                </span>
-                , ensuring that user data is not stored at all. This approach
-                guarantees that sensitive information{" "}
-                <span className="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  remains secure
-                </span>{" "}
-                and inaccessible to anyone.
-              </p>
-            </div>
-            <div
-              className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-                    border-light-border-primary dark:border-dark-border-primary flex items-center
-                    w-full relative flex-col h-fit min-h-[270px] max-h-[270px]"
-            >
-              <div
-                className="flex items-center justify-between py-3 rounded-t-xl w-full 
-                bg-[rgba(139, 141, 149, 1)] dark:bg-[rgba(139, 141, 149, 1)] border-b border-light-border-primary dark:border-dark-border-primary"
-              >
-                <div className="flex items-center w-full justify-between px-5">
-                  <p className="text-blue dark:text-blue text-base">200</p>
-                  <BiCopy className="text-light-font-60 dark:text-dark-font-60 text-base" />
-                </div>
-              </div>
-              <div className="rounded-b-xl p-0 mt-[-20px] ml-[-30px]">
-                <pre className="p-0">
-                  <code className="p-0 w-full">{`
-                  {
-                    "data": {
-                      "asset": "bitcoin",
-                      "blockchain": "ethereum",
-                      "price": 0.000000000000000001,
-                      "timestamp": 1634179200
-                    }
-                  }
-                  `}</code>
-                </pre>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Playground />
 
       {/* QUESTIONS ASKED */}
       <section
