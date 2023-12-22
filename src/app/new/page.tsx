@@ -1,8 +1,11 @@
 import { Metadata } from "next";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import React from "react";
 import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
+
+export const dynamic = "force-static";
+export const relavidate = "3600";
 
 async function fetchNewAssets() {
   const settings = {
@@ -16,7 +19,6 @@ async function fetchNewAssets() {
     utilityScore: 1,
   };
   const supabase = createSupabaseDOClient();
-  const cookieStore = cookies();
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
   const { data, count } = await supabase
@@ -37,7 +39,6 @@ async function fetchNewAssets() {
   return {
     tokens: data || [],
     count: count || 0,
-    cookies: cookieStore ?? "",
     isMobile,
   };
 }
