@@ -5,7 +5,7 @@ import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
 export const dynamic = "force-static";
-export const relavidate = "3600";
+export const revalidate = "3600";
 
 async function fetchNewAssets() {
   const settings = {
