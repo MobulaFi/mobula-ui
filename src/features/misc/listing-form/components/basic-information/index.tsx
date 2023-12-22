@@ -1,21 +1,21 @@
 import axios from "axios";
-import React, {useEffect, useState} from "react";
-import {AiOutlineClose} from "react-icons/ai";
-import {FiSearch, FiUpload} from "react-icons/fi";
-import {Button} from "../../../../../components/button";
+import { useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { FiSearch, FiUpload } from "react-icons/fi";
+import { Button } from "../../../../../components/button";
 import {
   ExtraLargeFont,
   LargeFont,
   MediumFont,
 } from "../../../../../components/fonts";
-import {API_ENDPOINT} from "../../../../../constants";
-import {useIPFS} from "../../../../../hooks/ipfs";
-import {createSupabaseDOClient} from "../../../../../lib/supabase";
-import {ACTIONS} from "../../reducer";
-import {inputStyle} from "../../styles";
-import {InputTemplate} from "../ui/inputs-template";
+import { API_ENDPOINT } from "../../../../../constants";
+import { useIPFS } from "../../../../../hooks/ipfs";
+import { createSupabaseDOClient } from "../../../../../lib/supabase";
+import { ACTIONS } from "../../reducer";
+import { inputStyle } from "../../styles";
+import { InputTemplate } from "../ui/inputs-template";
 
-export const BasicInformation = ({state, dispatch}) => {
+export const BasicInformation = ({ state, dispatch }) => {
   const isDescriptionError = state.description.length > 300;
   const ipfs = useIPFS();
   const [categories, setCategories] = useState<any>([]);
@@ -42,7 +42,7 @@ export const BasicInformation = ({state, dispatch}) => {
     supabase
       .from("categories")
       .select("name")
-      .order("market_cap", {ascending: false})
+      .order("market_cap", { ascending: false })
       .not("name", "eq", "All")
       .then((r) => {
         if (r.data)
@@ -161,7 +161,7 @@ export const BasicInformation = ({state, dispatch}) => {
               onClick={() =>
                 dispatch({
                   type: ACTIONS.SET_INPUT,
-                  payload: {name: "type", value: entry.value},
+                  payload: { name: "type", value: entry.value },
                 })
               }
             >
@@ -235,7 +235,7 @@ export const BasicInformation = ({state, dispatch}) => {
             if (e.target.value.length > 301) return;
             dispatch({
               type: ACTIONS.SET_INPUT,
-              payload: {name: e.target.name, value: e.target.value},
+              payload: { name: e.target.name, value: e.target.value },
             });
           }}
         />
