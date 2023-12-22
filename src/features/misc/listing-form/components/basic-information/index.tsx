@@ -1,6 +1,5 @@
 import axios from "axios";
-import * as imageConversion from "image-conversion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSearch, FiUpload } from "react-icons/fi";
 import { Button } from "../../../../../components/button";
@@ -9,7 +8,7 @@ import {
   LargeFont,
   MediumFont,
 } from "../../../../../components/fonts";
-import { API_ENDPOINT, getIPFSUrl } from "../../../../../constants";
+import { API_ENDPOINT } from "../../../../../constants";
 import { useIPFS } from "../../../../../hooks/ipfs";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { ACTIONS } from "../../reducer";
@@ -67,25 +66,31 @@ export const BasicInformation = ({ state, dispatch }) => {
             value: true,
           },
         });
-        const compressedFile = await imageConversion.compressAccurately(
-          e.target.files[0],
-          20
-        );
-        const bufferFile = await compressedFile.arrayBuffer();
-        const hash: string = await new Promise((resolve) => {
-          ipfs.files.add(Buffer.from(bufferFile), (err, file) => {
-            if (err) return;
-            resolve(file[0].hash);
+
+        const base64Data = String(reader.result);
+        const assetName = state.name;
+
+        const apiURL = `${API_ENDPOINT}/asset/upload-logo?logoUrl=${encodeURIComponent(
+          base64Data
+        )}&name=${encodeURIComponent(assetName)}`;
+
+        try {
+          const response = await axios.get(apiURL);
+
+          const logoUrl = response.data.logoUrl;
+       
+
+          dispatch({
+            type: ACTIONS.SET_LOGO,
+            payload: {
+              name: "logo",
+              value: logoUrl,
+            },
           });
-        });
-        dispatch({
-          type: ACTIONS.SET_LOGO,
-          payload: {
-            name: "uploaded_logo",
-            value: String(reader.result),
-          },
-        });
-        await axios.get(`${API_ENDPOINT}/upload?hash=${hash}`);
+        } catch (error) {
+          console.error("Error uploading logo:", error);
+        }
+
         dispatch({
           type: ACTIONS.SET_LOGO,
           payload: {
@@ -93,12 +98,9 @@ export const BasicInformation = ({ state, dispatch }) => {
             value: false,
           },
         });
-        dispatch({
-          type: ACTIONS.SET_LOGO,
-          payload: { name: "logo", value: getIPFSUrl(hash) },
-        });
       }
     });
+
     reader.readAsDataURL(e.target.files[0]);
   };
 
