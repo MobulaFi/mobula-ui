@@ -58,6 +58,14 @@ body::-webkit-scrollbar {
   box-shadow: none !important;
 }
 
+textarea {
+  border: none;
+  resize: none;
+}
+textarea:focus {
+  outline: none;
+}
+
 .water-button {
   position: relative;
   border-radius: 30px;

@@ -5,13 +5,11 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.css";
 import React, { useEffect, useRef, useState } from "react";
-import { NextChakraLink } from "../../../components/link";
 import "../../../styles/global.css";
 import { CuratedDataset } from "./components/curated-dataset";
 import { LegacyStack } from "./components/legacy-stack";
 import { Playground } from "./components/playground";
 import { IndexingSupercharged } from "./components/supercharged";
-import { questions } from "./constant";
 import { containerStyle } from "./style";
 import { blurEffectAnimation } from "./utils";
 
@@ -183,7 +181,7 @@ export const HomeLanding = () => {
 
       {/* QUESTIONS ASKED */}
       <section
-        className="w-screen flex justify-center items-center h-screen snap-center"
+        className="w-screen flex justify-center items-center pt-[100px] pb-[200px] snap-center"
         style={{
           background:
             "radial-gradient(at right top, rgba(11, 32, 64, 1.0), #131627 80%, #131627)",
@@ -191,50 +189,68 @@ export const HomeLanding = () => {
         }}
       >
         <div className={containerStyle}>
-          <div>
-            <h2
-              className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-center 
-              dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
-              bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none"
-              style={{
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Frequently Asked
-              <br />
-              Questions
-            </h2>
-            <p className="text-xl font-[Poppins] text-light-font-60 dark:text-dark-font-60 mt-[70px] mb-[100px] text-center">
-              Have more questions?{" "}
-              <NextChakraLink
-                className="text-xl font-[Poppins] text-light-font-100 dark:text-dark-font-100 underline 
-              underline-offset-4 decoration-1 hover:text-blue hover:dark:text-blue cursor-pointer transition-all
-               ease-in-out duration-200"
+          <div className="w-full flex items-center pl-2.5">
+            <div className="w-[55%] mr-[30px]">
+              <img src="/landing/map.png" alt="world map" className="w-full" />
+            </div>
+            <div className="w-[45%]">
+              <h2
+                id="text"
+                style={{
+                  WebkitTextFillColor: "transparent",
+                }}
+                className="text-[72px] font-bold font-poppins w-fit text-transparent 
+                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
+                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
+                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text mb-2.5 text-start"
               >
-                {" "}
-                Contact us
-              </NextChakraLink>
-            </p>
-            {questions.map((content, i) => (
+                Get in touch
+              </h2>
               <div
-                key={content.title}
-                className={`flex flex-col cursor-pointer 
-                border-b border-light-border-primary dark:border-dark-border-primary ${
-                  triggerAccordion === i + 1 ? "h-[200px]" : "h-[97px] "
-                }  transition-all duration-300 ease-in-out overflow-hidden`}
-                onMouseEnter={() => setTriggerAccordion(i + 1)}
-                onMouseLeave={() => setTriggerAccordion(0)}
+                className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary flex items-center
+             h-[45px] w-full relative mb-5"
               >
-                <div className="w-full py-8">
-                  <p className="text-2xl font-[Poppins] text-light-font-100 dark:text-dark-font-100">
-                    {content.title}
-                  </p>
-                </div>
-                <p className="text-lg font-[Poppins] text-light-font-60 dark:text-dark-font-60 pb-8">
-                  {content.description}
-                </p>
+                <input
+                  type="text"
+                  placeholder="Telegram username"
+                  className="h-full w-full px-2.5 bg-[#101A32]
+                       text-light-font-100 dark:text-dark-font-100 font-poppins "
+                  style={{
+                    background: "transparent",
+                  }}
+                />
               </div>
-            ))}
+              <div
+                className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary flex items-center
+             h-[45px] w-full relative mb-5"
+              >
+                <input
+                  type="text"
+                  placeholder="Email"
+                  className="h-full w-full px-2.5 bg-[#101A32]
+                       text-light-font-100 dark:text-dark-font-100 font-poppins "
+                  style={{
+                    background: "transparent",
+                  }}
+                />
+              </div>
+              <div
+                className="rounded-lg shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
+            border-light-border-primary dark:border-dark-border-primary flex items-center
+             h-[230px] w-full relative"
+              >
+                <textarea
+                  placeholder="Describe your query or issue here."
+                  className="h-full w-full px-2.5 bg-[#101A32]
+                       text-light-font-100 dark:text-dark-font-100 font-poppins"
+                  style={{
+                    background: "transparent",
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
