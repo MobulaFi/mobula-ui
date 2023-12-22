@@ -1,7 +1,7 @@
-import { Portfolio } from "features/user/portfolio";
 import { Metadata } from "next";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React from "react";
+import { Portfolio } from "../../../features/user/portfolio";
 
 interface PortfolioProps {
   params: Params;
@@ -23,6 +23,17 @@ const PortfolioExplorerPage = ({ params }: PortfolioProps) => {
   const address = params.address;
   return (
     <>
+      <head>
+        <title>{`Explore ${address} Portfolio on Mobula | Mobula`}</title>
+        <meta
+          name="keywords"
+          content="Mobula, Mobula portfolio, portfolio tracker, crypto portfolio tracker"
+        />
+        <meta
+          name="description"
+          content={`Uncover the composition and value of any cryptocurrency wallet with Mobula's Portfolio Tracker. Enter any wallet address to access a detailed view of its holdings, including asset distribution, current market values, and historical performance. A powerful tool for market analysis and insight into diverse investment strategies.`}
+        />
+      </head>
       <meta
         property="og:image"
         content="https://mobula.fi/metaimage/Generic/others.png"
@@ -35,7 +46,7 @@ const PortfolioExplorerPage = ({ params }: PortfolioProps) => {
         itemProp="image"
         content="https://mobula.fi/metaimage/Generic/others.png"
       />
-      <Portfolio address={address} main isWalletExplorer />
+      <Portfolio address={address} isWalletExplorer />
     </>
   );
 };

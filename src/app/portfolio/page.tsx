@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import React from "react";
 import { Portfolio } from "../../features/user/portfolio";
 
 export const revalidate = 3600;
@@ -47,7 +48,7 @@ export default function MainPortfolio() {
         itemProp="image"
         content="https://mobula.fi/metaimage/Generic/others.png"
       />
-      <Portfolio main />
+      <Portfolio />
     </>
   );
 }
