@@ -106,12 +106,13 @@ export const HomeLanding = () => {
   return (
     <div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
-
+      {/* // url('https://c4.wallpaperflare.com/wallpaper/849/714/485/water-bubbles-wallpaper-preview.jpg
+          https://cdn.dribbble.com/users/2119718/screenshots/9806865/media/1640987ab7ebad6c43be7cdf33e1a365.png?resize=1600x1200&vertical=center */}
       <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center"
+        className="w-screen flex justify-center items-center bg-no-repeat bg-contain bg-center relative snap-center"
         style={{
           height: "calc(100vh - 65px)",
-          backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
+          backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
         }}
       >
         <div className={containerStyle}>
@@ -133,32 +134,17 @@ export const HomeLanding = () => {
                 className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-transparent 
                 text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
                 to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
+                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text text-center"
               >
-                The last web3 data
+                The last data provider
+                <br />
+                You&apos;ll ever need
               </h1>
             </div>
-            <div className="h-fit w-fit overflow-hidden mx-auto">
-              <h1
-                style={{
-                  WebkitTextFillColor: "transparent",
-                }}
-                id="text"
-                className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
-              >
-                API you'll ever need
-              </h1>
-            </div>
+
             <div className="flex items-center justify-center mt-[60px]">
-              <button className="w-[140px] mr-5 rounded h-[50px] bg-light-bg-terciary dark:bg-dark-bg-terciary">
-                Get Started
-              </button>
-              <button className="w-[140px] ml-5 rounded h-[50px] bg-light-bg-terciary dark:bg-dark-bg-terciary">
-                Learn More
-              </button>
+              <button className="water-button">Get Started</button>
+              <button className="water-button ml-8">Learn More</button>
             </div>
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between mt-[100px]">
@@ -197,7 +183,7 @@ export const HomeLanding = () => {
         className="h-screen w-screen flex justify-center items-center snap-center"
         style={{
           background:
-            "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
+            "radial-gradient(at center bottom, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))",
         }}
       >
         <div className={containerStyle}>

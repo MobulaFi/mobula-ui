@@ -58,6 +58,45 @@ body::-webkit-scrollbar {
   box-shadow: none !important;
 }
 
+.water-button {
+  position: relative;
+  height: 50px;
+  width: 150px;
+  border-radius: 30px;
+  box-shadow: 5px 5px 10px #13162788, 10px 6px 15px #13162788 inset,
+    -5px -5px 8px #131627ff, 10px 6px 15px #13162744 inset, 0 0 8px #13162755;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 2px 2px 5px #0008;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  font-family: Poppins;
+  backdrop-filter: blur(10px);
+}
+
+/* .water-button::before {
+  content: "";
+  position: absolute;
+  height: 5px;
+  width: 13px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  left: 10px;
+  top: 9px;
+  transform: rotate(-40deg);
+  transition: all 0.3s ease-in-out;
+}
+.water-button::before:hover {
+  transform: scale(110%);
+} */
+.water-button:hover {
+  letter-spacing: 0.7px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
 .mouse-cursor-gradient-tracking {
   position: relative;
   z-index: 1;

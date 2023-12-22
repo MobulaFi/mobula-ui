@@ -18,7 +18,7 @@ export const LegacyStack = () => {
     <section
       className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
       style={{
-        backgroundImage: `radial-gradient(at right top, rgba(11, 32, 64, 1.0), rgba(19, 22, 39, 1.0))`,
+        backgroundImage: `radial-gradient(at right top, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
       }}
     >
       <div className={containerStyle}>
