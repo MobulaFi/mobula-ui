@@ -254,7 +254,13 @@ export const Cryptocurrencies = () => {
                               <SmallFont
                                 extraCss={`font-normal text-end whitespace-nowrap md:font-normal text-[13px] md:text-[13px] ${changeColor}`}
                               >
-                                ${getFormattedAmount(token.estimated_balance)}
+                                {Number(
+                                  getFormattedAmount(token.estimated_balance)
+                                ) < 0.01
+                                  ? `<0.01$`
+                                  : `$${getFormattedAmount(
+                                      token.estimated_balance
+                                    )}`}
                               </SmallFont>
                             )}
                           </div>

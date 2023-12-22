@@ -74,7 +74,7 @@ const EChart: React.FC<EChartProps> = ({
   isVesting = false,
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const id: string = useMemo(() => uuid(), []);
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -110,7 +110,9 @@ const EChart: React.FC<EChartProps> = ({
           // backgroundColor: bg || 'var(--chakra-colors-bg_principal)',
           textStyle: {
             color:
-              theme === "light" ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)",
+              resolvedTheme === "light"
+                ? "rgba(0,0,0,0.8)"
+                : "rgba(255,255,255,0.8)",
           },
           grid: {
             bottom: "15%", // Distance from bottom to grid, for the zoom slider
@@ -127,7 +129,15 @@ const EChart: React.FC<EChartProps> = ({
         },
         true
       );
-  }, [data, options, timeframe, noDataZoom, theme, transactions, extraData]);
+  }, [
+    data,
+    options,
+    timeframe,
+    noDataZoom,
+    resolvedTheme,
+    transactions,
+    extraData,
+  ]);
 
   useEffect(() => {
     if (timeframe !== "24H")
@@ -160,7 +170,7 @@ const EChart: React.FC<EChartProps> = ({
         });
       });
     }
-  }, [theme]);
+  }, [resolvedTheme]);
 
   return (
     <div
