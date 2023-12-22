@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { Metadata, ResolvingMetadata } from "next/types";
 import React from "react";
 import { Assets } from "../../../features/asset";
 import { BaseAssetProvider } from "../../../features/asset/context-manager";
@@ -80,6 +81,23 @@ async function fetchAssetData({ params }) {
   }
 }
 
+type Props = {
+  params: { asset: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const asset = params.asset;
+  return {
+    title: `${
+      asset.slice(0, 1)[0].toUpperCase() + asset.slice(1)
+    } on-chain data: price, liquidity, volume, trades & insights | Mobula`,
+    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${asset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+  };
+}
+
 async function AssetPage({ params }) {
   const data: any = await fetchAssetData({ params });
   const cookieStore = cookies();
@@ -135,14 +153,33 @@ async function AssetPage({ params }) {
   //     });
   //   }, []);
 
-  //   const title = `${asset.name} Real time price, ${asset.symbol} chart and liquidity on Mobula`;
-
   //   if (router.isFallback || !asset.id) {
   //     return null;
   //   }
 
+  const title = `${data?.asset?.name} on-chain data: price, liquidity, volume, trades & insights | Mobula`;
+
   return (
     <>
+      <head>
+        <title>{title}</title>
+        <meta
+          name="description"
+          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
+        />
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+      </head>
       <BaseAssetProvider
         token={data?.asset}
         tradHistory={data?.tradHistory || []}
@@ -152,27 +189,6 @@ async function AssetPage({ params }) {
       >
         <ShowMoreProvider>
           <NavActiveProvider>
-            <head>
-              <title>
-                {`${data?.asset?.name} on-chain data: price, liquidity, volume, trades & insights | Mobula`}
-              </title>
-              <meta
-                name="description"
-                content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
-              />
-              <meta
-                property="og:image"
-                content="https://mobula.fi/metaimage/Generic/others.png"
-              />
-              <meta
-                name="twitter:image"
-                content="https://mobula.fi/metaimage/Generic/others.png"
-              />
-              <meta
-                itemProp="image"
-                content="https://mobula.fi/metaimage/Generic/others.png"
-              />
-            </head>
             <Assets />
           </NavActiveProvider>
         </ShowMoreProvider>
