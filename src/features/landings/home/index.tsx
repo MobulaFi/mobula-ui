@@ -2,10 +2,8 @@
 import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
-import hljs from "highlight.js";
-import "highlight.js/styles/vs2015.css";
 import React, { useEffect, useRef, useState } from "react";
-import "../../../styles/global.css";
+
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
 import { LegacyStack } from "./components/legacy-stack";
@@ -20,10 +18,6 @@ export const dynamic = "force-static";
 
 export const HomeLanding = () => {
   const [triggerAccordion, setTriggerAccordion] = useState<number>(0);
-
-  useEffect(() => {
-    hljs.highlightAll();
-  }, []);
 
   // Gsap animation
   useEffect(() => {
@@ -66,11 +60,6 @@ export const HomeLanding = () => {
   }
 
   requestAnimationFrame(raf);
-  const jsonContent = `
-    curl --request GET \\
-      --url 'https://api.mobula.exchange/v1/market/data?
-            asset=bitcoin&blockchain=ethereum'
-  `;
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

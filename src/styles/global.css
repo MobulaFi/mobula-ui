@@ -97,7 +97,7 @@ textarea:focus {
   transform: scale(110%);
 } */
 .water-button:hover {
-  letter-spacing: 0.7px;
+  letter-spacing: 0.2px;
   color: rgba(255, 255, 255, 0.95);
 }
 
