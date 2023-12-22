@@ -78,7 +78,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           const response = await axios.get(apiURL);
 
           const logoUrl = response.data.logoUrl;
-          console.log("logoURL", response.data);
+       
 
           dispatch({
             type: ACTIONS.SET_LOGO,
