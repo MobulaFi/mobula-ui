@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import React from "react";
 import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
@@ -16,7 +16,6 @@ async function fetchNewAssets() {
     utilityScore: 1,
   };
   const supabase = createSupabaseDOClient();
-  const cookieStore = cookies();
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
   const { data, count } = await supabase
@@ -27,17 +26,12 @@ async function fetchNewAssets() {
     )
     .gte("liquidity", settings.liquidity)
     .gte("global_volume", settings.volume)
-    .or(`market_score.eq.0,market_score.gte.${settings.marketScore}`)
-    .or(`trust_score.eq.0,trust_score.gte.${settings.trustScore}`)
-    .or(`utility_score.eq.0,utility_score.gte.${settings.utilityScore}`)
-    .or(`social_score.eq.0,social_score.gte.${settings.socialScore}`)
     .order("created_at", { ascending: false })
     .limit(100);
 
   return {
     tokens: data || [],
     count: count || 0,
-    cookies: cookieStore ?? "",
     isMobile,
   };
 }
@@ -53,7 +47,6 @@ export const metadata: Metadata = {
 
 export default async function recentlyAdded() {
   const data = await fetchNewAssets();
-
   return (
     <>
       <meta
