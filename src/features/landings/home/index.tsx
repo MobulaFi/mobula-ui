@@ -97,7 +97,7 @@ export const HomeLanding = () => {
       {/* // url('https://c4.wallpaperflare.com/wallpaper/849/714/485/water-bubbles-wallpaper-preview.jpg
           https://cdn.dribbble.com/users/2119718/screenshots/9806865/media/1640987ab7ebad6c43be7cdf33e1a365.png?resize=1600x1200&vertical=center */}
       <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-contain bg-center relative snap-center"
+        className="w-screen flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center"
         style={{
           height: "calc(100vh - 65px)",
           backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
@@ -119,7 +119,7 @@ export const HomeLanding = () => {
                 style={{
                   WebkitTextFillColor: "transparent",
                 }}
-                className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto text-transparent 
+                className="text-[96px] md:text-[56px] md:leading-[50px] font-bold leading-[90px] font-poppins w-fit mx-auto text-transparent 
                 text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
                 to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
                  dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text text-center"
@@ -139,14 +139,14 @@ export const HomeLanding = () => {
               </button>
             </div>
             <div className="flex flex-col w-full">
-              <div className="flex items-center justify-between mt-[100px]">
+              <div className="flex items-center justify-between mt-[100px] md:mt-[75px]">
                 <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
-                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5">
+                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins">
                   They using our APIs
                 </p>
                 <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full" />
               </div>
-              <div className="grid grid-cols-5 gap-10 mt-[50px]">
+              <div className="grid grid-cols-5 gap-10 md:grid-cols-3 md:gap-3 mt-[50px] md:mt-7 place-items-center">
                 <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
                 <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
                 <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
