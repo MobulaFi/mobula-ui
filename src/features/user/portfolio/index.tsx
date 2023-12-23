@@ -12,7 +12,6 @@ import { IPortfolio } from "./models";
 
 interface PortfolioProps {
   id?: string;
-  main: boolean;
   asset?: string;
   address?: string;
   isWalletExplorer?: boolean;
@@ -27,7 +26,6 @@ export const setPortfolioCookies = (portfolio: IPortfolio) => {
 
 export const Portfolio = ({
   id,
-  main,
   asset: assetName,
   address,
   isWalletExplorer,

@@ -13,7 +13,6 @@ export const NextChakraLink = ({
   children,
   href,
   extraCss,
-
   ...props
 }: NextChakraLinkProps) => {
   if (!href)
@@ -29,13 +28,12 @@ export const NextChakraLink = ({
       </span>
     );
   return (
-    <Link href={href}>
+    <Link href={href} {...props}>
       <span
         className={cn(
           "text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs",
           extraCss
         )}
-        {...props}
       >
         {children}
       </span>
