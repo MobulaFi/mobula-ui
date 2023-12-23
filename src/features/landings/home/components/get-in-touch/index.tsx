@@ -26,27 +26,27 @@ export const GetInTouch = () => {
 
   return (
     <section
-      className="w-screen flex justify-center items-center pt-[100px] pb-[200px] snap-center"
+      className="w-screen flex justify-center items-center pt-[100px] pb-[200px] md:pb-[120px] snap-center"
       style={{
         background:
           "radial-gradient(at right top, rgba(11, 32, 64, 1.0), #131627 80%, #131627)",
       }}
     >
       <div className={containerStyle}>
-        <div className="w-full flex items-center">
-          <div className="w-[55%] mr-[30px]">
+        <div className="w-full flex items-center md:flex-col-reverse">
+          <div className="w-[55%] mr-[30px] md:w-full md:mr-0 md:mt-[50px]">
             <img src="/landing/map.png" alt="world map" className="w-full" />
           </div>
-          <div className="w-[45%] pl-5">
+          <div className="w-[45%] pl-5 md:pl-0 md:w-full">
             <h2
               id="text"
               style={{
                 WebkitTextFillColor: "transparent",
               }}
-              className="text-[72px] font-bold font-poppins w-fit text-transparent 
+              className="text-[72px] font-bold md:text-[56px] md:leading-[50px] font-poppins w-fit text-transparent 
                 text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
                 to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text mb-2.5 text-start"
+                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text mb-2.5 md:mb-[30px] text-start"
             >
               Get in touch
             </h2>
