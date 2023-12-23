@@ -49,10 +49,6 @@ export const Portfolio = ({
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    if (activePortfolio) setPortfolioCookies(activePortfolio);
-  }, [activePortfolio]);
-
-  useEffect(() => {
     // ID means we're exploring, userPortfolio means we're on the user's portfolio
     const finalId = id || activePortfolio?.id;
 
@@ -246,7 +242,7 @@ export const Portfolio = ({
   useEffect(() => {
     let interval: any;
 
-    if (wallet) {
+    if (wallet && !isWalletExplorer) {
       const supabase = createSupabaseDOClient();
       // We want to get the price of all the assets in the portfolio
       // If we're on the main page, we want to get the price of all the assets in the portfolio
