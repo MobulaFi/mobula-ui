@@ -246,7 +246,7 @@ export const Portfolio = ({
   useEffect(() => {
     let interval: any;
 
-    if (wallet) {
+    if (wallet && !isWalletExplorer) {
       const supabase = createSupabaseDOClient();
       // We want to get the price of all the assets in the portfolio
       // If we're on the main page, we want to get the price of all the assets in the portfolio
