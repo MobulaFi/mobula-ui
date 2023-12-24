@@ -46,15 +46,17 @@ export const CommunityPopup = ({ token }: CommunityPopupProps) => {
           >
             <div className="flex items-center">
               <img
-                className="w-[17px] h-[17px] mr-2.5"
+                className="w-[17px] h-[17px] mr-2"
                 src={entry.logo}
                 alt={`${entry.alt} logo`}
               />
-              <p className="text-xs mr-2.5 w-full text-light-font-100 dark:text-dark-font-100">
-                {entry.url}
-              </p>
+              <NextChakraLink href={entry.url} target="_blank" rel="norefferer">
+                <p className="text-xs mr-2.5 w-full text-light-font-100 dark:text-dark-font-100 truncate max-w-[150px]">
+                  {entry.url}
+                </p>
+              </NextChakraLink>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center ml-4">
               {hasCopied.includes(entry.alt) ? (
                 <BsCheckLg className="ml-2.5 text-green dark:text-green" />
               ) : (

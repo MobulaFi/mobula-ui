@@ -68,8 +68,13 @@ module.exports = {
             width: "0%",
           },
         },
+        refresh: {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
       },
       animation: {
+        refresh: "refresh 0.7s linear infinite",
         skeleton: "skeleton 1.5s ease-in-out infinite",
         spin: "spin 1s linear infinite",
         tabs: "tabs 350ms linear",
