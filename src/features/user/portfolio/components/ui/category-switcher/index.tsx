@@ -22,6 +22,7 @@ export const CategorySwitcher = () => {
     showDeleteSelector,
     activeStep,
     setAsset,
+    asset,
   } = useContext(PortfolioV2Context);
 
   const categories = [
@@ -82,7 +83,7 @@ export const CategorySwitcher = () => {
               }`}
               disabled={entry.title === "Staking"}
               onClick={() => {
-                setAsset(null);
+                if (asset !== null) setAsset(null);
                 if (entry.title === "Cryptocurrencies")
                   setActiveCategory("Cryptos");
                 else setActiveCategory(entry.title);

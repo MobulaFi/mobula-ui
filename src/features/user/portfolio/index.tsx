@@ -1,6 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
-import { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { getAddress } from "viem";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
@@ -136,7 +136,12 @@ export const Portfolio = ({
       address &&
       (!wallet || wallet.addresses[0] !== address.toLowerCase())
     ) {
-      setIsWalletExplorer(getAddress(address));
+      if (
+        typeof isWalletExplorer === "string"
+          ? isWalletExplorer !== getAddress(address)
+          : true
+      )
+        setIsWalletExplorer(getAddress(address));
       setIsLoading(true);
 
       const socket = new WebSocket(
@@ -246,7 +251,7 @@ export const Portfolio = ({
   useEffect(() => {
     let interval: any;
 
-    if (wallet && !isWalletExplorer) {
+    if (wallet) {
       const supabase = createSupabaseDOClient();
       // We want to get the price of all the assets in the portfolio
       // If we're on the main page, we want to get the price of all the assets in the portfolio
@@ -312,7 +317,6 @@ export const Portfolio = ({
 
             if (!(newWallet.estimated_balance - wallet.estimated_balance))
               newWallet.estimated_balance_change = undefined;
-
             setWallet(newWallet);
 
             if (showPortfolioSelector) {
@@ -336,8 +340,7 @@ export const Portfolio = ({
       interval = setInterval(() => {
         updateAll();
       }, 5000);
-
-      updateAll();
+      if (!isWalletExplorer) updateAll();
     }
 
     return () => {

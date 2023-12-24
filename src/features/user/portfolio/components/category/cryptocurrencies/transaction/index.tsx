@@ -1,7 +1,7 @@
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
@@ -44,9 +44,8 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
     activePortfolio,
     isLoading,
     wallet,
-    transactions,
-    setTransactions,
   } = useContext(PortfolioV2Context);
+  const [transactions, setTransactions] = useState([]);
   const [activeTransaction, setActiveTransaction] = useState<string>();
   const { user } = useContext(UserContext);
   const refreshPortfolio = useWebSocketResp();

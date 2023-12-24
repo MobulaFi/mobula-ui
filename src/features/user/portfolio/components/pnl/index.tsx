@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FiRefreshCcw } from "react-icons/fi";
+import { SlRefresh } from "react-icons/sl";
 import { SmallFont } from "../../../../../components/fonts";
 import { Skeleton } from "../../../../../components/skeleton";
 import { pushData } from "../../../../../lib/mixpanel";
@@ -63,25 +63,19 @@ export const PNL = () => {
                 </div>
               )}
               <button
-                className="ml-2.5 relative w-fit h-fit"
+                className="ml-2 relative w-fit h-fit"
                 onClick={() => {
                   refreshPortfolio();
                   pushData("Refresh Portfolio Clicked");
                 }}
               >
-                <FiRefreshCcw
-                  className="text-2xl lg:text-lg md:text-xs text-light-font-100 dark:text-dark-font-100"
-                  // animation={
-                  //   isLoading || isRefreshing
-                  //     ? `${keyframes({
-                  //         from: { transform: "rotate(0deg)" },
-                  //         to: { transform: "rotate(360deg)" },
-                  //       })}.5s linear infinite`
-                  //     : ""
-                  // }
+                <SlRefresh
+                  className={`text-2xl lg:text-lg text-light-font-100 dark:text-dark-font-100 rotate-[45deg] font-medium ${
+                    isLoading || isRefreshing ? "animate-refresh" : ""
+                  }`}
                 />
                 <div
-                  className={`rounded-full flex w-[5px] min-w-[5px] h-[5px] ${
+                  className={`rounded-full flex w-[6px] min-w-[6px] h-[6px] ${
                     isLoading || isRefreshing ? "bg-yellow" : "bg-green"
                   } absolute top-[-5px] right-[-5px]`}
                 />

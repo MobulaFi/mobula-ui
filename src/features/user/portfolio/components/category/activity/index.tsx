@@ -9,7 +9,6 @@ import { VscAdd, VscArrowUp } from "react-icons/vsc";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
-import { Spinner } from "../../../../../../components/spinner";
 import { Tooltip } from "../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../contexts/user";
 import { GET } from "../../../../../../utils/fetch";
@@ -125,6 +124,7 @@ export const Activity = ({
   useEffect(() => {
     if (isMounted.current || !transactions?.length) {
       if (assetQuery && !asset) return;
+      if (transactions.length !== 0) return;
       setTransactions([]);
       fetchTransactions(true);
     } else isMounted.current = true;
@@ -855,17 +855,13 @@ export const Activity = ({
           )}
         </tbody>
       ) : null}
-      {(isLoading && transactions?.length === 0) ||
-      (transactions.length === 0 && !isSmallTable) ? (
+      {transactions?.length === 0 ? (
         <tbody>
           {" "}
           {Array.from(Array(10).keys()).map((_, i) => (
             <TbodySkeleton key={i} isActivity />
           ))}{" "}
         </tbody>
-      ) : null}
-      {isSmallTable && isLoading ? (
-        <Spinner extraCss="h-[25px] w-[25px]" />
       ) : null}
       {transactions.length !== 0 &&
       Object.keys(transactionsByDate).length === 0 ? (
