@@ -136,7 +136,11 @@ export const Portfolio = ({
       address &&
       (!wallet || wallet.addresses[0] !== address.toLowerCase())
     ) {
-      if (isWalletExplorer !== getAddress(address))
+      if (
+        typeof isWalletExplorer === "string"
+          ? isWalletExplorer !== getAddress(address)
+          : true
+      )
         setIsWalletExplorer(getAddress(address));
       setIsLoading(true);
 
