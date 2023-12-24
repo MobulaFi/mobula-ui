@@ -15,10 +15,10 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
         <div className="flex items-center">
           {isActivity ? (
             <div className="flex flex-col">
-              <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full z-[1] mb-2.5 w-fit h-fit">
+              <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full z-[1] w-fit h-fit">
                 <Skeleton extraCss="rounded-full border border-light-border-primary dark:border-dark-border-primary min-w-[24px] min-h-[24px] w-[24px] h-[24px]" />
               </div>
-              <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full ml-2.5 z-[0]">
+              <div className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full ml-2.5 mt-[-8px] z-[0]">
                 <Skeleton extraCss="rounded-full border border-light-border-primary dark:border-dark-border-primary min-w-[24px] min-h-[24px] w-[24px] h-[24px]" />
               </div>
             </div>
