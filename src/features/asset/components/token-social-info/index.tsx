@@ -119,7 +119,10 @@ export const TokenSocialsInfo = () => {
                   {baseAsset.tags.map((tag: string, i: number) => {
                     if (i < 3)
                       return (
-                        <div className="flex lg:hidden h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags">
+                        <div
+                          className="flex lg:hidden h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags"
+                          key={i}
+                        >
                           <SmallFont extraCss="h-full text-light-font-100 dark:text-dark-font-100 truncate flex items-center text-sm font-medium">
                             {tag}
                           </SmallFont>
