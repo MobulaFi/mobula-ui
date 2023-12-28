@@ -69,6 +69,8 @@ export const NFTs = () => {
     isWalletExplorer ? [isWalletExplorer] : activePortfolio?.wallets
   );
 
+  console.log("nfts", nfts);
+
   return (
     <div className="flex flex-col">
       {(nfts?.length > 0 && !isNftLoading) || isNftLoading ? (
