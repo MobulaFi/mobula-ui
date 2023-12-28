@@ -68,7 +68,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
   const isDarkMode = resolvedTheme === "dark";
 
   useEffect(() => {
-    if (news === undefined) {
+    if (!news) {
       const supabase = createSupabaseDOClient();
       supabase
         .from("news")

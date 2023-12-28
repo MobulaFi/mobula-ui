@@ -2,7 +2,7 @@
 import { IPortfolio } from "interfaces/pages/portfolio";
 import React, { createContext, useContext, useState } from "react";
 import { steps } from "../constants";
-import { INewsGeneral, ITop100, View } from "../models";
+import { ITop100, View } from "../models";
 
 const Top100Context = createContext<ITop100>({} as ITop100);
 
@@ -14,7 +14,6 @@ interface Top100ProviderProps {
   portfolioCookie?: IPortfolio | null;
   btcPrice: { name: string; price: number } | null;
   ethPrice: { name: string; price: number } | null;
-  aiNews: INewsGeneral | null;
   page: number | null;
   isMobile: boolean;
   isTablet: boolean;
@@ -26,14 +25,13 @@ export const Top100Provider = ({
   portfolioCookie = null,
   btcPrice,
   ethPrice,
-  aiNews,
   page,
   isMobile,
   isTablet,
 }: Top100ProviderProps) => {
   const activeViewBuffer = activeViewCookie || {};
   const [activeDisplay, setActiveDisplay] = useState("display");
-  const [news, setNews] = useState(aiNews as INewsGeneral);
+  const [news, setNews] = useState(null);
   const [showCategories, setShowCategories] = useState(false);
   const [activePortfolio, setActivePortfolio] = useState<IPortfolio | null>(
     portfolioCookie || null
