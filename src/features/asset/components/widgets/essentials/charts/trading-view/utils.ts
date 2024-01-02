@@ -50,6 +50,7 @@ export const Datafeed = (baseAsset: Asset) => ({
       from: periodParams.from * 1000,
       to: periodParams.to * 1000,
       amount: periodParams.countBack,
+      usd: false,
     });
     const data = await response.json();
     onResult(data.data);
