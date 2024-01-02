@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { Button } from "../../components/button";
 import { NextChakraLink } from "../../components/link";
-import { Asset } from "../../interfaces/assets";
+import { Asset, UpdateAssetProps } from "../../interfaces/assets";
 import { pushData } from "../../lib/mixpanel";
 import {
   getFormattedAmount,
@@ -15,6 +15,7 @@ import { ToggleColorMode } from "../toggle-mode";
 export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
   const animationRef = React.useRef(null);
   const [isAnimationPlaying, setIsAnimationPlaying] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -32,6 +33,56 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
     }
   }, []);
 
+  const [assetsUpdated, setAssetsUpdated] = React.useState<Asset[]>(assets);
+
+  useEffect(() => {
+    if (!assets) return;
+    const newAssets = [];
+    assets.forEach((entry) => {
+      const formatEntry = {
+        name: entry.name,
+      };
+      newAssets.push(formatEntry);
+    });
+    const socket = new WebSocket(
+      process.env.NEXT_PUBLIC_PRICE_WSS_ENDPOINT as string
+    );
+    setIsLoading(true);
+    socket.addEventListener("open", () => {
+      socket.send(
+        `{
+              "type": "market",
+              "authorization": "${process.env.NEXT_PUBLIC_PRICE_KEY}",
+              "payload": {
+                "assets": ${JSON.stringify(newAssets)},
+                "interval": 15
+              }
+            }`
+      );
+    });
+    socket.addEventListener("message", (event) => {
+      try {
+        if (JSON.parse(event.data)?.data !== null) {
+          const data = JSON.parse(event.data).data;
+          const dataKeys = Object.keys(data);
+          const dataValue: UpdateAssetProps[] = Object.values(data);
+          assetsUpdated.forEach((asset) => {
+            const index = dataKeys.indexOf(asset.name);
+            if (index !== -1) {
+              assetsUpdated[index].price = dataValue[index].price;
+              assetsUpdated[index].price_change_24h =
+                dataValue[index].price_change_24h;
+            }
+          });
+        } else {
+          setAssetsUpdated(assets);
+        }
+      } catch (e) {
+        // console.log(e)
+      }
+    });
+  }, [assets]);
+
   return (
     <div className="h-[40px] w-full px-[15px] flex justify-between border-b border-light-border-primary dark:border-dark-border-primary">
       <div
@@ -46,7 +97,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           onMouseEnter={() => setIsAnimationPlaying(false)}
           onMouseLeave={() => setIsAnimationPlaying(true)}
         >
-          {assets
+          {assetsUpdated
             ?.filter((entry) => entry.price_change_24h < 1000)
             .map((asset) => {
               const isUp: boolean =
