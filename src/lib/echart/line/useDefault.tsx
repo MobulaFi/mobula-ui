@@ -16,6 +16,7 @@ interface UseDefaultProps {
   data: [number, number][];
   transactions: PublicTransaction[] | null;
   timeframe: TimeSelected;
+  isPercentage?: boolean;
   isMobile: boolean;
   type?: string;
   unit?: string;
@@ -73,6 +74,7 @@ export const useDefault = ({
   unitPosition = "before",
   extraData: extraDataBuffer = null,
   isVesting = false,
+  isPercentage = false,
 }: UseDefaultProps) => {
   const extraData = extraDataBuffer || [];
   const { theme } = useTheme();
@@ -242,11 +244,15 @@ export const useDefault = ({
             };"></span></div> <span style="color:${
               lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
             };margin-right:5px;font-weight:400">${param.seriesName}:</span> ${
-              unitPosition === "before" ? unit : ""
-            }${getFormattedAmount(param.value[1], 0, {
-              minifyZeros: false,
-              minifyBigNumbers: true,
-            })}${unitPosition === "after" ? unit : ""}</div>`
+              unitPosition === "before" && !isPercentage ? unit : ""
+            }${
+              (getFormattedAmount(param.value[1], 0, {
+                minifyZeros: false,
+                minifyBigNumbers: true,
+              }) as number) * 100
+            }${isPercentage ? "%" : ""} ${
+              unitPosition === "after" ? unit : ""
+            }</div>`
         )
         .join("")}`;
     },
