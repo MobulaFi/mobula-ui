@@ -37,7 +37,7 @@ const formatNewsSummary = (news: INewsGeneral) => {
       );
     } else if (assetData.price_change_24h < 0) {
       priceChangeIcon = (
-        <TbTriangleInvertedFilled className="text-[10px] text-red mx-[3px]" />
+        <TbTriangleInvertedFilled className="rotate-180 text-[10px] text-red mx-[3px]" />
       );
     }
     if (assetData.name)
