@@ -557,8 +557,8 @@ export const useDefault = ({
                   {
                     offset: 1,
                     color: lightMode
-                      ? "rgba(255,255,255,1)"
-                      : "rgba(19, 22, 39, 1)",
+                      ? "rgba(255,255,255,0)"
+                      : "rgba(19, 22, 39, 0)",
                   },
                 ]),
               },

@@ -43,7 +43,6 @@ const formatNewsSummary = (news: INewsGeneral) => {
     if (assetData.name)
       elements.push(
         <NextChakraLink
-          // TODO: add this
           key={offset}
           // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
           // as={Link}
