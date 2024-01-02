@@ -47,7 +47,8 @@ export const BtcDominance = ({ showPage }: BtcDominanceProps) => {
             leftMargin={["0%", "0%"]}
             height="160px"
             bg="transparent"
-            type="BTC Dominance %"
+            type="BTC Dominance"
+            isPercentage
             noDataZoom
             noAxis
             width="100%"

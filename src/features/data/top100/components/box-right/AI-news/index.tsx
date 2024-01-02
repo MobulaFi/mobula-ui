@@ -1,6 +1,5 @@
 import { useTheme } from "next-themes";
 import React, { useEffect } from "react";
-import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
@@ -13,7 +12,6 @@ interface AINewsProps {
 }
 
 const formatNewsSummary = (news: INewsGeneral) => {
-  if (!news.summary) return "Loading...";
   const elements: React.ReactNode[] = [];
   let lastIndex = 0;
 
@@ -30,23 +28,36 @@ const formatNewsSummary = (news: INewsGeneral) => {
     const assetData = news.assetsData
       ? news.assetsData[p1]
       : { price_change_24h: 0, name: "" };
-    let priceChangeIcon: React.ReactNode;
-    if (assetData.price_change_24h > 0) {
+    console.log(
+      "assetData",
+      assetData,
+
+      news?.assetsData?.[p1],
+      news,
+      news?.assetsData
+    );
+    let priceChangeIcon: any | null = null;
+    if (assetData?.price_change_24h > 0) {
       priceChangeIcon = (
-        <TbTriangleFilled className="text-[10px] text-green mx-[3px]" />
+        <span className="rotate-180 text-[10px] text-green dark:text-green">
+          &#9650;
+        </span>
       );
-    } else if (assetData.price_change_24h < 0) {
+    } else if (assetData?.price_change_24h < 0) {
       priceChangeIcon = (
-        <TbTriangleInvertedFilled className="rotate-180 text-[10px] text-red mx-[3px]" />
+        <span
+          className="text-[10px] text-red 
+        dark:text-red"
+        >
+          &#9650;
+        </span>
       );
     }
-    if (assetData.name)
+    if (assetData?.name)
       elements.push(
         <NextChakraLink
-          // TODO: add this
           key={offset}
-          // extraCss="h-4.5 text-xs md:text-[10px] text-normal"
-          // as={Link}
+          extraCss="p-0.5 text-sm md:text-xs h-[18px] font-medium"
           href={`https://mobula.fi/asset/${getUrlFromName(assetData.name)}`}
         >
           {p1} {priceChangeIcon}
@@ -59,6 +70,7 @@ const formatNewsSummary = (news: INewsGeneral) => {
   if (lastIndex < news.summary.length) {
     elements.push(news.summary.slice(lastIndex));
   }
+
   return elements;
 };
 
@@ -72,7 +84,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
       const supabase = createSupabaseDOClient();
       supabase
         .from("news")
-        .select("news_count, summary, created_at")
+        .select("news_count, summary, created_at,assetsData")
         .order("created_at", { ascending: false })
         .limit(1)
         .single()
@@ -96,7 +108,7 @@ export const AINews = ({ showPage }: AINewsProps) => {
           </MediumFont>
         </div>
       </div>
-      <SmallFont extraCss="scroll overflow-y-scroll max-h-[102px] mt-2.5 pt-0 px-[15px] pr-2.5">
+      <SmallFont extraCss="scroll overflow-y-scroll max-h-[102px] mt-2.5 pt-0 px-[15px] pr-2.5 text-light-font-80 dark:text-dark-font-80">
         {news ? formatNewsSummary(news) : "Loading..."}
       </SmallFont>
       <div className="flex items-center justify-between px-[15px] py-1.5 mt-auto border-t border-light-border-primary dark:border-dark-border-primary">
