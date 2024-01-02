@@ -203,3 +203,22 @@ export interface IToken {
   type: "weth" | "eth" | "stable" | "other";
   priceUSD: number;
 }
+
+export interface UpdateAssetProps {
+  ath: number;
+  atl: number;
+  is_listed: boolean;
+  liquidity: number;
+  market_cap: number;
+  market_cap_diluted: number;
+  off_chain_volume: number;
+  price: number;
+  price_change_24h: number;
+  price_change_7d: number;
+  price_change_1h: number;
+  price_change_1m: number;
+  price_change_1y: number;
+  volume: number;
+  volume_7d: number;
+  volume_change_24h: number;
+}
