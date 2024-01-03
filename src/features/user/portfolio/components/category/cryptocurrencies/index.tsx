@@ -477,7 +477,7 @@ export const Cryptocurrencies = () => {
                     .map((token) => (
                       <img
                         key={token?.name}
-                        className="w-[20px] rounded-full h-[20px] rounded-full -ml-1 border border-light-border-primary dark:border-dark-border-primary"
+                        className="w-[20px] rounded-full h-[20px] min-h-[20px] max-h-[20px] rounded-full -ml-1 border border-light-border-primary dark:border-dark-border-primary"
                         src={token?.image || "/empty/unknown.png"}
                         alt="logo"
                       />

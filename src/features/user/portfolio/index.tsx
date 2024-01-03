@@ -109,7 +109,7 @@ export const Portfolio = ({
               });
             }
           } else if (failed) setWallet(null);
-
+          console.log("portfolio", portfolio);
           setIsLoading(false);
           // Basically, refreshing will keep the little weel spinning while starting to display first data.
           setIsRefreshing(true);
@@ -243,8 +243,7 @@ export const Portfolio = ({
         ...rightAsset,
         uniqueIdentifier: assetName,
       });
-      setIsAssetPage(true);
-    } else if (isAssetPage) setIsAssetPage(false);
+    }
   }, [wallet, assetName]);
 
   const threadId = useRef(Math.round(100000000 * Math.random()));
