@@ -27,7 +27,7 @@ import { CategorySwitcher } from "./components/ui/category-switcher";
 import { PortfolioV2Context } from "./context-manager";
 import { UserHoldings } from "./models";
 
-export const PortfolioMain = () => {
+export const PortfolioMain = ({ isExplorer }: boolean) => {
   const [showTuto, setShowTuto] = useState(true);
   const {
     manager,
@@ -145,10 +145,7 @@ export const PortfolioMain = () => {
       {...handlers}
     >
       {activeStep.nbr ? (
-        <div
-          className="flex fixed w-screen h-screen top-0 bg-red z-[3]"
-          // bg="rgba(0,0,0,0.3)"
-        />
+        <div className="flex fixed w-screen h-screen top-0 bg-red z-[3]" />
       ) : null}
       {isMobile || !isMoreThan991 ? (
         <TopNav
@@ -160,7 +157,7 @@ export const PortfolioMain = () => {
         />
       ) : null}
       <Container extraCss="mt-[15px]">
-        <Header />
+        <Header isExplorer={isExplorer} />
         <div className="flex mt-2.5 w-full flex-row lg:flex-col">
           <div className="flex flex-col max-w-[320px] lg:max-w-full w-full">
             {(manager.total_profit && activeCategory === "General") ||

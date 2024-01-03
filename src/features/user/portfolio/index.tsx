@@ -351,5 +351,5 @@ export const Portfolio = ({
 
   threadId.current = Math.round(100000000 * Math.random());
 
-  return <PortfolioMain />;
+  return <PortfolioMain isExplorer={isWalletExplorer} />;
 };

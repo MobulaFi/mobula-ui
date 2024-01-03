@@ -13,7 +13,7 @@ import { PortfolioV2Context } from "../../context-manager";
 import { NetworkButton } from "../network-button";
 import { SharePopup } from "../popup/share";
 
-export const Header = () => {
+export const Header = ({ isExplorer }: boolean) => {
   const {
     setShowManage,
     activePortfolio,
@@ -35,9 +35,9 @@ export const Header = () => {
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex">
-        {isWalletExplorer ? (
-          <LargeFont extraCss="font-medium md:text-base">
-            {addressSlicer(isWalletExplorer)}
+        {isExplorer ? (
+          <LargeFont extraCss="font-medium  font-normal text-light-font-100 dark:text-dark-font-100 text-[24px] md:text-[16px]">
+            {addressSlicer(isWalletExplorer as string)}
           </LargeFont>
         ) : (
           <button
