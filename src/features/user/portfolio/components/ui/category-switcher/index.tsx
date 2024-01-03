@@ -148,7 +148,7 @@ export const CategorySwitcher = () => {
       ) : null}
       {activeCategory === "NFTs" ? (
         <div className="flex w-fit">
-          {(nftToDelete.length > 0 && showDeleteSelector) ||
+          {((nftToDelete?.length as number) > 0 && showDeleteSelector) ||
           !showDeleteSelector ? (
             <Button
               extraCss={buttonDeleteNft}
@@ -159,7 +159,7 @@ export const CategorySwitcher = () => {
             >
               {nftToDelete?.length > 0
                 ? `${
-                    nftToDelete.length !== nftsDeleted?.length
+                    nftToDelete?.length !== nftsDeleted?.length
                       ? `Confirm`
                       : `${nftToDelete.length} Hidden NFTs`
                   }`
