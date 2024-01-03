@@ -39,9 +39,7 @@ const formatNewsSummary = (news: INewsGeneral) => {
     let priceChangeIcon: any | null = null;
     if (assetData?.price_change_24h > 0) {
       priceChangeIcon = (
-        <span className="rotate-180 text-[10px] text-green dark:text-green">
-          &#9650;
-        </span>
+        <span className="text-[10px] text-green dark:text-green">&#9650;</span>
       );
     } else if (assetData?.price_change_24h < 0) {
       priceChangeIcon = (
@@ -49,7 +47,7 @@ const formatNewsSummary = (news: INewsGeneral) => {
           className="text-[10px] text-red 
         dark:text-red"
         >
-          &#9650;
+          &#9660;
         </span>
       );
     }

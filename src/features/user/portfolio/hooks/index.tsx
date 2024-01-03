@@ -33,7 +33,7 @@ export const useWebSocketResp = () => {
         socket.send(
           isWalletExplorer
             ? `{"explorer": {"wallet": "${isWalletExplorer}"}, "force": true}`
-            : `{"portfolio": {"id": ${activePortfolio?.id}${settingsString}}, "force": true}`
+            : `{"portfolio": {"id": ${activePortfolio?.id} ${settingsString}}, "force": true}`
         );
       });
       let failed = true;
