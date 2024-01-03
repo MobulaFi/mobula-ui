@@ -246,10 +246,15 @@ export const useDefault = ({
             };margin-right:5px;font-weight:400">${param.seriesName}:</span> ${
               unitPosition === "before" && !isPercentage ? unit : ""
             }${
-              (getFormattedAmount(param.value[1], 0, {
-                minifyZeros: false,
-                minifyBigNumbers: true,
-              }) as number) * 100
+              isPercentage
+                ? (getFormattedAmount(param.value[1], 0, {
+                    minifyZeros: false,
+                    minifyBigNumbers: true,
+                  }) as number) * 100
+                : (getFormattedAmount(param.value[1], 0, {
+                    minifyZeros: false,
+                    minifyBigNumbers: true,
+                  }) as number)
             }${isPercentage ? "%" : ""} ${
               unitPosition === "after" ? unit : ""
             }</div>`

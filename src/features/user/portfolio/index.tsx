@@ -339,7 +339,7 @@ export const Portfolio = ({
       interval = setInterval(() => {
         updateAll();
       }, 5000);
-      if (!isWalletExplorer) updateAll();
+      // if (!isWalletExplorer) updateAll();
     }
 
     return () => {
