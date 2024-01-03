@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import { BsCheck } from "react-icons/bs";
+import { IoEyeOffOutline } from "react-icons/io5";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { HoldingNFT } from "../../../../../../interfaces/holdings";
@@ -52,6 +52,8 @@ export const NftPortfolioCard = ({
     return nft?.image || nftImage || "/asset/no-image-dark.png";
   };
   const image = getNftImage();
+
+  const isNftToHide = nftToDelete?.includes(nft?.token_hash);
 
   return (
     <div
@@ -114,26 +116,28 @@ export const NftPortfolioCard = ({
       <div
         className={`flex absolute w-full h-full bg-light-bg-primary dark:bg-dark-bg-primary rounded
        transition-all duration-200 ${
-         showDeleteSelector || isHover ? "opacity-80" : "opacity-0"
+         showDeleteSelector || isHover ? "opacity-60" : "opacity-0"
        } ${
           isHover && !showDeleteSelector ? "cursor-pointer" : "cursor-default"
         }`}
       />
       {showDeleteSelector ? (
         <button
-          className="flex items-center justify-center rounded w-[20px] h-[20px] min-w-[20px] left-[10px] 
-        top-[10px] absolute border border-darkblue dark:border-darkblue bg-light-bg-hover dark:bg-dark-bg-hover"
+          className="h-full w-full flex items-center justify-center rounded-full border border-light-border-primary
+           dark:border-dark-border-primary z-[1] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
           onClick={() => {
-            if (nftToDelete?.includes(nft?.token_hash))
+            if (isNftToHide)
               setNftToDelete(
                 nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
               );
             else setNftToDelete([...nftToDelete, nft.token_hash]);
           }}
         >
-          {nftToDelete?.includes(nft?.token_hash) ? (
-            <BsCheck className="text-light-font-100 dark:text-dark-font-100 mt-0.5 text-lg" />
-          ) : null}
+          <IoEyeOffOutline
+            className={`text-light-font-100 dark:text-dark-font-100 transition-all duration-200 ease-in-out mt-0.5 text-4xl ${
+              isNftToHide || isHover ? "opacity-100" : "opacity-0"
+            }`}
+          />
         </button>
       ) : null}
       {isHover === nft?.token_hash && !showDeleteSelector ? (

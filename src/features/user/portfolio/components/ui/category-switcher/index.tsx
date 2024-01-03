@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
@@ -112,13 +112,13 @@ export const CategorySwitcher = () => {
           </div>
         ))}
       </div>
-      <div className="ml-auto flex text-sm lg:text-[13px] mr-2.5 ">
+      <div className="ml-auto flex text-[13px] mr-2.5 ">
         Need data?
         <NextChakraLink
           href="https://developer.mobula.fi/reference/wallet-explorer-api?utm_source=website&utm_medium=portfolio&utm_campaign=portfolio"
           target="_blank"
           rel="noreferrer"
-          extraCss="text-blue dark:text-blue ml-[5px] mb-[1px] font-medium"
+          extraCss="text-blue dark:text-blue ml-[5px] text-[13px] md:text-[13px] mb-[1px] font-medium"
           onClick={() => {
             pushData("API Clicked");
           }}
@@ -156,7 +156,7 @@ export const CategorySwitcher = () => {
             >
               {nftToDelete?.length > 0
                 ? `Hide (${nftToDelete.length})`
-                : "Manage NFTs"}
+                : "Manage"}
             </Button>
           ) : null}
 
