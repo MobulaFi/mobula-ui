@@ -92,7 +92,7 @@ export const NFTs = () => {
                 ? true
                 : !nftsDeleted?.includes(entry.token_hash)
             )
-            .map((nft, i) => (
+            ?.map((nft, i) => (
               <NftPortfolioCard
                 key={nft?.token_hash + nft?.image}
                 nft={nft}
