@@ -1,6 +1,7 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
 import { useTheme } from "next-themes";
+import React from "react";
 import { MediumFont } from "../../../../../../components/fonts";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -69,20 +70,31 @@ export const NFTs = () => {
     isWalletExplorer ? [isWalletExplorer] : activePortfolio?.wallets
   );
 
+  const checkDouble = () => {
+    const nftsMap: Record<string, boolean> = {};
+    const nftsFiltered = nfts?.filter((entry) => {
+      if (nftsMap[entry.token_hash]) return false;
+      nftsMap[entry.token_hash] = true;
+      return true;
+    });
+    return nftsFiltered;
+  };
+
+  const nftsVerified = checkDouble();
+
   return (
     <div className="flex flex-col">
       {(nfts?.length > 0 && !isNftLoading) || isNftLoading ? (
         <div className="flex flex-wrap">
-          {(
-            nfts?.filter((entry) => !nftsDeleted?.includes(entry.token_hash)) ||
-            Array.from({ length: 3 })
-          ).map((nft, i) => (
-            <NftPortfolioCard
-              key={nft?.token_hash || i}
-              nft={nft}
-              showDeleteSelector={showDeleteSelector}
-            />
-          ))}
+          {nftsVerified
+            ?.filter((entry) => !nftsDeleted?.includes(entry.token_hash))
+            .map((nft, i) => (
+              <NftPortfolioCard
+                key={nft?.token_hash + nft?.image}
+                nft={nft}
+                showDeleteSelector={showDeleteSelector}
+              />
+            ))}
         </div>
       ) : null}
       {!isNftLoading && !nfts?.length ? (

@@ -1,6 +1,6 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
@@ -55,13 +55,12 @@ export const NftPortfolioCard = ({
 
   return (
     <div
-      className="flex flex-col m-[5px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
-    min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px] sm:min-h-[160px] 
-    border border-light-border-primary dark:border-dark-border-primary md:w-calc-half-10 w-calc-1/3-10   "
+      className="flex flex-col rounded-xl bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
+    border border-light-border-primary dark:border-dark-border-primary w-[31%] m-[1%]"
       onMouseEnter={() => setIsHover(nft?.token_hash)}
       onMouseLeave={() => setIsHover("")}
     >
-      <div className="w-full h-auto mb-auto flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary">
+      <div className="w-full h-auto flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary">
         {isNftLoading && !nft?.image && !nftImage ? (
           <Skeleton extraCss="h-[210px] w-full rounded-t" />
         ) : (
@@ -81,7 +80,7 @@ export const NftPortfolioCard = ({
                   width={210}
                   height={210}
                   onLoad={() => setIsImageLoading(false)}
-                  className="rounde-t w-full p-0 h-auto max-h-[210px] bg-light-bg-hover dark:bg-dark-bg-hover"
+                  className="rounde-t w-full p-0 h-auto max-h-[210px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-t-xl"
                   onError={() => setImageState("error")}
                   loading="eager"
                   alt="nft image"
@@ -95,12 +94,14 @@ export const NftPortfolioCard = ({
         {isNftLoading ? (
           <Skeleton extraCss="h-[20px] w-[90px]" />
         ) : (
-          <SmallFont extraCss="whitespace-pre-wrap font-normal">
-            {nft.name} {showDeleteSelector}
-            <span className="ml-[5px] text-light-font-60 dark:text-dark-font-60">
+          <div className="flex flex-col">
+            <SmallFont extraCss="font-normal truncate">
+              {nft.name} {showDeleteSelector}
+            </SmallFont>
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
               {String(nft?.token_id).length < 10 ? `#${nft?.token_id}` : ""}
-            </span>
-          </SmallFont>
+            </SmallFont>
+          </div>
         )}
         {/* <TextExtraSmall color={text60}>Est. Value</TextExtraSmall>
           <Flex align="center">
@@ -111,11 +112,10 @@ export const NftPortfolioCard = ({
           </Flex> */}
       </div>
       <div
-        className={`flex absolute w-full h-full max-h-[250px] bg-light-bg-primary dark:bg-dark-bg-primary rounded
-       transition-all duration-200 min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px]
-        sm:min-h-[160px] ${
-          showDeleteSelector || isHover ? "opacity-80" : "opacity-0"
-        } ${
+        className={`flex absolute w-full h-full bg-light-bg-primary dark:bg-dark-bg-primary rounded
+       transition-all duration-200 ${
+         showDeleteSelector || isHover ? "opacity-80" : "opacity-0"
+       } ${
           isHover && !showDeleteSelector ? "cursor-pointer" : "cursor-default"
         }`}
       />
