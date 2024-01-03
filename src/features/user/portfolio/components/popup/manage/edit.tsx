@@ -94,7 +94,7 @@ export const ManageEdit = () => {
     try {
       await GET("/portfolio/edit", {
         account: address as string,
-        removed_assets: "[]",
+        removed_assets: [] as any,
         removed_transactions: activePortfolio.removed_transactions.join(","),
         wallets: activePortfolio.wallets.join(","),
         id: activePortfolio.id,
@@ -154,18 +154,20 @@ export const ManageEdit = () => {
           </div>
         ))}
       </div>
-      <Button
-        extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5 h-[45px] w-full"
-        onClick={restoreHiddenAssets}
-      >
-        Restore selected assets ({selectedTokens.length})
-      </Button>
-      <Button
-        extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5 h-[45px] w-full"
-        onClick={handleRestoreAll}
-      >
-        Restore all
-      </Button>
+      <div className="flex items-center">
+        <Button
+          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5 h-[45px] w-full"
+          onClick={restoreHiddenAssets}
+        >
+          Restore selected ({selectedTokens.length})
+        </Button>
+        <Button
+          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5 h-[45px] w-full ml-2.5"
+          onClick={handleRestoreAll}
+        >
+          Restore all
+        </Button>{" "}
+      </div>
     </ModalContainer>
   );
 };

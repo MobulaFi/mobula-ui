@@ -16,6 +16,7 @@ import { TableAsset } from "../../../../../../interfaces/assets";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
 import EChart from "../../../../../../lib/echart/line";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getFormattedAmount,
@@ -85,17 +86,30 @@ export const Cryptocurrencies = () => {
     }
   };
 
-  const hideAsset = () => {
+  const hideAsset = (newAsset) => {
+    if (!newAsset) {
+      triggerAlert("Error", "An error occured");
+      return;
+    }
     pushData("Asset Removed");
+    console.log("[...activePortfolio.removed_assets, asset?.id]", newAsset);
     const newPortfolio = {
       ...activePortfolio,
-      removed_assets: [...activePortfolio.removed_assets, asset?.id],
+      removed_assets:
+        activePortfolio.removed_assets?.length > 0
+          ? [
+              ...activePortfolio.removed_assets?.filter((entry) => entry),
+              newAsset?.id,
+            ]
+          : [newAsset?.id],
     };
+
+    console.log("newPortfolio", newPortfolio);
     setActivePortfolio(newPortfolio);
     refreshPortfolio(newPortfolio);
     GET("/portfolio/edit", {
       account: address as string,
-      removed_assets: [...activePortfolio.removed_assets, asset?.id].join(","),
+      removed_assets: [...newPortfolio.removed_assets].join(","),
       removed_transactions: activePortfolio.removed_transactions.join(","),
       wallets: activePortfolio.wallets.join(","),
       id: activePortfolio.id,
@@ -287,7 +301,7 @@ export const Cryptocurrencies = () => {
                                   className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
                                   onMouseEnter={() => setIsHover(0)}
                                   onMouseLeave={() => setIsHover(null)}
-                                  onClick={hideAsset}
+                                  onClick={() => hideAsset(token)}
                                 >
                                   <div
                                     className={`${flexGreyBoxStyle} ${

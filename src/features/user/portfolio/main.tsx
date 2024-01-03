@@ -27,7 +27,11 @@ import { CategorySwitcher } from "./components/ui/category-switcher";
 import { PortfolioV2Context } from "./context-manager";
 import { UserHoldings } from "./models";
 
-export const PortfolioMain = ({ isExplorer }: boolean) => {
+interface PortfolioMainProps {
+  isExplorer: boolean;
+}
+
+export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
   const [showTuto, setShowTuto] = useState(true);
   const {
     manager,

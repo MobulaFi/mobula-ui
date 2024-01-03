@@ -13,7 +13,11 @@ import { PortfolioV2Context } from "../../context-manager";
 import { NetworkButton } from "../network-button";
 import { SharePopup } from "../popup/share";
 
-export const Header = ({ isExplorer }: boolean) => {
+interface HeaderProps {
+  isExplorer: boolean;
+}
+
+export const Header = ({ isExplorer }: HeaderProps) => {
   const {
     setShowManage,
     activePortfolio,
