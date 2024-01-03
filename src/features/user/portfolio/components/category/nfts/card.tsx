@@ -76,7 +76,6 @@ export const NftPortfolioCard = ({
     } else {
       setNftToDelete([...nftToDelete, nft.token_hash]);
     }
-    console.log(nftToDelete, nftsDeleted);
   };
 
   return (
