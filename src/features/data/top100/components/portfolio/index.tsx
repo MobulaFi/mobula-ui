@@ -239,7 +239,6 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   noAxis
                 />
               ) : null}
-
               {wallet === null && !isLoading ? (
                 <div className="my-auto mt-[40px] lg:mt-[35px] flex items-center">
                   <img
