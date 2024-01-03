@@ -17,6 +17,7 @@ export const CategorySwitcher = () => {
     setActiveCategory,
     setNftsDeleted,
     setNftToDelete,
+    nftsDeleted,
     nftToDelete,
     setShowDeleteSelector,
     showDeleteSelector,
@@ -45,6 +46,7 @@ export const CategorySwitcher = () => {
   ];
   useEffect(() => {
     setNftsDeleted(JSON.parse(localStorage.getItem("hiddenNft") as string));
+    setNftToDelete(JSON.parse(localStorage.getItem("hiddenNft") as string));
   }, []);
 
   const getNftHidden = () => {
@@ -59,6 +61,7 @@ export const CategorySwitcher = () => {
     setNftsDeleted(arrToDelete);
     setShowDeleteSelector(false);
   };
+
   return (
     <div
       className={`flex justify-between items-center h-[30px] mb-[15px] mt-5 overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
@@ -155,7 +158,11 @@ export const CategorySwitcher = () => {
               }}
             >
               {nftToDelete?.length > 0
-                ? `Hide (${nftToDelete.length})`
+                ? `${
+                    nftToDelete.length !== nftsDeleted?.length
+                      ? `Confirm`
+                      : `${nftToDelete.length} Hidden NFTs`
+                  }`
                 : "Manage"}
             </Button>
           ) : null}
@@ -165,7 +172,7 @@ export const CategorySwitcher = () => {
               extraCss={`${buttonDeleteNft} ml-2.5`}
               onClick={() => {
                 setShowDeleteSelector(false);
-                setNftToDelete([]);
+                setNftToDelete(nftsDeleted);
               }}
             >
               Cancel

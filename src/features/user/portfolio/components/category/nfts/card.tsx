@@ -16,8 +16,13 @@ export const NftPortfolioCard = ({
   nft,
   showDeleteSelector,
 }: NftPortfolioCardProps) => {
-  const { setNftToDelete, nftToDelete, isNftLoading } =
-    useContext(PortfolioV2Context);
+  const {
+    setNftToDelete,
+    nftToDelete,
+    setNftsDeleted,
+    nftsDeleted,
+    isNftLoading,
+  } = useContext(PortfolioV2Context);
   const [nftImage, setNftImage] = useState<string | undefined>(undefined);
   const [isHover, setIsHover] = useState<string>("");
   const { theme } = useTheme();
@@ -54,6 +59,25 @@ export const NftPortfolioCard = ({
   const image = getNftImage();
 
   const isNftToHide = nftToDelete?.includes(nft?.token_hash);
+  const isNftDeleted = nftsDeleted?.includes(nft.token_hash);
+
+  const handleHiddenNft = () => {
+    if (isNftDeleted) {
+      setNftsDeleted(
+        nftsDeleted.filter((nftHash) => nftHash !== nft.token_hash)
+      );
+      setNftToDelete(
+        nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
+      );
+    } else if (isNftToHide) {
+      setNftToDelete(
+        nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
+      );
+    } else {
+      setNftToDelete([...nftToDelete, nft.token_hash]);
+    }
+    console.log(nftToDelete, nftsDeleted);
+  };
 
   return (
     <div
@@ -125,13 +149,7 @@ export const NftPortfolioCard = ({
         <button
           className="h-full w-full flex items-center justify-center rounded-full border border-light-border-primary
            dark:border-dark-border-primary z-[1] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
-          onClick={() => {
-            if (isNftToHide)
-              setNftToDelete(
-                nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
-              );
-            else setNftToDelete([...nftToDelete, nft.token_hash]);
-          }}
+          onClick={handleHiddenNft}
         >
           <IoEyeOffOutline
             className={`text-light-font-100 dark:text-dark-font-100 transition-all duration-200 ease-in-out mt-0.5 text-4xl ${

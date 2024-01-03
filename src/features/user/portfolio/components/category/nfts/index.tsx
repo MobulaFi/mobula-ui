@@ -87,7 +87,11 @@ export const NFTs = () => {
       {(nfts?.length > 0 && !isNftLoading) || isNftLoading ? (
         <div className="flex flex-wrap">
           {nftsVerified
-            ?.filter((entry) => !nftsDeleted?.includes(entry.token_hash))
+            ?.filter((entry) =>
+              showDeleteSelector
+                ? true
+                : !nftsDeleted?.includes(entry.token_hash)
+            )
             .map((nft, i) => (
               <NftPortfolioCard
                 key={nft?.token_hash + nft?.image}
