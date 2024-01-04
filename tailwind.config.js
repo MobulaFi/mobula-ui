@@ -32,6 +32,9 @@ module.exports = {
         "calc-1/5-10": "calc(20% - 10px)",
         "calc-full-345": "calc(100% - 345px)",
       },
+      height: {
+        screenMain: "calc(100vh - 65px)",
+      },
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
       },
