@@ -3,7 +3,7 @@ import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
 import { Button } from "../../../../../../components/button";
-import { MediumFont } from "../../../../../../components/fonts";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { triggerAlert } from "../../../../../../lib/toastify";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -23,6 +23,9 @@ export const CategorySwitcher = () => {
     activeStep,
     setAsset,
     asset,
+    activePortfolio,
+    hiddenTokens,
+    setShowHiddenTokensPopup,
   } = useContext(PortfolioV2Context);
 
   const categories = [
@@ -60,6 +63,8 @@ export const CategorySwitcher = () => {
     setNftsDeleted(arrToDelete);
     setShowDeleteSelector(false);
   };
+
+  console.log("hiddenTokens", activePortfolio?.hidden_assets);
 
   return (
     <div
@@ -114,7 +119,17 @@ export const CategorySwitcher = () => {
           </div>
         ))}
       </div>
-
+      {activeCategory === "Cryptos" &&
+      activePortfolio?.removed_assets?.length > 0 ? (
+        <Button onClick={() => setShowHiddenTokensPopup(true)}>
+          <div className="flex items-center">
+            <SmallFont extraCss="mr-1.5">
+              Hidde assets ({Object.keys(hiddenTokens)?.length})
+            </SmallFont>
+            <AiOutlineSwap />
+          </div>
+        </Button>
+      ) : null}
       {activeCategory === "Activity" ? (
         <div className="w-fit flex">
           <Button
