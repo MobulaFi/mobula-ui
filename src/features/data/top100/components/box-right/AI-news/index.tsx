@@ -24,7 +24,6 @@ const formatNewsSummary = (news: INewsGeneral) => {
     if (offset > lastIndex) {
       elements.push(news.summary.slice(lastIndex, offset));
     }
-
     const assetData = news.assetsData
       ? news.assetsData[p1]
       : { price_change_24h: 0, name: "" };
