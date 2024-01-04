@@ -28,30 +28,26 @@ const formatNewsSummary = (news: INewsGeneral) => {
     const assetData = news.assetsData
       ? news.assetsData[p1]
       : { price_change_24h: 0, name: "" };
-    console.log(
-      "assetData",
-      assetData,
-
-      news?.assetsData?.[p1],
-      news,
-      news?.assetsData
-    );
     let priceChangeIcon: any | null = null;
-    if (assetData?.price_change_24h > 0) {
-      priceChangeIcon = (
-        <span className="text-[10px] text-green dark:text-green">&#9650;</span>
-      );
-    } else if (assetData?.price_change_24h < 0) {
-      priceChangeIcon = (
-        <span
-          className="text-[10px] text-red 
+    if (assetData?.name !== "ETF The Token") {
+      if (assetData?.price_change_24h > 0) {
+        priceChangeIcon = (
+          <span className="text-[10px] text-green dark:text-green">
+            &#9650;
+          </span>
+        );
+      } else if (assetData?.price_change_24h < 0) {
+        priceChangeIcon = (
+          <span
+            className="text-[10px] text-red 
         dark:text-red"
-        >
-          &#9660;
-        </span>
-      );
+          >
+            &#9660;
+          </span>
+        );
+      }
     }
-    if (assetData?.name)
+    if (assetData?.name && assetData?.name !== "ETF The Token")
       elements.push(
         <NextChakraLink
           key={offset}
@@ -61,6 +57,8 @@ const formatNewsSummary = (news: INewsGeneral) => {
           {p1} {priceChangeIcon}
         </NextChakraLink>
       );
+    else if (assetData?.name === "ETF The Token")
+      elements.push(<span>ETF</span>);
 
     lastIndex = offset + fullMatch.length;
   });
