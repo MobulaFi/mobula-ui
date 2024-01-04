@@ -54,12 +54,6 @@ export const ManageEdit = () => {
       setActivePortfolio(freshPortfolio);
       refreshPortfolio(freshPortfolio);
 
-      console.log(
-        "updatedRemovedAssets",
-        updatedRemovedAssets.join(","),
-        [updatedRemovedAssets].join(",")
-      );
-
       try {
         await GET("/portfolio/edit", {
           account: address as string,

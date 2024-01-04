@@ -21,7 +21,7 @@ export function Tabs() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>{navigation?.[0]?.name}</NavigationMenuTrigger>
-          <NavigationMenuContent className="z-[20] w-[415px] p-0">
+          <NavigationMenuContent className="z-[40] w-[415px] p-0">
             <ul className="grid gap-0 p-2.5 w-[415px]">
               {navigation?.[0]?.extends?.map((entry, i) => (
                 <ListItem

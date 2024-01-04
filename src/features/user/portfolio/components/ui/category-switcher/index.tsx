@@ -64,8 +64,6 @@ export const CategorySwitcher = () => {
     setShowDeleteSelector(false);
   };
 
-  console.log("hiddenTokens", activePortfolio?.hidden_assets);
-
   return (
     <div
       className={`flex justify-between items-center h-[30px] mb-[15px] mt-5 overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
