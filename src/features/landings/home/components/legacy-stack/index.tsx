@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
 import { getTokenPercentage } from "../../../../../utils/formaters";
 import { legacyStacks } from "../../constant";
 import { containerStyle } from "../../style";
@@ -8,11 +9,17 @@ export const LegacyStack = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeLegacyStack, setActiveLegacyStack] = useState(legacyStacks[2]);
   const [legacyStackHover, setLegacyStackHover] = useState(0);
+  const [legacyStackOpen, setLegacyStackOpen] = useState(0);
 
   useEffect(() => {
     const container = containerRef.current;
     blurEffectAnimation(container);
   }, []);
+
+  const handleStackClick = (id: number) => {
+    if (legacyStackOpen === id) setLegacyStackOpen(0);
+    else setLegacyStackOpen(id);
+  };
 
   return (
     <section
@@ -29,7 +36,7 @@ export const LegacyStack = () => {
               style={{
                 WebkitTextFillColor: "transparent",
               }}
-              className="text-[72px] font-bold font-poppins w-fit mx-auto text-transparent 
+              className="text-[72px] md:text-[56px] md:leading-[56px] font-bold font-poppins w-fit mx-auto text-transparent 
                 text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
                 to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
                  dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
@@ -37,94 +44,172 @@ export const LegacyStack = () => {
               Migrate your legacy stacks
             </h2>
           </div>
-          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center">
+          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl md:text-base text-center md:text-start">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>
-          <div className="w-full mx-auto">
-            <div className="flex items-center mt-[50px] w-full justify-around">
-              {legacyStacks.map((stack) => (
-                <button
-                  key={stack.id}
-                  className={`${
-                    legacyStackHover === stack.id ||
-                    activeLegacyStack.id === stack.id
-                      ? "opacity-100"
-                      : "opacity-40"
-                  } flex flex-col items-center justify-start h-[130px] w-[20%] transition-all duration-300 ease-in-out`}
-                  onMouseEnter={() => setLegacyStackHover(stack.id)}
-                  onMouseLeave={() => setLegacyStackHover(0)}
-                  onClick={() => setActiveLegacyStack(stack)}
-                >
-                  <img
-                    className="w-[40px] h-[40px] rounded-full"
-                    src={stack.image}
-                    alt={`${stack.title} logo`}
-                  />
+          <div className="flex flex-col w-full md:hidden">
+            <div className="w-full mx-auto">
+              <div className="flex items-center mt-[50px] w-full justify-around">
+                {legacyStacks.map((stack) => (
+                  <button
+                    key={stack.id}
+                    className={`${
+                      legacyStackHover === stack.id ||
+                      activeLegacyStack.id === stack.id
+                        ? "opacity-100"
+                        : "opacity-40"
+                    } flex flex-col items-center justify-start h-[130px] w-[20%] transition-all duration-300 ease-in-out`}
+                    onMouseEnter={() => setLegacyStackHover(stack.id)}
+                    onMouseLeave={() => setLegacyStackHover(0)}
+                    onClick={() => setActiveLegacyStack(stack)}
+                  >
+                    <img
+                      className="w-[40px] h-[40px] md:w-[30px] md:h-[30px] rounded-full"
+                      src={stack.image}
+                      alt={`${stack.title} logo`}
+                    />
 
-                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-3 text-xl text-center">
-                    {stack.description}
-                  </p>
-                  <p className="text-light-font-100 dark:text-dark-font-100 font-poppins tracking-tight mt-3 text-2xl text-center font-medium ">
-                    {stack.title}
-                  </p>
-                </button>
-              ))}
+                    <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-3 text-xl text-center md:text-xs">
+                      {stack.description}
+                    </p>
+                    <p className="text-light-font-100 dark:text-dark-font-100 font-poppins tracking-tight mt-3 text-2xl text-center font-medium md:text-xs">
+                      {stack.title}
+                    </p>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px] relative">
+            <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px] relative">
+              <div
+                className="h-full w-[20%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
+                style={{
+                  left:
+                    ((legacyStackHover !== 0
+                      ? legacyStackHover
+                      : activeLegacyStack.id) -
+                      1) *
+                      20 +
+                    "%",
+                }}
+              />{" "}
+            </div>
+            <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl mt-[50px]">
+              {activeLegacyStack.content.description}
+            </p>
             <div
-              className="h-full w-[20%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
-              style={{
-                left:
-                  ((legacyStackHover !== 0
-                    ? legacyStackHover
-                    : activeLegacyStack.id) -
-                    1) *
-                    20 +
-                  "%",
-              }}
-            />{" "}
-          </div>
-          <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl mt-[50px]">
-            {activeLegacyStack.content.description}
-          </p>
-          <div
-            className="flex flex-col shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-7 
+              className="flex flex-col shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-7 
                    border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full 
                    overflow-hidden h-fit"
-            ref={containerRef}
-          >
-            <div className="p-8 flex items-center h-fit">
-              <img
-                src={activeLegacyStack.image}
-                alt="stack logo"
-                className="w-[40px] h-[40px] rounded-full"
-              />
-              <p className="text-light-font-100 dark:text-dark-font-100 font-poppins tracking-tight ml-3 text-2xl text-center font-medium ">
-                {activeLegacyStack.title}
-              </p>
-            </div>
-            <div
-              className="p-8 h-fit flex items-center w-full bg-[rgba(23, 27, 43, 0.62)] shadow-top-bottom
-               border border-light-border-primary dark:border-dark-border-primary"
+              ref={containerRef}
             >
-              {activeLegacyStack.content.values.map((content) => (
-                <div key={content.name} className="w-[25%] flex flex-col">
-                  <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
-                    {content.name}
+              <div className="p-8 flex items-center h-fit">
+                <img
+                  src={activeLegacyStack.image}
+                  alt="stack logo"
+                  className="w-[40px] h-[40px] rounded-full"
+                />
+                <p className="text-light-font-100 dark:text-dark-font-100 font-poppins tracking-tight ml-3 text-2xl text-center font-medium ">
+                  {activeLegacyStack.title}
+                </p>
+              </div>
+              <div
+                className="p-8 h-fit flex items-center w-full bg-[rgba(23, 27, 43, 0.62)] shadow-top-bottom
+               border border-light-border-primary dark:border-dark-border-primary"
+              >
+                {activeLegacyStack.content.values.map((content) => (
+                  <div key={content.name} className="w-[25%] flex flex-col">
+                    <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
+                      {content.name}
+                    </p>
+                    <p className="text-light-font-100 tracking-tight dark:text-dark-font-100 font-poppins mt-3 text-4xl">
+                      {getTokenPercentage(content.value)}%
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className=" p-8 flex items-center">
+                <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
+                  Discover how bitcoin.com ave 12,000$ yearly bills by switch to
+                  Mobula
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="hidden flex-col w-full md:flex mt-5">
+            {legacyStacks.map((stack, i) => (
+              <div
+                key={stack.id}
+                className={`${
+                  legacyStackOpen === stack.id ? "h-full" : "h-[70px]"
+                } flex flex-col transition-all duration-300 ease-in-out bg-[rgba(23, 27, 43, 0.22)]
+                 rounded backdrop-blur-md overflow-hidden ${
+                   i !== legacyStacks.length - 1
+                     ? "border-b border-light-border-primary dark:border-dark-border-primary"
+                     : ""
+                 }`}
+              >
+                <div
+                  className="flex items-center justify-between h-[70px] min-h-[70px]"
+                  onClick={() => handleStackClick(stack.id)}
+                >
+                  <div className="flex items-center">
+                    <img
+                      className="h-[35px] w-[35px] mr-2.5"
+                      src={stack.image}
+                      alt={`${stack.title} logo`}
+                    />
+                    <h3 className="text-lg text-light-font-100 dark:text-dark-font-100">
+                      {stack.title}
+                    </h3>
+                  </div>
+                  <button className="flex items-center">
+                    <BsChevronDown />
+                  </button>
+                </div>
+                <div className="h-[30px] flex items-center px-2 shadow-2xl bg-[rgba(23, 27, 43, 0.62)] rounded backdrop-blur-md">
+                  <p
+                    className={`${
+                      stack?.content?.percentage > 0
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-xs mr-2`}
+                  >
+                    {stack?.content?.percentage}%
                   </p>
-                  <p className="text-light-font-100 tracking-tight dark:text-dark-font-100 font-poppins mt-3 text-4xl">
-                    {getTokenPercentage(content.value)}%
+                  <p className="text-xs text-light-font-100 dark:text-dark-font-100">
+                    Powerful than Mobula
                   </p>
                 </div>
-              ))}
-            </div>
-            <div className=" p-8 flex items-center">
-              <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
-                Discover how bitcoin.com ave 12,000$ yearly bills by switch to
-                Mobula
-              </p>
-            </div>
+                <div
+                  className="px-6 py-2 h-fit flex flex-col w-full bg-[rgba(23, 27, 43, 0.62)] shadow-top-bottom
+               border border-light-border-primary dark:border-dark-border-primary rounded-xl mt-4"
+                >
+                  {activeLegacyStack.content.values.map((content, i) => (
+                    <div
+                      key={content.name}
+                      className={`w-full flex flex-col py-3 ${
+                        i !== activeLegacyStack.content.values?.length - 1
+                          ? "border-b border-light-border-primary dark:border-dark-border-primary"
+                          : ""
+                      }`}
+                    >
+                      <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-base">
+                        {content.name}
+                      </p>
+                      <p className="text-light-font-100 tracking-tight dark:text-dark-font-100 font-poppins mt-1 text-2xl">
+                        {getTokenPercentage(content.value)}%
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className=" p-4 flex items-center">
+                  <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-sm">
+                    Discover how bitcoin.com ave 12,000$ yearly bills by switch
+                    to Mobula
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
