@@ -1,7 +1,7 @@
 import { Button } from "components/button";
 import { NextImageFallback } from "components/image";
 import { ModalContainer } from "components/modal-container";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../../../../../components/fonts";
@@ -47,11 +47,9 @@ export const ManageEdit = () => {
         updatedRemovedAssets = [];
       }
 
-      activePortfolio.removed_assets = updatedRemovedAssets;
-
       const freshPortfolio = {
         ...activePortfolio,
-        removed_assets: [...activePortfolio.removed_assets],
+        removed_assets: [...updatedRemovedAssets],
       };
       setActivePortfolio(freshPortfolio);
       refreshPortfolio(freshPortfolio);
@@ -59,7 +57,7 @@ export const ManageEdit = () => {
       try {
         await GET("/portfolio/edit", {
           account: address as string,
-          removed_assets: [activePortfolio.removed_assets].join(","),
+          removed_assets: updatedRemovedAssets.join(","),
           removed_transactions: activePortfolio.removed_transactions.join(","),
           wallets: activePortfolio.wallets.join(","),
           id: activePortfolio.id,
@@ -94,7 +92,7 @@ export const ManageEdit = () => {
     try {
       await GET("/portfolio/edit", {
         account: address as string,
-        removed_assets: [] as any,
+        removed_assets: "",
         removed_transactions: activePortfolio.removed_transactions.join(","),
         wallets: activePortfolio.wallets.join(","),
         id: activePortfolio.id,

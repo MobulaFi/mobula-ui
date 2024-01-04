@@ -1,7 +1,7 @@
 import { Spinner } from "components/spinner";
 import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -104,7 +104,6 @@ export const Cryptocurrencies = () => {
           : [newAsset?.id],
     };
 
-    console.log("newPortfolio", newPortfolio);
     setActivePortfolio(newPortfolio);
     refreshPortfolio(newPortfolio);
     GET("/portfolio/edit", {

@@ -9,6 +9,7 @@ import {
   getDate,
   getFormattedAmount,
   getShortenedAmount,
+  getTokenPercentage,
 } from "../../../utils/formaters";
 import { getTimeStampFromTimeFrame } from "./utils";
 
@@ -247,10 +248,7 @@ export const useDefault = ({
               unitPosition === "before" && !isPercentage ? unit : ""
             }${
               isPercentage
-                ? (getFormattedAmount(param.value[1], 0, {
-                    minifyZeros: false,
-                    minifyBigNumbers: true,
-                  }) as number) * 100
+                ? getTokenPercentage(param.value[1] * 100)
                 : (getFormattedAmount(param.value[1], 0, {
                     minifyZeros: false,
                     minifyBigNumbers: true,

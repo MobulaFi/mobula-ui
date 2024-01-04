@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
 import { Button } from "../../../../../../components/button";
-import { MediumFont } from "../../../../../../components/fonts";
-import { NextChakraLink } from "../../../../../../components/link";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { triggerAlert } from "../../../../../../lib/toastify";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -24,6 +23,9 @@ export const CategorySwitcher = () => {
     activeStep,
     setAsset,
     asset,
+    activePortfolio,
+    hiddenTokens,
+    setShowHiddenTokensPopup,
   } = useContext(PortfolioV2Context);
 
   const categories = [
@@ -115,20 +117,17 @@ export const CategorySwitcher = () => {
           </div>
         ))}
       </div>
-      <div className="ml-auto flex text-[13px] mr-2.5 ">
-        Need data?
-        <NextChakraLink
-          href="https://developer.mobula.fi/reference/wallet-explorer-api?utm_source=website&utm_medium=portfolio&utm_campaign=portfolio"
-          target="_blank"
-          rel="noreferrer"
-          extraCss="text-blue dark:text-blue ml-[5px] text-[13px] md:text-[13px] mb-[1px] font-medium"
-          onClick={() => {
-            pushData("API Clicked");
-          }}
-        >
-          Check our API
-        </NextChakraLink>
-      </div>
+      {activeCategory === "Cryptos" &&
+      activePortfolio?.removed_assets?.length > 0 ? (
+        <Button onClick={() => setShowHiddenTokensPopup(true)}>
+          <div className="flex items-center">
+            <SmallFont extraCss="mr-1.5">
+              Hidde assets ({Object.keys(hiddenTokens)?.length})
+            </SmallFont>
+            <AiOutlineSwap />
+          </div>
+        </Button>
+      ) : null}
       {activeCategory === "Activity" ? (
         <div className="w-fit flex">
           <Button

@@ -55,7 +55,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
               "authorization": "${process.env.NEXT_PUBLIC_PRICE_KEY}",
               "payload": {
                 "assets": ${JSON.stringify(newAssets)},
-                "interval": 15
+                "interval": 5
               }
             }`
       );

@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { createSupabaseDOClient } from "lib/supabase";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -25,7 +26,7 @@ import { WalletsPopup } from "./components/popup/wallets";
 import { ButtonTimeSlider } from "./components/ui/button-time-slider";
 import { CategorySwitcher } from "./components/ui/category-switcher";
 import { PortfolioV2Context } from "./context-manager";
-import { UserHoldings } from "./models";
+import { PortfolioDeleteTokens, UserHoldings } from "./models";
 
 interface PortfolioMainProps {
   isExplorer: boolean;
@@ -54,12 +55,15 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
     showManage,
     isMobile,
     showHiddenTokensPopup,
+    setHiddenTokens,
+    activePortfolio,
   } = useContext(PortfolioV2Context);
   const [previousTab, setPreviousTab] = useState<string>("");
   const firstRender = useRef(true);
   const isMoreThan991 =
     (typeof window !== "undefined" ? window.innerWidth : 0) > 991;
   const tabs = ["General", "Widgets", "NFTs", "Activity"];
+  const supabase = createSupabaseDOClient();
 
   useEffect(() => {
     if (!localStorage.getItem("showTutoPortfolio")) setShowTuto(true);
@@ -138,6 +142,35 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
     }
     return "none";
   };
+
+  const getAssetDetails = async () => {
+    const { data, error } = await supabase
+      .from("assets")
+      .select("symbol, logo, id")
+      .in("id", activePortfolio.removed_assets);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const newHiddenTokensObj: Record<number, PortfolioDeleteTokens> = {};
+
+    data.forEach((asset) => {
+      newHiddenTokensObj[asset.id] = {
+        symbol: asset.symbol,
+        logo: asset.logo,
+      };
+    });
+
+    setHiddenTokens(newHiddenTokensObj);
+  };
+
+  useEffect(() => {
+    if (activePortfolio) {
+      getAssetDetails();
+    }
+  }, [activePortfolio.id, activePortfolio?.removed_assets?.length]);
 
   useEffect(() => {
     if (!isMobile && !isMoreThan991) setActiveCategory("General");
