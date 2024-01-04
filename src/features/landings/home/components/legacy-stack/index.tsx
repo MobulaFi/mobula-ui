@@ -23,7 +23,7 @@ export const LegacyStack = () => {
 
   return (
     <section
-      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
+      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px] md:py-[50px]"
       style={{
         backgroundImage: `radial-gradient(at right top, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
       }}
@@ -140,7 +140,7 @@ export const LegacyStack = () => {
               <div
                 key={stack.id}
                 className={`${
-                  legacyStackOpen === stack.id ? "h-full" : "h-[70px]"
+                  legacyStackOpen === stack.id ? "h-[461px]" : "h-[70px]"
                 } flex flex-col transition-all duration-300 ease-in-out bg-[rgba(23, 27, 43, 0.22)]
                  rounded backdrop-blur-md overflow-hidden ${
                    i !== legacyStacks.length - 1
@@ -149,7 +149,7 @@ export const LegacyStack = () => {
                  }`}
               >
                 <div
-                  className="flex items-center justify-between h-[70px] min-h-[70px]"
+                  className="flex items-center justify-between py-[1rem] cursor-pointer"
                   onClick={() => handleStackClick(stack.id)}
                 >
                   <div className="flex items-center">
@@ -166,24 +166,25 @@ export const LegacyStack = () => {
                     <BsChevronDown />
                   </button>
                 </div>
-                <div className="h-[30px] flex items-center px-2 shadow-2xl bg-[rgba(23, 27, 43, 0.62)] rounded backdrop-blur-md">
-                  <p
-                    className={`${
-                      stack?.content?.percentage > 0
-                        ? "text-green dark:text-green"
-                        : "text-red dark:text-red"
-                    } text-xs mr-2`}
-                  >
-                    {stack?.content?.percentage}%
-                  </p>
-                  <p className="text-xs text-light-font-100 dark:text-dark-font-100">
-                    Powerful than Mobula
-                  </p>
-                </div>
+
                 <div
                   className="px-6 py-2 h-fit flex flex-col w-full bg-[rgba(23, 27, 43, 0.62)] shadow-top-bottom
-               border border-light-border-primary dark:border-dark-border-primary rounded-xl mt-4"
+               border border-light-border-primary dark:border-dark-border-primary rounded-xl mt-1"
                 >
+                  <div className="h-[30px] flex items-center px-2 shadow-2xl bg-[rgba(255,255,255,0.03)] rounded backdrop-blur-md mt-2.5 w-fit">
+                    <p
+                      className={`${
+                        stack?.content?.percentage > 0
+                          ? "text-green dark:text-green"
+                          : "text-red dark:text-red"
+                      } text-xs mr-2`}
+                    >
+                      {stack?.content?.percentage}%
+                    </p>
+                    <p className="text-xs text-light-font-100 dark:text-dark-font-100">
+                      Powerful than Mobula
+                    </p>
+                  </div>
                   {activeLegacyStack.content.values.map((content, i) => (
                     <div
                       key={content.name}

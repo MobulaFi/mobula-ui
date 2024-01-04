@@ -26,7 +26,7 @@ export const CuratedBox = ({ content }) => {
   return (
     <div
       className="p-5 rounded-2xl shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
-         border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full"
+         border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-full md:mt-2.5"
       ref={containerRef}
     >
       <div className="flex items-center">
@@ -40,7 +40,7 @@ export const CuratedBox = ({ content }) => {
           {content.title}
         </p>
       </div>
-      <p className="text-light-font-60 dark:text-dark-font-60 font-poppins text-base mt-4">
+      <p className="text-light-font-60 dark:text-dark-font-60 font-poppins text-base mt-4  md:text-sm md:mt-3">
         {content.description}
       </p>
     </div>

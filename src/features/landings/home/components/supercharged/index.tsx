@@ -54,7 +54,7 @@ export const IndexingSupercharged = () => {
               <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium">
                 Livestreamed to your DB
               </h2>
-              <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 text-lg mb-9 md:text-base md:mt-3 md:mb-4 max-w-[500px]">
+              <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 text-lg mb-9 md:text-sm md:mt-3 md:mb-4 max-w-[500px]">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore,
                 facilis consequuntur quasi corrupti sequi, minima sit aspernatur
                 ea ullam aut corporis dolores ut vel ratione porro voluptate
@@ -176,7 +176,7 @@ export const IndexingSupercharged = () => {
                   <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium ">
                     Multi-chain Indexing
                   </h2>
-                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:mb-5 md:text-base max-w-[500px]">
+                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:mb-5 md:text-sm max-w-[500px]">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore, facilis consequuntur quasi corrupti sequi, minima
                     sit aspernatur ea ullam aut corporis dolores ut vel ratione
@@ -196,7 +196,7 @@ export const IndexingSupercharged = () => {
                   <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium mt-4 md:mt-0">
                     Multi-chain Indexing
                   </h2>
-                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:text-base max-w-[500px]">
+                  <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:text-sm max-w-[500px]">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Dolore, facilis consequuntur quasi corrupti sequi, minima
                     sit aspernatur ea ullam aut corporis dolores ut vel ratione
