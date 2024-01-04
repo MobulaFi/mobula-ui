@@ -36,7 +36,7 @@ export const IndexingSupercharged = () => {
               className="text-[72px] md:text-[56px] md:leading-[56px] font-bold font-poppins w-fit mx-auto text-transparent 
                 text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
                 to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
+                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text md:text-start"
             >
               Indexing Supercharged
             </h1>

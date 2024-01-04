@@ -141,7 +141,7 @@ export const CuratedDataset = () => {
                 </p>
               </div>
             </div>
-            <div className="flex flex-col max-w-[450px] md:max-w-auto justify-between">
+            <div className="flex flex-col max-w-[450px] md:max-w-full justify-between">
               {activeDataset.contents.map((content, i) => (
                 <CuratedBox key={i} content={content} />
               ))}

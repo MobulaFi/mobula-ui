@@ -3,12 +3,11 @@ import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import React, { useEffect, useRef, useState } from "react";
-
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
 import { LegacyStack } from "./components/legacy-stack";
-import { Playground } from "./components/playground";
 import { IndexingSupercharged } from "./components/supercharged";
+import { TryItOut } from "./components/try-it-out";
 import { containerStyle } from "./style";
 import { blurEffectAnimation } from "./utils";
 
@@ -49,10 +48,6 @@ export const HomeLanding = () => {
 
   // Smooth scroll animation
   const lenis = new Lenis();
-
-  lenis.on("scroll", (e) => {
-    console.log(e);
-  });
 
   function raf(time) {
     lenis.raf(time);
@@ -97,9 +92,8 @@ export const HomeLanding = () => {
       {/* // url('https://c4.wallpaperflare.com/wallpaper/849/714/485/water-bubbles-wallpaper-preview.jpg
           https://cdn.dribbble.com/users/2119718/screenshots/9806865/media/1640987ab7ebad6c43be7cdf33e1a365.png?resize=1600x1200&vertical=center */}
       <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center"
+        className="w-screen flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center h-screen md:h-full md:pb-[50px] md:py-[100px]"
         style={{
-          height: "calc(100vh - 65px)",
           backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
         }}
       >
@@ -167,7 +161,7 @@ export const HomeLanding = () => {
       <CuratedDataset />
       <IndexingSupercharged />
       <LegacyStack />
-      <Playground />
+      <TryItOut />
       <GetInTouch />
     </div>
   );

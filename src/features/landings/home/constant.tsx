@@ -233,3 +233,24 @@ export const legacyStacks = [
     id: 5,
   },
 ];
+
+export const tryItOutContent = [
+  {
+    image: "/preview/apis.png",
+    title: "Wallet Data",
+    description:
+      "A good design is not only aesthetically pleasing, but also functional. It should be able to",
+  },
+  {
+    image: "/preview/earn.png",
+    title: "Octopus",
+    description:
+      "A good design is not only aesthetically pleasing, but also functional. It should be able to",
+  },
+  {
+    image: "/preview/new.png",
+    title: "Meta Core",
+    description:
+      "A good design is not only aesthetically pleasing, but also functional. It should be able to",
+  },
+];
