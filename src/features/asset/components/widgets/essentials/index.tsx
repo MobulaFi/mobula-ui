@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { MarketMetrics } from "../../../../../interfaces/trades";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
@@ -15,6 +15,8 @@ import { Socials } from "./socials";
 import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
+
+const LazySimilarAsset = React.lazy(() => import("./similar-asset"));
 
 interface MarketMetricsProps {
   marketMetrics: MarketMetrics;
@@ -105,7 +107,9 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
           />
         </div>
       </div>
-      <SimilarAsset />
+      <Suspense fallback={<p>Loading feed...</p>}>
+        <SimilarAsset />
+      </Suspense>
     </>
   );
 };
