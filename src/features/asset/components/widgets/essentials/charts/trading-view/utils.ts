@@ -44,14 +44,21 @@ export const Datafeed = (baseAsset: Asset) => ({
     periodParams,
     onResult: Function
   ) => {
-    const response = await GET("/api/1/market/history/pair", {
-      asset: baseAsset.contracts[0],
-      blockchain: baseAsset.blockchains[0],
-      from: periodParams.from * 1000,
-      to: periodParams.to * 1000,
-      amount: periodParams.countBack,
-      usd: false,
-    });
+    const response = await GET(
+      "/api/1/market/history/pair",
+      {
+        asset: baseAsset.contracts[0],
+        blockchain: baseAsset.blockchains[0],
+        from: periodParams.from * 1000,
+        to: periodParams.to * 1000,
+        amount: periodParams.countBack,
+        usd: false,
+      },
+      false,
+      {
+        headers: { Authorization: "eb66b1f3-c24b-4f43-9892-dbc5f37d5a6d" },
+      }
+    );
     const data = await response.json();
     onResult(data.data);
   },

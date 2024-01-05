@@ -1,6 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
@@ -96,7 +96,7 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
           extraCss="mr-2.5 text-start ml-[9px]"
           onClick={() => {
             window.open(
-              `${blockchainsContent[blockchain]?.explorer}/address/${contract}`,
+              `${blockchainsContent[blockchain]??.explorer}/address/${contract}`,
               "_blank"
             );
             window.focus();

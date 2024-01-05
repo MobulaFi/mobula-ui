@@ -13,8 +13,8 @@ import { Tooltip } from "../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../contexts/user";
 import { GET } from "../../../../../../utils/fetch";
 import {
-  addressSlicer,
-  getFormattedAmount,
+    addressSlicer,
+    getFormattedAmount,
 } from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
 import { useWebSocketResp } from "../../../hooks";
@@ -23,9 +23,9 @@ import { getDate, getHours } from "../../../utils";
 import { Privacy } from "../../ui/privacy";
 import { TbodySkeleton } from "../../ui/tbody-skeleton";
 import {
-  PublicTransaction,
-  TransactionAsset,
-  TransactionResponse,
+    PublicTransaction,
+    TransactionAsset,
+    TransactionResponse,
 } from "./model";
 import { TransactionAmount } from "./transaction-amount";
 import { famousContractsLabel, wordingFromMethodId } from "./utils";
@@ -690,7 +690,7 @@ export const Activity = ({
                                         `${
                                           blockchainsIdContent[
                                             transaction.chain_id
-                                          ]?.explorer
+                                          ]??.explorer
                                         }/tx/${transaction.hash}`
                                       )
                                     }
@@ -782,7 +782,7 @@ export const Activity = ({
                                       `${
                                         blockchainsIdContent[
                                           transaction.chain_id
-                                        ]?.explorer
+                                        ]??.explorer
                                       }/tx/${transaction.hash}`
                                     )
                                   }
@@ -824,7 +824,7 @@ export const Activity = ({
                                   window.open(
                                     `${
                                       blockchainsIdContent[transaction.chain_id]
-                                        ?.explorer
+                                        ??.explorer
                                     }/tx/${transaction.hash}`
                                   )
                                 }
