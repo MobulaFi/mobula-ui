@@ -102,8 +102,15 @@ export const Portfolio = ({
               setIsLoading(false);
             } else {
               failed = false;
-              setWallet({
+              const filteredWallet = portfolio.portfolio.filter(
+                (entry) => entry.price !== 0 && entry.name !== "Mobula"
+              );
+              const filteredPortfolio = {
                 ...portfolio,
+                portfolio: filteredWallet,
+              };
+              setWallet({
+                ...filteredPortfolio,
                 id: id || activePortfolio?.id,
                 uniqueIdentifier: id || activePortfolio?.id,
               });
@@ -164,8 +171,15 @@ export const Portfolio = ({
               setIsLoading(false);
             } else {
               failed = false;
-              setWallet({
+              const filteredWallet = portfolio.portfolio.filter(
+                (entry) => entry.price !== 0 && entry.name !== "Mobula"
+              );
+              const filteredPortfolio = {
                 ...portfolio,
+                portfolio: filteredWallet,
+              };
+              setWallet({
+                ...filteredPortfolio,
                 uniqueIdentifier: address,
                 // id: id || activePortfolio?.id,
               });
