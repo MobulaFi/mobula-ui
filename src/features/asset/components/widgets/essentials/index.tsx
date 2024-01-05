@@ -16,7 +16,7 @@ import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
-const LazySimilarAsset = React.lazy(() => import("./similar-asset"));
+const LazySimilarAsset = React.lazy(() => import("./similar-asset") as any);
 
 interface MarketMetricsProps {
   marketMetrics: MarketMetrics;
@@ -107,9 +107,11 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
           />
         </div>
       </div>
-      <Suspense fallback={<p>Loading feed...</p>}>
-        <SimilarAsset />
-      </Suspense>
+      <div className="bg-light-bg-primary dark:bg-dark-bg-primary">
+        <Suspense fallback={<p>Loading feed...</p>}>
+          <SimilarAsset />
+        </Suspense>{" "}
+      </div>
     </>
   );
 };
