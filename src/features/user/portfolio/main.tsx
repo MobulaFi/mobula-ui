@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { createSupabaseDOClient } from "lib/supabase";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -25,9 +26,13 @@ import { WalletsPopup } from "./components/popup/wallets";
 import { ButtonTimeSlider } from "./components/ui/button-time-slider";
 import { CategorySwitcher } from "./components/ui/category-switcher";
 import { PortfolioV2Context } from "./context-manager";
-import { UserHoldings } from "./models";
+import { PortfolioDeleteTokens, UserHoldings } from "./models";
 
-export const PortfolioMain = () => {
+interface PortfolioMainProps {
+  isExplorer: boolean;
+}
+
+export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
   const [showTuto, setShowTuto] = useState(true);
   const {
     manager,
@@ -50,12 +55,15 @@ export const PortfolioMain = () => {
     showManage,
     isMobile,
     showHiddenTokensPopup,
+    setHiddenTokens,
+    activePortfolio,
   } = useContext(PortfolioV2Context);
   const [previousTab, setPreviousTab] = useState<string>("");
   const firstRender = useRef(true);
   const isMoreThan991 =
     (typeof window !== "undefined" ? window.innerWidth : 0) > 991;
   const tabs = ["General", "Widgets", "NFTs", "Activity"];
+  const supabase = createSupabaseDOClient();
 
   useEffect(() => {
     if (!localStorage.getItem("showTutoPortfolio")) setShowTuto(true);
@@ -135,6 +143,35 @@ export const PortfolioMain = () => {
     return "none";
   };
 
+  const getAssetDetails = async () => {
+    const { data, error } = await supabase
+      .from("assets")
+      .select("symbol, logo, id")
+      .in("id", activePortfolio.removed_assets);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const newHiddenTokensObj: Record<number, PortfolioDeleteTokens> = {};
+
+    data.forEach((asset) => {
+      newHiddenTokensObj[asset.id] = {
+        symbol: asset.symbol,
+        logo: asset.logo,
+      };
+    });
+
+    setHiddenTokens(newHiddenTokensObj);
+  };
+
+  useEffect(() => {
+    if (activePortfolio) {
+      getAssetDetails();
+    }
+  }, [activePortfolio.id, activePortfolio?.removed_assets?.length]);
+
   useEffect(() => {
     if (!isMobile && !isMoreThan991) setActiveCategory("General");
   }, []);
@@ -145,10 +182,7 @@ export const PortfolioMain = () => {
       {...handlers}
     >
       {activeStep.nbr ? (
-        <div
-          className="flex fixed w-screen h-screen top-0 bg-red z-[3]"
-          // bg="rgba(0,0,0,0.3)"
-        />
+        <div className="flex fixed w-screen h-screen top-0 bg-red z-[3]" />
       ) : null}
       {isMobile || !isMoreThan991 ? (
         <TopNav
@@ -160,7 +194,7 @@ export const PortfolioMain = () => {
         />
       ) : null}
       <Container extraCss="mt-[15px]">
-        <Header />
+        <Header isExplorer={isExplorer} />
         <div className="flex mt-2.5 w-full flex-row lg:flex-col">
           <div className="flex flex-col max-w-[320px] lg:max-w-full w-full">
             {(manager.total_profit && activeCategory === "General") ||

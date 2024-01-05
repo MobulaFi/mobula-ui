@@ -47,11 +47,9 @@ export const ManageEdit = () => {
         updatedRemovedAssets = [];
       }
 
-      activePortfolio.removed_assets = updatedRemovedAssets;
-
       const freshPortfolio = {
         ...activePortfolio,
-        removed_assets: [...activePortfolio.removed_assets],
+        removed_assets: [...updatedRemovedAssets],
       };
       setActivePortfolio(freshPortfolio);
       refreshPortfolio(freshPortfolio);
@@ -59,7 +57,7 @@ export const ManageEdit = () => {
       try {
         await GET("/portfolio/edit", {
           account: address as string,
-          removed_assets: [activePortfolio.removed_assets].join(","),
+          removed_assets: updatedRemovedAssets.join(","),
           removed_transactions: activePortfolio.removed_transactions.join(","),
           wallets: activePortfolio.wallets.join(","),
           id: activePortfolio.id,
@@ -73,6 +71,7 @@ export const ManageEdit = () => {
 
       setIsLoading(false);
       setShowHiddenTokensPopup(false);
+      setShowManage(false);
     }
   };
 
@@ -82,6 +81,31 @@ export const ManageEdit = () => {
       .map(Number);
     setSelectedTokens(newSelectedTokens);
   }, [isCheck]);
+
+  const handleRestoreAll = async () => {
+    const freshPortfolio = {
+      ...activePortfolio,
+      removed_assets: [],
+    };
+    setActivePortfolio(freshPortfolio);
+    refreshPortfolio(freshPortfolio);
+    try {
+      await GET("/portfolio/edit", {
+        account: address as string,
+        removed_assets: "",
+        removed_transactions: activePortfolio.removed_transactions.join(","),
+        wallets: activePortfolio.wallets.join(","),
+        id: activePortfolio.id,
+        name: activePortfolio.name,
+        reprocess: true,
+        public: activePortfolio.public,
+      });
+    } catch (error) {
+      // console.log(error);
+    }
+    setShowHiddenTokensPopup(false);
+    setShowManage(false);
+  };
 
   return (
     <ModalContainer
@@ -93,10 +117,12 @@ export const ManageEdit = () => {
       <div className="flex flex-wrap">
         {Object.entries(hiddenTokens).map(([tokenId, tokenData], index) => (
           <div
-            className={`flex items-center justify-center mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
-          border border-light-border-primary dark:border-dark-border-primary rounded w-calc-half-10
+            className={`flex items-center justify-between mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
+          border border-light-border-primary dark:border-dark-border-primary rounded w-full
            cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200
-            ease-in-out ${index % 2 === 0 ? "mr-2.5" : "ml-2.5"}`}
+            ease-in-out ${
+              isCheck[Number(tokenId)] ? "opacity-40" : "opacity-100"
+            }`}
             key={index}
             onClick={() => handleCheckboxChange(Number(tokenId))}
           >
@@ -115,10 +141,10 @@ export const ManageEdit = () => {
             </div>
             <div
               className="flex items-center justify-center rounded w-[15px] h-[15px] 
-            border border-light-border-secondary dark:border-dark-border-secondary"
+            border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-hover dark:bg-dark-bg-hover"
             >
               <BsCheckLg
-                className={`text-[10px] ${
+                className={`text-xs ${
                   isCheck[Number(tokenId)] ? "opacity-100" : "opacity-0"
                 } transition-all duration-200 ease-in-out`}
               />
@@ -126,16 +152,20 @@ export const ManageEdit = () => {
           </div>
         ))}
       </div>
-      <Button
-        extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5"
-        onClick={() => {
-          restoreHiddenAssets();
-          setShowHiddenTokensPopup(false);
-          setShowManage(false);
-        }}
-      >
-        Delete from hidden assets ({selectedTokens.length})
-      </Button>
+      <div className="flex items-center">
+        <Button
+          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5 h-[45px] w-full"
+          onClick={restoreHiddenAssets}
+        >
+          Restore selected ({selectedTokens.length})
+        </Button>
+        <Button
+          extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-2.5 h-[45px] w-full ml-2.5"
+          onClick={handleRestoreAll}
+        >
+          Restore all
+        </Button>{" "}
+      </div>
     </ModalContainer>
   );
 };

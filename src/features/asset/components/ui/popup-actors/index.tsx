@@ -65,12 +65,12 @@ export const ActorsPopup = ({
 
   return (
     <ModalContainer
-      extraCss="max-w-[500px]"
+      extraCss="max-w-[500px] min-h-fit"
       title="Core Actors"
       isOpen={visible}
       onClose={() => setVisible((prev) => !prev)}
     >
-      <div className="flex flex-col h-full w-full max-h-[435px] overflow-y-scroll">
+      <div className="flex flex-col h-fit w-full max-h-[435px] overflow-y-scroll">
         {data.map((item) => (
           <div
             className="flex items-center mb-[15px] justify-between"
