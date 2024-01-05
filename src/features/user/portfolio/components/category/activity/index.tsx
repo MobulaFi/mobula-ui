@@ -379,7 +379,6 @@ export const Activity = ({
     () => groupTransactionsByDate(transactions),
     [transactions]
   );
-  console.log("Object.entries", transactions);
   return (
     <>
       <table className="relative pb-[100px] md:pb-5 overflow-x-scroll scroll w-full caption-bottom">

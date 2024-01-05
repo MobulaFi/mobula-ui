@@ -50,8 +50,16 @@ export const useWebSocketResp = () => {
               setWallet(null);
             } else {
               failed = false;
-              setWallet({
+              const filteredWallet = portfolio.portfolio.filter(
+                (entry) => entry.price !== 0 && entry.name !== "Mobula"
+              );
+              const filteredPortfolio = {
                 ...portfolio,
+                portfolio: filteredWallet,
+              };
+
+              setWallet({
+                ...filteredPortfolio,
                 uniqueIdentifier: isWalletExplorer || activePortfolio?.id,
               });
             }
