@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import React from "react";
 import { NextImageFallback } from "../../../../../components/image";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import {
@@ -39,6 +38,7 @@ export const MoversTable = ({ assets }: MoversTableProps) => {
       </thead>
       {assets.map((asset: MoversType) => {
         const isGainer = asset.price_change_24h > 0;
+        console.log("asset.price_change_24h", asset.price_change_24h);
         return (
           <tbody
             key={asset?.id}

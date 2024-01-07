@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import React from "react";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
@@ -23,13 +22,8 @@ async function fetchMoversAssets() {
     )
     .gte("liquidity", settings.liquidity)
     .gte("volume", settings.volume)
-    .or(`market_score.eq.0,market_score.gte.${settings.marketScore}`)
-    .or(`trust_score.eq.0,trust_score.gte.${settings.trustScore}`)
-    .or(`utility_score.eq.0,utility_score.gte.${settings.utilityScore}`)
-    .or(`social_score.eq.0,social_score.gte.${settings.socialScore}`)
     .gte("price_change_24h", 0)
     .order("price_change_24h", { ascending: false })
-    .match({ tracked: true })
     .limit(100);
 
   const q2 = supabase
@@ -41,7 +35,6 @@ async function fetchMoversAssets() {
     .gte("volume", settings.volume)
     .lte("price_change_24h", 0)
     .order("price_change_24h", { ascending: true })
-    .match({ tracked: true })
     .limit(100);
 
   const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
