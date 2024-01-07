@@ -1,20 +1,9 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
-import React from "react";
 import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
 async function fetchNewAssets() {
-  const settings = {
-    liquidity: 10,
-    volume: 10,
-    onChainOnly: false,
-    default: true,
-    trustScore: 2,
-    marketScore: 1,
-    socialScore: 1,
-    utilityScore: 1,
-  };
   const supabase = createSupabaseDOClient();
   const userAgent: string = headers().get("user-agent") || "";
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
@@ -24,8 +13,6 @@ async function fetchNewAssets() {
       "id,name,price_change_24h,global_volume,symbol,logo,market_cap,price,rank,contracts,blockchains,twitter,website,created_at",
       { count: "exact" }
     )
-    .gte("liquidity", settings.liquidity)
-    .gte("global_volume", settings.volume)
     .order("created_at", { ascending: false })
     .limit(100);
 
