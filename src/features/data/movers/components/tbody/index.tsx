@@ -17,7 +17,7 @@ export const TbodyMovers = ({ asset }) => {
 
   const getColorFromMarketChange = (marketChange) => {
     if (marketChange === true) return "text-green dark:text-green";
-    if (marketChange === false) return "text-red dar:text-red";
+    if (marketChange === false) return "text-red dark:text-red";
     return "text-light-font-100 dark:text-dark-font-100";
   };
 
