@@ -70,7 +70,6 @@ export const CreatePortfolio = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        triggerAlert("Error", "You must enter a quantity");
         if (resp.error) {
           triggerAlert(
             "Error",
@@ -209,7 +208,11 @@ export const CreatePortfolio = () => {
               if (portfolioSettings.name !== "") {
                 createPortfolio();
                 setShowCreatePortfolio(false);
-              }
+              } else
+                triggerAlert(
+                  "Warning",
+                  "You should add a name for your portfolio"
+                );
             });
           }}
         >
