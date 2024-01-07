@@ -3,6 +3,7 @@ import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
 export const dynamic = "force-static";
+export const revalidate = 3600;
 
 async function fetchMoversAssets() {
   const settings = {
