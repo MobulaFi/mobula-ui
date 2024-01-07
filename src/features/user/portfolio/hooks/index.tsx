@@ -2,11 +2,7 @@ import { useContext } from "react";
 import { PortfolioV2Context } from "../context-manager";
 import { IPortfolio } from "../models";
 
-interface IUseWebSocketResp {
-  newPortfolio?: IPortfolio | undefined;
-}
-
-export const useWebSocketResp = (newPortfolio?: IUseWebSocketResp) => {
+export const useWebSocketResp = () => {
   const {
     activePortfolio: unsafeActivePortfolio,
     setWallet,
@@ -17,9 +13,7 @@ export const useWebSocketResp = (newPortfolio?: IUseWebSocketResp) => {
   } = useContext(PortfolioV2Context);
 
   const refreshPortfolio = (activePortfolioBuffer?: IPortfolio) => {
-    const activePortfolio = newPortfolio
-      ? newPortfolio
-      : activePortfolioBuffer || unsafeActivePortfolio;
+    const activePortfolio = activePortfolioBuffer || unsafeActivePortfolio;
     if (activePortfolio) {
       const socket = new WebSocket(
         process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
