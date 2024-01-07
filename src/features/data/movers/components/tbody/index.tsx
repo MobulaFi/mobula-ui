@@ -15,7 +15,7 @@ export const TbodyMovers = ({ asset }) => {
     "border-b border-light-border-secondary dark:border-dark-border-secondary text-sm md:text-xs text-light-font-100 dark:text-dark-font-100 p-[5px] py-2";
   const marketMetrics = useLiteStreamMarketDataMovers(asset);
 
-  const getColorFromMarketChange = (marketChange) => {
+  const getColorFromMarketChange = (marketChange: boolean | undefined) => {
     if (marketChange === true) return "text-green dark:text-green";
     if (marketChange === false) return "text-red dark:text-red";
     return "text-light-font-100 dark:text-dark-font-100";
