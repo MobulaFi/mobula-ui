@@ -95,7 +95,10 @@ export const ChainsChanger = ({
         >
           <img
             className="w-[19px] h-[19px] min-w-[19px] rounded-full"
-            src={blockchainsContent[chain?.name || "Ethereum"]?.logo}
+            src={
+              blockchainsContent[chain?.name || "Ethereum"]?.logo ||
+              "/empty/unknown.png"
+            }
             alt={`${chain?.name} logo`}
           />
           <AiFillCaretDown
