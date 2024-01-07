@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
+export const dynamic = "force-static";
+
 async function fetchMoversAssets() {
   const settings = {
     liquidity: 1000,
