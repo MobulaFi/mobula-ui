@@ -1,3 +1,4 @@
+import { Input } from "components/input";
 import { Spinner } from "components/spinner";
 import {
   Dispatch,
@@ -166,16 +167,32 @@ export const PopupTelegram = ({
           {activeStep.nbr === 2 ? (
             <BsCheckLg className="text-green mr-2.5" />
           ) : null}
-          <SmallFont>{activeStep.description}</SmallFont>
+          <SmallFont extraCss="text-light-font-80 dark:text-dark-font-80">
+            {activeStep.description}
+          </SmallFont>
         </div>
       )}
-      <div className="flex flex-col w-full mt-5">
+      <div className="flex flex-col w-full mt-3">
         {activeStep.nbr === 1 ? (
-          <input
-            className="w-full h-[30px] border border-light-border-primary dark:border-dark-border-primary rounded-md px-2.5 text-light-font-100 dark:text-dark-font-100"
-            placeholder="@Username"
-            onChange={(e) => setTelegram(e.target.value)}
-          />
+          <div className="flex items-center">
+            <Input
+              extraCss="w-full h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded-md px-2.5
+             text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
+              placeholder="@Username"
+              onChange={(e) => setTelegram(e.target.value)}
+            />
+            <Button
+              extraCss="h-[35px] w-fit px-3 text-normal text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ml-2.5"
+              onClick={() => {
+                if (activeStep.nbr === 1) {
+                  handleTelegramChange();
+                  setActiveStep(steps[1]);
+                }
+              }}
+            >
+              {activeStep.btn}
+            </Button>
+          </div>
         ) : null}
         {activeStep.nbr === 2 ? (
           <div className="mb-5 flex items-center">
@@ -199,38 +216,42 @@ export const PopupTelegram = ({
             </button>
           </div>
         ) : null}
-        <Button
-          extraCss="h-[30px] w-fit px-3 text-normal text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs"
-          onClick={() => {
-            if (activeStep.nbr === 1) {
-              handleTelegramChange();
-              setActiveStep(steps[1]);
-            }
-            if (activeStep.nbr === 2) {
-              openInNewTab(`https://t.me/mobulabot?start=${String(code)}`);
-            }
-          }}
-        >
-          {activeStep.btn}
-          {activeStep.nbr === 2 ? (
-            <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[5px]" />
-          ) : null}
-        </Button>
+        {activeStep.nbr !== 1 ? (
+          <Button
+            extraCss="h-[30px] w-fit px-3 text-normal text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs"
+            onClick={() => {
+              if (activeStep.nbr === 1) {
+                handleTelegramChange();
+                setActiveStep(steps[1]);
+              }
+              if (activeStep.nbr === 2) {
+                openInNewTab(`https://t.me/mobulabot?start=${String(code)}`);
+              }
+            }}
+          >
+            {activeStep.btn}
+            {activeStep.nbr === 2 ? (
+              <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[5px]" />
+            ) : null}
+          </Button>
+        ) : null}
       </div>
     </>
   );
 
+  const content = renderContent();
+
   return !contentOnly ? (
     <ModalContainer
       title={""}
-      extraCss="max-w-[480px]"
+      extraCss="max-w-[400px] p-5"
       isOpen={showPopup}
       onClose={() => {
         setShowPopup(false);
         setActiveStep(steps[0]);
       }}
     >
-      {renderContent()}
+      {content}
     </ModalContainer>
   ) : (
     renderContent()
