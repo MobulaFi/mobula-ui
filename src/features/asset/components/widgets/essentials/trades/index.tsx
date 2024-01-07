@@ -402,7 +402,7 @@ export const TokenTrades = () => {
                               "blockchain" in trade && "hash" in trade
                                 ? `${
                                     blockchainsContent[trade.blockchain]
-                                      .explorer
+                                      ?.explorer
                                   }/tx/${trade.hash}`
                                 : "/"
                             }
@@ -517,7 +517,7 @@ export const TokenTrades = () => {
                               "blockchain" in trade && "hash" in trade
                                 ? `${
                                     blockchainsContent[trade.blockchain]
-                                      .explorer
+                                      ?.explorer
                                   }/tx/${trade.hash}`
                                 : "/"
                             }

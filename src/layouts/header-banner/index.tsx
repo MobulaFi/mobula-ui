@@ -99,12 +99,12 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
         >
           {assetsUpdated
             ?.filter((entry) => entry.price_change_24h < 1000)
-            .map((asset) => {
+            .map((asset, index) => {
               const isUp: boolean =
                 Number(getTokenPercentage(asset?.price_change_24h)) > 0;
               return (
                 <NextChakraLink
-                  key={asset?.id}
+                  key={asset?.id + "-" + index}
                   href={`/asset/${getUrlFromName(asset?.name || "")}`}
                 >
                   <div
