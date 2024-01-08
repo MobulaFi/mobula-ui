@@ -146,7 +146,7 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
   const getAssetDetails = async () => {
     const { data, error } = await supabase
       .from("assets")
-      .select("symbol, logo, id")
+      .select("symbol, logo,name, id")
       .in("id", activePortfolio.removed_assets);
 
     if (error) {
@@ -160,6 +160,7 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
       newHiddenTokensObj[asset.id] = {
         symbol: asset.symbol,
         logo: asset.logo,
+        name: asset.name,
       };
     });
 

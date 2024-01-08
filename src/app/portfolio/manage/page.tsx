@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { Portfolio } from "../../features/user/portfolio";
+import { Portfolio } from "../../../features/user/portfolio";
 
-export const revalidate = 3600;
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Analyze Your Crypto Portfolio - On-Chain & Off-Chain | Mobula",
@@ -11,28 +11,7 @@ export const metadata: Metadata = {
     "Mobula, Mobula portfolio, portfolio tracker, crypto portfolio tracker",
 };
 
-export default function MainPortfolio() {
-  // const { isConnected, isDisconnected } = useAccount();
-  // const router = useRouter();
-  // const { address } = useAccount();
-
-  // useEffect(() => {
-  //   if (isDisconnected) {
-  //     router.push("/portfolio/discover");
-  //   } else if (isConnected) {
-  //     router.push("/portfolio");
-  //   }
-  // }, [isConnected]);
-
-  // useEffect(() => {
-  //   if (address)
-  //     GET("/earn/adventure", {
-  //       name: "Introduction",
-  //       action: 6,
-  //       account: address,
-  //     });
-  // }, [address]);
-
+export default function ManagePortfolioPage() {
   return (
     <>
       <meta
@@ -47,7 +26,7 @@ export default function MainPortfolio() {
         itemProp="image"
         content="https://mobula.fi/metaimage/Generic/others.png"
       />
-      <Portfolio isManage={false} />
+      <Portfolio isManage />
     </>
   );
 }

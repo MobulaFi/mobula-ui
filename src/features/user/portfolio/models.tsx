@@ -294,6 +294,7 @@ export interface NewPortfolioSettings {
 export type PortfolioDeleteTokens = {
   symbol: string;
   logo: string;
+  name: string;
 };
 
 export interface Gains {

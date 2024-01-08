@@ -1,13 +1,15 @@
 "use client";
 import Cookies from "js-cookie";
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { getAddress } from "viem";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
+import { Nav } from "./components/nav";
 import { PortfolioV2Context } from "./context-manager";
 import { PortfolioMain } from "./main";
+import { Manage } from "./manage";
 import { IPortfolio } from "./models";
 
 interface PortfolioProps {
@@ -15,6 +17,7 @@ interface PortfolioProps {
   asset?: string;
   address?: string;
   isWalletExplorer?: boolean;
+  isManage: boolean;
 }
 
 export const setPortfolioCookies = (portfolio: IPortfolio) => {
@@ -29,6 +32,7 @@ export const Portfolio = ({
   asset: assetName,
   address,
   isWalletExplorer,
+  isManage,
 }: PortfolioProps) => {
   const {
     wallet,
@@ -364,5 +368,10 @@ export const Portfolio = ({
 
   threadId.current = Math.round(100000000 * Math.random());
 
-  return <PortfolioMain isExplorer={isWalletExplorer} />;
+  return (
+    <>
+      <Nav />
+      {isManage ? <Manage /> : <PortfolioMain isExplorer={isWalletExplorer} />}
+    </>
+  );
 };
