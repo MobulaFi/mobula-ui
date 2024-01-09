@@ -42,7 +42,7 @@ export const TokenFees = ({ token }: TokenFeesProps) => {
   }, []);
 
   const getDisplay = () => {
-    if (token?.tokenomics?.fees.length > 0) return "flex";
+    if (token?.tokenomics?.fees?.length > 0) return "flex";
     return "hidden";
   };
   const display = getDisplay();

@@ -37,7 +37,7 @@ export const DoughnutsChart = ({ token, whiteMode }) => {
       formatter(name): any {
         const { data } = options1.series[0];
         let target;
-        for (let i = 0, l = data.length; i < l; i += 1) {
+        for (let i = 0, l = data?.length; i < l; i += 1) {
           if (data[i].name === name) target = data[i].value;
         }
         const arr = [`${name}: ${target?.toFixed(2)}%`];
@@ -95,7 +95,7 @@ export const DoughnutsChart = ({ token, whiteMode }) => {
       formatter(name): any {
         const { data } = options2.series[0];
         let target;
-        for (let i = 0, l = data.length; i < l; i += 1) {
+        for (let i = 0, l = data?.length; i < l; i += 1) {
           if (data[i].name === name) target = data[i].value;
         }
         const arr = [`${name}: ${target?.toFixed(2)}%`];
