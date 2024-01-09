@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import React from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsLinkedin, BsTelegram, BsTwitter } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
@@ -114,7 +115,6 @@ export const cleanVesting = (vesting) => {
 };
 
 export function formatDate(dateString: string): number | null {
-  console.log("dateString", dateString);
   if (typeof dateString !== "string") {
     console.error("formatDate: dateString must be a string");
     return dateString;

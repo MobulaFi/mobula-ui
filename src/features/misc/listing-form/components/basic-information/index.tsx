@@ -8,7 +8,6 @@ import {
   MediumFont,
 } from "../../../../../components/fonts";
 import { API_ENDPOINT } from "../../../../../constants";
-import { useIPFS } from "../../../../../hooks/ipfs";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { ACTIONS } from "../../reducer";
 import { inputStyle } from "../../styles";
@@ -17,21 +16,9 @@ import { MultiInputTemplate } from "../ui/multi-input-template";
 
 export const BasicInformation = ({ state, dispatch }) => {
   const isDescriptionError = state.description.length > 300;
-  const ipfs = useIPFS();
   const [categories, setCategories] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const assetTypes = [
-    {
-      value: "token",
-    },
-    {
-      value: "nft",
-    },
-    {
-      value: "coin",
-    },
-  ];
-
+ 
   const highlight = ["Meme", "Governance"];
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -78,8 +65,6 @@ export const BasicInformation = ({ state, dispatch }) => {
               name: assetName,
             },
           });
-
-          console.log("Response from uploading logo:", response.data);
 
           const logoUrl = response.data.logoUrl;
 

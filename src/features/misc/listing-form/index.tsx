@@ -1,7 +1,7 @@
 "use client";
-import { API_ENDPOINT } from "@constants/index";
 import axios from "axios";
-import { useContext, useReducer } from "react";
+import React, { useContext, useReducer } from "react";
+import { API_ENDPOINT } from "../../../../src/constants/index";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
 import { pushData } from "../../../lib/mixpanel";
@@ -84,7 +84,6 @@ export const Listing = () => {
         },
       });
 
-      console.log("Response from submitting token:", response.data);
       setWallet(response.data.wallet.address);
 
       const intervalId = setInterval(async () => {
@@ -96,12 +95,6 @@ export const Listing = () => {
             }
           );
 
-          console.log(
-            "Status from submitting token:",
-            status.data.receivedFunds
-          );
-
-          // If the response is true, stop the interval
           if (status.data.receivedFunds === true) {
             setIsListed(true);
             clearInterval(intervalId);
