@@ -60,7 +60,6 @@ export const Header = ({ isExplorer }: HeaderProps) => {
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex">
-        <Button></Button>
         {isExplorer ? (
           <LargeFont extraCss="font-medium  font-normal text-light-font-100 dark:text-dark-font-100 text-[24px] md:text-[16px]">
             {addressSlicer(isWalletExplorer as string)}
