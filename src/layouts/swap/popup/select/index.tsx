@@ -2,7 +2,7 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import {
+import React, {
   Dispatch,
   SetStateAction,
   useContext,

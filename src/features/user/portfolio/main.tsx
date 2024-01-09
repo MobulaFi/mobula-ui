@@ -1,5 +1,5 @@
 import { createSupabaseDOClient } from "lib/supabase";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -294,26 +294,24 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
             {activeCategory === "Activity" ? <Activity /> : null}
           </div>
         </div>
-        {showManage && <ManagePopup />}
-        {showHiddenTokensPopup && <ManageEdit />}
-        {showNetwork && <NetworkPopup />}
-        {showWallet && <WalletsPopup />}
-        {showAddTransaction && <AddTransactionPopup />}
+        <ManagePopup />
+        <ManageEdit />
+        <NetworkPopup />
+        <WalletsPopup />
+        <AddTransactionPopup />
         {/* <DrawerDex /> */}
-        {showPortfolioSelector && <SelectorPortfolioPopup />}
-        {showDeleteNft && <DeleteNftPopup />}
-        {showSelect && (
-          <Select
-            visible={showSelect}
-            setVisible={setShowSelect}
-            callback={(token) => {
-              setTokenTsx(token as Asset);
-              setShowAddTransaction(true);
-              pushData("Add Asset Button Clicked");
-            }}
-            position={"in"}
-          />
-        )}
+        <SelectorPortfolioPopup />
+        <DeleteNftPopup />
+        <Select
+          visible={showSelect}
+          setVisible={setShowSelect}
+          callback={(token) => {
+            setTokenTsx(token as Asset);
+            setShowAddTransaction(true);
+            pushData("Add Asset Button Clicked");
+          }}
+          position={"in"}
+        />
         {/* {showTuto ? <StepPopup /> : null}  */}
       </Container>
     </div>

@@ -358,7 +358,7 @@ export const EditTransactionPopup = () => {
           USD
         </div>
       </div>
-      <Collapse startingHeight={"0px"} isOpen={showNote}>
+      <Collapse startingHeight={"max-h-[0px]"} isOpen={showNote}>
         <div className="flex">
           <div className="flex flex-col w-[80%] mr-2.5">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
