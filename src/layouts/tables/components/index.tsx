@@ -31,6 +31,7 @@ interface AssetsTable {
   filters?: Query[] | null;
   isMobile?: boolean;
   showRank?: boolean;
+  isNews?: boolean;
 }
 
 export function AssetsTable({
@@ -46,6 +47,7 @@ export function AssetsTable({
   isTop100,
   isMobile,
   showRank = false,
+  isNews = false,
   ...props
 }: AssetsTable) {
   const headerRef = useRef(null);
@@ -333,6 +335,7 @@ export function AssetsTable({
                   isTable={isTop100 as boolean}
                   i={i}
                   key={i}
+                  isNews={isNews}
                 />
               ))}
             </>

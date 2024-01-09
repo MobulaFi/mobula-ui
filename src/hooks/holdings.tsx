@@ -125,10 +125,11 @@ export const useNftHoldings = (address?: string) => {
 export const useMultiWalletNftHoldings = (addresses?: string[]) => {
   const { nfts, setNfts, setIsNftLoading, nftsDeleted } =
     useContext(PortfolioV2Context);
-  //   useContext(PortfolioV2Context);
 
+  console.log("I COME HERE");
   useEffect(() => {
-    if ((addresses?.length > 0 && !nfts?.length) || nfts?.length === 0) {
+    if (addresses?.length > 0 && !nfts?.length) {
+      console.log("addresses", addresses);
       const promises = addresses.map((address) =>
         GET(
           "/api/1/wallet/nfts",
@@ -158,6 +159,7 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
             // !blacklistedNft[entry.token_address] &&
             // !blacklistedUri[entry.token_uri] &&
             // !blacklistedName[entry.name] &&
+            entry.token_id !== 0 &&
             !entry.name?.includes("$") &&
             !entry.name?.toLowerCase().includes("whitelist") &&
             !entry.name?.toLowerCase().includes("airdrop") &&

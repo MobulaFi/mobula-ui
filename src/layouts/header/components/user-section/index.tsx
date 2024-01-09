@@ -2,7 +2,7 @@
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import React, {
+import {
   Dispatch,
   RefObject,
   SetStateAction,
@@ -35,7 +35,6 @@ import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
 import { FeedBackPopup } from "../../../../popup/feedback";
 import { SwitchNetworkPopup } from "../../../../popup/switch-network";
-import { PopupTelegram } from "../../../../popup/telegram-connect";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
@@ -358,6 +357,8 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                     <FaTelegramPlane className="text-telegram mr-[5px]" />@
                     {user?.telegram}
                   </button>
+                ) : null}
+                {/* 
                 ) : (
                   <button
                     className={telegramStyleButton}
@@ -366,9 +367,13 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                     <FaTelegramPlane className="text-telegram mr-[5px]" />
                     Connect Telegram
                   </button>
-                )}
+                )} */}
               </div>
-              <div className="flex items-center justify-between mt-[5px] w-full p-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary">
+              <div
+                className={`flex items-center justify-between ${
+                  user?.telegram_id ? "mt-[5px]" : ""
+                } w-full p-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary`}
+              >
                 <SmallFont extraCss="font-normal text-light-font-60 dark:text-dark-font-60">
                   Balance:
                 </SmallFont>
@@ -448,12 +453,12 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
           showInfoPopover={showInfoPopover}
         />
       )}
-      {showTelegramConnector ? (
+      {/* {showTelegramConnector ? (
         <PopupTelegram
           showPopup={showTelegramConnector}
           setShowPopup={setShowTelegramConnector}
         />
-      ) : null}
+      ) : null} */}
       {/*     {showCard && <PayWithCard />} */}
     </>
   );

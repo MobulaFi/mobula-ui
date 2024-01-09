@@ -38,8 +38,7 @@ export type StaticHomeQueries = [
   PromiseLike<PostgrestSingleResponse<Metrics>>,
   Promise<any>,
   PromiseLike<PostgrestSingleResponse<Asset>>,
-  PromiseLike<PostgrestSingleResponse<Asset>>,
-  Promise<PostgrestSingleResponse<INewsGeneral>>
+  PromiseLike<PostgrestSingleResponse<Asset>>
 ];
 
 export interface RecomandationType {

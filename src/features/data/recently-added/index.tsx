@@ -85,6 +85,7 @@ export const RecentlyAdded = ({
                 filters={filters}
                 hideDEXVolume
                 isMobile={isMobile}
+                isNews
               />
             ) : (
               <div className="w-full h-[600px] flex items-center justify-center">

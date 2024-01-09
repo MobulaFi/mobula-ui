@@ -1,4 +1,3 @@
-import React from "react";
 import { ExtraLargeFont, MediumFont } from "../../../components/fonts";
 import { NextChakraLink } from "../../../components/link";
 import { Skeleton } from "../../../components/skeleton";
@@ -9,12 +8,14 @@ interface SkeletonTableProps {
   isTable: boolean;
   isWatchlist: boolean;
   i?: number;
+  isNews?: boolean;
 }
 
 export const SkeletonTable = ({
   isTable = false,
   isWatchlist,
   i,
+  isNews,
 }: SkeletonTableProps) => {
   const { isLoading, isPortfolioLoading, portfolio, activeView } = useTop100();
 
@@ -201,7 +202,8 @@ export const SkeletonTable = ({
       {activeView?.name === "Portfolio" &&
       !isLoading &&
       !portfolio?.length &&
-      !isPortfolioLoading ? (
+      !isPortfolioLoading &&
+      !isNews ? (
         <caption
           className={`w-full caption-bottom lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
             i === 0 ? "caption" : "hidden"
