@@ -14,7 +14,7 @@ interface SalesInformationProps {
 export const SalesInformation = ({ token }: SalesInformationProps) => {
   const getDisplay = () => {
     const sales = token?.tokenomics?.sales;
-    if (sales.length > 0) return "flex";
+    if (sales?.length > 0) return "flex";
     return "hidden";
   };
   const display = getDisplay();
