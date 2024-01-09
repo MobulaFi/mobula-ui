@@ -374,7 +374,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               ) : null}
             </div>
           </ModalContainer>
-          {token?.links?.audits.length > 0 ? (
+          {token?.links?.audits?.length > 0 ? (
             <Popover
               extraCss="top-[35px] right-0"
               visibleContent={
@@ -413,7 +413,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               isOpen={showPopover.audit}
             />
           ) : null}
-          {token?.links?.kycs.length > 0 ? (
+          {token?.links?.kycs?.length > 0 ? (
             <Popover
               onToggle={() =>
                 setShowPopover((prev) => ({ ...prev, kyc: !prev.kyc }))
