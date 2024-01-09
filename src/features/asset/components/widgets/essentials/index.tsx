@@ -5,6 +5,7 @@ import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import { BaseAssetContext } from "../../../context-manager";
 import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
+import ChartBox from "./charts/trading-view";
 import { CoreActor } from "./core-actor";
 import { Description } from "./description";
 import { ListingDetails } from "./listing-details";
@@ -47,14 +48,14 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
         <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0">
           <ChartHeader />
           <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
-          {/* {activeChart === "Trading view" ? (
+          {activeChart === "Trading view" ? (
             <ChartBox
               baseAsset={baseAsset}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-[95%] mx-auto h-[520px] lg:h-[420px] md:h-[370px]"
             />
-          ) : ( */}
-          <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
-          {/* )} */}
+          ) : (
+            <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
+          )}
 
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isOffChain ? null : <TokenTrades />}
