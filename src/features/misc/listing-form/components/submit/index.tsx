@@ -1,14 +1,13 @@
-import { NextImageFallback } from "components/image";
 import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { BsCheckLg, BsChevronDown, BsTwitter } from "react-icons/bs";
+import { BsCheckLg, BsTwitter } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
-import { FiExternalLink, FiShoppingCart } from "react-icons/fi";
+import { FiCheck, FiCopy, FiExternalLink } from "react-icons/fi";
 import { erc20ABI, useAccount, useNetwork } from "wagmi";
 import {
   readContract,
@@ -23,9 +22,6 @@ import {
   MediumFont,
   SmallFont,
 } from "../../../../../components/fonts";
-import { NextChakraLink } from "../../../../../components/link";
-import { Menu } from "../../../../../components/menu";
-import { Spinner } from "../../../../../components/spinner";
 import {
   PROTOCOL_ADDRESS,
   PROTOCOL_BNB_ADDRESS,
@@ -46,7 +42,7 @@ import {
   listingAxelarAbi,
 } from "../../constant";
 import { ListingContext } from "../../context-manager";
-import { addButtonStyle, buttonsOption, imageStyle } from "../../styles";
+import { buttonsOption } from "../../styles";
 import { cleanFee, cleanVesting } from "../../utils";
 
 export const Submit = ({ state }) => {
@@ -58,7 +54,10 @@ export const Submit = ({ state }) => {
   const [hasPaid, setHasPaid] = useState(false);
   const isDarkMode = theme === "light";
   const { chain } = useNetwork();
-  const { actualPage, setActualPage, isLaunched } = useContext(ListingContext);
+  const { actualPage, setActualPage, isLaunched, wallet, isListed } =
+    useContext(ListingContext);
+  const [listingType, setListingType] = useState("standard");
+  const [isCopied, setIsCopied] = useState(false);
   const ipfs = useIPFS();
   const [blockchainSelected, setBlockchainSelected] = useState<string>(
     blockchainsContent.Polygon.name
@@ -72,35 +71,6 @@ export const Submit = ({ state }) => {
   });
   const { setShowSwitchNetwork, setConnect } = useContext(PopupUpdateContext);
 
-  const getRewardFromTypeOfListing = () => {
-    if (fastTrack < 300)
-      return {
-        name: "Standard",
-        rewards: {
-          type: "🚀 Standard Listing Request",
-          medal: "🥉 Bronze Mobula Listing NFT",
-          twitter: false,
-        },
-      };
-    if (fastTrack >= 300 && fastTrack < 1000)
-      return {
-        name: "Fast",
-        rewards: {
-          type: "🚀 Fast Listing Request",
-          medal: "🥈 Silver Mobula Listing NFT",
-          twitter: false,
-        },
-      };
-    return {
-      name: "Blazing Fast",
-      rewards: {
-        type: "🚀 Blazing Fast Listing Request",
-        medal: "🥇 Gold Mobula Listing NFT",
-        twitter: true,
-      },
-    };
-  };
-
   useEffect(() => {
     if (chain?.id === blockchainsContent[chain?.name]?.chainId) {
       setBlockchainSelected(chain?.name);
@@ -108,7 +78,7 @@ export const Submit = ({ state }) => {
   }, [chain]);
 
   useEffect(() => {
-    if (chain?.id !== 137 && chain?.id !== 56) switchNetwork({ chainId: 137 });
+    if (chain?.id !== 137 && chain?.id !== 56) switchNetwork({chainId: 137});
   }, [chain]);
 
   const getBalance = useCallback(async () => {
@@ -129,19 +99,19 @@ export const Submit = ({ state }) => {
         args: [address],
       });
 
-    const getDecimals = (contract) =>
+    const getDecimals = (contract: string) =>
       readContract({
         address: contract as `0x${string}`,
         abi: erc20ABI as never,
         functionName: "decimals" as never,
       });
 
-    let balanceUSDT;
-    let balanceUSDC;
-    let approvalUSDT;
-    let approvalUSDC;
-    let decimalsUSDT;
-    let decimalsUSDC;
+    let balanceUSDT: unknown;
+    let balanceUSDC: unknown;
+    let approvalUSDT: unknown;
+    let approvalUSDC: unknown;
+    let decimalsUSDT: unknown;
+    let decimalsUSDC: unknown;
 
     if (chain?.id === 137) {
       balanceUSDT = await getBalances(USDT_MATIC_ADDRESS);
@@ -228,7 +198,7 @@ export const Submit = ({ state }) => {
         "Information",
         `Transaction to approve ${symbol} is pending...`
       );
-      await waitForTransaction({ hash });
+      await waitForTransaction({hash});
       triggerAlert("Success", `${symbol} approved successfully.`);
       getBalance();
       // setLoading(false);
@@ -249,19 +219,23 @@ export const Submit = ({ state }) => {
 
     const dateToSend = {
       ...state,
-      contracts: state.contracts.filter((contract) => contract.address !== ""),
+      contracts: state.contracts.filter(
+        (contract: {address: string}) => contract.address !== ""
+      ),
       excludedFromCirculationAddresses:
         state.excludedFromCirculationAddresses.filter(
-          (newAddress) => newAddress && newAddress.address
+          (newAddress: {address: any}) => newAddress && newAddress.address
         ),
       tokenomics: {
         ...state.tokenomics,
-        sales: state.tokenomics.sales.filter((sale) => sale.name !== ""),
+        sales: state.tokenomics.sales.filter(
+          (sale: {name: string}) => sale.name !== ""
+        ),
         vestingSchedule: state.tokenomics.vestingSchedule
-          .filter((vesting) => vesting[0])
+          .filter((vesting: any[]) => vesting[0])
           .map(cleanVesting),
         fees: state.tokenomics.fees
-          .filter((fee) => fee.name !== "")
+          .filter((fee: {name: string}) => fee.name !== "")
           .map(cleanFee),
       },
       logo: state.image.logo,
@@ -279,7 +253,7 @@ export const Submit = ({ state }) => {
     const bufferFile = await new Promise<ArrayBuffer>((resolve) => {
       const fileReader = new FileReader();
       fileReader.onload = (event) =>
-        resolve(event.target.result as ArrayBuffer);
+        resolve(event.target?.result as ArrayBuffer);
       fileReader.readAsArrayBuffer(JSONFile);
     });
 
@@ -287,12 +261,15 @@ export const Submit = ({ state }) => {
     fileReader.readAsBinaryString(JSONFile);
 
     const hash = await new Promise((resolve) => {
-      ipfs.files.add(Buffer.from(bufferFile), (err, file) => {
-        resolve(file[0].hash);
-      });
+      ipfs.files.add(
+        Buffer.from(bufferFile),
+        (err: any, file: {hash: unknown}[]) => {
+          resolve(file[0].hash);
+        }
+      );
     });
 
-    const getDecimals = (contract) =>
+    const getDecimals = (contract: string) =>
       readContract({
         address: contract as `0x${string}`,
         abi: erc20ABI as never,
@@ -353,6 +330,16 @@ export const Submit = ({ state }) => {
     return "Buy USDC";
   };
 
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000); // Reset icon after 2 seconds
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   const fallbackMessage = getFallBack();
 
   return hasPaid ? (
@@ -402,7 +389,7 @@ export const Submit = ({ state }) => {
       </Button>
     </div>
   ) : (
-    <div className="flex flex-col w-[450px] md:w-full">
+    <div className="flex flex-col w-[800px] md:w-full">
       <div className="flex items-center">
         <button
           className="hidden md:flex"
@@ -414,28 +401,6 @@ export const Submit = ({ state }) => {
           <FaArrowLeft className="text-light-font-100 dark:text-dark-font-100 mr-[5px]" />
         </button>
         <ExtraLargeFont>Submit</ExtraLargeFont>
-      </div>
-      <div className="flex mt-0 md:mt-0">
-        <button
-          className={`${addButtonStyle} whitespace-nowrap px-3 w-fit mr-2.5 ${
-            isPayingNow
-              ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-              : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-          }`}
-          onClick={() => setIsPayingNow(true)}
-        >
-          Normal Listing
-        </button>
-        <button
-          className={`${addButtonStyle} whitespace-nowrap px-3 w-fit mr-2.5 ${
-            !isPayingNow
-              ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-              : "bg-light-bg-terciary dark:bg-dark-bg-terciary"
-          }`}
-          onClick={() => setIsPayingNow(false)}
-        >
-          Ask community to pay
-        </button>
       </div>
       {isPayingNow ? (
         <div className="flex w-full flex-col">
@@ -533,219 +498,64 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
-          <div className="relative w-full pb-5">
-            <input
-              type="range"
-              min="30"
-              max="1000"
-              defaultValue="30"
-              value={fastTrack}
-              onChange={(e) => setFastTrack(Number(e.target.value))}
-              className="mt-2.5 w-full h-2.5 bg-light-font-10 dark:bg-dark-font-10 border border-light-border-primary
-             dark:border-dark-border-primary rounded-full range-thumb relative"
-            />
-            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute right-0">
-              🔥 Blazing Fast
-            </p>
-            <div className="absolute left-[27.85%] top-[10px] h-2.5 w-0.5 bg-light-font-60 dark:bg-dark-font-60" />
-            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute left-[24.5%]">
-              Fast
-            </p>
-            <p className="text-light-font-100 dark:text-dark-font-100 text-sm whitespace-nowrap absolute left-0">
-              Standard
-            </p>
-          </div>
-          <SmallFont extraCss="mt-2.5">
-            You must pay{" "}
-            <span className="font-medium">
-              ${fastTrack} USD on {blockchainSelected}
-            </span>
-          </SmallFont>
-          <SmallFont extraCss="mt-5 mb-2.5">
-            You will get{" "}
-            <span className="text-light-font-40 dark:text-dark-font-40">
-              ({getRewardFromTypeOfListing().name} Listing)
-            </span>
-          </SmallFont>
-          <div className="flex items-center mb-[5px]">
-            <SmallFont>{getRewardFromTypeOfListing().rewards.type}</SmallFont>
-            <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
-          </div>
-          <div className="flex items-center mb-[5px]">
-            <SmallFont>{getRewardFromTypeOfListing().rewards.medal} </SmallFont>
-            <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
-          </div>
-          <div className="flex items-center">
-            <BsTwitter className="ml-[3px] mr-[9px] text-twitter dark:text-twitter" />
-            <SmallFont>
-              An exclusive Tweet from{" "}
-              <NextChakraLink
-                href="https://twitter.com/MobulaFi"
-                target="_blank"
-                rel="noopener noreferrer"
-                extraCss="text-blue dark:text-blue"
-              >
-                @MobulaFI
-              </NextChakraLink>
+          <div className="flex w-full flex-col">
+            <div className="flex justify-between mt-5">
+              <div className="border border-light-border-primary dark:border-dark-border-primary rounded p-4 w-[500px]">
+                <MediumFont>Standard Listing</MediumFont>
+                <SmallFont extraCss="text-center mt-2">
+                  <div className="flex items-center mb-[5px]">
+                    <SmallFont>🚀 Express Listing Request</SmallFont>
+                    <AiOutlineClose className="text-red dark:text-red ml-[7.5px]" />
+                  </div>
+                  <div className="flex items-center">
+                    <BsTwitter className="ml-[3px] mr-[9px] text-twitter dark:text-twitter" />
+                    <SmallFont>An exclusive Tweet from @MobulaFI</SmallFont>
+                    <AiOutlineClose className="text-red dark:text-red ml-[7.5px]" />
+                  </div>
+                </SmallFont>
+                <SmallFont extraCss="text-center mt-4">
+                  Price: $150 (stablecoin only)
+                </SmallFont>
+              </div>
+              <div className="border border-light-border-primary dark:border-dark-border-primary rounded p-4 w-[500px]">
+                <MediumFont>Express Listing</MediumFont>
+                <SmallFont extraCss="text-center mt-2">
+                  <div className="flex items-center mb-[5px]">
+                    <SmallFont>🚀 Express Listing Request</SmallFont>
+                    <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
+                  </div>
+                  <div className="flex items-center">
+                    <BsTwitter className="ml-[3px] mr-[9px] text-twitter dark:text-twitter" />
+                    <SmallFont>An exclusive Tweet from @MobulaFI</SmallFont>
+                    <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
+                  </div>
+                </SmallFont>
+                <SmallFont extraCss="text-center mt-4">
+                  Price: $300 (stablecoin only)
+                </SmallFont>
+              </div>
+            </div>
+            <SmallFont extraCss="mt-6">
+              Send $150 for Standard Listing or $300 for Express Listing to the
+              following Ethereum address:
+              <div className="font-bold mt-5 flex items-center">
+                {wallet}
+                <button
+                  onClick={() => copyToClipboard(`${wallet}`)}
+                  className="ml-2 flex items-center"
+                >
+                  {isCopied ? <FiCheck size="1em" /> : <FiCopy size="1em" />}
+                </button>
+              </div>
             </SmallFont>
-            {getRewardFromTypeOfListing().rewards.twitter ? (
-              <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
-            ) : (
-              <AiOutlineClose className="text-red dark:text-red ml-[7.5px]" />
-            )}
           </div>
           <div className="flex flex-row md:flex-col my-5 flex-wrap">
-            <Menu
-              extraCss="w-[200px] h-fit left-0"
-              titleCss={`${addButtonStyle} px-3 md:px-2 w-fit`}
-              title={
-                <div className="flex w-full items-center">
-                  <NextImageFallback
-                    width={18}
-                    height={18}
-                    style={{
-                      borderRadius: "50%",
-                      marginRight: "7.5px",
-                    }}
-                    fallbackSrc="/empty/unknown.png"
-                    alt={`${blockchainSelected} logo`}
-                    src={blockchainsContent[blockchainSelected]?.logo}
-                  />
-                  {blockchainSelected === "BNB Smart Chain (BEP20)"
-                    ? "Binance Chain"
-                    : blockchainSelected}
-                  <BsChevronDown className="ml-1.5" />
-                </div>
-              }
-            >
-              <div className="w-full ">
-                {Object.keys(blockchainsContent)
-                  .filter(
-                    (entry) =>
-                      entry === "BNB Smart Chain (BEP20)" || entry === "Polygon"
-                  )
-                  .map((blockchain) => (
-                    <div
-                      key={blockchain}
-                      className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary
-                       text-light-font-60 dark:text-dark-font-60 whitespace-nowrap my-1.5 cursor-pointer"
-                      onClick={() => {
-                        switchNetwork({
-                          chainId: blockchainsContent[blockchain].chainId,
-                        });
-                      }}
-                    >
-                      <NextImageFallback
-                        className="mr-2.5 rounded-full"
-                        height={18}
-                        width={18}
-                        fallbackSrc="/empty/unknown.png"
-                        src={blockchainsContent[blockchain].logo}
-                        alt={`${blockchain} logo`}
-                      />
-                      {blockchainsContent[blockchain].name ===
-                      "BNB Smart Chain (BEP20)"
-                        ? "Binance Chain"
-                        : blockchainsContent[blockchain].name}
-                    </div>
-                  ))}
-              </div>
-            </Menu>
-            <div className="flex mt-2.5 ml-2.5 md:ml-0">
-              {balance.usdt.owned >= fastTrack ||
-              balance.usdc.owned >= fastTrack ? (
-                <>
-                  {balance.usdt.owned >= fastTrack && (
-                    <Button
-                      extraCss={`${buttonsOption} max-w-fit border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
-                      onClick={() => {
-                        setPending(true);
-                        if (balance.usdt.approved < fastTrack) approve("USDT");
-                        else if (chain?.id === 137) {
-                          submit(USDT_MATIC_ADDRESS, fastTrack);
-                        } else if (chain?.id === 56) {
-                          submit(USDT_BNB_ADDRESS, fastTrack);
-                        }
-                      }}
-                    >
-                      <div className="flex items-center w-full">
-                        {pending && (
-                          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
-                        )}
-                        <NextImageFallback
-                          height={18}
-                          width={18}
-                          className={imageStyle}
-                          src="/logo/usdt.webp"
-                          alt="usdt logo"
-                          fallbackSrc={""}
-                        />
-                        {balance.usdt.approved < fastTrack ? "Approve" : "Pay"}{" "}
-                        with USDT
-                        {pending && (
-                          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
-                        )}
-                      </div>
-                    </Button>
-                  )}
-                  {balance.usdc.owned >= fastTrack && (
-                    <Button
-                      extraCss={`${buttonsOption} max-w-fit mt-0 ml-0 border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
-                      onClick={() => {
-                        if (balance.usdc.approved < fastTrack) approve("USDC");
-                        else if (chain?.id === 137) {
-                          submit(USDC_MATIC_ADDRESS, fastTrack);
-                        } else if (chain?.id === 56) {
-                          submit(USDC_BNB_ADDRESS, fastTrack);
-                        }
-                      }}
-                    >
-                      <div className="flex items-center w-full">
-                        <NextImageFallback
-                          src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png"
-                          alt="usdc logo"
-                          height={18}
-                          width={18}
-                          className={imageStyle}
-                          fallbackSrc="/empty/unknown.png"
-                        />
-                        {balance.usdc.approved < fastTrack ? "Approve" : "Pay"}{" "}
-                        with USDC
-                        {pending && (
-                          <Spinner extraCss="h-[10px] w-[10px] ml-[5px]" />
-                        )}
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ) : (
-                <Button
-                  extraCss={`${buttonsOption} flex justify-center items-center border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
-                  onClick={() => {
-                    switch (getFallBack()) {
-                      case "Connect your wallet":
-                        setConnect(true);
-                        pushData("Listing Form Connect Wallet Clicked");
-                        break;
-                      case "Switch to Polygon":
-                        pushData("Listing Form Switch Network Clicked");
-                        setShowSwitchNetwork(137);
-                        break;
-                      case "Buy USDC":
-                        pushData("Listing Form Buy USDC Clicked");
-                        window.open("https://mobula.fi/trade/usdc", "_blank");
-                        break;
-                      default:
-                        break;
-                    }
-                  }}
-                >
-                  <div className="flex items-center w-full">
-                    <FiShoppingCart className="min-w-5 text-lg mr-[5px]" />
-                    {fallbackMessage}
-                  </div>
-                </Button>
-              )}
+            <div className="flex mt-2.5 md:ml-0">
+              <Button
+                extraCss={`${buttonsOption} flex justify-center items-center border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue`}
+              >
+                {isListed ? "Successfully Listed" : "Waiting..."}
+              </Button>
             </div>
           </div>
         </div>

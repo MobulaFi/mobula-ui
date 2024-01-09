@@ -1,5 +1,7 @@
 "use client";
-import React, { useContext, useReducer } from "react";
+import { API_ENDPOINT } from "@constants/index";
+import axios from "axios";
+import { useContext, useReducer } from "react";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
 import { pushData } from "../../../lib/mixpanel";
@@ -13,30 +15,120 @@ import { Submit } from "./components/submit";
 import { VestingInformation } from "./components/vesting-information";
 import { ListingContext } from "./context-manager";
 import { INITIAL_STATE, reducer } from "./reducer";
+import { cleanFee, cleanVesting, formatDate } from "./utils";
 
 export const Listing = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const { actualPage, setActualPage } = useContext(ListingContext);
+  const {actualPage, setActualPage, setWallet, setIsListed, isListed} =
+    useContext(ListingContext);
+
+  state.type = "token";
 
   const getAccessToNextPage = () => {
-    if (
-      actualPage === 0 &&
-      state.name &&
-      state.symbol &&
-      state.description &&
-      state.type &&
-      state.categories.length > 0 &&
-      (state.image.uploaded_logo || state.image.logo)
-    ) {
+    if (actualPage === 0) {
+      let missingFields: string[] = [];
+      if (!state.name) missingFields.push("Name");
+      if (!state.symbol) missingFields.push("Symbol");
+      if (!state.description) missingFields.push("Description");
+      if (state.categories.length === 0) missingFields.push("Categories");
+
+      if (missingFields.length > 0) {
+        triggerAlert(
+          "Warning",
+          `Please fill in the following fields: ${missingFields.join(", ")}`
+        );
+        return false;
+      }
       return true;
     }
-    if (actualPage === 0) {
-      triggerAlert("Warning", "Please fill all the fields");
-      return false;
-    }
-    if (actualPage !== 0) return true;
-    return false;
+    return actualPage !== 0;
   };
+
+  async function submitListing(state: any) {
+    try {
+      const dateToSend = {
+        ...state,
+        contracts: state.contracts.filter(
+          (contract: {address: string}) => contract.address !== ""
+        ),
+        excludedFromCirculationAddresses:
+          state.excludedFromCirculationAddresses.filter(
+            (newAddress: {address: any}) => newAddress && newAddress.address
+          ),
+        tokenomics: {
+          ...state.tokenomics,
+          sales: state.tokenomics.sales
+            .filter((sale: {name: string; date: string}) => sale.name !== "")
+            .map((sale: {name: string; date: string}) => ({
+              ...sale,
+              date:
+                typeof sale.date === "string"
+                  ? formatDate(sale.date)
+                  : sale.date,
+            })),
+          vestingSchedule: state.tokenomics.vestingSchedule
+            .filter((vesting: any[]) => vesting[0])
+            .map(cleanVesting),
+          fees: state.tokenomics.fees
+            .filter((fee: {name: string}) => fee.name !== "")
+            .map(cleanFee),
+        },
+        logo: state.image.logo,
+      };
+
+      console.log("State to send:", state);
+
+      const response = await axios.get(`${API_ENDPOINT}/asset/submitToken`, {
+        params: {
+          assetFormattedData: dateToSend,
+        },
+      });
+
+      console.log("Response from submitting token:", response.data);
+      setWallet(response.data.wallet.address);
+
+      const intervalId = setInterval(async () => {
+        try {
+          const status = await axios.get(
+            `${API_ENDPOINT}/asset/listingStatus`,
+            {
+              params: {wallet: response.data.wallet},
+            }
+          );
+
+          console.log(
+            "Status from submitting token:",
+            status.data.receivedFunds
+          );
+
+          // If the response is true, stop the interval
+          if (status.data.receivedFunds === true) {
+            setIsListed(true);
+            clearInterval(intervalId);
+            console.log("Token submission confirmed.", isListed);
+          }
+        } catch (statusError) {
+          console.error(
+            "Error checking token submission status:",
+            statusError.response?.data || statusError.message
+          );
+        }
+      }, 3000);
+
+      // Setup a timeout to stop the interval after 30 minutes
+      setTimeout(() => {
+        clearInterval(intervalId);
+        console.log(
+          "Stopped checking for token submission status after 30 minutes."
+        );
+      }, 1800000);
+    } catch (error) {
+      console.error(
+        "Error submitting token:",
+        error.response?.data || error.message
+      );
+    }
+  }
 
   return (
     <Container>
@@ -63,22 +155,35 @@ export const Listing = () => {
             </>
           )}
           {actualPage === 5 ? <Submit state={state} /> : null}
-          {(state.type === "nft" && actualPage === 3) ||
-          actualPage === 5 ? null : (
-            <Button
-              extraCss="w-[100px]"
-              onClick={() => {
-                if (getAccessToNextPage()) {
-                  pushData(`Listing Form Page ${actualPage + 1} Clicked`);
-                  if (actualPage === 2 && state.type === "nft")
+          <div className="flex">
+            {actualPage !== 5 ? (
+              <Button
+                extraCss="w-[160px]"
+                onClick={() => {
+                  if (getAccessToNextPage()) {
+                    submitListing(state);
+                    pushData(`List now Clicked`);
                     setActualPage(5);
-                  else setActualPage(actualPage + 1);
-                }
-              }}
-            >
-              Next
-            </Button>
-          )}
+                  }
+                }}
+              >
+                List now
+              </Button>
+            ) : null}
+            {actualPage === 5 || actualPage === 4 ? null : (
+              <Button
+                extraCss="w-[180px] ml-[20px]"
+                onClick={() => {
+                  if (getAccessToNextPage()) {
+                    pushData(`Listing Form Page ${actualPage + 1} Clicked`);
+                    setActualPage(actualPage + 1);
+                  }
+                }}
+              >
+                Enrich token details
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </Container>
