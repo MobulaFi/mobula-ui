@@ -334,7 +334,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             ) : null}
             {connectMemo}
           </button>
-
           <div
             className={`flex items-center absolute flex-col w-[230px] top-[56px] 
             right-[-0px] lg:right-[-30px] z-[100] max-w-[230px] rounded border border-light-border-primary 
@@ -443,14 +442,12 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         ) : null}
         {/* {showConnectSocialPopup && <ConnectSocialPopup />} */}
       </div>
-      {isMenuMobile && (
-        <MenuMobile
-          showChainPopover={showChainPopover}
-          setShowChainPopover={setShowChainPopover}
-          setShowInfoPopover={setShowInfoPopover}
-          showInfoPopover={showInfoPopover}
-        />
-      )}
+      <MenuMobile
+        showChainPopover={showChainPopover}
+        setShowChainPopover={setShowChainPopover}
+        setShowInfoPopover={setShowInfoPopover}
+        showInfoPopover={showInfoPopover}
+      />
       {/* {showTelegramConnector ? (
         <PopupTelegram
           showPopup={showTelegramConnector}
