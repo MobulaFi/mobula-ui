@@ -13,51 +13,61 @@ export const manageOptions: ManageOption[] = [
     title: "Portfolio Chart",
     name: "portfolio_chart",
     type: "boolean",
+    description: "Show the portfolio chart on the portfolio page",
   },
   {
     title: "Performers",
     name: "performers",
     type: "boolean",
+    description: "Show the performers on the portfolio page",
   },
   {
     title: "Holdings",
     name: "holdings",
     type: "boolean",
+    description: "Show the holdings on the portfolio page",
   },
   {
     title: "Daily PnL",
     name: "daily_pnl",
     type: "boolean",
+    description: "Show the daily PnL on the portfolio page",
   },
   {
     title: "Cumulative PnL",
     name: "cumulative_pnl",
     type: "boolean",
+    description: "Show the cumulative PnL on the portfolio page",
   },
   {
     title: "Total Profit",
     name: "total_profit",
     type: "boolean",
+    description: "Show the total profit on the portfolio page",
   },
   {
     title: "Privacy Mode",
     name: "privacy_mode",
     type: "boolean",
+    description: "Show the privacy mode on the portfolio page",
   },
   {
     title: "Realized Profit",
     name: "realized_profit",
     type: "boolean",
+    description: "Show the realized profit on the portfolio page",
   },
   {
     title: "Unrealized Profit",
     name: "unrealized_profit",
     type: "boolean",
+    description: "Show the unrealized profit on the portfolio page",
   },
   {
     title: "Total Invested",
     name: "total_invested",
     type: "boolean",
+    description: "Show the total invested on the portfolio page",
   },
 ];
 

@@ -125,6 +125,7 @@ export interface ManageOption {
   title: string;
   name: string;
   type?: string;
+  description?: string;
 }
 
 export interface ManageAsset {

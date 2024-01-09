@@ -1,4 +1,3 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
@@ -36,26 +35,6 @@ export const Header = ({ isExplorer }: HeaderProps) => {
   const { user } = useContext(UserContext);
   const { setConnect } = useContext(PopupUpdateContext);
   const pathname = usePathname();
-
-  const supportedChainsName = Object.keys(blockchainsContent).filter(
-    (entry) => blockchainsContent[entry].apiType === "etherscan-like"
-  );
-
-  const getSupportedChains = () => {
-    let chains = [];
-    const entries = Object.entries(blockchainsContent);
-    supportedChainsName.forEach((chain) => {
-      entries.forEach((entry, i) => {
-        if (entry[0] === chain) chains.push(entry[1]);
-      });
-    });
-    // Filter to be remove when all chains are supported
-    const unsupportedForNow = ["Avalanche C-Chain", "Fantom", "Mantle"];
-    chains = chains.filter((chain) => !unsupportedForNow.includes(chain.name));
-    return chains;
-  };
-
-  const supportedChains = getSupportedChains();
 
   return (
     <div className="flex items-center justify-between w-full">
