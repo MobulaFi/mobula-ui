@@ -132,25 +132,31 @@ export const Submit = ({ state }) => {
     }
 
     try {
+      //@ts-ignore
       approvalUSDC = Number(approvalUSDC) / 10 ** decimalsUSDC;
     } catch (e) {
       // Means overflow, so much more approval than needed
+      //@ts-ignore
       if (approvalUSDC) approvalUSDC = 10 ** decimalsUSDC;
     }
 
     try {
+      //@ts-ignore
       approvalUSDT = Number(approvalUSDT) / 10 ** decimalsUSDT;
     } catch (e) {
       // Means overflow, so much more approval than needed
+      //@ts-ignore
       if (approvalUSDT) approvalUSDT = 10 ** decimalsUSDT;
     }
 
     setBalance({
       usdt: {
+        //@ts-ignore
         owned: Number(balanceUSDT) / 10 ** decimalsUSDT,
         approved: Number(approvalUSDT),
       },
       usdc: {
+        //@ts-ignore
         owned: Number(balanceUSDC) / 10 ** decimalsUSDC,
         approved: Number(approvalUSDC),
       },
