@@ -23,6 +23,7 @@ import { GET } from "../../../utils/fetch";
 import { addressSlicer, getFormattedAmount } from "../../../utils/formaters";
 import { CreatePortfolio } from "./components/popup/create-portfolio";
 import { RenamePortfolio } from "./components/popup/rename-portfolio";
+import { SharePopup } from "./components/popup/share";
 import { colors, manageOptions } from "./constants";
 import { PortfolioV2Context } from "./context-manager";
 import { useWebSocketResp } from "./hooks";
@@ -70,6 +71,7 @@ export const Manage = () => {
   const { showWallet, setActivePortfolio } = useContext(PortfolioV2Context);
   const refreshPortfolio = useWebSocketResp();
   const [activeTab, setActiveTab] = useState("wallets");
+  const [showShare, setShowShare] = useState(false);
 
   const getTopHoldings = () => {
     const topHoldings = wallet?.portfolio
@@ -232,184 +234,190 @@ export const Manage = () => {
               </LargeFont>{" "}
             </button>
           </div>
-          {!showCreatePortfolio ? (
-            <div className="mb-[15px]">
-              {userPortfolio?.map((otherPortfolio, index) => {
-                const isActive = activePortfolio?.id === otherPortfolio.id;
-                const totalBalance = isActive
-                  ? wallet?.estimated_balance || 0
-                  : otherPortfolio.portfolio.reduce(
-                      (acc, curr) => acc + curr.balance_usd,
-                      0
-                    );
-                const assets = isActive
-                  ? wallet?.portfolio || []
-                  : otherPortfolio.portfolio;
+          <div className="mb-[15px] max-h-[260px] overflow-y-scroll">
+            {!showCreatePortfolio ? (
+              <div className="mb-[15px]">
+                {userPortfolio?.map((otherPortfolio, index) => {
+                  const isActive = activePortfolio?.id === otherPortfolio.id;
+                  const totalBalance = isActive
+                    ? wallet?.estimated_balance || 0
+                    : otherPortfolio.portfolio.reduce(
+                        (acc, curr) => acc + curr.balance_usd,
+                        0
+                      );
+                  const assets = isActive
+                    ? wallet?.portfolio || []
+                    : otherPortfolio.portfolio;
 
-                const finalAssets = assets
-                  // This is bad, but name for Portfolio ("cache") holdings isn't the same as
-                  // live (main) holdings. So we need to use the ||from balance_ud & estimated_balance
-                  .map((a) => ({
-                    ...a,
-                    balance_usd: a.balance_usd || a.estimated_balance || 0,
-                  }))
-                  .sort((a, b) => {
-                    if (a.balance_usd > b.balance_usd) return -1;
-                    if (a.balance_usd < b.balance_usd) return 1;
-                    return 0;
-                  })
-                  .slice(0, 10);
-                return (
-                  <div className="flex flex-col" key={otherPortfolio.id}>
-                    <div
-                      className={`flex items-center justify-between transition-all duration-200 py-2.5 rounded-lg flex-col cursor-pointer ${
-                        isActive || isHover === index ? "" : "opacity-40"
-                      } pr-2.5`}
-                      onMouseEnter={() => setIsHover(index)}
-                      onMouseLeave={() => setIsHover(null)}
-                    >
+                  const finalAssets = assets
+                    // This is bad, but name for Portfolio ("cache") holdings isn't the same as
+                    // live (main) holdings. So we need to use the ||from balance_ud & estimated_balance
+                    .map((a) => ({
+                      ...a,
+                      balance_usd: a.balance_usd || a.estimated_balance || 0,
+                    }))
+                    .sort((a, b) => {
+                      if (a.balance_usd > b.balance_usd) return -1;
+                      if (a.balance_usd < b.balance_usd) return 1;
+                      return 0;
+                    })
+                    .slice(0, 10);
+                  return (
+                    <div className="flex flex-col" key={otherPortfolio.id}>
                       <div
-                        className={`flex items-center w-full ${
-                          finalAssets?.length > 0 ? "mb-2.5" : "mb-0"
-                        }`}
+                        className={`flex items-center justify-between transition-all duration-200 py-2.5 rounded-lg flex-col cursor-pointer ${
+                          isActive || isHover === index ? "" : "opacity-40"
+                        } pr-2.5`}
+                        onMouseEnter={() => setIsHover(index)}
+                        onMouseLeave={() => setIsHover(null)}
                       >
                         <div
-                          className="flex justify-between ml-2.5 w-full "
-                          onClick={() => {
-                            setShowPortfolioSelector(false);
-                            setActivePortfolio(otherPortfolio);
-                          }}
-                        >
-                          <SmallFont>{otherPortfolio.name}</SmallFont>
-                          <div className="ml-auto flex w-fit">
-                            {totalBalance ? (
-                              <SmallFont className="text-light-font-40 dark:text-dark-font-40 font-normal">
-                                ${getFormattedAmount(totalBalance)}
-                              </SmallFont>
-                            ) : null}
-                          </div>
-                        </div>
-                        <Menu
-                          title={
-                            <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 ml-2.5" />
-                          }
+                          className={`flex items-center w-full ${
+                            finalAssets?.length > 0 ? "mb-2.5" : "mb-0"
+                          }`}
                         >
                           <div
-                            className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs w-fit transition-all duration-200"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowEditName(otherPortfolio.id);
+                            className="flex justify-between ml-2.5 w-full "
+                            onClick={() => {
+                              setShowPortfolioSelector(false);
+                              setActivePortfolio(otherPortfolio);
                             }}
                           >
-                            <div
-                              className={`${flexGreyBoxStyle} bg-light-bg-hover dark:bg-dark-bg-hover`}
-                            >
-                              <AiOutlineEdit className="text-light-font-100 dark:text-dark-font-100" />
+                            <SmallFont>{otherPortfolio.name}</SmallFont>
+                            <div className="ml-auto flex w-fit">
+                              {totalBalance ? (
+                                <SmallFont className="text-light-font-40 dark:text-dark-font-40 font-normal">
+                                  ${getFormattedAmount(totalBalance)}
+                                </SmallFont>
+                              ) : null}
                             </div>
-                            Rename
                           </div>
-                          <div
-                            className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs mt-2.5"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              removePortfolio(
-                                otherPortfolio.id,
-                                otherPortfolio.name
-                              );
-                            }}
+                          <Menu
+                            title={
+                              <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 ml-2.5" />
+                            }
                           >
                             <div
-                              className={`${flexGreyBoxStyle} bg-red dark:bg-red`}
-                            >
-                              <BsTrash3 className="text-light-font-100 dark:text-dark-font-100" />
-                            </div>
-                            <p className="whitespace-nowrap">
-                              Delete Portfolio
-                            </p>
-                          </div>
-                        </Menu>
-                      </div>
-                      {finalAssets?.length > 0 ? (
-                        <div
-                          className="mx-auto mb-[5px] flex"
-                          style={{ width: "calc(100% - 20px)" }}
-                        >
-                          {finalAssets.map((asset, i) => (
-                            <div
-                              key={asset.asset_id}
-                              className="flex h-[10px] mr-1"
-                              style={{
-                                width: `${
-                                  (asset.balance_usd / totalBalance) * 100
-                                }%`,
+                              className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs w-fit transition-all duration-200"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowEditName(otherPortfolio.id);
                               }}
                             >
                               <div
-                                key={asset.asset_id}
-                                className={`${colors[i]} w-full rounded h-[10px] relative`}
-                                onMouseOver={() =>
-                                  setShowPopover([i, otherPortfolio.id])
-                                }
-                                onMouseLeave={() => setShowPopover(null)}
+                                className={`${flexGreyBoxStyle} bg-light-bg-hover dark:bg-dark-bg-hover`}
                               >
-                                {showPopover &&
-                                showPopover?.[0] === i &&
-                                showPopover?.[1] === otherPortfolio.id ? (
-                                  <div
-                                    className={
-                                      "absolute z-[11] border top-[110%] right-0 border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary p-2.5 w-fit shadow-md"
-                                    }
-                                  >
-                                    <div>
-                                      <SmallFont className="mr-[5px] whitespace-nowrap">
-                                        {asset.name}
-                                      </SmallFont>{" "}
-                                      <SmallFont className="text-light-font-60 dark:text-dark-font-60 font-normal">
-                                        ${getFormattedAmount(asset.balance_usd)}
-                                      </SmallFont>
-                                    </div>
-                                  </div>
-                                ) : null}
+                                <AiOutlineEdit className="text-light-font-100 dark:text-dark-font-100" />
                               </div>
+                              Rename
                             </div>
-                          ))}
+                            <div
+                              className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs mt-2.5"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removePortfolio(
+                                  otherPortfolio.id,
+                                  otherPortfolio.name
+                                );
+                              }}
+                            >
+                              <div
+                                className={`${flexGreyBoxStyle} bg-red dark:bg-red`}
+                              >
+                                <BsTrash3 className="text-light-font-100 dark:text-dark-font-100" />
+                              </div>
+                              <p className="whitespace-nowrap">
+                                Delete Portfolio
+                              </p>
+                            </div>
+                          </Menu>
                         </div>
-                      ) : null}
+                        {finalAssets?.length > 0 ? (
+                          <div
+                            className="mx-auto mb-[5px] flex"
+                            style={{ width: "calc(100% - 20px)" }}
+                          >
+                            {finalAssets.map((asset, i) => (
+                              <div
+                                key={asset.asset_id}
+                                className="flex h-[10px] mr-1"
+                                style={{
+                                  width: `${
+                                    (asset.balance_usd / totalBalance) * 100
+                                  }%`,
+                                }}
+                              >
+                                <div
+                                  key={asset.asset_id}
+                                  className={`${colors[i]} w-full rounded h-[10px] relative`}
+                                  onMouseOver={() =>
+                                    setShowPopover([i, otherPortfolio.id])
+                                  }
+                                  onMouseLeave={() => setShowPopover(null)}
+                                >
+                                  {showPopover &&
+                                  showPopover?.[0] === i &&
+                                  showPopover?.[1] === otherPortfolio.id ? (
+                                    <div
+                                      className={
+                                        "absolute z-[11] border top-[110%] right-0 border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary p-2.5 w-fit shadow-md"
+                                      }
+                                    >
+                                      <div>
+                                        <SmallFont className="mr-[5px] whitespace-nowrap">
+                                          {asset.name}
+                                        </SmallFont>{" "}
+                                        <SmallFont className="text-light-font-60 dark:text-dark-font-60 font-normal">
+                                          $
+                                          {getFormattedAmount(
+                                            asset.balance_usd
+                                          )}
+                                        </SmallFont>
+                                      </div>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                      <Collapse
+                        startingHeight="0px"
+                        isOpen={showEditName === otherPortfolio.id}
+                      >
+                        <RenamePortfolio
+                          portfolio={otherPortfolio}
+                          setShow={setShowEditName}
+                          isManage
+                        />
+                      </Collapse>
                     </div>
-                    <Collapse
-                      startingHeight="0px"
-                      isOpen={showEditName === otherPortfolio.id}
-                    >
-                      <RenamePortfolio
-                        portfolio={otherPortfolio}
-                        setShow={setShowEditName}
-                      />
-                    </Collapse>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
-              <div className="flex flex-col w-full">
-                {/* ADD A WALLET */}
-                <Collapse startingHeight="0px" isOpen={showCreatePortfolio}>
-                  <CreatePortfolio />
-                </Collapse>
-                {showCreatePortfolio ? null : (
-                  <div className="w-full flex">
-                    <button
-                      className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
-                      onClick={() => setShowCreatePortfolio(true)}
-                    >
-                      <IoMdAddCircleOutline className="text-md mr-[7.5px]" />
-                      Create a new portfolio
-                    </button>
-                  </div>
-                )}
+                  );
+                })}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="pt-[15px]">
+                <div className="flex flex-col w-full">
+                  {/* ADD A WALLET */}
+                  <Collapse startingHeight="0px" isOpen={showCreatePortfolio}>
+                    <CreatePortfolio isManage />
+                  </Collapse>
+                  {showCreatePortfolio ? null : (
+                    <div className="w-full flex">
+                      <button
+                        className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
+                        onClick={() => setShowCreatePortfolio(true)}
+                      >
+                        <IoMdAddCircleOutline className="text-md mr-[7.5px]" />
+                        Create a new portfolio
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex flex-col w-[50%] mx-auto h-fit">
           <div className="flex items-center">
@@ -434,89 +442,108 @@ export const Manage = () => {
           </div>
           {activeTab === "hidden assets" ? (
             <>
-              {Object.entries(hiddenTokens).map(
-                ([tokenId, tokenData], index) => (
-                  <div
-                    className={`flex items-center justify-between mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
+              {Object.entries(hiddenTokens)?.length > 0 ? (
+                <>
+                  {Object.entries(hiddenTokens).map(
+                    ([tokenId, tokenData], index) => (
+                      <div
+                        className={`flex items-center justify-between mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
           border border-light-border-primary dark:border-dark-border-primary rounded-xl w-full
            cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200
             ease-in-out ${
               isCheck[Number(tokenId)] ? "opacity-40" : "opacity-100"
             }`}
-                    key={index}
-                    onClick={() => handleCheckboxChange(Number(tokenId))}
-                  >
-                    <div className="flex items-center">
-                      <NextImageFallback
-                        width={25}
-                        height={25}
-                        className="rounded-full"
-                        src={tokenData.logo}
-                        alt={`${tokenData.symbol} logo`}
-                        fallbackSrc={""}
-                      />
-                      <SmallFont extraCss="ml-2.5 font-normal">
-                        {tokenData.symbol}
-                      </SmallFont>
-                    </div>
-                    <div
-                      className="flex items-center justify-center rounded w-[15px] h-[15px] 
+                        key={index}
+                        onClick={() => handleCheckboxChange(Number(tokenId))}
+                      >
+                        <div className="flex items-center">
+                          <NextImageFallback
+                            width={25}
+                            height={25}
+                            className="rounded-full"
+                            src={tokenData.logo}
+                            alt={`${tokenData.symbol} logo`}
+                            fallbackSrc={""}
+                          />
+                          <SmallFont extraCss="ml-2.5 font-normal">
+                            {tokenData.symbol}
+                          </SmallFont>
+                        </div>
+                        <div
+                          className="flex items-center justify-center rounded w-[15px] h-[15px] 
             border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-hover dark:bg-dark-bg-hover"
-                    >
-                      <BsCheckLg
-                        className={`text-xs ${
-                          isCheck[Number(tokenId)] ? "opacity-100" : "opacity-0"
-                        } transition-all duration-200 ease-in-out`}
-                      />
-                    </div>
-                  </div>
-                )
+                        >
+                          <BsCheckLg
+                            className={`text-xs ${
+                              isCheck[Number(tokenId)]
+                                ? "opacity-100"
+                                : "opacity-0"
+                            } transition-all duration-200 ease-in-out`}
+                          />
+                        </div>
+                      </div>
+                    )
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-[250px] w-full">
+                  <img
+                    className="mb-3.5"
+                    src="/empty/ray.png"
+                    alt="crying ray image"
+                  />
+                  <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs">
+                    No hidden assets detected
+                  </p>
+                </div>
               )}
             </>
           ) : (
-            <>
-              {activePortfolio.wallets?.map((walletAddress) => (
-                <div
-                  className="flex items-center mt-2.5 mb-0.5 justify-between"
-                  key={walletAddress}
-                >
-                  <div className="flex items-center">
-                    <AddressAvatar
-                      extraCss="min-w-[32px] w-[32px] h-[32px]"
-                      address={walletAddress}
-                    />
-                    <div className="flex flex-col ml-2.5">
-                      <SmallFont className="font-normal">
-                        {addressSlicer(walletAddress, 8)}
-                      </SmallFont>
+            <div className="flex flex-col max-h-[260px]">
+              <div className="flex flex-col max-h-[224px] overflow-y-scroll">
+                {activePortfolio.wallets?.map((walletAddress) => (
+                  <div
+                    className="flex items-center mt-2.5 mb-0.5 justify-between"
+                    key={walletAddress}
+                  >
+                    <div className="flex items-center">
+                      <AddressAvatar
+                        extraCss="min-w-[32px] w-[32px] h-[32px]"
+                        address={walletAddress}
+                      />
+                      <div className="flex flex-col ml-2.5">
+                        <SmallFont className="font-normal">
+                          {addressSlicer(walletAddress, 8)}
+                        </SmallFont>
+                      </div>
+                    </div>
+                    <div className="flex">
+                      <button
+                        className={`${buttonSquareStyle} bg-light-bg-hover dark:bg-dark-bg-hover`}
+                        onClick={() => {
+                          copyText(walletAddress, setIsCopied);
+                        }}
+                      >
+                        {isCopied === walletAddress ? (
+                          <BsCheckLg className="text-green dark:text-green" />
+                        ) : (
+                          <BiCopy className="text-light-font-60 dark:text-dark-font-60 hover:text-light-font-60 hover:dark:text-dark-font-100 transition-all" />
+                        )}
+                      </button>
+                      {activePortfolio?.user === user?.id && (
+                        <button
+                          className={`${buttonSquareStyle} bg-light-bg-hover dark:bg-dark-bg-hover ml-1.5`}
+                          onClick={() => removeWallet(walletAddress)}
+                        >
+                          <AiOutlineDelete className="text-light-font-60 dark:text-dark-font-60 hover:text-red hover:dark:text-red transition-all" />
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <div className="flex">
-                    <button
-                      className={`${buttonSquareStyle} bg-light-bg-hover dark:bg-dark-bg-hover`}
-                      onClick={() => {
-                        copyText(walletAddress, setIsCopied);
-                      }}
-                    >
-                      {isCopied === walletAddress ? (
-                        <BsCheckLg className="text-green dark:text-green" />
-                      ) : (
-                        <BiCopy className="text-light-font-60 dark:text-dark-font-60 hover:text-light-font-60 hover:dark:text-dark-font-100 transition-all" />
-                      )}
-                    </button>
-                    {activePortfolio?.user === user?.id && (
-                      <button
-                        className={`${buttonSquareStyle} bg-light-bg-hover dark:bg-dark-bg-hover ml-1.5`}
-                        onClick={() => removeWallet(walletAddress)}
-                      >
-                        <AiOutlineDelete className="text-light-font-60 dark:text-dark-font-60 hover:text-red hover:dark:text-red transition-all" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
               {activePortfolio?.user === user?.id && (
-                <div className="flex mt-2.5 flex-col border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
+                <div className="flex flex-col py-2.5">
                   <div className="flex flex-col w-full">
                     {/* ADD A WALLET */}
                     <Collapse startingHeight="0px" isOpen={showAddWallet}>
@@ -559,7 +586,7 @@ export const Manage = () => {
                           className="text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center justify-center"
                           onClick={() => setShowAddWallet(true)}
                         >
-                          <IoMdAddCircleOutline className="text-md mr-[7.5px] text-light-font-100 dark:text-dark-font-100" />
+                          <IoMdAddCircleOutline className="text-base mr-[7.5px] text-light-font-100 dark:text-dark-font-100" />
                           Add another wallet
                         </button>
                       </div>
@@ -567,16 +594,14 @@ export const Manage = () => {
                   </div>
                 </div>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>
-      <div className="flex items-center justify-between mb-2.5 mt-5 w-full">
-        <p className="text-2xl font-poppins md:text-lg">
-          Manage your Portfolio
-        </p>
+      <div className="flex items-center justify-between mb-2.5 mt-2.5 w-full">
+        <p className="text-2xl md:text-lg">Manage your Portfolio</p>
         <div className="flex items-center">
-          <p className="mr-4 font-poppins">Supported Chains:</p>
+          <p className="mr-4">Supported Chains:</p>
           {supportedChains.map((chain, i) => (
             <img
               key={chain.chainId}
@@ -590,9 +615,7 @@ export const Manage = () => {
       </div>
       <div className={`${boxStyle} flex-col font-medium w-full`}>
         <div className="flex flex-col w-full">
-          <LargeFont extraCss="mt-2.5 mb-2.5 pt-2.5 border-t border-light-border-primary dark:border-dark-border-primary">
-            Portfolio Display
-          </LargeFont>
+          <LargeFont extraCss="mt-2.5 mb-2.5">Portfolio Display</LargeFont>
           <div className="flex items-center justify-between">
             <SmallFont>Show non-trade transactions</SmallFont>
             <Switch
@@ -654,6 +677,7 @@ export const Manage = () => {
             })}
         </div>
       </div>
+      <SharePopup show={showShare} setShow={setShowShare} />
     </Container>
   );
 };

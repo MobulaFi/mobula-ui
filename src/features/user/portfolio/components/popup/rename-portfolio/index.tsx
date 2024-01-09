@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -15,9 +15,14 @@ import { IPortfolio } from "../../../models";
 interface IRenamePortfolio {
   portfolio: IPortfolio;
   setShow: (value: number | false) => void;
+  isManage?: boolean;
 }
 
-export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
+export const RenamePortfolio = ({
+  portfolio,
+  setShow,
+  isManage,
+}: IRenamePortfolio) => {
   const signerGuard = useSignerGuard();
   const [newName, setNewName] = useState("");
   const { setActivePortfolio, setShowPortfolioSelector } =
@@ -50,21 +55,29 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
 
   return (
     <div className="flex flex-col border-b border-light-border-primary dark:border-dark-border-primary w-full px-2.5">
-      <div className="flex items-center justify-between my-2.5">
+      <div
+        className={`flex items-center justify-between ${
+          isManage ? "mb-2.5" : "my-2.5"
+        }`}
+      >
         <SmallFont>Rename</SmallFont>
         <button onClick={() => setShow(false)}>
-          <AiOutlineClose className="text-xs text-light-font-100 dark:text-dark-font-100" />
+          <AiOutlineClose className="text-sm text-light-font-100 dark:text-dark-font-100" />
         </button>
       </div>
       <div className="flex items-center mt-0 mb-[15px]">
         <Input
-          extraCss="w-full"
+          extraCss={`w-full ${
+            isManage ? "bg-light-bg-secondary dark:bg-dark-bg-secondary" : ""
+          }`}
           placeholder="Name"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
         <Button
-          extraCss="min-w-[35px] w-[35px] h-[35px] ml-2.5"
+          extraCss={`min-w-[35px] w-[35px] h-[35px] ml-2.5 ${
+            isManage ? "bg-light-bg-secondary dark:bg-dark-bg-secondary" : ""
+          }`}
           onClick={() => {
             signerGuard(() => {
               if (newName !== "") {
@@ -75,7 +88,7 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
             });
           }}
         >
-          <BsCheckLg className="text-xs text-light-font-100 dark:text-dark-font-100" />
+          <BsCheckLg className="text-sm text-light-font-100 dark:text-dark-font-100" />
         </Button>
       </div>
     </div>

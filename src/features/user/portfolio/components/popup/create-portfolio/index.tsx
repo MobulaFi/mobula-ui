@@ -1,9 +1,8 @@
 import { Collapse } from "components/collapse";
 import { Switch } from "lib/shadcn/components/ui/switch";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { BsDatabaseDown, BsTrash3 } from "react-icons/bs";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import { BsDatabaseDown, BsPlusLg, BsTrash3, BsWallet } from "react-icons/bs";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../../components/avatar";
@@ -20,7 +19,11 @@ import { PortfolioV2Context } from "../../../context-manager";
 import { IPortfolio } from "../../../models";
 import { flexGreyBoxStyle } from "../../../style";
 
-export const CreatePortfolio = () => {
+interface CreatePortfolioProps {
+  isManage?: boolean;
+}
+
+export const CreatePortfolio = ({ isManage }: CreatePortfolioProps) => {
   const { user } = useContext(UserContext);
   const signerGuard = useSignerGuard();
   const inputRef = useRef<HTMLInputElement>();
@@ -102,11 +105,13 @@ export const CreatePortfolio = () => {
           <SmallFont>Portfolio name</SmallFont>
         </div>
         <button onClick={() => setShowCreatePortfolio(false)}>
-          <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-xs" />
+          <AiOutlineClose className="text-light-font-100 dark:text-dark-font-100 text-sm" />
         </button>
       </div>
       <Input
-        extraCss="mb-[5px] w-full"
+        extraCss={`mb-[5px] w-full ${
+          isManage ? "bg-light-bg-secondary dark:bg-dark-bg-secondary" : ""
+        }`}
         placeholder="My Best Portfolio"
         value={portfolioSettings.name}
         onChange={(e) => {
@@ -125,15 +130,21 @@ export const CreatePortfolio = () => {
           }
         />
       </div>
-      <div className="flex items-center justify-between mb-2.5">
+      <div
+        className={`flex items-center justify-between mb-2.5 ${
+          isManage ? "mt-1" : ""
+        }`}
+      >
         <div className="flex items-center">
-          <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
+          <BsWallet className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xs" />
           <SmallFont>Add wallet</SmallFont>
         </div>
       </div>
       <div className="flex mb-2.5">
         <Input
-          extraCss="w-full border border-light-border-primary dark:border-dark-border-primary"
+          extraCss={`w-full border border-light-border-primary dark:border-dark-border-primary ${
+            isManage ? "bg-light-bg-secondary dark:bg-dark-bg-secondary" : ""
+          } `}
           ref={inputRef}
           placeholder="0x"
           onChange={(e) => {
@@ -141,7 +152,9 @@ export const CreatePortfolio = () => {
           }}
         />
         <Button
-          extraCss="ml-2.5"
+          extraCss={`ml-2.5 h-[35px] ${
+            isManage ? "bg-light-bg-secondary dark:bg-dark-bg-secondary" : ""
+          }`}
           onClick={() => {
             if (!isAddress(userWallet)) {
               triggerAlert(
@@ -161,7 +174,7 @@ export const CreatePortfolio = () => {
             }
           }}
         >
-          <IoMdAddCircleOutline className="text-light-font-100 dark:text-dark-font-100" />
+          <BsPlusLg className="text-light-font-100 dark:text-dark-font-100" />
         </Button>
       </div>
       <Collapse
@@ -208,9 +221,13 @@ export const CreatePortfolio = () => {
           ))}
         </div>
       </Collapse>
-      <div className="flex mt-[15px]">
+      <div className={`flex ${isManage ? "mt-2.5" : "mt-[15px]"}`}>
         <Button
-          extraCss="w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+          extraCss={`w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue ${
+            isManage
+              ? "bg-light-bg-secondary dark:bg-dark-bg-secondary h-[40px]"
+              : ""
+          }`}
           onClick={() => {
             signerGuard(() => {
               if (portfolioSettings.name !== "") {
