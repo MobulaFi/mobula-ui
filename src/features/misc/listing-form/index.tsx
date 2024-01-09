@@ -78,7 +78,7 @@ export const Listing = () => {
 
       console.log("State to send:", state);
 
-      const response = await axios.get(`${API_ENDPOINT}/asset/submitToken`, {
+      const response = await axios.get(`${API_ENDPOINT}/asset/submit-token`, {
         params: {
           assetFormattedData: dateToSend,
         },
@@ -90,7 +90,7 @@ export const Listing = () => {
       const intervalId = setInterval(async () => {
         try {
           const status = await axios.get(
-            `${API_ENDPOINT}/asset/listingStatus`,
+            `${API_ENDPOINT}/asset/listing-status`,
             {
               params: {wallet: response.data.wallet},
             }
