@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsKey } from "react-icons/bs";
 import { RiWallet3Line } from "react-icons/ri";
@@ -120,7 +120,12 @@ export const Overview = () => {
           <TitleContainer extraCss="px-[15px]">
             <MediumFont extraCss="md:px-2.5">History</MediumFont>
           </TitleContainer>
-          <div className="flex flex-col w-full">
+          <div
+            className={`flex flex-col w-full overflow-y-hidden transition-all duration-300 ease-in-out`}
+            style={{
+              height: (moreHistory / 10) * 514 + "px",
+            }}
+          >
             {recentlyAdded.map((history: HistoryListing, i: number) => {
               const date = new Date(history.timestamp * 1000);
               const second = date.getTime();
@@ -213,16 +218,18 @@ export const Overview = () => {
                 <div className="w-0.5 h-[15px] bg-light-border-primary dark:bg-dark-border-primary rounded-full" />
               </>
             )}
-            <button
-              className="mx-[15px] my-2.5 flex items-center justify-center text-light-font-100 
+            {moreHistory < 30 ? (
+              <button
+                className="mx-[15px] my-2.5 flex items-center justify-center text-light-font-100 
             dark:text-dark-font-100 text-[15px] md:text-[13px] hover:text-blue hover:dark:text-blue transition-all duration-200"
-              onClick={() => {
-                setShowMore(true);
-                setMoreHistory(moreHistory + 10);
-              }}
-            >
-              See more
-            </button>
+                onClick={() => {
+                  setShowMore(true);
+                  if (moreHistory < 30) setMoreHistory(moreHistory + 10);
+                }}
+              >
+                See more
+              </button>
+            ) : null}
           </div>
         </BoxContainer>
       </RightContainer>

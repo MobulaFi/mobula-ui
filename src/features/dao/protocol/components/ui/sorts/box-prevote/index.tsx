@@ -269,12 +269,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 </button>
               }
               hiddenContent={<CommunityPopup token={token} />}
-              onToggle={() => {
+              onToggle={() =>
                 setShowPopover((prev) => ({
                   ...prev,
                   community: !prev.community,
-                }));
-              }}
+                }))
+              }
               isOpen={showPopover.community}
               extraCss={`top-[35px] left-0 ${
                 showPopover.community
@@ -315,12 +315,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                     </div>
                   )
               )}
-              onToggle={() => {
+              onToggle={() =>
                 setShowPopover((prev) => ({
                   ...prev,
                   contract: !prev.contract,
-                }));
-              }}
+                }))
+              }
               isOpen={showPopover.contract}
             />
           ) : null}
