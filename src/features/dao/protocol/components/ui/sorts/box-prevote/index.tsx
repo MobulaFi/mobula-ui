@@ -469,7 +469,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         } text-start`}
       >
         <Collapse startingHeight={descriptionHeight} isOpen={show}>
-          {token?.description}
+          <p className="text-base md:text-sm">{token?.description} </p>
         </Collapse>
         <RenderContent token={token} handleToggle={handleToggle} show={show} />
       </p>
