@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsTwitter } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -225,6 +225,9 @@ export const Submit = ({ state }) => {
             <SmallFont extraCss="mt-6">
               Send $150 for Standard Listing or $300 for Express Listing to the
               following Ethereum address:
+              <div className="flex mt-1 md:ml-0">
+                (Supported chains: Polygon, BSC, Ethereum)
+            </div>
               <div className="font-bold mt-5 flex items-center">
                 {wallet}
                 <button
