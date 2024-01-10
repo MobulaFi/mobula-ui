@@ -30,13 +30,13 @@ export const Drawer = ({
       <div
         className={`fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm sm:w-0 h-screen w-screen ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        } transition-all duration-300 ease-in-out`}
         onClick={onClose}
       />
       <div
         className={`flex flex-col z-[101] fixed border-l border-light-border-primary
          dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary 
-         transition-all duration-500 ease-in-out ${positionClass}`}
+         transition-all duration-300 ease-in-out ${positionClass}`}
         style={{
           [position]: isOpen ? "0%" : "-100%",
         }}
