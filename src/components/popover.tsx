@@ -23,6 +23,7 @@ export const Popover = ({
       className={`flex relative ${isFilters ? "pb-[8px]" : ""} `}
       onMouseEnter={() => onToggle()}
       onMouseLeave={() => onToggle()}
+      onClick={() => onToggle()}
     >
       <span className="z-[10] w-full">{visibleContent}</span>
       <div

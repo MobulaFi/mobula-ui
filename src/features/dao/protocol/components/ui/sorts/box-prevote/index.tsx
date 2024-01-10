@@ -259,7 +259,6 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           token?.links?.telegram ||
           token?.links?.discord ? (
             <Popover
-              extraCss="top-[35px] left-0"
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -270,18 +269,27 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 </button>
               }
               hiddenContent={<CommunityPopup token={token} />}
-              onToggle={() =>
+              onToggle={() => {
                 setShowPopover((prev) => ({
                   ...prev,
                   community: !prev.community,
-                }))
-              }
+                }));
+              }}
               isOpen={showPopover.community}
+              extraCss={`top-[35px] left-0 ${
+                showPopover.community
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none"
+              } transition-all duration-100 ease-in`}
             />
           ) : null}
           {token?.contracts?.length > 0 ? (
             <Popover
-              extraCss="top-[35px] left-1/2 -translate-x-1/2"
+              extraCss={`top-[35px] left-1/2 -translate-x-1/2 ${
+                showPopover.community
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none"
+              } transition-all duration-100 ease-in`}
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -307,12 +315,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                     </div>
                   )
               )}
-              onToggle={() =>
+              onToggle={() => {
                 setShowPopover((prev) => ({
                   ...prev,
                   contract: !prev.contract,
-                }))
-              }
+                }));
+              }}
               isOpen={showPopover.contract}
             />
           ) : null}
