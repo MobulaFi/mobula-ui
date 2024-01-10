@@ -20,7 +20,7 @@ export const SortProvider = ({
   const [displayedPool, setDisplayedPool] = useState("");
   const [votes, setVotes] = useState<number[]>([]);
   const [tokenVotedID, setTokenVotedID] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const value = useMemo(
     () => ({

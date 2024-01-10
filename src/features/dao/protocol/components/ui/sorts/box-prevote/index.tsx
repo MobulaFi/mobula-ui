@@ -382,7 +382,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               ) : null}
             </div>
           </ModalContainer>
-          {token?.links?.audits.length > 0 ? (
+          {token?.links?.audits?.length > 0 ? (
             <Popover
               extraCss="top-[35px] right-0"
               visibleContent={
@@ -421,7 +421,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               isOpen={showPopover.audit}
             />
           ) : null}
-          {token?.links?.kycs.length > 0 ? (
+          {token?.links?.kycs?.length > 0 ? (
             <Popover
               onToggle={() =>
                 setShowPopover((prev) => ({ ...prev, kyc: !prev.kyc }))
@@ -489,10 +489,14 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         </div>
       ) : null}
       {isFakeToken && displayedToken !== token.name ? (
-        <p className="text-light-font-40 dark:text-dark-font-40 text-sm mr-[5px]">
+        <p className="text-light-font-40 dark:text-dark-font-40 text-base md:text-sm mr-[5px] mt-1">
           Earn up to 100 $MOBL for pushing token creator to list their asset on
-          Mobula! Learn more about it at{" "}
-          <NextChakraLink href="https://docs.mobula.fi">
+          Mobula! <br />
+          Learn more about it at{" "}
+          <NextChakraLink
+            href="https://docs.mobula.fi"
+            extraCss="text-base md:text-sm"
+          >
             docs.mobula.fi
           </NextChakraLink>
         </p>

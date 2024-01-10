@@ -143,11 +143,23 @@ export const Sort = () => {
         </BoxContainer>
       );
     }
-    return (
-      <div className="flex items-center flex-col">
-        <img src="/empty/ray.png" alt="no sorts image" />
-      </div>
-    );
+    if (!isLoading && tokenDivs.length === 0)
+      return (
+        <BoxPreVote
+          token={
+            {
+              name: "Come back later!",
+              description: "No new listings are currently available :(",
+              logo: isWhiteMode
+                ? "/mobula/mobula-logo-light.svg"
+                : "/mobula/mobula-logo.svg",
+            } as TokenDivs
+          }
+          isFakeToken
+        />
+      );
+
+    return null;
   };
 
   const render = renderTokens();
