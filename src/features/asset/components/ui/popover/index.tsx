@@ -49,7 +49,11 @@ export const CustomPopOver = ({
       }
       isOpen={showCustomPopover}
       onToggle={() => setShowCustomPopover((prev) => !prev)}
-      extraCss={`top-[35px] ${position || ""}`}
+      extraCss={`top-[35px] ${position || ""} ${
+        showCustomPopover
+          ? "opacity-100 scale-100"
+          : "opacity-0 scale-95 pointer-events-none"
+      } transition-all duration-100 ease-in-out`}
     />
   );
 };
