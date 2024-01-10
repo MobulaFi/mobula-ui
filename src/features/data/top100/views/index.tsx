@@ -290,16 +290,14 @@ export const Views = ({ setResultsData }) => {
           </div>
         </div>
       ) : null}
-      {typePopup ? (
-        <ViewPopup
-          type={typePopup}
-          setType={setTypePopup}
-          state={state}
-          dispatch={dispatch}
-          activeDisplay={activeDisplay}
-          setActiveDisplay={setActiveDisplay}
-        />
-      ) : null}
+      <ViewPopup
+        type={typePopup}
+        setType={setTypePopup}
+        state={state}
+        dispatch={dispatch}
+        activeDisplay={activeDisplay}
+        setActiveDisplay={setActiveDisplay}
+      />
     </div>
   );
 };

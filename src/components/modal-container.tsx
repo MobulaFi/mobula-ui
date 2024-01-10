@@ -37,7 +37,7 @@ export const ModalContainer = ({
             isOpen
               ? "scale-100 opacity-100"
               : "opacity-0 scale-90 pointer-events-none"
-          } transition-all duration-200 ease-in-out`,
+          } transition-all duration-200 ease-in`,
           extraCss
         )}
       >
