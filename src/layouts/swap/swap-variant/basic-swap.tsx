@@ -301,9 +301,85 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
             </button>
           </div>
         </div>
+
+        {/* feijfejif */}
+        <div className="md:flex hidden flex-col mt-2.5">
+          {quotes?.map((entry, i) => (
+            <div
+              className={`flex justify-between items-center cursor-pointer p-3 rounded-xl mb-2.5 ${
+                getActiveProtocol(i)
+                  ? "bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-secondary dark:border-dark-border-secondary"
+                  : ""
+              }`}
+              key={entry.protocol}
+              onClick={() => {
+                setManualQuote(entry);
+                pushData("TRADE-SWITCH-ROUTE");
+                setShow(false);
+              }}
+            >
+              <div className="flex items-center">
+                <img
+                  className="w-[40px] h-[40px] mr-[10px] rounded-full"
+                  src={
+                    tokenOut?.logo || tokenOut?.image || "/empty/unknown.png"
+                  }
+                />
+
+                <div className="flex flex-col">
+                  <LargeFont>
+                    {getFormattedAmount(
+                      entry.amountOut / 10 ** tokenOut!.decimals,
+                      -2
+                    )}
+                  </LargeFont>
+                  <div className="flex items-center">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                      $
+                      {getFormattedAmount(
+                        getFormattedAmount(
+                          entry.amountOut / 10 ** tokenOut!.decimals,
+                          -2
+                        ) * tokenOut?.price
+                      )}{" "}
+                      -
+                    </SmallFont>
+                    <div className="flex items-center ml-1">
+                      <img
+                        src={famousContractsLabelFromName[entry.protocol]?.logo}
+                        className="rounded-full w-[14px] h-[14px] min-w-[14px] mr-2"
+                      />
+                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100">
+                        {entry.protocol}
+                      </SmallFont>
+                    </div>
+                  </div>
+                </div>
+                {/* <SmallFont>{entry.protocol}</SmallFont> */}
+              </div>
+              {/* <div className="flex items-center ml-2.5">
+              <p
+                className={`text-sm md:text-xs ${getColorOfActiveProtocol(
+                  i
+                )} mr-[5px] text-medium`}
+              >
+                {getFormattedAmount(
+                  entry.amountOut / 10 ** tokenOut!.decimals,
+                  -2
+                )}
+              </p>
+              <img
+                src={tokenOut?.logo || "/empty/unknown.png"}
+                className="rounded-full w-[14px] h-[14px] min-w-[14px]"
+              />
+            </div> */}
+            </div>
+          ))}{" "}
+        </div>
+        {/* fenhjusuejf */}
         <button
           className="flex items-center justify-center text-sm text-medium w-full rounded-lg text-light-font-100 dark:text-dark-font-100 border
-         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200 mt-4"
+         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200 mt-4 md:mt-0"
           onClick={() => handleButtonClick()}
           id={`trade-${buttonStatus?.toLowerCase()}`}
         >
@@ -323,7 +399,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
         <div
           className={`flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl border
        border-light-border-primary dark:border-dark-border-primary ml-5 p-5 w-[350px] h-fit ${
-         quotes?.length > 0 ? "flex" : "hidden"
+         quotes?.length > 0 ? "flex md:hidden" : "hidden"
        }`}
         >
           <LargeFont extraCss="mb-5">Router available</LargeFont>
