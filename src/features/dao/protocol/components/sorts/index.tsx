@@ -127,12 +127,12 @@ export const Sort = () => {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center">
               <Skeleton extraCss="mr-2.5 h-[22px] w-[22px] rounded-full" />
-              <Skeleton extraCss="h-[18px] w-[80px] mr-2.5" />
-              <Skeleton extraCss="h-[18px] w-[40px] mr-5" />
-              <Skeleton extraCss="mr-1 h-[18px] w-[18px] rounded-full" />
+              <Skeleton extraCss="h-[18px] md:h-[16px] w-[80px] mr-2.5 md:mr-2" />
+              <Skeleton extraCss="h-[18px] md:h-[16px] w-[40px] mr-5 md:mr-4" />
+              <Skeleton extraCss="mr-1 h-[18px] w-[18px] md:h-[16px] md:w-[16px] rounded-full" />
               <Skeleton extraCss="h-[16px] w-[16px] mr-2.5" />
             </div>
-            <Skeleton extraCss="h-[16px] w-[110px] ml-2.5" />
+            <Skeleton extraCss="h-[16px] w-[110px] ml-2.5 md:hidden" />
           </div>
           <div className="mt-2.5 flex flex-col">
             <Skeleton extraCss="h-[12px] w-[80%] rounded-full" />
