@@ -23,12 +23,11 @@ export const Popover = ({
       className={`flex relative ${isFilters ? "pb-[8px]" : ""} `}
       onMouseEnter={() => onToggle()}
       onMouseLeave={() => onToggle()}
-      onClick={() => onToggle()}
     >
       <span className="z-[10] w-full">{visibleContent}</span>
       <div
         className={cn(
-          `absolute border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-medium p-2.5 w-fit shadow-md z-[101] ${
+          `absolute border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-medium p-2.5 w-fit shadow-2xl z-[101] ${
             isOpen
               ? "opacity-100 scale-100"
               : "opacity-0 scale-90 pointer-events-none"

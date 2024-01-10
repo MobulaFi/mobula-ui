@@ -286,7 +286,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           {token?.contracts?.length > 0 ? (
             <Popover
               extraCss={`top-[35px] left-1/2 -translate-x-1/2 ${
-                showPopover.community
+                showPopover.contract
                   ? "opacity-100 scale-100"
                   : "opacity-0 scale-95 pointer-events-none"
               } transition-all duration-100 ease-in`}
