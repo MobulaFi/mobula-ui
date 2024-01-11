@@ -90,7 +90,9 @@ export const Activity = ({
     ? [explorerAddress]
     : [...(activePortfolio?.wallets || [])] || [];
 
-  const lowerCaseWallets = wallets.map((newWallet) => newWallet?.toLowerCase());
+  const lowerCaseWallets = wallets.map((newWallet) =>
+    (newWallet as string)?.toLowerCase()
+  );
 
   const fetchTransactions = (refresh = false) => {
     if (actualTxAmount > 25) setIsTxLoading(true);
