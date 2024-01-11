@@ -328,10 +328,11 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
                     <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
                       $
                       {getFormattedAmount(
-                        getFormattedAmount(
-                          entry.amountOut / 10 ** tokenOut!.decimals,
+                        (getFormattedAmount(
+                          (entry.amountOut as number) /
+                            10 ** tokenOut!.decimals,
                           -2
-                        ) * tokenOut?.price
+                        ) as number) * (tokenOut?.price as number)
                       )}{" "}
                       -
                     </SmallFont>
@@ -427,10 +428,11 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
                     <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
                       $
                       {getFormattedAmount(
-                        getFormattedAmount(
-                          entry.amountOut / 10 ** tokenOut!.decimals,
+                        (getFormattedAmount(
+                          (entry.amountOut as number) /
+                            10 ** tokenOut!.decimals,
                           -2
-                        ) * tokenOut?.price
+                        ) as number) * (tokenOut?.price as number)
                       )}{" "}
                       -
                     </SmallFont>

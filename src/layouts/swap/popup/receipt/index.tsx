@@ -99,7 +99,6 @@ export const TransactionReceipt = () => {
                   className="rounded-full mr-3 w-[34px] h-[34px]"
                   src={tokenIn?.logo || tokenIn?.image || "/empty/unknown.png"}
                   alt={`${tokenIn?.symbol} logo`}
-                  fallbackSrc=""
                 />
               )}
 
