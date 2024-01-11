@@ -1,7 +1,6 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
 import { useTheme } from "next-themes";
-import React from "react";
 import { MediumFont } from "../../../../../../components/fonts";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -102,24 +101,11 @@ export const NFTs = () => {
         </div>
       ) : null}
       {!isNftLoading && !nfts?.length ? (
-        <div
-          className="flex h-[300px] w-full bg-light-bg-secondary dark:bg-dark-bg-secondary rounded border
-         border-light-border-primary dark:border-dark-border-primary items-center justify-center flex-col"
-        >
-          <img
-            src={
-              isWhiteMode
-                ? "/asset/empty-bracket-light.png"
-                : "/asset/empty-bracket.png"
-            }
-            alt="empty bracket"
-            className="h-[100px] -mb-5 mt-[25px]"
-          />
-          <div className="flex flex-col items-center justify-center mb-5 mt-[40px] max-w-[80%]">
-            <MediumFont className="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40">
-              No NFTs found{" "}
-            </MediumFont>
-          </div>
+        <div className="h-[300px] w-full flex items-center justify-center flex-col">
+          <img src="/empty/ray.png" alt="empty logo" />
+          <MediumFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
+            No NFT found.
+          </MediumFont>
         </div>
       ) : null}
     </div>
