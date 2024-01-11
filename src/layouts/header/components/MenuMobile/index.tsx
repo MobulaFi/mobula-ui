@@ -68,7 +68,9 @@ export const MenuMobile = ({
     <div
       className={`bg-light-bg-primary dark:bg-dark-bg-primary z-[110] pt-[15px] top-[98px] 
     w-screen left-0 h-screen text-light-font-100 dark:text-dark-font-100 flex flex-col 
-    overflow-x-hidden fixed ${isMenuMobile ? "flex" : "hidden"}`}
+    overflow-x-hidden fixed ${
+      isMenuMobile ? "opacity-100 translate-x-0" : "translate-x-full"
+    } transition-all duration-300 ease-in-out`}
       id="mobileNav"
     >
       <Mobile navigation={navigation} />

@@ -141,7 +141,7 @@ export const WalletsPopup = () => {
         <div className="flex mt-2.5 flex-col border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
           <div className="flex flex-col w-full">
             {/* ADD A WALLET */}
-            <Collapse startingHeight="0px" isOpen={showAddWallet}>
+            <Collapse startingHeight="max-h-[0px]" isOpen={showAddWallet}>
               <div className="flex items-center justify-between mb-2.5 w-full">
                 <div className="flex items-center">
                   <SmallFont>Wallet Address</SmallFont>

@@ -1,7 +1,8 @@
 import { Collapse } from "components/collapse";
 import { Switch } from "lib/shadcn/components/ui/switch";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { BiSolidWallet } from "react-icons/bi";
 import { BsDatabaseDown, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { isAddress } from "viem";
@@ -96,7 +97,7 @@ export const CreatePortfolio = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex items-center justify-between mb-2.5 w-full">
+      <div className="flex items-center justify-between mb-2.5 w-full mt-2.5">
         <div className="flex items-center">
           <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
           <SmallFont>Portfolio name</SmallFont>
@@ -127,7 +128,7 @@ export const CreatePortfolio = () => {
       </div>
       <div className="flex items-center justify-between mb-2.5">
         <div className="flex items-center">
-          <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
+          <BiSolidWallet className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
           <SmallFont>Add wallet</SmallFont>
         </div>
       </div>
@@ -141,7 +142,7 @@ export const CreatePortfolio = () => {
           }}
         />
         <Button
-          extraCss="ml-2.5"
+          extraCss="ml-2.5 h-[35px]"
           onClick={() => {
             if (!isAddress(userWallet)) {
               triggerAlert(
@@ -166,7 +167,7 @@ export const CreatePortfolio = () => {
       </div>
       <Collapse
         isOpen={portfolioSettings.wallets.length > 0}
-        startingHeight={"0px"}
+        startingHeight={"max-h-[0px]"}
       >
         <div className="flex flex-col mb-2.5 w-full ">
           {portfolioSettings.wallets?.map((entry, index) => (
@@ -208,9 +209,9 @@ export const CreatePortfolio = () => {
           ))}
         </div>
       </Collapse>
-      <div className="flex mt-[15px]">
+      <div className="flex">
         <Button
-          extraCss="w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+          extraCss="w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue h-[35px]"
           onClick={() => {
             signerGuard(() => {
               if (portfolioSettings.name !== "") {

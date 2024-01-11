@@ -92,7 +92,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
         </div>
       </div>
       <Collapse
-        startingHeight={isLargerThan991 ? "100%" : "129px"}
+        startingHeight={isLargerThan991 ? "max-h-full" : "max-h-[129px]"}
         isOpen={showMore}
       >
         {metrics.map((entry, i) => {

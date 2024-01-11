@@ -81,9 +81,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
     "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
-    if (!displayedToken && !isFakeToken) return "60px";
-    if (isFakeToken) return "20px";
-    return "40px";
+    if (!displayedToken && !isFakeToken) return "max-h-[60px]";
+    if (isFakeToken) return "max-h-[20px]";
+    return "max-h-[40px]";
   };
   const descriptionHeight = calculateValue();
 
@@ -259,7 +259,6 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           token?.links?.telegram ||
           token?.links?.discord ? (
             <Popover
-              extraCss="top-[35px] left-0"
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -277,11 +276,20 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 }))
               }
               isOpen={showPopover.community}
+              extraCss={`top-[35px] left-0 ${
+                showPopover.community
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none"
+              } transition-all duration-100 ease-in`}
             />
           ) : null}
           {token?.contracts?.length > 0 ? (
             <Popover
-              extraCss="top-[35px] left-1/2 -translate-x-1/2"
+              extraCss={`top-[35px] left-1/2 -translate-x-1/2 ${
+                showPopover.contract
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none"
+              } transition-all duration-100 ease-in`}
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -461,7 +469,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         } text-start`}
       >
         <Collapse startingHeight={descriptionHeight} isOpen={show}>
-          {token?.description}
+          <p className="text-base md:text-sm">{token?.description} </p>
         </Collapse>
         <RenderContent token={token} handleToggle={handleToggle} show={show} />
       </p>
@@ -481,10 +489,14 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         </div>
       ) : null}
       {isFakeToken && displayedToken !== token.name ? (
-        <p className="text-light-font-40 dark:text-dark-font-40 text-sm mr-[5px]">
+        <p className="text-light-font-60 dark:text-dark-font-60 text-base md:text-sm mr-[5px] mt-1">
           Earn up to 100 $MOBL for pushing token creator to list their asset on
-          Mobula! Learn more about it at{" "}
-          <NextChakraLink href="https://docs.mobula.fi">
+          Mobula! <br />
+          Learn more about it at{" "}
+          <NextChakraLink
+            href="https://docs.mobula.fi"
+            extraCss="text-base md:text-sm"
+          >
             docs.mobula.fi
           </NextChakraLink>
         </p>

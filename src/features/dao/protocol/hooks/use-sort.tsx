@@ -30,7 +30,8 @@ export interface IListingData {
 
 export const useSort = () => {
   const { address: account } = useAccount();
-  const { setTokenDivs, isFirstSort, isPendingPool } = useContext(SortContext);
+  const { setTokenDivs, isFirstSort, isPendingPool, setIsLoading } =
+    useContext(SortContext);
 
   function getSorts() {
     const client = createPublicClient({
@@ -49,6 +50,7 @@ export const useSort = () => {
       if (isFirstSort === true) return 3;
       return 4;
     };
+    console.log("I CAME HERE");
 
     protocolContract.read
       .getTokenListings()
@@ -56,7 +58,10 @@ export const useSort = () => {
       .then(async (listings: IListingData[] | any) => {
         let fails = 0;
         listings.forEach(async (listing: IListingData, index) => {
-          if (listing.status !== getNumberFromSort()) return;
+          if (listing.status !== getNumberFromSort()) {
+            setIsLoading(false);
+            return;
+          }
           const [isAlreadyVoted, response, hashResult] =
             await Promise.allSettled([
               protocolContract.read[
@@ -67,6 +72,7 @@ export const useSort = () => {
             ]);
 
           if (response.status !== "fulfilled") {
+            setIsLoading(false);
             fails += 1;
             return;
           }
@@ -117,17 +123,21 @@ export const useSort = () => {
             JSONrep.lastUpdate = Number(listing.token.lastUpdated);
             if (JSONrep.contracts) {
               setTokenDivs((tokenDivs) => [...tokenDivs, JSONrep]);
+              setIsLoading(false);
             } else {
               fails += 1;
+              setIsLoading(false);
             }
           } catch (e) {
             fails += 1;
+            setIsLoading(false);
           }
         });
       });
   }
 
   useEffect(() => {
+    setIsLoading(true);
     getSorts();
   }, [isFirstSort, isPendingPool]);
 };

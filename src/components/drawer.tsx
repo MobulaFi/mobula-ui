@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface DrawerProps {
@@ -19,26 +19,24 @@ export const Drawer = ({
   const getClassFromPosition = () => {
     switch (position) {
       case "bottom":
-        return "w-screen h-fit bottom-0";
+        return "w-screen h-fit bottom-0 left-0";
       case "right":
         return "w-[400px] h-screen top-0 sm:w-screen";
     }
   };
   const positionClass = getClassFromPosition();
   return (
-    <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm">
+    <>
       <div
-        className={`sm:w-0 ${position === "right" ? "h-screen" : "h-fit"}`}
-        style={{
-          width: position === "right" ? "calc(100vw - 400px)" : "100%",
-          height: position === "right" ? "100vh" : "100%",
-        }}
+        className={`fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm h-screen w-screen ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        } transition-all duration-300 ease-in-out`}
         onClick={onClose}
       />
       <div
-        className={`flex flex-col fixed border-l border-light-border-primary
+        className={`flex flex-col z-[101] fixed border-l border-light-border-primary
          dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary 
-         transition-all duration-500 ease-in-out ${positionClass}`}
+         transition-all duration-300 ease-in-out ${positionClass}`}
         style={{
           [position]: isOpen ? "0%" : "-100%",
         }}
@@ -53,6 +51,6 @@ export const Drawer = ({
         ) : null}
         {children}
       </div>
-    </div>
+    </>
   );
 };
