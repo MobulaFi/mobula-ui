@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
@@ -83,7 +83,7 @@ export const ChartHeader = () => {
           activeChart === "Trading view" ? "mb-2.5 md:mb-0" : "mb-0  md:mb-0"
         } w-full mx-auto mt-0  md:mt-[5px] z-[5]`}
       >
-        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll mb-2.5">
+        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll">
           {/* <div
             className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded p-0.5 bg-light-bg-secondary 
           dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary 
@@ -197,7 +197,7 @@ export const ChartHeader = () => {
         <ComparePopover
           setComparedEntities={setComparedEntities}
           comparedEntities={comparedEntities}
-          extraCss="ml-2.5 mb-0 md:mb-2"
+          extraCss="ml-2.5 mb-0"
         />
         {activeChart !== "Trading view" ? (
           <TimeSwitcher extraCss="flex md:hidden" />
@@ -205,7 +205,7 @@ export const ChartHeader = () => {
       </div>
       {activeChart === "Trading view" ? null : (
         <CompareButtons
-          buttonH="h-[30px] ml-0"
+          buttonH="h-[30px] ml-0 mt-2"
           comparedEntities={comparedEntities}
           setComparedEntities={setComparedEntities}
         />

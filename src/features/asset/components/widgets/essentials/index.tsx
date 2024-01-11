@@ -27,6 +27,7 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     activeChart,
     setShowMobileMetric,
     setActiveMetric,
+    comparedEntities,
   } = useContext(BaseAssetContext);
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
@@ -44,9 +45,13 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
-        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0">
+        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
           <ChartHeader />
-          <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
+          <TimeSwitcher
+            extraCss={`hidden md:flex mr-0 mt-0 ${
+              comparedEntities?.length > 0 ? "md:mt-0" : ""
+            }`}
+          />
           {/* {activeChart === "Trading view" ? (
             <ChartBox
               baseAsset={baseAsset}
