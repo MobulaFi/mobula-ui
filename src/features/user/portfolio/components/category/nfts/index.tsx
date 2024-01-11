@@ -1,7 +1,7 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
 import { useTheme } from "next-themes";
-import { MediumFont } from "../../../../../../components/fonts";
+import { LargeFont } from "../../../../../../components/fonts";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
 import { PortfolioV2Context } from "../../../context-manager";
 import { NftPortfolioCard } from "./card";
@@ -102,10 +102,9 @@ export const NFTs = () => {
       ) : null}
       {!isNftLoading && !nfts?.length ? (
         <div className="h-[300px] w-full flex items-center justify-center flex-col">
-          <img src="/empty/ray.png" alt="empty logo" />
-          <MediumFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
+          <LargeFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
             No NFT found.
-          </MediumFont>
+          </LargeFont>
         </div>
       ) : null}
     </div>

@@ -7,7 +7,11 @@ import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
-import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
@@ -566,10 +570,9 @@ export const Cryptocurrencies = () => {
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
         <div className="h-[300px] w-full flex items-center justify-center flex-col">
-          <img src="/empty/ray.png" alt="empty logo" />
-          <MediumFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
+          <LargeFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
             This wallet is empty.
-          </MediumFont>
+          </LargeFont>
         </div>
       )}
     </>

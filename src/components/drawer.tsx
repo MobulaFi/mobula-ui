@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface DrawerProps {
@@ -19,7 +19,7 @@ export const Drawer = ({
   const getClassFromPosition = () => {
     switch (position) {
       case "bottom":
-        return "w-screen h-fit bottom-0";
+        return "w-screen h-fit bottom-0 left-0";
       case "right":
         return "w-[400px] h-screen top-0 sm:w-screen";
     }
@@ -28,7 +28,7 @@ export const Drawer = ({
   return (
     <>
       <div
-        className={`fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm sm:w-0 h-screen w-screen ${
+        className={`fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm h-screen w-screen ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         } transition-all duration-300 ease-in-out`}
         onClick={onClose}
