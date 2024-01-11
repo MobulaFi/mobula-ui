@@ -58,8 +58,6 @@ export const TransactionReceipt = () => {
     // Silent error
   }
 
-  console.log("tokenenenen", tokenIn, tokenOut);
-
   return (
     <ModalContainer
       extraCss="max-w-[400px]"

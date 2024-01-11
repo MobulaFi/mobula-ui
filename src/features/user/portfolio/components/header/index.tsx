@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BiSolidChevronDown } from "react-icons/bi";
@@ -57,6 +57,8 @@ export const Header = ({ isExplorer }: HeaderProps) => {
 
   const supportedChains = getSupportedChains();
 
+  const params = useParams();
+
   return (
     <div className="flex items-center justify-between w-full">
       <div className="flex">
@@ -94,7 +96,7 @@ export const Header = ({ isExplorer }: HeaderProps) => {
       </div>
       <div className="flex my-auto items-center">
         <NetworkButton extraCss="flex-wrap" />
-        {isWalletExplorer || isPortfolioExplorer ? null : (
+        {isExplorer || isPortfolioExplorer ? null : (
           <Button
             extraCss={`${activeStep.nbr === 2 ? "z-[5]" : "z-[0]"}`}
             onClick={() => setShowSelect(true)}
@@ -102,7 +104,7 @@ export const Header = ({ isExplorer }: HeaderProps) => {
             Add Asset +
           </Button>
         )}
-        {isWalletExplorer ? (
+        {isExplorer ? (
           <Button
             extraCss={`${activeStep.nbr === 2 ? "z-[5]" : "z-[0]"}`}
             onClick={() => {
@@ -114,9 +116,11 @@ export const Header = ({ isExplorer }: HeaderProps) => {
                   setShowPortfolioSelector(true);
                   setShowCreatePortfolio(true);
                   setPortfolioSettings({
-                    name: `${addressSlicer(isWalletExplorer)}'s Portfolio`,
+                    name: `${addressSlicer(
+                      params?.address as string
+                    )}'s Portfolio`,
                     public: false,
-                    wallets: [isWalletExplorer],
+                    wallets: [params?.address as string],
                   });
                   pushData("Create Portfolio Clicked");
                 }, 1000);
