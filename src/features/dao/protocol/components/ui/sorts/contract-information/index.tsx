@@ -24,7 +24,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
         <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100" />
         <MediumFont extraCss="ml-2.5">Contract & Information</MediumFont>
       </div>
-      {token?.excludedFromCirculationAddresses.filter((entry) => entry.address)
+      {token?.excludedFromCirculationAddresses?.filter((entry) => entry.address)
         .length > 0 ? (
         <div className="flex mt-[15px] flex-row md:flew-col">
           <div className="flex flex-col w-full">
