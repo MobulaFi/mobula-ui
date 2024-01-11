@@ -52,6 +52,7 @@ export const Datafeed = (baseAsset: Asset) => ({
       "/api/1/market/history/pair",
       {
         asset: baseAsset.contracts[0],
+        // address: "0x28200dfc4a177b2ef62165edce6c9fb7bc1e997a",
         blockchain: baseAsset.blockchains[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
@@ -93,7 +94,7 @@ export const Datafeed = (baseAsset: Asset) => ({
           type: "pair",
           authorization: process.env.NEXT_PUBLIC_PRICE_KEY,
           payload: {
-            address: "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc", // baseAsset.contracts[0],
+            asset: baseAsset.contracts[0],
             blockchain: baseAsset.blockchains[0],
             interval: 5,
           },
@@ -102,7 +103,7 @@ export const Datafeed = (baseAsset: Asset) => ({
     });
 
     socket.addEventListener("message", (event) => {
-      const {data} = JSON.parse(event.data);
+      const { data } = JSON.parse(event.data);
       const { priceUSD: price, date: timestamp } = data;
 
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
@@ -125,8 +126,6 @@ export const Datafeed = (baseAsset: Asset) => ({
           close: price,
         };
       }
-
-      console.log("BAR", bar, data);
 
       onRealtimeCallback(bar);
     });
