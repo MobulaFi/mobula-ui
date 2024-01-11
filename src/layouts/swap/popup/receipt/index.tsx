@@ -1,6 +1,4 @@
 import { Button } from "components/button";
-import { NextImageFallback } from "components/image";
-import { ModalContainer } from "components/modal-container";
 import { Skeleton } from "components/skeleton";
 import { Spinner } from "components/spinner";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
@@ -12,12 +10,13 @@ import { useAccount, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { MediumFont, SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
+import { ModalContainer } from "../../../../components/modal-container";
 import {
   getFormattedAmount,
   getFormattedDate,
   getFormattedHours,
 } from "../../../../utils/formaters";
-import { getAmountOut } from "../../utils";
+import { famousContractsLabelFromName, getAmountOut } from "../../utils";
 import { Lines } from "./lines";
 
 export const TransactionReceipt = () => {
@@ -39,6 +38,8 @@ export const TransactionReceipt = () => {
     setTxError,
     slippageTokenIn,
     slippageTokenOut,
+    quotes,
+    manualQuote,
   } = useContext(SwapContext);
   const [hasCopied, setHasCopied] = useState(false);
   const { chain } = useNetwork();
@@ -56,6 +57,8 @@ export const TransactionReceipt = () => {
   } catch (e) {
     // Silent error
   }
+
+  console.log("tokenenenen", tokenIn, tokenOut);
 
   return (
     <ModalContainer
@@ -94,18 +97,18 @@ export const TransactionReceipt = () => {
               {tokenIn === null ? (
                 <Skeleton extraCss="w-[34px] h-[34px] mr-[15px] rounded-full" />
               ) : (
-                <NextImageFallback
-                  width={34}
-                  height={34}
-                  className="rounded-full mr-3"
-                  src={tokenIn?.logo}
+                <img
+                  className="rounded-full mr-3 w-[34px] h-[34px]"
+                  src={tokenIn?.logo || tokenIn?.image || "/empty/unknown.png"}
                   alt={`${tokenIn?.symbol} logo`}
-                  fallbackSrc="/empty/unknown.png"
+                  fallbackSrc=""
                 />
               )}
 
               <div>
-                <SmallFont>{completedTx ? "Spent" : "Spend"}</SmallFont>
+                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                  {completedTx ? "Spent" : "Spend"}
+                </SmallFont>
                 {tokenIn === null ? (
                   <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px]" />
                 ) : (
@@ -120,17 +123,18 @@ export const TransactionReceipt = () => {
               {tokenIn === null ? (
                 <Skeleton extraCss="w-[34px] h-[34px] mr-[15px] rounded-full" />
               ) : (
-                <NextImageFallback
-                  width={34}
-                  height={34}
-                  className="rounded-full mr-3"
-                  src={tokenOut?.logo}
+                <img
+                  className="rounded-full mr-3 w-[34px] h-[34px]"
+                  src={
+                    tokenOut?.logo || tokenOut?.image || "/empty/unknown.png"
+                  }
                   alt={`${tokenOut?.symbol} logo`}
-                  fallbackSrc="/empty/unknown.png"
                 />
               )}
               <div>
-                <SmallFont>{completedTx ? "Received" : "Receive"}</SmallFont>
+                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                  {completedTx ? "Received" : "Receive"}
+                </SmallFont>
                 {tokenIn === null ? (
                   <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px] rounded-full" />
                 ) : (
@@ -156,7 +160,35 @@ export const TransactionReceipt = () => {
                 )}
               </div>
             </div>
+            <div className="my-2.5 h-[1px] w-full bg-light-border-primary dark:bg-dark-border-primary" />
+            {quotes?.length > 0 ? (
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  <img
+                    className="rounded-full mr-3 w-[34px] h-[34px]"
+                    src={
+                      famousContractsLabelFromName[
+                        (manualQuote || quotes?.[0])?.protocol
+                      ]?.logo
+                    }
+                  />
+                  <div>
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                      Router
+                    </SmallFont>
+                    {tokenIn === null ? (
+                      <Skeleton extraCss="h-4 lg:h-[15px] md:h-3.5 w-[60px] rounded-full" />
+                    ) : (
+                      <MediumFont>
+                        {(manualQuote || quotes?.[0])?.protocol}
+                      </MediumFont>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
+
           <Lines
             title="Rate"
             extraCss="mt-5 border-b border-light-border-primary dark:border-dark-border-primary"

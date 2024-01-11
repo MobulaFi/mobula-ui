@@ -489,7 +489,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         </div>
       ) : null}
       {isFakeToken && displayedToken !== token.name ? (
-        <p className="text-light-font-40 dark:text-dark-font-40 text-base md:text-sm mr-[5px] mt-1">
+        <p className="text-light-font-60 dark:text-dark-font-60 text-base md:text-sm mr-[5px] mt-1">
           Earn up to 100 $MOBL for pushing token creator to list their asset on
           Mobula! <br />
           Learn more about it at{" "}

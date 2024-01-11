@@ -97,16 +97,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     if (chain === "BNB Smart Chain (BEP20)") return "Binaace Smart Chain";
   };
 
-  console.log(
-    "amountIn * tokenIn?.price",
-    amountIn,
-    tokenIn?.price,
-    typeof window !== "undefined" &&
-      inputInRef.current === document?.activeElement
-      ? amountIn
-      : (getRightPrecision(amountIn) as number),
-    tokenIn
-  );
+  console.log("quotes", quotes);
 
   return (
     <div
@@ -395,7 +386,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
         />
         <Settings visible={showSettings} setVisible={setShowSettings} />
       </div>
-      {manualQuote ? null : (
+      {!quotes?.length ? null : (
         <div
           className={`flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl border
        border-light-border-primary dark:border-dark-border-primary ml-5 p-5 w-[350px] h-fit ${
