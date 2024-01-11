@@ -127,12 +127,13 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
   const params = useParams();
   const { nfts, setNfts, setIsNftLoading, nftsDeleted } =
     useContext(PortfolioV2Context);
-
+  console.log("params?.address", params?.address, nfts?.[0]?.minter_address);
   useEffect(() => {
     if (
       (addresses?.length > 0 && !nfts?.length) ||
-      (addresses?.length && !addresses.includes(nfts?.[0]?.minter_address))
+      nfts?.[0]?.minter_address !== params?.address
     ) {
+      console.log("params is fetching");
       const promises = addresses?.map((address) =>
         GET(
           "/api/1/wallet/nfts",
