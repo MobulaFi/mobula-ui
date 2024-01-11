@@ -19,17 +19,6 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
   } = useContext(PortfolioV2Context);
   return (
     <div className="flex" {...props}>
-      {isWalletExplorer ? null : (
-        <Button
-          extraCss={`mr-2.5 sm:mr-[5px] ${
-            activeStep.nbr === 1 ? "z-[5]" : "z-[0]"
-          }`}
-          onClick={() => setShowWallet(true)}
-        >
-          {activePortfolio?.wallets?.length} Wallet(s)
-          <BiSolidChevronDown className="ml-[2.5px] mr-[-2.5px] text-md" />
-        </Button>
-      )}
       {false && (
         <Button
           extraCss={`${isWalletExplorer ? "mr-0" : "mr-2.5"} z-[2]`}
