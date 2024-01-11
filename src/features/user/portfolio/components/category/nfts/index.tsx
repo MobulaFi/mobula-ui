@@ -1,6 +1,7 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
 import { useTheme } from "next-themes";
+import { useParams } from "next/navigation";
 import { LargeFont } from "../../../../../../components/fonts";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -64,9 +65,11 @@ export const NFTs = () => {
     nftsDeleted,
   } = useContext(PortfolioV2Context);
   const { theme } = useTheme();
+  const params = useParams();
+  const explorerAddress = params?.address as string;
   const isWhiteMode = theme === "light";
   useMultiWalletNftHoldings(
-    isWalletExplorer ? [isWalletExplorer] : activePortfolio?.wallets
+    explorerAddress ? [explorerAddress] : activePortfolio?.wallets
   );
 
   const checkDouble = () => {

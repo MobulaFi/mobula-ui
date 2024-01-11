@@ -43,7 +43,6 @@ export const Activity = ({
   const {
     setActivePortfolio,
     manager,
-    isWalletExplorer,
     activePortfolio,
     isLoading,
     wallet,
@@ -57,9 +56,9 @@ export const Activity = ({
   const { address } = useAccount();
   const [actualTxAmount, setActualTxAmount] = useState(25);
   const [isTxLoading, setIsTxLoading] = useState(false);
-
   const isMounted = useRef(false);
   const params = useParams();
+  const explorerAddress = params.address;
   const assetQuery = params.asset;
   const pathname = usePathname();
   const { theme } = useTheme();
@@ -87,8 +86,8 @@ export const Activity = ({
   const portfolioId = pathname.split("/")[3]
     ? pathname.split("/")[3].split("?")[0]
     : activePortfolio?.id;
-  const wallets = isWalletExplorer
-    ? [isWalletExplorer]
+  const wallets = explorerAddress
+    ? [explorerAddress]
     : [...(activePortfolio?.wallets || [])] || [];
 
   const lowerCaseWallets = wallets.map((newWallet) => newWallet?.toLowerCase());
@@ -106,7 +105,7 @@ export const Activity = ({
     };
 
     if (isSmallTable) txRequest.only_assets = asset?.id;
-    if (isWalletExplorer) delete txRequest.portfolio_id;
+    if (explorerAddress) delete txRequest.portfolio_id;
 
     GET(
       `${process.env.NEXT_PUBLIC_PORTFOLIO_ENDPOINT}/portfolio/rawtxs`,
@@ -698,7 +697,7 @@ export const Activity = ({
                                 />
                               </div>
                               {(transaction.chain_id ||
-                                (!isWalletExplorer &&
+                                (!explorerAddress &&
                                   activePortfolio?.user === user?.id)) && (
                                 <Menu
                                   title={
@@ -742,7 +741,7 @@ export const Activity = ({
                                       </div>
                                     </div>
                                   ) : null}
-                                  {!isWalletExplorer &&
+                                  {!explorerAddress &&
                                     activePortfolio?.user === user?.id &&
                                     transaction.id && (
                                       <div
