@@ -7,7 +7,12 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
 import { SwapContext } from "..";
-import { LargeFont, SmallFont } from "../../../components/fonts";
+import { Collapse } from "../../../components/collapse";
+import {
+  ExtraSmallFont,
+  MediumFont,
+  SmallFont,
+} from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
 import { Tooltip } from "../../../components/tooltip";
 import { pushData } from "../../../lib/mixpanel";
@@ -48,6 +53,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     setLockToken,
     setManualQuote,
   } = useContext<ISwapContext>(SwapContext);
+  const [showMoreRouter, setShowMoreRouter] = useState(false);
   const [isTokenIn, setIsTokenIn] = useState(true);
   const [showSelector, setShowSelector] = useState<boolean>(false);
   const [isBuy, setIsBuy] = useState<boolean>(true);
@@ -93,11 +99,11 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     return false;
   };
 
-  const getChainName = (chain: string) => {
-    if (chain === "BNB Smart Chain (BEP20)") return "Binaace Smart Chain";
-  };
-
-  console.log("quotes", quotes);
+  console.log(
+    "manualQuote",
+    Number(quotes?.[0]?.amountOut) / 10 ** (tokenOut?.decimals as number),
+    -2
+  );
 
   return (
     <div
@@ -143,19 +149,33 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
        }`}
         >
           <div className="flex items-center justify-between">
-            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
               From
             </SmallFont>
             {tokenIn && tokenIn.balance !== null && (
-              <div className="flex items-center justify-center">
-                <p className="text-light-font-40 dark:text-dark-font-40 text-xs text-normal">
+              <button
+                className="flex items-center justify-center "
+                onClick={() => {
+                  setAmountIn(
+                    tokenIn && "coin" in tokenIn
+                      ? String(
+                          Math.max(parseFloat(tokenIn.balance!) - gasCost, 0)
+                        )
+                      : tokenIn?.balance!
+                  );
+                }}
+              >
+                <p
+                  className="text-light-font-60 dark:text-dark-font-60 text-[13px] text-normal
+                 hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-200 ease-in-out"
+                >
                   Balance: {getFormattedAmount(tokenIn?.balance)}
                 </p>
                 <Tooltip
                   tooltipText="Inputs your maximum holdings minus gas fees, which could go to 0 if you have a low balance."
                   extraCss="top-[20px] right-0 mb-[5px]"
                 />
-              </div>
+              </button>
             )}
           </div>
           <div className="mt-5 flex items-center">
@@ -181,22 +201,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
               type="number"
               lang="en"
             />
-            {tokenIn && tokenIn.balance !== null && (
-              <button
-                className="text-md mr-2.5 rounded px-2 text-light-font-100 dark:text-dark-font-100 border border-darkblue hover:border-blue transition-all duration-200"
-                onClick={() => {
-                  setAmountIn(
-                    tokenIn && "coin" in tokenIn
-                      ? String(
-                          Math.max(parseFloat(tokenIn.balance!) - gasCost, 0)
-                        )
-                      : tokenIn?.balance!
-                  );
-                }}
-              >
-                MAX
-              </button>
-            )}
+
             <button
               className={switchTokenButtonStyle}
               onClick={() => {
@@ -229,6 +234,10 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           <button
             className="bg-light-bg-secondary dark:bg-dark-bg-secondary w-fit p-2 absolute z-[2] rounded-full translate-y-[-50%]
          top-[50%] border border-light-border-primary dark:border-dark-border-primary"
+            onClick={() => {
+              setIsBuy((prev) => !prev);
+              pushData("TRADE-SWITCH-BUY-SELL");
+            }}
           >
             <VscArrowSwap className="text-lg rotate-90 text-light-font-60 dark:text-dark-font-60 hover:text-light-font-100 hover:dark:text-dark-font-100 transition" />
           </button>
@@ -241,7 +250,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
          activeStep === 2 ? "z-[5]" : "z-[0]"
        }`}
         >
-          <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+          <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
             To (estimated)
           </SmallFont>
           <div className="flex mt-5 items-center w-full">
@@ -252,7 +261,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
               lang="en"
               disabled
               className="w-fit max-w-[200px] lg:max-w-[150px] text-light-font-100 dark:text-dark-font-100 text-[20px] 
-            lg:text-[18px] md:text-[16px] font-medium bg-light-bg-terciary dark:bg-dark-bg-terciary border-0 outline-none pl-0"
+            lg:text-[18px] md:text-[16px] font-medium bg-light-bg-terciary dark:bg-dark-bg-terciary border-0 outline-none pl-0 overflow-scroll"
               style={{ border: "none" }}
               onChange={(e) => {
                 if (
@@ -261,11 +270,10 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
                 )
                   setAmountOut(e.target.value);
               }}
-              value={getFormattedAmount(
-                (manualQuote?.amountOut || quotes?.[0]?.amountOut) /
-                  10 ** tokenOut!?.decimals,
-                -2
-              )}
+              value={
+                (manualQuote?.amountOut || Number(quotes?.[0]?.amountOut)) /
+                10 ** (tokenOut?.decimals as number)
+              }
             />
             <button
               className={switchTokenButtonStyle}
@@ -293,85 +301,96 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           </div>
         </div>
 
-        {/* feijfejif */}
-        <div className="md:flex hidden flex-col mt-2.5">
-          {quotes?.map((entry, i) => (
-            <div
-              className={`flex justify-between items-center cursor-pointer p-3 rounded-xl mb-2.5 ${
-                getActiveProtocol(i)
-                  ? "bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-secondary dark:border-dark-border-secondary"
-                  : ""
-              }`}
-              key={entry.protocol}
-              onClick={() => {
-                setManualQuote(entry);
-                pushData("TRADE-SWITCH-ROUTE");
-                setShow(false);
-              }}
-            >
-              <div className="flex items-center">
-                <img
-                  className="w-[40px] h-[40px] mr-[10px] rounded-full"
-                  src={
-                    tokenOut?.logo || tokenOut?.image || "/empty/unknown.png"
-                  }
-                />
-
-                <div className="flex flex-col">
-                  <LargeFont>
-                    {getFormattedAmount(
-                      entry.amountOut / 10 ** tokenOut!.decimals,
-                      -2
-                    )}
-                  </LargeFont>
+        <div className="flex flex-col">
+          <button
+            className="flex items-center justify-between py-2.5"
+            onClick={() => setShowMoreRouter((prev) => !prev)}
+          >
+            <SmallFont extraCss="text-light-font-80 dark:text-dark-font-80 ml-3.5">
+              Router available ({quotes?.length || "Loading..."})
+            </SmallFont>
+            <BsChevronDown
+              className={`text-light-font-100 dark:text-dark-font-100 font-medium ${
+                showMoreRouter ? "rotate-180" : ""
+              } transition-all duration-300 ease-in-out mr-3.5`}
+            />
+          </button>
+          <Collapse startingHeight="max-h-[75px]" isOpen={showMoreRouter}>
+            {quotes?.map((entry, i) => {
+              return (
+                <div
+                  className={`flex justify-between relative items-center cursor-pointer p-3 rounded-xl mb-2.5 ${
+                    getActiveProtocol(i)
+                      ? "bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-secondary dark:border-dark-border-secondary"
+                      : ""
+                  }`}
+                  key={entry.protocol}
+                  onClick={() => {
+                    setManualQuote(entry);
+                    pushData("TRADE-SWITCH-ROUTE");
+                    setShow(false);
+                  }}
+                >
+                  {getActiveProtocol(i) && (
+                    <div
+                      className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full w-fit px-2 h-fit 
+                  py-0.5 border border-darkblue dark:border-darkblue flex items-center justify-center 
+                  absolute top-2 right-2"
+                    >
+                      <ExtraSmallFont>Selected</ExtraSmallFont>
+                    </div>
+                  )}
                   <div className="flex items-center">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                      $
-                      {getFormattedAmount(
-                        (getFormattedAmount(
-                          (entry.amountOut as number) /
-                            10 ** tokenOut!.decimals,
+                    <img
+                      className="w-[38px] h-[38px] mr-[10px] rounded-full"
+                      src={
+                        famousContractsLabelFromName[entry.protocol]?.logo ||
+                        "/empty/unknown.png"
+                      }
+                    />
+
+                    <div className="flex flex-col">
+                      <MediumFont extraCss="font-medium">
+                        {getFormattedAmount(
+                          entry.amountOut / 10 ** tokenOut!.decimals,
                           -2
-                        ) as number) * (tokenOut?.price as number)
-                      )}{" "}
-                      -
-                    </SmallFont>
-                    <div className="flex items-center ml-1">
-                      <img
-                        src={famousContractsLabelFromName[entry.protocol]?.logo}
-                        className="rounded-full w-[14px] h-[14px] min-w-[14px] mr-2"
-                      />
-                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100">
-                        {entry.protocol}
-                      </SmallFont>
+                        )}{" "}
+                        {tokenOut?.symbol}
+                      </MediumFont>
+                      <div className="flex items-center">
+                        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                          $
+                          {getFormattedAmount(
+                            (Number(entry.amountOut) /
+                              10 ** Number(tokenOut!.decimals)) *
+                              (tokenOut?.price as number)
+                          )}{" "}
+                          -
+                        </SmallFont>
+                        <div className="flex items-center ml-1">
+                          <img
+                            src={
+                              famousContractsLabelFromName[entry.protocol]
+                                ?.logo || "/empty/unknown.png"
+                            }
+                            className="rounded-full w-[14px] h-[14px] min-w-[14px] mr-2"
+                          />
+                          <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100">
+                            {entry.protocol}
+                          </SmallFont>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                {/* <SmallFont>{entry.protocol}</SmallFont> */}
-              </div>
-              {/* <div className="flex items-center ml-2.5">
-              <p
-                className={`text-sm md:text-xs ${getColorOfActiveProtocol(
-                  i
-                )} mr-[5px] text-medium`}
-              >
-                {getFormattedAmount(
-                  entry.amountOut / 10 ** tokenOut!.decimals,
-                  -2
-                )}
-              </p>
-              <img
-                src={tokenOut?.logo || "/empty/unknown.png"}
-                className="rounded-full w-[14px] h-[14px] min-w-[14px]"
-              />
-            </div> */}
-            </div>
-          ))}{" "}
+              );
+            })}{" "}
+          </Collapse>
         </div>
         {/* fenhjusuejf */}
         <button
           className="flex items-center justify-center text-sm text-medium w-full rounded-lg text-light-font-100 dark:text-dark-font-100 border
-         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200 mt-4 md:mt-0"
+         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200 mt-2 md:mt-0"
           onClick={() => handleButtonClick()}
           id={`trade-${buttonStatus?.toLowerCase()}`}
         >
@@ -387,88 +406,6 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
         />
         <Settings visible={showSettings} setVisible={setShowSettings} />
       </div>
-      {!quotes?.length ? null : (
-        <div
-          className={`flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-2xl border
-       border-light-border-primary dark:border-dark-border-primary ml-5 p-5 w-[350px] h-fit ${
-         quotes?.length > 0 ? "flex md:hidden" : "hidden"
-       }`}
-        >
-          <LargeFont extraCss="mb-5">Router available</LargeFont>
-          {quotes?.map((entry, i) => (
-            <div
-              className={`flex justify-between items-center cursor-pointer p-3 rounded-xl mb-2.5 ${
-                getActiveProtocol(i)
-                  ? "bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-secondary dark:border-dark-border-secondary"
-                  : ""
-              }`}
-              key={entry.protocol}
-              onClick={() => {
-                setManualQuote(entry);
-                pushData("TRADE-SWITCH-ROUTE");
-                setShow(false);
-              }}
-            >
-              <div className="flex items-center">
-                <img
-                  className="w-[40px] h-[40px] mr-[10px] rounded-full"
-                  src={
-                    tokenOut?.logo || tokenOut?.image || "/empty/unknown.png"
-                  }
-                />
-
-                <div className="flex flex-col">
-                  <LargeFont>
-                    {getFormattedAmount(
-                      entry.amountOut / 10 ** tokenOut!.decimals,
-                      -2
-                    )}
-                  </LargeFont>
-                  <div className="flex items-center">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                      $
-                      {getFormattedAmount(
-                        (getFormattedAmount(
-                          (entry.amountOut as number) /
-                            10 ** tokenOut!.decimals,
-                          -2
-                        ) as number) * (tokenOut?.price as number)
-                      )}{" "}
-                      -
-                    </SmallFont>
-                    <div className="flex items-center ml-1">
-                      <img
-                        src={famousContractsLabelFromName[entry.protocol]?.logo}
-                        className="rounded-full w-[14px] h-[14px] min-w-[14px] mr-2"
-                      />
-                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100">
-                        {entry.protocol}
-                      </SmallFont>
-                    </div>
-                  </div>
-                </div>
-                {/* <SmallFont>{entry.protocol}</SmallFont> */}
-              </div>
-              {/* <div className="flex items-center ml-2.5">
-              <p
-                className={`text-sm md:text-xs ${getColorOfActiveProtocol(
-                  i
-                )} mr-[5px] text-medium`}
-              >
-                {getFormattedAmount(
-                  entry.amountOut / 10 ** tokenOut!.decimals,
-                  -2
-                )}
-              </p>
-              <img
-                src={tokenOut?.logo || "/empty/unknown.png"}
-                className="rounded-full w-[14px] h-[14px] min-w-[14px]"
-              />
-            </div> */}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

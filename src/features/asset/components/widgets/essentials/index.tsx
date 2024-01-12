@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
+import useChartState from "../../../../../hooks/chart-pref";
 import { MarketMetrics } from "../../../../../interfaces/trades";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
@@ -29,6 +30,7 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     setActiveMetric,
     comparedEntities,
   } = useContext(BaseAssetContext);
+  const { chartPreference, changeChart } = useChartState();
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
   const hasBeenListed =
@@ -42,6 +44,8 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     setActiveMetric("Metrics");
   }, []);
 
+  console.log("chartPreference", chartPreference);
+
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
@@ -52,7 +56,7 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
               comparedEntities?.length > 0 ? "md:mt-0" : ""
             }`}
           />
-          {/* {activeChart === "Trading view" ? (
+          {/* {chartPreference === "tv" ? (
             <ChartBox
               baseAsset={baseAsset}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-[95%] mx-auto h-[520px] lg:h-[420px] md:h-[370px]"
