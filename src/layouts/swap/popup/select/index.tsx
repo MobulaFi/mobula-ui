@@ -2,6 +2,7 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
+import { BlockchainName } from "mobula-lite/lib/model";
 import React, {
   Dispatch,
   SetStateAction,
@@ -96,7 +97,7 @@ export const Select = ({
               entry.price &&
               entry.price > 0 &&
               entry.name !== result.name &&
-              entry.blockchains.includes(chain?.name)
+              entry.blockchains.includes(chain?.name as BlockchainName)
           )
         : results
     );
