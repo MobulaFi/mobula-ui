@@ -14,7 +14,7 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
-async function fetchAssetData({ params }) {
+async function fetchAssetData(assetName) {
   const cookieStore = cookies();
   try {
     const tradeCookie = cookieStore.get("trade-filters")?.value || null;
@@ -27,8 +27,8 @@ async function fetchAssetData({ params }) {
         "id,logo,price,ath,atl,github,untrack_reason,decimals,tags,audit,kyc,volume,website,off_chain_volume,ath_volume,liquidity,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,utility_score,circulating_supply,total_supply,trade_history!left(*),price_change_24h,price_change_1h,price_change_7d,price_change_1m,tracked,assets_social!left(*),launch"
       )
       .or(
-        `name.ilike."${fromUrlToName(params.asset)}"` +
-          `,name.ilike."${params.asset.split("-").join("%")}"`
+        `name.ilike."${fromUrlToName(assetName)}"` +
+          `,name.ilike."${assetName.split("-").join("%")}"`
       )
       .order("date", { foreignTable: "trade_history", ascending: false })
       .order("market_cap", { ascending: false })
@@ -52,7 +52,7 @@ async function fetchAssetData({ params }) {
 
     const rightAsset =
       tradeHistory?.find(
-        (asset) => asset.name.toLowerCase() === fromUrlToName(params.asset)
+        (asset) => asset.name.toLowerCase() === fromUrlToName(assetName)
       ) || tradeHistory?.[0];
 
     if (rightAsset) {
@@ -89,21 +89,25 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const asset = params.asset;
+  const assetName = params?.asset?.[1];
   return {
     title: `${
-      asset.slice(0, 1)[0].toUpperCase() + asset.slice(1)
+      assetName.slice(0, 1)[0].toUpperCase() + assetName.slice(1)
     } on-chain data: price, liquidity, volume, trades & insights | Mobula`,
-    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${asset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${assetName} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
   };
 }
 
 async function AssetPage({ params }) {
-  const data: any = await fetchAssetData({ params });
+  const assetName = params?.asset?.[1];
+  const page = params?.asset?.[2];
+  const data: any = await fetchAssetData(assetName);
   const cookieStore = cookies();
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
   const tradeCookie =
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
+
+  console.log("params", params);
   //   useEffect(() => {
   //     const timeout = setTimeout(() => {
   //       try {
@@ -158,6 +162,7 @@ async function AssetPage({ params }) {
   //   }
 
   const title = `${data?.asset?.name} on-chain data: price, liquidity, volume, trades & insights | Mobula`;
+  console.log("params", params?.asset?.[1]);
 
   return (
     <>
@@ -189,7 +194,7 @@ async function AssetPage({ params }) {
       >
         <ShowMoreProvider>
           <NavActiveProvider>
-            <Assets />
+            <Assets page={page} />
           </NavActiveProvider>
         </ShowMoreProvider>
       </BaseAssetProvider>

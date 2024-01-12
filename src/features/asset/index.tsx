@@ -30,7 +30,7 @@ import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
 
-export const Assets = () => {
+export const Assets = ({ page }: { page: string }) => {
   const {
     baseAsset,
     marketMetrics,
