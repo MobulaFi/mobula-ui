@@ -13,6 +13,7 @@ import React, {
 import { PiTriangleFill } from "react-icons/pi";
 import { Chain, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
+import { Input } from "../../../../components/input";
 import { ModalContainer } from "../../../../components/modal-container";
 import { Skeleton } from "../../../../components/skeleton";
 import { PopupUpdateContext } from "../../../../contexts/popup";
@@ -94,7 +95,8 @@ export const Select = ({
               entry.balance > 0 &&
               entry.price &&
               entry.price > 0 &&
-              entry.name !== result.name
+              entry.name !== result.name &&
+              entry.blockchains.includes(chain?.name)
           )
         : results
     );
@@ -157,6 +159,8 @@ export const Select = ({
 
   const filteredTokens: SearchTokenProps[] = filterArrayIfTwoNameAreSame();
 
+  console.log("blockckcck", holdings?.holdings?.multichain);
+
   return (
     <ModalContainer
       extraCss="max-w-[380px]"
@@ -165,26 +169,21 @@ export const Select = ({
       onClose={() => setVisible(false)}
     >
       <div className="h-[1px] bg-light-border-primary dark:bg-dark-border-primary mb-2.5 w-full" />
-      <input
+      <Input
         className={`w-full rounded text-light-font-80 dark:text-dark-font-80 text-medium border border-light-border-primary
-         dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] px-2.5 text-sm 
+         dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 
          focus:border-light-font-10 focus:dark:border-dark-font-10 focus:outline-none focus:dark:outline-none
-          active:border-light-font-10 active:dark:border-dark-font-10 `}
+          active:border-light-font-10 active:dark:border-dark-font-10 h-[40px] text-base`}
         placeholder="Search a token name or address"
         onChange={(e) => setToken(e.target.value)}
       />
-      <div className="flex flex-col w-full overflow-y-scroll scroll h-auto rounded max-h-[352px] bg-light-bg-terciary dark:bg-dark-bg-terciary mt-2.5 border border-light-border-primary dark:border-dark-border-primary">
-        {filteredTokens?.length === 0 && !isLoading ? (
-          <div className="min-h-[150px] flex items-center justify-center text-light-font-80 dark:text-dark-font-80 text-md font-medium">
-            No results found
-          </div>
-        ) : null}
+      <div className="flex flex-col w-full overflow-y-scroll scroll h-auto rounded max-h-[348px] mt-2.5">
         <>
           {isLoading ? (
             Array.from(Array(7).keys()).map((_, i) => (
               <div
                 className={`flex border-b border-light-border-primary dark:border-dark-border-primary py-1.5
-            cursor-pointer items-center justify-between w-full "bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5
+            cursor-pointer items-center justify-between w-full px-2.5
              hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition min-h-[50px]`}
                 key={i}
               >
@@ -214,6 +213,20 @@ export const Select = ({
             ))
           ) : (
             <>
+              {filteredTokens?.length === 0 && (
+                <div
+                  className="flex border-b border-light-border-primary dark:border-dark-border-primary py-1.5
+            cursor-pointer items-center justify-between w-full px-2.5 min-h-[200px]"
+                >
+                  <div className="flex items-center">
+                    <div>
+                      <p className="text-sm text-light-font-100 dark:text-dark-font-100 font-medium text-center max-w-[70%] mx-auto">
+                        No asset found in your wallet, search for any token
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
               {filteredTokens?.map((searchToken) => {
                 const isGainer =
                   "price_change_24h" in searchToken
@@ -228,9 +241,9 @@ export const Select = ({
                 else if (isLoser) color = "text-red dark:text-red";
                 return (
                   <div
-                    className={`flex border-b border-light-border-primary dark:border-dark-border-primary py-1.5
-                  cursor-pointer items-center justify-between w-full "bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5
-                   hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition`}
+                    className={`flex py-2.5
+                  cursor-pointer items-center justify-between w-full px-2.5 rounded-2xl
+                   hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 ease-in-out`}
                     key={searchToken.name}
                     onClick={() => {
                       if (callback) {
@@ -250,7 +263,7 @@ export const Select = ({
                   >
                     <div className="flex items-center">
                       <img
-                        className="rounded-full mr-2.5 h-[22px]"
+                        className="rounded-full mr-2.5 h-[28px] bg-light-bg-hover dark:bg-dark-bg-hover w-[28px] min-w-[28px] min-h-[28px] object-cover"
                         src={searchToken?.logo || "/empty/unknown.png"}
                       />{" "}
                       <div>
@@ -262,57 +275,74 @@ export const Select = ({
                         </p>
                       </div>
                     </div>
-                    <div>
-                      {position === "in" && searchToken?.balance ? (
+                    {searchToken?.balance ? (
+                      <div>
                         <p className="text-sm text-light-font-100 dark:text-dark-font-100 font-medium text-end">
                           {getFormattedAmount(searchToken.balance)}
                         </p>
-                      ) : (
-                        <div className="flex items-center justify-end">
-                          {isGainer ? (
-                            <PiTriangleFill
-                              className={`text-[10px] mr-[5px] ${color}`}
-                            />
-                          ) : null}
-                          {isLoser ? (
-                            <PiTriangleFill
-                              className={`text-[10px] mr-[5px] ${color} rotate-180`}
-                            />
-                          ) : null}
-                          <p className="text-sm text-light-font-100 dark:text-dark-font-100 font-medium text-end">
-                            {getTokenPercentage(searchToken?.price_change_24h)}%
-                          </p>
-                        </div>
-                      )}
-                      <div className="flex items-center justify-end mt-[3px]">
-                        {searchToken?.blockchains
-                          ?.filter(
-                            (blockchain) => blockchainsContent[blockchain]
-                          )
-                          .map((blockchain, index) => {
-                            if (index < 5)
-                              return (
-                                <img
-                                  className="h-[14px] w-[14px] min-w-[14px] rounded-full ml-1 bg-light-bg-hover dark:bg-dark-bg-hover"
-                                  key={blockchain}
-                                  src={blockchainsContent[blockchain]?.logo}
-                                  alt={`${blockchain} logo`}
-                                />
-                              );
-                            if (index === 5)
-                              return (
-                                <p className="text-xs font-bold text-light-font-40 dark:text-dark-font-40 ml-1 leading-none">
-                                  +
-                                  {searchToken?.blockchains
-                                    ? (searchToken?.blockchains?.length || 0) -
-                                      5
-                                    : null}
-                                </p>
-                              );
-                            return null;
-                          })}
+                        <p className="text-xs text-light-font-60 dark:text-dark-font-60 font-medium text-end">
+                          $
+                          {getFormattedAmount(
+                            searchToken.balance * (searchToken?.price as number)
+                          )}
+                        </p>
                       </div>
-                    </div>
+                    ) : (
+                      <div>
+                        {position === "in" && searchToken?.balance ? (
+                          <p className="text-sm text-light-font-100 dark:text-dark-font-100 font-medium text-end">
+                            {getFormattedAmount(searchToken.balance)}
+                          </p>
+                        ) : (
+                          <div className="flex items-center justify-end">
+                            {isGainer ? (
+                              <PiTriangleFill
+                                className={`text-[10px] mr-[5px] ${color}`}
+                              />
+                            ) : null}
+                            {isLoser ? (
+                              <PiTriangleFill
+                                className={`text-[10px] mr-[5px] ${color} rotate-180`}
+                              />
+                            ) : null}
+                            <p className="text-sm text-light-font-100 dark:text-dark-font-100 font-medium text-end">
+                              {getTokenPercentage(
+                                searchToken?.price_change_24h
+                              )}
+                              %
+                            </p>
+                          </div>
+                        )}
+                        <div className="flex items-center justify-end mt-[3px]">
+                          {searchToken?.blockchains
+                            ?.filter(
+                              (blockchain) => blockchainsContent[blockchain]
+                            )
+                            .map((blockchain, index) => {
+                              if (index < 5)
+                                return (
+                                  <img
+                                    className="h-[15px] w-[15px] min-w-[15px] min-h-[15px] rounded-full -ml-1 bg-light-bg-hover dark:bg-dark-bg-hover object-cover"
+                                    key={blockchain}
+                                    src={blockchainsContent[blockchain]?.logo}
+                                    alt={`${blockchain} logo`}
+                                  />
+                                );
+                              if (index === 5)
+                                return (
+                                  <p className="text-xs font-medium text-light-font-60 dark:text-dark-font-60 ml-1 leading-none">
+                                    +
+                                    {searchToken?.blockchains
+                                      ? (searchToken?.blockchains?.length ||
+                                          0) - 5
+                                      : null}
+                                  </p>
+                                );
+                              return null;
+                            })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}

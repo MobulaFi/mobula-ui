@@ -1,10 +1,11 @@
 import Cookies from "js-cookie";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
+import useChartState from "../../../../../../hooks/chart-pref";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -31,6 +32,7 @@ export const ChartHeader = () => {
     setHistoryData,
   } = useContext(BaseAssetContext);
   const supabase = createSupabaseDOClient();
+  const { chartPreference, changeChart } = useChartState();
 
   const capitalizeFirstLetter = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
@@ -151,6 +153,7 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Linear",
                 });
+                changeChart("linear");
                 setActiveChart("Linear");
               }}
             >
@@ -167,6 +170,7 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Trading view",
                 });
+                changeChart("tv");
                 setActiveChart("Trading view");
               }}
             >

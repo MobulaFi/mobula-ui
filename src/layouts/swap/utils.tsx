@@ -70,19 +70,26 @@ export const formatAsset = (
   asset: SearchTokenProps,
   chainName: BlockchainName
 ) => {
+  console.log("I CAME HERE");
   if ("coin" in asset) return asset;
-  return {
-    ...asset,
-    logo: asset.logo || "/empty/unknown.png",
-    address:
-      asset.address ||
-      asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
-      asset.contracts[0],
-    blockchain:
-      (asset.blockchain as BlockchainName) ||
-      chainName ||
-      ((asset.blockchain || "")[0] as BlockchainName),
-  };
+  console.log("I CAME HERE");
+  try {
+    console.log("EVERYTHING IS FGINE");
+    return {
+      ...asset,
+      logo: asset.logo || "/empty/unknown.png",
+      address:
+        asset.address ||
+        asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
+        asset.contracts[0],
+      blockchain:
+        (asset.blockchain as BlockchainName) ||
+        chainName ||
+        ((asset.blockchain || "")[0] as BlockchainName),
+    };
+  } catch (e) {
+    console.log("ERROR", e);
+  }
 };
 
 export const getAmountOut = (
