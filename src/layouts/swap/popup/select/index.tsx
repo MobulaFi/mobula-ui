@@ -160,8 +160,6 @@ export const Select = ({
 
   const filteredTokens: SearchTokenProps[] = filterArrayIfTwoNameAreSame();
 
-  console.log("blockckcck", holdings?.holdings?.multichain);
-
   return (
     <ModalContainer
       extraCss="max-w-[380px]"
