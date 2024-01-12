@@ -160,6 +160,7 @@ export const ChartHeader = () => {
               <MdShowChart className="text-xl" />
             </button>
             <button
+              disabled
               className={`h-full w-[50%] relative flex justify-center items-center 
               ${
                 activeChart === "Trading view"
