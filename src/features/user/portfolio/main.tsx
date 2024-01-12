@@ -249,7 +249,9 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
                   activeCategory === "General" ? "static" : "absolute"
                 } ${getAnimation("General")}`}
               >
-                {manager.portfolio_chart ? <PortfolioChart /> : null}
+                {manager.portfolio_chart ? (
+                  <PortfolioChart isExplorer={isExplorer} />
+                ) : null}
               </div>
             ) : null}
             <div className="w-full flex lg:hidden">
@@ -285,7 +287,9 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
           </div>
           {/* MOBILE */}
           <div className="ml-5 md:ml-0 lg:ml-0 flex flex-col lg:hidden w-calc-full-340 lg:w-full">
-            {manager.portfolio_chart ? <PortfolioChart /> : null}
+            {manager.portfolio_chart ? (
+              <PortfolioChart isExplorer={isExplorer} />
+            ) : null}
             <div className="w-full mt-0 lg:mt-[55px] md:mt-0 flex lg:hidden">
               <CategorySwitcher />
             </div>
@@ -294,26 +298,24 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
             {activeCategory === "Activity" ? <Activity /> : null}
           </div>
         </div>
-        {showManage && <ManagePopup />}
-        {showHiddenTokensPopup && <ManageEdit />}
-        {showNetwork && <NetworkPopup />}
-        {showWallet && <WalletsPopup />}
-        {showAddTransaction && <AddTransactionPopup />}
+        <ManagePopup />
+        <ManageEdit />
+        <NetworkPopup />
+        <WalletsPopup />
+        <AddTransactionPopup />
         {/* <DrawerDex /> */}
-        {showPortfolioSelector && <SelectorPortfolioPopup />}
-        {showDeleteNft && <DeleteNftPopup />}
-        {showSelect && (
-          <Select
-            visible={showSelect}
-            setVisible={setShowSelect}
-            callback={(token) => {
-              setTokenTsx(token as Asset);
-              setShowAddTransaction(true);
-              pushData("Add Asset Button Clicked");
-            }}
-            position={"in"}
-          />
-        )}
+        <SelectorPortfolioPopup />
+        <DeleteNftPopup />
+        <Select
+          visible={showSelect}
+          setVisible={setShowSelect}
+          callback={(token) => {
+            setTokenTsx(token as Asset);
+            setShowAddTransaction(true);
+            pushData("Add Asset Button Clicked");
+          }}
+          position={"in"}
+        />
         {/* {showTuto ? <StepPopup /> : null}  */}
       </Container>
     </div>

@@ -10,7 +10,6 @@ import { useContext, useEffect } from "react";
 // import {CommonPageProvider} from "../common/context-manager";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React from "react";
 import { NextChakraLink } from "../../components/link";
 import { CommonPageProvider } from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
@@ -104,8 +103,8 @@ export const Header = ({ addressCookie }) => {
           <UserSection addressFromCookie={addressFromCookie} />
         </div>
       </div>
-      {showNotif ? <NotificationDrawer /> : null}
-      {showAddedToWatchlist && <WatchlistDrawer />}
+      <NotificationDrawer />
+      <WatchlistDrawer />
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
     </CommonPageProvider>
   );

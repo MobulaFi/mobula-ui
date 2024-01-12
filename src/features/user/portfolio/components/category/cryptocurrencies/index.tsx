@@ -7,7 +7,11 @@ import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
-import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
@@ -565,17 +569,10 @@ export const Cryptocurrencies = () => {
       </div>
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
-        <div className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col">
-          <img
-            className="h-[160px] mb-[-50px] mt-[25px]"
-            src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}
-            alt="empty logo"
-          />
-          <div className="flex w-[80%] flex-col m-auto mt-[40px] items-center justify-center">
-            <MediumFont extraCss="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40">
-              No tokens found{" "}
-            </MediumFont>
-          </div>
+        <div className="h-[300px] w-full flex items-center justify-center flex-col">
+          <LargeFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
+            This wallet is empty.
+          </LargeFont>
         </div>
       )}
     </>

@@ -4,7 +4,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../components/button";
 import { LargeFont, SmallFont } from "../components/fonts";
-import { NextImageFallback } from "../components/image";
 import { Menu } from "../components/menu";
 import { WatchlistContext } from "../contexts/pages/watchlist";
 import { PopupStateContext, PopupUpdateContext } from "../contexts/popup";
@@ -84,7 +83,13 @@ export const WatchlistDrawer = () => {
   }, [user, activeWatchlist, showAddedToWatchlist]);
 
   return (
-    <div className="fixed inset-0 z-[100] ">
+    <div
+      className={`fixed inset-0 z-[100] ${
+        showAddedToWatchlist && tokenToAddInWatchlist
+          ? "opacity-100"
+          : "opacity-0 pointer-events-none"
+      } transition-all duration-200 ease-in-out`}
+    >
       <div
         className={`sm:w-0 w-full h-fit`}
         onClick={() => {
@@ -119,13 +124,12 @@ export const WatchlistDrawer = () => {
         border-light-border-primary dark:border-dark-border-primary shadow-md flex-wrap flex-row sm:flex-col"
         >
           <div className="flex items-center w-auto sm:w-full ">
-            <NextImageFallback
+            <img
               height={50}
               width={50}
               alt="token logo"
               className="rounded-full mr-5 md:mr-[15px]"
-              src={tokenToAddInWatchlist?.logo}
-              fallbackSrc="/empty/unknown.png"
+              src={tokenToAddInWatchlist?.logo || "/empty/unknown.png"}
             />
             <div className="flex flex-col flex-wrap w-full">
               <div className="flex items-center flex-wrap mb-0 md:mb-[2.5px]">

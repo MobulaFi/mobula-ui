@@ -107,116 +107,116 @@ export const ChainsChanger = ({
             } mt-[0.8px] ml-1.5 text-[11px]`}
           />
         </Button>
-        {showChainPopover ? (
-          <div
-            className={`w-[420px] lg:w-[340px] bg-light-bg-terciary dark:bg-dark-bg-terciary p-2.5 rounded-lg
+        <div
+          className={`w-[420px] lg:w-[340px] bg-light-bg-terciary dark:bg-dark-bg-terciary p-2.5 rounded-lg
            border border-light-border-primary dark:border-dark-border-primary absolute z-20 ${
              isMobileVersion ? "right-0" : "left-0"
-           } top-[45px] sm:top-[-270px]`}
-          >
-            <div className="flex flex-wrap">
-              {reorderedBlockchainsContent.map((entry, i) => {
-                const isOdds = i % 2 === 0;
-                const isLasts =
-                  Object.values(blockchainsContent).length - 1 === i ||
-                  i === showXBlockchains[1] - 1;
-                let isSelected = false;
-                if (chain)
-                  isSelected =
-                    blockchainsContent[chain?.name]?.name === entry.name;
-                if (
-                  i + 1 <= showXBlockchains[1] &&
-                  i + 1 >= showXBlockchains[0]
-                ) {
-                  return (
-                    <button
-                      key={entry.name}
-                      className={`h-[40px] w-[185px] lg:w-[145px] ${
-                        isOdds ? "mr-2.5" : ""
-                      } ${
-                        isSelected
-                          ? "bg-light-bg-hover dark:bg-dark-bg-hover"
-                          : ""
-                      }
+           } ${
+            showChainPopover
+              ? "opacity-100 scale-100"
+              : "opacity-0 scale-90 pointer-events-none"
+          } top-[45px] sm:top-[-270px] transition-all duration-200 ease-in-out`}
+        >
+          <div className="flex flex-wrap">
+            {reorderedBlockchainsContent.map((entry, i) => {
+              const isOdds = i % 2 === 0;
+              const isLasts =
+                Object.values(blockchainsContent).length - 1 === i ||
+                i === showXBlockchains[1] - 1;
+              let isSelected = false;
+              if (chain)
+                isSelected =
+                  blockchainsContent[chain?.name]?.name === entry.name;
+              if (
+                i + 1 <= showXBlockchains[1] &&
+                i + 1 >= showXBlockchains[0]
+              ) {
+                return (
+                  <button
+                    key={entry.name}
+                    className={`h-[40px] w-[185px] lg:w-[145px] ${
+                      isOdds ? "mr-2.5" : ""
+                    } ${
+                      isSelected
+                        ? "bg-light-bg-hover dark:bg-dark-bg-hover"
+                        : ""
+                    }
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg ${
                        isLasts ? "" : "mb-2.5"
                      }
                      text-sm md:text-xs transition-all duration-200`}
-                      onClick={() => {
-                        if (!chain) {
-                          setConnect(true);
-                          return;
-                        }
-                        setShowSwitchNetwork(
-                          newChainsOrder?.[entry.name].chainId
-                        );
-                      }}
-                    >
-                      <div className="flex items-center w-full h-full px-2.5 font-normal">
-                        <img
-                          src={
-                            blockchainsContent[entry.name || "Ethereum"]?.logo
-                          }
-                          className="mr-[7.5px] rounded-full w-[22px] h-[22px] min-w-[22px]"
-                          alt={`${entry.name} logo`}
-                        />
+                    onClick={() => {
+                      if (!chain) {
+                        setConnect(true);
+                        return;
+                      }
+                      setShowSwitchNetwork(
+                        newChainsOrder?.[entry.name].chainId
+                      );
+                    }}
+                  >
+                    <div className="flex items-center w-full h-full px-2.5 font-normal">
+                      <img
+                        src={blockchainsContent[entry.name || "Ethereum"]?.logo}
+                        className="mr-[7.5px] rounded-full w-[22px] h-[22px] min-w-[22px]"
+                        alt={`${entry.name} logo`}
+                      />
 
-                        {getNameReducted(entry.name)}
-                        {isSelected ? (
-                          <BsCheckLg className="ml-auto text-light-font-100 dark:text-dark-font-100" />
-                        ) : null}
-                      </div>
-                    </button>
-                  );
-                }
-                return null;
-              })}
-              {showXBlockchains[1] >= 8 ? (
-                <button
-                  className={`h-[40px] w-[185px] lg:w-[145px]
+                      {getNameReducted(entry.name)}
+                      {isSelected ? (
+                        <BsCheckLg className="ml-auto text-light-font-100 dark:text-dark-font-100" />
+                      ) : null}
+                    </div>
+                  </button>
+                );
+              }
+              return null;
+            })}
+            {showXBlockchains[1] >= 8 ? (
+              <button
+                className={`h-[40px] w-[185px] lg:w-[145px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
                      text-sm md:text-xs transition-all duration-200 mr-2.5 ${
                        showXBlockchains[1] === 8
                          ? "opacity-50 cursor-not-allowed"
                          : ""
                      }`}
-                  onClick={() =>
-                    setShowXBlockchains((prev) => [prev[0] - 8, prev[1] - 8])
-                  }
-                  disabled={showXBlockchains[1] === 8}
-                >
-                  <div className="flex items-center w-full h-full px-2.5">
-                    <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
-                    Previous
-                  </div>
-                </button>
-              ) : null}
-              <button
-                className={`h-[40px] w-[185px] lg:w-[145px]
+                onClick={() =>
+                  setShowXBlockchains((prev) => [prev[0] - 8, prev[1] - 8])
+                }
+                disabled={showXBlockchains[1] === 8}
+              >
+                <div className="flex items-center w-full h-full px-2.5">
+                  <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
+                  Previous
+                </div>
+              </button>
+            ) : null}
+            <button
+              className={`h-[40px] w-[185px] lg:w-[145px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
                      text-sm md:text-xs transition-all duration-200 ${
                        showNextButton ? "" : "opacity-50 cursor-not-allowed"
                      }`}
-                onClick={() => {
-                  if (showXBlockchains[1] >= 7 && showNextButton)
-                    setShowXBlockchains((prev) => [prev[1] + 1, prev[1] + 8]);
-                }}
-                disabled={!showNextButton}
-              >
-                <div className="flex items-center w-full h-full px-2.5">
-                  <AiOutlineDoubleRight className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
-                  Next
-                  {showNextButton
-                    ? ` (${
-                        Object.values(blockchainsContent).length -
-                        showXBlockchains[1]
-                      })`
-                    : null}
-                </div>
-              </button>
-            </div>
+              onClick={() => {
+                if (showXBlockchains[1] >= 7 && showNextButton)
+                  setShowXBlockchains((prev) => [prev[1] + 1, prev[1] + 8]);
+              }}
+              disabled={!showNextButton}
+            >
+              <div className="flex items-center w-full h-full px-2.5">
+                <AiOutlineDoubleRight className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
+                Next
+                {showNextButton
+                  ? ` (${
+                      Object.values(blockchainsContent).length -
+                      showXBlockchains[1]
+                    })`
+                  : null}
+              </div>
+            </button>
           </div>
-        ) : null}
+        </div>
       </div>
     </div>
   );

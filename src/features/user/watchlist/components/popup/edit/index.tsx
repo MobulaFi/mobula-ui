@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -126,7 +126,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
           onClick={getWatchlistPublic}
         />
       </div>
-      <Collapse startingHeight="0px" isOpen={isPublic}>
+      <Collapse startingHeight="max-h-[0px]" isOpen={isPublic}>
         <div className="flex flex-col mt-[7.5px]">
           <div className="flex items-center">
             <IoShareSocialOutline className="mr-2.5 text-lg text-light-font-40 dark:text-dark-font-40" />

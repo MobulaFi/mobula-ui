@@ -194,7 +194,7 @@ export const useQuote = () => {
         });
       };
 
-      setQuotes([]);
+      // setQuotes([]); TODO: CHECK WITH @SACHA IF THIS IS NEEDED
 
       fetchSwap();
 

@@ -101,21 +101,21 @@ export const ComparePopover = ({
         </Button>
       }
       hiddenContent={
-        showCompare ? (
-          <CoreSearchBar
-            showPagesAndArticles={false}
-            maxAssetsResult={3}
-            maxWalletsResult={isMobile ? 1 : 3}
-            callback={fetchCompare}
-            setTrigger={setShowCompare}
-          />
-        ) : null
+        <CoreSearchBar
+          showPagesAndArticles={false}
+          maxAssetsResult={3}
+          maxWalletsResult={isMobile ? 1 : 3}
+          callback={fetchCompare}
+          setTrigger={setShowCompare}
+        />
       }
       onToggle={() => {}}
       isOpen={showCompare}
       extraCss={`p-0 top-[40px] lg:top-[40px] left-0 ${
         isPortfolio ? "" : "lg:right-0 lg:left-auto"
-      } z-[100] mr-2.5 min-w-[300px] `}
+      } z-[100] mr-2.5 min-w-[300px] ${
+        showCompare ? "opacity-100" : "opacity-0 pointer-events-none"
+      } transition-all duration-200 ease-in-out`}
     />
   );
 };

@@ -38,6 +38,8 @@ export interface ISortContext {
   isPendingPool: boolean;
   setDisplayedPool: React.Dispatch<React.SetStateAction<string>>;
   displayedPool: string;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface TokenToBuyWith {

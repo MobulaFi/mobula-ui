@@ -20,6 +20,7 @@ export const SortProvider = ({
   const [displayedPool, setDisplayedPool] = useState("");
   const [votes, setVotes] = useState<number[]>([]);
   const [tokenVotedID, setTokenVotedID] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const value = useMemo(
     () => ({
@@ -35,6 +36,8 @@ export const SortProvider = ({
       isPendingPool,
       setDisplayedPool,
       displayedPool,
+      isLoading,
+      setIsLoading,
     }),
     [
       tokenDivs,
@@ -49,6 +52,8 @@ export const SortProvider = ({
       isPendingPool,
       setDisplayedPool,
       displayedPool,
+      isLoading,
+      setIsLoading,
     ]
   );
 

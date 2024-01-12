@@ -96,7 +96,9 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
       </LargeFont>
       <Collapse
         startingHeight={
-          priceHistory.length > 5 ? "220px" : `${priceHistory.length * 44}px`
+          priceHistory.length > 5
+            ? "max-h-[220px]"
+            : `max-h-[${priceHistory.length * 44}px]`
         }
         isOpen={showMore}
       >

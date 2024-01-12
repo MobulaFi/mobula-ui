@@ -15,7 +15,7 @@ import { Sales } from "../sales";
 import { MultiInputTemplate } from "../ui/multi-input-template";
 
 export const ContractInformation = ({ dispatch, state }) => {
-  const { isLaunched, setIsLaunched, actualPage, setActualPage } =
+  const {isLaunched, setIsLaunched, actualPage, setActualPage} =
     useContext(ListingContext);
 
   return (
@@ -29,19 +29,6 @@ export const ContractInformation = ({ dispatch, state }) => {
         </button>
         <ExtraLargeFont>Contract Information</ExtraLargeFont>
       </div>
-      <MultiInputTemplate
-        dispatch={dispatch}
-        state={state}
-        name="contracts"
-        title="Contracts"
-        placeholder="0x5FeF...7d5dd4"
-        hasLogo
-        template={{
-          address: "",
-          blockchain: "",
-          blockchain_id: 1,
-        }}
-      />
       {state.type === "nft" ? null : (
         <>
           {state.contracts.length > 1 ? (

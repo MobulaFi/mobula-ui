@@ -50,7 +50,7 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
 
   return (
     <div className="flex flex-col border-b border-light-border-primary dark:border-dark-border-primary w-full px-2.5">
-      <div className="flex items-center justify-between my-2.5">
+      <div className="flex items-center justify-between mb-1.5">
         <SmallFont>Rename</SmallFont>
         <button onClick={() => setShow(false)}>
           <AiOutlineClose className="text-xs text-light-font-100 dark:text-dark-font-100" />
@@ -59,7 +59,7 @@ export const RenamePortfolio = ({ portfolio, setShow }: IRenamePortfolio) => {
       <div className="flex items-center mt-0 mb-[15px]">
         <Input
           extraCss="w-full"
-          placeholder="Name"
+          placeholder={portfolio?.name || "Name"}
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
