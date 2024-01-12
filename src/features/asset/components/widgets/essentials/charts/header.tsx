@@ -1,9 +1,12 @@
 import Cookies from "js-cookie";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
+import useChartState from "../../../../../../hooks/chart-pref";
+import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
 import { TimeSwitcher } from "../time-switcher";
@@ -29,6 +32,7 @@ export const ChartHeader = () => {
     setHistoryData,
   } = useContext(BaseAssetContext);
   const supabase = createSupabaseDOClient();
+  const { chartPreference, changeChart } = useChartState();
 
   const capitalizeFirstLetter = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
@@ -81,7 +85,7 @@ export const ChartHeader = () => {
           activeChart === "Trading view" ? "mb-2.5 md:mb-0" : "mb-0  md:mb-0"
         } w-full mx-auto mt-0  md:mt-[5px] z-[5]`}
       >
-        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll mb-2.5">
+        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll">
           {/* <div
             className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded p-0.5 bg-light-bg-secondary 
           dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary 
@@ -121,7 +125,7 @@ export const ChartHeader = () => {
               {capitalizeFirstLetter("market cap")}
             </button>
           </div> */}
-          {/* <div
+          <div
             className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
            border border-light-border-primary dark:border-dark-border-primary relative"
           >
@@ -149,30 +153,31 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Linear",
                 });
+                changeChart("linear");
                 setActiveChart("Linear");
               }}
             >
               <MdShowChart className="text-xl" />
             </button>
             <button
+              disabled
               className={`h-full w-[50%] relative flex justify-center items-center 
               ${
                 activeChart === "Trading view"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              } ${untracked.isUntracked ? "opacity-50 not-allowed" : ""} 
-              transition-all duration-200 z-[2]`}
-              disabled={untracked.isUntracked}
+              }  transition-all duration-200 z-[2]`}
               onClick={() => {
                 pushData("Chart Button", {
                   "Chart Type": "Trading view",
                 });
+                changeChart("tv");
                 setActiveChart("Trading view");
               }}
             >
               <MdCandlestickChart className="text-xl" />
             </button>
-          </div> */}
+          </div>
           {(transactions?.length as number) > 0 ? (
             <Button
               extraCss="flex items-center justify-center h-[30px] ml-2.5 px-2.5 "
@@ -197,7 +202,7 @@ export const ChartHeader = () => {
         <ComparePopover
           setComparedEntities={setComparedEntities}
           comparedEntities={comparedEntities}
-          extraCss="ml-2.5 mb-0 md:mb-2"
+          extraCss="ml-2.5 mb-0"
         />
         {activeChart !== "Trading view" ? (
           <TimeSwitcher extraCss="flex md:hidden" />
@@ -205,7 +210,7 @@ export const ChartHeader = () => {
       </div>
       {activeChart === "Trading view" ? null : (
         <CompareButtons
-          buttonH="h-[30px] ml-0"
+          buttonH="h-[30px] ml-0 mt-2"
           comparedEntities={comparedEntities}
           setComparedEntities={setComparedEntities}
         />

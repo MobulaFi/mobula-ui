@@ -70,19 +70,26 @@ export const formatAsset = (
   asset: SearchTokenProps,
   chainName: BlockchainName
 ) => {
+  console.log("I CAME HERE");
   if ("coin" in asset) return asset;
-  return {
-    ...asset,
-    logo: asset.logo || "/empty/unknown.png",
-    address:
-      asset.address ||
-      asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
-      asset.contracts[0],
-    blockchain:
-      (asset.blockchain as BlockchainName) ||
-      chainName ||
-      ((asset.blockchain || "")[0] as BlockchainName),
-  };
+  console.log("I CAME HERE");
+  try {
+    console.log("EVERYTHING IS FGINE");
+    return {
+      ...asset,
+      logo: asset.logo || "/empty/unknown.png",
+      address:
+        asset.address ||
+        asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
+        asset.contracts[0],
+      blockchain:
+        (asset.blockchain as BlockchainName) ||
+        chainName ||
+        ((asset.blockchain || "")[0] as BlockchainName),
+    };
+  } catch (e) {
+    console.log("ERROR", e);
+  }
 };
 
 export const getAmountOut = (
@@ -246,6 +253,10 @@ export const famousContractsLabelFromName = {
   },
   MMFinance: {
     logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/16519.png",
+    router: true,
+  },
+  Pandora: {
+    logo: "https://www.gitbook.com/cdn-cgi/image/width=36,dpr=2,height=36,fit=contain,format=auto/https%3A%2F%2F2402162351-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FhvIVb0SoJ9LUxFcSH6iY%252Ficon%252Fg9vWDzYeg02VD9p666Rg%252Ftho2.png%3Falt%3Dmedia%26token%3Dbf1fe30a-6f86-4a78-87b2-72cb2ff078d0",
     router: true,
   },
 };

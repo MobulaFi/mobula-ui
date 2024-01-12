@@ -12,11 +12,12 @@ export const Collapse = ({
   children,
 }: CollapseProps) => {
   return (
-    <button
-      className="flex w-full flex-col text-start overflow-hidden"
-      style={{ maxHeight: isOpen ? "100%" : startingHeight }}
+    <div
+      className={`flex w-full flex-col text-start overflow-hidden transition-all duration-500 h-full ease-in-out ${
+        isOpen ? "max-h-[1000px]" : startingHeight
+      }`}
     >
       {children}
-    </button>
+    </div>
   );
 };

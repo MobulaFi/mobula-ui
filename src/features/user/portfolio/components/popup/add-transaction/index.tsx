@@ -1,14 +1,14 @@
 import { Button } from "components/button";
-import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
 import { useAccount } from "wagmi";
 import { Collapse } from "../../../../../../components/collapse";
 import { LargeFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { ModalContainer } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -465,7 +465,7 @@ export const AddTransactionPopup = () => {
           </div>
         </>
       )}
-      <Collapse startingHeight={"0px"} isOpen={showNote}>
+      <Collapse startingHeight={"max-h-[0px]"} isOpen={showNote}>
         <div className="flex">
           <div className="flex flex-col w-[80%] mr-2.5">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mt-[15px] mb-2.5">

@@ -160,7 +160,7 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
           />
         </div>
       </div>
-      <Collapse startingHeight="0px" isOpen={isPublic}>
+      <Collapse startingHeight="max-h-[0px]" isOpen={isPublic}>
         <div className="flex flex-col mt-[7.5px] w-full">
           <div className="flex items-center w-full">
             <IoShareSocialOutline className="mr-2.5 text-lg text-light-font-40 dark:text-dark-font-40" />

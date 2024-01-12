@@ -44,7 +44,7 @@ export const InfoPopupQuotes = ({ isSwapRouter, children }: InfoPopupProps) => {
         )
       }
       hiddenContent={
-        <div className="min-w-[200px]">
+        <div className="min-w-[200px] shadow-xl">
           <div className="flex items-center justify-between mb-2.5">
             <SmallFont>Manually select a router</SmallFont>
             <AiOutlineClose
@@ -52,43 +52,41 @@ export const InfoPopupQuotes = ({ isSwapRouter, children }: InfoPopupProps) => {
               onClick={() => setShow(false)}
             />
           </div>
-          {show
-            ? quotes?.map((entry, i) => (
-                <div
-                  className="flex justify-between items-center cursor-pointer my-[3.5px] hover:text-blue"
-                  key={entry.protocol}
-                  onClick={() => {
-                    setManualQuote(entry);
-                    pushData("TRADE-SWITCH-ROUTE");
-                    setShow(false);
-                  }}
+          {quotes?.map((entry, i) => (
+            <div
+              className="flex justify-between items-center cursor-pointer my-[3.5px] hover:text-blue"
+              key={entry.protocol}
+              onClick={() => {
+                setManualQuote(entry);
+                pushData("TRADE-SWITCH-ROUTE");
+                setShow(false);
+              }}
+            >
+              <div className="flex items-center">
+                <img
+                  className="w-[18px] h-[18px] mr-[5px] rounded-full"
+                  src={famousContractsLabelFromName[entry.protocol]?.logo}
+                />
+                <SmallFont>{entry.protocol}</SmallFont>
+              </div>
+              <div className="flex items-center ml-2.5">
+                <p
+                  className={`text-sm md:text-xs ${getColorOfActiveProtocol(
+                    i
+                  )} mr-[5px] text-medium`}
                 >
-                  <div className="flex items-center">
-                    <img
-                      className="w-[18px] h-[18px] mr-[5px] rounded-full"
-                      src={famousContractsLabelFromName[entry.protocol]?.logo}
-                    />
-                    <SmallFont>{entry.protocol}</SmallFont>
-                  </div>
-                  <div className="flex items-center ml-2.5">
-                    <p
-                      className={`text-sm md:text-xs ${getColorOfActiveProtocol(
-                        i
-                      )} mr-[5px] text-medium`}
-                    >
-                      {getFormattedAmount(
-                        entry.amountOut / 10 ** tokenOut!.decimals,
-                        -2
-                      )}
-                    </p>
-                    <img
-                      src={tokenOut?.logo || "/empty/unknown.png"}
-                      className="rounded-full w-[14px] h-[14px] min-w-[14px]"
-                    />
-                  </div>
-                </div>
-              ))
-            : null}
+                  {getFormattedAmount(
+                    entry.amountOut / 10 ** tokenOut!.decimals,
+                    -2
+                  )}
+                </p>
+                <img
+                  src={tokenOut?.logo || "/empty/unknown.png"}
+                  className="rounded-full w-[14px] h-[14px] min-w-[14px]"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       }
       onToggle={() => setShow((prev) => !prev)}

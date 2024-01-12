@@ -1,4 +1,5 @@
 import React, { Suspense, useContext, useEffect } from "react";
+import useChartState from "../../../../../hooks/chart-pref";
 import { MarketMetrics } from "../../../../../interfaces/trades";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
@@ -29,7 +30,9 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     activeChart,
     setShowMobileMetric,
     setActiveMetric,
+    comparedEntities,
   } = useContext(BaseAssetContext);
+  const { chartPreference, changeChart } = useChartState();
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
   const hasBeenListed =
@@ -43,19 +46,22 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     setActiveMetric("Metrics");
   }, []);
 
+  console.log("chartPreference", chartPreference);
+
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
-        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0">
+        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
           <ChartHeader />
-          <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
-          {/* {activeChart === "Trading view" && theme !== undefined ? (
+          <TimeSwitcher
+            extraCss={`hidden md:flex mr-0 mt-0 ${
+              comparedEntities?.length > 0 ? "md:mt-0" : ""
+            }`}
+          />
+          {/* {chartPreference === "tv" ? (
             <ChartBox
               baseAsset={baseAsset}
-              historyData={historyData}
-              marketMetrics={marketMetrics}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-[95%] mx-auto h-[520px] lg:h-[420px] md:h-[370px]"
-              background={"red"}
             />
           ) : ( */}
           <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
@@ -93,18 +99,20 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
             )}
           </div>
           <TokenMetrics />
-          <CoreActor
-            extraCss={`${
-              baseAsset?.investors?.length > 0 ? "flex" : "hidden"
-            } lg:hidden`}
-          />
-          <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
-          <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
-          <ListingDetails
-            extraCss={`${
-              hasBeenListed ? "md:flex" : "md:hidden"
-            } hidden mt-2.5`}
-          />
+          <Suspense fallback={<p>Loading feed...</p>}>
+            <CoreActor
+              extraCss={`${
+                baseAsset?.investors?.length > 0 ? "flex" : "hidden"
+              } lg:hidden`}
+            />
+            <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
+            <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
+            <ListingDetails
+              extraCss={`${
+                hasBeenListed ? "md:flex" : "md:hidden"
+              } hidden mt-2.5`}
+            />
+          </Suspense>
         </div>
       </div>
       <div className="bg-light-bg-primary dark:bg-dark-bg-primary">
