@@ -1,7 +1,7 @@
 "use client";
 import { Asset } from "interfaces/assets";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Button } from "../components/button";
 import { Drawer } from "../components/drawer";
 import { LargeFont } from "../components/fonts";
@@ -39,11 +39,13 @@ export const DexDrawer = () => {
       isOpen={!!showBuyDrawer}
       onClose={() => setShowBuyDrawer(null)}
     >
-      <SwapProvider tokenOutBuffer={token} lockToken={["out"]}>
-        <MainSwap isDex />
-      </SwapProvider>
-      <div className="px-5 mt-0">
-        {/* <Button
+      {showBuyDrawer ? (
+        <>
+          <SwapProvider tokenOutBuffer={token} lockToken={["out"]}>
+            <MainSwap isDex />
+          </SwapProvider>
+          <div className="px-5 mt-0">
+            {/* <Button
             extraCss="w-full flex items-center justify-center h-[45px] md:h-[40px] mt-[15px]"
             onClick={() => {
               pushData("Buy with Credit Card");
@@ -58,16 +60,18 @@ export const DexDrawer = () => {
             />
             <img className="h-[13px]" src="/logo/visa.png" alt="visa logo" />
           </Button> */}
-        <div className="bg-light-border-primary dark:bg-dark-border-primary h-[1px] w-full mb-[15px]" />
-        <Button
-          extraCss="w-full justify-center h-[45px] md:h-[40px] mt-5"
-          onClick={() => {
-            if (token) router.push("/swap");
-          }}
-        >
-          Swap page
-        </Button>
-      </div>
+            <div className="bg-light-border-primary dark:bg-dark-border-primary h-[1px] w-full mb-[15px]" />
+            <Button
+              extraCss="w-full justify-center h-[45px] md:h-[40px] mt-5"
+              onClick={() => {
+                if (token) router.push("/swap");
+              }}
+            >
+              Swap page
+            </Button>
+          </div>
+        </>
+      ) : null}
     </Drawer>
   );
 };
