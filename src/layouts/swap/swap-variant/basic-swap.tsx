@@ -53,6 +53,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     setLockToken,
     setManualQuote,
   } = useContext<ISwapContext>(SwapContext);
+  const [showMoreRouter, setShowMoreRouter] = useState(false);
   const [isTokenIn, setIsTokenIn] = useState(true);
   const [showSelector, setShowSelector] = useState<boolean>(false);
   const [isBuy, setIsBuy] = useState<boolean>(true);
@@ -98,12 +99,11 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     return false;
   };
 
-  const getChainName = (chain: string) => {
-    if (chain === "BNB Smart Chain (BEP20)") return "Binaace Smart Chain";
-  };
-
-  console.log("quotes", quotes);
-  const [showMoreRouter, setShowMoreRouter] = useState(false);
+  console.log(
+    "manualQuote",
+    Number(quotes?.[0]?.amountOut) / 10 ** (tokenOut?.decimals as number),
+    -2
+  );
 
   return (
     <div
@@ -261,7 +261,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
               lang="en"
               disabled
               className="w-fit max-w-[200px] lg:max-w-[150px] text-light-font-100 dark:text-dark-font-100 text-[20px] 
-            lg:text-[18px] md:text-[16px] font-medium bg-light-bg-terciary dark:bg-dark-bg-terciary border-0 outline-none pl-0"
+            lg:text-[18px] md:text-[16px] font-medium bg-light-bg-terciary dark:bg-dark-bg-terciary border-0 outline-none pl-0 overflow-scroll"
               style={{ border: "none" }}
               onChange={(e) => {
                 if (
@@ -270,11 +270,10 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
                 )
                   setAmountOut(e.target.value);
               }}
-              value={getFormattedAmount(
-                (manualQuote?.amountOut || quotes?.[0]?.amountOut) /
-                  10 ** tokenOut!?.decimals,
-                -2
-              )}
+              value={
+                (manualQuote?.amountOut || Number(quotes?.[0]?.amountOut)) /
+                10 ** (tokenOut?.decimals as number)
+              }
             />
             <button
               className={switchTokenButtonStyle}
@@ -302,14 +301,13 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           </div>
         </div>
 
-        {/* feijfejif */}
         <div className="flex flex-col">
           <button
             className="flex items-center justify-between py-2.5"
             onClick={() => setShowMoreRouter((prev) => !prev)}
           >
             <SmallFont extraCss="text-light-font-80 dark:text-dark-font-80 ml-3.5">
-              Router available ({quotes?.length})
+              Router available ({quotes?.length || "Loading..."})
             </SmallFont>
             <BsChevronDown
               className={`text-light-font-100 dark:text-dark-font-100 font-medium ${
@@ -318,100 +316,81 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
             />
           </button>
           <Collapse startingHeight="max-h-[75px]" isOpen={showMoreRouter}>
-            {quotes?.map((entry, i) => (
-              <div
-                className={`flex justify-between relative items-center cursor-pointer p-3 rounded-xl mb-2.5 ${
-                  getActiveProtocol(i)
-                    ? "bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-secondary dark:border-dark-border-secondary"
-                    : ""
-                }`}
-                key={entry.protocol}
-                onClick={() => {
-                  setManualQuote(entry);
-                  pushData("TRADE-SWITCH-ROUTE");
-                  setShow(false);
-                }}
-              >
-                {getActiveProtocol(i) && (
-                  <div
-                    className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full w-fit px-2 h-fit 
+            {quotes?.map((entry, i) => {
+              return (
+                <div
+                  className={`flex justify-between relative items-center cursor-pointer p-3 rounded-xl mb-2.5 ${
+                    getActiveProtocol(i)
+                      ? "bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-secondary dark:border-dark-border-secondary"
+                      : ""
+                  }`}
+                  key={entry.protocol}
+                  onClick={() => {
+                    setManualQuote(entry);
+                    pushData("TRADE-SWITCH-ROUTE");
+                    setShow(false);
+                  }}
+                >
+                  {getActiveProtocol(i) && (
+                    <div
+                      className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-full w-fit px-2 h-fit 
                   py-0.5 border border-darkblue dark:border-darkblue flex items-center justify-center 
                   absolute top-2 right-2"
-                  >
-                    <ExtraSmallFont>Selected</ExtraSmallFont>
-                  </div>
-                )}
-                <div className="flex items-center">
-                  <img
-                    className="w-[38px] h-[38px] mr-[10px] rounded-full"
-                    src={
-                      famousContractsLabelFromName[entry.protocol]?.logo ||
-                      "/empty/unknown.png"
-                    }
-                    // src={
-                    //   tokenOut?.logo || tokenOut?.image || "/empty/unknown.png"
-                    // }
-                  />
+                    >
+                      <ExtraSmallFont>Selected</ExtraSmallFont>
+                    </div>
+                  )}
+                  <div className="flex items-center">
+                    <img
+                      className="w-[38px] h-[38px] mr-[10px] rounded-full"
+                      src={
+                        famousContractsLabelFromName[entry.protocol]?.logo ||
+                        "/empty/unknown.png"
+                      }
+                    />
 
-                  <div className="flex flex-col">
-                    <MediumFont extraCss="font-medium">
-                      {getFormattedAmount(
-                        entry.amountOut / 10 ** tokenOut!.decimals,
-                        -2
-                      )}{" "}
-                      {tokenOut?.symbol}
-                    </MediumFont>
-                    <div className="flex items-center">
-                      <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                        $
+                    <div className="flex flex-col">
+                      <MediumFont extraCss="font-medium">
                         {getFormattedAmount(
-                          (getFormattedAmount(
-                            (entry.amountOut as number) /
-                              10 ** tokenOut!.decimals,
-                            -2
-                          ) as number) * (tokenOut?.price as number)
+                          entry.amountOut / 10 ** tokenOut!.decimals,
+                          -2
                         )}{" "}
-                        -
-                      </SmallFont>
-                      <div className="flex items-center ml-1">
-                        <img
-                          src={
-                            famousContractsLabelFromName[entry.protocol]?.logo
-                          }
-                          className="rounded-full w-[14px] h-[14px] min-w-[14px] mr-2"
-                        />
-                        <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100">
-                          {entry.protocol}
+                        {tokenOut?.symbol}
+                      </MediumFont>
+                      <div className="flex items-center">
+                        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                          $
+                          {getFormattedAmount(
+                            (Number(entry.amountOut) /
+                              10 ** Number(tokenOut!.decimals)) *
+                              (tokenOut?.price as number)
+                          )}{" "}
+                          -
                         </SmallFont>
+                        <div className="flex items-center ml-1">
+                          <img
+                            src={
+                              famousContractsLabelFromName[entry.protocol]
+                                ?.logo || "/empty/unknown.png"
+                            }
+                            className="rounded-full w-[14px] h-[14px] min-w-[14px] mr-2"
+                          />
+                          <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100">
+                            {entry.protocol}
+                          </SmallFont>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  {/* <SmallFont>{entry.protocol}</SmallFont> */}
                 </div>
-                {/* <div className="flex items-center ml-2.5">
-              <p
-                className={`text-sm md:text-xs ${getColorOfActiveProtocol(
-                  i
-                )} mr-[5px] text-medium`}
-              >
-                {getFormattedAmount(
-                  entry.amountOut / 10 ** tokenOut!.decimals,
-                  -2
-                )}
-              </p>
-              <img
-                src={tokenOut?.logo || "/empty/unknown.png"}
-                className="rounded-full w-[14px] h-[14px] min-w-[14px]"
-              />
-            </div> */}
-              </div>
-            ))}{" "}
+              );
+            })}{" "}
           </Collapse>
         </div>
         {/* fenhjusuejf */}
         <button
           className="flex items-center justify-center text-sm text-medium w-full rounded-lg text-light-font-100 dark:text-dark-font-100 border
-         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200 mt-4 md:mt-0"
+         border-darkblue hover:border-blue h-[48px] md:h-[38px] transition-all duration-200 mt-2 md:mt-0"
           onClick={() => handleButtonClick()}
           id={`trade-${buttonStatus?.toLowerCase()}`}
         >

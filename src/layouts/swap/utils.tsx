@@ -255,4 +255,8 @@ export const famousContractsLabelFromName = {
     logo: "https://s2.coinmarketcap.com/static/img/coins/64x64/16519.png",
     router: true,
   },
+  Pandora: {
+    logo: "https://www.gitbook.com/cdn-cgi/image/width=36,dpr=2,height=36,fit=contain,format=auto/https%3A%2F%2F2402162351-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252FhvIVb0SoJ9LUxFcSH6iY%252Ficon%252Fg9vWDzYeg02VD9p666Rg%252Ftho2.png%3Falt%3Dmedia%26token%3Dbf1fe30a-6f86-4a78-87b2-72cb2ff078d0",
+    router: true,
+  },
 };
