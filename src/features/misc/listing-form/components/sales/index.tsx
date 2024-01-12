@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
@@ -16,9 +16,6 @@ export const Sales = ({ dispatch, state }) => {
     {} as ILaunchpad
   );
 
-  function formatDate(timestamp: number) {
-    return new Date(timestamp).getTime();
-  }
 
   useEffect(() => {
     const supabase = createSupabaseDOClient();
@@ -28,10 +25,7 @@ export const Sales = ({ dispatch, state }) => {
       .then(({ data, error }) => {
         if (error) console.error(error);
         else
-          setLaunchpads([
-            ...data,
-            { name: "Other", logo: "/empty/unknown.png" },
-          ]);
+          setLaunchpads([...data, {name: "Other", logo: "/empty/unknown.png"}]);
       });
   }, []);
 
@@ -80,7 +74,7 @@ export const Sales = ({ dispatch, state }) => {
                         )
                           value = parseFloat(e.target.value);
                         else if (entry === "date")
-                          value = formatDate(Number(e.target.value));
+                          (value = e.target.value);
                         else value = e.target.value;
                         dispatch({
                           type: ACTIONS.SET_ELEMENT_TOKENOMICS,

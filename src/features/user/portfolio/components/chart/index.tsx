@@ -1,7 +1,8 @@
 import { Button } from "components/button";
 import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import React, { Key, useContext } from "react";
+import { Key, useContext } from "react";
+import { FaBitcoin } from "react-icons/fa";
 import { MediumFont } from "../../../../../components/fonts";
 import { TimeSelected } from "../../../../../interfaces/pages/asset";
 import { colors } from "../../constants";
@@ -14,7 +15,11 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
 });
 
-export const PortfolioChart = () => {
+interface PortfolioChartProps {
+  isExplorer: boolean;
+}
+
+export const PortfolioChart = ({ isExplorer }) => {
   const {
     wallet,
     isLoading,
@@ -61,7 +66,7 @@ export const PortfolioChart = () => {
       </div>
       <div className="flex items-center w-full">
         {!wallet && !isLoading ? (
-          <div className="flex relative max-h-[320px] min-h-[320px] mt-5 lg:mt-0 w-full border-2 border-light-border-primary dark:border-dark-border-primary rounded-2xl bg-light-bg-secondary dark:bg-dark-bg-secondary justify-center items-center">
+          <div className="flex relative min-h-[250px] mt-5 lg:mt-0 w-full border-2 border-light-border-primary dark:border-dark-border-primary rounded-2xl justify-center items-center">
             {Array.from(Array(4).keys()).map((_, i) => (
               <div
                 key={i as Key}
@@ -70,16 +75,13 @@ export const PortfolioChart = () => {
               />
             ))}
             <div className="flex flex-col items-center justify-center">
-              <MediumFont extraCss="text-light-font-40 dark:text-dark-font-40 mb-[15px]">
-                No data {error ? `: ${error}` : ""}
+              <MediumFont extraCss="text-light-font-80 dark:text-dark-font-80 mb-[15px]">
+                No history found
+                {error ? `: ${error}` : ""}
               </MediumFont>
-              {true ? (
+              {isExplorer ? (
                 <Button onClick={() => setShowSelect(true)}>
-                  <img
-                    className="w-[20px] h-[20px] mr-[7.5px] rounded-full"
-                    src="/logo/bitcoin.png"
-                    alt="bitcoin logo"
-                  />
+                  <FaBitcoin className="text-lg mr-1.5 text-light-font-80 dark:text-dark-font-80" />
                   Add an asset
                 </Button>
               ) : null}

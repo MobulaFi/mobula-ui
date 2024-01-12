@@ -113,3 +113,38 @@ export const cleanVesting = (vesting) => {
   vesting[2] = vesting[2].filter((e) => e?.amount);
   return vesting;
 };
+
+export function formatDate(dateString: string): number | null {
+  if (typeof dateString !== "string") {
+    console.error("formatDate: dateString must be a string");
+    return dateString;
+  }
+
+  const parts = dateString.split("/");
+  if (parts.length === 3) {
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    const year = parseInt(parts[2], 10);
+
+    // Vérifiez si les valeurs du jour, du mois et de l'année sont valides
+    if (
+      !isNaN(day) &&
+      day >= 1 &&
+      day <= 31 &&
+      !isNaN(month) &&
+      month >= 1 &&
+      month <= 12 &&
+      !isNaN(year) &&
+      parts[2].length === 4
+    ) {
+      const date = new Date(year, month - 1, day); // Les mois sont indexés à partir de 0
+      let timestamp = date.getTime();
+
+      // Vérifiez si la date est valide (non NaN et correspond à la saisie)
+      if (!isNaN(timestamp) && date.getDate() === day) {
+        return timestamp / 100;
+      }
+    }
+  }
+  return null; // Retournez null si la date n'est pas valide ou complète
+}

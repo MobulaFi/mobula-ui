@@ -1,13 +1,12 @@
 import { Button } from "components/button";
-import { ModalContainer } from "components/modal-container";
 import { Spinner } from "components/spinner";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { ModalContainer } from "../../../../../../components/modal-container";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
-import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { manageOptions } from "../../../constants";
 import { PortfolioV2Context } from "../../../context-manager";
 
@@ -27,7 +26,6 @@ export const ManagePopup = () => {
     setShowHiddenTokensPopup,
     isLoading,
   } = useContext(PortfolioV2Context);
-  const supabase = createSupabaseDOClient();
 
   const handleSwitch = (name: string) => {
     pushData("Portfolio Settings Modified", {

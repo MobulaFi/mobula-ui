@@ -69,7 +69,10 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
                 </>
               ) : null}
             </div>
-            <Collapse isOpen={extended[entry.name]} startingHeight="0px">
+            <Collapse
+              isOpen={extended[entry.name]}
+              startingHeight="max-h-[0px]"
+            >
               <div className="flex mt-2.5 flex-col text-base cursor-pointer">
                 {entry.extends.map((submenu, i) => (
                   <NextChakraLink

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { inputStyle } from "../../../styles";
