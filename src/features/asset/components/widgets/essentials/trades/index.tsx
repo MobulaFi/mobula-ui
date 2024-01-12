@@ -1,7 +1,7 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiExternalLink, FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";

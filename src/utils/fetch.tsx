@@ -19,7 +19,9 @@ export const GET = (
     `${external ? "" : API_ENDPOINT}${path}?${new URLSearchParams(
       stringOptions as Record<string, string>
     ).toString()}&signature=${signature}`,
-    params
+    {
+      ...params,
+    }
   );
 };
 

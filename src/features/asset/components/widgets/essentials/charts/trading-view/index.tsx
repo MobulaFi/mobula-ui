@@ -8,7 +8,7 @@ import {
 import { cn } from "../../../../../../../lib/shadcn/lib/utils";
 import { Asset } from "../../../../../models";
 import { overrides } from "./theme";
-import { Datafeed } from "./utils";
+import { Datafeed } from "./utils/";
 
 interface ChartBoxProps {
   baseAsset: Asset;
