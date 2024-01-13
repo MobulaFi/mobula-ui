@@ -79,8 +79,9 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
       <SmallFont extraCss="mb-2.5 mt-[30px] lg:mt-5 md:mt-[15px] font-normal">
         Total supply details
       </SmallFont>
-      {token?.totalSupplyContracts[0]?.address ===
-      token?.contracts[0]?.address ? (
+      {token?.totalSupplyContracts?.length > 0 &&
+      token?.contracts?.length > 0 &&
+      token.totalSupplyContracts[0]?.address === token.contracts[0]?.address ? (
         <div className="flex items-center mb-2.5">
           <SmallFont>
             Total supply is the supply of the first contract
