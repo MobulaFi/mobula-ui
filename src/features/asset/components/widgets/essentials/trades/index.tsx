@@ -1,15 +1,11 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiExternalLink, FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
-import {
-  LargeFont,
-  MediumFont,
-  SmallFont,
-} from "../../../../../../components/fonts";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../components/link";
 import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
@@ -156,11 +152,8 @@ export const TokenTrades = () => {
   }, []);
 
   return (
-    <div className="flex flex-col mt-5 w-full mx-auto">
-      <div className="flex items-center justify-between">
-        <LargeFont>Live Trades</LargeFont>
-      </div>
-      <div className="flex justify-between items-center my-2.5 lg:hidden">
+    <div className="flex flex-col mt-2.5 w-full mx-auto">
+      <div className="flex justify-between items-center mt-2.5 lg:hidden">
         <div
           className={`min-h-[45px] flex items-center transition-all ${
             isMyTrades ? "opacity-50" : ""
@@ -198,16 +191,16 @@ export const TokenTrades = () => {
           </PopoverTrade>
         </div>
         <div
-          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative px-2
-         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary mb-2"
+          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative
+         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary mb-2 rounded-lg"
         >
           <div
-            className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-200"
+            className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200"
             style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
           />
           <button
             className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
-          md:text-xs font-medium transition-all duration-200 ${
+          md:text-xs transition-all duration-200 ${
             !isMyTrades
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
@@ -220,7 +213,7 @@ export const TokenTrades = () => {
           </button>
           <button
             className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
-            md:text-xs font-medium transition-all duration-200 ${
+            md:text-xs transition-all duration-200 ${
               isMyTrades
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"

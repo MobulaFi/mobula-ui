@@ -6,7 +6,7 @@ export const percentageTags = (isUp: boolean) =>
   } h-[30px] md:h-[22px] px-2.5 md:px-[5px] rounded ml-2.5 items-center justify-center`;
 
 export const mainButtonStyle =
-  "h-[30px] px-2.5 lg:px-[5px] mr-[7.5px] lg:mr-0 ml-0 lg:ml-[7.5px] rounded transition-all duration-200 font-medium";
+  "h-[30px] px-2 lg:px-[5px] mr-[7.5px] lg:mr-0 ml-0 lg:ml-[7.5px] rounded transition-all duration-200";
 
 export const popOverStyle = {
   boxShadow: "1px 2px 13px 3px rgba(0,0,0,0.1)",

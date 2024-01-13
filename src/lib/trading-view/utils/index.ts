@@ -1,5 +1,5 @@
-import { GET } from "../../../../../../../../utils/fetch";
-import { Asset, Bar } from "../../../../../../models";
+import { Asset, Bar } from "../../../features/asset/models";
+import { GET } from "../../../utils/fetch";
 import { getNextBarTime } from "./stream";
 
 export const supportedResolutions = [
