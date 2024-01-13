@@ -809,7 +809,7 @@ export const Activity = ({
                                         `${
                                           blockchainsIdContent[
                                             transaction.chain_id
-                                          ]??.explorer
+                                          ]?.explorer
                                         }/tx/${transaction.hash}`
                                       )
                                     }
@@ -852,7 +852,7 @@ export const Activity = ({
                                       `${
                                         blockchainsIdContent[
                                           transaction.chain_id
-                                        ]??.explorer
+                                        ]?.explorer
                                       }/tx/${transaction.hash}`
                                     )
                                   }
@@ -867,7 +867,6 @@ export const Activity = ({
                                   />
                                 ) : null}
                               </div>
-
                             </>
                           )}
                         </div>
