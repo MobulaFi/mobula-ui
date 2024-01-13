@@ -15,7 +15,6 @@ export const getNextBarTime = (resolution: string, time: number) => {
     case "3":
     case "5":
     case "15":
-    case "30":
       utcDate.setMinutes(utcDate.getMinutes() + 1);
       break;
     case "60":

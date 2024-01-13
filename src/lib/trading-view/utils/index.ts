@@ -6,7 +6,6 @@ export const supportedResolutions = [
   "1",
   "5",
   "15",
-  "30",
   "60",
   "120",
   "240",
