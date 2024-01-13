@@ -78,7 +78,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   });
 
   const buttonPopover =
-    "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
+    "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded-md font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
     if (!displayedToken && !isFakeToken) return "max-h-[60px]";
@@ -240,9 +240,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
             {getPricing(token?.coeff) < 30
               ? `$${30 - getPricing(token?.coeff)} Left`
               : "Full"}
-            <div className="flex h-2 rounded bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
+            <div className="flex h-2 rounded-md bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
               <div
-                className="rounded h-full bg-blue dark:bg-blue"
+                className="rounded-md h-full bg-blue dark:bg-blue"
                 style={{
                   width: `${getPercentageFromCoeff(getPricing(token?.coeff))}%`,
                 }}
@@ -398,7 +398,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 .map((audit, index: number) => (
                   <div
                     className={`flex text-light-font-100 dark:text-dark-font-100 border border-light-border-primary 
-                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded px-2.5 
+                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md px-2.5 
                 hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-200 py-1 ${
                   index > 0 ? "mt-2.5" : ""
                 }`}
@@ -441,7 +441,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 .map((kyc, index: number) => (
                   <div
                     className={`flex text-light-font-100 dark:text-dark-font-100 border border-light-border-primary 
-                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded px-2.5 
+                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md px-2.5 
                 hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-200 py-1 ${
                   index > 0 ? "mt-2.5" : ""
                 }`}
@@ -477,7 +477,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         <div className="flex w-full flex-wrap mt-5 sm:mt-2.5">
           {token?.categories?.map((entry) => (
             <div
-              className="flex h-6 px-2.5 mr-2.5 rounded items-center justify-center w-fit mb-2.5
+              className="flex h-6 px-2.5 mr-2.5 rounded-md items-center justify-center w-fit mb-2.5
              lg:mb-0 bg-light-bg-tags dark:bg-dark-bg-tags"
               key={entry}
             >
@@ -503,7 +503,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       {token?.alreadyVoted ? (
         <div
-          className="flex text-green dark:text-green mt-auto px-3 rounded w-fit bg-light-bg-terciary
+          className="flex text-green dark:text-green mt-auto px-3 rounded-md w-fit bg-light-bg-terciary
          dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary h-[28px] items-center"
         >
           <BsCheckLg />
@@ -523,7 +523,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       {!displayedToken ? (
         <div
-          className={`${getClassNameFromRatio()} w-full h-full sm:h-5 absolute rounded sm:rounded-0 z-[-1]`}
+          className={`${getClassNameFromRatio()} w-full h-full sm:h-5 absolute rounded-md sm:rounded-0 z-[-1]`}
         />
       ) : null}
     </BoxContainer>

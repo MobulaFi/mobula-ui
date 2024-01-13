@@ -87,7 +87,7 @@ export const TransactionReceipt = () => {
       {(!completedTx || !txError) && (
         <>
           <div
-            className="rounded py-2.5 px-[15px] flex-col bg-light-bg-terciary
+            className="rounded-md py-2.5 px-[15px] flex-col bg-light-bg-terciary
            dark:bg-dark-bg-terciary border border-light-border-primary
             dark:border-dark-border-primary"
           >

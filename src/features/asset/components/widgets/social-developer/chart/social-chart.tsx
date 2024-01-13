@@ -42,13 +42,13 @@ export const MultiChart = ({
       <div className="flex items-center justify-between w-full">
         <LargeFont mb="10px">Socials Analytics</LargeFont>
         <div
-          className="h-[38px] w-[260px] p-0.5 rounded bg-light-bg-secondary
+          className="h-[38px] w-[260px] p-0.5 rounded-md bg-light-bg-secondary
          dark:bg-dark-bg-secondary relative z-[1] border border-light-border-primary 
          dark:border-dark-border-primary"
         >
           <div
             className={`flex h-[90%] top-1/2 -translate-y-1/2 w-[16.66%] transition-all duration-200 
-          ease-in-out rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover ${
+          ease-in-out rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover ${
             timestamps.indexOf(timeSelected) === 0 ? "ml-0.5" : ""
           } ${
               timestamps.indexOf(timeSelected) === timestamps.length - 1

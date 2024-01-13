@@ -87,12 +87,12 @@ export const ChartHeader = () => {
       >
         <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll">
           {/* <div
-            className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded p-0.5 bg-light-bg-secondary 
+            className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded-md p-0.5 bg-light-bg-secondary 
           dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary 
           relative mr-[7.5px] "
           >
             <div
-              className="flex h-[90%] top-[50%] z-[0] -translate-y-[50%] w-[50%] transition-all duration-200 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover"
+              className="flex h-[90%] top-[50%] z-[0] -translate-y-[50%] w-[50%] transition-all duration-200 rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover"
               style={{ left: buttonPosition }}
             />
             <button
@@ -126,12 +126,12 @@ export const ChartHeader = () => {
             </button>
           </div> */}
           <div
-            className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
+            className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded-md bg-light-bg-secondary dark:bg-dark-bg-secondary
            border border-light-border-primary dark:border-dark-border-primary relative"
           >
             <div
               className={`h-[90%] top-[50%] -translate-y-[50%] w-[50%] transition-all duration-200
-             rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0] ${
+             rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0] ${
                activeChart !== "Trading view" ? "ml-0.5 mr-0" : ""
              }`}
               style={{

@@ -9,7 +9,7 @@ import { addButtonStyle, inputStyle } from "../../styles";
 export const Distribution = ({ dispatch, state }) => {
   const amountRef = useRef<HTMLInputElement>(null);
   const deleteButtonStyle =
-    "flex justify-center items-center whitespace-nowrap w-fit min-w-[40px] px-2 h-[35px]  rounded text-sm lg:text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
+    "flex justify-center items-center whitespace-nowrap w-fit min-w-[40px] px-2 h-[35px]  rounded-md text-sm lg:text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   const pushAddress = async (address: string, i: number, j: number) => {
     const newAddressObject = {

@@ -120,7 +120,7 @@ export const WatchlistDrawer = () => {
         </div>
         <div
           className="p-5 md:p-2.5 flex w-full max-w-[800px] mx-auto bg-light-bg-secondary
-        dark:bg-dark-bg-secondary rounded h-fit relative items-center justify-between border-t 
+        dark:bg-dark-bg-secondary rounded-md h-fit relative items-center justify-between border-t 
         border-light-border-primary dark:border-dark-border-primary shadow-md flex-wrap flex-row sm:flex-col"
         >
           <div className="flex items-center w-auto sm:w-full ">

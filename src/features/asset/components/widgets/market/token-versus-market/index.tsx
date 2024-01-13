@@ -142,7 +142,7 @@ export const TokenVersusMarket = () => {
           (entry) => entry?.symbol !== baseAsset?.symbol && entry
         )?.length > 0 ? (
           <div
-            className={`flex h-[23px] lg:h-[21.5px] md:h-[20px] w-fit px-1.5 rounded ml-2.5 ${stateOfMarket?.bg} ${stateOfMarket?.color} text-sm lg:text-[13px] md:text-xs items-center`}
+            className={`flex h-[23px] lg:h-[21.5px] md:h-[20px] w-fit px-1.5 rounded-md ml-2.5 ${stateOfMarket?.bg} ${stateOfMarket?.color} text-sm lg:text-[13px] md:text-xs items-center`}
           >
             {stateOfMarket?.state}
           </div>

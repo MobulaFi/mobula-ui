@@ -91,7 +91,7 @@ export const MenuCommun = () => {
         }}
       >
         <div
-          className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] 
+          className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-md mr-2.5 p-1 w-[30px] 
         h-[30px] items-center justify-center flex"
         >
           <WatchlistAdd
@@ -116,7 +116,7 @@ export const MenuCommun = () => {
             }}
           >
             <div
-              className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px] 
+              className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-md mr-2.5 p-1 w-[30px] 
             h-[30px] items-center justify-center flex"
             >
               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-md" />
@@ -138,7 +138,7 @@ export const MenuCommun = () => {
         }}
       >
         <div
-          className="bg-light-bg-hover dark:bg-dark-bg-hover rounded mr-2.5 p-1 w-[30px]
+          className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-md mr-2.5 p-1 w-[30px]
          h-[30px] items-center justify-center flex"
         >
           <TbBellRinging className="text-light-font-100 dark:text-dark-font-100 text-lg" />

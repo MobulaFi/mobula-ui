@@ -349,7 +349,7 @@ export const Manage = () => {
                               >
                                 <div
                                   key={asset.asset_id}
-                                  className={`${colors[i]} w-full rounded h-[10px] relative`}
+                                  className={`${colors[i]} w-full rounded-md h-[10px] relative`}
                                   onMouseOver={() =>
                                     setShowPopover([i, otherPortfolio.id])
                                   }
@@ -470,7 +470,7 @@ export const Manage = () => {
                           </SmallFont>
                         </div>
                         <div
-                          className="flex items-center justify-center rounded w-[15px] h-[15px] 
+                          className="flex items-center justify-center rounded-md w-[15px] h-[15px] 
             border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-hover dark:bg-dark-bg-hover"
                         >
                           <BsCheckLg

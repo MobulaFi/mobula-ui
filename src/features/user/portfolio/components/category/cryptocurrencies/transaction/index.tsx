@@ -382,7 +382,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                 </div>
                 <div className="flex flex-col mx-2.5 flex-wrap w-full">
                   <Skeleton extraCss="w-[100px] h-[13px] rounded" />
-                  <Skeleton extraCss="w-[40px] h-[13px] rounded mt-1" />
+                  <Skeleton extraCss="w-[40px] h-[13px] rounded-md mt-1" />
                 </div>
               </div>
               <div className="flex items-center justify-end">

@@ -114,14 +114,14 @@ export const HeaderMenu = () => {
   };
 
   const squareBox =
-    "flex item-center justify-center p-1 rounded bg-light-bg-hover dark:bg-dark-bg-hover mr-2.5";
+    "flex item-center justify-center p-1 rounded-md bg-light-bg-hover dark:bg-dark-bg-hover mr-2.5";
   const iconStyle = "text-light-font-40 dark:text-dark-font-40 text-sm";
 
   return (
     <Menu
       titleCss="bg-light-bg-terciary dark:bg-dark-bg-terciary text-light-font-100 dark:text-dark-font-100 
     hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ml-[10px] border border-light-border-primary 
-    dark:border-dark-border-primary text-sm md:text-xs rounded px-1 h-[30px]"
+    dark:border-dark-border-primary text-sm md:text-xs rounded-md px-1 h-[30px]"
       title={<BsThreeDotsVertical className="mt-0.5 text-lg md:text-base" />}
     >
       <div

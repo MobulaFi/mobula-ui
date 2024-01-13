@@ -38,7 +38,7 @@ export const TopConvertion = () => {
           {tokens.map((token) => (
             <button
               key={token?.logo}
-              className="flex justify-center px-2.5 h-10 md:h-[35px] w-1/5 md:w-fit rounded items-center"
+              className="flex justify-center px-2.5 h-10 md:h-[35px] w-1/5 md:w-fit rounded-md items-center"
             >
               <NextChakraLink
                 extraCss="w-full h-full flex items-center justify-center"

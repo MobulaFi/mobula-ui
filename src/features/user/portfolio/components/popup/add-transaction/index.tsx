@@ -227,7 +227,7 @@ export const AddTransactionPopup = () => {
       <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5">
         Amount
       </p>
-      <div className="flex items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
+      <div className="flex items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
         <input
           className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
           type="number"
@@ -316,7 +316,7 @@ export const AddTransactionPopup = () => {
           <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
             Price
           </p>
-          <div className="flex items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
+          <div className="flex items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
             <input
               className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
               type="number"
@@ -370,12 +370,12 @@ export const AddTransactionPopup = () => {
         <Menu
           title={
             <div
-              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
                  cursor-pointer max-w-full justify-between"
               onClick={() => setIsCalendarVisible(true)}
             >
               <input
-                className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+                className="w-full  cursor-pointer bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-full"
                 value={getDate(date?.getTime() as number)}
               />
               <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
@@ -388,7 +388,7 @@ export const AddTransactionPopup = () => {
             onSelect={setDate}
           />
         </Menu>
-        <div className="flex items-center w-fit bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-2.5">
+        <div className="flex items-center w-fit bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px] justify-between pr-2.5">
           <input
             placeholder="00"
             pattern="d*"
@@ -432,11 +432,11 @@ export const AddTransactionPopup = () => {
             Total
           </p>
           <div
-            className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+            className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
                cursor-pointer max-w-full justify-between"
           >
             <input
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded-md text-light-font-100 dark:text-dark-font-100"
               value={(() => {
                 const timestamp =
                   (date?.getTime() as number) +
@@ -472,7 +472,7 @@ export const AddTransactionPopup = () => {
               Note
             </p>
             <input
-              className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
+              className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-[35px] rounded-md text-light-font-100 dark:text-dark-font-100"
               placeholder="Type a note"
               onChange={(e) => {
                 setSettings((prev) => ({
@@ -487,11 +487,11 @@ export const AddTransactionPopup = () => {
               Fee
             </p>
             <div
-              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
                cursor-pointer max-w-full justify-between"
             >
               <input
-                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100 pr-[25px]"
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded-md text-light-font-100 dark:text-dark-font-100 pr-[25px]"
                 placeholder="0.5"
                 type="number"
                 onChange={(e) => {

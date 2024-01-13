@@ -20,7 +20,7 @@ export const ButtonVote = ({ token }: ButtonVoteProps) => {
   const voteToken = useVote();
   const [isAbleToSubmit, setIsAbleToSubmit] = useState(false);
   const buttonOutlined =
-    "w-full flex items-center justify-center h-[42px] lg:h-[40px] md:h-[35px] max-w-full text-light-font-100 dark:text-dark-font-100 rounded text-sm lg:text-[13px] md:text-xs border";
+    "w-full flex items-center justify-center h-[42px] lg:h-[40px] md:h-[35px] max-w-full text-light-font-100 dark:text-dark-font-100 rounded-md text-sm lg:text-[13px] md:text-xs border";
 
   return (
     <div className="flex flex-col w-full">

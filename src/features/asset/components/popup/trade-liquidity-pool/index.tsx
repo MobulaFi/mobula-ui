@@ -15,7 +15,7 @@ export const TradeLiquidityPoolPopup = () => {
             i === ([1, 2, 3, 4, 5].length || 0) - 1 ? "" : "mb-[7.5px]"
           }`}
         >
-          <button className="flex items-center justify-center w-4 h-4 rounded border-light-border-secondary dark:border-dark-border-secondary border">
+          <button className="flex items-center justify-center w-4 h-4 rounded-md border-light-border-secondary dark:border-dark-border-secondary border">
             <BsCheckLg
               className={`text-[11px] text-light-font-100 dark:text-dark-font-100 ${
                 selectedTradeFilters.liquidity_pool.includes("entry")

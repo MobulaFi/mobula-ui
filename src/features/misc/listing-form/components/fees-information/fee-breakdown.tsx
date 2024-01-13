@@ -93,7 +93,7 @@ export const FeeBreakdown = ({ state, dispatch, side }) => {
                 </div>
                 {j === 2 ? (
                   <textarea
-                    className="h-[200px] w-[400px] md:w-full rounded bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary"
+                    className="h-[200px] w-[400px] md:w-full rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary"
                     name="details"
                     value={d[entry]}
                     placeholder={placeholder}

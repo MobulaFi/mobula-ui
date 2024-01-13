@@ -77,7 +77,7 @@ const TradingViewChart = ({
   return (
     <div
       className={cn(
-        `flex flex-col rounded w-full lg:bg-inherit lg:dark:bg-inherit lg:border-0
+        `flex flex-col rounded-md w-full lg:bg-inherit lg:dark:bg-inherit lg:border-0
       items-center justify-center relative`,
         extraCss
       )}

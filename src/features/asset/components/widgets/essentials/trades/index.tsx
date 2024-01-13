@@ -238,10 +238,10 @@ export const TokenTrades = () => {
         </Button>
         <div
           className="flex h-[32px] items-center justify-center relative bg-light-bg-terciary
-         dark:bg-dark-bg-terciary px-2 w-[180px] rounded border border-light-border-primary dark:border-dark-border-primary"
+         dark:bg-dark-bg-terciary px-2 w-[180px] rounded-md border border-light-border-primary dark:border-dark-border-primary"
         >
           <div
-            className="w-[50%] z-[0] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded absolute transition-all duration-200"
+            className="w-[50%] z-[0] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded-md absolute transition-all duration-200"
             style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
           />
           <button

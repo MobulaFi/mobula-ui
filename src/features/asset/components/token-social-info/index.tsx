@@ -120,7 +120,7 @@ export const TokenSocialsInfo = () => {
                     if (i < 3)
                       return (
                         <div
-                          className="flex lg:hidden h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags"
+                          className="flex lg:hidden h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded-md items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags"
                           key={i}
                         >
                           <SmallFont extraCss="h-full text-light-font-100 dark:text-dark-font-100 truncate flex items-center text-sm font-medium">
@@ -131,7 +131,7 @@ export const TokenSocialsInfo = () => {
                     return null;
                   })}
                   {baseAsset?.tags.length <= 3 ? (
-                    <div className="hidden lg:flex h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags">
+                    <div className="hidden lg:flex h-[28px] mt-2.5 px-2.5 mr-[7.5px] rounded-md items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags">
                       <SmallFont extraCss="h-full text-light-font-100 dark:text-dark-font-100 truncate flex items-center text-sm font-medium">
                         {baseAsset.tags[0].length > 10
                           ? `${baseAsset.tags[0].slice(0, 10)}...`
@@ -297,7 +297,7 @@ export const TokenSocialsInfo = () => {
                             } border border-light-border-primary dark:border-dark-border-primary
                            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary ${
                              i !== 0 ? "mt-[7.5px]" : "mt-0"
-                           } w-full justify-between px-2.5 rounded h-[32px] flex items-center`}
+                           } w-full justify-between px-2.5 rounded-md h-[32px] flex items-center`}
                             key={entry.url}
                           >
                             <div className="flex items-center mr-[15px]">

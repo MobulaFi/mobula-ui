@@ -25,14 +25,14 @@ export const ButtonTimeSlider = ({
   return (
     <div
       className={cn(
-        `flex h-[38px] px-[4px] z-[1] items-center bg-light-bg-terciary dark:bg-dark-bg-terciary rounded w-fit sm:w-full relative ${
+        `flex h-[38px] px-[4px] z-[1] items-center bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md w-fit sm:w-full relative ${
           isChart ? "mb-[70px] md:mb-0" : "mb-0"
         }`,
         extraCss
       )}
     >
       <div
-        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded absolute transition-all duration-200 z-[0]"
+        className="w-[40px] sm:w-1/5 h-[30px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200 z-[0]"
         style={{ left: getPosition(timeframe) }}
       />
       {timeframes.map((time) => (

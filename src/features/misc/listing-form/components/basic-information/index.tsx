@@ -18,7 +18,7 @@ export const BasicInformation = ({ state, dispatch }) => {
   const isDescriptionError = state.description.length > 300;
   const [categories, setCategories] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState("");
- 
+
   const highlight = ["Meme", "Governance"];
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -186,7 +186,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           >{`${state.description.length}/ 300`}</MediumFont>
         </div>
         <textarea
-          className={`h-[200px] w-[400px] md:w-full rounded text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary border ${
+          className={`h-[200px] w-[400px] md:w-full rounded-md text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary border ${
             isDescriptionError
               ? "hover:border-red hover:dark:border-red active:border-red active:dark:border-red focus:border-red focus:dark:border-red border-red dark:border-red"
               : "active:border-light-border-primary active:dark:border-dark-border-primary focus:border-light-border-primary focus:dark:border-dark-border-primary hover:border-light-border-primary hover:dark:border-dark-border-primary border-light-border-primary dark:border-dark-border-primary"
@@ -254,7 +254,7 @@ export const BasicInformation = ({ state, dispatch }) => {
                 <button
                   key={categorie}
                   className={`flex items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags px-[7.5px] h-[24px] mr-[5px] 
-                  mt-[5px] w-fit rounded text-sm lg:text-[13px] md:text-xs text-light-font-100
+                  mt-[5px] w-fit rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100
                    dark:text-dark-font-100 pt-0 md:pt0.5 ${
                      state.categories.includes(categorie)
                        ? "opacity-100"
@@ -283,7 +283,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           {filteredCategorie.length > 10 ? (
             <button
               className={`bg-light-bg-tags dark:bg-dark-bg-tags px-[7.5px] h-[24px]  
-            mt-[5px] w-fit rounded text-sm lg:text-[13px] md:text-xs text-light-font-100
+            mt-[5px] w-fit rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100
              dark:text-dark-font-100 `}
               disabled
             >

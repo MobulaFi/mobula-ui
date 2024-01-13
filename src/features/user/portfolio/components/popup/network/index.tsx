@@ -55,7 +55,7 @@ export const NetworkPopup = () => {
             <button
               className={`flex items-center justify-center w-[48%] ${
                 isOdds ? "mr-[5px]" : ""
-              } h-[58px] rounded px-[15px] mb-[5px] ${
+              } h-[58px] rounded-md px-[15px] mb-[5px] ${
                 isActiveNetwork
                   ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   : ""

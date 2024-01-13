@@ -118,7 +118,7 @@ export const ManageEdit = () => {
         {Object.entries(hiddenTokens).map(([tokenId, tokenData], index) => (
           <div
             className={`flex items-center justify-between mt-2.5 p-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary
-          border border-light-border-primary dark:border-dark-border-primary rounded w-full
+          border border-light-border-primary dark:border-dark-border-primary rounded-md w-full
            cursor-pointer hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200
             ease-in-out ${
               isCheck[Number(tokenId)] ? "opacity-40" : "opacity-100"
@@ -140,7 +140,7 @@ export const ManageEdit = () => {
               </SmallFont>
             </div>
             <div
-              className="flex items-center justify-center rounded w-[15px] h-[15px] 
+              className="flex items-center justify-center rounded-md w-[15px] h-[15px] 
             border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-hover dark:bg-dark-bg-hover"
             >
               <BsCheckLg

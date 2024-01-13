@@ -191,7 +191,7 @@ export const SelectorPortfolioPopup = () => {
                       >
                         <div
                           key={asset.asset_id}
-                          className={`${colors[i]} w-full rounded h-[10px] relative`}
+                          className={`${colors[i]} w-full rounded-md h-[10px] relative`}
                           onMouseOver={() =>
                             setShowPopover([i, otherPortfolio.id])
                           }

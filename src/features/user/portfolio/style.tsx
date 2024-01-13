@@ -10,7 +10,7 @@ export const buttonMarketPriceStyle = {
 };
 
 export const buttonHeaderStyle =
-  "h-[32px] px-[10px] rounded text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 transition-all duration-200";
+  "h-[32px] px-[10px] rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 transition-all duration-200";
 
 export const inputTimeStyle =
   "h-full w-[40px] text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs";

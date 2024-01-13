@@ -360,7 +360,7 @@ export const Contribute = ({ token }: ContributeProps) => {
           }}
         />
         <Menu
-          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded ml-2.5 transition-all duration-200
+          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded-md ml-2.5 transition-all duration-200
           border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
           bg-light-bg-terciary dark:bg-dark-bg-terciary"
           title={

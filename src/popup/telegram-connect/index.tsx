@@ -37,7 +37,7 @@ export const PopupTelegram = ({
   const [authentified, setAuthentified] = useState(false);
   const [error, setError] = useState("");
   const boxStyle =
-    "flex items-center justify-center bg-light-bg-secondary dark:bg-dark-bg-secondary w-[42px] md:w-[35px] rounded text-lg text-light-font-100 dark:text-dark-font-100 mr-[7.5px] md:mr-[5px]";
+    "flex items-center justify-center bg-light-bg-secondary dark:bg-dark-bg-secondary w-[42px] md:w-[35px] rounded-md text-lg text-light-font-100 dark:text-dark-font-100 mr-[7.5px] md:mr-[5px]";
   const steps = [
     {
       description:

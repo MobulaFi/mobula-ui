@@ -619,7 +619,7 @@ export const ViewPopup = ({
               <div
                 className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] md:h-[30px] w-1/2 ${
                   showTuto ? "z-[3]" : "z-[auto]"
-                } rounded transition-all duration-200 `}
+                } rounded-md transition-all duration-200 `}
                 style={{
                   left:
                     activeDisplay === "display"
@@ -755,7 +755,7 @@ export const ViewPopup = ({
                                   />
                                   <SmallFont>{chain}</SmallFont>
                                 </div>
-                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
+                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded-md border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
                                   {(state?.filters?.blockchains || []).some(
                                     (item) => item === chain
                                   ) ? (

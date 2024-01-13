@@ -245,7 +245,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const telegramStyleButton =
     "text-sm h-[22px] rounded-full w-fit px-1.5 mt-2.5 text-light-font-100 dark:text-dark-font-100 flex items-center justify-center font-normal transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
   const squareBox =
-    "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
+    "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded-md w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
     "flex items-center text-sm font-medium px-[15px] py-[12.5px] text-light-font-100 dark:text-dark-font-100 cursor-pointer transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
@@ -262,7 +262,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             />
             <PortfolioButton extraCss="flex lg:hidden" />
             <div
-              className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded border
+              className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded-md border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
             dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-200 
             max-w-[16vw] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
@@ -336,7 +336,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
           </button>
           <div
             className={`flex items-center absolute flex-col w-[230px] top-[56px] 
-            right-[-0px] lg:right-[-30px] z-[100] max-w-[230px] rounded border border-light-border-primary 
+            right-[-0px] lg:right-[-30px] z-[100] max-w-[230px] rounded-md border border-light-border-primary 
             dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary shadow-md 
             ${
               showInfoPopover

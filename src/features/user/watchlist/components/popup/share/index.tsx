@@ -88,7 +88,7 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
           <SmallFont>Share to Community</SmallFont>
         </div>
         <div
-          className="flex items-center justify-between h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded 
+          className="flex items-center justify-between h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded-md 
         bg-light-bg-terciary dark:bg-dark-bg-terciary pr-2.5 mt-2.5"
         >
           <input
