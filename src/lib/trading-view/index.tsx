@@ -4,7 +4,6 @@ import { Timezone } from "../../../public/static/charting_library/charting_libra
 import { Spinner } from "../../components/spinner";
 import { Asset } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
-import { triggerAlert } from "../toastify";
 import { DISABLED_FEATURES, ENABLED_FEATURES } from "./constant";
 import { widgetOptionsDefault } from "./helper";
 import { overrides } from "./theme";
@@ -60,19 +59,18 @@ const TradingViewChart = ({
         (window as any).tvWidget = tvWidget;
 
         (window as any).tvWidget.onChartReady(() => {
-          triggerAlert("Success", "Chart loaded");
           setIsChartLoaded(true);
           (window as any).tvWidget?.applyOverrides(
             overrides(isWhiteMode) || {}
           );
         });
-        console.log("(window as any).tvWidget", (window as any).tvWidget);
       }
     );
   };
 
   useEffect(() => {
     (window as any).tvWidget = null;
+    if (isChartLoaded) setIsChartLoaded(false);
     chartInit();
     return () => {
       if ((window as any).tvWidget !== null) {
@@ -82,11 +80,8 @@ const TradingViewChart = ({
     };
   }, [baseAsset, custom_css_url, mobile, isWhiteMode]);
 
-  console.log("IschartLoaded", isChartLoaded);
-
   return (
     <div className="relative">
-      {/* {isChartLoaded ? ( */}
       <div
         className={cn(
           `flex flex-col rounded-md w-full lg:bg-inherit lg:dark:bg-inherit lg:border-0
