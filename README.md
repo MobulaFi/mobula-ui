@@ -1,5 +1,5 @@
 [![X Follow](https://img.shields.io/twitter/follow/mobulaio)](https://twitter.com/mobulaio)
-[![Discord](https://img.shields.io/discord/657906918408585217.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/2a8hqNzkzN)
+[![Discord](https://img.shields.io/discord/657906918408585217.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/hWVCP4J4e2)
  
  
  <img src="https://mobula.io/mobula/mobula-logo-text.svg" alt="Mobula Logo" width="200" height="auto">
