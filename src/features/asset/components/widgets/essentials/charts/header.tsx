@@ -5,13 +5,20 @@ import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
-import useChartState from "../../../../../../hooks/chart-pref";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
 import { TimeSwitcher } from "../time-switcher";
 
-export const ChartHeader = () => {
+interface ChartHeaderProps {
+  setChartPreference: React.Dispatch<React.SetStateAction<string>>;
+  chartPreference: string;
+}
+
+export const ChartHeader = ({
+  setChartPreference,
+  chartPreference,
+}: ChartHeaderProps) => {
   const {
     timeSelected,
     chartType,
@@ -32,7 +39,6 @@ export const ChartHeader = () => {
     setHistoryData,
   } = useContext(BaseAssetContext);
   const supabase = createSupabaseDOClient();
-  const { chartPreference, changeChart } = useChartState();
 
   const capitalizeFirstLetter = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
@@ -49,40 +55,14 @@ export const ChartHeader = () => {
       Cookies.set("hideTx", JSON.stringify(hideTx));
     }
   }, [hideTx]);
-  // const fetchMarketHistory = () => {
-  //   console.log("clicked", unformattedHistoricalData?.market_cap);
-  //   console.log(
-  //     "fetchMarketHistory",
-  //     baseAsset.id,
-  //     unformattedHistoricalData,
-  //     historyData
-  //   );
-  //   supabase
-  //     .from("history")
-  //     .select("market_cap_history")
-  //     .match({ asset: baseAsset.id })
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setUnformattedHistoricalData({
-  //           ...unformattedHistoricalData,
-  //           market_cap: generateNewBuffer(
-  //             baseAsset?.market_cap_history?.market_cap || [],
-  //             res?.data?.[0]?.market_cap_history || []
-  //           ),
-  //         });
-  //       }
-  //       console.log(
-  //         "res?.data?.[0]?.market_cap_history",
-  //         res?.data?.[0]?.market_cap_history
-  //       );
-  //     });
-  // };
 
   return (
     <>
       <div
         className={`flex items-center justify-between ${
-          activeChart === "Trading view" ? "mb-2.5 md:mb-0" : "mb-0  md:mb-0"
+          chartPreference === "Trading view"
+            ? "mb-2.5 md:mb-0"
+            : "mb-0  md:mb-0"
         } w-full mx-auto mt-0  md:mt-[5px] z-[5]`}
       >
         <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll">
@@ -132,11 +112,11 @@ export const ChartHeader = () => {
             <div
               className={`h-[90%] top-[50%] -translate-y-[50%] w-[50%] transition-all duration-200
              rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0] ${
-               activeChart !== "Trading view" ? "ml-0.5 mr-0" : ""
+               chartPreference !== "Trading view" ? "ml-0.5 mr-0" : ""
              }`}
               style={{
                 left:
-                  activeChart !== "Trading view"
+                  chartPreference !== "Trading view"
                     ? "calc(0% - 1px)"
                     : "calc(50% - 1px)",
               }}
@@ -144,7 +124,7 @@ export const ChartHeader = () => {
             <button
               className={`h-full w-[50%] relative flex justify-center items-center 
             ${
-              activeChart === "Linear"
+              chartPreference === "Linear"
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } 
@@ -153,17 +133,16 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Linear",
                 });
-                changeChart("linear");
-                setActiveChart("Linear");
+                setChartPreference("Linear");
+                localStorage.setItem("chartPreference", "Linear");
               }}
             >
               <MdShowChart className="text-xl" />
             </button>
             <button
-              disabled
               className={`h-full w-[50%] relative flex justify-center items-center 
               ${
-                activeChart === "Trading view"
+                chartPreference === "Trading view"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
               }  transition-all duration-200 z-[2]`}
@@ -171,8 +150,8 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Trading view",
                 });
-                changeChart("tv");
-                setActiveChart("Trading view");
+                setChartPreference("Trading view");
+                localStorage.setItem("chartPreference", "Trading view");
               }}
             >
               <MdCandlestickChart className="text-xl" />
@@ -204,11 +183,11 @@ export const ChartHeader = () => {
           comparedEntities={comparedEntities}
           extraCss="ml-2.5 mb-0"
         />
-        {activeChart !== "Trading view" ? (
+        {chartPreference !== "Trading view" ? (
           <TimeSwitcher extraCss="flex md:hidden" />
         ) : null}
       </div>
-      {activeChart === "Trading view" ? null : (
+      {chartPreference === "Trading view" ? null : (
         <CompareButtons
           buttonH="h-[30px] ml-0 mt-2"
           comparedEntities={comparedEntities}
