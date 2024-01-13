@@ -1,8 +1,10 @@
 import { useTheme } from "next-themes";
 import React, { useEffect, useRef } from "react";
 import { Timezone } from "../../../public/static/charting_library/charting_library";
+import { Spinner } from "../../components/spinner";
 import { Asset } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
+import { triggerAlert } from "../toastify";
 import { DISABLED_FEATURES, ENABLED_FEATURES } from "./constant";
 import { widgetOptionsDefault } from "./helper";
 import { overrides } from "./theme";
@@ -23,6 +25,7 @@ const TradingViewChart = ({
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
+  const [isChartLoaded, setIsChartLoaded] = React.useState(false);
   const isWhiteMode = resolvedTheme === "light";
   const chartInit = () => {
     if (!baseAsset) return () => {};
@@ -57,10 +60,13 @@ const TradingViewChart = ({
         (window as any).tvWidget = tvWidget;
 
         (window as any).tvWidget.onChartReady(() => {
+          triggerAlert("Success", "Chart loaded");
+          setIsChartLoaded(true);
           (window as any).tvWidget?.applyOverrides(
             overrides(isWhiteMode) || {}
           );
         });
+        console.log("(window as any).tvWidget", (window as any).tvWidget);
       }
     );
   };
@@ -76,15 +82,30 @@ const TradingViewChart = ({
     };
   }, [baseAsset, custom_css_url, mobile, isWhiteMode]);
 
+  console.log("IschartLoaded", isChartLoaded);
+
   return (
-    <div
-      className={cn(
-        `flex flex-col rounded-md w-full lg:bg-inherit lg:dark:bg-inherit lg:border-0
+    <div className="relative">
+      {/* {isChartLoaded ? ( */}
+      <div
+        className={cn(
+          `flex flex-col rounded-md w-full lg:bg-inherit lg:dark:bg-inherit lg:border-0
       items-center justify-center relative`,
-        extraCss
-      )}
-      ref={ref}
-    />
+          extraCss
+        )}
+        ref={ref}
+      />
+      {!isChartLoaded ? (
+        <div
+          className={cn(
+            `flex flex-col w-full bg-light-bg-primary dark:bg-dark-bg-primary items-center justify-center top-0 absolute left-0`,
+            extraCss
+          )}
+        >
+          <Spinner extraCss="min-w-[60px] w-[60px] h-[60px]" />
+        </div>
+      ) : null}
+    </div>
   );
 };
 
