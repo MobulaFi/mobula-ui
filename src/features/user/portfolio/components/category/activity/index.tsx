@@ -414,7 +414,7 @@ export const Activity = ({
         {transactions?.length > 0 &&
         Object.entries(transactionsByDate)?.length > 0 ? (
           <tbody>
-            {Object.entries(transactionsByDate).map(
+            {Object.entries(transactionsByDate)?.map(
               ([date, transactionsForDate]: [string, PublicTransaction[]]) => (
                 <>
                   <tr>
