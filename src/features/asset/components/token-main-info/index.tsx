@@ -168,7 +168,7 @@ export const TokenMainInfo = () => {
   return (
     <div className="flex flex-col w-[60%] lg:w-full">
       <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
-        <div className="flex items-center">
+        <div className="flex items-center mb-1 md:mb-0">
           <img
             className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
             src={baseAsset.logo}
@@ -188,22 +188,20 @@ export const TokenMainInfo = () => {
               isOpen={showFullName}
             />
             {baseAsset.name.length <= 15 ? (
-              <p className="text-2xl lg:text-[22px] md:text-xl font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
+              <p className="text-[26px] leading-[26px] font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
                 {baseAsset?.name}
               </p>
             ) : null}
             {baseAsset.name.length > 15 ? (
               <Popover
                 visibleContent={
-                  <LargeFont
-                    extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl`}
+                  <p
+                    className={`${marketChangeColor} cursor-default text-[26px] leading-[26px] text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium`}
                   >
-                    <p className="text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium text-3xl lg:text-2xl md:text-xl">
-                      {baseAsset.name.length > 13
-                        ? `${baseAsset?.name.slice(0, 13)}...`
-                        : baseAsset?.name}
-                    </p>
-                  </LargeFont>
+                    {baseAsset.name.length > 13
+                      ? `${baseAsset?.name.slice(0, 13)}...`
+                      : baseAsset?.name}
+                  </p>
                 }
                 hiddenContent={
                   baseAsset.name.length > 13 ? baseAsset?.name : null
@@ -213,15 +211,15 @@ export const TokenMainInfo = () => {
                 extraCss="top-[35px]"
               />
             ) : null}
-            <LargeFont extraCss="mb-0 md:mb-0.5 mt-1.5 md:mt-0 text-light-font-40 dark:text-dark-font-40">
+            <LargeFont extraCss="mb-0 md:mb-0.5 mt-1.5 md:mt-0.5 text-light-font-60 dark:text-dark-font-60 leading-[16px]">
               {baseAsset?.symbol}
             </LargeFont>
           </div>
         </div>
-        <div className="flex items-center ml-2.5">
+        <div className="flex items-center ml-2.5  mb-1">
           <Button
             extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
-             mt-[5px] mr-0 lg:text-xl md:text-xl ml-0 w-[25px] h-[25px] p-0"
+             mt-[5px] mr-0 lg:text-xl md:text-xl ml-0 w-[25px] h-[25px] p-0 rounded"
             onMouseEnter={() => setIsHoverStar(true)}
             onMouseLeave={() => setIsHoverStar(false)}
             onClick={triggerWatchlist}
@@ -257,8 +255,8 @@ export const TokenMainInfo = () => {
               </MediumFont>
             </div>
             <Menu
-              titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary
-                rounded text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
+              titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary
+                rounded-md text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
                 transition-all duration-200 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
               title={
                 <div className="flex items-center">
@@ -272,7 +270,7 @@ export const TokenMainInfo = () => {
                   key={time}
                   onClick={() => setTimeSelected(time)}
                   className={`transition-all duration-200 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
-                       rounded ${
+                       rounded-md ${
                          timeSelected === time
                            ? "text-light-font-100 dark:text-dark-font-100"
                            : "text-light-font-40 dark:text-dark-font-40 hover:text-light-font-100 hover:dark:text-dark-font-100"
@@ -285,9 +283,9 @@ export const TokenMainInfo = () => {
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[2.5px]">
+          <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded-md mt-[2.5px]">
             <div
-              className={`rounded h-full ${
+              className={`rounded-md h-full ${
                 isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
               }`}
               style={{
@@ -323,9 +321,9 @@ export const TokenMainInfo = () => {
         </div>
       </div>
       {/* ) : (
-        <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded mt-[25px] md:mt-2.5">
+        <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded-md mt-[25px] md:mt-2.5">
           <div
-            className={`rounded h-full ${
+            className={`rounded-md h-full ${
               isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
             }`}
             style={{

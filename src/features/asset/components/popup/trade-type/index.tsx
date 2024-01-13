@@ -102,7 +102,7 @@ export const TradeTypePopup = ({
           onClick={() => handleSelectType("buy")}
         >
           <div
-            className="flex items-center justify-center w-[16px] h-[16px] rounded border
+            className="flex items-center justify-center w-[16px] h-[16px] rounded-md border
            border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
           >
             <BsCheckLg
@@ -126,7 +126,7 @@ export const TradeTypePopup = ({
           onClick={() => handleSelectType("sell")}
         >
           <div
-            className="flex items-center justify-center w-[16px] h-[16px] rounded border
+            className="flex items-center justify-center w-[16px] h-[16px] rounded-md border
            border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
           >
             <BsCheckLg
@@ -150,7 +150,7 @@ export const TradeTypePopup = ({
           onClick={() => handleSelectType("all")}
         >
           <div
-            className="flex items-center justify-center w-[16px] h-[16px] rounded border
+            className="flex items-center justify-center w-[16px] h-[16px] rounded-md border
              border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary"
           >
             <BsCheckLg

@@ -1,6 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React from "react";
-import { BsChevronDown } from "react-icons/bs";
+import { BiSolidChevronDown } from "react-icons/bi";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../components/image";
@@ -60,7 +60,7 @@ export const PopoverTrade = ({
           {isImage && title?.length > 4 ? (
             <SmallFont extraCss="mx-[5px]">+{title.length - 4}</SmallFont>
           ) : null}
-          <BsChevronDown className="text-base ml-[5px]" />
+          <BiSolidChevronDown className="text-sm ml-[5px] text-light-font-100 dark:text-dark-font-100" />
         </Button>
       }
       hiddenContent={React.cloneElement(children as never, { onClose })}

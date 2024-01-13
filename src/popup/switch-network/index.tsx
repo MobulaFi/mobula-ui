@@ -79,7 +79,7 @@ export const SwitchNetworkPopup = () => {
           <Button
             className="text-light-font-100 dark:text-dark-font-100 text-center mt-2.5 
            text-sm md:text-xs w-full flex items-center justify-center bg-light-bg-terciary dark:bg-dark-bg-terciary
-            border border-light-border-primary dark:border-dark-border-primary rounded hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
+            border border-light-border-primary dark:border-dark-border-primary rounded-md hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
              transition-all duration-200 ease-in-out h-[35px] md:h-[30px]"
             onClick={() => {
               setShowSwitchNetwork(false);

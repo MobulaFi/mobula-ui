@@ -125,7 +125,7 @@ export const TradingPairs = () => {
          border-light-border-primary dark:border-dark-border-primary"
         >
           <div
-            className="flex transition-all z-[0] duration-200 rounded absolute
+            className="flex transition-all z-[0] duration-200 rounded-md absolute
              bg-light-bg-hover dark:bg-dark-bg-hover h-[30px] md:h-[25px] w-[33.33%]"
             style={{ left: getPositionFromPair(activePairs) }}
           />

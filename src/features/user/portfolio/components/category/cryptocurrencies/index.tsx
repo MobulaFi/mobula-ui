@@ -527,7 +527,7 @@ export const Cryptocurrencies = () => {
 
                         <div className="flex items-center">
                           <Skeleton extraCss="lg:h-3 h-[13px] md:mb-[1px] w-[60px]" />
-                          <Skeleton extraCss="px-1 h-[18px] rounded max-h-[18px] max-w-[50px] w-[50px] ml-2" />
+                          <Skeleton extraCss="px-1 h-[18px] rounded-md max-h-[18px] max-w-[50px] w-[50px] ml-2" />
                         </div>
                       </div>
                     </div>

@@ -23,7 +23,7 @@ export const Pagination = ({
     : 1;
 
   const options =
-    "mx-0 flex justify-center items-center cursor-pointer p-0 w-[35px] h-[35px] rounded text-base font-medium";
+    "mx-0 flex justify-center items-center cursor-pointer p-0 w-[35px] h-[35px] rounded-md text-base font-medium";
 
   return (
     <div

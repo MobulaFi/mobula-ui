@@ -50,7 +50,7 @@ export const TbodyMovers = ({ asset }) => {
             />
             <div className="flex flex-col flex-wrap">
               <div className="flex">
-                <div className="mb-0.5 flex items-center justify-center rounded bg-light-bg-hover dark:bg-dark-bg-hover mr-2 py-0.5 px-1">
+                <div className="mb-0.5 flex items-center justify-center rounded-md bg-light-bg-hover dark:bg-dark-bg-hover mr-2 py-0.5 px-1">
                   <p className="text-xs m-0">{asset.rank}</p>
                 </div>
                 <p className="text-sm ">{asset.symbol}</p>

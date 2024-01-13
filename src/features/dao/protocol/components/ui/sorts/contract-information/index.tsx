@@ -35,7 +35,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
               {token?.excludedFromCirculationAddresses?.map(
                 ({ address, blockchain }, i: number) => (
                   <div
-                    className={`flex h-[35px] rounded items-center bg-light-bg-terciary dark:bg-dark-bg-terciary 
+                    className={`flex h-[35px] rounded-md items-center bg-light-bg-terciary dark:bg-dark-bg-terciary 
                   border border-light-border-primary dark:border-dark-border-primary mb-[7.5px] text-light-font-100 
                   dark:text-dark-font-100 w-calc-half-10 md:w-full px-[7.5px] ${
                     i % 2 !== 0

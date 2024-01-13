@@ -16,7 +16,7 @@ export const Connect = () => {
   const [userMail, setUserMail] = useState("");
   const { resolvedTheme } = useTheme();
   const buttonStyle =
-    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
+    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
   const { connect, connectors, pendingConnector } = useConnect({
     onError: () => {
       setStatus("error");
@@ -162,14 +162,14 @@ export const Connect = () => {
               >
                 <input
                   type="text"
-                  className="w-full h-full rounded px-2.5 text-light-font-100 dark:text-dark-font-100 text-sm
+                  className="w-full h-full rounded-md px-2.5 text-light-font-100 dark:text-dark-font-100 text-sm
                border-0 border-none bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   placeholder="Enter your email"
                   onChange={(event) => setUserMail(event.target.value)}
                 />
                 <button
                   className="h-[35px] w-fit px-2.5 bg-light-bg-hover dark:bg-dark-bg-hover
-             rounded border border-light-border-primary dark:border-dark-border-primary mr-0.5 
+             rounded-md border border-light-border-primary dark:border-dark-border-primary mr-0.5 
              cursor-not-allowed opacity-50"
                   disabled
                 >

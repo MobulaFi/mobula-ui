@@ -149,7 +149,7 @@ export const PopoverTrade = ({
                         key={chain}
                       >
                         <Button
-                          className="w-[16px] h-[16px] border-blue max-w-[16px] max-h-[16px] flex items-center justify-center rounded border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover"
+                          className="w-[16px] h-[16px] border-blue max-w-[16px] max-h-[16px] flex items-center justify-center rounded-md border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover"
                           onClick={() => {
                             handleBlockchainsChange(chain);
                           }}

@@ -100,7 +100,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
                     >
                       {isFooter ? null : (
                         <div
-                          className="flex rounded w-6 h-6 bg-light-bg-hover dark:bg-dark-bg-hover
+                          className="flex rounded-md w-6 h-6 bg-light-bg-hover dark:bg-dark-bg-hover
                          items-center justify-center p-1"
                         >
                           {submenu.icon}

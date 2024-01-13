@@ -292,11 +292,11 @@ export const EditTransactionPopup = () => {
           <Menu
             title={
               <div
-                className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+                className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
                  cursor-pointer max-w-full justify-between"
               >
                 <input
-                  className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+                  className="w-full  cursor-pointer bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-full"
                   value={getDate(date.getTime())}
                 />
                 <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
@@ -310,7 +310,7 @@ export const EditTransactionPopup = () => {
             />
           </Menu>
         </div>
-        <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded h-[35px] flex items-center w-fit pr-2.5">
+        <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md h-[35px] flex items-center w-fit pr-2.5">
           <input
             className={inputTimeStyle}
             ref={hoursRef}

@@ -51,9 +51,9 @@ export const AllTime = () => {
       className={`${FlexBorderBox} bg-light-bg-secondary dark:bg-dark-bg-secondary p-5 lg:p-[15px] rounded-2xl lg:rounded-0`}
     >
       <LargeFont extraCss="mb-5 lg:mb-[7.5px]">All Time</LargeFont>
-      <div className="flex rounded h-[7px] bg-light-bg-hover dark:bg-dark-bg-hover w-full">
+      <div className="flex rounded-md h-[7px] bg-light-bg-hover dark:bg-dark-bg-hover w-full">
         <div
-          className={`flex rounded h-full ${
+          className={`flex rounded-md h-full ${
             isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
           }`}
           style={{

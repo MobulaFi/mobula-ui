@@ -30,9 +30,9 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
         extraCss
       )}
     >
-      <div className="h-[34px] w-[230px] md:w-full p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary relative border border-light-border-primary dark:border-dark-border-primary">
+      <div className="h-[34px] w-[230px] md:w-full p-0.5 rounded-md bg-light-bg-secondary dark:bg-dark-bg-secondary relative border border-light-border-primary dark:border-dark-border-primary">
         <div
-          className="h-[90%] top-[50%] -translate-y-[50%] w-[16.66%] transition-all duration-200 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0]"
+          className="h-[90%] top-[50%] -translate-y-[50%] w-[16.66%] transition-all duration-200 rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0]"
           style={{ left: buttonPosition }}
         />
         {timestamps.map((time) => (

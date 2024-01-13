@@ -47,7 +47,7 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
         >
           <div
             className="flex items-center justify-center p-[1px] bg-light-bg-terciary
-            dark:bg-dark-bg-terciary rounded w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
+            dark:bg-dark-bg-terciary rounded-md w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
           >
             <BsCheckLg
               className={`text-[11px] text-light-font-80 dark:text-dark-font-80 transition-all ${
@@ -103,7 +103,7 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
               <div className="flex items-center">
                 <div
                   className="flex items-center justify-center p-[1px] bg-light-bg-terciary mr-2 
-            dark:bg-dark-bg-terciary rounded w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
+            dark:bg-dark-bg-terciary rounded-md w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
                 >
                   <BsCheckLg
                     className={`text-[11px] text-light-font-80 dark:text-dark-font-80 transition-all ${

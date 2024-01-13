@@ -167,7 +167,7 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
             <SmallFont>Share to Community</SmallFont>
           </div>
           <div
-            className="h-[35px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary px-0 mt-2.5 border 
+            className="h-[35px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary px-0 mt-2.5 border 
           border-light-border-primary dark:border-dark-border-primary w-full"
           >
             <input

@@ -362,7 +362,7 @@ export const Assets = () => {
                 position: activeTab === "Essentials" ? "static" : "absolute",
               }}
             >
-              <Essentials marketMetrics={marketMetrics} />
+              <Essentials />
             </div>
           ) : null}
           {activeTab === "Market" ? (

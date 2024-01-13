@@ -34,7 +34,7 @@ export const BlockchainsNav = ({
         {blockchainsAvailable.map((entry, i) => (
           <Button
             key={entry.title}
-            extraCss={`justify-center max-w-[155px] w-[13%] whitespace-nowrap rounded p-2.5 min-w-fit mx-[5px] md:mx-[2.5px] ${
+            extraCss={`justify-center max-w-[155px] w-[13%] whitespace-nowrap rounded-md p-2.5 min-w-fit mx-[5px] md:mx-[2.5px] ${
               i === 0 ? "" : "ml-[5px]"
             } ${
               blockchain === entry.title

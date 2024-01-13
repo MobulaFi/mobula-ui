@@ -69,7 +69,7 @@ export const CalendarEvent = () => {
           >
             <div className="flex items-center">
               <div
-                className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded flex-col 
+                className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-md flex-col 
               justify-center items-center py-2.5 min-w-[80px] md:min-w-[60px] min-h-[80px] md:min-h-[60px]"
               >
                 <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">

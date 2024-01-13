@@ -2,7 +2,7 @@ import { Button } from "components/button";
 import { Skeleton } from "components/skeleton";
 import { Spinner } from "components/spinner";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
@@ -87,7 +87,7 @@ export const TransactionReceipt = () => {
       {(!completedTx || !txError) && (
         <>
           <div
-            className="rounded py-2.5 px-[15px] flex-col bg-light-bg-terciary
+            className="rounded-md py-2.5 px-[15px] flex-col bg-light-bg-terciary
            dark:bg-dark-bg-terciary border border-light-border-primary
             dark:border-dark-border-primary"
           >
@@ -256,7 +256,7 @@ export const TransactionReceipt = () => {
                 )}...${completedTx.transactionHash.slice(-4)}`}
               </SmallFont>
               <NextChakraLink
-                href={`${blockchainsIdContent[chain?.id || 1].explorer}/tx/${
+                href={`${blockchainsIdContent[chain?.id || 1]?.explorer}/tx/${
                   completedTx.transactionHash
                 }`}
                 target="_blank"

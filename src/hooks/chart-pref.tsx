@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useChartState = () => {
+export const useChartState = () => {
   const [chartPreference, setChartPreference] = useState("");
 
   useEffect(() => {
@@ -18,4 +18,3 @@ const useChartState = () => {
   return { chartPreference, changeChart };
 };
 
-export default useChartState;

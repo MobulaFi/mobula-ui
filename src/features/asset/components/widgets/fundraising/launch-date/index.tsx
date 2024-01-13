@@ -111,7 +111,7 @@ export const LaunchDate = () => {
           {showListingPriceInfo ? (
             <div
               className="py-0.5 px-1.5 shadow-md bg-light-bg-hover dark:bg-dark-bg-hover border
-           border-light-border-primary dark:border-dark-border-primary rounded 
+           border-light-border-primary dark:border-dark-border-primary rounded-md 
            absolute bottom-[15px] left-1/2 transform -translate-x-1/2"
             >
               <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap max-w-[150px]">
@@ -147,7 +147,7 @@ export const LaunchDate = () => {
           {showPriceInfo ? (
             <div
               className="py-0.5 px-1.5 shadow-md bg-light-bg-hover dark:bg-dark-bg-hover border
-             border-light-border-primary dark:border-dark-border-primary rounded 
+             border-light-border-primary dark:border-dark-border-primary rounded-md 
              absolute bottom-[15px] left-1/2 transform -translate-x-1/2"
             >
               <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap max-w-[150px]">
@@ -168,7 +168,7 @@ export const LaunchDate = () => {
           {showRangeInfo ? (
             <div
               className="py-0.5 px-1.5 shadow-md bg-light-bg-hover dark:bg-dark-bg-hover border
-             border-light-border-primary dark:border-dark-border-primary rounded 
+             border-light-border-primary dark:border-dark-border-primary rounded-md 
              absolute bottom-[15px] left-1/2 transform -translate-x-1/2"
             >
               <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap max-w-[150px]">

@@ -51,7 +51,7 @@ export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
         />
       ))}
       <button
-        className="w-full py-2 rounded text-xs text-light-font-100 dark:text-dark-font-100 
+        className="w-full py-2 rounded-md text-xs text-light-font-100 dark:text-dark-font-100 
       border border-darkblue dark:border-darblue hover:border-blue hover:dark:border-blue 
       transition-all duration-200"
         onClick={() => {

@@ -134,7 +134,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
           </div>
         </div>
         <div
-          className="h-[35px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 mt-2.5 border 
+          className="h-[35px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 mt-2.5 border 
           border-light-border-primary dark:border-dark-border-primary"
         >
           <input

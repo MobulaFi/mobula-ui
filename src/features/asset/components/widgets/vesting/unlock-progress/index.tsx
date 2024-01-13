@@ -139,7 +139,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
             </SmallFont>
           )}
         </div>
-        <div className="flex w-full h-[25px] rounded bg-light-bg-hover dark:bg-dark-bg-hover relative border border-light-border-primary dark:border-dark-border-primary">
+        <div className="flex w-full h-[25px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover relative border border-light-border-primary dark:border-dark-border-primary">
           {Object.entries(distribution).map(([key, value], i) => (
             <div
               className={`${newColors[key]} h-full ${getBorderRadius(
@@ -154,7 +154,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
             >
               {isHovering === key ? (
                 <div
-                  className="flex w-fit h-auto px-2.5 py-[7px] rounded bg-light-bg-hover dark:bg-dark-bg-hover 
+                  className="flex w-fit h-auto px-2.5 py-[7px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover 
                 max-w-[300px] absolute border border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2"
                   style={{
                     top: "calc(100% + 7.5px)",
@@ -229,7 +229,7 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
             >
               {isHovering === key + value ? (
                 <div
-                  className="flex w-fit h-auto px-2.5 py-[7px] rounded bg-light-bg-hover dark:bg-dark-bg-hover absolute border 
+                  className="flex w-fit h-auto px-2.5 py-[7px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover absolute border 
                 border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2]"
                   style={{
                     top: "calc(100% + 7.5px)",

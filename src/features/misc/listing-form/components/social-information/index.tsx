@@ -106,7 +106,7 @@ export const SocialInformation = ({ dispatch, state }) => {
   };
 
   const deleteButtonStyle =
-    "flex items-center justify-center w-[40px] h-[35px] ml-2.5 rounded text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
+    "flex items-center justify-center w-[40px] h-[35px] ml-2.5 rounded-md text-sm lg:text-[13px] md:text-xs mt-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
 
   return (
     <div className="flex flex-col mb-5">

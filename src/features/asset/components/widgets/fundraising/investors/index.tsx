@@ -118,7 +118,7 @@ export const Investors = () => {
                               ? "cursor-pointer"
                               : "cursor-default"
                           } bg-light-bg-terciary 
-                    dark:bg-dark-bg-terciary px-2 rounded font-medium flex items-center justify-end w-fit text-sm lg:text-[13px] md:text-xs 
+                    dark:bg-dark-bg-terciary px-2 rounded-md font-medium flex items-center justify-end w-fit text-sm lg:text-[13px] md:text-xs 
                     text-light-font-100 dark:text-dark-font-100 relative border border-light-border-primary whitespace-nowrap dark:border-dark-border-primary `}
                           onMouseLeave={() => setIsHover("")}
                           onMouseEnter={() => {
@@ -131,7 +131,7 @@ export const Investors = () => {
                           {isHover === investor.name ? (
                             <div
                               className="absolute z-[1] bg-light-bg-hover dark:bg-dark-bg-hover shadow-md border
-                         border-light-border-primary dark:border-dark-border-primary rounded px-2.5 
+                         border-light-border-primary dark:border-dark-border-primary rounded-md px-2.5 
                          py-[5px] max-w-fit min-w-fit w-full flex flex-col"
                               style={{ top: "calc(100% + 5px)" }}
                               onMouseLeave={() => setIsHover("")}

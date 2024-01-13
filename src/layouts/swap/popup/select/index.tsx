@@ -171,14 +171,14 @@ export const Select = ({
     >
       <div className="h-[1px] bg-light-border-primary dark:bg-dark-border-primary mb-2.5 w-full" />
       <Input
-        className={`w-full rounded text-light-font-80 dark:text-dark-font-80 text-medium border border-light-border-primary
+        className={`w-full rounded-md text-light-font-80 dark:text-dark-font-80 text-medium border border-light-border-primary
          dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 
          focus:border-light-font-10 focus:dark:border-dark-font-10 focus:outline-none focus:dark:outline-none
           active:border-light-font-10 active:dark:border-dark-font-10 h-[40px] text-base`}
         placeholder="Search a token name or address"
         onChange={(e) => setToken(e.target.value)}
       />
-      <div className="flex flex-col w-full overflow-y-scroll scroll h-auto rounded max-h-[348px] mt-2.5">
+      <div className="flex flex-col w-full overflow-y-scroll scroll h-auto rounded-md max-h-[348px] mt-2.5">
         <>
           {isLoading ? (
             Array.from(Array(7).keys()).map((_, i) => (
@@ -191,13 +191,13 @@ export const Select = ({
                 <div className="flex items-center">
                   <Skeleton extraCss="rounded-full mr-2.5 h-[22px] w-[22px]" />
                   <div>
-                    <Skeleton extraCss="rounded mr-2.5 h-[14px] w-[40px] mb-1" />
-                    <Skeleton extraCss="rounded mr-2.5 h-[12px] w-[70px]" />
+                    <Skeleton extraCss="rounded-md mr-2.5 h-[14px] w-[40px] mb-1" />
+                    <Skeleton extraCss="rounded-md mr-2.5 h-[12px] w-[70px]" />
                   </div>
                 </div>
                 <div>
                   <div className="flex items-center justify-end">
-                    <Skeleton extraCss="rounded h-[14px] w-[30px]" />
+                    <Skeleton extraCss="rounded-md h-[14px] w-[30px]" />
                   </div>
                   <div className="flex items-center justify-end mt-[3px]">
                     {Array.from({ length: 3 }).map((_, i) => {

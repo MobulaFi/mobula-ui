@@ -22,7 +22,7 @@ export const Tooltip = ({ tooltipText, iconCss, extraCss }: TooltipProps) => {
       {showTooltip ? (
         <div
           className={cn(
-            "absolute text-sm md:text-xs text-light-font-60 dark:text-dark-font-60 flex bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded p-2 md:p-1.5 z-50 w-[200px]",
+            "absolute text-sm md:text-xs text-light-font-60 dark:text-dark-font-60 flex bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded-md p-2 md:p-1.5 z-50 w-[200px]",
             extraCss
           )}
         >
