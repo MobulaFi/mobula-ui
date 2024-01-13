@@ -1,3 +1,7 @@
+[![X Follow](https://img.shields.io/twitter/follow/mobulaio)](https://twitter.com/mobulaio)
+[![Discord](https://img.shields.io/discord/657906918408585217.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/2a8hqNzkzN)
+ 
+ 
  <img src="https://mobula.io/mobula/mobula-logo-text.svg" alt="Mobula Logo" width="200" height="auto">
 <br />
 Mobula is built using a modern tech stack comprising Next.js 13, Tailwind CSS, PostgREST, TypeScript and relies on npm for package management.
