@@ -54,22 +54,24 @@ const TradingViewChart = ({
           ...widgetOptionsDefault,
         });
 
-        window.tvWidget = tvWidget;
+        (window as any).tvWidget = tvWidget;
 
-        window.tvWidget.onChartReady(() => {
-          window.tvWidget?.applyOverrides(overrides(isWhiteMode) || {});
+        (window as any).tvWidget.onChartReady(() => {
+          (window as any).tvWidget?.applyOverrides(
+            overrides(isWhiteMode) || {}
+          );
         });
       }
     );
   };
 
   useEffect(() => {
-    window.tvWidget = null;
+    (window as any).tvWidget = null;
     chartInit();
     return () => {
-      if (window.tvWidget !== null) {
-        window.tvWidget?.remove();
-        window.tvWidget = null;
+      if ((window as any).tvWidget !== null) {
+        (window as any).tvWidget?.remove();
+        (window as any).tvWidget = null;
       }
     };
   }, [baseAsset, custom_css_url, mobile, isWhiteMode]);
