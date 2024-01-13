@@ -14,21 +14,21 @@ import { Tooltip } from "../../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../../contexts/user";
 import { GET } from "../../../../../../../utils/fetch";
 import {
-    addressSlicer,
-    getFormattedAmount,
+  addressSlicer,
+  getFormattedAmount,
 } from "../../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../../context-manager";
 import { useWebSocketResp } from "../../../../hooks";
 import { flexGreyBoxStyle, tdStyle } from "../../../../style";
 import { getDate, getHours } from "../../../../utils";
 import {
-    PublicTransaction,
-    TransactionAsset,
-    TransactionResponse,
+  PublicTransaction,
+  TransactionAsset,
+  TransactionResponse,
 } from "../../activity/model";
 import {
-    famousContractsLabel,
-    wordingFromMethodId,
+  famousContractsLabel,
+  wordingFromMethodId,
 } from "../../activity/utils";
 
 interface ActivityProps {
@@ -595,7 +595,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                         `${
                                           blockchainsIdContent[
                                             transaction.chain_id
-                                          ]??.explorer
+                                          ]?.explorer
                                         }/tx/${transaction.hash}`
                                       )
                                     }
@@ -688,7 +688,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                           `${
                                             blockchainsIdContent[
                                               transaction.chain_id
-                                            ]??.explorer
+                                            ]?.explorer
                                           }/tx/${transaction.hash}`
                                         )
                                       }
@@ -720,7 +720,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                         `${
                                           blockchainsIdContent[
                                             transaction.chain_id
-                                          ]??.explorer
+                                          ]?.explorer
                                         }/tx/${transaction.hash}`
                                       )
                                     }
