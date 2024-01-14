@@ -81,7 +81,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
     "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded-md font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
-    if (!displayedToken && !isFakeToken) return "max-h-[80px]";
+    if (!displayedToken && !isFakeToken) return "max-h-[75px]";
     if (isFakeToken) return "max-h-[20px]";
     return "max-h-[40px]";
   };
@@ -238,7 +238,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           sm:mt-2.5 text-light-font-100 dark:text-dark-font-100"
           >
             {getPricing(token?.coeff) < 30
-              ? `$${30 - getPricing(token?.coeff)} Left`
+              ? `${getPercentageFromCoeff(getPricing(token?.coeff))}%`
               : "Full"}
             <div className="flex h-2 rounded-md bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
               <div
@@ -464,7 +464,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       <p
         className={`text-sm text-light-font-60 dark:text-dark-font-60 pb-0 
-        md:pb-2.5 transition-all duration-200 max-w-[600px] ${
+        md:pb-2.5 transition-all duration-200 max-w-[90%] ${
           displayedToken ? "mt-[15px] max-h-auto" : "mt-2.5 max-h-[300px]"
         } text-start`}
       >

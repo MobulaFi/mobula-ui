@@ -76,7 +76,7 @@ export const Distribution = ({ token }: DistributionProps) => {
                     />
                     {addressSlicer(distribution.addresses?.[0]?.address)}
                     {distribution.addresses?.[0]?.address ? (
-                      <FiChevronDown className="text-[15px] ml-[5px]" />
+                      <FiChevronDown className="text-[15px] ml-2" />
                     ) : null}
                   </button>
                   <PopupAddress
