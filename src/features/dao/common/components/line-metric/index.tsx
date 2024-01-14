@@ -78,7 +78,6 @@ export const MetricsLine = ({
         if (!isUrl) return;
         if (history?.token_data.name)
           router.push(`/asset/${history.token_data.name}`);
-        else router.push(`/profile/${address}`);
       }}
     >
       <div className="flex items-center">
