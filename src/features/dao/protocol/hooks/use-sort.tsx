@@ -50,7 +50,6 @@ export const useSort = () => {
       if (isFirstSort === true) return 3;
       return 4;
     };
-    console.log("I CAME HERE");
 
     protocolContract.read
       .getTokenListings()
@@ -59,7 +58,6 @@ export const useSort = () => {
         let fails = 0;
         listings.forEach(async (listing: IListingData, index) => {
           if (listing.status !== getNumberFromSort()) {
-            setIsLoading(false);
             return;
           }
           const [isAlreadyVoted, response, hashResult] =

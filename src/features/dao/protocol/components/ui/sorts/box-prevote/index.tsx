@@ -81,7 +81,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
     "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded-md font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
-    if (!displayedToken && !isFakeToken) return "max-h-[60px]";
+    if (!displayedToken && !isFakeToken) return "max-h-[80px]";
     if (isFakeToken) return "max-h-[20px]";
     return "max-h-[40px]";
   };
