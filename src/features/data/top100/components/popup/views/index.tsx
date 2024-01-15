@@ -20,7 +20,7 @@ import { Accordion as AccordionCustom } from "../../../../../../components/accor
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { ModalTitle } from "../../../../../../components/modal-container";
 import { Spinner } from "../../../../../../components/spinner";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserContext } from "../../../../../../contexts/user";
@@ -55,6 +55,7 @@ interface ViewPopupProps {
   setType: Dispatch<SetStateAction<string>>;
   activeDisplay: string;
   setActiveDisplay: Dispatch<SetStateAction<string>>;
+  button: JSX.Element;
 }
 
 export const ViewPopup = ({
@@ -64,6 +65,7 @@ export const ViewPopup = ({
   dispatch,
   activeDisplay,
   setActiveDisplay,
+  button,
 }: ViewPopupProps) => {
   const [isStarHover, setIsStarHover] = useState(false);
   const { user, setUser } = useContext(UserContext);
@@ -439,17 +441,13 @@ export const ViewPopup = ({
   };
 
   return (
-    <ModalContainer
-      title={
-        type.slice(0, 1).toUpperCase() +
-        type.slice(1) +
-        " " +
-        getTitleFromType()
-      }
-      extraCss="max-w-[480px]"
-      isOpen={type !== ""}
-      onClose={() => setType("")}
-    >
+    <>
+      <ModalTitle>
+        {type.slice(0, 1).toUpperCase() +
+          type.slice(1) +
+          " " +
+          getTitleFromType()}
+      </ModalTitle>
       {showTuto ? (
         <div className="flex flex-col w-full h-full bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] absolute top-0 left-0 rounded-xl opacity-80" />
       ) : null}
@@ -915,6 +913,6 @@ export const ViewPopup = ({
           </>
         )}
       </div>
-    </ModalContainer>
+    </>
   );
 };

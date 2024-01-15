@@ -15,6 +15,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../components/button";
 import { SmallFont } from "../../../../components/fonts";
+import { Modal } from "../../../../components/modal-container";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
 import { Asset } from "../../../../interfaces/assets";
@@ -235,16 +236,37 @@ export const Views = ({ setResultsData }) => {
               </Button>
             ))}
             <div className="mt-2.5 sticky right-0 pl-2.5 flex bg-light-bg-table dark:bg-dark-bg-table">
-              <Button
-                disabled={!isConnected && activeView?.name !== "All"}
-                extraCss="w-[32px] h-[32px] sm:w-[28px] sm:h-[28px] p-0"
-                onClick={() => {
-                  if (isConnected) setTypePopup("create");
-                  else setConnect(true);
-                }}
-              >
-                +
-              </Button>
+              {isConnected ? (
+                <Modal
+                  extraCss="max-w-[480px]"
+                  trigger={
+                    <Button
+                      disabled={!isConnected && activeView?.name !== "All"}
+                      extraCss="w-[32px] h-[32px] sm:w-[28px] sm:h-[28px] p-0"
+                      onClick={() => setTypePopup("create")}
+                    >
+                      +
+                    </Button>
+                  }
+                >
+                  <ViewPopup
+                    type={typePopup}
+                    setType={setTypePopup}
+                    state={state}
+                    dispatch={dispatch}
+                    activeDisplay={activeDisplay}
+                    setActiveDisplay={setActiveDisplay}
+                  />
+                </Modal>
+              ) : (
+                <Button
+                  disabled={!isConnected && activeView?.name !== "All"}
+                  extraCss="w-[32px] h-[32px] sm:w-[28px] sm:h-[28px] p-0"
+                  onClick={() => setConnect(true)}
+                >
+                  +
+                </Button>
+              )}
               {showArrow ? (
                 <button
                   className={`ml-2.5 ${!isConnected ? "hidden" : "flex"}`}
@@ -257,16 +279,30 @@ export const Views = ({ setResultsData }) => {
           </div>
           <div className="flex w-fit ml-2.5 mt-2.5">
             {activeView?.name !== "Portfolio" ? (
-              <Button
-                extraCss="px-3 sm:px-2 whitespace-nowrap md:font-normal"
-                onClick={() => {
-                  pushData("Edit View clicked");
-                  if (isConnected) setTypePopup("edit");
-                  else setConnect(true);
-                }}
+              <Modal
+                extraCss="max-w-[480px]"
+                trigger={
+                  <Button
+                    extraCss="px-3 sm:px-2 whitespace-nowrap md:font-normal"
+                    onClick={() => {
+                      pushData("Edit View clicked");
+                      if (isConnected) setTypePopup("edit");
+                      else setConnect(true);
+                    }}
+                  >
+                    Edit view
+                  </Button>
+                }
               >
-                Edit view
-              </Button>
+                <ViewPopup
+                  type={typePopup}
+                  setType={setTypePopup}
+                  state={state}
+                  dispatch={dispatch}
+                  activeDisplay={activeDisplay}
+                  setActiveDisplay={setActiveDisplay}
+                />
+              </Modal>
             ) : null}
           </div>
         </div>
@@ -290,14 +326,6 @@ export const Views = ({ setResultsData }) => {
           </div>
         </div>
       ) : null}
-      <ViewPopup
-        type={typePopup}
-        setType={setTypePopup}
-        state={state}
-        dispatch={dispatch}
-        activeDisplay={activeDisplay}
-        setActiveDisplay={setActiveDisplay}
-      />
     </div>
   );
 };
