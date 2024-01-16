@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     "Mobula, Mobula crypto, Mobula Crypto Data Aggregator, crypto movers, crypto gainers, crypto losers",
 };
 
-export default async function MoversPage() {
+async function MoversPage() {
   const data = await fetchMoversAssets();
   return (
     <>
@@ -90,3 +90,5 @@ export default async function MoversPage() {
     </>
   );
 }
+
+export default MoversPage;
