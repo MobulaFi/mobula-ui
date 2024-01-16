@@ -11,13 +11,17 @@ interface ModalContainerProps {
   extraCss?: string;
   title?: React.ReactNode;
   children: React.ReactNode;
-  trigger: JSX.Element;
+  trigger?: JSX.Element;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 export const ModalContainer = ({
   title,
   children,
   trigger,
+  isOpen,
+  onClose,
 }: ModalContainerProps) => {
   return (
     <>

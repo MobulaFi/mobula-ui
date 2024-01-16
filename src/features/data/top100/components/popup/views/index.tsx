@@ -55,7 +55,6 @@ interface ViewPopupProps {
   setType: Dispatch<SetStateAction<string>>;
   activeDisplay: string;
   setActiveDisplay: Dispatch<SetStateAction<string>>;
-  button: JSX.Element;
 }
 
 export const ViewPopup = ({
@@ -65,7 +64,6 @@ export const ViewPopup = ({
   dispatch,
   activeDisplay,
   setActiveDisplay,
-  button,
 }: ViewPopupProps) => {
   const [isStarHover, setIsStarHover] = useState(false);
   const { user, setUser } = useContext(UserContext);
