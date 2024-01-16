@@ -2,7 +2,6 @@ import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 // import {InfoPopup} from "../../../../components/popup-hover";
-import React from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -99,20 +98,16 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     return false;
   };
 
-  console.log(
-    "manualQuote",
-    Number(quotes?.[0]?.amountOut) / 10 ** (tokenOut?.decimals as number),
-    -2
-  );
-
   return (
     <div
       className={`flex w-full justify-center ${
-        quotes?.length > 0 ? "w-auto  min-w-[420px]" : "w-full max-w-[420px]"
+        quotes?.length > 0
+          ? "w-full  min-w-[420px] md:min-w-full"
+          : "w-full max-w-[420px]"
       } transition-all duration-300 ease-in-out overflow-x-hidden`}
     >
       <div
-        className="flex flex-col max-w-[420px] w-full rounded-2xl border border-light-border-primary
+        className="flex flex-col max-w-[420px] w-full  rounded-2xl border border-light-border-primary
      dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary p-5 "
       >
         <div className="flex items-center w-full mb-5 justify-between">
