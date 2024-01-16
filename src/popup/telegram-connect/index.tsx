@@ -1,6 +1,6 @@
 import { Input } from "components/input";
 import { Spinner } from "components/spinner";
-import {
+import React, {
   Dispatch,
   SetStateAction,
   useContext,
@@ -12,7 +12,7 @@ import { FiCopy, FiExternalLink } from "react-icons/fi";
 import { Button } from "../../components/button";
 import { LargeFont, SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal } from "../../components/modal-container";
 import { UserContext } from "../../contexts/user";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { triggerAlert } from "../../lib/toastify";
@@ -242,8 +242,7 @@ export const PopupTelegram = ({
   const content = renderContent();
 
   return !contentOnly ? (
-    <ModalContainer
-      title={""}
+    <Modal
       extraCss="max-w-[400px] p-5"
       isOpen={showPopup}
       onClose={() => {
@@ -252,7 +251,7 @@ export const PopupTelegram = ({
       }}
     >
       {content}
-    </ModalContainer>
+    </Modal>
   ) : (
     renderContent()
   );

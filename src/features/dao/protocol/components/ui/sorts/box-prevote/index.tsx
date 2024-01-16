@@ -13,7 +13,7 @@ import { polygon } from "viem/chains";
 import { Collapse } from "../../../../../../../components/collapse";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../../components/link";
-import { ModalContainer } from "../../../../../../../components/modal-container";
+import { Modal } from "../../../../../../../components/modal-container";
 import { Popover } from "../../../../../../../components/popover";
 import { Skeleton } from "../../../../../../../components/skeleton";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
@@ -350,9 +350,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
             <BsCodeSlash className="text-[15px] mr-[5px]" />
             Raw Data
           </button>
-          <ModalContainer
+          <Modal
             title="Raw Data"
-            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit "
             isOpen={showRawData}
             onClose={() => setShowRawData(false)}
           >
@@ -381,7 +381,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 </pre>
               ) : null}
             </div>
-          </ModalContainer>
+          </Modal>
           {token?.links?.audits?.length > 0 ? (
             <Popover
               extraCss="top-[35px] right-0"

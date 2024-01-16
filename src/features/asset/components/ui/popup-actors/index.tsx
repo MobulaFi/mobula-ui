@@ -13,7 +13,7 @@ import { FaMedium } from "react-icons/fa";
 import { SiCrunchbase } from "react-icons/si";
 import { SmallFont } from "../../../../../components/fonts";
 import { Menu } from "../../../../../components/menu";
-import { ModalContainer } from "../../../../../components/modal-container";
+import { Modal } from "../../../../../components/modal-container";
 import { Investors } from "../../../models";
 
 interface ActorsPopupProps {
@@ -64,7 +64,7 @@ export const ActorsPopup = ({
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[500px] min-h-fit"
       title="Core Actors"
       isOpen={visible}
@@ -122,6 +122,6 @@ export const ActorsPopup = ({
           </div>
         ))}
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

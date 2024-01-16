@@ -9,7 +9,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
 import { Input } from "../../components/input";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal } from "../../components/modal-container";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { UserContext } from "../../contexts/user";
 import { BaseAssetContext } from "../../features/asset/context-manager";
@@ -79,7 +79,7 @@ export const PriceAlertPopup = ({
   };
 
   return (
-    <ModalContainer
+    <Modal
       title={
         showSignTG
           ? "Connect your telegram to receive notification!"
@@ -151,6 +151,6 @@ export const PriceAlertPopup = ({
           </Button>
         </>
       )}
-    </ModalContainer>
+    </Modal>
   );
 };
