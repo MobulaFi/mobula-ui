@@ -3,7 +3,9 @@ import React from "react";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
+export const dynamic = "force-static";
 export const revalidate = 3600;
+export const dynamicParams = true;
 
 async function fetchMoversAssets() {
   const settings = {
@@ -46,20 +48,15 @@ async function fetchMoversAssets() {
     return {
       gainers: gainers || [],
       losers: losers || [],
+      fallback: false,
     };
   } catch (e) {
     return {
       gainers: [],
       losers: [],
+      fallback: true,
     };
   }
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: false,
-  };
 }
 
 export const metadata: Metadata = {
