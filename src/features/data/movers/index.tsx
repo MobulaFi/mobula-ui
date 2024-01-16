@@ -5,6 +5,7 @@ import { Title } from "../../../components/fonts";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { ButtonSelectorMobile } from "./components/button-selector-mobile";
+import { MoversTable } from "./components/table-mover";
 import { MoversType } from "./models";
 
 interface MoversProps {
@@ -53,7 +54,7 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
             </div>
           </div>
         </div>
-        {/* <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
+        <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
           <div
             className={`flex mr-3 lg:mr-0 w-2/4 lg:w-full ${
               isGainer ? "" : "lg:hidden"
@@ -72,7 +73,7 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
           >
             <MoversTable assets={losersBuffer} isGainer={false} />
           </div>
-        </div> */}
+        </div>
       </Container>
     </>
   );
