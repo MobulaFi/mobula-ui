@@ -2,6 +2,7 @@ import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 // import {InfoPopup} from "../../../../components/popup-hover";
+import React from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -12,6 +13,7 @@ import {
   MediumFont,
   SmallFont,
 } from "../../../components/fonts";
+import { Skeleton } from "../../../components/skeleton";
 import { Spinner } from "../../../components/spinner";
 import { Tooltip } from "../../../components/tooltip";
 import { pushData } from "../../../lib/mixpanel";
@@ -51,6 +53,9 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     settings,
     setLockToken,
     setManualQuote,
+    setTokenOutBuffer,
+    setTokenInBuffer,
+    tokenInBuffer,
   } = useContext<ISwapContext>(SwapContext);
   const [showMoreRouter, setShowMoreRouter] = useState(false);
   const [isTokenIn, setIsTokenIn] = useState(true);
@@ -97,6 +102,8 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     if (i === 0) return true;
     return false;
   };
+
+  console.log("buttonStatus", buttonStatus);
 
   return (
     <div
@@ -230,8 +237,16 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
             className="bg-light-bg-secondary dark:bg-dark-bg-secondary w-fit p-2 absolute z-[2] rounded-full translate-y-[-50%]
          top-[50%] border border-light-border-primary dark:border-dark-border-primary"
             onClick={() => {
-              setIsBuy((prev) => !prev);
-              pushData("TRADE-SWITCH-BUY-SELL");
+              if (tokenOutBuffer) setTokenOutBuffer(undefined);
+              if (tokenIn && tokenOut && !tokenOutBuffer && !tokenInBuffer) {
+                setLockToken([]);
+                setTokenOutBuffer(tokenOut);
+                setTokenInBuffer(tokenIn);
+                loadToken("out", tokenIn);
+                loadToken("in", tokenOut);
+              }
+              pushData("TRADE-INTERACT");
+              pushData("TRADE-SWITCH-ARROW");
             }}
           >
             <VscArrowSwap className="text-lg rotate-90 text-light-font-60 dark:text-dark-font-60 hover:text-light-font-100 hover:dark:text-dark-font-100 transition" />
@@ -248,7 +263,14 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
           <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
             To (estimated)
           </SmallFont>
-          <div className="flex mt-5 items-center w-full">
+          <div className="flex mt-5 items-center w-full relative">
+            {buttonLoading ||
+            isFeesLoading ||
+            buttonStatus === "No route found" ||
+            buttonStatus === "Fetching price..." ? (
+              <Skeleton extraCss="h-[20px] w-[80px] absolute left-0" />
+            ) : null}
+
             <input
               placeholder="0"
               ref={inputInRef}
@@ -258,16 +280,14 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
               className="w-fit max-w-[200px] lg:max-w-[150px] text-light-font-100 dark:text-dark-font-100 text-[20px] 
             lg:text-[18px] md:text-[16px] font-medium bg-light-bg-terciary dark:bg-dark-bg-terciary border-0 outline-none pl-0 overflow-scroll"
               style={{ border: "none" }}
-              onChange={(e) => {
-                if (
-                  !Number.isNaN(parseFloat(e.target.value)) ||
-                  e.target.value === ""
-                )
-                  setAmountOut(e.target.value);
-              }}
               value={
-                (manualQuote?.amountOut || Number(quotes?.[0]?.amountOut)) /
-                10 ** (tokenOut?.decimals as number)
+                buttonLoading ||
+                isFeesLoading ||
+                buttonStatus === "No route found" ||
+                buttonStatus === "Fetching price..."
+                  ? "0"
+                  : (manualQuote?.amountOut || Number(quotes?.[0]?.amountOut)) /
+                    10 ** (tokenOut?.decimals as number)
               }
             />
             <button
