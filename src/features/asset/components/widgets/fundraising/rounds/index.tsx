@@ -172,8 +172,8 @@ export const Rounds = () => {
                     )}
 
                     <div className="flex flex-col items-start">
-                      <div className="flex items-center flex-wrap mr-2.5 md:flex-col md:items-start">
-                        <LargeFont extraCss="text-start mr-2.5 md:truncate md:text-sm">
+                      <div className="flex items-center flex-wrap mr-2.5 lg:flex-col lg:items-start">
+                        <LargeFont extraCss="text-start mr-2.5 md:truncate lg:text-sm">
                           {`${sale.name}`}
                         </LargeFont>
                         <MediumFont extraCss="md:text-xs md:mb-0.5 text-light-font-60 dark:text-dark-font-60">
