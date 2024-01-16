@@ -8,7 +8,7 @@ import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -92,9 +92,10 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Create Watchlist"
+      titleCss="mb-2.5"
       isOpen={showCreateWL}
       onClose={() => setShowCreateWL(false)}
     >
@@ -199,6 +200,6 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
       >
         Create Watchlist
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

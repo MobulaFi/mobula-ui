@@ -8,7 +8,7 @@ import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
@@ -68,7 +68,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Edit Watchlist"
       isOpen={showEdit}
@@ -173,6 +173,6 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
       >
         Edit Watchlist
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

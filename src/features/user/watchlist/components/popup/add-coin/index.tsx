@@ -5,7 +5,7 @@ import { Button } from "../../../../../../components/button";
 import { SmallFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { UserExtended } from "../../../../../../interfaces/user";
 import { useUpdateSearch } from "../../../../../../layouts/swap/hooks/useUpdateSearch";
@@ -38,7 +38,7 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
   }, [searchToken]);
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       isOpen={showAddCoins}
       onClose={() => setShowAddCoins(false)}
@@ -178,6 +178,6 @@ export const AddCoinPopup = ({ watchlist }: AddCoinPopupProps) => {
           Select Coins ({tokenToAdd.length})
         </Button>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };
