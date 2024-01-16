@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { tabs } from "../../../layouts/menu-mobile/constant";

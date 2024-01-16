@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../lib/shadcn/components/ui/modal";
+import { cn } from "../lib/shadcn/lib/utils";
 
 interface ModalContainerProps {
   extraCss?: string;
@@ -97,7 +98,7 @@ export const Modal = ({
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className={extraCss}>
-          <DialogTitle>{title}</DialogTitle>
+          {title ? <DialogTitle>{title}</DialogTitle> : null}
           {children}
         </DialogContent>
       </Dialog>
@@ -149,9 +150,14 @@ export const Modal = ({
   );
 };
 
-export const ModalTitle = ({ children }) => {
+export const ModalTitle = ({ children, extraCss }) => {
   return (
-    <h3 className="text-xl md:text-lg font-medium text-light-font-100 dark:text-dark-font-100">
+    <h3
+      className={cn(
+        "text-xl md:text-lg font-medium text-light-font-100 dark:text-dark-font-100",
+        extraCss
+      )}
+    >
       {children}
     </h3>
   );

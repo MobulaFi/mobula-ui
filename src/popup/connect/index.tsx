@@ -1,12 +1,12 @@
 "use client";
 import { useTheme } from "next-themes";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDash } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useConnect } from "wagmi";
 import { Button } from "../../components/button";
-import { LargeFont, SmallFont } from "../../components/fonts";
-import { ModalContainer } from "../../components/modal-container";
+import { SmallFont } from "../../components/fonts";
+import { Modal, ModalTitle } from "../../components/modal-container";
 import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
 
 export const Connect = () => {
@@ -16,7 +16,7 @@ export const Connect = () => {
   const [userMail, setUserMail] = useState("");
   const { resolvedTheme } = useTheme();
   const buttonStyle =
-    "h-[35px] w-[90%] mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
+    "h-[35px] w-full mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
   const { connect, connectors, pendingConnector } = useConnect({
     onError: () => {
       setStatus("error");
@@ -61,7 +61,7 @@ export const Connect = () => {
   const title = getTitle();
 
   return (
-    <ModalContainer
+    <Modal
       isOpen={isVisible}
       onClose={() => {
         setStatus("idle");
@@ -70,18 +70,9 @@ export const Connect = () => {
       extraCss="max-w-[450px]"
     >
       <div className="flex w-full">
-        <div className="w-full flex flex-col p-5 relative">
-          <button
-            className="absolute right-5 top-5"
-            onClick={() => {
-              setStatus("idle");
-              setIsVisible(false);
-            }}
-          >
-            <AiOutlineClose className="text-lg text-light-font-100 dark:text-dark-font-100" />
-          </button>
-          <LargeFont extraCss="text-center mb-2.5">{title.title}</LargeFont>
-          <SmallFont extraCss="text-center mb-4 max-w-[320px] mx-auto">
+        <div className="w-full flex flex-col relative">
+          <ModalTitle extraCss="text-center mb-2.5">{title.title}</ModalTitle>
+          <SmallFont extraCss="text-center mb-4 max-w-[320px] mx-auto text-light-font-60 dark:text-dark-font-60">
             {title.description}
           </SmallFont>
           {status === "idle" ? (
@@ -157,14 +148,15 @@ export const Connect = () => {
                 <div className="flex-1 h-[1px] bg-light-border-primary dark:bg-dark-border-primary" />
               </div>
               <div
-                className="flex items-center w-[90%] mx-auto h-[40px] bg-light-bg-terciary dark:bg-dark-bg-terciary 
+                className="flex items-center w-full mx-auto h-[40px] bg-light-bg-terciary dark:bg-dark-bg-terciary 
            border border-light-border-primary dark:border-dark-border-primary rounded"
               >
                 <input
                   type="text"
                   className="w-full h-full rounded-md px-2.5 text-light-font-100 dark:text-dark-font-100 text-sm
                border-0 border-none bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                  placeholder="Enter your email"
+                  placeholder="This feature is disabled fo now."
+                  disabled
                   onChange={(event) => setUserMail(event.target.value)}
                 />
                 <button
@@ -219,6 +211,6 @@ export const Connect = () => {
           ) : null}
         </div>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };
