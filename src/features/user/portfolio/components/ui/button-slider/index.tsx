@@ -23,7 +23,7 @@ export const ButtonSlider = ({
   return (
     <div
       className={cn(
-        "flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[38px] rounded-lg mb-[15px] relative px-2",
+        "flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary h-[38px] rounded-lg mb-[15px] relative px-2",
         extraCss
       )}
     >
