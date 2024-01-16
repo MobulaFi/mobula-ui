@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
+import { Title } from "../../../components/fonts";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import { ButtonSelectorMobile } from "./components/button-selector-mobile";
 import { MoversType } from "./models";
 
 interface MoversProps {
@@ -31,7 +33,7 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
     <>
       <TopNav list={tabs} active="G&L" isGeneral />
       <Container>
-        {/* <div className="flex flex-col">
+        <div className="flex flex-col">
           <Title
             title="Biggest Crypto Gainers and Losers"
             subtitle="Discover the biggest crypto movers of the day, their real time price, chart, liquidity, and more."
@@ -51,7 +53,7 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
             </div>
           </div>
         </div>
-        <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
+        {/* <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
           <div
             className={`flex mr-3 lg:mr-0 w-2/4 lg:w-full ${
               isGainer ? "" : "lg:hidden"
