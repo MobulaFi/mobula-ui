@@ -4,7 +4,7 @@ import { useNetwork, useSwitchNetwork } from "wagmi";
 import { disconnect } from "wagmi/actions";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal } from "../../components/modal-container";
 import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
 import { useSafeSwitchNetwork } from "../../hooks/network";
 import { SwapContext } from "../../layouts/swap";
@@ -37,7 +37,7 @@ export const SwitchNetworkPopup = () => {
 
   return (
     <>
-      <ModalContainer
+      <Modal
         title="Need to Switch!"
         isOpen={!!showSwitchNetwork}
         onClose={() => setShowSwitchNetwork(false)}
@@ -89,7 +89,7 @@ export const SwitchNetworkPopup = () => {
             Disconnect
           </Button>
         </div>
-      </ModalContainer>
+      </Modal>
     </>
   );
 };

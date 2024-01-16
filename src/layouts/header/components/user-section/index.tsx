@@ -2,7 +2,7 @@
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import {
+import React, {
   Dispatch,
   RefObject,
   SetStateAction,
@@ -23,6 +23,7 @@ import { disconnect, readContract } from "wagmi/actions";
 import { AddressAvatar } from "../../../../components/avatar";
 import { SmallFont } from "../../../../components/fonts";
 import { NextImageFallback } from "../../../../components/image";
+import { Popover } from "../../../../components/popover";
 import { Skeleton } from "../../../../components/skeleton";
 import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
@@ -286,16 +287,11 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
           </>
         ) : null}
         <div className="flex relative">
-          <button
-            className={`flex items-center w-fit min-w-[35px] p-0.5 md:hidden bg-light-bg-terciary
-           dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 border 
-           border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue ${
-             isDisconnected || (isConnecting && !addressFromCookie)
-               ? "rounded"
-               : "rounded-full"
-           } 
-            mr-0 lg:ml-0.5`}
-            onClick={() => {
+          <Popover
+            isOpen={showInfoPopover}
+            position="end"
+            extraCss="top-[15px] max-w-[230px] w-[230px] p-0"
+            onToggle={() => {
               if (isConnected === false) setConnect(true);
               else if (isConnected) {
                 if (showChainPopover) {
@@ -304,65 +300,65 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                 } else setShowInfoPopover((prev) => !prev);
               }
             }}
-          >
-            {isConnected || (isConnecting && addressFromCookie) ? (
-              user ? (
-                <>
-                  {user?.profile_pic !== "/mobula/fullicon.png" ? (
-                    <NextImageFallback
-                      width={31}
-                      height={31}
-                      style={{
-                        borderRadius: "50%",
-                        minWidth: "31px",
-                      }}
-                      src={user?.profile_pic}
-                      alt="user profile picture"
-                      fallbackSrc={""}
-                    />
-                  ) : null}
-                  {user?.profile_pic === "/mobula/fullicon.png" ? (
-                    <AddressAvatar
-                      address={user?.address}
-                      extraCss="rounded-full w-[31px] h-[31px] min-w-[31px]"
-                    />
-                  ) : null}
-                </>
-              ) : (
-                <Skeleton extraCss="w-[31px] h-[31px] rounded-full" />
-              )
-            ) : null}
-            {connectMemo}
-          </button>
-          <div
-            className={`flex items-center absolute flex-col w-[230px] top-[56px] 
-            right-[-0px] lg:right-[-30px] z-[100] max-w-[230px] rounded-md border border-light-border-primary 
-            dark:border-dark-border-primary bg-light-bg-secondary dark:bg-dark-bg-secondary shadow-md 
-            ${
-              showInfoPopover
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-90 pointer-events-none"
-            } transition-all duration-200 ease-in-out`}
-            onMouseLeave={() => {
-              if (isConnected) setShowInfoPopover(false);
-            }}
-          >
-            <div className="flex flex-col w-full p-2.5">
-              <p
-                className="text-lg md:text-md font-normal text-light-font-100 dark:text-dark-font-100
-                pr-2.5 truncate max-w-full overflow-hidden"
+            visibleContent={
+              <button
+                className={`flex items-center w-fit min-w-[35px] p-0.5 md:hidden bg-light-bg-terciary
+              dark:bg-dark-bg-terciary relative hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 border 
+              border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue ${
+                isDisconnected || (isConnecting && !addressFromCookie)
+                  ? "rounded"
+                  : "rounded-full"
+              } 
+                mr-0 lg:ml-0.5`}
               >
-                {user?.username || addressSlicer(user?.address)}{" "}
-              </p>
-              {user?.telegram_id ? (
-                <button
-                  className={`flex justify-center items-center ${telegramStyleButton} cursor-default`}
-                >
-                  <FaTelegramPlane className="text-telegram mr-[5px]" />@
-                  {user?.telegram}
-                </button>
-              ) : null}
-              {/* 
+                {isConnected || (isConnecting && addressFromCookie) ? (
+                  user ? (
+                    <>
+                      {user?.profile_pic !== "/mobula/fullicon.png" ? (
+                        <NextImageFallback
+                          width={31}
+                          height={31}
+                          style={{
+                            borderRadius: "50%",
+                            minWidth: "31px",
+                          }}
+                          src={user?.profile_pic}
+                          alt="user profile picture"
+                          fallbackSrc={""}
+                        />
+                      ) : null}
+                      {user?.profile_pic === "/mobula/fullicon.png" ? (
+                        <AddressAvatar
+                          address={user?.address}
+                          extraCss="rounded-full w-[31px] h-[31px] min-w-[31px]"
+                        />
+                      ) : null}
+                    </>
+                  ) : (
+                    <Skeleton extraCss="w-[31px] h-[31px] rounded-full" />
+                  )
+                ) : null}
+                {connectMemo}
+              </button>
+            }
+            hiddenContent={
+              <>
+                <div className="flex flex-col w-full p-2.5">
+                  <p
+                    className="text-lg md:text-md font-normal text-light-font-100 dark:text-dark-font-100
+                pr-2.5 truncate max-w-full overflow-hidden"
+                  >
+                    {user?.username || addressSlicer(user?.address)}{" "}
+                  </p>
+                  {user?.telegram_id ? (
+                    <button
+                      className={`flex justify-center items-center ${telegramStyleButton} cursor-default`}
+                    >
+                      <FaTelegramPlane className="text-telegram mr-[5px]" />@
+                      {user?.telegram}
+                    </button>
+                  ) : null}
+                  {/* 
                 ) : (
                   <button
                     className={telegramStyleButton}
@@ -372,54 +368,62 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                     Connect Telegram
                   </button>
                 )} */}
-            </div>
-            <div
-              className={`flex items-center justify-between ${
-                user?.telegram_id ? "mt-[5px]" : ""
-              } w-full p-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary`}
-            >
-              <SmallFont extraCss="font-normal text-light-font-60 dark:text-dark-font-60">
-                Balance:
-              </SmallFont>
-              <SmallFont extraCss="font-normal text-light-font-100 dark:text-dark-font-100">
-                {getFormattedAmount((user?.balance || 0) + (balanceMOBL || 0))}{" "}
-                MOBL
-              </SmallFont>
-            </div>
-            <div className="flex flex-col w-full">
-              <div
-                className={`${listContainer} mt-0`}
-                onClick={() => getEffectOnClick("watchlist")()}
-              >
-                <div className={squareBox}>
-                  <AiOutlineStar className="text-base text-light-font-60 dark:text-dark-font-60" />
                 </div>
-                Watchlist
-              </div>
+                <div
+                  className={`flex items-center justify-between ${
+                    user?.telegram_id ? "mt-[5px]" : ""
+                  } w-full p-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary`}
+                >
+                  <SmallFont extraCss="font-normal text-light-font-60 dark:text-dark-font-60">
+                    Balance:
+                  </SmallFont>
+                  <SmallFont extraCss="font-normal text-light-font-100 dark:text-dark-font-100">
+                    {getFormattedAmount(
+                      (user?.balance || 0) + (balanceMOBL || 0)
+                    )}{" "}
+                    MOBL
+                  </SmallFont>
+                </div>
+                <div className="flex flex-col w-full">
+                  <div
+                    className={`${listContainer} mt-0`}
+                    onClick={() => getEffectOnClick("watchlist")()}
+                  >
+                    <div className={squareBox}>
+                      <AiOutlineStar className="text-base text-light-font-60 dark:text-dark-font-60" />
+                    </div>
+                    Watchlist
+                  </div>
 
-              <div
-                className={listContainer}
-                onClick={() => getEffectOnClick("notif")()}
-              >
-                <div className={squareBox}>
-                  <TbBellRinging className="text-base text-light-font-60 dark:text-dark-font-60" />
+                  <div
+                    className={listContainer}
+                    onClick={() => getEffectOnClick("notif")()}
+                  >
+                    <div className={squareBox}>
+                      <TbBellRinging className="text-base text-light-font-60 dark:text-dark-font-60" />
+                    </div>
+                    Notifications
+                  </div>
+                  <div
+                    className={`${listContainer} mb-0`}
+                    onClick={() => getEffectOnClick("disconnect")()}
+                  >
+                    <div className={squareBox}>
+                      <BsPower className="text-base text-red dark:text-red" />
+                    </div>
+                    <p className="text-sm mb-[1px]">Log out</p>
+                  </div>
                 </div>
-                Notifications
-              </div>
-              <div
-                className={`${listContainer} mb-0`}
-                onClick={() => getEffectOnClick("disconnect")()}
-              >
-                <div className={squareBox}>
-                  <BsPower className="text-base text-red dark:text-red" />
-                </div>
-                <p className="text-sm mb-[1px]">Log out</p>
-              </div>
-            </div>
-          </div>
+              </>
+            }
+          />
         </div>
-
-        <SearchBarPopup trigger={triggerSearch} setTrigger={setTriggerSearch} />
+        {triggerSearch ? (
+          <SearchBarPopup
+            trigger={triggerSearch}
+            setTrigger={setTriggerSearch}
+          />
+        ) : null}
         <Connect />
         <SwitchNetworkPopup />
         <button

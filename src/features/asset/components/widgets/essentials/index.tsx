@@ -51,11 +51,9 @@ export const Essentials = () => {
             setChartPreference={setChartPreference}
             chartPreference={chartPreference}
           />
-          <TimeSwitcher
-            extraCss={`hidden md:flex mr-0 mt-0 ${
-              chartPreference === "Trading view" ? "md:mb-2.5" : ""
-            }`}
-          />
+          {chartPreference !== "Trading view" ? (
+            <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
+          ) : null}
           {chartPreference === "Trading view" ? (
             <TradingViewChart
               baseAsset={baseAsset}

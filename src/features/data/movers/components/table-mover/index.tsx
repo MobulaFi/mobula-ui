@@ -1,3 +1,4 @@
+import React from "react";
 import { MoversType } from "../../models";
 import { TbodyMovers } from "../tbody";
 
@@ -26,7 +27,7 @@ export const MoversTable = ({ assets, isGainer }: MoversTableProps) => {
           <th className={`${thStyle} text-end font-normal`}>24h %</th>
         </tr>
       </thead>
-      {assets.map((asset) => (
+      {assets?.map((asset) => (
         <TbodyMovers key={asset.id} asset={asset} />
       ))}
     </table>

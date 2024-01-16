@@ -1,10 +1,10 @@
 import { Button } from "components/button";
 import { NextImageFallback } from "components/image";
-import { ModalContainer } from "components/modal-container";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../../../../../components/fonts";
+import { Modal } from "../../../../../../components/modal-container";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { GET } from "../../../../../../utils/fetch";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -108,7 +108,7 @@ export const ManageEdit = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Hidden assets"
       isOpen={showHiddenTokensPopup}
@@ -166,6 +166,6 @@ export const ManageEdit = () => {
           Restore all
         </Button>{" "}
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

@@ -10,7 +10,7 @@ import {
   SmallFont,
 } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
@@ -55,7 +55,7 @@ export const SelectorPortfolioPopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       isOpen={showPortfolioSelector}
       onClose={() => setShowPortfolioSelector(false)}
@@ -251,6 +251,6 @@ export const SelectorPortfolioPopup = () => {
           </Collapse>
         </div>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

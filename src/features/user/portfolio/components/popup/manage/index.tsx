@@ -4,7 +4,7 @@ import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
 import { manageOptions } from "../../../constants";
@@ -36,7 +36,7 @@ export const ManagePopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Manage"
       isOpen={showManage}
@@ -162,6 +162,6 @@ export const ManagePopup = () => {
             );
           return null;
         })}
-    </ModalContainer>
+    </Modal>
   );
 };

@@ -1,5 +1,4 @@
 import { getFormattedAmount, getTokenPercentage } from "@utils/formaters";
-import { Popover } from "components/popover";
 import { TagPercentage } from "components/tag-percentage";
 import { useTheme } from "next-themes";
 import { useContext, useState } from "react";
@@ -11,6 +10,7 @@ import {
   SmallFont,
 } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
+import { Popover } from "../../../../../../components/popover";
 import { BaseAssetContext } from "../../../../context-manager";
 
 type OptionProps = { day: string; month: string; year: string };
@@ -326,7 +326,7 @@ export const Rounds = () => {
                         </div>
                       </div>
                       <Popover
-                        extraCss="top-[15px] bg-light-bg-terciary dark:bg-dark-bg-terciary shadow-md"
+                        extraCss="top-[15px] bg-light-bg-terciary dark:bg-dark-bg-terciary shadow-2xl"
                         isOpen={showPopover === sale.id}
                         onToggle={() => {
                           if (showPopover === sale.id) setShowPopover("");
@@ -336,20 +336,6 @@ export const Rounds = () => {
                           <div
                             className={`flex w-full mt-[5px] h-[7px] rounded-full bg-light-font-10 dark:bg-dark-font-10 relative overflow-hidden`}
                           >
-                            {/* {!sale?.unlockType
-                              ? Array.from({length: 11})?.map((_, i) => (
-                                  <Flex
-                                    w="15%"
-                                    h={["200%", "250%", "400%"]}
-                                    mx="auto"
-                                    top={["-10px", "-20px"]}
-                                    position="absolute"
-                                    left={`${(i - 1) * 10}%`}
-                                    bg={hover}
-                                    transform="rotate(-45deg)"
-                                  />
-                                ))
-                              : null} */}
                             <div
                               className="h-full flex bg-light-font-40 dark:bg-dark-font-40 rounded-full"
                               style={{

@@ -5,7 +5,7 @@ import { FiExternalLink } from "react-icons/fi";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { Button } from "../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../components/fonts";
-import { ModalContainer } from "../../../../../components/modal-container";
+import { Modal } from "../../../../../components/modal-container";
 import { BaseAssetContext } from "../../../context-manager";
 import { mainButtonStyle } from "../../../style";
 
@@ -84,7 +84,7 @@ export const PopupSocialMobile = () => {
 
   return (
     <>
-      <ModalContainer
+      <Modal
         extraCss="max-w-[400px]"
         isOpen={showPopupSocialMobile}
         onClose={() => setShowPopupSocialMobile(false)}
@@ -117,7 +117,7 @@ export const PopupSocialMobile = () => {
             </div>
           </div>
         ))}
-      </ModalContainer>
+      </Modal>
     </>
   );
 };

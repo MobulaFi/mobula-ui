@@ -105,7 +105,7 @@ export const PopoverTrade = ({
 
   return (
     <Popover
-      extraCss="left-0 top-[100%]"
+      position="start"
       onToggle={() => setIsPopoverOpen((prev) => !prev)}
       isOpen={isPopoverOpen}
       visibleContent={children}

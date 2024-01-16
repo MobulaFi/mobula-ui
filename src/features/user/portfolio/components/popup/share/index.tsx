@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsShare } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import {
   addressSlicer,
   getFormattedAmount,
@@ -23,7 +23,7 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
   const { resolvedTheme } = useTheme();
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[390px]"
       title="Share Portfolio"
       isOpen={show}
@@ -87,6 +87,6 @@ export const SharePopup = ({ show, setShow }: SharePopupProps) => {
           </div>
         </div>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { NextImageFallback } from "../../../../../components/image";
+import React from "react";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import {
   formatAmount,
@@ -35,17 +35,9 @@ export const TbodyMovers = ({ asset }) => {
           className={`${tdStyle} max-w-[150px] sticky left-0 bg-none md:bg-light-bg-primary dark:md:bg-dark-bg-primary overflow-x-hidden`}
         >
           <div className="flex items-center w-full">
-            <NextImageFallback
-              style={{
-                marginRight: "10px",
-                borderRadius: "50%",
-                maxWidth: "30px",
-                objectFit: "cover",
-              }}
-              width={30}
-              height={30}
-              src={asset.logo}
-              fallbackSrc="/empty/unknown.png"
+            <img
+              className="mr-2.5 rounded-full max-w-[30px] w-[30px] h-[30px] min-w-[30px] object-cover"
+              src={asset.logo || "/empty/unknown.png"}
               alt={`${asset.name} logo`}
             />
             <div className="flex flex-col flex-wrap">

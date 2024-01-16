@@ -4,7 +4,7 @@ import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { Key, useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Accordion } from "../../../../../components/accordion";
-import { ModalContainer } from "../../../../../components/modal-container";
+import { Modal } from "../../../../../components/modal-container";
 import { BaseAssetContext } from "../../../context-manager";
 import { TradeBlockchainPopup } from "../trade-blockchain-selector";
 import { TradeTypePopup } from "../trade-type";
@@ -113,7 +113,7 @@ export const TradeFiltersPopup = () => {
   ];
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px] bg-light-bg-terciary dark:bg-dark-bg-terciary"
       title="Filters"
       isOpen={showTradeFilters}
@@ -137,6 +137,6 @@ export const TradeFiltersPopup = () => {
           {filter.content}
         </Accordion>
       ))}
-    </ModalContainer>
+    </Modal>
   );
 };
