@@ -628,7 +628,7 @@ export const ViewPopup = ({
                 }}
               />
               <button
-                className={`w-1/2 font-medium ${
+                className={`w-1/2 ${
                   activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
                 } h-[35px] md:h-[30px] text-sm md:text-xs 
               ${
@@ -642,9 +642,9 @@ export const ViewPopup = ({
                 Display
               </button>
               <button
-                className={`w-1/2 font-medium ${
+                className={`w-1/2 ${
                   activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-                } h-[35px] md:h-[30px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
+                } h-[35px] md:h-[30px] text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
                   activeDisplay === "filters"
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-40 dark:text-dark-font-40"
