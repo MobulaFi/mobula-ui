@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
 import { TableAsset } from "../../../../interfaces/assets";
@@ -72,8 +72,6 @@ export const MarketCapSegment = ({
           <Popover
             extraCss="min-w-[200px] top-[40px] left-1/2 -translate-x-1/2"
             toggleOnHover={() => setShow((prev) => !prev)}
-            isOpen={show}
-            onToggle={() => setShow((prev) => !prev)}
             visibleContent={
               <div className="flex flex-col items-end h-full w-full">
                 <SmallFont
@@ -155,7 +153,6 @@ export const MarketCapSegment = ({
                 setIsVisible((prev) => !prev);
               else setIsVisible((prev) => !prev);
             }}
-            toggleOnHover
           />
         </div>
       ) : (
