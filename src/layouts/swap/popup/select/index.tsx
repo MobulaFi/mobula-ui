@@ -15,7 +15,7 @@ import { PiTriangleFill } from "react-icons/pi";
 import { Chain, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { Input } from "../../../../components/input";
-import { ModalContainer } from "../../../../components/modal-container";
+import { Modal, ModalTitle } from "../../../../components/modal-container";
 import { Skeleton } from "../../../../components/skeleton";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 import {
@@ -160,19 +160,13 @@ export const Select = ({
 
   const filteredTokens: SearchTokenProps[] = filterArrayIfTwoNameAreSame();
 
-  console.log("blockckcck", holdings?.holdings?.multichain);
-
   return (
-    <ModalContainer
-      extraCss="max-w-[380px]"
-      title="Select a Token"
-      isOpen={visible}
-      onClose={() => setVisible(false)}
-    >
+    <Modal extraCss="max-w-[380px] h-fit" isOpen={visible} onClose={setVisible}>
+      <ModalTitle extraCss="mb-2.5"> Select a Token</ModalTitle>
       <div className="h-[1px] bg-light-border-primary dark:bg-dark-border-primary mb-2.5 w-full" />
       <Input
         className={`w-full rounded-md text-light-font-80 dark:text-dark-font-80 text-medium border border-light-border-primary
-         dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 
+         dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary 
          focus:border-light-font-10 focus:dark:border-dark-font-10 focus:outline-none focus:dark:outline-none
           active:border-light-font-10 active:dark:border-dark-font-10 h-[40px] text-base`}
         placeholder="Search a token name or address"
@@ -358,6 +352,6 @@ export const Select = ({
           />
         )}
       </div>{" "}
-    </ModalContainer>
+    </Modal>
   );
 };

@@ -3,7 +3,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useFeeData, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
-import { ModalContainer } from "../../../../components/modal-container";
+import { Modal } from "../../../../components/modal-container";
 import { floors } from "../../constants";
 import { cleanNumber } from "../../utils";
 import { InputLines } from "./lines";
@@ -20,7 +20,7 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
     chainId: chainNeeded || chain?.id || 1,
   });
   return (
-    <ModalContainer
+    <Modal
       isOpen={visible}
       title="Settings"
       onClose={() => setVisible(false)}
@@ -124,6 +124,6 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
           </div>
         ))}
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

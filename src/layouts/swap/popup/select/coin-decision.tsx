@@ -1,10 +1,10 @@
 import { SmallFont } from "components/fonts";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useNetwork } from "wagmi";
 import { Button } from "../../../../components/button";
 import { NextImageFallback } from "../../../../components/image";
-import { ModalContainer } from "../../../../components/modal-container";
+import { Modal, ModalTitle } from "../../../../components/modal-container";
 import { Asset } from "../../model";
 
 /**
@@ -32,12 +32,12 @@ export const CoinDecision = ({
   const chainName = blockchainsIdContent[chain?.id || 1]?.name;
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[330px]"
-      title="Switch or wrap?"
       isOpen={!!asset}
       onClose={() => setAsset(null)}
     >
+      <ModalTitle extraCss="mb-2.5">Switch or wrap?</ModalTitle>
       <NextImageFallback
         width={86}
         height={86}
@@ -82,6 +82,6 @@ export const CoinDecision = ({
       >
         {`Switch to ${asset?.blockchain}`}
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

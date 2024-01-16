@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal, ModalTitle } from "../../components/modal-container";
 import { pushData } from "../../lib/mixpanel";
 
 interface FeedBackPopupProps {
@@ -36,12 +36,12 @@ export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
   );
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[410px]"
-      title="Help improve Mobula!"
       isOpen={visible}
       onClose={() => setVisible(false)}
     >
+      <ModalTitle>Help improve Mobula!</ModalTitle>
       <SmallFont>How much would you recommend Mobula to a fren?</SmallFont>
       <div className="flex">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((score) => {
@@ -90,6 +90,6 @@ export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
       >
         Submit
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

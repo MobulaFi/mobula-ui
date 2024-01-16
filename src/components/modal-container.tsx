@@ -14,7 +14,8 @@ interface ModalContainerProps {
   children: React.ReactNode;
   trigger?: JSX.Element;
   isOpen?: boolean;
-  onClose?: () => void;
+  onClose?: any;
+  titleCss?: string;
 }
 
 export const ModalContainer = ({
@@ -92,13 +93,14 @@ export const Modal = ({
   isOpen,
   onClose,
   extraCss,
+  titleCss,
 }: ModalContainerProps) => {
   console.log("isOpen", isOpen);
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className={extraCss}>
-          {title ? <DialogTitle>{title}</DialogTitle> : null}
+          {title ? <ModalTitle extraCss={titleCss}>{title}</ModalTitle> : null}
           {children}
         </DialogContent>
       </Dialog>
@@ -150,7 +152,12 @@ export const Modal = ({
   );
 };
 
-export const ModalTitle = ({ children, extraCss }) => {
+interface ModalTitleProps {
+  children: React.ReactNode;
+  extraCss?: string;
+}
+
+export const ModalTitle = ({ children, extraCss }: ModalTitleProps) => {
   return (
     <h3
       className={cn(
