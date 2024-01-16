@@ -482,7 +482,7 @@ export const ViewPopup = ({
               />
             </div>
             {filteredCategories.length > 0 ? (
-              <div className="flex flex-wrap max-h-[480px] min-h-[165px] overflow-y-scroll">
+              <div className="flex flex-wrap max-h-[487px] min-h-[175px] overflow-y-scroll">
                 {filteredCategories.map((category) => (
                   <Button
                     extraCss={`rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
@@ -509,7 +509,7 @@ export const ViewPopup = ({
             )}
             <div className="w-full flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary sticky pt-[15px] bottom-0 border-t border-light-border-primary dark:border-dark-border-primary">
               <Button
-                extraCss="w-1/2 mr-[5px]"
+                extraCss="w-1/2 mr-[5px] h-[40px] md:h-[35px]"
                 onClick={() => {
                   dispatch({
                     type: ACTIONS.REMOVE_ALL_CATEGORY,
@@ -519,7 +519,7 @@ export const ViewPopup = ({
                 Deselect All
               </Button>
               <Button
-                extraCss="w-1/2 ml-[5px]"
+                extraCss="w-1/2 ml-[5px] h-[40px] md:h-[35px]"
                 onClick={() => {
                   dispatch({ type: ACTIONS.RESET_CATEGORY });
                 }}
