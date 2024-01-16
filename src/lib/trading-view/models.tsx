@@ -5,6 +5,6 @@ export enum TRADING_VIEW_DEFAULTS {
   CLIENT_ID = "tradingview.com",
   USER_ID = "public_user_id",
   CONTAINER_ID_SPOT = "tv_chart_container",
-  INTERVAL = "24h",
+  INTERVAL = "1h",
   CUSTOM_CSS = "../themed.css",
 }
