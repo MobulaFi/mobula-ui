@@ -14,6 +14,7 @@ interface PopoverProps {
   isOpen?: boolean | undefined;
   isFilters?: boolean;
   position?: AlignProps;
+  toggleOnHover?: any;
 }
 
 type AlignProps = "center" | "start" | "end" | undefined;
@@ -25,10 +26,17 @@ export const Popover = ({
   isOpen,
   onToggle,
   position,
+  toggleOnHover,
 }: PopoverProps) => {
   return (
     <PopoverContainer open={isOpen} onOpenChange={onToggle as any}>
-      <PopoverTrigger className="z-[100]">{visibleContent}</PopoverTrigger>
+      <PopoverTrigger
+        className="z-[100]"
+        onMouseEnter={toggleOnHover}
+        onMouseLeave={toggleOnHover}
+      >
+        {visibleContent}
+      </PopoverTrigger>
       <PopoverContent
         className={cn(
           `border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-normal p-2.5 w-fit shadow-2xl z-[101]`,
