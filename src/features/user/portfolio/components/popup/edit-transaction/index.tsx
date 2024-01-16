@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { Menu } from "../../../../../../components/menu";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -169,7 +169,7 @@ export const EditTransactionPopup = () => {
   }, [tokenTsx]);
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[380px]"
       isOpen={!!showEditTransaction}
       onClose={() => setShowEditTransaction(false)}
@@ -407,6 +407,6 @@ export const EditTransactionPopup = () => {
           Add Transaction
         </Button>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

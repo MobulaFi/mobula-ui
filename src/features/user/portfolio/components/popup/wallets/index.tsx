@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { Collapse } from "components/collapse";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -10,7 +10,7 @@ import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../../components/avatar";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -91,7 +91,7 @@ export const WalletsPopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       isOpen={showWallet && activePortfolio?.id !== 0}
       onClose={() => setShowWallet(false)}
       extraCss="max-w-[400px]"
@@ -189,6 +189,6 @@ export const WalletsPopup = () => {
           </div>
         </div>
       )}
-    </ModalContainer>
+    </Modal>
   );
 };

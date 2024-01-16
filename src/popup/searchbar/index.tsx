@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal } from "../../components/modal-container";
 import { CoreSearchBar } from "./core";
 
 interface SearchBarPopupProps {
@@ -12,12 +12,12 @@ export const SearchBarPopup = ({
   setTrigger,
 }: SearchBarPopupProps) => {
   return (
-    <ModalContainer
+    <Modal
       isOpen={trigger}
       onClose={() => setTrigger(false)}
-      extraCss="max-w-[500px] sm:h-screen sm:w-screen sm:top-0 sm:pt-[80px] md:w-full"
+      extraCss="max-w-[500px] sm:h-screen sm:w-screen sm:top-0 sm:pt-[80px] md:w-full p-0"
     >
       <CoreSearchBar trigger={trigger} setTrigger={setTrigger} />
-    </ModalContainer>
+    </Modal>
   );
 };

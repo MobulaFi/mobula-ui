@@ -8,7 +8,7 @@ import { useAccount } from "wagmi";
 import { Collapse } from "../../../../../../components/collapse";
 import { LargeFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -200,7 +200,7 @@ export const AddTransactionPopup = () => {
   }, [tokenTsx]);
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[380px]"
       isOpen={showAddTransaction}
       onClose={() => setShowAddTransaction(false)}
@@ -521,6 +521,6 @@ export const AddTransactionPopup = () => {
           Add Transaction
         </Button>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

@@ -1,7 +1,7 @@
 import { Button } from "components/button";
 import { MediumFont } from "components/fonts";
-import { ModalContainer } from "components/modal-container";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { Modal } from "../../../../../../components/modal-container";
 import { PortfolioV2Context } from "../../../context-manager";
 
 export const DeleteNftPopup = () => {
@@ -27,7 +27,7 @@ export const DeleteNftPopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[355px]"
       title="Delete your NFT"
       isOpen={showDeleteNft !== null}
@@ -54,6 +54,6 @@ export const DeleteNftPopup = () => {
           Confirm
         </Button>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

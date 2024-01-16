@@ -418,8 +418,12 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             </div>
           </div>
         </div>
-
-        <SearchBarPopup trigger={triggerSearch} setTrigger={setTriggerSearch} />
+        {triggerSearch ? (
+          <SearchBarPopup
+            trigger={triggerSearch}
+            setTrigger={setTriggerSearch}
+          />
+        ) : null}
         <Connect />
         <SwitchNetworkPopup />
         <button
