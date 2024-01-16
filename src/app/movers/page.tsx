@@ -1,7 +1,7 @@
 import { Metadata } from "next";
+import React from "react";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
-import React from "react";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
@@ -41,12 +41,19 @@ async function fetchMoversAssets() {
     .order("price_change_24h", { ascending: true })
     .limit(100);
 
-  const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
+  try {
+    const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
 
-  return {
-    gainers: gainers || [],
-    losers: losers || [],
-  };
+    return {
+      gainers: gainers || [],
+      losers: losers || [],
+    };
+  } catch (e) {
+    return {
+      gainers: [],
+      losers: [],
+    };
+  }
 }
 
 export const metadata: Metadata = {
