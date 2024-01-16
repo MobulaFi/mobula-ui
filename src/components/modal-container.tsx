@@ -26,7 +26,7 @@ export const ModalContainer = ({
   return (
     <>
       <Dialog>
-        <DialogTrigger>{trigger}</DialogTrigger>
+        <DialogTrigger data-state={isOpen ? "open" : "closed"}></DialogTrigger>
         <DialogContent>
           {title ? (
             <DialogHeader>
@@ -88,13 +88,18 @@ export const Modal = ({
   title,
   children,
   trigger,
+  isOpen,
+  onClose,
   extraCss,
 }: ModalContainerProps) => {
+  console.log("isOpen", isOpen);
   return (
     <>
-      <Dialog>
-        <DialogTrigger>{trigger}</DialogTrigger>
-        <DialogContent className={extraCss}>{children}</DialogContent>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className={extraCss}>
+          <DialogTitle>{title}</DialogTitle>
+          {children}
+        </DialogContent>
       </Dialog>
       {/* <AlertDialog>
         <AlertDialogTrigger>{button}</AlertDialogTrigger>
