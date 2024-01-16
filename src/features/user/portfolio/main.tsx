@@ -1,5 +1,5 @@
 import { createSupabaseDOClient } from "lib/supabase";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { Container } from "../../../components/container";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
@@ -299,7 +299,6 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
           </div>
         </div>
         {showManage ? <ManagePopup /> : null}
-        showPortfolioSelector, , showNetwork,
         {showHiddenTokensPopup ? <ManageEdit /> : null}
         {showNetwork ? <NetworkPopup /> : null}
         {showWallet ? <WalletsPopup /> : null}

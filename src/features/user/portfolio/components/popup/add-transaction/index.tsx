@@ -201,7 +201,7 @@ export const AddTransactionPopup = () => {
 
   return (
     <Modal
-      extraCss="max-w-[380px]"
+      extraCss="max-w-[405px]"
       isOpen={showAddTransaction}
       onClose={() => setShowAddTransaction(false)}
       title={
@@ -229,7 +229,7 @@ export const AddTransactionPopup = () => {
       </p>
       <div className="flex items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary h-[35px] justify-between pr-0">
         <input
-          className="bg-light-bg-terciary h-full dark:bg-dark-bg-terciary border-light-border-primary dark:border-dark-border-primary"
+          className="bg-light-bg-terciary h-full dark:bg-dark-bg-terciary border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 min-w-[0px]"
           type="number"
           lang="en"
           placeholder="0.00"
@@ -319,7 +319,7 @@ export const AddTransactionPopup = () => {
           </p>
           <div className="flex items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px] justify-between pr-0  border border-light-border-primary dark:border-dark-border-primary">
             <input
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full"
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full text-light-font-100 dark:text-dark-font-100 min-w-[0px]"
               type="number"
               lang="en"
               value={getFormattedAmount(settings.price) as string}
@@ -376,7 +376,7 @@ export const AddTransactionPopup = () => {
               onClick={() => setIsCalendarVisible(true)}
             >
               <input
-                className="cursor-pointer bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-full text-light-font-100 dark:text-dark-font-100 w-full max-w-full"
+                className="cursor-pointer bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-full text-light-font-100 dark:text-dark-font-100 w-full max-w-full min-w-[0px]"
                 value={getDate(date?.getTime() as number)}
               />
               <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm mr-2.5" />
@@ -397,7 +397,7 @@ export const AddTransactionPopup = () => {
             type="text"
             min="0"
             max="23"
-            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary min-w-[0px]`}
             ref={hoursRef}
             onInput={(e) => {
               if (parseInt((e.target as HTMLInputElement).value, 10) > 23) {
@@ -409,7 +409,7 @@ export const AddTransactionPopup = () => {
             :
           </p>
           <input
-            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary min-w-[0px]`}
             placeholder="00"
             pattern="d*"
             maxLength={2}
@@ -437,7 +437,7 @@ export const AddTransactionPopup = () => {
                cursor-pointer max-w-full justify-between  border border-light-border-primary dark:border-dark-border-primary"
           >
             <input
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md text-light-font-100 dark:text-dark-font-100 h-full"
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md text-light-font-100 dark:text-dark-font-100 h-full min-w-[0px]"
               value={(() => {
                 const timestamp =
                   (date?.getTime() as number) +
@@ -474,7 +474,7 @@ export const AddTransactionPopup = () => {
             </p>
             <div className="h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded-md">
               <input
-                className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-full rounded-md text-light-font-100 dark:text-dark-font-100"
+                className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-full rounded-md text-light-font-100 dark:text-dark-font-100 min-w-[0px]"
                 placeholder="Type a note"
                 onChange={(e) => {
                   setSettings((prev) => ({
@@ -494,7 +494,7 @@ export const AddTransactionPopup = () => {
                cursor-pointer max-w-full justify-between border border-light-border-primary dark:border-dark-border-primary"
             >
               <input
-                className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md text-light-font-100 dark:text-dark-font-100 h-full max-w-[48px] w-full pr-0"
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md text-light-font-100 dark:text-dark-font-100 h-full max-w-[48px] w-full pr-0 min-w-[0px]"
                 placeholder="0.5"
                 type="number"
                 onChange={(e) => {
