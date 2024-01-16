@@ -5,7 +5,6 @@ import { createSupabaseDOClient } from "../../lib/supabase";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
-export const dynamicParams = true;
 
 async function fetchMoversAssets() {
   const settings = {
