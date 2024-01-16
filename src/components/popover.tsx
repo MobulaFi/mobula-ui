@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  Popover as PopoverContainer,
+  PopoverContent,
+  PopoverTrigger,
+} from "../lib/shadcn/components/ui/popover";
 import { cn } from "../lib/shadcn/lib/utils";
 
 interface PopoverProps {
@@ -8,35 +13,35 @@ interface PopoverProps {
   extraCss?: string;
   isOpen: boolean;
   isFilters?: boolean;
+  setIsOpen: any;
+  position?: string;
 }
 
 export const Popover = ({
   visibleContent,
   hiddenContent,
-  onToggle,
   extraCss,
   isOpen,
-  isFilters,
+  onToggle,
+  position,
+  setIsOpen,
 }: PopoverProps) => {
   return (
-    <div
-      className={`flex relative ${isFilters ? "pb-[8px]" : ""} `}
-      onMouseEnter={() => onToggle()}
-      onMouseLeave={() => onToggle()}
+    <PopoverContainer
+      className="relative bg-red dark:bg-red"
+      open={isOpen}
+      onOpenChange={onToggle}
     >
-      <span className="z-[10] w-full">{visibleContent}</span>
-      <div
+      <PopoverTrigger>{visibleContent}</PopoverTrigger>
+      <PopoverContent
         className={cn(
-          `absolute border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-normal p-2.5 w-fit shadow-2xl z-[101] ${
-            isOpen
-              ? "opacity-100 scale-100"
-              : "opacity-0 scale-90 pointer-events-none"
-          }`,
+          `border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-normal p-2.5 w-fit shadow-2xl z-[101]`,
           extraCss
         )}
+        align={position || "start"}
       >
         {hiddenContent}
-      </div>
-    </div>
+      </PopoverContent>
+    </PopoverContainer>
   );
 };
