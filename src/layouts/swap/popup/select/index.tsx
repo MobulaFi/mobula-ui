@@ -3,7 +3,7 @@ import {
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import React, {
+import {
   Dispatch,
   SetStateAction,
   useContext,
@@ -161,18 +161,22 @@ export const Select = ({
   const filteredTokens: SearchTokenProps[] = filterArrayIfTwoNameAreSame();
 
   return (
-    <Modal extraCss="max-w-[380px] h-fit" isOpen={visible} onClose={setVisible}>
-      <ModalTitle extraCss="mb-2.5"> Select a Token</ModalTitle>
+    <Modal
+      extraCss="max-w-[380px] h-fit p-0"
+      isOpen={visible}
+      onClose={setVisible}
+    >
+      <ModalTitle extraCss="p-2.5"> Select a Token</ModalTitle>
       <div className="h-[1px] bg-light-border-primary dark:bg-dark-border-primary mb-2.5 w-full" />
       <Input
-        className={`w-full rounded-md text-light-font-80 dark:text-dark-font-80 text-medium border border-light-border-primary
+        className={`w-full text-light-font-80 dark:text-dark-font-80 text-medium border-t border-b border-light-border-primary
          dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary 
          focus:border-light-font-10 focus:dark:border-dark-font-10 focus:outline-none focus:dark:outline-none
-          active:border-light-font-10 active:dark:border-dark-font-10 h-[40px] text-base`}
+          active:border-light-font-10 active:dark:border-dark-font-10 h-[40px] text-base rounded-none`}
         placeholder="Search a token name or address"
         onChange={(e) => setToken(e.target.value)}
       />
-      <div className="flex flex-col w-full overflow-y-scroll scroll h-auto rounded-md max-h-[348px] mt-2.5">
+      <div className="flex flex-col w-full overflow-y-scroll scroll h-auto rounded-md max-h-[358px] mt-2.5 p-2.5 pt-0">
         <>
           {isLoading ? (
             Array.from(Array(7).keys()).map((_, i) => (
@@ -237,7 +241,7 @@ export const Select = ({
                 return (
                   <div
                     className={`flex py-2.5
-                  cursor-pointer items-center justify-between w-full px-2.5 rounded-2xl
+                  cursor-pointer items-center justify-between w-full px-2.5 rounded-lg
                    hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 ease-in-out`}
                     key={searchToken.name}
                     onClick={() => {
