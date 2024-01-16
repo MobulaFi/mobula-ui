@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { containerStyle } from "../../style";
 import { blurEffectAnimation } from "../../utils";
 import { TryItOutBox } from "../try-it-out-box";
+import { Title } from "../ui/title";
 gsap.registerPlugin(ScrollTrigger);
 
 export const TryItOut = () => {
@@ -90,17 +91,7 @@ export const TryItOut = () => {
     >
       <div className={containerStyle}>
         <div className="relative flex justify-center flex-col items-center md:items-start">
-          <h2
-            style={{
-              WebkitTextFillColor: "transparent",
-            }}
-            className="text-[72px] md:text-[56px] md:leading-[56px] font-bold font-poppins w-fit mx-auto text-transparent 
-                  text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                  to-[rgba(0,0,0,0.55)] dark:from-[rgba(255,255,255,0.95)]
-                   dark:to-[rgba(255,255,255,0.55)] dark:text-transparent bg-clip-text md:text-start md:w-fit md:mr-0 md:ml-2.5"
-          >
-            Try it out!
-          </h2>
+          <Title title="Try it out!" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-2 text-xl md:text-base text-center md:text-start md:ml-2.5">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>
@@ -114,7 +105,6 @@ export const TryItOut = () => {
               }}
             /> */}
         </div>
-
         <div className="flex items-center justify-between md:flex-col max-w-[95%] md:max-w-full md:mt-6">
           <TryItOutBox ref={firstBoxRef} idx={0} />
           <TryItOutBox ref={secondBoxRef} idx={1} />

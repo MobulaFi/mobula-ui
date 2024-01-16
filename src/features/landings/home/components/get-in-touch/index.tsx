@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { triggerAlert } from "../../../../../lib/toastify";
 import { containerStyle } from "../../style";
+import { Title } from "../ui/title";
 
 export const GetInTouch = () => {
   const [userQuery, setUserQuery] = useState({
@@ -38,18 +39,7 @@ export const GetInTouch = () => {
             <img src="/landing/map.png" alt="world map" className="w-full" />
           </div>
           <div className="w-[45%] pl-5 md:pl-0 md:w-full">
-            <h2
-              id="text"
-              style={{
-                WebkitTextFillColor: "transparent",
-              }}
-              className="text-[72px] font-bold md:text-[56px] md:leading-[50px] font-poppins w-fit text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text mb-2.5 md:mb-[30px] text-start"
-            >
-              Get in touch
-            </h2>
+            <Title title="Get in touch" />
             <div
               className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
             border-light-border-primary dark:border-dark-border-primary flex items-center

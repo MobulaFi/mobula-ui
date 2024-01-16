@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { getTokenPercentage } from "../../../../../utils/formaters";
 import { legacyStacks } from "../../constant";
 import { containerStyle } from "../../style";
 import { blurEffectAnimation } from "../../utils";
+import { Title } from "../ui/title";
 
 export const LegacyStack = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,20 +31,7 @@ export const LegacyStack = () => {
     >
       <div className={containerStyle}>
         <div>
-          <div className="h-fit w-fit overflow-hidden mx-auto">
-            <h2
-              id="text"
-              style={{
-                WebkitTextFillColor: "transparent",
-              }}
-              className="text-[72px] md:text-[56px] md:leading-[56px] font-bold font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text"
-            >
-              Migrate your legacy stacks
-            </h2>
-          </div>
+          <Title title="Migrate your legacy stacks" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl md:text-base text-center md:text-start">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>

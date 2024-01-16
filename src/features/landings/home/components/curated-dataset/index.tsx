@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { curatedDatasets } from "../../constant";
 import { useHomeLanding } from "../../context-manager";
 import { containerStyle } from "../../style";
 import { blurEffectAnimation } from "../../utils";
 import { CuratedBox } from "../curated-box";
+import { Title } from "../ui/title";
 
 export const CuratedDataset = () => {
   const { activeDataset, setActiveDataset } = useHomeLanding();
@@ -23,20 +24,7 @@ export const CuratedDataset = () => {
     >
       <div className={containerStyle}>
         <div>
-          <div className="h-fit w-fit overflow-hidden mx-auto">
-            <h2
-              id="text"
-              style={{
-                WebkitTextFillColor: "transparent",
-              }}
-              className="text-[72px] font-bold leading-[75px] md:text-[56px] md:leading-[56px] font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text md:text-center"
-            >
-              Curated datasets
-            </h2>
-          </div>
+          <Title title="Curated datasets" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl text-center md:text-center md:text-base md:max-w-[95%] md:mx-auto">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>
@@ -119,12 +107,12 @@ export const CuratedDataset = () => {
               >
                 <div className="flex items-center">
                   <div
-                    className="p-1 flex items-center justify-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md border
+                    className="p-1 flex items-center justify-center shadow-xl bg-hover backdrop-blur-md border
                    border-light-border-primary dark:border-dark-border-primary rounded-lg"
                   >
                     <img
                       className="w-[30px] h-[30px]"
-                      src="/landing/curated-datasets/octopus.svg"
+                      src="/landing/curated-datasets/chains.png"
                       alt="secure"
                     />
                   </div>

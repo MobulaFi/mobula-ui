@@ -1,3 +1,8 @@
+import React from "react";
+import { BsCpuFill } from "react-icons/bs";
+import { CgDatabase } from "react-icons/cg";
+import { IoMdWifi } from "react-icons/io";
+
 export const gridBoxContent = [
   {
     title: "99% Coverage",
@@ -67,20 +72,26 @@ export const curatedDatasets = [
     image: "/landing/curated-datasets/walletdata.svg",
     contents: [
       {
-        title: "+150 Blockchains",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "Livestreamed",
+        icon: (
+          <CgDatabase className="text-2xl dark:text-dark-font-100  text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
       {
-        title: "+2,3M Assets",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "WSS Feed Friendly",
+        icon: (
+          <IoMdWifi className="text-2xl dark:text-dark-font-100  text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
       {
-        title: "99% Coverage",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "Ultra-low latency",
+        icon: (
+          <BsCpuFill className="text-2xl dark:text-dark-font-100 text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
@@ -93,20 +104,26 @@ export const curatedDatasets = [
     image: "/landing/curated-datasets/octopus.svg",
     contents: [
       {
-        title: "99% Coverage",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "Livestreamed",
+        icon: (
+          <CgDatabase className="text-2xl dark:text-dark-font-100  text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
       {
-        title: "+2,3M Assets",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "WSS Feed Friendly",
+        icon: (
+          <IoMdWifi className="text-2xl dark:text-dark-font-100  text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
       {
-        title: "+150 Blockchains",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "Ultra-low latency",
+        icon: (
+          <BsCpuFill className="text-2xl dark:text-dark-font-100 text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
@@ -119,20 +136,26 @@ export const curatedDatasets = [
     image: "/landing/curated-datasets/metacore.svg",
     contents: [
       {
-        title: "99% Coverage",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "Livestreamed",
+        icon: (
+          <CgDatabase className="text-2xl dark:text-dark-font-100  text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
       {
-        title: "+150 Blockchains",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "WSS Feed Friendly",
+        icon: (
+          <IoMdWifi className="text-2xl dark:text-dark-font-100  text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
       {
-        title: "+2,3M Assets",
-        image: "/landing/curated-datasets/octopus.svg",
+        title: "Ultra-low latency",
+        icon: (
+          <BsCpuFill className="text-2xl dark:text-dark-font-100 text-dark-font-100" />
+        ),
         description:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic sed rerum dicta non voluptatum ipsa sequi,",
       },
@@ -145,12 +168,12 @@ export const legacyStacks = [
   {
     title: "Coingecko",
     description: "From",
-    image: "/landing/curated-datasets/walletdata.svg",
+    image: "/landing/legacy/cg.png",
     content: {
       description:
         "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
       title: "Coingecko",
-      image: "/landing/curated-datasets/walletdata.svg",
+      image: "/landing/legacy/cg.png",
       percentage: 83,
       values: [
         { name: "Average Spending Cut", value: 83 },
@@ -164,12 +187,12 @@ export const legacyStacks = [
   {
     title: "CoinMarketCap",
     description: "From",
-    image: "/landing/curated-datasets/walletdata.svg",
+    image: "/landing/legacy/cmc.png",
     content: {
       description:
         "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
       title: "Coingecko",
-      image: "/landing/curated-datasets/walletdata.svg",
+      image: "/landing/legacy/cmc.png",
       percentage: 83,
       values: [
         { name: "Average Spending Cut", value: 83 },
@@ -183,12 +206,12 @@ export const legacyStacks = [
   {
     title: "Covalent",
     description: "From",
-    image: "/landing/curated-datasets/walletdata.svg",
+    image: "/landing/legacy/covalent.png",
     content: {
       description:
         "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
       title: "Coingecko",
-      image: "/landing/curated-datasets/walletdata.svg",
+      image: "/landing/legacy/covalent.png",
       percentage: 83,
       values: [
         { name: "Average Spending Cut", value: 83 },
@@ -201,12 +224,12 @@ export const legacyStacks = [
   {
     title: "TheGraph",
     description: "From",
-    image: "/landing/curated-datasets/walletdata.svg",
+    image: "/landing/legacy/grt.png",
     content: {
       description:
         "Migrate from Covalent to Mobula API for a more cost-efficient, reliable & complete pricing solution",
       title: "Coingecko",
-      image: "/landing/curated-datasets/walletdata.svg",
+      image: "/landing/legacy/grt.png",
       percentage: 83,
       values: [
         { name: "Average Spending Cut", value: 83 },
@@ -219,10 +242,10 @@ export const legacyStacks = [
   {
     title: "BitQuery",
     description: "From",
-    image: "/landing/curated-datasets/walletdata.svg",
+    image: "/landing/legacy/bitquery.png",
     contents: {
       title: "Coingecko",
-      image: "/landing/curated-datasets/walletdata.svg",
+      image: "/landing/legacy/bitquery.png",
       percentage: 83,
       values: [
         { name: "Average Spending Cut", value: 83 },
@@ -236,19 +259,19 @@ export const legacyStacks = [
 
 export const tryItOutContent = [
   {
-    image: "/preview/apis.png",
+    image: "/landing/try-it-out/wallet-data.png",
     title: "Wallet Data",
     description:
       "A good design is not only aesthetically pleasing, but also functional. It should be able to",
   },
   {
-    image: "/preview/earn.png",
+    image: "/landing/try-it-out/octopus.png",
     title: "Octopus",
     description:
       "A good design is not only aesthetically pleasing, but also functional. It should be able to",
   },
   {
-    image: "/preview/new.png",
+    image: "/landing/try-it-out/meta-core.png",
     title: "Meta Core",
     description:
       "A good design is not only aesthetically pleasing, but also functional. It should be able to",

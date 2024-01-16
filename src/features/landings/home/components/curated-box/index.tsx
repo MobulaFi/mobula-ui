@@ -31,10 +31,10 @@ export const CuratedBox = ({ content }) => {
     >
       <div className="flex items-center">
         <div
-          className="p-1 flex items-center justify-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] backdrop-blur-md border
+          className="p-1 flex items-center justify-center shadow-xl bg-dark-bg-hover backdrop-blur-md border
          border-light-border-primary dark:border-dark-border-primary rounded-lg"
         >
-          <img className="w-[30px] h-[30px]" src={content.image} alt="secure" />
+          {content.icon}
         </div>
         <p className="text-light-font-100 dark:text-dark-font-100 font-poppins text-xl ml-2.5">
           {content.title}

@@ -10,18 +10,16 @@ export const blurEffectAnimation = (container) => {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // Calcul des décalages par rapport au centre de l'élément
       const dx = (x - rect.width / 2) / (rect.width / 2);
       const dy = (y - rect.height / 2) / (rect.height / 2);
 
-      // Rotation plus subtile
-      const tiltX = dy * 10; // Ajustez pour moins d'intensité
-      const tiltY = -dx * 10; // Ajustez pour moins d'intensité
+      // const tiltX = dy * 5;
+      // const tiltY = -dx * 5;
 
       container.style.setProperty("--x", x + "px");
       container.style.setProperty("--y", y + "px");
-      container.style.setProperty("--rotateX", tiltX + "deg");
-      container.style.setProperty("--rotateY", tiltY + "deg");
+      // container.style.setProperty("--rotateX", tiltX + "deg");
+      // container.style.setProperty("--rotateY", tiltY + "deg");
     });
   }
 };

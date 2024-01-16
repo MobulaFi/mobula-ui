@@ -2,7 +2,7 @@
 import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
 import { LegacyStack } from "./components/legacy-stack";
@@ -19,32 +19,32 @@ export const HomeLanding = () => {
   const [triggerAccordion, setTriggerAccordion] = useState<number>(0);
 
   // Gsap animation
-  useEffect(() => {
-    let tl = gsap.timeline({ defaults: { ease: "slowMo.easeOut" } });
-    tl.fromTo(
-      "#text",
-      {
-        y: "100%",
-        duration: 0.4,
-        stagger: 0.25,
-        opacity: 0,
-      },
-      {
-        y: "0%",
-        stagger: 0.25,
-        opacity: 1,
-      }
-    );
-    gsap.from("#planets", { x: "-50%", y: "-50%" });
-    gsap.to("#planets", {
-      x: "-50%",
-      y: "-50%",
-      rotate: 360,
-      duration: 25,
-      repeat: -1,
-      ease: "linear",
-    });
-  }, []);
+  // useEffect(() => {
+  //   let tl = gsap.timeline({ defaults: { ease: "slowMo.easeOut" } });
+  //   tl.fromTo(
+  //     "#text",
+  //     {
+  //       y: "100%",
+  //       duration: 0.4,
+  //       stagger: 0.25,
+  //       opacity: 0,
+  //     },
+  //     {
+  //       y: "0%",
+  //       stagger: 0.25,
+  //       opacity: 1,
+  //     }
+  //   );
+  //   gsap.from("#planets", { x: "-50%", y: "-50%" });
+  //   gsap.to("#planets", {
+  //     x: "-50%",
+  //     y: "-50%",
+  //     rotate: 360,
+  //     duration: 25,
+  //     repeat: -1,
+  //     ease: "linear",
+  //   });
+  // }, []);
 
   // Smooth scroll animation
   const lenis = new Lenis();
