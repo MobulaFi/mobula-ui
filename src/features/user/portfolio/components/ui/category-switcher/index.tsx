@@ -3,8 +3,7 @@ import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
 import { Button } from "../../../../../../components/button";
-import { MediumFont } from "../../../../../../components/fonts";
-import { NextChakraLink } from "../../../../../../components/link";
+import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { triggerAlert } from "../../../../../../lib/toastify";
 import { PortfolioV2Context } from "../../../context-manager";
@@ -17,12 +16,16 @@ export const CategorySwitcher = () => {
     setActiveCategory,
     setNftsDeleted,
     setNftToDelete,
+    nftsDeleted,
     nftToDelete,
     setShowDeleteSelector,
     showDeleteSelector,
     activeStep,
     setAsset,
     asset,
+    activePortfolio,
+    hiddenTokens,
+    setShowHiddenTokensPopup,
   } = useContext(PortfolioV2Context);
 
   const categories = [
@@ -45,6 +48,7 @@ export const CategorySwitcher = () => {
   ];
   useEffect(() => {
     setNftsDeleted(JSON.parse(localStorage.getItem("hiddenNft") as string));
+    setNftToDelete(JSON.parse(localStorage.getItem("hiddenNft") as string));
   }, []);
 
   const getNftHidden = () => {
@@ -59,6 +63,7 @@ export const CategorySwitcher = () => {
     setNftsDeleted(arrToDelete);
     setShowDeleteSelector(false);
   };
+
   return (
     <div
       className={`flex justify-between items-center h-[30px] mb-[15px] mt-5 overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
@@ -112,20 +117,17 @@ export const CategorySwitcher = () => {
           </div>
         ))}
       </div>
-      <div className="ml-auto flex text-sm lg:text-[13px] mr-2.5 ">
-        Need data?
-        <NextChakraLink
-          href="https://developer.mobula.fi/reference/wallet-explorer-api?utm_source=website&utm_medium=portfolio&utm_campaign=portfolio"
-          target="_blank"
-          rel="noreferrer"
-          extraCss="text-blue dark:text-blue ml-[5px] mb-[1px] font-medium"
-          onClick={() => {
-            pushData("API Clicked");
-          }}
-        >
-          Check our API
-        </NextChakraLink>
-      </div>
+      {activeCategory === "Cryptos" &&
+      activePortfolio?.removed_assets?.length > 0 ? (
+        <Button onClick={() => setShowHiddenTokensPopup(true)}>
+          <div className="flex items-center">
+            <SmallFont extraCss="mr-1.5">
+              Hidde assets ({Object.keys(hiddenTokens)?.length})
+            </SmallFont>
+            <AiOutlineSwap />
+          </div>
+        </Button>
+      ) : null}
       {activeCategory === "Activity" ? (
         <div className="w-fit flex">
           <Button
@@ -145,7 +147,7 @@ export const CategorySwitcher = () => {
       ) : null}
       {activeCategory === "NFTs" ? (
         <div className="flex w-fit">
-          {(nftToDelete.length > 0 && showDeleteSelector) ||
+          {((nftToDelete?.length as number) > 0 && showDeleteSelector) ||
           !showDeleteSelector ? (
             <Button
               extraCss={buttonDeleteNft}
@@ -155,8 +157,12 @@ export const CategorySwitcher = () => {
               }}
             >
               {nftToDelete?.length > 0
-                ? `Hide (${nftToDelete.length})`
-                : "Manage NFTs"}
+                ? `${
+                    nftToDelete?.length !== nftsDeleted?.length
+                      ? `Confirm`
+                      : `${nftToDelete.length} Hidden NFTs`
+                  }`
+                : "Manage"}
             </Button>
           ) : null}
 
@@ -165,7 +171,7 @@ export const CategorySwitcher = () => {
               extraCss={`${buttonDeleteNft} ml-2.5`}
               onClick={() => {
                 setShowDeleteSelector(false);
-                setNftToDelete([]);
+                setNftToDelete(nftsDeleted);
               }}
             >
               Cancel

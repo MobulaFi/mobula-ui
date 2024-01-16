@@ -150,7 +150,7 @@ export const Liquidity = ({ extraCss }: LiquidityProps) => {
       )}
     >
       <LargeFont>On-Chain liquidity repartition</LargeFont>
-      <div className="flex items-center mt-2.5 w-full h-fit bg-light-bg-terciary dark:bg-dark-bg-terciary rounded p-[1px] relative border border-light-border-primary dark:border-dark-border-primary">
+      <div className="flex items-center mt-2.5 w-full h-fit bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md p-[1px] relative border border-light-border-primary dark:border-dark-border-primary">
         <div
           className="flex absolute w-calc-half-2 h-[32px] lg:h-[30px] md:h-[28px] rounded
          bg-light-bg-hover dark:bg-dark-bg-hover border border-light-border-primary

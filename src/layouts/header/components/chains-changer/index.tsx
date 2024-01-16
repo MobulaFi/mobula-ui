@@ -8,6 +8,7 @@ import {
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
 import { Button } from "../../../../components/button";
+import { Popover } from "../../../../components/popover";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 
 interface ChainsChangerProps {
@@ -82,35 +83,11 @@ export const ChainsChanger = ({
   return (
     <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
       <div className="flex relative w-fit">
-        <Button
-          extraCss="mr-2.5"
-          onClick={() => {
-            if (!setShowChainPopover || !setShowInfoPopover) return;
-            setShowChainPopover((prev) => !prev);
-            if (showChainPopover) setShowXBlockchains([1, 7]);
-            if (showInfoPopover) {
-              setShowInfoPopover(false);
-            }
-          }}
-        >
-          <img
-            className="w-[19px] h-[19px] min-w-[19px] rounded-full"
-            src={blockchainsContent[chain?.name || "Ethereum"]?.logo}
-            alt={`${chain?.name} logo`}
-          />
-          <AiFillCaretDown
-            className={`text-light-font-100 dark:text-dark-font-100 ${
-              showChainPopover ? "rotate-180" : ""
-            } mt-[0.8px] ml-1.5 text-[11px]`}
-          />
-        </Button>
-        {showChainPopover ? (
-          <div
-            className={`w-[420px] lg:w-[340px] bg-light-bg-terciary dark:bg-dark-bg-terciary p-2.5 rounded-lg
-           border border-light-border-primary dark:border-dark-border-primary absolute z-20 ${
-             isMobileVersion ? "right-0" : "left-0"
-           } top-[45px] sm:top-[-270px]`}
-          >
+        <Popover
+          position={isMobileVersion ? "end" : "start"}
+          extraCss={`w-[420px] lg:w-[340px] p-2.5 rounded-lg z-[102]`}
+          isOpen={showChainPopover}
+          hiddenContent={
             <div className="flex flex-wrap">
               {reorderedBlockchainsContent.map((entry, i) => {
                 const isOdds = i % 2 === 0;
@@ -212,8 +189,35 @@ export const ChainsChanger = ({
                 </div>
               </button>
             </div>
-          </div>
-        ) : null}
+          }
+          visibleContent={
+            <Button
+              extraCss="mr-2.5"
+              onClick={() => {
+                if (!setShowChainPopover || !setShowInfoPopover) return;
+                setShowChainPopover((prev) => !prev);
+                if (showChainPopover) setShowXBlockchains([1, 7]);
+                if (showInfoPopover) {
+                  setShowInfoPopover(false);
+                }
+              }}
+            >
+              <img
+                className="w-[19px] h-[19px] min-w-[19px] rounded-full"
+                src={
+                  blockchainsContent[chain?.name || "Ethereum"]?.logo ||
+                  "/empty/unknown.png"
+                }
+                alt={`${chain?.name} logo`}
+              />
+              <AiFillCaretDown
+                className={`text-light-font-100 dark:text-dark-font-100 ${
+                  showChainPopover ? "rotate-180" : ""
+                } mt-[0.8px] ml-1.5 text-[11px]`}
+              />
+            </Button>
+          }
+        />
       </div>
     </div>
   );

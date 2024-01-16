@@ -26,7 +26,7 @@ export const InputLines = ({
         className={`${
           isMobile ? "mr-2.5" : "mr-0"
         } border border-light-border-primary flex items-center 
-           dark:border-dark-border-primary rounded h-[30px] md:h-[25px] min-w-[50px] bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+           dark:border-dark-border-primary rounded-md h-[30px] md:h-[25px] min-w-[50px] bg-light-bg-terciary dark:bg-dark-bg-terciary`}
       >
         <input
           className="text-light-font-80 dark:text-dark-font-80 text-sm text-normal border-none

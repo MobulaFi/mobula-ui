@@ -32,7 +32,7 @@ export const TagPercentage = ({
   return isLoading ? (
     <Skeleton
       extraCss={cn(
-        "h-[23px] lg:h-[21.5px] md:h-[20px] w-[60px] rounded-lg ml-2.5",
+        "h-[23px] lg:h-[21.5px] md:h-[20px] w-[60px] rounded-md ml-2.5",
         extraCss
       )}
     />
@@ -40,10 +40,12 @@ export const TagPercentage = ({
     <div
       className={cn(
         `flex items-center justify-center${
-          h || "h-[23px] lg:h-[21.5px] md:h-[20px]"
+          h || "h-[26px] lg:h-[21.5px]"
         } w-fit px-1.5 rounded ml-2.5 ${
           isUp ? "text-green bg-darkgreen" : "text-red bg-darkred"
-        } ${fs || "text-sm lg:text-[13px] md:text-xs"} font-medium text-center`,
+        } ${
+          fs || "text-sm lg:text-[13px] md:text-xs"
+        } font-medium text-center py-0.5`,
         extraCss
       )}
     >

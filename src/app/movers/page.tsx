@@ -3,6 +3,9 @@ import React from "react";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
 async function fetchMoversAssets() {
   const settings = {
     liquidity: 1000,
@@ -23,13 +26,8 @@ async function fetchMoversAssets() {
     )
     .gte("liquidity", settings.liquidity)
     .gte("volume", settings.volume)
-    .or(`market_score.eq.0,market_score.gte.${settings.marketScore}`)
-    .or(`trust_score.eq.0,trust_score.gte.${settings.trustScore}`)
-    .or(`utility_score.eq.0,utility_score.gte.${settings.utilityScore}`)
-    .or(`social_score.eq.0,social_score.gte.${settings.socialScore}`)
     .gte("price_change_24h", 0)
     .order("price_change_24h", { ascending: false })
-    .match({ tracked: true })
     .limit(100);
 
   const q2 = supabase
@@ -41,15 +39,23 @@ async function fetchMoversAssets() {
     .gte("volume", settings.volume)
     .lte("price_change_24h", 0)
     .order("price_change_24h", { ascending: true })
-    .match({ tracked: true })
     .limit(100);
 
-  const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
+  try {
+    const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
 
-  return {
-    gainers: gainers || [],
-    losers: losers || [],
-  };
+    return {
+      gainers: gainers || [],
+      losers: losers || [],
+      fallback: false,
+    };
+  } catch (e) {
+    return {
+      gainers: [],
+      losers: [],
+      fallback: true,
+    };
+  }
 }
 
 export const metadata: Metadata = {
@@ -61,26 +67,31 @@ export const metadata: Metadata = {
     "Mobula, Mobula crypto, Mobula Crypto Data Aggregator, crypto movers, crypto gainers, crypto losers",
 };
 
-export default async function MoversPage() {
+async function MoversPage() {
   const data = await fetchMoversAssets();
+
   return (
     <>
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta name="url" content="https://mobula.fi/movers" />
-      <meta name="author" content="Mobula" />
-      <meta name="copyright" content="Mobula" />
-      <Movers gainersBuffer={data.gainers} losersBuffer={data.losers} />
+      <head>
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta name="url" content="https://mobula.fi/movers" />
+        <meta name="author" content="Mobula" />
+        <meta name="copyright" content="Mobula" />
+      </head>
+      <Movers gainersBuffer={data?.gainers} losersBuffer={data?.losers} />
     </>
   );
 }
+
+export default MoversPage;

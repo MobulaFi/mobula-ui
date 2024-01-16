@@ -1,16 +1,16 @@
-import { Collapse } from "components/collapse";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
+import { BiChevronDown } from "react-icons/bi";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
-import { IoMdAddCircleOutline } from "react-icons/io";
 import { useAccount } from "wagmi";
+import { Collapse } from "../../../../../../components/collapse";
 import {
   LargeFont,
   MediumFont,
   SmallFont,
 } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
@@ -55,7 +55,7 @@ export const SelectorPortfolioPopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       isOpen={showPortfolioSelector}
       onClose={() => setShowPortfolioSelector(false)}
@@ -191,7 +191,7 @@ export const SelectorPortfolioPopup = () => {
                       >
                         <div
                           key={asset.asset_id}
-                          className={`${colors[i]} w-full rounded h-[10px] relative`}
+                          className={`${colors[i]} w-full rounded-md h-[10px] relative`}
                           onMouseOver={() =>
                             setShowPopover([i, otherPortfolio.id])
                           }
@@ -222,7 +222,7 @@ export const SelectorPortfolioPopup = () => {
                 ) : null}
               </div>
               <Collapse
-                startingHeight="0px"
+                startingHeight="max-h-[0px]"
                 isOpen={showEditName === otherPortfolio.id}
               >
                 <RenamePortfolio
@@ -234,25 +234,23 @@ export const SelectorPortfolioPopup = () => {
           );
         })}
       </div>
-      <div className="border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
-        <div className="flex flex-col w-full">
+      <div className="border-t border-light-border-primary dark:border-dark-border-primary">
+        <div className="flex flex-col w-full pt-2.5">
           {/* ADD A WALLET */}
-          <Collapse startingHeight="0px" isOpen={showCreatePortfolio}>
+          <div className="w-full flex">
+            <button
+              className="flex items-center text-base md:text-sm text-light-font-100 dark:text-dark-font-100 justify-between w-full"
+              onClick={() => setShowCreatePortfolio((prev) => !prev)}
+            >
+              Create a new portfolio
+              <BiChevronDown className="text-lg" />
+            </button>
+          </div>
+          <Collapse startingHeight="max-h-[0px]" isOpen={showCreatePortfolio}>
             <CreatePortfolio />
           </Collapse>
-          {showCreatePortfolio ? null : (
-            <div className="w-full flex">
-              <button
-                className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
-                onClick={() => setShowCreatePortfolio(true)}
-              >
-                <IoMdAddCircleOutline className="text-md mr-[7.5px]" />
-                Create a new portfolio
-              </button>
-            </div>
-          )}
         </div>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

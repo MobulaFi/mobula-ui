@@ -102,14 +102,20 @@ export const Portfolio = ({
               setIsLoading(false);
             } else {
               failed = false;
-              setWallet({
+              const filteredWallet = portfolio.portfolio.filter(
+                (entry) => entry.price !== 0 && entry.name !== "Mobula"
+              );
+              const filteredPortfolio = {
                 ...portfolio,
+                portfolio: filteredWallet,
+              };
+              setWallet({
+                ...filteredPortfolio,
                 id: id || activePortfolio?.id,
                 uniqueIdentifier: id || activePortfolio?.id,
               });
             }
           } else if (failed) setWallet(null);
-
           setIsLoading(false);
           // Basically, refreshing will keep the little weel spinning while starting to display first data.
           setIsRefreshing(true);
@@ -165,8 +171,15 @@ export const Portfolio = ({
               setIsLoading(false);
             } else {
               failed = false;
-              setWallet({
+              const filteredWallet = portfolio.portfolio.filter(
+                (entry) => entry.price !== 0 && entry.name !== "Mobula"
+              );
+              const filteredPortfolio = {
                 ...portfolio,
+                portfolio: filteredWallet,
+              };
+              setWallet({
+                ...filteredPortfolio,
                 uniqueIdentifier: address,
                 // id: id || activePortfolio?.id,
               });
@@ -243,8 +256,7 @@ export const Portfolio = ({
         ...rightAsset,
         uniqueIdentifier: assetName,
       });
-      setIsAssetPage(true);
-    } else if (isAssetPage) setIsAssetPage(false);
+    }
   }, [wallet, assetName]);
 
   const threadId = useRef(Math.round(100000000 * Math.random()));
@@ -340,7 +352,7 @@ export const Portfolio = ({
       interval = setInterval(() => {
         updateAll();
       }, 5000);
-      if (!isWalletExplorer) updateAll();
+      // if (!isWalletExplorer) updateAll();
     }
 
     return () => {
@@ -352,5 +364,5 @@ export const Portfolio = ({
 
   threadId.current = Math.round(100000000 * Math.random());
 
-  return <PortfolioMain />;
+  return <PortfolioMain isExplorer={isWalletExplorer} />;
 };

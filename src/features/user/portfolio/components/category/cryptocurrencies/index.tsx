@@ -3,12 +3,16 @@ import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { VscArrowSwap } from "react-icons/vsc";
 import { useAccount } from "wagmi";
-import { MediumFont, SmallFont } from "../../../../../../components/fonts";
-import { Menu } from "../../../../../../components/menu";
+import {
+  LargeFont,
+  MediumFont,
+  SmallFont,
+} from "../../../../../../components/fonts";
+import { Popover } from "../../../../../../components/popover";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
@@ -16,6 +20,7 @@ import { TableAsset } from "../../../../../../interfaces/assets";
 import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
 import EChart from "../../../../../../lib/echart/line";
 import { pushData } from "../../../../../../lib/mixpanel";
+import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET } from "../../../../../../utils/fetch";
 import {
   getFormattedAmount,
@@ -85,17 +90,29 @@ export const Cryptocurrencies = () => {
     }
   };
 
-  const hideAsset = () => {
+  const hideAsset = (newAsset) => {
+    if (!newAsset) {
+      triggerAlert("Error", "An error occured");
+      return;
+    }
     pushData("Asset Removed");
+    console.log("[...activePortfolio.removed_assets, asset?.id]", newAsset);
     const newPortfolio = {
       ...activePortfolio,
-      removed_assets: [...activePortfolio.removed_assets, asset?.id],
+      removed_assets:
+        activePortfolio.removed_assets?.length > 0
+          ? [
+              ...activePortfolio.removed_assets?.filter((entry) => entry),
+              newAsset?.id,
+            ]
+          : [newAsset?.id],
     };
+
     setActivePortfolio(newPortfolio);
     refreshPortfolio(newPortfolio);
     GET("/portfolio/edit", {
       account: address as string,
-      removed_assets: [...activePortfolio.removed_assets, asset?.id].join(","),
+      removed_assets: [...newPortfolio.removed_assets].join(","),
       removed_transactions: activePortfolio.removed_transactions.join(","),
       wallets: activePortfolio.wallets.join(","),
       id: activePortfolio.id,
@@ -116,7 +133,10 @@ export const Cryptocurrencies = () => {
 
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
-    return wallet.portfolio as unknown as TableAsset;
+    if (showMore) return wallet.portfolio as unknown as TableAsset;
+    return wallet.portfolio.filter(
+      (entry) => entry.estimated_balance > 0.01 && entry.price
+    ) as unknown as TableAsset;
   };
 
   const filteredData = useMemo(
@@ -160,6 +180,10 @@ export const Cryptocurrencies = () => {
 
   const testStyle =
     "text-light-font-100 dark:text-dark-font-100 border-b border-light-border-primary dark:border-dark-border-primary font-normal text-[13px] md:text-xs py-2";
+
+  const availableSmallBalance = wallet?.portfolio?.filter(
+    (entry) => entry.estimated_balance <= 0.01 || !entry.price
+  );
 
   return (
     <>
@@ -268,54 +292,54 @@ export const Cryptocurrencies = () => {
                             <button onClick={() => setShowBuyDrawer(token)}>
                               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
                             </button>
-                            <Menu
-                              titleCss="ml-2.5"
-                              title={
-                                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
+                            <Popover
+                              visibleContent={
+                                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 ml-2.5" />
                               }
-                              extraCss="top-[45%] -translate-y-1/2 right-[20px] p-1.5"
-                            >
-                              <div>
-                                <div
-                                  className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
-                                  onMouseEnter={() => setIsHover(0)}
-                                  onMouseLeave={() => setIsHover(null)}
-                                  onClick={hideAsset}
-                                >
+                              position="end"
+                              hiddenContent={
+                                <div className="cursor-pointer">
                                   <div
-                                    className={`${flexGreyBoxStyle} ${
-                                      isHover === 0
-                                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
-                                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
-                                    }`}
+                                    className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
+                                    onMouseEnter={() => setIsHover(0)}
+                                    onMouseLeave={() => setIsHover(null)}
+                                    onClick={() => hideAsset(token)}
                                   >
-                                    <BiHide />
+                                    <div
+                                      className={`${flexGreyBoxStyle} ${
+                                        isHover === 0
+                                          ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                                          : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                                      }`}
+                                    >
+                                      <BiHide />
+                                    </div>
+                                    Hide token
                                   </div>
-                                  Hide token
-                                </div>
-                                <div
-                                  onMouseEnter={() => setIsHover(2)}
-                                  onMouseLeave={() => setIsHover(null)}
-                                  className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap"
-                                  onClick={() => {
-                                    setTokenTsx(token);
-                                    setShowAddTransaction(true);
-                                    pushData("Add Asset Button Clicked");
-                                  }}
-                                >
                                   <div
-                                    className={`${flexGreyBoxStyle} ${
-                                      isHover === 2
-                                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
-                                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
-                                    }`}
+                                    onMouseEnter={() => setIsHover(2)}
+                                    onMouseLeave={() => setIsHover(null)}
+                                    className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap"
+                                    onClick={() => {
+                                      setTokenTsx(token);
+                                      setShowAddTransaction(true);
+                                      pushData("Add Asset Button Clicked");
+                                    }}
                                   >
-                                    <IoMdAddCircleOutline />
+                                    <div
+                                      className={`${flexGreyBoxStyle} ${
+                                        isHover === 2
+                                          ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                                          : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                                      }`}
+                                    >
+                                      <IoMdAddCircleOutline />
+                                    </div>
+                                    Add transactions
                                   </div>
-                                  Add transactions
                                 </div>
-                              </div>
-                            </Menu>
+                              }
+                            />
                           </div>
                         </div>
                       </div>
@@ -450,6 +474,39 @@ export const Cryptocurrencies = () => {
                   </div>
                 );
               })}
+            <div
+              className={`h-[50px] bg-light-bg-secondary dark:bg-dark-bg-secondary w-full transition-all duration-500 
+                  overflow-y-hidden rounded-2xl ease-in-out mt-2.5 cursor-pointer border 
+                  border-light-border-primary dark:border-dark-border-primary pt-0 justify-between flex items-center px-3
+                   text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover`}
+              onClick={() => setShowMore((prev) => !prev)}
+            >
+              <div className="flex items-center">
+                {showMore ? "Hide" : "Show"} {"<"}0.01$ balances
+                <BsChevronDown
+                  className={`ml-1 ${showMore ? "transform rotate-180" : ""}`}
+                />
+              </div>
+              {!showMore ? (
+                <div className="flex items-center">
+                  {availableSmallBalance
+                    ?.filter((_, i) => i < 6)
+                    .map((token) => (
+                      <img
+                        key={token?.name}
+                        className="w-[20px] rounded-full h-[20px] min-h-[20px] max-h-[20px] rounded-full -ml-1 border border-light-border-primary dark:border-dark-border-primary"
+                        src={token?.image || "/empty/unknown.png"}
+                        alt="logo"
+                      />
+                    ))}
+                  {(availableSmallBalance?.length || 0) >= 6 ? (
+                    <p className="ml-1 text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs">
+                      +{(availableSmallBalance?.length || 0) - 6}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
           </>
         ) : null}
         {isLoading ? (
@@ -470,7 +527,7 @@ export const Cryptocurrencies = () => {
 
                         <div className="flex items-center">
                           <Skeleton extraCss="lg:h-3 h-[13px] md:mb-[1px] w-[60px]" />
-                          <Skeleton extraCss="px-1 h-[18px] rounded max-h-[18px] max-w-[50px] w-[50px] ml-2" />
+                          <Skeleton extraCss="px-1 h-[18px] rounded-md max-h-[18px] max-w-[50px] w-[50px] ml-2" />
                         </div>
                       </div>
                     </div>
@@ -512,17 +569,10 @@ export const Cryptocurrencies = () => {
       </div>
       {filteredData?.sort((a, b) => b.estimated_balance - a.estimated_balance)
         .length > 0 || isLoading ? null : (
-        <div className="h-[300px] w-full rounded-r-lg flex items-center justify-center border border-light-border-primary dark:border-dark-border-primary flex-col">
-          <img
-            className="h-[160px] mb-[-50px] mt-[25px]"
-            src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}
-            alt="empty logo"
-          />
-          <div className="flex w-[80%] flex-col m-auto mt-[40px] items-center justify-center">
-            <MediumFont extraCss="mb-[5px] text-center text-light-font-40 dark:text-dark-font-40">
-              No tokens found{" "}
-            </MediumFont>
-          </div>
+        <div className="h-[300px] w-full flex items-center justify-center flex-col">
+          <LargeFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-2.5">
+            This wallet is empty.
+          </LargeFont>
         </div>
       )}
     </>

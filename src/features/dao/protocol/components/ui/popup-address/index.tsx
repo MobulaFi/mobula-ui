@@ -1,11 +1,11 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React from "react";
 import { SmallFont } from "../../../../../../components/fonts";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 
 export const PopupAddress = ({ isOpen, setIsOpen, distribution }) => {
   return (
-    <ModalContainer
+    <Modal
       title={distribution?.name || "Distribution"}
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
@@ -29,6 +29,6 @@ export const PopupAddress = ({ isOpen, setIsOpen, distribution }) => {
           </SmallFont>
         </div>
       ))}
-    </ModalContainer>
+    </Modal>
   );
 };

@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react";
-import { ModalContainer } from "../../../../../components/modal-container";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
+import { Modal } from "../../../../../components/modal-container";
 import { ShowReasonContext } from "../../context-manager/reason-vote";
 import { VoteContext } from "../../context-manager/vote";
 import { possibilities } from "./constant";
@@ -27,7 +27,7 @@ export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
   const color = getColor();
 
   return (
-    <ModalContainer
+    <Modal
       isOpen={!invisible}
       onClose={() => setShowType(false)}
       extraCss="max-w-[420px]"
@@ -51,7 +51,7 @@ export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
         />
       ))}
       <button
-        className="w-full py-2 rounded text-xs text-light-font-100 dark:text-dark-font-100 
+        className="w-full py-2 rounded-md text-xs text-light-font-100 dark:text-dark-font-100 
       border border-darkblue dark:border-darblue hover:border-blue hover:dark:border-blue 
       transition-all duration-200"
         onClick={() => {
@@ -60,6 +60,6 @@ export const ReasonVote = ({ type, setReason, reason }: ReasonVoteProps) => {
       >
         OK
       </button>
-    </ModalContainer>
+    </Modal>
   );
 };

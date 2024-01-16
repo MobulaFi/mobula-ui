@@ -76,7 +76,7 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
         <MediumFont extraCss="ml-2.5">Similarity check</MediumFont>
       </div>
       <div className="w-full mt-5 lg:mt-[15px] md:mt-2.5 overflow-x-scroll scroll">
-        <table>
+        <table className="w-full">
           <thead>
             <tr>
               <Ths extraCss={`${thStyles} min-w-[130px] text-start`}>Name</Ths>

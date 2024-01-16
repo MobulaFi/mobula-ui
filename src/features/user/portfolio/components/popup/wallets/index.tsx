@@ -1,16 +1,15 @@
 import { Button } from "components/button";
 import { Collapse } from "components/collapse";
 import { useContext, useState } from "react";
-import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
-import { BiCopy } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BiChevronDown, BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
-import { IoMdAddCircleOutline } from "react-icons/io";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../../components/avatar";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -91,7 +90,7 @@ export const WalletsPopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       isOpen={showWallet && activePortfolio?.id !== 0}
       onClose={() => setShowWallet(false)}
       extraCss="max-w-[400px]"
@@ -141,18 +140,23 @@ export const WalletsPopup = () => {
         <div className="flex mt-2.5 flex-col border-t border-light-border-primary dark:border-dark-border-primary pt-[15px]">
           <div className="flex flex-col w-full">
             {/* ADD A WALLET */}
-            <Collapse startingHeight="0px" isOpen={showAddWallet}>
-              <div className="flex items-center justify-between mb-2.5 w-full">
+            <div className="flex w-full justify-between items-center">
+              <button
+                className="text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center justify-between w-full"
+                onClick={() => setShowAddWallet((prev) => !prev)}
+              >
+                <SmallFont>Add a wallet</SmallFont>
+                <BiChevronDown className="ml-1.5 text-light-font-100 dark:text-dark-font-100 text-lg" />
+              </button>
+            </div>
+            <Collapse startingHeight="max-h-[0px]" isOpen={showAddWallet}>
+              <div className="flex items-center justify-between mb-2.5 w-full mt-2.5">
                 <div className="flex items-center">
                   <SmallFont>Wallet Address</SmallFont>
                 </div>
-                <AiOutlineClose
-                  className="cursor-pointer text-light-font-100 dark:text-dark-font-100 text-sm"
-                  onClick={() => setShowAddWallet(false)}
-                />
               </div>
               <Input
-                extraCss="mb-5 w-full"
+                extraCss="mb-2.5 w-full"
                 placeholder="0x"
                 value={newWalletAddress}
                 onChange={(e) => setNewWalletAddress(e.target.value)}
@@ -175,20 +179,9 @@ export const WalletsPopup = () => {
                 </Button>
               </div>
             </Collapse>
-            {showAddWallet ? null : (
-              <div className="flex w-full">
-                <button
-                  className="text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 flex items-center justify-center"
-                  onClick={() => setShowAddWallet(true)}
-                >
-                  <IoMdAddCircleOutline className="text-md mr-[7.5px] text-light-font-100 dark:text-dark-font-100" />
-                  Add another wallet
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
-    </ModalContainer>
+    </Modal>
   );
 };

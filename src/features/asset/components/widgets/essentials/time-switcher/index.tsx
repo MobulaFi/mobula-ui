@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { timestamps } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
 
@@ -24,11 +25,14 @@ export const TimeSwitcher = ({ extraCss }: TimeSwitcherProps) => {
 
   return (
     <div
-      className={`flex items-center justify-between mt-0 md:mt-2.5 mb-0 md:mb-[25px] ml-auto md:ml-0 w-fit md:w-full mx-0 md:mx-auto ${extraCss}`}
+      className={cn(
+        `flex items-center justify-between mt-0 md:mt-2.5 mb-0 md:mb-[25px] ml-auto md:ml-0 w-fit md:w-full mx-0 md:mx-auto`,
+        extraCss
+      )}
     >
-      <div className="h-[34px] w-[230px] md:w-full p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary relative border border-light-border-primary dark:border-dark-border-primary">
+      <div className="h-[34px] w-[230px] md:w-full p-0.5 rounded-md bg-light-bg-secondary dark:bg-dark-bg-secondary relative border border-light-border-primary dark:border-dark-border-primary">
         <div
-          className="h-[90%] top-[50%] -translate-y-[50%] w-[16.66%] transition-all duration-200 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0]"
+          className="h-[90%] top-[50%] -translate-y-[50%] w-[16.66%] transition-all duration-200 rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0]"
           style={{ left: buttonPosition }}
         />
         {timestamps.map((time) => (

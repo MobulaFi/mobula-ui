@@ -13,7 +13,7 @@ import { polygon } from "viem/chains";
 import { Collapse } from "../../../../../../../components/collapse";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../../components/link";
-import { ModalContainer } from "../../../../../../../components/modal-container";
+import { Modal } from "../../../../../../../components/modal-container";
 import { Popover } from "../../../../../../../components/popover";
 import { Skeleton } from "../../../../../../../components/skeleton";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
@@ -78,12 +78,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   });
 
   const buttonPopover =
-    "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
+    "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded-md font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
-    if (!displayedToken && !isFakeToken) return "60px";
-    if (isFakeToken) return "20px";
-    return "40px";
+    if (!displayedToken && !isFakeToken) return "max-h-[75px]";
+    if (isFakeToken) return "max-h-[20px]";
+    return "max-h-[40px]";
   };
   const descriptionHeight = calculateValue();
 
@@ -238,11 +238,11 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           sm:mt-2.5 text-light-font-100 dark:text-dark-font-100"
           >
             {getPricing(token?.coeff) < 30
-              ? `$${30 - getPricing(token?.coeff)} Left`
+              ? `${getPercentageFromCoeff(getPricing(token?.coeff))}%`
               : "Full"}
-            <div className="flex h-2 rounded bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
+            <div className="flex h-2 rounded-md bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
               <div
-                className="rounded h-full bg-blue dark:bg-blue"
+                className="rounded-md h-full bg-blue dark:bg-blue"
                 style={{
                   width: `${getPercentageFromCoeff(getPricing(token?.coeff))}%`,
                 }}
@@ -259,7 +259,6 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           token?.links?.telegram ||
           token?.links?.discord ? (
             <Popover
-              extraCss="top-[35px] left-0"
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -277,11 +276,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 }))
               }
               isOpen={showPopover.community}
+              position="start"
             />
           ) : null}
           {token?.contracts?.length > 0 ? (
             <Popover
-              extraCss="top-[35px] left-1/2 -translate-x-1/2"
+              position="center"
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -342,9 +342,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
             <BsCodeSlash className="text-[15px] mr-[5px]" />
             Raw Data
           </button>
-          <ModalContainer
+          <Modal
             title="Raw Data"
-            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit "
             isOpen={showRawData}
             onClose={() => setShowRawData(false)}
           >
@@ -373,8 +373,8 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 </pre>
               ) : null}
             </div>
-          </ModalContainer>
-          {token?.links?.audits.length > 0 ? (
+          </Modal>
+          {token?.links?.audits?.length > 0 ? (
             <Popover
               extraCss="top-[35px] right-0"
               visibleContent={
@@ -390,7 +390,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 .map((audit, index: number) => (
                   <div
                     className={`flex text-light-font-100 dark:text-dark-font-100 border border-light-border-primary 
-                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded px-2.5 
+                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md px-2.5 
                 hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-200 py-1 ${
                   index > 0 ? "mt-2.5" : ""
                 }`}
@@ -413,7 +413,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
               isOpen={showPopover.audit}
             />
           ) : null}
-          {token?.links?.kycs.length > 0 ? (
+          {token?.links?.kycs?.length > 0 ? (
             <Popover
               onToggle={() =>
                 setShowPopover((prev) => ({ ...prev, kyc: !prev.kyc }))
@@ -433,7 +433,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 .map((kyc, index: number) => (
                   <div
                     className={`flex text-light-font-100 dark:text-dark-font-100 border border-light-border-primary 
-                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded px-2.5 
+                dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md px-2.5 
                 hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover transition-all duration-200 py-1 ${
                   index > 0 ? "mt-2.5" : ""
                 }`}
@@ -456,12 +456,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       <p
         className={`text-sm text-light-font-60 dark:text-dark-font-60 pb-0 
-        md:pb-2.5 transition-all duration-200 max-w-[600px] ${
+        md:pb-2.5 transition-all duration-200 max-w-[90%] ${
           displayedToken ? "mt-[15px] max-h-auto" : "mt-2.5 max-h-[300px]"
         } text-start`}
       >
         <Collapse startingHeight={descriptionHeight} isOpen={show}>
-          {token?.description}
+          <p className="text-base md:text-sm">{token?.description} </p>
         </Collapse>
         <RenderContent token={token} handleToggle={handleToggle} show={show} />
       </p>
@@ -469,7 +469,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         <div className="flex w-full flex-wrap mt-5 sm:mt-2.5">
           {token?.categories?.map((entry) => (
             <div
-              className="flex h-6 px-2.5 mr-2.5 rounded items-center justify-center w-fit mb-2.5
+              className="flex h-6 px-2.5 mr-2.5 rounded-md items-center justify-center w-fit mb-2.5
              lg:mb-0 bg-light-bg-tags dark:bg-dark-bg-tags"
               key={entry}
             >
@@ -481,17 +481,21 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
         </div>
       ) : null}
       {isFakeToken && displayedToken !== token.name ? (
-        <p className="text-light-font-40 dark:text-dark-font-40 text-sm mr-[5px]">
+        <p className="text-light-font-60 dark:text-dark-font-60 text-base md:text-sm mr-[5px] mt-1">
           Earn up to 100 $MOBL for pushing token creator to list their asset on
-          Mobula! Learn more about it at{" "}
-          <NextChakraLink href="https://docs.mobula.fi">
+          Mobula! <br />
+          Learn more about it at{" "}
+          <NextChakraLink
+            href="https://docs.mobula.fi"
+            extraCss="text-base md:text-sm"
+          >
             docs.mobula.fi
           </NextChakraLink>
         </p>
       ) : null}
       {token?.alreadyVoted ? (
         <div
-          className="flex text-green dark:text-green mt-auto px-3 rounded w-fit bg-light-bg-terciary
+          className="flex text-green dark:text-green mt-auto px-3 rounded-md w-fit bg-light-bg-terciary
          dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary h-[28px] items-center"
         >
           <BsCheckLg />
@@ -511,7 +515,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       {!displayedToken ? (
         <div
-          className={`${getClassNameFromRatio()} w-full h-full sm:h-5 absolute rounded sm:rounded-0 z-[-1]`}
+          className={`${getClassNameFromRatio()} w-full h-full sm:h-5 absolute rounded-md sm:rounded-0 z-[-1]`}
         />
       ) : null}
     </BoxContainer>

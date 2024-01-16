@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react";
-import { MarketMetrics } from "../../../../../interfaces/trades";
+import { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
+import TradingViewChart from "../../../../../lib/trading-view";
 import { BaseAssetContext } from "../../../context-manager";
 import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
@@ -16,18 +16,10 @@ import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
-interface MarketMetricsProps {
-  marketMetrics: MarketMetrics;
-}
-
-export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
-  const {
-    historyData,
-    baseAsset,
-    activeChart,
-    setShowMobileMetric,
-    setActiveMetric,
-  } = useContext(BaseAssetContext);
+export const Essentials = () => {
+  const { baseAsset, setShowMobileMetric, activeChart, setActiveMetric } =
+    useContext(BaseAssetContext);
+  const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
   const hasBeenListed =
@@ -41,24 +33,35 @@ export const Essentials = ({ marketMetrics }: MarketMetricsProps) => {
     setActiveMetric("Metrics");
   }, []);
 
+  useEffect(() => {
+    const storedChartPreference = localStorage.getItem("chartPreference");
+    if (storedChartPreference) {
+      setChartPreference(storedChartPreference);
+    } else {
+      setChartPreference("Linear");
+      localStorage.setItem("chartPreference", "Linear");
+    }
+  }, []);
+
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
-        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0">
-          <ChartHeader />
-          <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
-          {/* {activeChart === "Trading view" && theme !== undefined ? (
-            <ChartBox
+        <div className="flex flex-col w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
+          <ChartHeader
+            setChartPreference={setChartPreference}
+            chartPreference={chartPreference}
+          />
+          {chartPreference !== "Trading view" ? (
+            <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
+          ) : null}
+          {chartPreference === "Trading view" ? (
+            <TradingViewChart
               baseAsset={baseAsset}
-              historyData={historyData}
-              marketMetrics={marketMetrics}
-              extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-[95%] mx-auto h-[520px] lg:h-[420px] md:h-[370px]"
-              background={"red"}
+              extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
-          ) : ( */}
-          <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
-          {/* )} */}
-
+          ) : (
+            <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
+          )}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isOffChain ? null : <TokenTrades />}
           <Description />

@@ -254,8 +254,8 @@ export const HoldingChart = ({ ...props }) => {
             <div className="w-full flex items-center mt-2.5 flex-wrap">
               {Array.from({ length: 5 }).map((_, i) => (
                 <>
-                  <Skeleton extraCss="h-[14px] w-[14px] rounded mt-2.5" />
-                  <Skeleton extraCss="h-[14px] w-[40px] rounded ml-2 mr-2.5 mt-2.5" />
+                  <Skeleton extraCss="h-[14px] w-[14px] rounded-md mt-2.5" />
+                  <Skeleton extraCss="h-[14px] w-[40px] rounded-md ml-2 mr-2.5 mt-2.5" />
                 </>
               ))}
             </div>

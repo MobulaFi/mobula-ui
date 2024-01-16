@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -8,7 +8,7 @@ import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
@@ -68,7 +68,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Edit Watchlist"
       isOpen={showEdit}
@@ -126,7 +126,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
           onClick={getWatchlistPublic}
         />
       </div>
-      <Collapse startingHeight="0px" isOpen={isPublic}>
+      <Collapse startingHeight="max-h-[0px]" isOpen={isPublic}>
         <div className="flex flex-col mt-[7.5px]">
           <div className="flex items-center">
             <IoShareSocialOutline className="mr-2.5 text-lg text-light-font-40 dark:text-dark-font-40" />
@@ -134,7 +134,7 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
           </div>
         </div>
         <div
-          className="h-[35px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 mt-2.5 border 
+          className="h-[35px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary px-2.5 mt-2.5 border 
           border-light-border-primary dark:border-dark-border-primary"
         >
           <input
@@ -173,6 +173,6 @@ export const EditPopup = ({ watchlist }: EditPopupProps) => {
       >
         Edit Watchlist
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

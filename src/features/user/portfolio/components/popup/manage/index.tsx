@@ -1,16 +1,14 @@
 import { Button } from "components/button";
-import { ModalContainer } from "components/modal-container";
 import { Spinner } from "components/spinner";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
+import { Modal } from "../../../../../../components/modal-container";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
-import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { manageOptions } from "../../../constants";
 import { PortfolioV2Context } from "../../../context-manager";
-import { PortfolioDeleteTokens } from "../../../models";
 
 export const ManagePopup = () => {
   const {
@@ -28,7 +26,6 @@ export const ManagePopup = () => {
     setShowHiddenTokensPopup,
     isLoading,
   } = useContext(PortfolioV2Context);
-  const supabase = createSupabaseDOClient();
 
   const handleSwitch = (name: string) => {
     pushData("Portfolio Settings Modified", {
@@ -38,37 +35,8 @@ export const ManagePopup = () => {
     setManager({ ...manager, [name]: !manager[name] });
   };
 
-  const getAssetDetails = async () => {
-    const { data, error } = await supabase
-      .from("assets")
-      .select("symbol, logo, id")
-      .in("id", activePortfolio.removed_assets);
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    const newHiddenTokensObj: Record<number, PortfolioDeleteTokens> = {};
-
-    data.forEach((asset) => {
-      newHiddenTokensObj[asset.id] = {
-        symbol: asset.symbol,
-        logo: asset.logo,
-      };
-    });
-
-    setHiddenTokens(newHiddenTokensObj);
-  };
-
-  useEffect(() => {
-    if (activePortfolio) {
-      getAssetDetails();
-    }
-  }, [activePortfolio.id]);
-
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Manage"
       isOpen={showManage}
@@ -101,7 +69,10 @@ export const ManagePopup = () => {
             : entry && !entry.type
         )
         .map((option) => (
-          <div className="flex items-center justify-between mt-2.5">
+          <div
+            key={option.title}
+            className="flex items-center justify-between mt-2.5"
+          >
             <SmallFont>{option.title}</SmallFont>
             {option.title === "Active Networks" ? (
               <Button
@@ -191,6 +162,6 @@ export const ManagePopup = () => {
             );
           return null;
         })}
-    </ModalContainer>
+    </Modal>
   );
 };

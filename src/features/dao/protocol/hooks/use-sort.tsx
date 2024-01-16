@@ -30,7 +30,8 @@ export interface IListingData {
 
 export const useSort = () => {
   const { address: account } = useAccount();
-  const { setTokenDivs, isFirstSort, isPendingPool } = useContext(SortContext);
+  const { setTokenDivs, isFirstSort, isPendingPool, setIsLoading } =
+    useContext(SortContext);
 
   function getSorts() {
     const client = createPublicClient({
@@ -52,82 +53,90 @@ export const useSort = () => {
 
     protocolContract.read
       .getTokenListings()
-      // .catch(() => [])
       .then(async (listings: IListingData[] | any) => {
         let fails = 0;
         listings.forEach(async (listing: IListingData, index) => {
-          if (listing.status !== getNumberFromSort()) return;
-          const [isAlreadyVoted, response, hashResult] =
-            await Promise.allSettled([
-              protocolContract.read[
-                isFirstSort ? "sortingVotesPhase" : "validationVotesPhase"
-              ]([index, account]),
-              fetch(getIPFSUrl(listing.token.ipfsHash)),
-              fetchOldData(BigInt(index)),
-            ]);
+          if (listing.status === getNumberFromSort()) {
+            const [isAlreadyVoted, response, hashResult] =
+              await Promise.allSettled([
+                protocolContract.read[
+                  isFirstSort ? "sortingVotesPhase" : "validationVotesPhase"
+                ]([index, account]),
+                fetch(getIPFSUrl(listing.token.ipfsHash)),
+                fetchOldData(BigInt(index)),
+              ]);
 
-          if (response.status !== "fulfilled") {
-            fails += 1;
-            return;
-          }
-
-          let oldResponse: Response | undefined;
-          if (hashResult.status === "fulfilled" && hashResult?.value?.[0]) {
-            try {
-              oldResponse = await fetch(getIPFSUrl(hashResult.value[0]));
-            } catch (e) {
-              console.error(e);
-            }
-          }
-
-          try {
-            const JSONrep: TokenDivs = await response.value.json();
-            const oldJSONrep: TokenDivs = oldResponse
-              ? await oldResponse.json()
-              : undefined;
-            const edits: string[] = [];
-
-            Object.keys(JSONrep).forEach((key) => {
-              // compare old and new JSON
-              if (
-                oldJSONrep &&
-                oldJSONrep[key] !== JSONrep[key] &&
-                (typeof oldJSONrep[key] !== typeof JSONrep[key] ||
-                  JSON.stringify(oldJSONrep[key]) !==
-                    JSON.stringify(JSONrep[key])) &&
-                key !== "activeCoinType" &&
-                key !== "own_blockchain"
-              ) {
-                edits.push(key);
-              }
-            });
-            JSONrep.id = Number(listing.token.id);
-            JSONrep.coeff = Number(listing.coeff);
-            // JSONrep.contractAddresses = listing.contractAddresses;
-            // JSONrep.excludedFromCirculation = listing.excludedFromCirculation;
-            // JSONrep.totalSupply = listing.token.totalSupply;
-            JSONrep.alreadyVoted =
-              isAlreadyVoted.status === "fulfilled"
-                ? isAlreadyVoted.value
-                : false;
-            JSONrep.isListing = oldResponse === undefined;
-            JSONrep.edits = edits;
-            JSONrep.oldToken = oldJSONrep;
-            JSONrep.voteId = index;
-            JSONrep.lastUpdate = Number(listing.token.lastUpdated);
-            if (JSONrep.contracts) {
-              setTokenDivs((tokenDivs) => [...tokenDivs, JSONrep]);
-            } else {
+            if (response.status !== "fulfilled") {
+              setIsLoading(false);
               fails += 1;
+              return;
             }
-          } catch (e) {
+
+            let oldResponse: Response | undefined;
+            if (hashResult.status === "fulfilled" && hashResult?.value?.[0]) {
+              try {
+                oldResponse = await fetch(getIPFSUrl(hashResult.value[0]));
+              } catch (e) {
+                console.error(e);
+              }
+            }
+
+            try {
+              const JSONrep: TokenDivs = await response.value.json();
+              const oldJSONrep: TokenDivs = oldResponse
+                ? await oldResponse.json()
+                : undefined;
+              const edits: string[] = [];
+
+              Object.keys(JSONrep).forEach((key) => {
+                // compare old and new JSON
+                if (
+                  oldJSONrep &&
+                  oldJSONrep[key] !== JSONrep[key] &&
+                  (typeof oldJSONrep[key] !== typeof JSONrep[key] ||
+                    JSON.stringify(oldJSONrep[key]) !==
+                      JSON.stringify(JSONrep[key])) &&
+                  key !== "activeCoinType" &&
+                  key !== "own_blockchain"
+                ) {
+                  edits.push(key);
+                }
+              });
+              JSONrep.id = Number(listing.token.id);
+              JSONrep.coeff = Number(listing.coeff);
+              // JSONrep.contractAddresses = listing.contractAddresses;
+              // JSONrep.excludedFromCirculation = listing.excludedFromCirculation;
+              // JSONrep.totalSupply = listing.token.totalSupply;
+              JSONrep.alreadyVoted =
+                isAlreadyVoted.status === "fulfilled"
+                  ? isAlreadyVoted.value
+                  : false;
+              JSONrep.isListing = oldResponse === undefined;
+              JSONrep.edits = edits;
+              JSONrep.oldToken = oldJSONrep;
+              JSONrep.voteId = index;
+              JSONrep.lastUpdate = Number(listing.token.lastUpdated);
+              if (JSONrep.contracts) {
+                setTokenDivs((tokenDivs) => [...tokenDivs, JSONrep]);
+                setIsLoading(false);
+              } else {
+                fails += 1;
+                setIsLoading(false);
+              }
+            } catch (e) {
+              fails += 1;
+              setIsLoading(false);
+            }
+          } else {
             fails += 1;
+            setIsLoading(false);
           }
         });
       });
   }
 
   useEffect(() => {
+    setIsLoading(true);
     getSorts();
   }, [isFirstSort, isPendingPool]);
 };

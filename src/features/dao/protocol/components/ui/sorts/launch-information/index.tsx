@@ -33,7 +33,7 @@ export const LaunchInformation = ({ token }: LaunchInformationProps) => {
   });
 
   const timeBoxStyle =
-    "mr-2.5 h-[40px] md:h-[35px] min-w-[55px] md:min-w-[45px] sm:min-w-[40px] px-3 sm:px-2 w-fit bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded flex items-center justify-center";
+    "mr-2.5 h-[40px] md:h-[35px] min-w-[55px] md:min-w-[45px] sm:min-w-[40px] px-3 sm:px-2 w-fit bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary rounded-md flex items-center justify-center";
 
   const getDisplay = () => {
     if (token?.tokenomics.launch?.vsToken || token?.tokenomics.launch?.exchange)

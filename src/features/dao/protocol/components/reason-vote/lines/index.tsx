@@ -25,7 +25,7 @@ export const Lines = ({ idx, setReason, texts, reason }: LinesProps) => {
       <button onClick={() => setReason(idx + 1)}>
         <div
           className={`flex bg-light-bg-hover dark:bg-dark-bg-hover justify-center items-center mt-0 w-4 h-4 
-          rounded border border-light-border-primary dark:border-dark-border-primary `}
+          rounded-md border border-light-border-primary dark:border-dark-border-primary `}
         >
           <BsCheckLg
             className={`${

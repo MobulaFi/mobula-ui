@@ -17,16 +17,22 @@ export const Accordion = ({
   const [showHiddenContent, setShowHiddenContent] = useState(false);
 
   return (
-    <div className={cn("flex flex-col w-full", extraCss)} {...props}>
+    <div
+      className={cn(
+        `flex flex-col w-full h-full  ${
+          showHiddenContent ? "max-h-[210px]" : "max-h-[45px]"
+        } overflow-hidden transition-all duration-200 ease-linear`,
+        extraCss
+      )}
+      {...props}
+    >
       <div
         className="flex justify-between items-center w-full py-2.5 cursor-pointer border-light-border-primary dark:border-dark-border-primary"
         onClick={() => setShowHiddenContent((prev) => !prev)}
       >
         {visibleContent}
       </div>
-      {showHiddenContent ? (
-        <div className="flex flex-col w-full">{children}</div>
-      ) : null}
+      <div className="flex flex-col w-full">{children}</div>
     </div>
   );
 };

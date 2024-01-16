@@ -28,12 +28,12 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
 
           <div className="flex flex-col">
             <Skeleton
-              extraCss={`h-[12px] mb-[5px] rounded ${
+              extraCss={`h-[12px] mb-[5px] rounded-md ${
                 isActivity ? "ml-2.5" : "ml-[7.5px]"
               } ${isActivity ? "w-[60px]" : "w-[100px]"}`}
             />
             <Skeleton
-              extraCss={`h-[15px] ml-[7.5px] mb-[5px] rounded ${
+              extraCss={`h-[15px] ml-[7.5px] mb-[5px] rounded-md ${
                 isActivity ? "w-[100px]" : "w-[60px]"
               }`}
             />
@@ -45,12 +45,12 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       >
         <div className="flex flex-col items-end w-full">
           <Skeleton
-            extraCss={`h-[12px] mb-[5px] rounded ml-[7.5px] ${
+            extraCss={`h-[12px] mb-[5px] rounded-md ml-[7.5px] ${
               isActivity ? "w-[100px]" : "w-[65px]"
             }`}
           />
           <Skeleton
-            extraCss={`h-[15px] mb-[5px] rounded ml-[7.5px] ${
+            extraCss={`h-[15px] mb-[5px] rounded-md ml-[7.5px] ${
               isActivity ? "w-[65px]" : "w-[100px]"
             }`}
           />
@@ -61,12 +61,12 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       >
         {isActivity ? (
           <div className="flex flex-col items-end w-full">
-            <Skeleton extraCss="h-[15px] mb-[5px] rounded ml-[7.5px] w-[60px]" />
+            <Skeleton extraCss="h-[15px] mb-[5px] rounded-md ml-[7.5px] w-[60px]" />
           </div>
         ) : (
           <div className="flex flex-col items-end w-full">
-            <Skeleton extraCss="h-[12px] mb-[5px] rounded ml-[7.5px] w-[65px]" />
-            <Skeleton extraCss="h-[15px] mb-[5px] rounded ml-[7.5px] w-[40px]" />
+            <Skeleton extraCss="h-[12px] mb-[5px] rounded-md ml-[7.5px] w-[65px]" />
+            <Skeleton extraCss="h-[15px] mb-[5px] rounded-md ml-[7.5px] w-[40px]" />
           </div>
         )}
       </td>
@@ -75,7 +75,7 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       >
         <div className="flex justify-end w-full">
           <Skeleton
-            extraCss={`h-[15px] mb-[5px] rounded ml-auto ${
+            extraCss={`h-[15px] mb-[5px] rounded-md ml-auto ${
               isActivity ? "w-[90px]" : "w-[30px]"
             }`}
           />
@@ -86,7 +86,7 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       >
         <div className="flex w-full justify-end">
           <Skeleton
-            extraCss={`h-[15px] mb-[5px] rounded ${
+            extraCss={`h-[15px] mb-[5px] rounded-md ${
               isActivity ? "w-[90px]" : "w-[50px]"
             }`}
           />
@@ -97,12 +97,12 @@ export const TbodySkeleton = ({ isActivity }: TbodySkeletonProps) => {
       >
         {isActivity ? (
           <div className="flex flex-col items-end">
-            <Skeleton extraCss="h-[12px] mb-[5px] rounded w-[70px]" />
-            <Skeleton extraCss="h-[15px] mb-[5px] rounded w-[50px]" />
+            <Skeleton extraCss="h-[12px] mb-[5px] rounded-md w-[70px]" />
+            <Skeleton extraCss="h-[15px] mb-[5px] rounded-md w-[50px]" />
           </div>
         ) : (
           <div className="flex items-end justify-end">
-            <Skeleton extraCss="h-[15px] mb-[5px] ml-auto rounded w-[50px]" />
+            <Skeleton extraCss="h-[15px] mb-[5px] ml-auto rounded-md w-[50px]" />
           </div>
         )}
       </td>

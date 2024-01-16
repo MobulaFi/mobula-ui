@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -20,7 +20,6 @@ export const CustomPopOver = ({
   icon,
   children,
   isMobile,
-  position,
   logo,
 }: CustomPopOverProps) => {
   const [showCustomPopover, setShowCustomPopover] = useState(false);
@@ -47,9 +46,9 @@ export const CustomPopOver = ({
       hiddenContent={
         <div className="pr-0 overflow-y-scroll scroll">{children}</div>
       }
+      position="center"
       isOpen={showCustomPopover}
       onToggle={() => setShowCustomPopover((prev) => !prev)}
-      extraCss={`top-[35px] ${position || ""}`}
     />
   );
 };

@@ -1,14 +1,15 @@
 import { Collapse } from "components/collapse";
 import { Switch } from "lib/shadcn/components/ui/switch";
-import { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { BiSolidWallet } from "react-icons/bi";
 import { BsDatabaseDown, BsTrash3 } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../../components/avatar";
 import { Button } from "../../../../../../components/button";
-import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
@@ -34,13 +35,14 @@ export const CreatePortfolio = () => {
     setPortfolioSettings,
   } = useContext(PortfolioV2Context);
   const { address } = useAccount();
+  const [userWallet, setUserWallet] = useState("");
 
   const createPortfolio = () => {
     // Sometimes, the user won't click on the button to add the last wallet
     // So we add it here
     let finalWallets = portfolioSettings.wallets;
-    if (inputRef?.current?.value !== "" && isAddress(inputRef?.current?.value))
-      finalWallets = [...finalWallets, inputRef?.current?.value]
+    if (userWallet !== "" && isAddress(userWallet))
+      finalWallets = [...finalWallets, userWallet]
         .map((e) => e.toLowerCase())
         .filter((value, index, self) => self.indexOf(value) === index);
 
@@ -70,7 +72,6 @@ export const CreatePortfolio = () => {
     })
       .then((resp) => resp.json())
       .then((resp) => {
-        triggerAlert("Error", "You must enter a quantity");
         if (resp.error) {
           triggerAlert(
             "Error",
@@ -96,7 +97,7 @@ export const CreatePortfolio = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex items-center justify-between mb-2.5 w-full">
+      <div className="flex items-center justify-between mb-2.5 w-full mt-2.5">
         <div className="flex items-center">
           <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
           <SmallFont>Portfolio name</SmallFont>
@@ -127,7 +128,7 @@ export const CreatePortfolio = () => {
       </div>
       <div className="flex items-center justify-between mb-2.5">
         <div className="flex items-center">
-          <BsDatabaseDown className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
+          <BiSolidWallet className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px]" />
           <SmallFont>Add wallet</SmallFont>
         </div>
       </div>
@@ -136,22 +137,29 @@ export const CreatePortfolio = () => {
           extraCss="w-full border border-light-border-primary dark:border-dark-border-primary"
           ref={inputRef}
           placeholder="0x"
+          onChange={(e) => {
+            setUserWallet(e.target.value);
+          }}
         />
         <Button
-          extraCss="ml-2.5"
+          extraCss="ml-2.5 h-[35px]"
           onClick={() => {
-            if (!isAddress(inputRef.current.value)) {
-              triggerAlert("Error", "Invalid address");
+            if (!isAddress(userWallet)) {
+              triggerAlert(
+                "Error",
+                "Mobula only support EVM addresses for now. Verify the address input"
+              );
               return;
             }
-            if (!portfolioSettings.wallets.includes(inputRef.current.value)) {
+            if (!portfolioSettings.wallets.includes(userWallet)) {
               setPortfolioSettings((prev) => ({
                 ...prev,
-                wallets: [...prev.wallets, inputRef.current.value],
+                wallets: [...prev.wallets, userWallet],
               }));
+            } else {
+              triggerAlert("Warning", "This wallet has already been added");
+              setUserWallet("");
             }
-            triggerAlert("Warning", "This wallet has already been added");
-            inputRef.current.value = "";
           }}
         >
           <IoMdAddCircleOutline className="text-light-font-100 dark:text-dark-font-100" />
@@ -159,13 +167,13 @@ export const CreatePortfolio = () => {
       </div>
       <Collapse
         isOpen={portfolioSettings.wallets.length > 0}
-        startingHeight={"0px"}
+        startingHeight={"max-h-[0px]"}
       >
-        <div className="flex flex-col mb-2.5">
+        <div className="flex flex-col mb-2.5 w-full ">
           {portfolioSettings.wallets?.map((entry, index) => (
             <div
               key={entry}
-              className="flex items-center justify-between mb-[5px]"
+              className="flex items-center justify-between mb-[5px] w-full"
             >
               <div
                 className={`flex items-center ml-0.5 ${
@@ -175,15 +183,15 @@ export const CreatePortfolio = () => {
                 }`}
               >
                 <AddressAvatar
-                  extraCss="w-[32px] h-[32px] min-w-[32px]"
+                  extraCss="w-[28px] h-[28px] min-w-[28px]"
                   address={entry}
                 />
                 <div className="flex flex-col ml-2.5">
-                  <MediumFont>{addressSlicer(entry)}</MediumFont>
+                  <SmallFont>{addressSlicer(entry)}</SmallFont>
                 </div>
               </div>
               <button
-                className="w-fit h-fit"
+                className="w-fit h-fit ml-auto"
                 onClick={() => {
                   setPortfolioSettings((prev) => ({
                     ...prev,
@@ -192,7 +200,7 @@ export const CreatePortfolio = () => {
                 }}
               >
                 <div
-                  className={`${flexGreyBoxStyle} bg-red dark:bg-red mr-[3px]`}
+                  className={`${flexGreyBoxStyle} bg-light-bg-hover dark:bg-dark-bg-hover mr-[3px]`}
                 >
                   <BsTrash3 className="text-light-font-100 dark:text-dark-font-100" />
                 </div>
@@ -201,15 +209,19 @@ export const CreatePortfolio = () => {
           ))}
         </div>
       </Collapse>
-      <div className="flex mt-[15px]">
+      <div className="flex">
         <Button
-          extraCss="w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+          extraCss="w-full border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue h-[35px]"
           onClick={() => {
             signerGuard(() => {
               if (portfolioSettings.name !== "") {
                 createPortfolio();
                 setShowCreatePortfolio(false);
-              }
+              } else
+                triggerAlert(
+                  "Warning",
+                  "You should add a name for your portfolio"
+                );
             });
           }}
         >

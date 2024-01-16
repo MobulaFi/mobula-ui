@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { BsChevronDown } from "react-icons/bs";
+import { BiChevronDown } from "react-icons/bi";
 import { SiConvertio } from "react-icons/si";
 import { erc20ABI, useAccount, useNetwork } from "wagmi";
 import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
 import { Button } from "../../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
-import { NextImageFallback } from "../../../../../../../components/image";
 import { Input } from "../../../../../../../components/input";
 import { Menu } from "../../../../../../../components/menu";
 import {
@@ -360,42 +359,37 @@ export const Contribute = ({ token }: ContributeProps) => {
           }}
         />
         <Menu
-          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded ml-2.5 transition-all duration-200
+          titleCss="border border-light-border-primary dark:border-dark-border-primary px-3 w-fit rounded-md ml-2.5 transition-all duration-200
           border border-light-border-primary dark:border-dark-border-primary hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
           bg-light-bg-terciary dark:bg-dark-bg-terciary"
           title={
             <div className="flex items-center">
-              <NextImageFallback
-                height={20}
-                width={20}
-                className="w-5 h-5 rounded-full mr-2.5"
-                src={tokenToBuyWith?.logo || "/icon/unknown.png"}
-                alt="token to buy logo"
-                fallbackSrc={""}
-              />
               {tokenToBuyWith?.symbol || "Select"}
-              <BsChevronDown />
+              <BiChevronDown className="ml-1.5 text-base" />
             </div>
           }
         >
-          {Object.keys(buyWith).map((key) => (
-            <div
-              key={key}
-              className="flex items-center w-full bg-light-bg-terciary dark:bg-dark-bg-terciary transition-all duration-200 text-light-font-100 dark:text-dark-font-100"
-              onClick={() => setTokenToBuyWith(buyWith[key])}
-            >
-              <img
-                className="w-5 h-5 rounded-full mr-2.5"
-                src={buyWith[key]?.logo || "/empty/unknown.png"}
-                alt={buyWith[key]?.symbol || "unknown"}
-              />
-              {buyWith[key].symbol}
-            </div>
-          ))}
+          {Object.keys(buyWith).map((key) => {
+            console.log("key", buyWith[key]);
+            return (
+              <div
+                key={key}
+                className="flex items-center w-full bg-light-bg-terciary dark:bg-dark-bg-terciary transition-all duration-200 text-light-font-100 dark:text-dark-font-100"
+                onClick={() => setTokenToBuyWith(buyWith[key])}
+              >
+                <img
+                  className="w-5 h-5 rounded-full mr-2.5"
+                  src={buyWith[key]?.logo || "/empty/unknown.png"}
+                  alt={buyWith[key]?.symbol || "unknown"}
+                />
+                {buyWith[key].symbol}
+              </div>
+            );
+          })}
         </Menu>
       </div>
       <Button
-        extraCss="mt-5 h-[40px] md:h-[35px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
+        extraCss="mt-5 h-[35px] md:h-[30px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue"
         onClick={() => {
           if (tokenToBuyWith.symbol === "USDC") {
             if (balance.usdc.approved < amount) approve("USDC");

@@ -37,7 +37,7 @@ export const ButtonBlockchain = ({
   return (
     <Button
       key={entry.title}
-      extraCss={`justify-center max-w-[155px] w-[13%] whitespace-nowrap rounded p-2.5 min-w-fit mx-[5px] ${
+      extraCss={`justify-center max-w-[155px] w-[13%] whitespace-nowrap rounded-md p-2.5 min-w-fit mx-[5px] ${
         isActive
           ? "text-light-font-100 dark:text-dark-font-100 border-blue dark:border-blue"
           : "text-light-font-40 dark:text-dark-font-40 border-0 bg-inherit dark:bg-inherit"

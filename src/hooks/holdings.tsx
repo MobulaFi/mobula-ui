@@ -6,6 +6,7 @@ import { TransactionReceipt } from "viem";
 //   blacklistedUri,
 // } from "../../Pages/User/Portfolio/components/category/nfts";
 // import { PortfolioV2Context } from "../../Pages/User/Portfolio/context-manager";
+import { useParams } from "next/navigation";
 import { getIPFSUrl } from "../constants";
 import { PortfolioV2Context } from "../features/user/portfolio/context-manager";
 import {
@@ -123,13 +124,17 @@ export const useNftHoldings = (address?: string) => {
 };
 
 export const useMultiWalletNftHoldings = (addresses?: string[]) => {
+  const params = useParams();
   const { nfts, setNfts, setIsNftLoading, nftsDeleted } =
     useContext(PortfolioV2Context);
-  //   useContext(PortfolioV2Context);
-
+  console.log("params?.address", params?.address, nfts?.[0]?.minter_address);
   useEffect(() => {
-    if ((addresses?.length > 0 && !nfts?.length) || nfts?.length === 0) {
-      const promises = addresses.map((address) =>
+    if (
+      (addresses?.length > 0 && !nfts?.length) ||
+      nfts?.[0]?.minter_address !== params?.address
+    ) {
+      console.log("params is fetching");
+      const promises = addresses?.map((address) =>
         GET(
           "/api/1/wallet/nfts",
           {
@@ -158,6 +163,7 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
             // !blacklistedNft[entry.token_address] &&
             // !blacklistedUri[entry.token_uri] &&
             // !blacklistedName[entry.name] &&
+            entry.token_id !== 0 &&
             !entry.name?.includes("$") &&
             !entry.name?.toLowerCase().includes("whitelist") &&
             !entry.name?.toLowerCase().includes("airdrop") &&
@@ -216,7 +222,7 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
         setIsNftLoading(false);
       });
     }
-  }, [addresses]);
+  }, [addresses, params?.address]);
 
   return nfts;
 };

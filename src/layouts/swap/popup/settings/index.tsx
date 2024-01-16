@@ -3,7 +3,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useFeeData, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
-import { ModalContainer } from "../../../../components/modal-container";
+import { Modal } from "../../../../components/modal-container";
 import { floors } from "../../constants";
 import { cleanNumber } from "../../utils";
 import { InputLines } from "./lines";
@@ -20,7 +20,7 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
     chainId: chainNeeded || chain?.id || 1,
   });
   return (
-    <ModalContainer
+    <Modal
       isOpen={visible}
       title="Settings"
       onClose={() => setVisible(false)}
@@ -47,7 +47,7 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
         >
           <div
             className="flex items-center justify-center p-[1px] bg-light-bg-terciary
-            dark:bg-dark-bg-terciary rounded w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
+            dark:bg-dark-bg-terciary rounded-md w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
           >
             <BsCheckLg
               className={`text-[11px] text-light-font-80 dark:text-dark-font-80 transition-all ${
@@ -103,7 +103,7 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
               <div className="flex items-center">
                 <div
                   className="flex items-center justify-center p-[1px] bg-light-bg-terciary mr-2 
-            dark:bg-dark-bg-terciary rounded w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
+            dark:bg-dark-bg-terciary rounded-md w-[15px] h-[15px] min-w-[15px] border border-light-border-primary dark:border-dark-border-primary"
                 >
                   <BsCheckLg
                     className={`text-[11px] text-light-font-80 dark:text-dark-font-80 transition-all ${
@@ -124,6 +124,6 @@ export const Settings = ({ setVisible, visible }: SettingsProps) => {
           </div>
         ))}
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

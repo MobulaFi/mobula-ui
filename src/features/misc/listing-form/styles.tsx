@@ -1,8 +1,8 @@
 export const inputStyle =
-  "h-[35px] bg-light-bg-terciary dark:bg-dark-bg-terciary rounded pl-2.5 text-light-font-100 dark:text-dark-font-100 font-medium";
+  "h-[35px] bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md pl-2.5 text-light-font-100 dark:text-dark-font-100 font-medium";
 
 export const addButtonStyle =
-  "flex items-center w-[120px] rounded h-[35px] mt-2.5 flex justify-center align-center text-light-font-80 dark:text-dark-font-80 text-sm md:text-xs md:h-[30px] hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover  lg:text-sm md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
+  "flex items-center w-[120px] rounded-md h-[35px] mt-2.5 flex justify-center align-center text-light-font-80 dark:text-dark-font-80 text-sm md:text-xs md:h-[30px] hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover  lg:text-sm md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary";
 
 export const buttonStyle = (
   bg: string,

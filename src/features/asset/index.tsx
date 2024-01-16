@@ -291,7 +291,7 @@ export const Assets = () => {
             </div>
           ) : null}
         </Container>
-        <Container extraCss="md:w-full mt-0">
+        <Container extraCss="md:w-full mt-0 max-w-[1500px]">
           {baseAsset?.name === "YEBAT" ? (
             <div
               className="flex bg-light-bg-terciary dark:bg-dark-bg-terciary rounded
@@ -318,7 +318,7 @@ export const Assets = () => {
             <TokenMainInfo />
             <TokenSocialsInfo />
           </div>
-          <div className="hidden md:flex mb-0 md:mb-2.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
+          <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
           <div
             className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
            md:py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary 
@@ -362,7 +362,7 @@ export const Assets = () => {
                 position: activeTab === "Essentials" ? "static" : "absolute",
               }}
             >
-              <Essentials marketMetrics={marketMetrics} />
+              <Essentials />
             </div>
           ) : null}
           {activeTab === "Market" ? (

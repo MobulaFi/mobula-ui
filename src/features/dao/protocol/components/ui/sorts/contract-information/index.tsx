@@ -24,7 +24,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
         <HiOutlineNewspaper className="text-light-font-100 dark:text-dark-font-100" />
         <MediumFont extraCss="ml-2.5">Contract & Information</MediumFont>
       </div>
-      {token?.excludedFromCirculationAddresses.filter((entry) => entry.address)
+      {token?.excludedFromCirculationAddresses?.filter((entry) => entry.address)
         .length > 0 ? (
         <div className="flex mt-[15px] flex-row md:flew-col">
           <div className="flex flex-col w-full">
@@ -35,7 +35,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
               {token?.excludedFromCirculationAddresses?.map(
                 ({ address, blockchain }, i: number) => (
                   <div
-                    className={`flex h-[35px] rounded items-center bg-light-bg-terciary dark:bg-dark-bg-terciary 
+                    className={`flex h-[35px] rounded-md items-center bg-light-bg-terciary dark:bg-dark-bg-terciary 
                   border border-light-border-primary dark:border-dark-border-primary mb-[7.5px] text-light-font-100 
                   dark:text-dark-font-100 w-calc-half-10 md:w-full px-[7.5px] ${
                     i % 2 !== 0
@@ -79,8 +79,9 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
       <SmallFont extraCss="mb-2.5 mt-[30px] lg:mt-5 md:mt-[15px] font-normal">
         Total supply details
       </SmallFont>
-      {token?.totalSupplyContracts[0]?.address ===
-      token?.contracts[0]?.address ? (
+      {token?.totalSupplyContracts?.length > 0 &&
+      token?.contracts?.length > 0 &&
+      token.totalSupplyContracts[0]?.address === token.contracts[0]?.address ? (
         <div className="flex items-center mb-2.5">
           <SmallFont>
             Total supply is the supply of the first contract

@@ -1,20 +1,20 @@
 :root:not(.theme-dark) {
-  --tv-color-platform-background: #252835;
-  --tv-color-pane-background: #171b2b;
-  --tv-color-pane-background-secondary: #161925;
-  --tv-color-toolbar-button-background-hover: #161925;
-  --tv-color-toolbar-button-background-secondary-hover: #161925;
-  --tv-color-toolbar-button-background-expanded: #161925;
+  --tv-color-platform-background: red;
+  --tv-color-pane-background: red;
+  --tv-color-pane-background-secondary: red;
+  --tv-color-toolbar-button-background-hover: red;
+  --tv-color-toolbar-button-background-secondary-hover: red;
+  --tv-color-toolbar-button-background-expanded: red;
   --tv-color-toolbar-button-text: rgb(246, 236, 255);
   --tv-color-toolbar-button-text-hover: rgb(74, 20, 140);
   --tv-color-toolbar-button-text-active: rgb(246, 236, 255);
   --tv-color-toolbar-button-text-active-hover: rgb(59, 40, 40);
   --tv-color-item-active-text: #0ccb81;
-  --tv-color-toolbar-toggle-button-background-active: #161925;
-  --tv-color-toolbar-toggle-button-background-active-hover: #252835;
+  --tv-color-toolbar-toggle-button-background-active: red;
+  --tv-color-toolbar-toggle-button-background-active-hover: red;
 }
 
 .theme-dark {
-  --tv-color-platform-background: #252835;
-  --tv-color-pane-background: ##141827;
+  --tv-color-platform-background: red;
+  --tv-color-pane-background: red;
 }

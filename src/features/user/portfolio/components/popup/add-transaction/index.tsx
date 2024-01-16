@@ -1,5 +1,4 @@
 import { Button } from "components/button";
-import { ModalContainer } from "components/modal-container";
 import { inputTimeStyle } from "features/user/portfolio/style";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -9,6 +8,7 @@ import { useAccount } from "wagmi";
 import { Collapse } from "../../../../../../components/collapse";
 import { LargeFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
+import { Modal } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -200,8 +200,8 @@ export const AddTransactionPopup = () => {
   }, [tokenTsx]);
 
   return (
-    <ModalContainer
-      extraCss="max-w-[380px]"
+    <Modal
+      extraCss="max-w-[405px]"
       isOpen={showAddTransaction}
       onClose={() => setShowAddTransaction(false)}
       title={
@@ -227,9 +227,9 @@ export const AddTransactionPopup = () => {
       <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5">
         Amount
       </p>
-      <div className="flex items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
+      <div className="flex items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary h-[35px] justify-between pr-0">
         <input
-          className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
+          className="bg-light-bg-terciary h-full dark:bg-dark-bg-terciary border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 min-w-[0px]"
           type="number"
           lang="en"
           placeholder="0.00"
@@ -276,8 +276,9 @@ export const AddTransactionPopup = () => {
             Transfer
           </p>
           <Select>
-            <SelectTrigger className="w-full border-0 border-inherit dark:border-inherit">
+            <SelectTrigger className="w-full  border border-light-border-primary dark:border-dark-border-primary h-[35px] text-light-font-100 dark:text-dark-font-100 ">
               <SelectValue
+                className="text-light-font-100 dark:text-dark-font-100 h-[35px]"
                 placeholder={
                   settings.transfer ? settings.transfer : "Select transfer type"
                 }
@@ -316,9 +317,9 @@ export const AddTransactionPopup = () => {
           <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
             Price
           </p>
-          <div className="flex items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-0">
+          <div className="flex items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px] justify-between pr-0  border border-light-border-primary dark:border-dark-border-primary">
             <input
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary"
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-full text-light-font-100 dark:text-dark-font-100 min-w-[0px]"
               type="number"
               lang="en"
               value={getFormattedAmount(settings.price) as string}
@@ -366,29 +367,29 @@ export const AddTransactionPopup = () => {
       <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
         Date & Time
       </p>
-      <div className="flex items-center">
+      <div className="flex items-center ">
         <Menu
           title={
             <div
-              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
-                 cursor-pointer max-w-full justify-between"
+              className="flex mr-2.5 relative items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
+                 cursor-pointer max-w-full justify-between border border-light-border-primary dark:border-dark-border-primary"
               onClick={() => setIsCalendarVisible(true)}
             >
               <input
-                className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+                className="cursor-pointer bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-full text-light-font-100 dark:text-dark-font-100 w-full max-w-full min-w-[0px]"
                 value={getDate(date?.getTime() as number)}
               />
-              <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
+              <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm mr-2.5" />
             </div>
           }
         >
           <Calendar
-            className="static p-0 border-0 shadow-none"
+            className="static p-0  border border-light-border-primary dark:border-dark-border-primary shadow-none"
             selectedDay={date}
             onSelect={setDate}
           />
         </Menu>
-        <div className="flex items-center w-fit bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px] justify-between pr-2.5">
+        <div className="flex items-center w-fit bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px] justify-between pr-2.5 border border-light-border-primary dark:border-dark-border-primary ml-2.5">
           <input
             placeholder="00"
             pattern="d*"
@@ -396,7 +397,7 @@ export const AddTransactionPopup = () => {
             type="text"
             min="0"
             max="23"
-            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary min-w-[0px]`}
             ref={hoursRef}
             onInput={(e) => {
               if (parseInt((e.target as HTMLInputElement).value, 10) > 23) {
@@ -408,7 +409,7 @@ export const AddTransactionPopup = () => {
             :
           </p>
           <input
-            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary`}
+            className={`${inputTimeStyle} bg-light-bg-terciary dark:bg-dark-bg-terciary min-w-[0px]`}
             placeholder="00"
             pattern="d*"
             maxLength={2}
@@ -432,11 +433,11 @@ export const AddTransactionPopup = () => {
             Total
           </p>
           <div
-            className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
-               cursor-pointer max-w-full justify-between"
+            className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
+               cursor-pointer max-w-full justify-between  border border-light-border-primary dark:border-dark-border-primary"
           >
             <input
-              className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
+              className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md text-light-font-100 dark:text-dark-font-100 h-full min-w-[0px]"
               value={(() => {
                 const timestamp =
                   (date?.getTime() as number) +
@@ -465,33 +466,35 @@ export const AddTransactionPopup = () => {
           </div>
         </>
       )}
-      <Collapse startingHeight={"0px"} isOpen={showNote}>
+      <Collapse startingHeight={"max-h-[0px]"} isOpen={showNote}>
         <div className="flex">
           <div className="flex flex-col w-[80%] mr-2.5">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mt-[15px] mb-2.5">
               Note
             </p>
-            <input
-              className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100"
-              placeholder="Type a note"
-              onChange={(e) => {
-                setSettings((prev) => ({
-                  ...prev,
-                  note: e.target.value,
-                }));
-              }}
-            />
+            <div className="h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded-md">
+              <input
+                className="bg-light-bg-terciary w-full dark:bg-dark-bg-terciary h-full rounded-md text-light-font-100 dark:text-dark-font-100 min-w-[0px]"
+                placeholder="Type a note"
+                onChange={(e) => {
+                  setSettings((prev) => ({
+                    ...prev,
+                    note: e.target.value,
+                  }));
+                }}
+              />
+            </div>
           </div>
-          <div className="flex flex-col w-[70px]">
+          <div className="flex flex-col">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mt-[15px] mb-2.5">
               Fee
             </p>
             <div
-              className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
-               cursor-pointer max-w-full justify-between"
+              className="flex relative items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
+               cursor-pointer max-w-full justify-between border border-light-border-primary dark:border-dark-border-primary"
             >
               <input
-                className="bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] rounded text-light-font-100 dark:text-dark-font-100 pr-[25px]"
+                className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md text-light-font-100 dark:text-dark-font-100 h-full max-w-[48px] w-full pr-0 min-w-[0px]"
                 placeholder="0.5"
                 type="number"
                 onChange={(e) => {
@@ -509,18 +512,21 @@ export const AddTransactionPopup = () => {
         </div>
       </Collapse>
       <div className="flex flex-col">
-        <Button extraCss="mt-5 w-full" onClick={() => setShowNote(!showNote)}>
+        <Button
+          extraCss="mt-5 w-full h-[40px] md:h-[35px]"
+          onClick={() => setShowNote(!showNote)}
+        >
           {showNote ? "Hide Fee and Note" : "Fee, Note"}
         </Button>
         <Button
           extraCss="border border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue
-             mt-2.5 w-full hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary"
+             mt-2.5 w-full hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary h-[40px] md:h-[35px]"
           onClick={() => submitTransaction()}
           isDisabled={!historicalData}
         >
           Add Transaction
         </Button>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

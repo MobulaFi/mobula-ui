@@ -65,7 +65,7 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
   return (
     <div
       className="flex items-center relative justify-between min-w-[260px] lg:min-w-[181px] md:min-w-[135px] 
-    rounded bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary 
+    rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary 
     w-full px-2.5 h-[32px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 overflow-visible"
     >
       <div className="flex items-center">

@@ -104,12 +104,12 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
               pushData("TRADE-INTERACT");
               pushData("TRADE-SWITCH-ARROW");
             }}
-            // isDisabled={
-            //   !!buttonLoading ||
-            //   isFeesLoading ||
-            //   !!tokenInBuffer ||
-            //   !!tokenOutBuffer
-            // }
+            disabled={
+              !!buttonLoading ||
+              isFeesLoading ||
+              !!tokenInBuffer ||
+              !!tokenOutBuffer
+            }
           >
             <div className="flex absolute h-2.5 w-2.5 right-[-5px] top-[11px] bg-light-bg-secondary dark:bg-dark-bg-secondary" />
             <div className="flex absolute h-2.5 w-2.5 left-[-5px] top-[11px] bg-light-bg-secondary dark:bg-dark-bg-secondary" />

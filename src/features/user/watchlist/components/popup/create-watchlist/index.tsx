@@ -8,7 +8,7 @@ import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { useSignerGuard } from "../../../../../../hooks/signer";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -92,9 +92,10 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title="Create Watchlist"
+      titleCss="mb-2.5"
       isOpen={showCreateWL}
       onClose={() => setShowCreateWL(false)}
     >
@@ -160,14 +161,14 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
           />
         </div>
       </div>
-      <Collapse startingHeight="0px" isOpen={isPublic}>
+      <Collapse startingHeight="max-h-[0px]" isOpen={isPublic}>
         <div className="flex flex-col mt-[7.5px] w-full">
           <div className="flex items-center w-full">
             <IoShareSocialOutline className="mr-2.5 text-lg text-light-font-40 dark:text-dark-font-40" />
             <SmallFont>Share to Community</SmallFont>
           </div>
           <div
-            className="h-[35px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary px-0 mt-2.5 border 
+            className="h-[35px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary px-0 mt-2.5 border 
           border-light-border-primary dark:border-dark-border-primary w-full"
           >
             <input
@@ -199,6 +200,6 @@ export const CreatePopup = ({ watchlist }: CreatePopupProps) => {
       >
         Create Watchlist
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

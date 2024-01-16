@@ -1,37 +1,23 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSearch, FiUpload } from "react-icons/fi";
-import { Button } from "../../../../../components/button";
 import {
   ExtraLargeFont,
   LargeFont,
   MediumFont,
 } from "../../../../../components/fonts";
 import { API_ENDPOINT } from "../../../../../constants";
-import { useIPFS } from "../../../../../hooks/ipfs";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { ACTIONS } from "../../reducer";
 import { inputStyle } from "../../styles";
 import { InputTemplate } from "../ui/inputs-template";
+import { MultiInputTemplate } from "../ui/multi-input-template";
 
 export const BasicInformation = ({ state, dispatch }) => {
   const isDescriptionError = state.description.length > 300;
-  const ipfs = useIPFS();
   const [categories, setCategories] = useState<any>([]);
-  const [isImageHover, setIsImageHover] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const assetTypes = [
-    {
-      value: "token",
-    },
-    {
-      value: "nft",
-    },
-    {
-      value: "coin",
-    },
-  ];
 
   const highlight = ["Meme", "Governance"];
   const isMobile =
@@ -70,15 +56,17 @@ export const BasicInformation = ({ state, dispatch }) => {
         const base64Data = String(reader.result);
         const assetName = state.name;
 
-        const apiURL = `${API_ENDPOINT}/asset/upload-logo?logoUrl=${encodeURIComponent(
-          base64Data
-        )}&name=${encodeURIComponent(assetName)}`;
+        const apiURL = `${API_ENDPOINT}/asset/upload-logo`;
 
         try {
-          const response = await axios.get(apiURL);
+          const response = await axios.post(apiURL, {
+            body: {
+              logoUrl: base64Data,
+              name: assetName,
+            },
+          });
 
           const logoUrl = response.data.logoUrl;
-       
 
           dispatch({
             type: ACTIONS.SET_LOGO,
@@ -116,18 +104,6 @@ export const BasicInformation = ({ state, dispatch }) => {
       <div className="flex items-center mb-1">
         <ExtraLargeFont>General Data</ExtraLargeFont>
       </div>
-      <MediumFont extraCss="mb-2.5">
-        Little video explaining how to fill this form.
-      </MediumFont>
-      <div className="relative">
-        <iframe
-          title="Listing Form Tutorial"
-          src="https://www.loom.com/embed/79f93cc3282248f3878aa187517d9446"
-          allowFullScreen
-          width={isMobile ? "300px" : "500px"}
-          height={isMobile ? "170px" : "281px"}
-        />
-      </div>
       <InputTemplate
         name="name"
         state={state}
@@ -146,41 +122,28 @@ export const BasicInformation = ({ state, dispatch }) => {
         extraCss="w-[150px]"
         action={ACTIONS.SET_INPUT}
       />{" "}
-      <div className="flex flex-col my-5">
-        <LargeFont extraCss="mb-2.5">What&apos;s your asset type?</LargeFont>
-        <div className="flex items-center flex-row sm:flex-col w-full">
-          {assetTypes.map((entry) => (
-            <Button
-              key={entry.value}
-              extraCss={`pl-2.5 w-[150px] sm:w-full mr-2.5 sm:mr-0 mb-0 sm:mb-[7.5px] pr-0 sm:pr-2.5 
-              ${
-                state.type === entry.value
-                  ? "border-blue dark:border-blue text-light-font-100 dark:text-dark-font-100"
-                  : "text-light-font-40 dark:text-dark-font-40"
-              }`}
-              onClick={() =>
-                dispatch({
-                  type: ACTIONS.SET_INPUT,
-                  payload: { name: "type", value: entry.value },
-                })
-              }
-            >
-              {entry.value.slice(0, 1).toUpperCase() + entry.value.slice(1)}
-            </Button>
-          ))}
-        </div>
-      </div>
-      <div className="flex flex-col mb-5">
+      <MultiInputTemplate
+        dispatch={dispatch}
+        state={state}
+        name="contracts"
+        title="Contracts"
+        placeholder="0x5FeF...7d5dd4"
+        hasLogo
+        template={{
+          address: "",
+          blockchain: "",
+          blockchain_id: 1,
+        }}
+      />
+      <div className="flex flex-col mb-5 mt-5">
         <LargeFont extraCss="mb-2.5">Upload a logo</LargeFont>
         <div
           className="flex w-[100px] h-[100px] rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
         relative border border-light-border-primary dark:border-dark-border-primary"
-          onMouseEnter={() => setIsImageHover(true)}
-          onMouseLeave={() => setIsImageHover(false)}
         >
           <div
             className={`flex w-full h-full ${
-              isImageHover ? "opacity-100" : "opacity-0"
+              state.image.logo ? "opacity-0" : "opacity-100"
             } 
           transition-all duration-200 rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
           items-center absolute justify-center cursor-pointer`}
@@ -198,7 +161,7 @@ export const BasicInformation = ({ state, dispatch }) => {
             ) : null}
             <FiUpload
               className={`text-light-font-100 dark:text-dark-font-100 ml-[-100px] text-[28px] ${
-                isImageHover ? "opacity-100" : "opacity-0"
+                state.image.logo ? "opacity-0" : "opacity-100"
               }`}
             />
           </div>
@@ -223,7 +186,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           >{`${state.description.length}/ 300`}</MediumFont>
         </div>
         <textarea
-          className={`h-[200px] w-[400px] md:w-full rounded text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary border ${
+          className={`h-[200px] w-[400px] md:w-full rounded-md text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary border ${
             isDescriptionError
               ? "hover:border-red hover:dark:border-red active:border-red active:dark:border-red focus:border-red focus:dark:border-red border-red dark:border-red"
               : "active:border-light-border-primary active:dark:border-dark-border-primary focus:border-light-border-primary focus:dark:border-dark-border-primary hover:border-light-border-primary hover:dark:border-dark-border-primary border-light-border-primary dark:border-dark-border-primary"
@@ -291,7 +254,7 @@ export const BasicInformation = ({ state, dispatch }) => {
                 <button
                   key={categorie}
                   className={`flex items-center justify-center bg-light-bg-tags dark:bg-dark-bg-tags px-[7.5px] h-[24px] mr-[5px] 
-                  mt-[5px] w-fit rounded text-sm lg:text-[13px] md:text-xs text-light-font-100
+                  mt-[5px] w-fit rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100
                    dark:text-dark-font-100 pt-0 md:pt0.5 ${
                      state.categories.includes(categorie)
                        ? "opacity-100"
@@ -320,7 +283,7 @@ export const BasicInformation = ({ state, dispatch }) => {
           {filteredCategorie.length > 10 ? (
             <button
               className={`bg-light-bg-tags dark:bg-dark-bg-tags px-[7.5px] h-[24px]  
-            mt-[5px] w-fit rounded text-sm lg:text-[13px] md:text-xs text-light-font-100
+            mt-[5px] w-fit rounded-md text-sm lg:text-[13px] md:text-xs text-light-font-100
              dark:text-dark-font-100 `}
               disabled
             >

@@ -1,14 +1,24 @@
 import Cookies from "js-cookie";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
 import { CompareButtons } from "../../../../../../features/user/portfolio/components/chart/compare-buttons";
 import { ComparePopover } from "../../../../../../features/user/portfolio/components/chart/compare-popover";
+import { pushData } from "../../../../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../../../../lib/supabase";
 import { BaseAssetContext } from "../../../../context-manager";
 import { TimeSwitcher } from "../time-switcher";
 
-export const ChartHeader = () => {
+interface ChartHeaderProps {
+  setChartPreference: React.Dispatch<React.SetStateAction<string>>;
+  chartPreference: string;
+}
+
+export const ChartHeader = ({
+  setChartPreference,
+  chartPreference,
+}: ChartHeaderProps) => {
   const {
     timeSelected,
     chartType,
@@ -45,50 +55,24 @@ export const ChartHeader = () => {
       Cookies.set("hideTx", JSON.stringify(hideTx));
     }
   }, [hideTx]);
-  // const fetchMarketHistory = () => {
-  //   console.log("clicked", unformattedHistoricalData?.market_cap);
-  //   console.log(
-  //     "fetchMarketHistory",
-  //     baseAsset.id,
-  //     unformattedHistoricalData,
-  //     historyData
-  //   );
-  //   supabase
-  //     .from("history")
-  //     .select("market_cap_history")
-  //     .match({ asset: baseAsset.id })
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setUnformattedHistoricalData({
-  //           ...unformattedHistoricalData,
-  //           market_cap: generateNewBuffer(
-  //             baseAsset?.market_cap_history?.market_cap || [],
-  //             res?.data?.[0]?.market_cap_history || []
-  //           ),
-  //         });
-  //       }
-  //       console.log(
-  //         "res?.data?.[0]?.market_cap_history",
-  //         res?.data?.[0]?.market_cap_history
-  //       );
-  //     });
-  // };
 
   return (
     <>
       <div
         className={`flex items-center justify-between ${
-          activeChart === "Trading view" ? "mb-2.5 md:mb-0" : "mb-0  md:mb-0"
+          chartPreference === "Trading view"
+            ? "mb-2.5 md:mb-0"
+            : "mb-0  md:mb-0"
         } w-full mx-auto mt-0  md:mt-[5px] z-[5]`}
       >
-        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll mb-2.5">
+        <div className="flex items-center justify-start sm:justify-between w-full overflow-x-scroll scroll">
           {/* <div
-            className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded p-0.5 bg-light-bg-secondary 
+            className="h-[30px] flex w-[190px] sm:w-[160px] min-w-[160px] rounded-md p-0.5 bg-light-bg-secondary 
           dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-border-primary 
           relative mr-[7.5px] "
           >
             <div
-              className="flex h-[90%] top-[50%] z-[0] -translate-y-[50%] w-[50%] transition-all duration-200 rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover"
+              className="flex h-[90%] top-[50%] z-[0] -translate-y-[50%] w-[50%] transition-all duration-200 rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover"
               style={{ left: buttonPosition }}
             />
             <button
@@ -121,18 +105,18 @@ export const ChartHeader = () => {
               {capitalizeFirstLetter("market cap")}
             </button>
           </div> */}
-          {/* <div
-            className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded bg-light-bg-secondary dark:bg-dark-bg-secondary
+          <div
+            className="flex h-[30px] w-[70px] min-w-[70px] p-0.5 rounded-md bg-light-bg-secondary dark:bg-dark-bg-secondary
            border border-light-border-primary dark:border-dark-border-primary relative"
           >
             <div
               className={`h-[90%] top-[50%] -translate-y-[50%] w-[50%] transition-all duration-200
-             rounded absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0] ${
-               activeChart !== "Trading view" ? "ml-0.5 mr-0" : ""
+             rounded-md absolute bg-light-bg-hover dark:bg-dark-bg-hover z-[0] ${
+               chartPreference !== "Trading view" ? "ml-0.5 mr-0" : ""
              }`}
               style={{
                 left:
-                  activeChart !== "Trading view"
+                  chartPreference !== "Trading view"
                     ? "calc(0% - 1px)"
                     : "calc(50% - 1px)",
               }}
@@ -140,7 +124,7 @@ export const ChartHeader = () => {
             <button
               className={`h-full w-[50%] relative flex justify-center items-center 
             ${
-              activeChart === "Linear"
+              chartPreference === "Linear"
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } 
@@ -149,7 +133,8 @@ export const ChartHeader = () => {
                 pushData("Chart Button", {
                   "Chart Type": "Linear",
                 });
-                setActiveChart("Linear");
+                setChartPreference("Linear");
+                localStorage.setItem("chartPreference", "Linear");
               }}
             >
               <MdShowChart className="text-xl" />
@@ -157,22 +142,21 @@ export const ChartHeader = () => {
             <button
               className={`h-full w-[50%] relative flex justify-center items-center 
               ${
-                activeChart === "Trading view"
+                chartPreference === "Trading view"
                   ? "text-light-font-100 dark:text-dark-font-100"
                   : "text-light-font-40 dark:text-dark-font-40"
-              } ${untracked.isUntracked ? "opacity-50 not-allowed" : ""} 
-              transition-all duration-200 z-[2]`}
-              disabled={untracked.isUntracked}
+              }  transition-all duration-200 z-[2]`}
               onClick={() => {
                 pushData("Chart Button", {
                   "Chart Type": "Trading view",
                 });
-                setActiveChart("Trading view");
+                setChartPreference("Trading view");
+                localStorage.setItem("chartPreference", "Trading view");
               }}
             >
               <MdCandlestickChart className="text-xl" />
             </button>
-          </div> */}
+          </div>
           {(transactions?.length as number) > 0 ? (
             <Button
               extraCss="flex items-center justify-center h-[30px] ml-2.5 px-2.5 "
@@ -197,15 +181,15 @@ export const ChartHeader = () => {
         <ComparePopover
           setComparedEntities={setComparedEntities}
           comparedEntities={comparedEntities}
-          extraCss="ml-2.5 mb-0 md:mb-2"
+          extraCss="ml-2.5 mb-0"
         />
-        {activeChart !== "Trading view" ? (
+        {chartPreference !== "Trading view" ? (
           <TimeSwitcher extraCss="flex md:hidden" />
         ) : null}
       </div>
-      {activeChart === "Trading view" ? null : (
+      {chartPreference === "Trading view" ? null : (
         <CompareButtons
-          buttonH="h-[30px] ml-0"
+          buttonH="h-[30px] ml-0 mt-2"
           comparedEntities={comparedEntities}
           setComparedEntities={setComparedEntities}
         />

@@ -61,14 +61,17 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
             }`}
             id="left"
           >
-            <MoversTable assets={isGainer ? gainersBuffer : losersBuffer} />
+            <MoversTable
+              assets={isGainer ? gainersBuffer : losersBuffer}
+              isGainer={isGainer}
+            />
           </div>
           <div
             className={`flex ml-3 lg:ml-0 w-2/4 lg:w-full ${
               !isGainer ? "" : "lg:hidden"
             }`}
           >
-            <MoversTable assets={losersBuffer} />
+            <MoversTable assets={losersBuffer} isGainer={false} />
           </div>
         </div>
       </Container>

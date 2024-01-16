@@ -21,6 +21,7 @@ import { useDefault } from "./useDefault";
 
 interface EChartProps {
   data: [number, number][];
+  isPercentage?: boolean;
   options?: echarts.EChartsCoreOption;
   width?: number | string;
   height?: number | string;
@@ -72,6 +73,7 @@ const EChart: React.FC<EChartProps> = ({
   transactions = null,
   extraData = null,
   isVesting = false,
+  isPercentage = false,
 }) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -91,6 +93,7 @@ const EChart: React.FC<EChartProps> = ({
     transactions,
     extraData,
     isVesting,
+    isPercentage,
   });
 
   const createInstance = useCallback(() => {

@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import { BsCheck } from "react-icons/bs";
+import React, { useContext, useEffect, useState } from "react";
+import { IoEyeOffOutline } from "react-icons/io5";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { HoldingNFT } from "../../../../../../interfaces/holdings";
@@ -16,8 +16,13 @@ export const NftPortfolioCard = ({
   nft,
   showDeleteSelector,
 }: NftPortfolioCardProps) => {
-  const { setNftToDelete, nftToDelete, isNftLoading } =
-    useContext(PortfolioV2Context);
+  const {
+    setNftToDelete,
+    nftToDelete,
+    setNftsDeleted,
+    nftsDeleted,
+    isNftLoading,
+  } = useContext(PortfolioV2Context);
   const [nftImage, setNftImage] = useState<string | undefined>(undefined);
   const [isHover, setIsHover] = useState<string>("");
   const { theme } = useTheme();
@@ -53,15 +58,34 @@ export const NftPortfolioCard = ({
   };
   const image = getNftImage();
 
+  const isNftToHide = nftToDelete?.includes(nft?.token_hash);
+  const isNftDeleted = nftsDeleted?.includes(nft.token_hash);
+
+  const handleHiddenNft = () => {
+    if (isNftDeleted) {
+      setNftsDeleted(
+        nftsDeleted.filter((nftHash) => nftHash !== nft.token_hash)
+      );
+      setNftToDelete(
+        nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
+      );
+    } else if (isNftToHide) {
+      setNftToDelete(
+        nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
+      );
+    } else {
+      setNftToDelete([...nftToDelete, nft.token_hash]);
+    }
+  };
+
   return (
     <div
-      className="flex flex-col m-[5px] rounded bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
-    min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px] sm:min-h-[160px] 
-    border border-light-border-primary dark:border-dark-border-primary md:w-calc-half-10 w-calc-1/3-10   "
+      className="flex flex-col rounded-xl bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
+    border border-light-border-primary dark:border-dark-border-primary w-[23.5%] m-[0.75%] lg:w-[31%] lg:m-[1%]"
       onMouseEnter={() => setIsHover(nft?.token_hash)}
       onMouseLeave={() => setIsHover("")}
     >
-      <div className="w-full h-auto mb-auto flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary">
+      <div className="w-full h-auto flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary">
         {isNftLoading && !nft?.image && !nftImage ? (
           <Skeleton extraCss="h-[210px] w-full rounded-t" />
         ) : (
@@ -81,7 +105,7 @@ export const NftPortfolioCard = ({
                   width={210}
                   height={210}
                   onLoad={() => setIsImageLoading(false)}
-                  className="rounde-t w-full p-0 h-auto max-h-[210px] bg-light-bg-hover dark:bg-dark-bg-hover"
+                  className="rounde-t w-full p-0 h-auto max-h-[210px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-t-xl"
                   onError={() => setImageState("error")}
                   loading="eager"
                   alt="nft image"
@@ -95,12 +119,14 @@ export const NftPortfolioCard = ({
         {isNftLoading ? (
           <Skeleton extraCss="h-[20px] w-[90px]" />
         ) : (
-          <SmallFont extraCss="whitespace-pre-wrap font-normal">
-            {nft.name} {showDeleteSelector}
-            <span className="ml-[5px] text-light-font-60 dark:text-dark-font-60">
+          <div className="flex flex-col">
+            <SmallFont extraCss="font-normal truncate">
+              {nft.name} {showDeleteSelector}
+            </SmallFont>
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
               {String(nft?.token_id).length < 10 ? `#${nft?.token_id}` : ""}
-            </span>
-          </SmallFont>
+            </SmallFont>
+          </div>
         )}
         {/* <TextExtraSmall color={text60}>Est. Value</TextExtraSmall>
           <Flex align="center">
@@ -111,29 +137,24 @@ export const NftPortfolioCard = ({
           </Flex> */}
       </div>
       <div
-        className={`flex absolute w-full h-full max-h-[250px] bg-light-bg-primary dark:bg-dark-bg-primary rounded
-       transition-all duration-200 min-w-[210px] md:min-w-[100px] sm:min-w-[160px] min-h-[210px] md:min-h-[100px]
-        sm:min-h-[160px] ${
-          showDeleteSelector || isHover ? "opacity-80" : "opacity-0"
-        } ${
+        className={`flex absolute w-full h-full bg-light-bg-primary dark:bg-dark-bg-primary rounded
+       transition-all duration-200 ${
+         showDeleteSelector || isHover ? "opacity-60" : "opacity-0"
+       } ${
           isHover && !showDeleteSelector ? "cursor-pointer" : "cursor-default"
         }`}
       />
       {showDeleteSelector ? (
         <button
-          className="flex items-center justify-center rounded w-[20px] h-[20px] min-w-[20px] left-[10px] 
-        top-[10px] absolute border border-darkblue dark:border-darkblue bg-light-bg-hover dark:bg-dark-bg-hover"
-          onClick={() => {
-            if (nftToDelete?.includes(nft?.token_hash))
-              setNftToDelete(
-                nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
-              );
-            else setNftToDelete([...nftToDelete, nft.token_hash]);
-          }}
+          className="h-full w-full flex items-center justify-center rounded-full border border-light-border-primary
+           dark:border-dark-border-primary z-[1] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
+          onClick={handleHiddenNft}
         >
-          {nftToDelete?.includes(nft?.token_hash) ? (
-            <BsCheck className="text-light-font-100 dark:text-dark-font-100 mt-0.5 text-lg" />
-          ) : null}
+          <IoEyeOffOutline
+            className={`text-light-font-100 dark:text-dark-font-100 transition-all duration-200 ease-in-out mt-0.5 text-4xl ${
+              isNftToHide || isHover ? "opacity-100" : "opacity-0"
+            }`}
+          />
         </button>
       ) : null}
       {isHover === nft?.token_hash && !showDeleteSelector ? (

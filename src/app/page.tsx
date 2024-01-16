@@ -1,4 +1,3 @@
-import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
@@ -6,11 +5,7 @@ import React from "react";
 import { Top100 } from "../features/data/top100";
 import { Top100Provider } from "../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../features/data/top100/utils";
-import {
-  INewsGeneral,
-  StaticHomeQueries,
-  View,
-} from "../interfaces/pages/top100";
+import { StaticHomeQueries, View } from "../interfaces/pages/top100";
 import { createSupabaseDOClient } from "../lib/supabase";
 
 export const dynamic = "force-static";
@@ -58,15 +53,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     return result;
   };
 
-  async function fetchNews(): Promise<PostgrestSingleResponse<INewsGeneral>> {
-    return supabase
-      .from("news")
-      .select("news, news_count, summary, created_at")
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
-  }
-
   const queries: StaticHomeQueries = [
     supabase
       .from("metrics")
@@ -80,7 +66,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
       .eq("name", "Ethereum")
       .single(),
     supabase.from("assets").select("name,price").eq("name", "Bitcoin").single(),
-    fetchNews(),
   ];
 
   const [
@@ -88,7 +73,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     { data, count },
     { data: ethPrice },
     { data: btcPrice },
-    { data: aiNews },
   ] = await Promise.all(queries);
 
   const props = {
@@ -98,7 +82,6 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
     ethPrice,
     btcPrice,
     actualView,
-    aiNews,
     filteredValues,
     actualPortfolio,
     page,
@@ -146,7 +129,6 @@ const HomePage = async ({ searchParams }) => {
         ethPrice={props.ethPrice}
         btcPrice={props.btcPrice}
         page={props.page}
-        aiNews={props.aiNews}
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >

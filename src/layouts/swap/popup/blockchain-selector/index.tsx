@@ -4,7 +4,7 @@ import React, { Key, useContext } from "react";
 import { useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { SmallFont } from "../../../../components/fonts";
-import { ModalContainer } from "../../../../components/modal-container";
+import { Modal, ModalTitle } from "../../../../components/modal-container";
 import { PopupUpdateContext } from "../../../../contexts/popup";
 
 interface BlockchainSelectorProps {
@@ -27,12 +27,12 @@ export const BlockchainSelector = ({
   if (isFrom) blockchains = tokenIn?.blockchains ?? [tokenIn?.blockchain];
 
   return (
-    <ModalContainer
-      title="Select a chain"
+    <Modal
       isOpen={showBlockchainSelector}
       onClose={() => setShowBlockchainSelector(false)}
       extraCss="max-w-[450px]"
     >
+      <ModalTitle extraCss="mb-2.5">Select a chain</ModalTitle>
       <div className="flex flex-wrap flex-col" {...props}>
         <div className="flex flex-wrap">
           {blockchains?.map((entry, i) => {
@@ -73,6 +73,6 @@ export const BlockchainSelector = ({
           })}
         </div>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

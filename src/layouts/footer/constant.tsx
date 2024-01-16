@@ -21,6 +21,7 @@ export const getPath = () => {
         { name: "Protocol DAO", url: "/dao/protocol/overview" },
         { name: "Contribute", url: "/contribute" },
         { name: "Support", url: "https://discord.gg/2a8hqNzkzN" },
+        { name: "Blog", url: "https://blog.mobula.io/" },
         { name: "Docs", url: "https://docs.mobula.fi/" },
         // { name: "Sitemap", url: "https://mobula.fi/sitemap" },
       ],
@@ -33,7 +34,7 @@ export const getPath = () => {
         { name: "Telegram", url: "https://t.me/MobulaFi" },
         { name: "Discord", url: "https://discord.gg/2a8hqNzkzN " },
         {
-          name: "Open-source codebase",
+          name: "Open-source",
           url: "https://github.com/MobulaFi/mobula-ui",
         },
         // { name: "Forum", url: "/forum" },

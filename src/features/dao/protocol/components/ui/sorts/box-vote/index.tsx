@@ -75,7 +75,7 @@ export const VoteBox = ({ typeVote, token }: VoteBoxProps) => {
               <MediumFont extraCss="w-[100px]">{entry.title}</MediumFont>
               <div className="flex w-full justify-between items-center relative pl-5">
                 <div
-                  className="flex absolute top-[3px] left-5 rounded h-[30px] text-light-font-100 
+                  className="flex absolute top-[3px] left-5 rounded-md h-[30px] text-light-font-100 
                 dark:text-dark-font-100 bg-light-bg-hover dark:bg-dark-bg-hover transition-all duration-200"
                   style={{
                     width: `${bar(score)}%`,

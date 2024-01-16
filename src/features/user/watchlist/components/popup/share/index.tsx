@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg, BsGlobe2 } from "react-icons/bs";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { ExtraSmallFont, SmallFont } from "../../../../../../components/fonts";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { UserContext } from "../../../../../../contexts/user";
 import { Switch } from "../../../../../../lib/shadcn/components/ui/switch";
 import { triggerAlert } from "../../../../../../lib/toastify";
@@ -58,10 +58,11 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
   };
 
   return (
-    <ModalContainer
-      extraCss="max-w-[300px]"
+    <Modal
+      extraCss="max-w-[350px]"
       isOpen={showShare}
       title="Share"
+      titleCss="mb-2.5"
       onClose={() => setShowShare(false)}
     >
       {isOwner ? (
@@ -88,7 +89,7 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
           <SmallFont>Share to Community</SmallFont>
         </div>
         <div
-          className="flex items-center justify-between h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded 
+          className="flex items-center justify-between h-[35px] border border-light-border-primary dark:border-dark-border-primary rounded-md 
         bg-light-bg-terciary dark:bg-dark-bg-terciary pr-2.5 mt-2.5"
         >
           <input
@@ -116,6 +117,6 @@ export const SharePopup = ({ watchlist }: SharePopupProps) => {
           </div>
         </div>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

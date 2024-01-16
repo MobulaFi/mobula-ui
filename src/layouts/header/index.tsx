@@ -105,7 +105,7 @@ export const Header = ({ addressCookie }) => {
         </div>
       </div>
       {showNotif ? <NotificationDrawer /> : null}
-      {showAddedToWatchlist && <WatchlistDrawer />}
+      {showAddedToWatchlist ? <WatchlistDrawer /> : null}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />
     </CommonPageProvider>
   );

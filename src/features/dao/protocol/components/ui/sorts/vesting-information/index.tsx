@@ -30,7 +30,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
   }
 
   const formatVesting = () => {
-    const vesting: [number, number][] = token?.tokenomics.vestingSchedule.map(
+    const vesting: [number, number][] = token?.tokenomics.vestingSchedule?.map(
       (v) => [v[0], v[1]]
     );
     return vesting;
@@ -38,7 +38,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
 
   const getDisplay = () => {
     const vesting = token?.tokenomics.vestingSchedule;
-    if (vesting.length > 0) return "flex";
+    if (vesting?.length > 0) return "flex";
     return "hidden";
   };
 
@@ -54,7 +54,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
         <MediumFont extraCss="ml-2.5"> Vesting Information</MediumFont>
       </div>
       <div className="w-full overflow-x-scroll scroll">
-        <table>
+        <table className="w-full">
           <thead>
             <tr>
               <Ths extraCss={thStyles}>Unlocked Amount</Ths>
@@ -87,7 +87,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
         </table>
       </div>
       <div className="flex w-full mt-5 relative">
-        {vestingFormatted.length >= 2 &&
+        {vestingFormatted?.length >= 2 &&
         vestingFormatted?.[1][0] &&
         vestingFormatted?.[1][1] ? (
           <>

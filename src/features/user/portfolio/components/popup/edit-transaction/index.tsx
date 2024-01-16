@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
 import { Menu } from "../../../../../../components/menu";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { Asset } from "../../../../../../interfaces/assets";
 import { HistoryData } from "../../../../../../interfaces/pages/asset";
 import { pushData } from "../../../../../../lib/mixpanel";
@@ -169,7 +169,7 @@ export const EditTransactionPopup = () => {
   }, [tokenTsx]);
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[380px]"
       isOpen={!!showEditTransaction}
       onClose={() => setShowEditTransaction(false)}
@@ -292,11 +292,11 @@ export const EditTransactionPopup = () => {
           <Menu
             title={
               <div
-                className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-[35px]
+                className="flex mr-2.5 relative  items-center w-full bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-[35px]
                  cursor-pointer max-w-full justify-between"
               >
                 <input
-                  className="w-full  cursor-pointer bg-light-bg-terciary rounded dark:bg-dark-bg-terciary h-full"
+                  className="w-full  cursor-pointer bg-light-bg-terciary rounded-md dark:bg-dark-bg-terciary h-full"
                   value={getDate(date.getTime())}
                 />
                 <BsCalendar3 className="text-light-font-100 dark:text-dark-font-100 text-sm" />
@@ -310,7 +310,7 @@ export const EditTransactionPopup = () => {
             />
           </Menu>
         </div>
-        <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded h-[35px] flex items-center w-fit pr-2.5">
+        <div className="bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md h-[35px] flex items-center w-fit pr-2.5">
           <input
             className={inputTimeStyle}
             ref={hoursRef}
@@ -358,7 +358,7 @@ export const EditTransactionPopup = () => {
           USD
         </div>
       </div>
-      <Collapse startingHeight={"0px"} isOpen={showNote}>
+      <Collapse startingHeight={"max-h-[0px]"} isOpen={showNote}>
         <div className="flex">
           <div className="flex flex-col w-[80%] mr-2.5">
             <p className="text-sm text-light-font-100 dark:text-dark-font-100 mb-2.5 mt-[15px]">
@@ -407,6 +407,6 @@ export const EditTransactionPopup = () => {
           Add Transaction
         </Button>
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

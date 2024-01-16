@@ -20,7 +20,7 @@ import { Accordion as AccordionCustom } from "../../../../../../components/accor
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Input } from "../../../../../../components/input";
-import { ModalContainer } from "../../../../../../components/modal-container";
+import { Modal } from "../../../../../../components/modal-container";
 import { Spinner } from "../../../../../../components/spinner";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserContext } from "../../../../../../contexts/user";
@@ -55,6 +55,7 @@ interface ViewPopupProps {
   setType: Dispatch<SetStateAction<string>>;
   activeDisplay: string;
   setActiveDisplay: Dispatch<SetStateAction<string>>;
+  isEdit: boolean;
 }
 
 export const ViewPopup = ({
@@ -64,6 +65,7 @@ export const ViewPopup = ({
   dispatch,
   activeDisplay,
   setActiveDisplay,
+  isEdit,
 }: ViewPopupProps) => {
   const [isStarHover, setIsStarHover] = useState(false);
   const { user, setUser } = useContext(UserContext);
@@ -92,14 +94,14 @@ export const ViewPopup = ({
   );
 
   useEffect(() => {
-    if (type === "edit" && (user?.views?.length || 0) > 0)
+    if (isEdit && (user?.views?.length || 0) > 0)
       dispatch({
         type: ACTIONS.SET_USER_VALUE,
         payload: { value: activeView },
       });
     if (
-      (type === "create" && (user?.views?.length || 0) > 0) ||
-      (type === "create" && activeView?.name === "All")
+      (!isEdit && (user?.views?.length || 0) > 0) ||
+      (!isEdit && activeView?.name === "All")
     )
       dispatch({
         type: ACTIONS.SET_USER_VALUE,
@@ -108,7 +110,7 @@ export const ViewPopup = ({
   }, [type]);
 
   const getTitleFromType = () => {
-    if (type === "create") return " filter & view";
+    if (!isEdit) return " filter & view";
     return activeView?.name;
   };
 
@@ -353,7 +355,7 @@ export const ViewPopup = ({
 
   const checkSameNameExist = () => {
     if (!user) return false;
-    if (user?.views?.length > 0 && type === "create") {
+    if (user?.views?.length > 0 && !isEdit) {
       const alreadyExist = user
         ? user.views.find((view) => view.name === state.name)
         : false;
@@ -365,7 +367,7 @@ export const ViewPopup = ({
 
       return alreadyExist;
     }
-    if (state.name !== "All" && activeView?.name === "All" && type === "edit") {
+    if (state.name !== "All" && activeView?.name === "All" && isEdit) {
       triggerAlert("Error", "Can't change the name of this view.");
       return true;
     }
@@ -411,7 +413,7 @@ export const ViewPopup = ({
 
   const createButtonHandler = () => {
     pushData("View popup", {
-      action: type === "create" ? "create" : "edit",
+      action: !isEdit ? "create" : "edit",
     });
     if (isConnected) {
       if (!checkSameNameExist()) {
@@ -429,9 +431,9 @@ export const ViewPopup = ({
             sameSite: "strict",
           });
           setType("");
-        } else if (activeView?.name !== "All" || type === "create") {
+        } else if (activeView?.name !== "All" || !isEdit) {
           setIsLoading(true);
-          if (type === "edit") editView();
+          if (isEdit) editView();
           else createView();
         }
       }
@@ -439,7 +441,7 @@ export const ViewPopup = ({
   };
 
   return (
-    <ModalContainer
+    <Modal
       title={
         type.slice(0, 1).toUpperCase() +
         type.slice(1) +
@@ -480,7 +482,7 @@ export const ViewPopup = ({
               />
             </div>
             {filteredCategories.length > 0 ? (
-              <div className="flex flex-wrap max-h-[480px] min-h-[165px] overflow-y-scroll">
+              <div className="flex flex-wrap max-h-[487px] min-h-[175px] overflow-y-scroll">
                 {filteredCategories.map((category) => (
                   <Button
                     extraCss={`rounded-2xl mb-[7.5px] h-[30px] mr-[7.5px] ${
@@ -507,7 +509,7 @@ export const ViewPopup = ({
             )}
             <div className="w-full flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary sticky pt-[15px] bottom-0 border-t border-light-border-primary dark:border-dark-border-primary">
               <Button
-                extraCss="w-1/2 mr-[5px]"
+                extraCss="w-1/2 mr-[5px] h-[40px] md:h-[35px]"
                 onClick={() => {
                   dispatch({
                     type: ACTIONS.REMOVE_ALL_CATEGORY,
@@ -517,7 +519,7 @@ export const ViewPopup = ({
                 Deselect All
               </Button>
               <Button
-                extraCss="w-1/2 ml-[5px]"
+                extraCss="w-1/2 ml-[5px] h-[40px] md:h-[35px]"
                 onClick={() => {
                   dispatch({ type: ACTIONS.RESET_CATEGORY });
                 }}
@@ -528,7 +530,7 @@ export const ViewPopup = ({
           </div>
         ) : (
           <>
-            {type === "edit" && activeView?.name === "All" ? null : (
+            {isEdit && activeView?.name === "All" ? null : (
               <>
                 <MediumFont className="font-bold">Name</MediumFont>
                 <div className="mt-2.5 flex">
@@ -544,9 +546,7 @@ export const ViewPopup = ({
                       maxLength={25}
                       // isDisabled={activeView?.name === "All" && type === "edit"}
                       onChange={(e) => handleBasicInputChange(e)}
-                      placeholder={
-                        type === "create" ? "View name" : activeView?.name
-                      }
+                      placeholder={!isEdit ? "View name" : activeView?.name}
                     />
                     <button
                       className="flex items-center pr-2.5 relative"
@@ -619,7 +619,7 @@ export const ViewPopup = ({
               <div
                 className={`absolute bg-light-bg-hover dark:bg-dark-bg-hover h-[35px] md:h-[30px] w-1/2 ${
                   showTuto ? "z-[3]" : "z-[auto]"
-                } rounded transition-all duration-200 `}
+                } rounded-md transition-all duration-200 `}
                 style={{
                   left:
                     activeDisplay === "display"
@@ -628,7 +628,7 @@ export const ViewPopup = ({
                 }}
               />
               <button
-                className={`w-1/2 font-medium ${
+                className={`w-1/2 ${
                   activeStep.nbr === 1 && showTuto ? "z-[4]" : "z-[1]"
                 } h-[35px] md:h-[30px] text-sm md:text-xs 
               ${
@@ -642,9 +642,9 @@ export const ViewPopup = ({
                 Display
               </button>
               <button
-                className={`w-1/2 font-medium ${
+                className={`w-1/2 ${
                   activeStep.nbr === 2 && showTuto ? "z-[4]" : "z-[1]"
-                } h-[35px] md:h-[30px] font-medium text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
+                } h-[35px] md:h-[30px] text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs ${
                   activeDisplay === "filters"
                     ? "text-light-font-100 dark:text-dark-font-100"
                     : "text-light-font-40 dark:text-dark-font-40"
@@ -755,7 +755,7 @@ export const ViewPopup = ({
                                   />
                                   <SmallFont>{chain}</SmallFont>
                                 </div>
-                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
+                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded-md border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
                                   {(state?.filters?.blockchains || []).some(
                                     (item) => item === chain
                                   ) ? (
@@ -907,14 +907,12 @@ export const ViewPopup = ({
                 {isViewsLoading ? (
                   <Spinner extraCss="w-[15px] h-[15px] mr-[7.5px]" />
                 ) : null}
-                {type === "create"
-                  ? `Create ${state.name}`
-                  : `Edit ${activeView?.name}`}
+                {!isEdit ? `Create ${state.name}` : `Edit ${activeView?.name}`}
               </Button>
             </div>
           </>
         )}
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };

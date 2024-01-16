@@ -4,7 +4,7 @@ import { useNetwork, useSwitchNetwork } from "wagmi";
 import { disconnect } from "wagmi/actions";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal } from "../../components/modal-container";
 import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
 import { useSafeSwitchNetwork } from "../../hooks/network";
 import { SwapContext } from "../../layouts/swap";
@@ -37,7 +37,7 @@ export const SwitchNetworkPopup = () => {
 
   return (
     <>
-      <ModalContainer
+      <Modal
         title="Need to Switch!"
         isOpen={!!showSwitchNetwork}
         onClose={() => setShowSwitchNetwork(false)}
@@ -79,7 +79,7 @@ export const SwitchNetworkPopup = () => {
           <Button
             className="text-light-font-100 dark:text-dark-font-100 text-center mt-2.5 
            text-sm md:text-xs w-full flex items-center justify-center bg-light-bg-terciary dark:bg-dark-bg-terciary
-            border border-light-border-primary dark:border-dark-border-primary rounded hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
+            border border-light-border-primary dark:border-dark-border-primary rounded-md hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
              transition-all duration-200 ease-in-out h-[35px] md:h-[30px]"
             onClick={() => {
               setShowSwitchNetwork(false);
@@ -89,7 +89,7 @@ export const SwitchNetworkPopup = () => {
             Disconnect
           </Button>
         </div>
-      </ModalContainer>
+      </Modal>
     </>
   );
 };

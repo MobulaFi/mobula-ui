@@ -1,9 +1,9 @@
 import { NextImageFallback } from "components/image";
-import { ModalContainer } from "components/modal-container";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";
+import { Modal } from "../../../../../../components/modal-container";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { PortfolioV2Context } from "../../../context-manager";
 
@@ -31,7 +31,7 @@ export const NetworkPopup = () => {
   };
 
   return (
-    <ModalContainer
+    <Modal
       title="Active Network"
       extraCss="max-w-[400px]"
       isOpen={showNetwork}
@@ -55,7 +55,7 @@ export const NetworkPopup = () => {
             <button
               className={`flex items-center justify-center w-[48%] ${
                 isOdds ? "mr-[5px]" : ""
-              } h-[58px] rounded px-[15px] mb-[5px] ${
+              } h-[58px] rounded-md px-[15px] mb-[5px] ${
                 isActiveNetwork
                   ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
                   : ""
@@ -103,6 +103,6 @@ export const NetworkPopup = () => {
           );
         })}
       </div>
-    </ModalContainer>
+    </Modal>
   );
 };
