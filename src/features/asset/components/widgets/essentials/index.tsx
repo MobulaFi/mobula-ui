@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view";
@@ -38,8 +38,8 @@ export const Essentials = () => {
     if (storedChartPreference) {
       setChartPreference(storedChartPreference);
     } else {
-      setChartPreference("Trading view");
-      localStorage.setItem("chartPreference", "Trading view");
+      setChartPreference("Linear");
+      localStorage.setItem("chartPreference", "Linear");
     }
   }, []);
 
