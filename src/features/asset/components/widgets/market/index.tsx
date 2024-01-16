@@ -12,7 +12,7 @@ export const Market = () => {
   const { baseAsset } = useContext(BaseAssetContext);
   return (
     <div className="flex mt-5 lg:mt-0 flex-row lg:flex-col-reverse">
-      <div className="flex flex-col max-w-[990px] w-full-345 lg:w-full mr-[25px] lg:mr-0">
+      <div className="flex flex-col w-full-345 lg:w-full mr-[25px] lg:mr-0">
         <TradingPairs />
         <TokenVersusMarket />
         <div className="w-full flex md:w-[95%] mx-auto flex-col mt-[50px] md:mt-[30px]">

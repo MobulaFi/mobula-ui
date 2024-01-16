@@ -291,7 +291,7 @@ export const Assets = () => {
             </div>
           ) : null}
         </Container>
-        <Container extraCss="md:w-full mt-0">
+        <Container extraCss="md:w-full mt-0 max-w-[1500px]">
           {baseAsset?.name === "YEBAT" ? (
             <div
               className="flex bg-light-bg-terciary dark:bg-dark-bg-terciary rounded

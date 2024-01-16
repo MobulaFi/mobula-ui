@@ -76,7 +76,7 @@ export const Vesting = () => {
 
   return (
     <div className="flex mt-5 lg:mt-0 mx-auto w-full md:w-[95%] flex-row lg:flex-col-reverse">
-      <div className="flex flex-col max-w-[990px] w-full mr-[25px] lg:mr-0">
+      <div className="flex flex-col w-full mr-[25px] lg:mr-0">
         <UnlockProgress />
         {baseAsset?.release_schedule?.length > 0 ? (
           <>
