@@ -46,7 +46,7 @@ export const Essentials = () => {
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
-        <div className="flex flex-col max-w-[990px] w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
+        <div className="flex flex-col w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
           <ChartHeader
             setChartPreference={setChartPreference}
             chartPreference={chartPreference}
