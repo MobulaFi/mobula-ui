@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
@@ -152,56 +152,55 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
               onMouseEnter={() => setIsHovering(key)}
               onMouseLeave={() => setIsHovering("")}
             >
-              {isHovering === key ? (
-                <div
-                  className="flex w-fit h-auto px-2.5 py-[7px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover 
-                max-w-[300px] absolute border border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2"
-                  style={{
-                    top: "calc(100% + 7.5px)",
-                    left: getPositionOfTooltip(i, true)?.left,
-                    right: getPositionOfTooltip(i, true)?.right,
-                  }}
-                >
-                  <div className="flex items-center mb-[5px]">
-                    <div
-                      className={`flex w-2.5 h-2.5 rounded-full mr-[5px] min-w-2.5 ${newColors[key]}`}
-                    />
-                    <SmallFont extraCss="whitespace-pre-wrap font-medium">
-                      {key}
-                    </SmallFont>
-                  </div>
-                  <div className="flex items-center justify-center w-full mr-[15px]">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
-                      % Unlocked:
-                    </SmallFont>
-                    <SmallFont extraCss="font-medium">
-                      {getTokenPercentage(
-                        getPercentage(value as number, total)
-                      )}
-                      %
-                    </SmallFont>
-                  </div>
-                  <div className="flex items-center mr-[15px] justify-between w-full">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
-                      Amount Unlocked:
-                    </SmallFont>
-                    <SmallFont extraCss="font-medium">
-                      {getFormattedAmount(value as number)}
-                    </SmallFont>
-                  </div>
-                  <div className="flex items-center mr-[15px] justify-between w-full">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
-                      Amount USD:
-                    </SmallFont>
-                    <SmallFont extraCss="font-medium">
-                      $
-                      {getFormattedAmount(
-                        Number(value) * (baseAsset?.price || 0)
-                      )}
-                    </SmallFont>
-                  </div>
+              <div
+                className={`flex w-fit h-auto px-2.5 py-[7px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover z-[20]
+                max-w-[300px] absolute border border-light-border-primary dark:border-dark-border-primary flex-col shadow-md ${
+                  isHovering === key
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95"
+                } transition-all duration-200 ease-in-out`}
+                style={{
+                  top: "calc(100% + 7.5px)",
+                  left: getPositionOfTooltip(i, true)?.left,
+                  right: getPositionOfTooltip(i, true)?.right,
+                }}
+              >
+                <div className="flex items-center mb-[5px]">
+                  <div
+                    className={`flex w-2.5 h-2.5 rounded-full mr-[5px] min-w-2.5 ${newColors[key]} `}
+                  />
+                  <SmallFont extraCss="whitespace-pre-wrap font-medium">
+                    {key}
+                  </SmallFont>
                 </div>
-              ) : null}
+                <div className="flex items-center justify-between w-full mr-[15px]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    % Unlocked:
+                  </SmallFont>
+                  <SmallFont extraCss="font-medium">
+                    {getTokenPercentage(getPercentage(value as number, total))}%
+                  </SmallFont>
+                </div>
+                <div className="flex items-center mr-[15px] justify-between w-full">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    Amount Unlocked:
+                  </SmallFont>
+                  <SmallFont extraCss="font-medium">
+                    {getFormattedAmount(value as number)}
+                  </SmallFont>
+                </div>
+                <div className="flex items-center mr-[15px] justify-between w-full">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    Amount USD:
+                  </SmallFont>
+                  <SmallFont extraCss="font-medium">
+                    $
+                    {getFormattedAmount(
+                      Number(value) * (baseAsset?.price || 0)
+                    )}
+                  </SmallFont>
+                </div>
+              </div>
             </div>
           ))}
           {getPercentage(totalUnlock, total) !== 100 ? (
@@ -221,62 +220,63 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
               i === Object.entries(distributionLocked).length - 1
                 ? "rounded-r"
                 : ""
-            } ${isHovering === key + value ? "opacity-100" : "opacity-30"}`}
+            } ${
+                isHovering === key + value ? "opacity-100" : "opacity-30"
+              } transition-all duration-200 ease-in-out`}
               key={key}
               onMouseEnter={() => setIsHovering(key + value)}
               onMouseLeave={() => setIsHovering("")}
               style={{ width: `${getPercentage(value as number, total)}%` }}
             >
-              {isHovering === key + value ? (
-                <div
-                  className="flex w-fit h-auto px-2.5 py-[7px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover absolute border 
-                border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2]"
-                  style={{
-                    top: "calc(100% + 7.5px)",
-                    left: getPositionOfTooltip(i, false)?.left,
-                    right: getPositionOfTooltip(i, false)?.right,
-                  }}
-                >
-                  <div className="flex items-center mb-[5px]">
-                    <div
-                      className={`flex w-2.5 h-2.5 rounded-full mr-[5px] ${newColors[key]}`}
-                    />
-                    <SmallFont extraCss="whitespace-nowrap font-medium">
-                      {key}
-                    </SmallFont>
-                  </div>
-                  <div className="flex items-center justify-between w-full mr-[15px]">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
-                      % Locked:
-                    </SmallFont>
-                    <SmallFont extraCss="font-medium">
-                      {getTokenPercentage(
-                        getPercentage(value as number, total)
-                      )}
-                      %
-                    </SmallFont>
-                  </div>
-                  <div className="flex items-center justify-between w-full mr-[15px]">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
-                      Amount Locked:
-                    </SmallFont>
-                    <SmallFont extraCss="font-medium">
-                      {getFormattedAmount(value as number)}
-                    </SmallFont>
-                  </div>
-                  <div className="flex items-center justify-between w-full mr-[15px]">
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
-                      Amount USD:
-                    </SmallFont>
-                    <SmallFont extraCss="font-medium">
-                      $
-                      {getFormattedAmount(
-                        Number(value) * (baseAsset?.price || 0)
-                      )}
-                    </SmallFont>
-                  </div>
+              <div
+                className={`flex w-fit h-auto px-2.5 py-[7px] rounded-md bg-light-bg-hover dark:bg-dark-bg-hover absolute border 
+                border-light-border-primary dark:border-dark-border-primary flex-col shadow-md z-[2] ${
+                  isHovering === key + value
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-95"
+                } transition-all duration-200 ease-in-out`}
+                style={{
+                  top: "calc(100% + 7.5px)",
+                  left: getPositionOfTooltip(i, false)?.left,
+                  right: getPositionOfTooltip(i, false)?.right,
+                }}
+              >
+                <div className="flex items-center mb-[5px]">
+                  <div
+                    className={`flex w-2.5 h-2.5 rounded-full mr-[5px] ${newColors[key]}`}
+                  />
+                  <SmallFont extraCss="whitespace-nowrap font-medium">
+                    {key}
+                  </SmallFont>
                 </div>
-              ) : null}
+                <div className="flex items-center justify-between w-full mr-[15px]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    % Locked:
+                  </SmallFont>
+                  <SmallFont extraCss="font-medium">
+                    {getTokenPercentage(getPercentage(value as number, total))}%
+                  </SmallFont>
+                </div>
+                <div className="flex items-center justify-between w-full mr-[15px]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    Amount Locked:
+                  </SmallFont>
+                  <SmallFont extraCss="font-medium">
+                    {getFormattedAmount(value as number)}
+                  </SmallFont>
+                </div>
+                <div className="flex items-center justify-between w-full mr-[15px]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 whitespace-nowrap">
+                    Amount USD:
+                  </SmallFont>
+                  <SmallFont extraCss="font-medium">
+                    $
+                    {getFormattedAmount(
+                      Number(value) * (baseAsset?.price || 0)
+                    )}
+                  </SmallFont>
+                </div>
+              </div>
             </div>
           ))}
         </div>

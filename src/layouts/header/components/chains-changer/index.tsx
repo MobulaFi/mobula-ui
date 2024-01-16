@@ -85,7 +85,7 @@ export const ChainsChanger = ({
       <div className="flex relative w-fit">
         <Popover
           position={isMobileVersion ? "end" : "start"}
-          extraCss={`w-[420px] lg:w-[340px] p-2.5 rounded-lg`}
+          extraCss={`w-[420px] lg:w-[340px] p-2.5 rounded-lg z-[102]`}
           isOpen={showChainPopover}
           hiddenContent={
             <div className="flex flex-wrap">

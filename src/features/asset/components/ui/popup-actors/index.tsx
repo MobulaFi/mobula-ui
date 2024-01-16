@@ -70,7 +70,7 @@ export const ActorsPopup = ({
       isOpen={visible}
       onClose={() => setVisible((prev) => !prev)}
     >
-      <div className="flex flex-col h-fit w-full max-h-[445px] overflow-y-scroll">
+      <div className="flex flex-col h-fit w-full max-h-[445px] md:max-h-[440px] overflow-y-scroll">
         {data.map((item) => (
           <div
             className="flex items-center mb-[15px] justify-between"
