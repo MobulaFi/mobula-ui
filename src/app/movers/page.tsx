@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
+import React from "react";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
@@ -61,22 +62,24 @@ export default async function MoversPage() {
   const data = await fetchMoversAssets();
   return (
     <>
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta name="url" content="https://mobula.fi/movers" />
-      <meta name="author" content="Mobula" />
-      <meta name="copyright" content="Mobula" />
-      <Movers gainersBuffer={data.gainers} losersBuffer={data.losers} />
+      <head>
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta name="url" content="https://mobula.fi/movers" />
+        <meta name="author" content="Mobula" />
+        <meta name="copyright" content="Mobula" />
+      </head>
+      <Movers gainersBuffer={data?.gainers} losersBuffer={data?.losers} />
     </>
   );
 }
