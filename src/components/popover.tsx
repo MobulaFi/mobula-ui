@@ -9,14 +9,14 @@ import { cn } from "../lib/shadcn/lib/utils";
 interface PopoverProps {
   visibleContent: React.ReactNode;
   hiddenContent: React.ReactNode;
-  onToggle: Function;
+  onToggle?: Function;
   extraCss?: string;
-  isOpen: boolean;
+  isOpen?: boolean | undefined;
   isFilters?: boolean;
-  setIsOpen: any;
-  position?: string;
-  onHover?: Function;
+  position?: AlignProps;
 }
+
+type AlignProps = "center" | "start" | "end" | undefined;
 
 export const Popover = ({
   visibleContent,
@@ -25,14 +25,9 @@ export const Popover = ({
   isOpen,
   onToggle,
   position,
-  onHover,
 }: PopoverProps) => {
   return (
-    <PopoverContainer
-      className="relative"
-      open={isOpen}
-      onOpenChange={onToggle}
-    >
+    <PopoverContainer open={isOpen} onOpenChange={onToggle as any}>
       <PopoverTrigger className="z-[100]">{visibleContent}</PopoverTrigger>
       <PopoverContent
         className={cn(
