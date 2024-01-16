@@ -105,7 +105,8 @@ export const Sort = () => {
   );
 
   const renderTokens = () => {
-    if (tokenDivs?.length > 0) {
+    console.log("tokenDivs", isLoading, tokenDivs);
+    if (tokenDivs?.length > 0 && !isLoading) {
       if (displayedToken || displayedPool) {
         return tokenDivs
           .filter(
@@ -143,7 +144,7 @@ export const Sort = () => {
         </BoxContainer>
       );
     }
-    if (!isLoading && tokenDivs.length === 0)
+    if (!isLoading && !tokenDivs.length)
       return (
         <BoxPreVote
           token={

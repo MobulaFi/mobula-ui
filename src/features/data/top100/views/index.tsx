@@ -2,7 +2,7 @@
 "use client";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
-import React, {
+import {
   useCallback,
   useContext,
   useEffect,
@@ -49,6 +49,7 @@ export const Views = ({ setResultsData }) => {
   const { address } = useAccount();
   const [activeDisplay, setActiveDisplay] = useState("display");
   const [showArrow, setShowArrow] = useState(false);
+  const [viewEditOrCreation, setViewEditOrCreation] = useState("");
 
   const handleResize = useCallback(() => {
     if (scrollContainer.current) {
@@ -239,8 +240,10 @@ export const Views = ({ setResultsData }) => {
                 disabled={!isConnected && activeView?.name !== "All"}
                 extraCss="w-[32px] h-[32px] sm:w-[28px] sm:h-[28px] p-0"
                 onClick={() => {
-                  if (isConnected) setTypePopup("create");
-                  else setConnect(true);
+                  if (isConnected) {
+                    setViewEditOrCreation("create");
+                    setTypePopup("create");
+                  } else setConnect(true);
                 }}
               >
                 +
@@ -261,8 +264,10 @@ export const Views = ({ setResultsData }) => {
                 extraCss="px-3 sm:px-2 whitespace-nowrap md:font-normal"
                 onClick={() => {
                   pushData("Edit View clicked");
-                  if (isConnected) setTypePopup("edit");
-                  else setConnect(true);
+                  if (isConnected) {
+                    setViewEditOrCreation("edit");
+                    setTypePopup("edit");
+                  } else setConnect(true);
                 }}
               >
                 Edit view
@@ -290,14 +295,17 @@ export const Views = ({ setResultsData }) => {
           </div>
         </div>
       ) : null}
-      <ViewPopup
-        type={typePopup}
-        setType={setTypePopup}
-        state={state}
-        dispatch={dispatch}
-        activeDisplay={activeDisplay}
-        setActiveDisplay={setActiveDisplay}
-      />
+      {typePopup !== "" ? (
+        <ViewPopup
+          isEdit={viewEditOrCreation === "edit"}
+          type={typePopup}
+          setType={setTypePopup}
+          state={state}
+          dispatch={dispatch}
+          activeDisplay={activeDisplay}
+          setActiveDisplay={setActiveDisplay}
+        />
+      ) : null}
     </div>
   );
 };

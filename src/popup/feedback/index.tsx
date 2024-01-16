@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
-import { ModalContainer } from "../../components/modal-container";
+import { Modal } from "../../components/modal-container";
 import { pushData } from "../../lib/mixpanel";
 
 interface FeedBackPopupProps {
@@ -36,10 +36,11 @@ export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
   );
 
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[410px]"
-      title="Help improve Mobula!"
       isOpen={visible}
+      titleCss="mb-2.5"
+      title="Help improve Mobula!"
       onClose={() => setVisible(false)}
     >
       <SmallFont>How much would you recommend Mobula to a fren?</SmallFont>
@@ -90,6 +91,6 @@ export const FeedBackPopup = ({ visible, setVisible }: FeedBackPopupProps) => {
       >
         Submit
       </Button>
-    </ModalContainer>
+    </Modal>
   );
 };

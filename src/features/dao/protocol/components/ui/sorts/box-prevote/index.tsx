@@ -13,7 +13,7 @@ import { polygon } from "viem/chains";
 import { Collapse } from "../../../../../../../components/collapse";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../../../components/link";
-import { ModalContainer } from "../../../../../../../components/modal-container";
+import { Modal } from "../../../../../../../components/modal-container";
 import { Popover } from "../../../../../../../components/popover";
 import { Skeleton } from "../../../../../../../components/skeleton";
 import { PROTOCOL_ADDRESS } from "../../../../../../../constants";
@@ -81,7 +81,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
     "flex items-center text-[13px] mb-2.5 h-[30px] transition-all duration-200 border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100 rounded-md font-normal hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
 
   const calculateValue = (): string => {
-    if (!displayedToken && !isFakeToken) return "max-h-[60px]";
+    if (!displayedToken && !isFakeToken) return "max-h-[75px]";
     if (isFakeToken) return "max-h-[20px]";
     return "max-h-[40px]";
   };
@@ -238,7 +238,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
           sm:mt-2.5 text-light-font-100 dark:text-dark-font-100"
           >
             {getPricing(token?.coeff) < 30
-              ? `$${30 - getPricing(token?.coeff)} Left`
+              ? `${getPercentageFromCoeff(getPricing(token?.coeff))}%`
               : "Full"}
             <div className="flex h-2 rounded-md bg-light-bg-hover dark:bg-dark-bg-hover mt-0.5 w-full ml-2.5">
               <div
@@ -276,20 +276,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 }))
               }
               isOpen={showPopover.community}
-              extraCss={`top-[35px] left-0 ${
-                showPopover.community
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-95 pointer-events-none"
-              } transition-all duration-100 ease-in`}
+              position="start"
             />
           ) : null}
           {token?.contracts?.length > 0 ? (
             <Popover
-              extraCss={`top-[35px] left-1/2 -translate-x-1/2 ${
-                showPopover.contract
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-95 pointer-events-none"
-              } transition-all duration-100 ease-in`}
+              position="center"
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}
@@ -350,9 +342,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
             <BsCodeSlash className="text-[15px] mr-[5px]" />
             Raw Data
           </button>
-          <ModalContainer
+          <Modal
             title="Raw Data"
-            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            extraCss="max-w-[60vw] md:max-w-[90vw] h-fit "
             isOpen={showRawData}
             onClose={() => setShowRawData(false)}
           >
@@ -381,7 +373,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 </pre>
               ) : null}
             </div>
-          </ModalContainer>
+          </Modal>
           {token?.links?.audits?.length > 0 ? (
             <Popover
               extraCss="top-[35px] right-0"
@@ -464,7 +456,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
       ) : null}
       <p
         className={`text-sm text-light-font-60 dark:text-dark-font-60 pb-0 
-        md:pb-2.5 transition-all duration-200 max-w-[600px] ${
+        md:pb-2.5 transition-all duration-200 max-w-[90%] ${
           displayedToken ? "mt-[15px] max-h-auto" : "mt-2.5 max-h-[300px]"
         } text-start`}
       >

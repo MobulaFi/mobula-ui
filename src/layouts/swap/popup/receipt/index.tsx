@@ -2,7 +2,7 @@ import { Button } from "components/button";
 import { Skeleton } from "components/skeleton";
 import { Spinner } from "components/spinner";
 import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
@@ -10,7 +10,8 @@ import { useAccount, useNetwork } from "wagmi";
 import { SwapContext } from "../..";
 import { MediumFont, SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
-import { ModalContainer } from "../../../../components/modal-container";
+import { Modal } from "../../../../components/modal-container";
+import { triggerAlert } from "../../../../lib/toastify";
 import {
   getFormattedAmount,
   getFormattedDate,
@@ -58,13 +59,18 @@ export const TransactionReceipt = () => {
     // Silent error
   }
 
+  useEffect(() => {
+    if (txError) triggerAlert("Error", txError.title);
+  }, [txError]);
+
   return (
-    <ModalContainer
+    <Modal
       extraCss="max-w-[400px]"
       title={
         txError?.title ||
         (completedTx ? "Successful Transaction!" : "Transaction summary")
       }
+      titleCss="mb-4"
       isOpen={showSummary}
       onClose={() => {
         setShowSummary(false);
@@ -72,18 +78,6 @@ export const TransactionReceipt = () => {
         setTxError(undefined);
       }}
     >
-      {txError && (
-        <MediumFont extraCss="mb-2.5">
-          {txError?.hint}
-          <NextChakraLink
-            extraCss="ml-[5px]"
-            href="https://discord.gg/2a8hqNzkzN"
-            target="_blank"
-          >
-            Help: Discord
-          </NextChakraLink>
-        </MediumFont>
-      )}{" "}
       {(!completedTx || !txError) && (
         <>
           <div
@@ -308,6 +302,6 @@ export const TransactionReceipt = () => {
           </Button>
         </>
       )}
-    </ModalContainer>
+    </Modal>
   );
 };

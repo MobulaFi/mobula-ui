@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import React from "react";
 import { Movers } from "../../features/data/movers";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
@@ -40,12 +41,21 @@ async function fetchMoversAssets() {
     .order("price_change_24h", { ascending: true })
     .limit(100);
 
-  const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
+  try {
+    const [{ data: gainers }, { data: losers }] = await Promise.all([q1, q2]);
 
-  return {
-    gainers: gainers || [],
-    losers: losers || [],
-  };
+    return {
+      gainers: gainers || [],
+      losers: losers || [],
+      fallback: false,
+    };
+  } catch (e) {
+    return {
+      gainers: [],
+      losers: [],
+      fallback: true,
+    };
+  }
 }
 
 export const metadata: Metadata = {
@@ -57,26 +67,31 @@ export const metadata: Metadata = {
     "Mobula, Mobula crypto, Mobula Crypto Data Aggregator, crypto movers, crypto gainers, crypto losers",
 };
 
-export default async function MoversPage() {
+async function MoversPage() {
   const data = await fetchMoversAssets();
+
   return (
     <>
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
-      />
-      <meta name="url" content="https://mobula.fi/movers" />
-      <meta name="author" content="Mobula" />
-      <meta name="copyright" content="Mobula" />
-      <Movers gainersBuffer={data.gainers} losersBuffer={data.losers} />
+      <head>
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Cryptocurrency/movers.png"
+        />
+        <meta name="url" content="https://mobula.fi/movers" />
+        <meta name="author" content="Mobula" />
+        <meta name="copyright" content="Mobula" />
+      </head>
+      <Movers gainersBuffer={data?.gainers} losersBuffer={data?.losers} />
     </>
   );
 }
+
+export default MoversPage;

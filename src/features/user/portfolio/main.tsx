@@ -298,24 +298,26 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
             {activeCategory === "Activity" ? <Activity /> : null}
           </div>
         </div>
-        <ManagePopup />
-        <ManageEdit />
-        <NetworkPopup />
-        <WalletsPopup />
-        <AddTransactionPopup />
+        {showManage ? <ManagePopup /> : null}
+        {showHiddenTokensPopup ? <ManageEdit /> : null}
+        {showNetwork ? <NetworkPopup /> : null}
+        {showWallet ? <WalletsPopup /> : null}
+        {showAddTransaction ? <AddTransactionPopup /> : null}
         {/* <DrawerDex /> */}
-        <SelectorPortfolioPopup />
-        <DeleteNftPopup />
-        <Select
-          visible={showSelect}
-          setVisible={setShowSelect}
-          callback={(token) => {
-            setTokenTsx(token as Asset);
-            setShowAddTransaction(true);
-            pushData("Add Asset Button Clicked");
-          }}
-          position={"in"}
-        />
+        {showPortfolioSelector ? <SelectorPortfolioPopup /> : null}
+        {showDeleteNft ? <DeleteNftPopup /> : null}
+        {showSelect ? (
+          <Select
+            visible={showSelect}
+            setVisible={setShowSelect}
+            callback={(token) => {
+              setTokenTsx(token as Asset);
+              setShowAddTransaction(true);
+              pushData("Add Asset Button Clicked");
+            }}
+            position={"in"}
+          />
+        ) : null}
         {/* {showTuto ? <StepPopup /> : null}  */}
       </Container>
     </div>

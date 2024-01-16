@@ -54,7 +54,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
         <MediumFont extraCss="ml-2.5"> Vesting Information</MediumFont>
       </div>
       <div className="w-full overflow-x-scroll scroll">
-        <table>
+        <table className="w-full">
           <thead>
             <tr>
               <Ths extraCss={thStyles}>Unlocked Amount</Ths>
