@@ -12,8 +12,8 @@ import {
 import { FaMedium } from "react-icons/fa";
 import { SiCrunchbase } from "react-icons/si";
 import { SmallFont } from "../../../../../components/fonts";
-import { Menu } from "../../../../../components/menu";
 import { Modal } from "../../../../../components/modal-container";
+import { Popover } from "../../../../../components/popover";
 import { Investors } from "../../../models";
 
 interface ActorsPopupProps {
@@ -70,7 +70,7 @@ export const ActorsPopup = ({
       isOpen={visible}
       onClose={() => setVisible((prev) => !prev)}
     >
-      <div className="flex flex-col h-fit w-full max-h-[435px] overflow-y-scroll">
+      <div className="flex flex-col h-fit w-full max-h-[445px] overflow-y-scroll">
         {data.map((item) => (
           <div
             className="flex items-center mb-[15px] justify-between"
@@ -99,25 +99,29 @@ export const ActorsPopup = ({
               </div>
             </div>
             {item?.links?.length > 0 ? (
-              <Menu
-                title={
+              <Popover
+                visibleContent={
                   <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
                 }
-              >
-                {item.links?.map((link) => (
+                position="end"
+                hiddenContent={item.links?.map((link, i) => (
                   <div
-                    className="flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary
-                     transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
-                     text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
+                    className={`flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary
+                       transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover 
+                       text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100 ${
+                         i !== 0 ? "mt-2.5" : ""
+                       }`}
                     key={link.link}
                     onClick={() => window.open(link.link, "_blank")}
                   >
-                    {getIconFromType(link.type)}{" "}
-                    {link.type.toLowerCase().slice(0, 1).toUpperCase() +
-                      link.type.toLowerCase().slice(1)}
+                    <div className="flex items-center">
+                      {getIconFromType(link.type)}{" "}
+                      {link.type.toLowerCase().slice(0, 1).toUpperCase() +
+                        link.type.toLowerCase().slice(1)}
+                    </div>
                   </div>
                 ))}
-              </Menu>
+              />
             ) : null}
           </div>
         ))}

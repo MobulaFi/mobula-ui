@@ -15,7 +15,7 @@ export const SearchBarPopup = ({
     <Modal
       isOpen={trigger}
       onClose={() => setTrigger(false)}
-      extraCss="max-w-[500px] sm:h-screen sm:w-screen sm:top-0 sm:pt-[80px] md:w-full p-0"
+      extraCss="max-w-[500px] sm:h-screen sm:w-screen sm:top-0 sm:pt-[80px] md:w-full p-0 sm:w-full sm:max-w-full"
     >
       <CoreSearchBar trigger={trigger} setTrigger={setTrigger} />
     </Modal>

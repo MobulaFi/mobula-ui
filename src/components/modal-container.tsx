@@ -22,7 +22,9 @@ export const Modal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className={extraCss}>
-        {title ? <ModalTitle extraCss={titleCss}>{title}</ModalTitle> : null}
+        {title ? (
+          <ModalTitle extraCss={cn("mb-2.5", titleCss)}>{title}</ModalTitle>
+        ) : null}
         {children}
       </DialogContent>
     </Dialog>
