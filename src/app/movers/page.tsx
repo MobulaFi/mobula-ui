@@ -47,11 +47,13 @@ async function fetchMoversAssets() {
     return {
       gainers: gainers || [],
       losers: losers || [],
+      fallback: false,
     };
   } catch (e) {
     return {
       gainers: [],
       losers: [],
+      fallback: true,
     };
   }
 }
@@ -67,6 +69,7 @@ export const metadata: Metadata = {
 
 async function MoversPage() {
   const data = await fetchMoversAssets();
+
   return (
     <>
       <head>
