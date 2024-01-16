@@ -89,13 +89,9 @@ export const ComparePopover = ({
       visibleContent={
         <Button
           extraCss={cn(
-            `mr-2.5 ml-auto h-[30px] z-[1] px-2 flex items-center font-normal justify-center whitespace-nowrap`,
+            `mr-2.5 ml-auto h-[30px] px-2 flex items-center font-normal justify-center whitespace-nowrap`,
             extraCss
           )}
-          onClick={() => {
-            setShowCompare((prev) => !prev);
-            pushData("Portfolio Compare Clicked");
-          }}
         >
           Compare +
         </Button>
@@ -109,13 +105,15 @@ export const ComparePopover = ({
           setTrigger={setShowCompare}
         />
       }
-      onToggle={() => {}}
+      onToggle={() => {
+        setShowCompare((prev) => !prev);
+        pushData("Portfolio Compare Clicked");
+      }}
       isOpen={showCompare}
-      extraCss={`p-0 top-[40px] lg:top-[40px] left-0 ${
+      extraCss={`p-0 left-0 ${
         isPortfolio ? "" : "lg:right-0 lg:left-auto"
-      } z-[100] mr-2.5 min-w-[300px] ${
-        showCompare ? "opacity-100" : "opacity-0 pointer-events-none"
-      } transition-all duration-200 ease-in-out`}
+      } z-[100] mr-2.5 min-w-[300px]`}
+      position="start"
     />
   );
 };

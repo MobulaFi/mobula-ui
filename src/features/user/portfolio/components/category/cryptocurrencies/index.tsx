@@ -1,7 +1,7 @@
 import { Spinner } from "components/spinner";
 import { createSupabaseDOClient } from "lib/supabase";
 import { useTheme } from "next-themes";
-import { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -12,7 +12,7 @@ import {
   MediumFont,
   SmallFont,
 } from "../../../../../../components/fonts";
-import { Menu } from "../../../../../../components/menu";
+import { Popover } from "../../../../../../components/popover";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
@@ -292,54 +292,54 @@ export const Cryptocurrencies = () => {
                             <button onClick={() => setShowBuyDrawer(token)}>
                               <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100" />
                             </button>
-                            <Menu
-                              titleCss="ml-2.5"
-                              title={
-                                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100" />
+                            <Popover
+                              visibleContent={
+                                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 ml-2.5" />
                               }
-                              extraCss="top-[45%] -translate-y-1/2 right-[20px] p-1.5"
-                            >
-                              <div>
-                                <div
-                                  className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
-                                  onMouseEnter={() => setIsHover(0)}
-                                  onMouseLeave={() => setIsHover(null)}
-                                  onClick={() => hideAsset(token)}
-                                >
+                              position="end"
+                              hiddenContent={
+                                <div className="cursor-pointer">
                                   <div
-                                    className={`${flexGreyBoxStyle} ${
-                                      isHover === 0
-                                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
-                                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
-                                    }`}
+                                    className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap mb-2.5"
+                                    onMouseEnter={() => setIsHover(0)}
+                                    onMouseLeave={() => setIsHover(null)}
+                                    onClick={() => hideAsset(token)}
                                   >
-                                    <BiHide />
+                                    <div
+                                      className={`${flexGreyBoxStyle} ${
+                                        isHover === 0
+                                          ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                                          : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                                      }`}
+                                    >
+                                      <BiHide />
+                                    </div>
+                                    Hide token
                                   </div>
-                                  Hide token
-                                </div>
-                                <div
-                                  onMouseEnter={() => setIsHover(2)}
-                                  onMouseLeave={() => setIsHover(null)}
-                                  className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap"
-                                  onClick={() => {
-                                    setTokenTsx(token);
-                                    setShowAddTransaction(true);
-                                    pushData("Add Asset Button Clicked");
-                                  }}
-                                >
                                   <div
-                                    className={`${flexGreyBoxStyle} ${
-                                      isHover === 2
-                                        ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
-                                        : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
-                                    }`}
+                                    onMouseEnter={() => setIsHover(2)}
+                                    onMouseLeave={() => setIsHover(null)}
+                                    className="flex items-center bg-light-bg-secondary dark:bg-dark-bg-secondary text-sm lg:text-[13px] md:text-xs whitespace-nowrap"
+                                    onClick={() => {
+                                      setTokenTsx(token);
+                                      setShowAddTransaction(true);
+                                      pushData("Add Asset Button Clicked");
+                                    }}
                                   >
-                                    <IoMdAddCircleOutline />
+                                    <div
+                                      className={`${flexGreyBoxStyle} ${
+                                        isHover === 2
+                                          ? "bg-blue dark:bg-blue text-dark-font-100 dark:text-dark-font-100"
+                                          : "bg-light-bg-hover dark:bg-dark-bg-hover text-light-font-100 dark:text-dark-font-100"
+                                      }`}
+                                    >
+                                      <IoMdAddCircleOutline />
+                                    </div>
+                                    Add transactions
                                   </div>
-                                  Add transactions
                                 </div>
-                              </div>
-                            </Menu>
+                              }
+                            />
                           </div>
                         </div>
                       </div>

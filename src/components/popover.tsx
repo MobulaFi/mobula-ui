@@ -15,6 +15,7 @@ interface PopoverProps {
   isFilters?: boolean;
   setIsOpen: any;
   position?: string;
+  onHover?: Function;
 }
 
 export const Popover = ({
@@ -24,15 +25,15 @@ export const Popover = ({
   isOpen,
   onToggle,
   position,
-  setIsOpen,
+  onHover,
 }: PopoverProps) => {
   return (
     <PopoverContainer
-      className="relative bg-red dark:bg-red"
+      className="relative"
       open={isOpen}
       onOpenChange={onToggle}
     >
-      <PopoverTrigger>{visibleContent}</PopoverTrigger>
+      <PopoverTrigger className="z-[100]">{visibleContent}</PopoverTrigger>
       <PopoverContent
         className={cn(
           `border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-normal p-2.5 w-fit shadow-2xl z-[101]`,

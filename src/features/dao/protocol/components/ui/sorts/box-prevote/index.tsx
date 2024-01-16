@@ -276,20 +276,12 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                 }))
               }
               isOpen={showPopover.community}
-              extraCss={`top-[35px] left-0 ${
-                showPopover.community
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-95 pointer-events-none"
-              } transition-all duration-100 ease-in`}
+              position="start"
             />
           ) : null}
           {token?.contracts?.length > 0 ? (
             <Popover
-              extraCss={`top-[35px] left-1/2 -translate-x-1/2 ${
-                showPopover.contract
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-95 pointer-events-none"
-              } transition-all duration-100 ease-in`}
+              position="center"
               visibleContent={
                 <button
                   className={`${buttonPopover} mr-2.5 bg-light-bg-terciary dark:bg-dark-bg-terciary px-2`}

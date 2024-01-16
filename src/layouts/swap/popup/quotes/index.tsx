@@ -29,7 +29,7 @@ export const InfoPopupQuotes = ({ isSwapRouter, children }: InfoPopupProps) => {
 
   return (
     <Popover
-      extraCss="right-0 top-[25px]"
+      position="end"
       isOpen={show}
       visibleContent={
         !isSwapRouter ? (
