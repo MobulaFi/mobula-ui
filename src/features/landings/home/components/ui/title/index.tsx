@@ -1,8 +1,10 @@
+import { cn } from "../../../../../../lib/shadcn/lib/utils";
+
 type TitleProps = { title: string; extraCss?: string };
 
 export const Title = ({ title, extraCss }: TitleProps) => {
   return (
-    <div className="h-fit w-fit overflow-hidden mx-auto">
+    <div className={cn(`h-fit w-fit overflow-hidden mx-auto`, extraCss)}>
       <h2
         id="text"
         style={{

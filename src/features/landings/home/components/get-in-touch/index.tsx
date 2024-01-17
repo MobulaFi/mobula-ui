@@ -35,15 +35,15 @@ export const GetInTouch = () => {
     >
       <div className={containerStyle}>
         <div className="w-full flex items-center lg:flex-col-reverse">
-          <div className="w-[55%] mr-[30px] lg:w-full lg:mr-0 lg:mt-[50px]">
+          {/* <div className="w-[55%] mr-[30px] lg:w-full lg:mr-0 lg:mt-[50px]">
             <img src="/landing/map.png" alt="world map" className="w-full" />
-          </div>
-          <div className="w-[45%] pl-5 lg:pl-0 lg:w-full">
-            <Title title="Get in touch" />
+          </div> */}
+          <div className="w-full max-w-[500px] pl-5 lg:pl-0 lg:w-full mx-auto">
+            <Title title="Get in touch" extraCss="mr-auto ml-0 md:mx-auto" />
             <div
               className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
             border-light-border-primary dark:border-dark-border-primary flex items-center
-             h-[45px] w-full relative mb-5 lg:mt-5"
+             h-[45px] w-full relative mb-5 mt-2.5 lg:mt-5"
             >
               <input
                 type="text"
@@ -91,7 +91,7 @@ export const GetInTouch = () => {
               />
             </div>
             <button
-              className="mt-[40px] w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
+              className="mt-[30px] w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
               onClick={submit}
             >
               Submit
