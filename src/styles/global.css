@@ -81,7 +81,7 @@ textarea:focus {
   backdrop-filter: blur(10px);
 }
 
-/* .water-button::before {
+.water-button::before {
   content: "";
   position: absolute;
   height: 5px;
@@ -93,11 +93,12 @@ textarea:focus {
   transform: rotate(-40deg);
   transition: all 0.3s ease-in-out;
 }
+/* 
 .water-button::before:hover {
   transform: scale(110%);
 } */
 .water-button:hover {
-  letter-spacing: 0.2px;
+  letter-spacing: 0.4px;
   color: rgba(255, 255, 255, 0.95);
 }
 

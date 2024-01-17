@@ -114,9 +114,9 @@ export const HomeLanding = () => {
                   WebkitTextFillColor: "transparent",
                 }}
                 className="text-[96px] md:text-[56px] md:leading-[50px] font-bold leading-[90px] font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,0.95)]
-                to-[rgba(0,0,0,0.35)] dark:from-[rgba(255,255,255,0.95)]
-                 dark:to-[rgba(255,255,255,0.35)] dark:text-transparent bg-clip-text text-center"
+                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,1)]
+                to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
+                 dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text text-center"
               >
                 The last data provider
                 <br />
@@ -125,10 +125,10 @@ export const HomeLanding = () => {
             </div>
 
             <div className="flex items-center justify-center mt-[60px]">
-              <button className="water-button w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] border dark:border-blue rounded-lg">
+              <button className="water-button w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue ">
                 Get Started
               </button>
-              <button className="water-button ml-8 w-[150px] h-[50px] text-[15px] font-medium shadow-none">
+              <button className="dark:text-dark-font-100 font-poppins ml-8 w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-200 ease-in-out">
                 Learn More
               </button>
             </div>
