@@ -1,15 +1,14 @@
 "use client";
 import { useTheme } from "next-themes";
 import React, { useContext, useState } from "react";
-import Lottie from "react-lottie";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { FaRegCheckCircle } from "react-icons/fa";
 import { useConnect } from "wagmi";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
 import { Modal, ModalTitle } from "../../components/modal-container";
 import { Spinner } from "../../components/spinner";
 import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
-import animationData from "../../lib/lottie/check.json";
-import errorAnimation from "../../lib/lottie/error.json";
 import { cn } from "../../lib/shadcn/lib/utils";
 
 export const Connect = () => {
@@ -31,7 +30,6 @@ export const Connect = () => {
       }, 2000);
     },
   });
-  const conenctorImage = pendingConnector?.["storage"];
 
   const getTitle = () => {
     switch (status) {
@@ -63,24 +61,6 @@ export const Connect = () => {
 
   const title = getTitle();
 
-  const defaultOptions = {
-    loop: false,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
-  const errorOptions = {
-    loop: false,
-    autoplay: true,
-    animationData: errorAnimation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   return (
     <Modal
       isOpen={isVisible}
@@ -88,7 +68,7 @@ export const Connect = () => {
         setStatus("idle");
         setIsVisible(false);
       }}
-      extraCss="max-w-[450px]"
+      extraCss="max-w-[420px]"
     >
       <div className="flex w-full">
         <div className="w-full flex flex-col relative">
@@ -135,6 +115,7 @@ export const Connect = () => {
                   />
                 </div>
               </button>
+
               <button
                 className={cn(
                   buttonStyle,
@@ -227,13 +208,12 @@ export const Connect = () => {
           ) : null}
           {status === "success" ? (
             <div className="mb-5 mt-4">
-              <Lottie options={defaultOptions} height={120} width={120} />
+              <FaRegCheckCircle className="text-green text-8xl mx-auto" />
             </div>
           ) : null}
-
           {status === "error" ? (
-            <div className="mb-5 mt-4">
-              <Lottie options={errorOptions} height={70} width={70} />
+            <div className="mb-5 mt-3">
+              <AiOutlineCloseCircle className="text-red text-7xl mx-auto" />
               <Button onClick={() => setStatus("idle")} extraCss="mt-4 mx-auto">
                 Try again
               </Button>
