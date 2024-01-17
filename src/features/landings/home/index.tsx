@@ -2,7 +2,7 @@
 import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
 import { LegacyStack } from "./components/legacy-stack";
@@ -125,10 +125,10 @@ export const HomeLanding = () => {
             </div>
 
             <div className="flex items-center justify-center mt-[60px]">
-              <button className="water-button w-[150px] h-[50px] text-[15px] font-medium">
+              <button className="water-button w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] border dark:border-blue rounded-lg">
                 Get Started
               </button>
-              <button className="water-button ml-8 w-[150px] h-[50px] text-[15px] font-medium">
+              <button className="water-button ml-8 w-[150px] h-[50px] text-[15px] font-medium shadow-none">
                 Learn More
               </button>
             </div>

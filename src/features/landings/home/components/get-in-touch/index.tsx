@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { triggerAlert } from "../../../../../lib/toastify";
 import { containerStyle } from "../../style";
 import { Title } from "../ui/title";
@@ -27,23 +27,23 @@ export const GetInTouch = () => {
 
   return (
     <section
-      className="w-screen flex justify-center items-center pt-[100px] md:pt-[50px] pb-[200px] md:pb-[120px] snap-center"
+      className="w-screen flex justify-center items-center pt-[100px] lg:pt-[50px] pb-[200px] lg:pb-[120px] snap-center"
       style={{
         background:
           "radial-gradient(at right top, rgba(11, 32, 64, 1.0), #131627 80%, #131627)",
       }}
     >
       <div className={containerStyle}>
-        <div className="w-full flex items-center md:flex-col-reverse">
-          <div className="w-[55%] mr-[30px] md:w-full md:mr-0 md:mt-[50px]">
+        <div className="w-full flex items-center lg:flex-col-reverse">
+          <div className="w-[55%] mr-[30px] lg:w-full lg:mr-0 lg:mt-[50px]">
             <img src="/landing/map.png" alt="world map" className="w-full" />
           </div>
-          <div className="w-[45%] pl-5 md:pl-0 md:w-full">
+          <div className="w-[45%] pl-5 lg:pl-0 lg:w-full">
             <Title title="Get in touch" />
             <div
               className="shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border
             border-light-border-primary dark:border-dark-border-primary flex items-center
-             h-[45px] w-full relative mb-5"
+             h-[45px] w-full relative mb-5 lg:mt-5"
             >
               <input
                 type="text"

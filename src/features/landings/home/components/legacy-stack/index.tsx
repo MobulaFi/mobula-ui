@@ -32,7 +32,7 @@ export const LegacyStack = () => {
       <div className={containerStyle}>
         <div>
           <Title title="Migrate your legacy stacks" />
-          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl md:text-base text-center md:text-start">
+          <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl lg:text-base text-center ">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>
           <div className="flex flex-col w-full md:hidden">

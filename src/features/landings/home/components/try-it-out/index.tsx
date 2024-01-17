@@ -92,7 +92,7 @@ export const TryItOut = () => {
       <div className={containerStyle}>
         <div className="relative flex justify-center flex-col items-center md:items-start">
           <Title title="Try it out!" />
-          <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-2 text-xl md:text-base text-center md:text-start md:ml-2.5">
+          <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-2 text-xl md:text-base text-center">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>
           {/* <div

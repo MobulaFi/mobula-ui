@@ -29,7 +29,7 @@ export const IndexingSupercharged = () => {
       <div className={containerStyle}>
         <div>
           <Title title="Indexing Supercharged" />
-          <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-6 text-xl md:text-base text-center md:text-start">
+          <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-6 text-xl md:text-base text-center">
             A new way of using subgraphs, livestreamed, multi-chain & enriched
           </p>
           <div
