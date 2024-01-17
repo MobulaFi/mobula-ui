@@ -28,7 +28,7 @@ export const Connect = () => {
       setStatus("success");
       setTimeout(() => {
         setIsVisible(false);
-      }, 1000000);
+      }, 2000);
     },
   });
   const conenctorImage = pendingConnector?.["storage"];
