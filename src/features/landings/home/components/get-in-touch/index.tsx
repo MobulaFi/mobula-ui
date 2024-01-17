@@ -27,7 +27,7 @@ export const GetInTouch = () => {
 
   return (
     <section
-      className="w-screen flex justify-center items-center pt-[100px] lg:pt-[50px] pb-[200px] lg:pb-[120px] snap-center"
+      className="w-screen flex justify-center items-center pt-[150px] lg:pt-[50px] pb-[200px] lg:pb-[120px] snap-center"
       style={{
         background:
           "radial-gradient(at right top, rgba(11, 32, 64, 1.0), #131627 80%, #131627)",

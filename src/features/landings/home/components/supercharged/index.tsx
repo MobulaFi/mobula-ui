@@ -21,7 +21,7 @@ export const IndexingSupercharged = () => {
   }, []);
   return (
     <section
-      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
+      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
       style={{
         backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
       }}
@@ -49,11 +49,7 @@ export const IndexingSupercharged = () => {
                 facilis consequuntur quasi corrupti sequi, minima sit aspernatur
                 ea ullam aut corporis dolores ut vel ratione porro voluptate
               </p>
-              <button
-                className={`shadow-xl flex items-center backdrop-blur-md dark:bg-dark-bg-hover
-                 h-[35px] px-2.5 border border-light-border-primary dark:border-dark-border-primary 
-                 text-light-font-100 dark:text-dark-font-100 w-fit`}
-              >
+              <button className="w-[150px] h-[40px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal">
                 Read Docs
               </button>
             </div>

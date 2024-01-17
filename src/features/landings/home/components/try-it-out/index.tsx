@@ -80,7 +80,7 @@ export const TryItOut = () => {
 
   return (
     <section
-      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[100px]"
+      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
       style={{
         background:
           "radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)",
