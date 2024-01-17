@@ -125,10 +125,16 @@ export const HomeLanding = () => {
             </div>
 
             <div className="flex items-center justify-center mt-[60px]">
-              <button className="water-button w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue ">
+              <button
+                className=" w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button  md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
+              >
                 Get Started
               </button>
-              <button className="dark:text-dark-font-100 font-poppins ml-8 w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-200 ease-in-out">
+              <button
+                className="dark:text-dark-font-100 font-poppins ml-8 md:ml-5 md:h-[40px] md:w-[132px] md:text-sm md:font-normal
+               w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out"
+              >
                 Learn More
               </button>
             </div>

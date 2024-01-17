@@ -91,7 +91,7 @@ export const GetInTouch = () => {
               />
             </div>
             <button
-              className="water-button mt-[40px] h-[40px] w-[130px] border border-light-border-primary dark:border-dark-border-primary"
+              className="mt-[40px] w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
               onClick={submit}
             >
               Submit

@@ -68,7 +68,7 @@ textarea:focus {
 
 .water-button {
   position: relative;
-  border-radius: 30px;
+  border-radius: 35px;
   box-shadow: 5px 5px 10px #13162788, 10px 6px 15px #13162788 inset,
     -5px -5px 8px #131627ff, 10px 6px 15px #13162744 inset, 0 0 8px #13162755;
   display: grid;
