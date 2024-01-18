@@ -88,9 +88,6 @@ export const HomeLanding = () => {
 
   return (
     <div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
-      {/* // url('https://c4.wallpaperflare.com/wallpaper/849/714/485/water-bubbles-wallpaper-preview.jpg
-          https://cdn.dribbble.com/users/2119718/screenshots/9806865/media/1640987ab7ebad6c43be7cdf33e1a365.png?resize=1600x1200&vertical=center */}
       <section
         className="w-screen flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center h-screen md:h-screenMain md:pb-[50px] md:py-[100px]"
         style={{
