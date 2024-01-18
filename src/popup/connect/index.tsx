@@ -1,9 +1,9 @@
 "use client";
-import { useTheme } from "next-themes";
+import Cookies from "js-cookie";
 import React, { useContext, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { useConnect } from "wagmi";
+import { useAccount, useConnect, useSignMessage } from "wagmi";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
 import { Modal, ModalTitle } from "../../components/modal-container";
@@ -15,8 +15,9 @@ export const Connect = () => {
   const { setConnect: setIsVisible } = useContext(PopupUpdateContext);
   const { connect: isVisible } = useContext(PopupStateContext);
   const [status, setStatus] = useState("idle");
+  const { address } = useAccount();
   const [userMail, setUserMail] = useState("");
-  const { resolvedTheme } = useTheme();
+
   const buttonStyle =
     "h-[40px] w-full mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
   const { connect, connectors, pendingConnector } = useConnect({
@@ -24,8 +25,30 @@ export const Connect = () => {
       setStatus("error");
     },
     onSuccess() {
-      setStatus("success");
+      setStatus("pre-success");
+    },
+  });
+
+  // useEffect(() => {
+  //   Cookies.set(`user-signature-${account}`, activeViewStr, {
+  //     secure: process.env.NODE_ENV !== "development",
+  //     sameSite: "strict",
+  //   });
+  // },[])
+
+  const { signMessage } = useSignMessage({
+    onSuccess(data) {
+      Cookies.set(`user-signature-${address}`, data, {
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
+      });
+      Cookies.set(`address`, address, {
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
+      });
+      localStorage.setItem(`user-signature-${address}`, data);
       setTimeout(() => {
+        setStatus("success");
         setIsVisible(false);
       }, 2000);
     },
@@ -70,6 +93,16 @@ export const Connect = () => {
       }}
       extraCss="max-w-[420px]"
     >
+      {status === "pre-success" ? (
+        <button
+          className="bg-red h-[50px] w-fit px-2.5 text-light-font-100"
+          onClick={() =>
+            signMessage({ message: "I just sign a random mesage" })
+          }
+        >
+          SIGN MESSAGE
+        </button>
+      ) : null}
       <div className="flex w-full">
         <div className="w-full flex flex-col relative">
           <ModalTitle extraCss="text-center mb-2.5 font-poppins">
