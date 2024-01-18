@@ -29,13 +29,6 @@ export const Connect = () => {
     },
   });
 
-  // useEffect(() => {
-  //   Cookies.set(`user-signature-${account}`, activeViewStr, {
-  //     secure: process.env.NODE_ENV !== "development",
-  //     sameSite: "strict",
-  //   });
-  // },[])
-
   const { signMessage } = useSignMessage({
     onError() {
       setStatus("error-sign");
