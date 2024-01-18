@@ -1,6 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { useAccount, useConnect, useSignMessage } from "wagmi";
@@ -37,6 +37,9 @@ export const Connect = () => {
   // },[])
 
   const { signMessage } = useSignMessage({
+    onError() {
+      setStatus("error-sign");
+    },
     onSuccess(data) {
       Cookies.set(`user-signature-${address}`, data, {
         secure: process.env.NODE_ENV !== "development",
@@ -67,6 +70,17 @@ export const Connect = () => {
           description:
             "An error occured while connecting your wallet, please try again",
         };
+      case "error-sign":
+        return {
+          title: "Signature failed",
+          description:
+            "An error occured while signing your message, please try again",
+        };
+      case "pre-success":
+        return {
+          title: "Connexion success",
+          description: "You can now sign a message to confirm your identity",
+        };
       case "success":
         return {
           title: "Successfully connected",
@@ -93,16 +107,6 @@ export const Connect = () => {
       }}
       extraCss="max-w-[420px]"
     >
-      {status === "pre-success" ? (
-        <button
-          className="bg-red h-[50px] w-fit px-2.5 text-light-font-100"
-          onClick={() =>
-            signMessage({ message: "I just sign a random mesage" })
-          }
-        >
-          SIGN MESSAGE
-        </button>
-      ) : null}
       <div className="flex w-full">
         <div className="w-full flex flex-col relative">
           <ModalTitle extraCss="text-center mb-2.5 font-poppins">
@@ -111,7 +115,10 @@ export const Connect = () => {
           <SmallFont extraCss="text-center mb-4 max-w-[320px] mx-auto text-light-font-60 dark:text-dark-font-60">
             {title.description}
           </SmallFont>
-          {status !== "success" && status !== "error" ? (
+          {status !== "success" &&
+          status !== "error" &&
+          status !== "pre-success" &&
+          status !== "error-sign" ? (
             <>
               <button
                 className={buttonStyle}
@@ -153,9 +160,9 @@ export const Connect = () => {
                 className={cn(
                   buttonStyle,
                   ` overflow-hidden ${
-                    status === "loading" &&
+                    (status === "loading" || status === "pre-success") &&
                     pendingConnector?.name !== "WalletConnect"
-                      ? "w-0 h-0"
+                      ? "w-0 h-0 border-0"
                       : ""
                   } transition-all duration-100`
                 )}
@@ -178,8 +185,9 @@ export const Connect = () => {
                 className={cn(
                   buttonStyle,
                   `cursor-not-allowed overflow-hidden ${
-                    status === "loading" && pendingConnector?.name !== "Google"
-                      ? "w-0 h-0"
+                    (status === "loading" || status === "pre-success") &&
+                    pendingConnector?.name !== "Google"
+                      ? "w-0 h-0 border-0"
                       : "opacity-50"
                   } transition-all duration-100`
                 )}
@@ -201,6 +209,7 @@ export const Connect = () => {
                   <Spinner extraCss="h-[70px] w-[70px] rounded-full mx-auto mb-5 mt-2.5" />
                 </div>
               ) : null}
+
               {status === "idle" ? (
                 <>
                   <div className="flex items-center my-2.5 w-[90%] mx-auto">
@@ -241,16 +250,39 @@ export const Connect = () => {
           ) : null}
           {status === "success" ? (
             <div className="mb-5 mt-4">
-              <FaRegCheckCircle className="text-green text-8xl mx-auto" />
+              <FaRegCheckCircle className="text-green dark:text-green text-8xl mx-auto" />
             </div>
           ) : null}
           {status === "error" ? (
             <div className="mb-5 mt-3">
-              <AiOutlineCloseCircle className="text-red text-7xl mx-auto" />
+              <AiOutlineCloseCircle className="text-red dark:text-red text-7xl mx-auto" />
               <Button onClick={() => setStatus("idle")} extraCss="mt-4 mx-auto">
                 Try again
               </Button>
             </div>
+          ) : null}
+          {status === "error-sign" ? (
+            <div className="mb-5 mt-3">
+              <AiOutlineCloseCircle className="text-red dark:text-red text-7xl mx-auto" />
+              <Button
+                onClick={() => setStatus("pre-success")}
+                extraCss="mt-4 mx-auto"
+              >
+                Try again
+              </Button>
+            </div>
+          ) : null}
+          {status === "pre-success" ? (
+            <Button
+              extraCss="mx-auto h-[40px] rounded-md w-fit px-2.5 text-sm"
+              onClick={() =>
+                signMessage({
+                  message: "Sign the message to confirm your identity.",
+                })
+              }
+            >
+              SIGN MESSAGE
+            </Button>
           ) : null}
         </div>
       </div>
