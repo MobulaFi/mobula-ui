@@ -1,33 +1,33 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { BsCheckLg, BsKey } from "react-icons/bs";
-import { RiWallet3Line } from "react-icons/ri";
-import { useAccount } from "wagmi";
-import { Button } from "../../../../../components/button";
-import { Container } from "../../../../../components/container";
-import { MediumFont, SmallFont } from "../../../../../components/fonts";
-import { TitleContainer } from "../../../../../components/title";
-import { triggerAlert } from "../../../../../lib/toastify";
-import { BoxContainer } from "../../../common/components/box-container";
-import { RightContainer } from "../../../common/components/container-right";
-import { MetricsLine } from "../../../common/components/line-metric";
-import { LeftNavigation } from "../../../common/components/nav-left";
-import { LeftNavigationMobile } from "../../../common/components/nav-left-mobile";
-import { TimeBox } from "../../../common/components/time-box";
-import { OverviewContext } from "../../context-manager/overview";
-import { useClaim } from "../../hooks/use-claim";
-import { useInitValues } from "../../hooks/use-initValue";
-import { useNonValueToken } from "../../hooks/use-nonValueToken";
-import { HistoryListing } from "../../models";
-import { RankBox } from "../ui/overview/box-rank";
-import { StakedLine } from "../ui/overview/line-staked";
+import {useContext, useEffect, useState} from "react";
+import {AiOutlineClose} from "react-icons/ai";
+import {BsCheckLg, BsKey} from "react-icons/bs";
+import {RiWallet3Line} from "react-icons/ri";
+import {useAccount} from "wagmi";
+import {Button} from "../../../../../components/button";
+import {Container} from "../../../../../components/container";
+import {MediumFont, SmallFont} from "../../../../../components/fonts";
+import {TitleContainer} from "../../../../../components/title";
+import {triggerAlert} from "../../../../../lib/toastify";
+import {BoxContainer} from "../../../common/components/box-container";
+import {RightContainer} from "../../../common/components/container-right";
+import {MetricsLine} from "../../../common/components/line-metric";
+import {LeftNavigation} from "../../../common/components/nav-left";
+import {LeftNavigationMobile} from "../../../common/components/nav-left-mobile";
+import {TimeBox} from "../../../common/components/time-box";
+import {OverviewContext} from "../../context-manager/overview";
+import {useClaim} from "../../hooks/use-claim";
+import {useInitValues} from "../../hooks/use-initValue";
+import {useNonValueToken} from "../../hooks/use-nonValueToken";
+import {HistoryListing} from "../../models";
+import {RankBox} from "../ui/overview/box-rank";
+import {StakedLine} from "../ui/overview/line-staked";
 
 export const Overview = () => {
-  const { recentlyAdded } = useNonValueToken();
-  const { countdown, tokensOwed, goodDecisions, badDecisions, claimed } =
+  const {recentlyAdded} = useNonValueToken();
+  const {countdown, tokensOwed, goodDecisions, badDecisions, claimed} =
     useContext(OverviewContext);
-  const { address } = useAccount();
+  const {address} = useAccount();
   const [moreHistory, setMoreHistory] = useState(10);
   const [showMore, setShowMore] = useState(false);
   const [days, setDays] = useState(0);
@@ -136,7 +136,7 @@ export const Overview = () => {
               };
               // TODO : if else under do not work if in a fonction ( see in utils.tsx)
               if (postedDate < 60) {
-                format = { timeframe: "seconds", time: postedDate };
+                format = {timeframe: "seconds", time: postedDate};
               } else if (postedDate >= 60 && postedDate < 120) {
                 format = {
                   timeframe: "minute",
@@ -192,7 +192,7 @@ export const Overview = () => {
                           <AiOutlineClose className="text-sm text-red dark:text-red mr-2" />
                         )}
                         <SmallFont extraCss="whitespace-nowrap">
-                          {history?.votes.length} VOTES
+                          {history?.votes?.length} VOTES
                         </SmallFont>
                       </div>
                     </div>
