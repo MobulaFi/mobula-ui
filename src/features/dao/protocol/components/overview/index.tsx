@@ -24,10 +24,10 @@ import { RankBox } from "../ui/overview/box-rank";
 import { StakedLine } from "../ui/overview/line-staked";
 
 export const Overview = () => {
-  const { recentlyAdded } = useNonValueToken();
-  const { countdown, tokensOwed, goodDecisions, badDecisions, claimed } =
+  const {recentlyAdded} = useNonValueToken();
+  const {countdown, tokensOwed, goodDecisions, badDecisions, claimed} =
     useContext(OverviewContext);
-  const { address } = useAccount();
+  const {address} = useAccount();
   const [moreHistory, setMoreHistory] = useState(10);
   const [showMore, setShowMore] = useState(false);
   const [days, setDays] = useState(0);
@@ -136,7 +136,7 @@ export const Overview = () => {
               };
               // TODO : if else under do not work if in a fonction ( see in utils.tsx)
               if (postedDate < 60) {
-                format = { timeframe: "seconds", time: postedDate };
+                format = {timeframe: "seconds", time: postedDate};
               } else if (postedDate >= 60 && postedDate < 120) {
                 format = {
                   timeframe: "minute",
@@ -192,7 +192,7 @@ export const Overview = () => {
                           <AiOutlineClose className="text-sm text-red dark:text-red mr-2" />
                         )}
                         <SmallFont extraCss="whitespace-nowrap">
-                          {history?.votes.length} VOTES
+                          {history?.votes?.length} VOTES
                         </SmallFont>
                       </div>
                     </div>
