@@ -93,17 +93,8 @@ export const TryItOut = () => {
         <div className="relative flex justify-center flex-col items-center md:items-start">
           <Title title="Try it out!" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-2 text-xl md:text-base text-center">
-            A new way of using subgraphs, livestreamed, multi-chain & enriched
+            Get started for free, in minutes, no credit card required.
           </p>
-          {/* <div
-              className="absolute top-[100px] h-[2px] w-full bg-gradient-to-br 
-                     from-[rgba(0,0,0,0.95)] to-[rgba(0,0,0,0.35)] 
-                     dark:from-[rgba(255,255,255,0.95)] dark:to-[rgba(255,255,255,0.35)] 
-                     mt-2 text-center transition-all duration-300 ease-in-out"
-              style={{
-                width: isHover ? titleWidth + "px" : "0px",
-              }}
-            /> */}
         </div>
         <div className="flex items-center justify-between md:flex-col max-w-[95%] md:max-w-full md:mt-6">
           <TryItOutBox ref={firstBoxRef} idx={0} />

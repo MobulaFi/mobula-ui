@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { curatedDatasets } from "../../constant";
 import { useHomeLanding } from "../../context-manager";
 import { containerStyle } from "../../style";
@@ -26,7 +26,7 @@ export const CuratedDataset = () => {
         <div>
           <Title title="Curated datasets" extraCss="md:text-center" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-4 text-xl text-center lg:text-center lg:text-base lg:max-w-[95%] lg:mx-auto">
-            A new way of using subgraphs, livestreamed, multi-chain & enriched
+            Build apps & analytics with curated blockchain & crypto data
           </p>
           <div className="max-w-[900px] mx-auto">
             <div className="flex items-center mt-[50px] lg:mt-6 w-full justify-around">
@@ -52,7 +52,7 @@ export const CuratedDataset = () => {
                     {dataset.title}
                   </p>
                   <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-3 lg:mt-1 text-xl text-center lg:text-sm">
-                    {dataset.description}
+                    {dataset.subtitle}
                   </p>
                 </button>
               ))}
@@ -83,17 +83,10 @@ export const CuratedDataset = () => {
                   ...{ "--text-wrap": "balance" },
                 }}
               >
-                Serverless SQL for
-                <br />
-                the frontend cloud
+                {activeDataset.headline}
               </h2>
               <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-10 lg:mt-4 text-xl lg:text-base lg:ml-2.5">
-                Mobula prioritizes privacy by employing{" "}
-                <span className="text-light-font-100 dark:text-dark-font-100">
-                  decentralized servers
-                </span>
-                , ensuring that user data is not stored at all. This approach
-                guarantees that sensitive
+                {activeDataset.description}
               </p>
               <div className="w-full my-[50px] lg:my-[30px] flex items-center">
                 <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
@@ -110,27 +103,19 @@ export const CuratedDataset = () => {
                     className="p-1 flex items-center justify-center shadow-xl bg-hover backdrop-blur-md border
                    border-light-border-primary dark:border-dark-border-primary rounded-lg"
                   >
-                    <img
-                      className="w-[30px] h-[30px]"
-                      src="/landing/curated-datasets/chains.png"
-                      alt="secure"
-                    />
+                    {activeDataset.contents[3].icon}
                   </div>
                   <p className="text-light-font-100 dark:text-dark-font-100 font-poppins text-xl ml-2.5">
-                    30+ Blockchains
+                    {activeDataset.contents[3].title}
                   </p>
                 </div>
                 <p className="text-light-font-60 dark:text-dark-font-60 font-poppins text-base mt-4 lg:text-sm lg:mt-3">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Quos, odit deleniti? Explicabo laborum eveniet facere,
-                  asperiores repellendus, sed voluptatum dolorem illo soluta
-                  consectetur laudantium quos libero optio maxime consequatur
-                  commodi.
+                  {activeDataset.contents[3].description}
                 </p>
               </div>
             </div>
             <div className="flex flex-col max-w-[450px] lg:max-w-full justify-between ml-5 lg:ml-0">
-              {activeDataset.contents.map((content, i) => (
+              {activeDataset.contents.slice(0, 3).map((content, i) => (
                 <CuratedBox key={i} content={content} />
               ))}
             </div>

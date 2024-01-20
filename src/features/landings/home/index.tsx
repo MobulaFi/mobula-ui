@@ -115,7 +115,7 @@ export const HomeLanding = () => {
                 to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
                  dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text text-center"
               >
-                The last data provider
+                The last web3 data provider
                 <br />
                 You&apos;ll ever need
               </h1>
@@ -132,7 +132,7 @@ export const HomeLanding = () => {
                 className="dark:text-dark-font-100 font-poppins ml-8 md:ml-5 md:h-[40px] md:w-[132px] md:text-sm md:font-normal
                w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out"
               >
-                Learn More
+                Read Docs >
               </button>
             </div>
             <div className="flex flex-col w-full">
@@ -142,7 +142,7 @@ export const HomeLanding = () => {
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
                 </div>
                 <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins">
-                  They using our APIs
+                  Powering the best
                 </p>
                 <div className="w-full flex items-center">
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />

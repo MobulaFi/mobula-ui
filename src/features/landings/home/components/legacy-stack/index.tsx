@@ -33,7 +33,8 @@ export const LegacyStack = () => {
         <div>
           <Title title="Migrate your legacy stacks" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-[Poppins] mt-6 text-xl lg:text-base text-center ">
-            A new way of using subgraphs, livestreamed, multi-chain & enriched
+            Save on your data bill & harmonize your app by working with a single
+            provider, dedicated data provider.
           </p>
           <div className="flex flex-col w-full md:hidden">
             <div className="w-full mx-auto">
@@ -46,7 +47,7 @@ export const LegacyStack = () => {
                       activeLegacyStack.id === stack.id
                         ? "opacity-100"
                         : "opacity-40"
-                    } flex flex-col items-center justify-start h-[130px] w-[20%] transition-all duration-300 ease-in-out`}
+                    } flex flex-col items-center justify-start h-[130px] w-[25%] transition-all duration-300 ease-in-out`}
                     onMouseEnter={() => setLegacyStackHover(stack.id)}
                     onMouseLeave={() => setLegacyStackHover(0)}
                     onClick={() => setActiveLegacyStack(stack)}
@@ -69,14 +70,14 @@ export const LegacyStack = () => {
             </div>
             <div className="h-[2px] w-full bg-light-font-10 dark:bg-dark-font-10 mt-[40px] relative">
               <div
-                className="h-full w-[20%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
+                className="h-full w-[25%] absolute bg-blue dark:bg-blue transition-all duration-300 ease-in-out"
                 style={{
                   left:
                     ((legacyStackHover !== 0
                       ? legacyStackHover
                       : activeLegacyStack.id) -
                       1) *
-                      20 +
+                      25 +
                     "%",
                 }}
               />{" "}
@@ -114,12 +115,6 @@ export const LegacyStack = () => {
                     </p>
                   </div>
                 ))}
-              </div>
-              <div className=" p-8 flex items-center">
-                <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
-                  Discover how bitcoin.com ave 12,000$ yearly bills by switch to
-                  Mobula
-                </p>
               </div>
             </div>
           </div>
@@ -159,20 +154,6 @@ export const LegacyStack = () => {
                   className="px-6 py-2 h-fit flex flex-col w-full bg-[rgba(23, 27, 43, 0.62)] shadow-top-bottom
                border border-light-border-primary dark:border-dark-border-primary rounded-xl mt-1"
                 >
-                  <div className="h-[30px] flex items-center px-2 shadow-2xl bg-[rgba(255,255,255,0.03)] rounded backdrop-blur-md mt-2.5 w-fit">
-                    <p
-                      className={`${
-                        stack?.content?.percentage > 0
-                          ? "text-green dark:text-green"
-                          : "text-red dark:text-red"
-                      } text-xs mr-2`}
-                    >
-                      {stack?.content?.percentage}%
-                    </p>
-                    <p className="text-xs text-light-font-100 dark:text-dark-font-100">
-                      Powerful than Mobula
-                    </p>
-                  </div>
                   {activeLegacyStack.content.values.map((content, i) => (
                     <div
                       key={content.name}
@@ -186,16 +167,10 @@ export const LegacyStack = () => {
                         {content.name}
                       </p>
                       <p className="text-light-font-100 tracking-tight dark:text-dark-font-100 font-poppins mt-1 text-2xl">
-                        {getTokenPercentage(content.value)}%
+                        {content.value}
                       </p>
                     </div>
                   ))}
-                </div>
-                <div className=" p-4 flex items-center">
-                  <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-sm">
-                    Discover how bitcoin.com ave 12,000$ yearly bills by switch
-                    to Mobula
-                  </p>
                 </div>
               </div>
             ))}
