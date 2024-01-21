@@ -2546,7 +2546,7 @@ export const links = [
   {
     name: "twitter",
     title: "Twitter",
-    placeholder: "https://twitter.com/MobulaFi",
+    placeholder: "https://x.com/mobulaio",
     icon: (
       <BsTwitter className="text-twitter dark:text-twitter mr-[7.5px] text-xl md:text-base lg:text-lg" />
     ),
