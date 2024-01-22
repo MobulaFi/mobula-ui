@@ -68,9 +68,6 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { data, trade, history }: any = await fetchAssetData({ params });
-
-  console.log("fetchPairTrade", trade);
-
   return (
     <>
       <head>
