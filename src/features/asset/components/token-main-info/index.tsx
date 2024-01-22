@@ -20,7 +20,11 @@ import { useAthPrice } from "../../hooks/use-athPrice";
 import { useMarketMetrics } from "../../hooks/use-marketMetrics";
 import { percentageTags } from "../../style";
 
-export const TokenMainInfo = () => {
+interface TokenMainInfoProps {
+  pairs?: any;
+}
+
+export const TokenMainInfo = ({ pairs = null }) => {
   const [isHoverStar, setIsHoverStar] = useState(false);
   const [inWl, setInWl] = useState(false);
   const { priceLow, priceHigh } = useAthPrice();
@@ -33,7 +37,7 @@ export const TokenMainInfo = () => {
     showSwap,
     setTimeSelected,
   } = useContext(BaseAssetContext);
-  const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset.id);
+  const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset?.id);
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const { marketMetrics } = useMarketMetrics(baseAsset);
@@ -130,10 +134,10 @@ export const TokenMainInfo = () => {
   const priceChange = useMemo(() => {
     if (historyData?.price_history) {
       return (
-        (baseAsset.price /
+        (baseAsset?.price /
           getClosest(
             historyData.price_history.concat(
-              baseAsset.price_history?.price || []
+              baseAsset?.price_history?.price || []
             ),
             Math.max(Date.now() - timestamp[timeSelected], 0)
           ) -
@@ -171,15 +175,15 @@ export const TokenMainInfo = () => {
         <div className="flex items-center mb-1 md:mb-0">
           <img
             className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
-            src={baseAsset.logo}
-            alt={`${baseAsset.name} logo`}
+            src={baseAsset?.logo}
+            alt={`${baseAsset?.name} logo`}
           />
           <div className="flex flex-wrap items-center">
             <Popover
               visibleContent={
                 <LargeFont extraCss="mr-[5px] hidden lg:flex">
-                  {baseAsset.name.length > 15
-                    ? `${baseAsset?.name.slice(0, 15)}...`
+                  {baseAsset?.name?.length > 15
+                    ? `${baseAsset?.name?.slice(0, 15)}...`
                     : baseAsset?.name}
                 </LargeFont>
               }
@@ -187,24 +191,24 @@ export const TokenMainInfo = () => {
               onToggle={() => setShowFullName((prev) => !prev)}
               isOpen={showFullName}
             />
-            {baseAsset.name.length <= 15 ? (
+            {baseAsset?.name?.length <= 15 ? (
               <p className="text-[26px] leading-[26px] font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
                 {baseAsset?.name}
               </p>
             ) : null}
-            {baseAsset.name.length > 15 ? (
+            {baseAsset?.name?.length > 15 ? (
               <Popover
                 visibleContent={
                   <p
                     className={`${marketChangeColor} cursor-default text-[26px] leading-[26px] text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium`}
                   >
-                    {baseAsset.name.length > 13
-                      ? `${baseAsset?.name.slice(0, 13)}...`
+                    {baseAsset?.name?.length > 13
+                      ? `${baseAsset?.name?.slice(0, 13)}...`
                       : baseAsset?.name}
                   </p>
                 }
                 hiddenContent={
-                  baseAsset.name.length > 13 ? baseAsset?.name : null
+                  baseAsset?.name?.length > 13 ? baseAsset?.name : null
                 }
                 onToggle={() => setShowNameUnformatted((prev) => !prev)}
                 isOpen={showNameUnformatted}

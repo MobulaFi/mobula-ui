@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -29,7 +29,7 @@ export const TokenSocialsInfo = () => {
   const { chain } = useNetwork();
 
   const socials = [
-    baseAsset.twitter
+    baseAsset?.twitter
       ? {
           name: "Twitter",
           icon: (
@@ -39,7 +39,7 @@ export const TokenSocialsInfo = () => {
           username: baseAsset?.twitter.split("https://twitter.com/")[1],
         }
       : null,
-    baseAsset.chat
+    baseAsset?.chat
       ? {
           name: "Telegram",
           icon: (
@@ -49,7 +49,7 @@ export const TokenSocialsInfo = () => {
           username: baseAsset?.chat.split("https://t.me/")[1],
         }
       : null,
-    baseAsset.discord
+    baseAsset?.discord
       ? {
           name: "Discord",
           icon: (
@@ -67,7 +67,7 @@ export const TokenSocialsInfo = () => {
   ) {
     let newChains: string[];
     let newContracts: string[];
-    if (currentChain) {
+    if (currentChain && chains && contracts) {
       const currentIndex = chains.indexOf(currentChain);
       newChains = chains;
       newContracts = contracts;
@@ -107,16 +107,16 @@ export const TokenSocialsInfo = () => {
     <div className="flex flex-col w-[40%] lg:w-full">
       <div className="flex items-start lg:items-center justify-between flex-col lg:flex-row">
         <div className="flex flex-col w-full">
-          {baseAsset.tags?.length > 0 ? (
+          {baseAsset?.tags?.length > 0 ? (
             <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 flex lg:hidden font-medium">
               Tags
             </SmallFont>
           ) : null}
           <div className="flex items-center mt-2.5 lg:mt-0 w-full">
             <div className="flex justify-between items-center w-full">
-              {baseAsset.tags?.length > 0 ? (
+              {baseAsset?.tags?.length > 0 ? (
                 <div className="flex items-center flex-wrap">
-                  {baseAsset.tags.map((tag: string, i: number) => {
+                  {baseAsset?.tags.map((tag: string, i: number) => {
                     if (i < 3)
                       return (
                         <div
@@ -160,7 +160,7 @@ export const TokenSocialsInfo = () => {
 
         <div className="flex items-center mt-5 lg:mt-[15px] flex-wrap lg:flex-nowrap">
           <div className="flex lg:hidden">
-            {baseAsset.website ? (
+            {baseAsset?.website ? (
               <Button
                 extraCss={`${mainButtonStyle} mb-[5px]`}
                 onClick={() => openInNewTab(baseAsset.website as string)}
@@ -181,7 +181,7 @@ export const TokenSocialsInfo = () => {
               title={addressSlicer(newContracts?.[0])}
               logo={
                 blockchainsContent[newChains?.[0]]?.logo ||
-                `/logo/${newChains[0]?.toLowerCase().split(" ")[0]}.png`
+                `/logo/${newChains?.[0]?.toLowerCase().split(" ")[0]}.png`
               }
               position="left-1/2 -translate-x-1/2"
               isMobile

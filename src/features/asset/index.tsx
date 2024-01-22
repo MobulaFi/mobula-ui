@@ -30,7 +30,11 @@ import { BaseAssetContext } from "./context-manager";
 import { PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
 
-export const Assets = () => {
+interface AssetProps {
+  isAssetPage?: boolean;
+}
+
+export const Assets = ({ isAssetPage }: AssetProps) => {
   const {
     baseAsset,
     marketMetrics,
@@ -71,7 +75,7 @@ export const Assets = () => {
   useEffect(() => {
     if (baseAsset)
       setMarketMetrics({
-        price: baseAsset.price,
+        price: baseAsset?.price,
         priceChange: null,
         volume: 0,
         volumeChange: null,
@@ -319,131 +323,145 @@ export const Assets = () => {
             <TokenSocialsInfo />
           </div>
           <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
-          <div
-            className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
+          {isAssetPage ? (
+            <>
+              <div
+                className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
            md:py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary 
            overflow-x-scroll scroll w-full md:w-[95%] mx-auto md:hidden"
-          >
-            <div className="flex">
-              {tabs
-                ?.filter((tab) => tab !== "Buy")
-                // ?.filter(tab => {
-                //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
-                //   return tab;
-                // })
-                ?.map((tab) => (
-                  <Button
-                    key={tab}
-                    extraCss={`${mainButtonStyle} px-2.5 border ${
-                      tab === activeTab ? "border-blue dark:border-blue" : ""
-                    } ${
-                      (tab === "Fundraising" && !baseAsset?.sales?.length) ||
-                      (tab === "Vesting" &&
-                        !baseAsset?.release_schedule?.length)
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
-                    }`}
-                    disabled={
-                      (tab === "Fundraising" && !baseAsset?.sales?.length) ||
-                      (tab === "Vesting" &&
-                        !baseAsset?.release_schedule?.length)
-                    }
-                    onClick={() => setActiveTab(tab)}
-                  >
-                    {tab}
-                  </Button>
-                ))}
-            </div>
-          </div>
-          {activeTab === "Essentials" ? (
-            <div
-              style={{
-                animation: getAnimation("Essentials"),
-                position: activeTab === "Essentials" ? "static" : "absolute",
-              }}
-            >
-              <Essentials />
-            </div>
-          ) : null}
-          {activeTab === "Market" ? (
-            <div
-              style={{
-                animation: getAnimation("Market"),
-                position: activeTab === "Market" ? "static" : "absolute",
-              }}
-            >
-              <Market />
-            </div>
-          ) : null}
-          {activeTab === "Social & Developer" ? (
-            <div
-              style={{
-                animation: getAnimation("Social & Developer"),
-                position:
-                  activeTab === "Social & Developer" ? "static" : "absolute",
-              }}
-            >
-              <SocialsDeveloper />
-            </div>
-          ) : null}
-          {activeTab === "Tokenomic" ? (
-            <div
-              style={{
-                animation: getAnimation("Tokenomic"),
-                position: activeTab === "Tokenomic" ? "static" : "absolute",
-              }}
-            >
-              <Tokenomic />
-            </div>
-          ) : null}
-          {activeTab === "Fundraising" ? (
-            <div
-              style={{
-                animation: getAnimation("Fundraising"),
-                position: activeTab === "Fundraising" ? "static" : "absolute",
-              }}
-            >
-              <Fundraising />
-            </div>
-          ) : null}
-          {activeTab === "Vesting" ? (
-            <div
-              style={{
-                animation: getAnimation("Vesting"),
-                position: activeTab === "Vesting" ? "static" : "absolute",
-              }}
-            >
-              <Vesting />
-            </div>
-          ) : null}
-          {activeTab === "Buy" ? (
-            <div
-              className="flex w-full justify-center lg:mt-2.5"
-              style={{
-                animation: getAnimation("Buy"),
-                position: activeTab === "Buy" ? "static" : "absolute",
-              }}
-            >
-              <SwapProvider
-                tokenOutBuffer={{
-                  ...baseAsset,
-                  address: baseAsset?.contracts?.[0],
-                  blockchain: baseAsset?.blockchains?.[0],
-                }}
-                lockToken={["out"]}
               >
-                <BasicSwap activeStep={0} />
-              </SwapProvider>
-            </div>
-          ) : null}
+                <div className="flex">
+                  {tabs
+                    ?.filter((tab) => tab !== "Buy")
+                    // ?.filter(tab => {
+                    //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
+                    //   return tab;
+                    // })
+                    ?.map((tab) => (
+                      <Button
+                        key={tab}
+                        extraCss={`${mainButtonStyle} px-2.5 border ${
+                          tab === activeTab
+                            ? "border-blue dark:border-blue"
+                            : ""
+                        } ${
+                          (tab === "Fundraising" &&
+                            !baseAsset?.sales?.length) ||
+                          (tab === "Vesting" &&
+                            !baseAsset?.release_schedule?.length)
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
+                        disabled={
+                          (tab === "Fundraising" &&
+                            !baseAsset?.sales?.length) ||
+                          (tab === "Vesting" &&
+                            !baseAsset?.release_schedule?.length)
+                        }
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab}
+                      </Button>
+                    ))}
+                </div>
+              </div>
+              {activeTab === "Essentials" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Essentials"),
+                    position:
+                      activeTab === "Essentials" ? "static" : "absolute",
+                  }}
+                >
+                  <Essentials />
+                </div>
+              ) : null}
+              {activeTab === "Market" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Market"),
+                    position: activeTab === "Market" ? "static" : "absolute",
+                  }}
+                >
+                  <Market />
+                </div>
+              ) : null}
+              {activeTab === "Social & Developer" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Social & Developer"),
+                    position:
+                      activeTab === "Social & Developer"
+                        ? "static"
+                        : "absolute",
+                  }}
+                >
+                  <SocialsDeveloper />
+                </div>
+              ) : null}
+              {activeTab === "Tokenomic" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Tokenomic"),
+                    position: activeTab === "Tokenomic" ? "static" : "absolute",
+                  }}
+                >
+                  <Tokenomic />
+                </div>
+              ) : null}
+              {activeTab === "Fundraising" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Fundraising"),
+                    position:
+                      activeTab === "Fundraising" ? "static" : "absolute",
+                  }}
+                >
+                  <Fundraising />
+                </div>
+              ) : null}
+              {activeTab === "Vesting" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Vesting"),
+                    position: activeTab === "Vesting" ? "static" : "absolute",
+                  }}
+                >
+                  <Vesting />
+                </div>
+              ) : null}
+              {activeTab === "Buy" ? (
+                <div
+                  className="flex w-full justify-center lg:mt-2.5"
+                  style={{
+                    animation: getAnimation("Buy"),
+                    position: activeTab === "Buy" ? "static" : "absolute",
+                  }}
+                >
+                  <SwapProvider
+                    tokenOutBuffer={{
+                      ...baseAsset,
+                      address: baseAsset?.contracts?.[0],
+                      blockchain: baseAsset?.blockchains?.[0],
+                    }}
+                    lockToken={["out"]}
+                  >
+                    <BasicSwap activeStep={0} />
+                  </SwapProvider>
+                </div>
+              ) : null}
 
-          <TradeFiltersPopup />
-          <PopupSocialMobile />
-          <PriceAlertPopup
-            show={showTargetPrice}
-            setShow={setShowTargetPrice}
-          />
-          <PopupAllTags />
+              <TradeFiltersPopup />
+              <PopupSocialMobile />
+              <PriceAlertPopup
+                show={showTargetPrice}
+                setShow={setShowTargetPrice}
+              />
+              <PopupAllTags />
+            </>
+          ) : (
+            <Essentials />
+          )}
         </Container>
       </div>{" "}
     </>

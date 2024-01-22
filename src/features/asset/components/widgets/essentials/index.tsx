@@ -1,24 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { SwapProvider } from "../../../../../layouts/swap";
-import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
-import TradingViewChart from "../../../../../lib/trading-view";
+import React, { useContext, useEffect, useState } from "react";
 import { BaseAssetContext } from "../../../context-manager";
-import { ChartHeader } from "./charts/header";
-import { ChartLite } from "./charts/linear";
-import { CoreActor } from "./core-actor";
-import { Description } from "./description";
-import { ListingDetails } from "./listing-details";
-import { PresaleDetails } from "./presale-details";
-import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
-import { Socials } from "./socials";
-import { TimeSwitcher } from "./time-switcher";
-import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
 export const Essentials = () => {
-  const { baseAsset, setShowMobileMetric, activeChart, setActiveMetric } =
-    useContext(BaseAssetContext);
+  const {
+    baseAsset,
+    setShowMobileMetric,
+    isAssetPage,
+    activeChart,
+    setActiveMetric,
+  } = useContext(BaseAssetContext);
   const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
@@ -46,17 +38,17 @@ export const Essentials = () => {
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
-        <div className="flex flex-col left-container-max-width w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
+        {/* <div className="flex flex-col left-container-max-width w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
           <ChartHeader
             setChartPreference={setChartPreference}
             chartPreference={chartPreference}
           />
-          {chartPreference !== "Trading view" ? (
+          {chartPreference !== "Trading view" && !isAssetPage ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}
-          {chartPreference === "Trading view" ? (
+          {chartPreference === "Trading view" || isAssetPage ? (
             <TradingViewChart
-              baseAsset={baseAsset}
+              baseAsset={{} as any || baseAsset}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
           ) : (
@@ -106,7 +98,8 @@ export const Essentials = () => {
               hasBeenListed ? "md:flex" : "md:hidden"
             } hidden mt-2.5`}
           />
-        </div>
+        </div> */}
+        <TokenTrades />
       </div>
       <SimilarAsset />
     </>

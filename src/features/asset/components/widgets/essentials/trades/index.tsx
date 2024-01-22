@@ -37,6 +37,9 @@ export const TokenTrades = () => {
     filters,
     baseAsset,
     setMarketMetrics,
+    isAssetPage,
+    pairTrades,
+    setPairTrades,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -138,7 +141,7 @@ export const TokenTrades = () => {
   };
 
   useEffect(() => {
-    if (!baseAsset || (userTrades?.length || 0) > 0) return;
+    if (!baseAsset || (userTrades?.length || 0) > 0 || !isAssetPage) return;
     GET("/api/1/wallet/transactions", {
       asset: baseAsset.name,
       wallet: address || "",
@@ -150,6 +153,30 @@ export const TokenTrades = () => {
         if (r.data) setUserTrades(r.data.transactions);
       });
   }, []);
+
+  const fetchPairTrade = () => {
+    console.log("INSIDE FUNCTION");
+    GET(`/api/1/market/trades`, {
+      asset: baseAsset?.token0?.address,
+    })
+      .then((res) => res.json())
+      .then((r) => {
+        console.log("RRRRR", r?.data);
+        if (r.data) {
+          setPairTrades(r.data);
+          console.log("IM CALLED");
+          setTimeout(() => {
+            fetchPairTrade();
+          }, 5000);
+        }
+      });
+  };
+
+  useEffect(() => {
+    console.log("issssss", isAssetPage, baseAsset);
+    if (isAssetPage) return;
+    fetchPairTrade();
+  }, [baseAsset]);
 
   return (
     <div className="flex flex-col mt-2.5 w-full mx-auto">
@@ -285,7 +312,7 @@ export const TokenTrades = () => {
               </div>
             </caption>
           ) : null}
-          {isMarketMetricsLoading ? (
+          {isMarketMetricsLoading && isAssetPage ? (
             <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
               <div className="h-[250px] flex w-full items-center justify-center">
                 <Spinner extraCss="h-[50px] w-[50px]" />
@@ -346,9 +373,11 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {(isMyTrades
-            ? userTrades?.filter((entry) => entry.amount > 0)
-            : marketMetrics?.trade_history
+          {(isAssetPage
+            ? isMyTrades
+              ? userTrades?.filter((entry) => entry.amount > 0)
+              : marketMetrics?.trade_history
+            : pairTrades
           )?.map((trade: Trade | UserTrade | any) => {
             const isSell = trade.type === "sell";
             const date: number = isMyTrades

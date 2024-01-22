@@ -27,6 +27,8 @@ interface BaseAssetProviderProps {
   launchpad?: ILaunchpad[];
   hideTxCookie: string;
   tradeCookie: any;
+  isAsset?: boolean;
+  tradePairs?: Trade[];
 }
 
 export const BaseAssetProvider = ({
@@ -36,7 +38,10 @@ export const BaseAssetProvider = ({
   launchpad,
   hideTxCookie,
   tradeCookie,
+  isAsset = true,
+  tradePairs,
 }: BaseAssetProviderProps) => {
+  const [isAssetPage, setIsAssetPage] = useState(isAsset);
   const [transactions, setTransactions] = useState([]);
   const [baseAsset, setBaseAsset] = useState<Asset>(token);
   const [historyData, setHistoryData] = useState<HistoryData | null>(null);
@@ -47,7 +52,7 @@ export const BaseAssetProvider = ({
   const [timeSelected, setTimeSelected] = useState<TimeSelected>(
     "24H" as TimeSelected
   );
-  const [hideTx, setHideTx] = useState(JSON.parse(hideTxCookie));
+  const [hideTx, setHideTx] = useState();
   const [tokenVsMarket, setTokenVsMarket] = useState(null);
   const [pairs, setPairs] = useState([]);
   const [chartType, setChartType] = useState<ChartType>("price");
@@ -73,9 +78,11 @@ export const BaseAssetProvider = ({
   const [shouldInstantLoad, setShouldInstantLoad] = useState(false);
   const [activeTab, setActiveTab] = useState("Essentials");
   const [tradeHistory, setTradeHistory] = useState(tradHistory);
+  const [pairTrades, setPairTrades] = useState(tradePairs);
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []
   );
+
   const [timeRemaining, setTimeRemaining] = useState({
     days: 0,
     hours: 0,
@@ -231,6 +238,7 @@ export const BaseAssetProvider = ({
   };
 
   useEffect(() => {
+    if (!isAsset) return;
     const fetchAssetData = async () => {
       const noCacheSupabase = createSupabaseDOClient({ noCache: true });
       const supabase = createSupabaseDOClient();
@@ -290,6 +298,7 @@ export const BaseAssetProvider = ({
       type: ChartType,
       time: TimeSelected
     ): Promise<void> => {
+      if (!isAsset) return;
       const supabase = createSupabaseDOClient();
       const fetchPromise: (
         | PromiseLike<PostgrestResponse<any>>
@@ -372,6 +381,10 @@ export const BaseAssetProvider = ({
 
     return {
       baseAsset,
+      pairTrades,
+      setPairTrades,
+      isAssetPage,
+      setIsAssetPage,
       setBaseAsset,
       transactions,
       setTransactions,
@@ -452,7 +465,8 @@ export const BaseAssetProvider = ({
     setBaseAsset,
     transactions,
     setTransactions,
-
+    isAssetPage,
+    setIsAssetPage,
     historyData,
     setHistoryData,
     unformattedHistoricalData,
@@ -519,6 +533,8 @@ export const BaseAssetProvider = ({
     setLaunchpads,
     timeRemaining,
     setTimeRemaining,
+    pairTrades,
+    setPairTrades,
   ]);
 
   return (
