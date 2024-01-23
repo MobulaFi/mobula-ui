@@ -67,6 +67,7 @@ type Props = {
 };
 
 async function AssetPage({ params }) {
+  const { pair } = params;
   const { data, trade, history }: any = await fetchAssetData({ params });
   const pairInfo = {
     liquidity: 1_000_000_000,
@@ -80,7 +81,7 @@ async function AssetPage({ params }) {
     atl: [1506015467481, 0.3],
   };
 
-  console.log("token0", data);
+  console.log("token0", trade);
   const newPair = {
     ...pairInfo,
     token0: {
@@ -111,6 +112,7 @@ async function AssetPage({ params }) {
     sells: 32_343,
     txns: 20_234,
     isPair: true,
+    address: pair,
   };
 
   return (

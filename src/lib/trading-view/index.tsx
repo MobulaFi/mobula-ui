@@ -14,6 +14,7 @@ interface TradingViewChartProps {
   mobile?: boolean;
   custom_css_url?: string;
   extraCss?: string;
+  isPair?: boolean;
 }
 
 const TradingViewChart = ({
@@ -21,6 +22,7 @@ const TradingViewChart = ({
   mobile = false,
   custom_css_url = "../themed.css",
   extraCss,
+  isPair = false,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -34,7 +36,7 @@ const TradingViewChart = ({
         if (!ref.current) return;
 
         const tvWidget = new Widget({
-          datafeed: Datafeed(baseAsset),
+          datafeed: Datafeed(baseAsset, isPair),
           symbol: baseAsset?.symbol + "/USD",
           container: ref.current,
           container_id: ref.current.id,

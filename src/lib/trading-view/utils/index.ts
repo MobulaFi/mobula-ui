@@ -17,7 +17,7 @@ export const supportedResolutions = [
 const lastBarsCache = new Map();
 const sockets = new Map();
 
-export const Datafeed = (baseAsset: Asset) => ({
+export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
   },
@@ -47,23 +47,26 @@ export const Datafeed = (baseAsset: Asset) => ({
     periodParams,
     onResult: Function
   ) => {
-    const response = await GET(
-      "/api/1/market/history/pair",
-      {
-        asset: baseAsset.contracts[0],
-        // address: "0x28200dfc4a177b2ef62165edce6c9fb7bc1e997a",
-        blockchain: baseAsset.blockchains[0],
+    const apiParams = {
+      endpoint: "/api/1/market/history/pair",
+      params: {
+        blockchain: baseAsset?.blockchains?.[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
         usd: true,
         period: resolution,
       },
-      false,
-      {
-        headers: { Authorization: "eb66b1f3-c24b-4f43-9892-dbc5f37d5a6d" },
-      }
-    );
+    };
+
+    if (isPair) {
+      apiParams.params.asset = baseAsset.contracts[0];
+    } else {
+      apiParams.params.address = baseAsset?.address;
+    }
+    const response = await GET(apiParams.endpoint, apiParams.params, false, {
+      headers: { Authorization: "eb66b1f3-c24b-4f43-9892-dbc5f37d5a6d" },
+    });
     const data = await response.json();
 
     onResult(data.data, {
