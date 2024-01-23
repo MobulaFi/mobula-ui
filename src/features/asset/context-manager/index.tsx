@@ -79,6 +79,7 @@ export const BaseAssetProvider = ({
   const [activeTab, setActiveTab] = useState("Essentials");
   const [tradeHistory, setTradeHistory] = useState(tradHistory);
   const [pairTrades, setPairTrades] = useState(tradePairs);
+  const [assetPairs, setAssetPairs] = useState<any>([]);
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []
   );
@@ -459,6 +460,8 @@ export const BaseAssetProvider = ({
       setLaunchpads,
       timeRemaining,
       setTimeRemaining,
+      setAssetPairs,
+      assetPairs,
     };
   }, [
     baseAsset,
@@ -535,6 +538,8 @@ export const BaseAssetProvider = ({
     setTimeRemaining,
     pairTrades,
     setPairTrades,
+    setAssetPairs,
+    assetPairs,
   ]);
 
   return (

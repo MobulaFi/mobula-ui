@@ -68,6 +68,51 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { data, trade, history }: any = await fetchAssetData({ params });
+  const pairInfo = {
+    liquidity: 1_000_000_000,
+    market_cap: 1_000_000_000,
+    circ_supply: 1_000_000_000,
+    change_1h: 12,
+    change_24h: 1.23,
+    change_7d: 20.23,
+    change_30d: 12.23,
+    ath: [1606015467481, 1243],
+    atl: [1506015467481, 0.3],
+  };
+
+  console.log("token0", data);
+  const newPair = {
+    ...pairInfo,
+    token0: {
+      address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+      name: "Ethereum",
+      price: 2200.002725868934,
+      priceToken: 1401.6847038549076,
+      priceTokenString: "1401.68470385490763874258846044540405",
+      symbol: "ETH",
+      logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579",
+    },
+    token1: {
+      address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+      name: "Arbitrum",
+      price: 1.5728874693341508,
+      priceToken: 0.0007134272045987261,
+      priceTokenString: "0.00071342720459872607536438993137",
+      symbol: "ARB",
+      logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579",
+    },
+    quoteToken: "token0",
+    baseToken: "token1",
+    blockchain: "Ethereum",
+    volume: 1_000_000_000,
+    buyVolume: 100_000_000,
+    sellVolume: 100_000_000,
+    buys: 32_343,
+    sells: 32_343,
+    txns: 20_234,
+    isPair: true,
+  };
+
   return (
     <>
       <head>
@@ -91,7 +136,7 @@ async function AssetPage({ params }) {
       </head>
       <div className="h-screen w-screen text-white dark:text-white">
         <BaseAssetProvider
-          token={data}
+          token={newPair}
           tradHistory={trade || []}
           launchpad={data?.launchpads}
           hideTxCookie={"{ hideTx: false }"}

@@ -19,6 +19,7 @@ import { BaseAssetContext } from "../../context-manager";
 import { useAthPrice } from "../../hooks/use-athPrice";
 import { useMarketMetrics } from "../../hooks/use-marketMetrics";
 import { percentageTags } from "../../style";
+import { PairsSelector } from "../pairs-selector";
 
 interface TokenMainInfoProps {
   pairs?: any;
@@ -169,68 +170,80 @@ export const TokenMainInfo = ({ pairs = null }) => {
     }
   };
 
+  const isPair = baseAsset?.isPair;
+
   return (
     <div className="flex flex-col w-[60%] lg:w-full">
-      <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
-        <div className="flex items-center mb-1 md:mb-0">
-          <img
-            className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
-            src={baseAsset?.logo}
-            alt={`${baseAsset?.name} logo`}
-          />
-          <div className="flex flex-wrap items-center">
-            <Popover
-              visibleContent={
-                <LargeFont extraCss="mr-[5px] hidden lg:flex">
-                  {baseAsset?.name?.length > 15
-                    ? `${baseAsset?.name?.slice(0, 15)}...`
-                    : baseAsset?.name}
-                </LargeFont>
+      {isPair ? (
+        <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
+          <PairsSelector />
+        </div>
+      ) : (
+        <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
+          <div className="flex items-center mb-1 md:mb-0">
+            <img
+              className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
+              src={
+                isPair
+                  ? baseAsset?.[baseAsset?.baseToken]?.logo
+                  : baseAsset?.logo
               }
-              hiddenContent={<MediumFont>{baseAsset?.name}</MediumFont>}
-              onToggle={() => setShowFullName((prev) => !prev)}
-              isOpen={showFullName}
+              alt={`${baseAsset?.name} logo`}
             />
-            {baseAsset?.name?.length <= 15 ? (
-              <p className="text-[26px] leading-[26px] font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
-                {baseAsset?.name}
-              </p>
-            ) : null}
-            {baseAsset?.name?.length > 15 ? (
+
+            <div className="flex flex-wrap items-center">
               <Popover
                 visibleContent={
-                  <p
-                    className={`${marketChangeColor} cursor-default text-[26px] leading-[26px] text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium`}
-                  >
-                    {baseAsset?.name?.length > 13
-                      ? `${baseAsset?.name?.slice(0, 13)}...`
+                  <LargeFont extraCss="mr-[5px] hidden lg:flex">
+                    {baseAsset?.name?.length > 15
+                      ? `${baseAsset?.name?.slice(0, 15)}...`
                       : baseAsset?.name}
-                  </p>
+                  </LargeFont>
                 }
-                hiddenContent={
-                  baseAsset?.name?.length > 13 ? baseAsset?.name : null
-                }
-                onToggle={() => setShowNameUnformatted((prev) => !prev)}
-                isOpen={showNameUnformatted}
-                extraCss="top-[35px]"
+                hiddenContent={<MediumFont>{baseAsset?.name}</MediumFont>}
+                onToggle={() => setShowFullName((prev) => !prev)}
+                isOpen={showFullName}
               />
-            ) : null}
-            <LargeFont extraCss="mb-0 md:mb-0.5 mt-1.5 md:mt-0.5 text-light-font-60 dark:text-dark-font-60 leading-[16px]">
-              {baseAsset?.symbol}
-            </LargeFont>
+              {baseAsset?.name?.length <= 15 ? (
+                <p className="text-[26px] leading-[26px] font-medium text-light-font-100 dark:text-dark-font-100 mr-[5px] flex lg:hidden">
+                  {baseAsset?.name}
+                </p>
+              ) : null}
+              {baseAsset?.name?.length > 15 ? (
+                <Popover
+                  visibleContent={
+                    <p
+                      className={`${marketChangeColor} cursor-default text-[26px] leading-[26px] text-light-font-100 dark:text-dark-font-100 mr-2.5 flex lg:hidden font-medium`}
+                    >
+                      {baseAsset?.name?.length > 13
+                        ? `${baseAsset?.name?.slice(0, 13)}...`
+                        : baseAsset?.name}
+                    </p>
+                  }
+                  hiddenContent={
+                    baseAsset?.name?.length > 13 ? baseAsset?.name : null
+                  }
+                  onToggle={() => setShowNameUnformatted((prev) => !prev)}
+                  isOpen={showNameUnformatted}
+                  extraCss="top-[35px]"
+                />
+              ) : null}
+              <LargeFont extraCss="mb-0 md:mb-0.5 mt-1.5 md:mt-0.5 text-light-font-60 dark:text-dark-font-60 leading-[16px]">
+                {baseAsset?.symbol}
+              </LargeFont>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center ml-2.5  mb-1">
-          <Button
-            extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
+          <div className="flex items-center ml-2.5  mb-1">
+            <Button
+              extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
              mt-[5px] mr-0 lg:text-xl md:text-xl ml-0 w-[25px] h-[25px] p-0 rounded"
-            onMouseEnter={() => setIsHoverStar(true)}
-            onMouseLeave={() => setIsHoverStar(false)}
-            onClick={triggerWatchlist}
-          >
-            {watchlistIcon}
-          </Button>
-          {/* <Button
+              onMouseEnter={() => setIsHoverStar(true)}
+              onMouseLeave={() => setIsHoverStar(false)}
+              onClick={triggerWatchlist}
+            >
+              {watchlistIcon}
+            </Button>
+            {/* <Button
             extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
              mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 
              hover:dark:text-dark-font-100 transition-all duration-200 w-[25px] h-[25px] p-0"
@@ -238,8 +251,9 @@ export const TokenMainInfo = ({ pairs = null }) => {
           >
             <TbBellRinging className="text-lg" />
           </Button> */}
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex flex-col">
         <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
           <LargeFont
