@@ -1,5 +1,6 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { getUrlFromName } from "@utils/formaters";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
@@ -47,6 +48,7 @@ export const Assets = () => {
   const [isBreadCrumbLoading, setIsBreadCrumbLoading] = useState(true);
   const [previousTab, setPreviousTab] = useState<string | null>(null);
   const [canSwipe, setCanSwipe] = useState(false);
+  const router = useRouter();
   const { setShowCard } = useContext(PopupUpdateContext);
   const [prevPaths, setPrevPaths] = useState<PrevPathProps[]>([
     {
@@ -249,6 +251,14 @@ export const Assets = () => {
     }, 200);
   }, [pathname]);
 
+  const getUrlFromTab = (tab: string) => {
+    let name = "";
+    if (tab === "Market") name = "market";
+    if (tab === "Fundraising") name = "fundraising";
+    if (tab === "Vesting") name = "vesting";
+    return `/asset/${getUrlFromName(baseAsset?.name)}/${name}`;
+  };
+
   return (
     <>
       <div className="flex flex-col" {...handlers}>
@@ -331,28 +341,45 @@ export const Assets = () => {
                 //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
                 //   return tab;
                 // })
-                ?.map((tab) => (
-                  <Button
-                    key={tab}
-                    extraCss={`${mainButtonStyle} px-2.5 border ${
-                      tab === activeTab ? "border-blue dark:border-blue" : ""
-                    } ${
-                      (tab === "Fundraising" && !baseAsset?.sales?.length) ||
-                      (tab === "Vesting" &&
-                        !baseAsset?.release_schedule?.length)
-                        ? "opacity-50 cursor-not-allowed"
-                        : ""
-                    }`}
-                    disabled={
-                      (tab === "Fundraising" && !baseAsset?.sales?.length) ||
-                      (tab === "Vesting" &&
-                        !baseAsset?.release_schedule?.length)
-                    }
-                    onClick={() => setActiveTab(tab)}
-                  >
-                    {tab}
-                  </Button>
-                ))}
+                ?.map((tab) => {
+                  return (
+                    <NextChakraLink
+                      key={tab}
+                      href={getUrlFromTab(tab)}
+                      disabled={
+                        (tab === "Fundraising" && !baseAsset?.sales?.length) ||
+                        (tab === "Vesting" &&
+                          !baseAsset?.release_schedule?.length)
+                      }
+                    >
+                      <Button
+                        extraCss={`${mainButtonStyle} px-2.5 border ${
+                          tab === activeTab
+                            ? "border-blue dark:border-blue"
+                            : ""
+                        } ${
+                          (tab === "Fundraising" &&
+                            !baseAsset?.sales?.length) ||
+                          (tab === "Vesting" &&
+                            !baseAsset?.release_schedule?.length)
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
+                        disabled={
+                          (tab === "Fundraising" &&
+                            !baseAsset?.sales?.length) ||
+                          (tab === "Vesting" &&
+                            !baseAsset?.release_schedule?.length)
+                        }
+                        // onClick={() => {
+                        //   setActiveTab(tab);
+                        // }}
+                      >
+                        {tab}
+                      </Button>
+                    </NextChakraLink>
+                  );
+                })}
             </div>
           </div>
           {activeTab === "Essentials" ? (

@@ -1,9 +1,16 @@
 import * as echarts from "echarts";
 import { useTheme } from "next-themes";
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { v4 as uuid } from "uuid";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
+import { Skeleton } from "../../../../../../components/skeleton";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { colors, nonMatchingColors } from "../../../../constant";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -13,11 +20,12 @@ interface AllocationProps {
 }
 
 export const Allocation = ({ extraCss }: AllocationProps) => {
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, isLoading } = useContext(BaseAssetContext);
   type EChartsOption = echarts.EChartsOption;
   const id = useMemo(() => uuid(), []);
   const { theme } = useTheme();
   const isDarkMode = theme === "dark";
+  const chartRef = useRef(null);
 
   const getHeight = () => {
     if (baseAsset?.distribution?.length > 7) return { h: "380px", y: "33%" };
@@ -34,7 +42,7 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
   const { h, y } = getHeight();
 
   const data =
-    baseAsset?.distribution.length > 0
+    baseAsset?.distribution?.length > 0
       ? baseAsset?.distribution?.map((entry) => ({
           value: entry.percentage,
           name: entry.name,
@@ -149,20 +157,15 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
   }, [id, baseAsset?.distribution, theme]);
 
   useEffect(() => {
-    if (!baseAsset?.distribution.length) return;
-    const chart = createInstance();
-    if (chart) chart.setOption(options);
-  }, [baseAsset?.distribution, theme]);
-
-  useEffect(() => {
-    if (!baseAsset?.distribution.length) return;
     const chart = createInstance();
     if (chart) {
+      chart.setOption(options);
       const handleResize = () => chart.resize();
       window.addEventListener("resize", handleResize);
 
       return () => {
         window.removeEventListener("resize", handleResize);
+        chart.dispose();
       };
     }
   }, [baseAsset?.distribution, theme]);
@@ -175,7 +178,41 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
       )}
     >
       <LargeFont>Token Allocation</LargeFont>
-      {baseAsset?.distribution?.length === 0 ? (
+
+      {baseAsset?.distribution?.length > 0 ? (
+        <div
+          className="flex w-full max-w-[278px] mx-auto"
+          style={{
+            height: h,
+          }}
+        >
+          <div
+            id={id}
+            ref={chartRef}
+            style={{
+              height: h,
+              width: "100%",
+            }}
+          />
+        </div>
+      ) : null}
+      {isLoading && !baseAsset?.distribution?.length ? (
+        <>
+          <div className="relative h-[185px] mt-8 w-full flex items-center justify-center mb-5">
+            <Skeleton extraCss="h-[185px] w-[185px] rounded-full" />
+            <div className="h-[140px] w-[140px] rounded-full bg-light-bg-secondary dark:bg-dark-bg-secondary absolute" />
+          </div>
+          <div className="w-full flex items-center mt-2.5 flex-wrap">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div className="flex items-center" key={i}>
+                <Skeleton extraCss="h-[14px] w-[14px] rounded-md mt-2.5" />
+                <Skeleton extraCss="h-[14px] w-[75px] rounded-md ml-2 mr-2.5 mt-2.5" />
+              </div>
+            ))}
+          </div>
+        </>
+      ) : null}
+      {!isLoading && !baseAsset?.distribution?.length ? (
         <div className="flex flex-col items-center justify-center mt-5">
           <NextImageFallback
             src={
@@ -188,22 +225,7 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
           />
           <SmallFont extraCss="mt-[15px] mb-2.5">No data available</SmallFont>
         </div>
-      ) : (
-        <div
-          className="flex w-full max-w-[278px] mx-auto"
-          style={{
-            height: h,
-          }}
-        >
-          <div
-            id={id}
-            style={{
-              height: h,
-              width: "100%",
-            }}
-          />
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };

@@ -14,11 +14,11 @@ export const FundraisingStats = () => {
       token_sold: sale.amount,
       raised: sale.raised,
     }));
-  const tokensSold = reduceResult.reduce(
+  const tokensSold = reduceResult?.reduce(
     (acc, curr) => acc + Number(curr.token_sold),
     0
   );
-  const amountRaised = reduceResult.reduce(
+  const amountRaised = reduceResult?.reduce(
     (acc, curr) => acc + Number(curr.raised),
     0
   );

@@ -1,6 +1,7 @@
 import { getFormattedAmount, getTokenPercentage } from "@utils/formaters";
 import { Button } from "components/button";
 import { Collapse } from "components/collapse";
+import { Skeleton } from "components/skeleton";
 import { TagPercentage } from "components/tag-percentage";
 import { getDateFromTimeStamp, timeframes } from "features/asset/utils";
 import { useContext, useState } from "react";
@@ -80,9 +81,11 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
     return newResults;
   }
 
-  const priceHistory = Object.entries(
-    getHistoricalPrices(unformattedHistoricalData?.price?.ALL)
-  );
+  const priceHistory = getHistoricalPrices(
+    unformattedHistoricalData?.price?.ALL
+  )
+    ? Object.entries(getHistoricalPrices(unformattedHistoricalData?.price?.ALL))
+    : [];
 
   return (
     <div
@@ -94,19 +97,11 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
       <LargeFont extraCss="mt-0 lg:mt-5 mb-2.5 px-5 pt-5 pb-0 lg:py-0">
         Price-in-time
       </LargeFont>
-      <Collapse
-        startingHeight={
-          priceHistory.length > 5
-            ? "max-h-[220px]"
-            : `max-h-[${priceHistory.length * 44}px]`
-        }
-        isOpen={showMore}
-      >
-        {priceHistory
-          ?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
-          .map((entry, i) => (
+      {priceHistory.length === 0 ? (
+        <>
+          {Array.from({ length: 5 }).map((entry, i) => (
             <div
-              key={entry[0] + entry[1]}
+              key={i}
               className={`flex w-full items-center px-5 text-light-font-100 dark:text-dark-font-100 justify-between py-2.5 ${
                 i === 0
                   ? ""
@@ -114,36 +109,78 @@ export const PriceInTime = ({ extraCss }: PriceInTimeProps) => {
               } pb-2.5`}
             >
               <div className="flex items-center text-sm mb-[5px] text-light-font-100 dark:text-dark-font-100">
-                {getDateFromTimeStamp(entry[0])}
+                <Skeleton extraCss="w-[80px] h-[15px]" />
               </div>
               <div className="flex items-center">
                 <p className="text-light-font-80 dark:text-dark-font-80 text-[13px] font-medium">
-                  ${getFormattedAmount(entry[1][0])}
+                  <Skeleton extraCss="w-[50px] h-[13px]" />
                 </p>
                 <TagPercentage
                   fs="text-[13px] md:text-xs"
                   h="h-[21.5x] md:h-5"
-                  percentage={Number(getTokenPercentage(entry[1][1]))}
-                  isUp={Number(getTokenPercentage(entry[1][1])) > 0}
+                  percentage={0}
+                  isUp={false}
+                  isLoading
                 />
               </div>
             </div>
           ))}
-      </Collapse>
-      {priceHistory?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
-        .length > 5 ? (
-        <Button
-          extraCss="mx-auto h-[30px] mt-2.5 text-sm w-full rounded-b-xl"
-          onClick={() => setShowMore(!showMore)}
-        >
-          {showMore ? "Show less" : "Show more"}
-          <BsChevronDown
-            className={`ml-[5px] text-base transition-all duration-200 ${
-              showMore ? "rotate-180" : ""
-            }`}
-          />
-        </Button>
-      ) : null}
+        </>
+      ) : (
+        <>
+          <Collapse
+            startingHeight={
+              priceHistory.length > 5
+                ? "max-h-[220px]"
+                : `max-h-[${priceHistory.length * 44}px]`
+            }
+            isOpen={showMore}
+          >
+            {priceHistory
+              ?.filter((entry, i) => entry[1] !== priceHistory[i - 1]?.[1])
+              .map((entry, i) => (
+                <div
+                  key={entry[0] + entry[1]}
+                  className={`flex w-full items-center px-5 text-light-font-100 dark:text-dark-font-100 justify-between py-2.5 ${
+                    i === 0
+                      ? ""
+                      : "border-t border-light-border-primary dark:border-dark-border-primary"
+                  } pb-2.5`}
+                >
+                  <div className="flex items-center text-sm mb-[5px] text-light-font-100 dark:text-dark-font-100">
+                    {getDateFromTimeStamp(entry[0])}
+                  </div>
+                  <div className="flex items-center">
+                    <p className="text-light-font-80 dark:text-dark-font-80 text-[13px] font-medium">
+                      ${getFormattedAmount(entry[1][0])}
+                    </p>
+                    <TagPercentage
+                      fs="text-[13px] md:text-xs"
+                      h="h-[21.5x] md:h-5"
+                      percentage={Number(getTokenPercentage(entry[1][1]))}
+                      isUp={Number(getTokenPercentage(entry[1][1])) > 0}
+                    />
+                  </div>
+                </div>
+              ))}
+          </Collapse>
+          {priceHistory?.filter(
+            (entry, i) => entry[1] !== priceHistory[i - 1]?.[1]
+          ).length > 5 ? (
+            <Button
+              extraCss="mx-auto h-[30px] mt-2.5 text-sm w-full rounded-b-xl"
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? "Show less" : "Show more"}
+              <BsChevronDown
+                className={`ml-[5px] text-base transition-all duration-200 ${
+                  showMore ? "rotate-180" : ""
+                }`}
+              />
+            </Button>
+          ) : null}{" "}
+        </>
+      )}
     </div>
   );
 };

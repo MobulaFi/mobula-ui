@@ -1,10 +1,8 @@
+import { BaseAssetProvider } from "features/asset/context-manager";
+import { ShowMoreProvider } from "features/asset/context-manager/navActive";
+import { NavActiveProvider } from "features/asset/context-manager/showMore";
 import { cookies } from "next/headers";
-import { Metadata, ResolvingMetadata } from "next/types";
-import React from "react";
 import { Assets } from "../../../features/asset";
-import { BaseAssetProvider } from "../../../features/asset/context-manager";
-import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
-import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
@@ -14,21 +12,21 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
-async function fetchAssetData({ params }) {
+async function fetchAssetData({ asset }) {
   const cookieStore = cookies();
   try {
     const tradeCookie = cookieStore.get("trade-filters")?.value || null;
     const filters = tradeCookie ? unformatFilters(tradeCookie) : null;
     const supabase = createSupabaseDOClient();
-
+    console.log("asset", asset);
     const request = supabase
       .from<Asset>("assets")
       .select(
         "id,logo,price,ath,atl,github,untrack_reason,decimals,tags,audit,kyc,volume,website,off_chain_volume,ath_volume,liquidity,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,utility_score,circulating_supply,total_supply,trade_history!left(*),price_change_24h,price_change_1h,price_change_7d,price_change_1m,tracked,assets_social!left(*),launch"
       )
       .or(
-        `name.ilike."${fromUrlToName(params.asset)}"` +
-          `,name.ilike."${params.asset.split("-").join("%")}"`
+        `name.ilike."${fromUrlToName(asset)}"` +
+          `,name.ilike."${asset.split("-").join("%")}"`
       )
       .order("date", { foreignTable: "trade_history", ascending: false })
       .order("market_cap", { ascending: false })
@@ -51,9 +49,8 @@ async function fetchAssetData({ params }) {
     const { data: launchpads } = launchpadsResult;
 
     const rightAsset =
-      tradeHistory?.find(
-        (asset) => asset.name.toLowerCase() === fromUrlToName(params.asset)
-      ) || tradeHistory?.[0];
+      tradeHistory?.find((asset) => asset.name.toLowerCase() === asset) ||
+      tradeHistory?.[0];
 
     if (rightAsset) {
       return {
@@ -85,79 +82,39 @@ type Props = {
   params: { asset: string };
 };
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const asset = params.asset;
-  return {
-    title: `${
-      asset.slice(0, 1)[0].toUpperCase() + asset.slice(1)
-    } on-chain data: price, liquidity, volume, trades & insights | Mobula`,
-    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${asset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
-  };
-}
+// export async function generateMetadata(
+//   { params }: Props,
+//   parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//   let asset = "";
+//   if (params.asset?.[1]) asset = params.asset[2];
+//   else asset = params.asset[0];
+//   if (!asset) return;
+//   return {
+//     title: `${
+//       asset.slice(0, 1)[0].toUpperCase() + asset.slice(1)
+//     } on-chain data: price, liquidity, volume, trades & insights | Mobula`,
+//     description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${asset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+//   };
+// }
 
 async function AssetPage({ params }) {
-  const data: any = await fetchAssetData({ params });
+  const data: any = await fetchAssetData({ asset: params?.asset[0] });
   const cookieStore = cookies();
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
   const tradeCookie =
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
-  //   useEffect(() => {
-  //     const timeout = setTimeout(() => {
-  //       try {
-  //         if (asset && asset.id) {
-  //           GET("/ping", { id: asset.id, name: asset.name, account }).catch(
-  //             () => {}
-  //           );
-
-  //           if (asset.name === "Bitcoin") {
-  //             // Quest system
-
-  //             GET("/earn/adventure", { name: "Genesis", action: 1, account });
-  //             // Quest system
-  //             if (
-  //               localStorage.getItem("visitedEarn") &&
-  //               !localStorage.getItem("Introduction3")
-  //             ) {
-  //               localStorage.setItem("Introduction3", "true");
-  //             }
-  //           }
-  //         }
-  //       } catch (e) {
-  //         GET("/ping", {
-  //           id: asset.id,
-  //           name: asset.name,
-  //         }).catch(() => {});
-  //       }
-  //     }, 1000);
-
-  //     return () => {
-  //       clearTimeout(timeout);
-  //     };
-  //   }, [account, asset]);
-
-  //   useEffect(() => {
-  //     if (error && router.isReady) {
-  //       router.push("/");
-  //     }
-  //   }, [error, router]);
-
-  //   useEffect(() => {
-  //     const { chartType } = getUserPrefCookie(cookies);
-  //     pushData("Asset Session", {
-  //       "Chart Type": chartType ?? "Candlestick",
-  //       "Asset Name": asset.name ?? "Unknown",
-  //       "Asset Symbol": asset.symbol ?? "Unknown",
-  //     });
-  //   }, []);
-
-  //   if (router.isFallback || !asset.id) {
-  //     return null;
-  //   }
-
   const title = `${data?.asset?.name} on-chain data: price, liquidity, volume, trades & insights | Mobula`;
+
+  const getSectionState = () => {
+    const section = params?.asset[1];
+    if (section === "market") return "Market";
+    if (section === "fundraising") return "Fundraising";
+    if (section === "vesting") return "Vesting";
+    return "Essentials";
+  };
+
+  const activeSection = getSectionState();
 
   return (
     <>
@@ -186,6 +143,7 @@ async function AssetPage({ params }) {
         launchpad={data?.launchpads}
         hideTxCookie={hideTxCookie}
         tradeCookie={tradeCookie}
+        activeSection={activeSection}
       >
         <ShowMoreProvider>
           <NavActiveProvider>
