@@ -1,9 +1,14 @@
 import React, { useContext, useEffect } from "react";
+import { BiChevronDown } from "react-icons/bi";
+import { BsTriangleFill } from "react-icons/bs";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
 import { famousContractsLabelFromName } from "../../../../layouts/swap/utils";
 import { GET } from "../../../../utils/fetch";
-import { getFormattedAmount } from "../../../../utils/formaters";
+import {
+  getFormattedAmount,
+  getTokenPercentage,
+} from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 
 export const PairsSelector = () => {
@@ -31,27 +36,57 @@ export const PairsSelector = () => {
   return (
     <Popover
       visibleContent={
-        <div className="flex items-center mb-1 md:mb-0">
-          <img
-            className="w-[38px] h-[38px] min-w-[38px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-2.5 rounded-full"
-            src={baseAsset?.[baseAsset?.baseToken]?.logo}
-            alt={`${baseAsset?.name} logo`}
-          />
-          <div className="flex flex-col">
-            <LargeFont extraCss="leading-tight font-normal">
-              <span className="font-medium">
-                {baseAsset?.[baseAsset?.baseToken]?.symbol}
-              </span>{" "}
-              <span className="text-light-font-60 dark:text-dark-font-60">
-                /
-              </span>{" "}
-              {baseAsset?.[baseAsset?.quoteToken]?.symbol}
-            </LargeFont>
-            <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 text-start leading-[16px]">
-              {baseAsset?.[baseAsset?.baseToken]?.name}
-            </MediumFont>
+        <div
+          className="flex items-center mb-1 md:mb-0 justify-between w-[300px] cursor-pointer
+         hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover py-2.5 pl-2.5 rounded-lg transition-all duration-200 ease-linear"
+        >
+          <div className="flex items-center">
+            <img
+              className="w-[38px] h-[38px] min-w-[38px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-2.5 rounded-full"
+              src={baseAsset?.[baseAsset?.baseToken]?.logo}
+              alt={`${baseAsset?.name} logo`}
+            />
+            <div className="flex flex-col">
+              <LargeFont extraCss="leading-tight font-normal">
+                <span className="font-medium">
+                  {baseAsset?.[baseAsset?.baseToken]?.symbol}
+                </span>{" "}
+                <span className="text-light-font-60 dark:text-dark-font-60">
+                  /
+                </span>{" "}
+                {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+              </LargeFont>
+              <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 text-start">
+                {baseAsset?.[baseAsset?.baseToken]?.name}
+              </MediumFont>
+            </div>
           </div>
-
+          <div className="flex items-center">
+            <div className="flex flex-col items-end">
+              <LargeFont extraCss="leading-tight font-normal">
+                ${getTokenPercentage(baseAsset?.[baseAsset?.baseToken]?.price)}
+              </LargeFont>
+              <div className="flex items-center">
+                <BsTriangleFill
+                  className={`${
+                    baseAsset?.change_24h > 0
+                      ? "rotate-0 text-green dark:text-green"
+                      : "rotate-180 text-red dark:text-red"
+                  } text-[8px] mr-1`}
+                />
+                <MediumFont
+                  extraCss={`${
+                    baseAsset?.change_24h > 0
+                      ? "text-green dark:text-green"
+                      : "text-red dark:text-red"
+                  } text-start leading-[18px]`}
+                >
+                  {getTokenPercentage(baseAsset?.change_24h)}%
+                </MediumFont>
+              </div>
+            </div>
+            <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 ml-2" />
+          </div>
           {/* <LargeFont
             extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
           >

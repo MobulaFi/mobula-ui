@@ -45,6 +45,7 @@ export const Essentials = () => {
             isPair={!isAssetPage}
             extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
           />
+          <TokenTrades />
           {/*     <ChartHeader
             setChartPreference={setChartPreference}
             chartPreference={chartPreference}
@@ -105,7 +106,6 @@ export const Essentials = () => {
             } hidden mt-2.5`}
           />*/}
         </div>
-        <TokenTrades />
       </div>
       <SimilarAsset />
     </>
