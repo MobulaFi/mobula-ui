@@ -206,7 +206,7 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
             {Array.from({ length: 5 }).map((_, i) => (
               <div className="flex items-center" key={i}>
                 <Skeleton extraCss="h-[14px] w-[14px] rounded-md mt-2.5" />
-                <Skeleton extraCss="h-[14px] w-[75px] rounded-md ml-2 mr-2.5 mt-2.5" />
+                <Skeleton extraCss="h-[14px] w-[65px] rounded-md ml-2 mr-2.5 mt-2.5" />
               </div>
             ))}
           </div>

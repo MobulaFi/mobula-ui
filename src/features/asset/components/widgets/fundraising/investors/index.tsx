@@ -7,9 +7,10 @@ import {
 import { Tds, Ths } from "../../../../../../components/table";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Investors as InvestorProps } from "../../../../models";
+import { InvestorSkeleton } from "./skeleton";
 
 export const Investors = () => {
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, isLoading } = useContext(BaseAssetContext);
   const [isHover, setIsHover] = useState("");
   const isMobile =
     (typeof window !== "undefined" ? window.innerWidth : 0) < 768;
@@ -150,7 +151,8 @@ export const Investors = () => {
                 );
               })}
           </tbody>
-        ) : (
+        ) : null}
+        {!baseAsset?.investors?.length && !isLoading ? (
           <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
             <div className="h-[250px] flex flex-col w-full items-center justify-center">
               <img src="/empty/ray.png" alt="No trade image" />
@@ -159,7 +161,14 @@ export const Investors = () => {
               </MediumFont>
             </div>
           </caption>
-        )}
+        ) : null}
+        {!baseAsset?.investors?.length && isLoading ? (
+          <>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <InvestorSkeleton key={i} />
+            ))}
+          </>
+        ) : null}
       </table>
     </>
   );
