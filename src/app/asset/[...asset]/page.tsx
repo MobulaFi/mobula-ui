@@ -12,21 +12,20 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
-async function fetchAssetData({ asset }) {
+async function fetchAssetData({ params }) {
   const cookieStore = cookies();
   try {
     const tradeCookie = cookieStore.get("trade-filters")?.value || null;
     const filters = tradeCookie ? unformatFilters(tradeCookie) : null;
     const supabase = createSupabaseDOClient();
-    console.log("asset", asset);
     const request = supabase
       .from<Asset>("assets")
       .select(
         "id,logo,price,ath,atl,github,untrack_reason,decimals,tags,audit,kyc,volume,website,off_chain_volume,ath_volume,liquidity,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,utility_score,circulating_supply,total_supply,trade_history!left(*),price_change_24h,price_change_1h,price_change_7d,price_change_1m,tracked,assets_social!left(*),launch"
       )
       .or(
-        `name.ilike."${fromUrlToName(asset)}"` +
-          `,name.ilike."${asset.split("-").join("%")}"`
+        `name.ilike."${fromUrlToName(params)}"` +
+          `,name.ilike."${params.split("-").join("%")}"`
       )
       .order("date", { foreignTable: "trade_history", ascending: false })
       .order("market_cap", { ascending: false })
@@ -49,8 +48,9 @@ async function fetchAssetData({ asset }) {
     const { data: launchpads } = launchpadsResult;
 
     const rightAsset =
-      tradeHistory?.find((asset) => asset.name.toLowerCase() === asset) ||
-      tradeHistory?.[0];
+      tradeHistory?.find(
+        (asset) => asset.name.toLowerCase() === (params as string)
+      ) || tradeHistory?.[0];
 
     if (rightAsset) {
       return {
@@ -99,7 +99,7 @@ type Props = {
 // }
 
 async function AssetPage({ params }) {
-  const data: any = await fetchAssetData({ asset: params?.asset[0] });
+  const data: any = await fetchAssetData({ params: params?.asset[0] });
   const cookieStore = cookies();
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
   const tradeCookie =
