@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view";
 import { BaseAssetContext } from "../../../context-manager";
+import { ChartHeader } from "./charts/header";
 import { ChartLite } from "./charts/linear";
 import { CoreActor } from "./core-actor";
 import { Description } from "./description";
@@ -46,10 +47,10 @@ export const Essentials = () => {
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
         <div className="flex flex-col left-container-max-width w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
-          {/* <ChartHeader
+          <ChartHeader
             setChartPreference={setChartPreference}
             chartPreference={chartPreference}
-          /> */}
+          />
           {chartPreference !== "Trading view" ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}

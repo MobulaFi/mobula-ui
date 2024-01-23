@@ -1,5 +1,4 @@
-import Cookies from "js-cookie";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdCandlestickChart, MdShowChart } from "react-icons/md";
 import { Button } from "../../../../../../components/button";
@@ -49,12 +48,12 @@ export const ChartHeader = ({
   };
   const buttonPosition = getPosition();
 
-  useEffect(() => {
-    const hideTxCookie = Cookies.get("hideTx");
-    if (!hideTxCookie || JSON.parse(hideTxCookie) !== hideTx) {
-      Cookies.set("hideTx", JSON.stringify(hideTx));
-    }
-  }, [hideTx]);
+  // useEffect(() => {
+  //   const hideTxCookie = Cookies.get("hideTx");
+  //   if (!hideTxCookie || JSON.parse(hideTxCookie) !== hideTx) {
+  //     Cookies.set("hideTx", JSON.stringify(hideTx));
+  //   }
+  // }, [hideTx]);
 
   return (
     <>
