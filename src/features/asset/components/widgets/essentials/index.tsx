@@ -41,7 +41,7 @@ export const Essentials = () => {
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
         <div className="flex flex-col left-container-max-width w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
           <TradingViewChart
-            baseAsset={({} as any) || baseAsset}
+            baseAsset={baseAsset}
             isPair={!isAssetPage}
             extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
           />

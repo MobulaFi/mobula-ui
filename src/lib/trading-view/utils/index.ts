@@ -50,7 +50,7 @@ export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
       params: {
-        blockchain: baseAsset?.blockchains?.[0],
+        // blockchain: baseAsset?.blockchains?.[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
@@ -60,10 +60,11 @@ export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
     };
 
     if (isPair) {
-      apiParams.params.asset = baseAsset.contracts[0];
-    } else {
       apiParams.params.address = baseAsset?.address;
+    } else {
+      apiParams.params.asset = baseAsset.contracts[0];
     }
+
     const response = await GET(apiParams.endpoint, apiParams.params, false, {
       headers: { Authorization: "eb66b1f3-c24b-4f43-9892-dbc5f37d5a6d" },
     });
@@ -89,17 +90,22 @@ export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
     const socket = new WebSocket(
       process.env.NEXT_PUBLIC_PRICE_WSS_ENDPOINT as string
     );
+    const params = {
+      interval: 5,
+    };
+
+    if (isPair) params.address = baseAsset?.address;
+    else {
+      (params.asset = baseAsset.contracts[0]),
+        (params.blockchain = baseAsset.blockchains[0]);
+    }
 
     socket.addEventListener("open", () => {
       socket.send(
         JSON.stringify({
           type: "pair",
           authorization: process.env.NEXT_PUBLIC_PRICE_KEY,
-          payload: {
-            asset: baseAsset.contracts[0],
-            blockchain: baseAsset.blockchains[0],
-            interval: 5,
-          },
+          payload: params,
         })
       );
     });
