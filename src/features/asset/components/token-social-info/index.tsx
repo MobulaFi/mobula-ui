@@ -157,7 +157,6 @@ export const TokenSocialsInfo = () => {
             </div>
           </div>
         </div>
-
         <div className="flex items-center mt-5 lg:mt-[15px] flex-wrap lg:flex-nowrap">
           <div className="flex lg:hidden">
             {baseAsset?.website ? (

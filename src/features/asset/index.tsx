@@ -247,12 +247,14 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
     setPrevPaths(previous);
     setIsBreadCrumbLoading(false);
   };
+
   useEffect(() => {
     setTimeout(() => {
       getPreviousPath();
     }, 200);
   }, [pathname]);
 
+  console.log("baaaa", baseAsset);
   return (
     <>
       <div className="flex flex-col" {...handlers}>
@@ -320,7 +322,19 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
           ) : null}
           <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
             <TokenMainInfo />
-            <TokenSocialsInfo />
+            {isAssetPage ? <TokenSocialsInfo /> : null}
+            {/* (
+              <div className="flex items-center flex-wrap w-full">
+                <div className="flex items-center justify-center flex-col">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
+                    Liquidity
+                  </SmallFont>
+                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 text-center">
+                    {baseAsset?.liquidity}
+                  </SmallFont>
+                </div>
+              </div>
+            ) */}
           </div>
           <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
           {isAssetPage ? (
@@ -463,7 +477,7 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
             <Essentials />
           )}
         </Container>
-      </div>{" "}
+      </div>
     </>
   );
 };

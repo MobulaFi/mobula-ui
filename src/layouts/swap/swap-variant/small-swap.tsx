@@ -1,16 +1,10 @@
 import { BaseAssetContext } from "features/asset/context-manager";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
-import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
+import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
+import { AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
 import { SwapContext } from "..";
-import { LargeFont, MediumFont, SmallFont } from "../../../components/fonts";
+import { MediumFont, SmallFont } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
 import { Asset } from "../../../interfaces/swap";
 import { pushData } from "../../../lib/mixpanel";
@@ -30,7 +24,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   const inputInRef = useRef<HTMLInputElement>(null);
   const [selectVisible, setSelectVisible] = useState<string | boolean>();
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const [isHover, setIsHover] = useState(false);
   const {
     tokenIn,
@@ -47,12 +41,13 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
     setLockToken,
   } = useContext(SwapContext);
 
-  const checkValidity = () => {
-    if (asset) return asset?.contracts?.length === 0;
-    return baseAsset?.contracts?.length === 0;
-  };
+  // const checkValidity = () => {
+  //   if (!isAssetPage) return false;
+  //   if (asset) return asset?.contracts?.length === 0;
+  //   return baseAsset?.contracts?.length === 0;
+  // };
 
-  const isValid = checkValidity();
+  // const isValid = checkValidity();
 
   return (
     <div
@@ -60,7 +55,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
     h-fit min-h-auto bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border-primary
      dark:border-dark-border-primary rounded-2xl mb-2.5 ${extraCss}`}
     >
-      <div
+      {/* <div
         className="flex w-full justify-between items-center px-4 py-2 border-b border-light-border-primary
        dark:border-dark-border-primary h-[40px] rounded-t-2xl relative bg-light-bg-terciary dark:bg-dark-bg-terciary p-2.5"
       >
@@ -71,7 +66,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
         >
           <AiOutlineSetting className="text-light-font-80 dark:text-dark-font-80 text-lg hover:text-blue hover:dark:text-blue transition-colors" />
         </button>
-      </div>
+      </div> */}
       {isValid ? (
         <div className="flex items-center justify-center p-[15px] h-full">
           <MediumFont extraCss="max-w-[200px] text-center">

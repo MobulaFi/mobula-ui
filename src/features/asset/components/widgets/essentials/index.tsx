@@ -1,7 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SwapProvider } from "../../../../../layouts/swap/";
+import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
 import { BaseAssetContext } from "../../../context-manager";
 import { SimilarAsset } from "./similar-asset";
+import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
 export const Essentials = () => {
@@ -70,11 +73,11 @@ export const Essentials = () => {
             extraCss={`${
               baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"
             } hidden`}
-          />
+          />*/}
         </div>
         <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
           <div className="flex">
-            {isDesktop && (
+            {isDesktop && isAssetPage && (
               <SwapProvider
                 tokenOutBuffer={{
                   ...baseAsset,
@@ -91,9 +94,38 @@ export const Essentials = () => {
                 <SmallSwap asset={baseAsset} />
               </SwapProvider>
             )}
+            {!isAssetPage && (
+              <SwapProvider
+                tokenInBuffer={{
+                  ...baseAsset,
+                  blockchain: baseAsset?.blockchain,
+                  address: baseAsset?.[baseAsset?.quoteToken]?.address,
+                  logo:
+                    baseAsset?.[baseAsset?.quoteToken]?.logo ||
+                    "/empty/unknown.png",
+                  name:
+                    baseAsset?.[baseAsset?.quoteToken]?.name ||
+                    baseAsset?.[baseAsset?.quoteToken]?.symbol,
+                }}
+                tokenOutBuffer={{
+                  ...baseAsset,
+                  blockchain: baseAsset?.blockchain,
+                  address: baseAsset?.[baseAsset?.baseToken]?.address,
+                  logo:
+                    baseAsset?.[baseAsset?.baseToken]?.logo ||
+                    "/empty/unknown.png",
+                  name:
+                    baseAsset?.[baseAsset?.baseToken]?.name ||
+                    baseAsset?.[baseAsset?.baseToken]?.symbol,
+                }}
+                lockToken={["out"]}
+              >
+                <SmallSwap asset={baseAsset} />
+              </SwapProvider>
+            )}
           </div>
           <TokenMetrics />
-          <CoreActor
+          {/* <CoreActor
             extraCss={`${
               baseAsset?.investors?.length > 0 ? "flex" : "hidden"
             } lg:hidden`}
@@ -104,7 +136,7 @@ export const Essentials = () => {
             extraCss={`${
               hasBeenListed ? "md:flex" : "md:hidden"
             } hidden mt-2.5`}
-          />*/}
+          /> */}
         </div>
       </div>
       <SimilarAsset />

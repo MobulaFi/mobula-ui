@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
 import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
@@ -19,7 +19,7 @@ interface TokenMetricsProps {
 
 export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const [showMore, setShowMore] = useState(false);
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const metrics: Metrics[] = [
     {
       title: "Total Volume (24h)",
@@ -72,10 +72,58 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const isLargerThan991 =
     typeof window !== "undefined" && window.innerWidth > 991;
 
+  const pairsMetrics = [
+    {
+      title: "Circ. Supply",
+      value: baseAsset?.circ_supply,
+      info: "The Circulating Supply is the total amount of tokens in circulation.",
+    },
+    {
+      title: "Liquidity",
+      value: baseAsset?.liquidity,
+      info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
+    },
+    {
+      title: "Volume",
+      value: baseAsset?.volume,
+      info: "The Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
+    },
+    {
+      title: "Market Cap",
+      value: baseAsset?.market_cap,
+      info: "The Market Cap is the product of the current price and the total supply of the asset.",
+    },
+    {
+      title: "Buys Volume",
+      value: baseAsset?.buyVolume,
+      info: "The Buys Volume is the total amount worth of asset traded on centralized exchanges in the last 24 hours.",
+    },
+    {
+      title: "Sells Volume",
+      value: baseAsset?.sellVolume,
+      info: "The Sells Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
+    },
+    {
+      title: "Buys",
+      value: baseAsset?.buys,
+      info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
+    },
+    {
+      title: "Sells",
+      value: baseAsset?.sells,
+      info: "The Circulating Supply is the total amount of tokens in circulation.",
+    },
+    {
+      title: "Txns",
+      value: baseAsset?.txns,
+      info: "The transaction count is the number of transactions made on the asset's blockchain in the last 24 hours.",
+    },
+  ];
+
   return (
     <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
       <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
-        Token Metrics
+        {isAssetPage ? "Token Metrics" : "Pair Metrics"}
         <div className="flex items-center ml-auto text-xs">
           Need data?
           <NextChakraLink
@@ -95,7 +143,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
         startingHeight={isLargerThan991 ? "max-h-full" : "max-h-[129px]"}
         isOpen={showMore}
       >
-        {metrics.map((entry, i) => {
+        {(isAssetPage ? metrics : pairsMetrics).map((entry, i) => {
           const isNotDollar =
             entry.title.includes("Supply") || entry.title.includes("Rank");
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
