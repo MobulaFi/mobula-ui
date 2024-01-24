@@ -203,7 +203,7 @@ export const SkeletonTable = () => {
             Search for your favorite assets or find new ones by using the views
             on the
           </SmallFont>
-          <NextChakraLink href="/">top 100</NextChakraLink>
+          <NextChakraLink href="/top100">top 100</NextChakraLink>
           <SmallFont extraCss="text-center text-light-font-40 dark:text-dark-font-40 max-w-[400px] md:max-w-[340px] w-[90%]">
             page
           </SmallFont>

@@ -397,7 +397,7 @@ export const TokenTrades = () => {
                                     blockchainsContent[trade.blockchain]
                                       ?.explorer
                                   }/tx/${trade.hash}`
-                                : "/"
+                                : ""
                             }
                             key={trade.hash}
                             target="_blank"
@@ -512,7 +512,7 @@ export const TokenTrades = () => {
                                     blockchainsContent[trade.blockchain]
                                       ?.explorer
                                   }/tx/${trade.hash}`
-                                : "/"
+                                : ""
                             }
                             key={trade.hash}
                             target="_blank"

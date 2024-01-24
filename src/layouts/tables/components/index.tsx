@@ -204,7 +204,8 @@ export function AssetsTable({
                     titleCssPosition="justify-start"
                   />
                   {(activeView?.display?.length || 0) > 0 &&
-                  (pathname === "/" || pathname === "/?page=" + page) &&
+                  (pathname === "/top100" ||
+                    pathname === "/top100?page=" + page) &&
                   activeView?.name !== "All" &&
                   activeView?.name !== "Portfolio" ? (
                     <>
@@ -287,7 +288,8 @@ export function AssetsTable({
                       )}
                     </>
                   ) : null}
-                  {pathname !== "/" && pathname !== "/?page=" + page ? (
+                  {pathname !== "/top100" &&
+                  pathname !== "/top100?page=" + page ? (
                     <>
                       <TableHeaderEntry
                         extraCss="static"

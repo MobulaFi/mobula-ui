@@ -218,7 +218,7 @@ export const Views = ({ setResultsData }) => {
                       });
                     }
                   } else {
-                    if (page) router.replace("/");
+                    if (page) router.replace("/top100");
                     setActiveView({ ...content, isFirst: false });
                     pushData("Active View", { name: "Other View" });
                   }

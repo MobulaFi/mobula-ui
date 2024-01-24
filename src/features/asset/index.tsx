@@ -51,7 +51,7 @@ export const Assets = () => {
   const [prevPaths, setPrevPaths] = useState<PrevPathProps[]>([
     {
       name: "Home",
-      url: "/",
+      url: "/top100",
     },
   ]);
 
@@ -225,10 +225,10 @@ export const Assets = () => {
       return;
     }
 
-    if (beforeFormattedPaths === "/") {
+    if (beforeFormattedPaths === "/top100") {
       previous.push({
         name: "Home",
-        url: "/",
+        url: "/top100",
       });
     } else {
       previous.push({
@@ -265,7 +265,7 @@ export const Assets = () => {
                 extraCss="text-sm lg:text-[13px] md:text-xs text-light-font-40 dark:text-dark-font-40"
                 href={
                   process.env.NEXT_PUBLIC_WEBSITE_URL +
-                  (prevPaths?.[0]?.url || "/")
+                  (prevPaths?.[0]?.url || "/top100")
                 }
               >
                 {isBreadCrumbLoading ? (
@@ -279,7 +279,7 @@ export const Assets = () => {
                 extraCss="text-sm lg:text-[13px] md:text-xs"
                 href={
                   process.env.NEXT_PUBLIC_WEBSITE_URL +
-                  (prevPaths?.[1]?.url || "/")
+                  (prevPaths?.[1]?.url || "/top100")
                 }
               >
                 {isBreadCrumbLoading ? (
