@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+"use client";
+import React, { useContext, useMemo, useState } from "react";
 
 interface GeneralContextProps {
   editAssetReducer: any;
@@ -6,6 +7,8 @@ interface GeneralContextProps {
 }
 
 export const GeneralContext = React.createContext({} as GeneralContextProps);
+
+export const useGeneralContext = () => useContext(GeneralContext);
 
 export const GeneralProvider = ({ children }) => {
   const [editAssetReducer, setEditAssetReducer] = useState<any>(null);
