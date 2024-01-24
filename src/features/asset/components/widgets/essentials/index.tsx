@@ -97,7 +97,9 @@ export const Essentials = () => {
             {!isAssetPage && (
               <SwapProvider
                 tokenInBuffer={{
-                  ...baseAsset,
+                  ...baseAsset?.[baseAsset?.quoteToken],
+                  contracts: [baseAsset?.[baseAsset?.quoteToken]?.address],
+                  blockchains: [baseAsset?.blockchain],
                   blockchain: baseAsset?.blockchain,
                   address: baseAsset?.[baseAsset?.quoteToken]?.address,
                   logo:
@@ -108,7 +110,9 @@ export const Essentials = () => {
                     baseAsset?.[baseAsset?.quoteToken]?.symbol,
                 }}
                 tokenOutBuffer={{
-                  ...baseAsset,
+                  ...baseAsset?.[baseAsset?.baseToken],
+                  contracts: [baseAsset?.[baseAsset?.baseToken]?.address],
+                  blockchains: [baseAsset?.blockchain],
                   blockchain: baseAsset?.blockchain,
                   address: baseAsset?.[baseAsset?.baseToken]?.address,
                   logo:
@@ -118,7 +122,7 @@ export const Essentials = () => {
                     baseAsset?.[baseAsset?.baseToken]?.name ||
                     baseAsset?.[baseAsset?.baseToken]?.symbol,
                 }}
-                lockToken={["out"]}
+                lockToken={["in", "out"]}
               >
                 <SmallSwap asset={baseAsset} />
               </SwapProvider>
