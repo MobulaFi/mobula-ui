@@ -1,6 +1,7 @@
 import { BaseAssetProvider } from "features/asset/context-manager";
 import { ShowMoreProvider } from "features/asset/context-manager/navActive";
 import { NavActiveProvider } from "features/asset/context-manager/showMore";
+import { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
 import { Assets } from "../../../features/asset";
 import { Asset } from "../../../interfaces/assets";
@@ -108,6 +109,19 @@ const getMetaDataFromSection = (section: string, asset: string) => {
     description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${slicedAsset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
   };
 };
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const asset = params?.asset[0];
+  const section = params?.asset[1];
+  const { title, description } = getMetaDataFromSection(section, asset);
+  return {
+    title,
+    description,
+  };
+}
 
 async function AssetPage({ params }) {
   const data: any = await fetchAssetData({ params: params?.asset[0] });
