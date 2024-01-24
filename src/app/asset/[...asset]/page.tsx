@@ -82,21 +82,32 @@ type Props = {
   params: { asset: string };
 };
 
-// export async function generateMetadata(
-//   { params }: Props,
-//   parent: ResolvingMetadata
-// ): Promise<Metadata> {
-//   let asset = "";
-//   if (params.asset?.[1]) asset = params.asset[2];
-//   else asset = params.asset[0];
-//   if (!asset) return;
-//   return {
-//     title: `${
-//       asset.slice(0, 1)[0].toUpperCase() + asset.slice(1)
-//     } on-chain data: price, liquidity, volume, trades & insights | Mobula`,
-//     description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${asset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
-//   };
-// }
+const getMetaDataFromSection = (section: string, asset: string) => {
+  const slicedAsset = asset.slice(0, 1)[0].toUpperCase() + asset.slice(1);
+  if (!section)
+    return {
+      title: `${slicedAsset} on-chain data: price, liquidity, volume, trades & insights | Mobula.io`,
+      description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${slicedAsset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+    };
+  if (section === "market")
+    return {
+      title: `${slicedAsset} Token Market Overview Token Comparison, Pairs, Price History and Buy/Sell Spread | Mobula.io`,
+      description: `Explore comprehensive market data of ${slicedAsset}, including token vs category analysis, trading pairs, historical price trends, and buy/sell spread details. Access all essential market insights for ${slicedAsset} in one place on Mobula.io, aiding strategic trading choices.`,
+    };
+  if (section === "fundraising")
+    return {
+      title: `${slicedAsset} Token Fundraising Rounds & Investment Details | Mobula.io`,
+    };
+  if (section === "vesting")
+    return {
+      title: `${slicedAsset} Token Vesting Schedule & Unlock Events Tracker | Mobula.io`,
+      description: `Description: Monitor ${slicedAsset} token’s vesting progress and upcoming unlock events with Mobula.io’s comprehensive vesting schedule. Understand stake subsidies, public sale allocations, and strategic investor unlock timelines for informed trading decisions.`,
+    };
+  return {
+    title: `${slicedAsset} on-chain data: price, liquidity, volume, trades & insights | Mobula.io`,
+    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${slicedAsset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+  };
+};
 
 async function AssetPage({ params }) {
   const data: any = await fetchAssetData({ params: params?.asset[0] });
@@ -104,7 +115,9 @@ async function AssetPage({ params }) {
   const hideTxCookie = cookieStore.get("hideTx")?.value || "false";
   const tradeCookie =
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
-  const title = `${data?.asset?.name} on-chain data: price, liquidity, volume, trades & insights | Mobula`;
+  const asset = params?.asset[0];
+  const section = params?.asset[1];
+  const { title, description } = getMetaDataFromSection(section, asset);
 
   const getSectionState = () => {
     const section = params?.asset[1];
@@ -120,10 +133,7 @@ async function AssetPage({ params }) {
     <>
       <head>
         <title>{title}</title>
-        <meta
-          name="description"
-          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
-        />
+        <meta name="description" content={description} />
         <meta
           property="og:image"
           content="https://mobula.fi/metaimage/Generic/others.png"
