@@ -406,3 +406,20 @@ textarea:focus {
     max-width: calc(50% - 10px);
   }
 }
+
+@media screen and (min-width: 1920px) {
+  .maximum-width {
+    max-width: 1500px;
+  }
+  .left-container-max-width {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 1919px) {
+  .maximum-width {
+    max-width: 1200px;
+  }
+  .left-container-max-width {
+    max-width: 990px;
+  }
+}

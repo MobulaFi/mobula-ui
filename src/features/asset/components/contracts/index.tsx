@@ -6,6 +6,7 @@ import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
 import { SmallFont } from "../../../../components/fonts";
 import { NextImageFallback } from "../../../../components/image";
+import { NextChakraLink } from "../../../../components/link";
 import { triggerAlert } from "../../../../lib/toastify";
 import { addressSlicer } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
@@ -92,18 +93,14 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
         </SmallFont>
       </div>
       <div className="flex justify-end ml-5">
-        <SmallFont
-          extraCss="mr-2.5 text-start ml-[9px]"
-          onClick={() => {
-            window.open(
-              `${blockchainsContent[blockchain]?.explorer}/address/${contract}`,
-              "_blank"
-            );
-            window.focus();
-          }}
+        <NextChakraLink
+          href={`${blockchainsContent[blockchain]?.explorer}/address/${contract}`}
+          target="_blank"
+          rel="norefer"
+          className="mr-2.5 text-start ml-[9px]"
         >
-          {addressSlicer(contract)}
-        </SmallFont>
+          <SmallFont>{addressSlicer(contract)}</SmallFont>
+        </NextChakraLink>
         <button className="flex items-center text-xs" onClick={onCopy}>
           {hasCopied ? (
             <BsCheckLg className="text-green dark:text-green" />

@@ -30,7 +30,7 @@ export const getPath = () => {
       name: "Community",
       extends: [
         { name: "We're Hiring!", url: "https://tally.so/r/3jZKO6" },
-        { name: "Twitter", url: "https://twitter.com/MobulaFi" },
+        { name: "Twitter", url: "https://x.com/mobulaio" },
         { name: "Telegram", url: "https://t.me/MobulaFi" },
         { name: "Discord", url: "https://discord.gg/2a8hqNzkzN " },
         {

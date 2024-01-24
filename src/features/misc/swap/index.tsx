@@ -69,16 +69,10 @@ export const BuySell = ({ token }: BuySellProps) => {
       <Container extraCss="flex flex-row items-center justify-center lg:flex-col bg-top mt-[70px] lg:mt-[28px] mb-[90px] lg:mb-[40px] md:mb-[28px] min-h-[60vh] lg:min-h-full">
         <div className="flex flex-col w-2/4 md:w-[95%] mr-[30px] md:mr-0">
           <p
-            className="sm:hidden flex text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
-           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-2 sm:max-w-[80%] mx-auto"
+            className="md:hidden flex text-5xl lg:text-2xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
+           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center sm:max-w-[80%] mx-auto"
           >
             Buy any crypto, at the best price.
-          </p>
-          <p
-            className="sm:flex hidden text-5xl lg:text-xl font-medium text-light-font-100 dark:text-dark-font-100 mb-5 
-           leading-[55px] lg:leading-[30px] tracking-tight font-['Poppins'] lg:text-center lg:mb-2  mx-auto"
-          >
-            Buy any crypto at the best price.
           </p>
           <div className="flex lg:hidden">
             <LargeFont extraCss="max-w-[540px] md:text-sm font-normal">
@@ -91,7 +85,7 @@ export const BuySell = ({ token }: BuySellProps) => {
           </div>
           <CardsAndCTA extraCss="flex lg:hidden mt-0" />
         </div>
-        <div className="flex justify-center w-full lg:w-[100%] ml-auto lg:ml-0 lg:mt-[20px]">
+        <div className="flex justify-center w-full lg:w-[100%] ml-auto lg:ml-0 ">
           <SwapProvider tokenOutBuffer={token} lockToken={token ? ["out"] : []}>
             <BasicSwap activeStep={activeStep.nbr} />
           </SwapProvider>
@@ -105,13 +99,13 @@ export const BuySell = ({ token }: BuySellProps) => {
           ) : null} */}
         </div>
         <div className="hidden lg:flex mt-5 mb-2">
-          <LargeFont extraCss="w-[80%] max-w-[520px] md:text-sm font-light text-center mx-auto">
+          <p className="w-[80%] text-light-font-100 dark:text-dark-font-100 max-w-[520px] md:text-sm font-light text-center mx-auto">
             Buy Bitcoin and +1.3M other cryptos from any blockchain, at the best
             price, with{" "}
-            <span className="text-xl md:text-sm text-light-font-100 dark:text-dark-font-100 font-normal">
+            <span className="text-xl md:text-sm text-light-font-100 dark:text-dark-font-100 font-medium">
               0% fees from Mobula.
             </span>
-          </LargeFont>
+          </p>
         </div>
         <CardsAndCTA extraCss="hidden lg:flex lg:mt-0" />
       </Container>
