@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -16,6 +16,7 @@ import { SlMagnifier } from "react-icons/sl";
 import { useNetwork } from "wagmi";
 import { SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
+import { useGeneralContext } from "../../../../contexts/general";
 import { addressSlicer } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 import { PopOverLinesStyle, mainButtonStyle } from "../../style";
@@ -26,6 +27,7 @@ import { CustomPopOver } from "../ui/popover";
 export const TokenSocialsInfo = () => {
   const { baseAsset, setShowPopupSocialMobile, setShowSeeAllTags } =
     useContext(BaseAssetContext);
+  const { editAssetReducer, setEditAssetReducer } = useGeneralContext();
   const { chain } = useNetwork();
 
   const socials = [
@@ -103,6 +105,49 @@ export const TokenSocialsInfo = () => {
     baseAsset?.kyc || null,
   ];
 
+  function editPage() {
+    console.log("baseAsset", baseAsset);
+
+    const contracts = baseAsset.contracts.map((address, index) => ({
+      address: address,
+      blockchain: baseAsset.blockchains[index],
+      blockchain_id: baseAsset.decimals[index], // Assuming decimals is meant to be the ID here
+    }));
+
+    setEditAssetReducer({
+      name: baseAsset.name,
+      symbol: baseAsset.symbol,
+      image: {
+        loading: false,
+        uploaded_logo: true,
+        logo: baseAsset.logo,
+      },
+      description: baseAsset.description,
+      categories: baseAsset.tags,
+      completed: false,
+      links: {
+        website: baseAsset.website,
+        twitter: baseAsset.twitter,
+        telegram: baseAsset.telegram,
+        discord: baseAsset.discord,
+        github: baseAsset.github,
+        audits: baseAsset.audits,
+        kycs: baseAsset.kycs,
+      },
+      team: baseAsset.team,
+      contracts: contracts,
+    });
+
+    console.log("editAssetReducer", editAssetReducer);
+  }
+
+  useEffect(() => {
+    if (editAssetReducer.name && Object.keys(editAssetReducer).length > 0) {
+      console.log("editAssetReducer", editAssetReducer);
+      window.location.href = "/list";
+    }
+  }, [editAssetReducer]);
+
   return (
     <div className="flex flex-col w-[40%] lg:w-full">
       <div className="flex items-start lg:items-center justify-between flex-col lg:flex-row">
@@ -112,6 +157,14 @@ export const TokenSocialsInfo = () => {
               Tags
             </SmallFont>
           ) : null}
+          <div className="h-[26px] px-2.5 ml-[80%]">
+            <Button
+              onClick={editPage}
+              extraCss="text-light-font-60 dark:text-dark-font-60 hover:underline"
+            >
+              Edit Page
+            </Button>
+          </div>
           <div className="flex items-center mt-2.5 lg:mt-0 w-full">
             <div className="flex justify-between items-center w-full">
               {baseAsset.tags?.length > 0 ? (
