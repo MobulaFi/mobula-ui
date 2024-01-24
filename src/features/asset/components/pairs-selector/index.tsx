@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { BsTriangleFill } from "react-icons/bs";
@@ -15,34 +16,34 @@ export const PairsSelector = () => {
   const { baseAsset, setAssetPairs, assetPairs } = useContext(BaseAssetContext);
 
   const fetchPairs = () => {
-    if (assetPairs.length > 0) return;
-    GET("/api/1/market/pairs", {
-      asset: baseAsset?.[baseAsset?.baseToken]?.name,
-    })
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          setAssetPairs([baseAsset, ...r.data]);
-        }
-      });
+    if (!assetPairs?.length) {
+      GET("/api/1/market/pairs", {
+        asset: baseAsset?.[baseAsset?.baseToken]?.name,
+      })
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setAssetPairs(r.data);
+          }
+        });
+    }
   };
 
   useEffect(() => {
     fetchPairs();
-  }, []);
-
-  console.log("assetPairs", baseAsset);
+  }, [baseAsset]);
 
   return (
     <Popover
       visibleContent={
         <div
-          className="flex items-center mb-1 md:mb-0 justify-between w-[300px] cursor-pointer
-         hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover py-2.5 pl-2.5 rounded-lg transition-all duration-200 ease-linear"
+          className="flex items-center justify-between cursor-pointer
+          rounded-lg transition-all duration-200 ease-linear w-2/4 mb-2.5"
         >
           <div className="flex items-center">
             <img
-              className="w-[38px] h-[38px] min-w-[38px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-2.5 rounded-full"
+              className="w-[40px] h-[40px] min-w-[40px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] 
+              md:w-[20px] md:h-[20px] md:min-w-[20px] mr-2.5 rounded-full"
               src={baseAsset?.[baseAsset?.baseToken]?.logo}
               alt={`${baseAsset?.name} logo`}
             />
@@ -79,130 +80,89 @@ export const PairsSelector = () => {
                     baseAsset?.change_24h > 0
                       ? "text-green dark:text-green"
                       : "text-red dark:text-red"
-                  } text-start leading-[18px]`}
+                  } text-start leading-[20px]`}
                 >
                   {getTokenPercentage(baseAsset?.change_24h)}%
                 </MediumFont>
               </div>
             </div>
-            <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 ml-2" />
+            <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 mx-2" />
           </div>
-          {/* <LargeFont
-            extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
-          >
-            ${getFormattedAmount(marketMetrics.price)}
-          </LargeFont>
-          <div className="flex items-center"> 
-          <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>
-            <MediumFont
-              extraCss={`md:text-xs lg:text-xs ${
-                isUp ? "text-green dark:text-green" : "text-red dark:text-red"
-              }`}
-            >
-              {isUp ? "+" : ""}
-              {getTokenPercentage(priceChange)}%
-            </MediumFont>
-          </div>
-          <Menu
-            titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary
-                rounded-md text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
-                transition-all duration-200 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
-            title={
-              <div className="flex items-center">
-                <SmallFont>{timeSelected}</SmallFont>
-                <BsChevronDown className="ml-[7.5px] md:ml-[5px] text-sm md:text-xs text-light-font-100 dark:text-dark-font-100" />
-              </div>
-            }
-          >
-            {timestamps.map((time) => (
-              <button
-                key={time}
-                onClick={() => setTimeSelected(time)}
-                className={`transition-all duration-200 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
-                       rounded-md ${
-                         timeSelected === time
-                           ? "text-light-font-100 dark:text-dark-font-100"
-                           : "text-light-font-40 dark:text-dark-font-40 hover:text-light-font-100 hover:dark:text-dark-font-100"
-                       }`}
-              >
-                {time}
-              </button>
-            ))}
-          </Menu>*/}
         </div>
       }
       hiddenContent={
         <div className="flex flex-col min-w-[300px] max-h-[410px] overflow-y-scroll scroll">
           {assetPairs?.pairs?.map((pair, i) => (
-            <div
-              className="flex items-center justify-between p-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover cursor-pointer
+            <Link href={`/pair/${pair.address}`} key={i}>
+              <div
+                className="flex items-center justify-between p-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover cursor-pointer
                transition-all duration-200 ease-linear rounded-md"
-              key={i}
-            >
-              <div className="flex items-center">
-                <div className="relative w-fit h-fit mr-5">
-                  <img
-                    className="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
+              >
+                <div className="flex items-center">
+                  <div className="relative w-fit h-fit mr-5">
+                    <img
+                      className="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
                      md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
-                    src={
-                      pair?.[baseAsset?.quoteToken]?.logo ||
-                      "/empty/unknown.png"
-                    }
-                    alt={`${baseAsset?.name} logo`}
-                  />
-                  <img
-                    className="w-[20px] h-[20px] min-w-[20px] rounded-full absolute bottom-[-2px] right-[-5px] shadow-xl 
+                      src={
+                        pair?.[baseAsset?.quoteToken]?.logo ||
+                        "/empty/unknown.png"
+                      }
+                      alt={`${baseAsset?.name} logo`}
+                    />
+                    <img
+                      className="w-[20px] h-[20px] min-w-[20px] rounded-full absolute bottom-[-2px] right-[-5px] shadow-xl 
                   border-2 border-light-border-primary dark:border-dark-border-primary bg-light-bg-hover dark:bg-dark-bg-hover"
-                    src={
-                      famousContractsLabelFromName[pair?.protocol]?.logo ||
-                      "/empty/unknown.png"
-                    }
-                    alt={`${baseAsset?.name} logo`}
-                  />
+                      src={
+                        famousContractsLabelFromName[pair?.protocol]?.logo ||
+                        "/empty/unknown.png"
+                      }
+                      alt={`${baseAsset?.name} logo`}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <LargeFont extraCss="leading-tight">
+                      <span className="font-medium">
+                        {" "}
+                        {pair?.[baseAsset?.baseToken]?.symbol}
+                      </span>{" "}
+                      <span className="text-light-font-60 dark:text-dark-font-60 font-normal">
+                        / {pair?.[baseAsset?.quoteToken]?.symbol}
+                      </span>
+                    </LargeFont>
+                    <div className="flex items-center">
+                      <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 text-start text-xs">
+                        Liquidity:
+                      </SmallFont>
+                      <SmallFont extraCss="text-start text-xs ml-2">
+                        ${getFormattedAmount(pair?.liquidity, 2)}
+                      </SmallFont>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <LargeFont extraCss="leading-tight">
-                    <span className="font-medium">
-                      {" "}
-                      {pair?.[baseAsset?.baseToken]?.symbol}
-                    </span>{" "}
-                    <span className="text-light-font-60 dark:text-dark-font-60 font-normal">
-                      / {pair?.[baseAsset?.quoteToken]?.symbol}
-                    </span>
+                <div className="flex flex-col items-end ml-5">
+                  <LargeFont extraCss="leading-tight text-light-font-80 dark:text-dark-font-80">
+                    $
+                    {getFormattedAmount(
+                      pair?.price,
+                      2,
+                      {
+                        minifyZeros: true,
+                        minifyBigNumbers: true,
+                      },
+                      true
+                    )}
                   </LargeFont>
                   <div className="flex items-center">
                     <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 text-start text-xs">
-                      Liquidity:
+                      Volume:
                     </SmallFont>
                     <SmallFont extraCss="text-start text-xs ml-2">
-                      ${getFormattedAmount(pair?.liquidity, 2)}
+                      ${getFormattedAmount(pair?.volume, 2)}
                     </SmallFont>
                   </div>
                 </div>
-              </div>
-              <div className="flex flex-col items-end ml-5">
-                <LargeFont extraCss="leading-tight text-light-font-80 dark:text-dark-font-80">
-                  $
-                  {getFormattedAmount(
-                    pair?.price,
-                    2,
-                    {
-                      minifyZeros: true,
-                      minifyBigNumbers: true,
-                    },
-                    true
-                  )}
-                </LargeFont>
-                <div className="flex items-center">
-                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 text-start text-xs">
-                    Volume:
-                  </SmallFont>
-                  <SmallFont extraCss="text-start text-xs ml-2">
-                    ${getFormattedAmount(pair?.volume, 2)}
-                  </SmallFont>
-                </div>
-              </div>
-            </div>
+              </div>{" "}
+            </Link>
           ))}
         </div>
       }
