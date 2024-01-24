@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { triggerAlert } from "../../../../../lib/toastify";
+import { GET } from "../../../../../utils/fetch";
 import { containerStyle } from "../../style";
 import { Title } from "../ui/title";
 
 export const GetInTouch = () => {
   const [userQuery, setUserQuery] = useState({
-    telegram: "",
-    email: "",
+    contact: "",
+    title: "",
     description: "",
   });
 
@@ -18,10 +19,12 @@ export const GetInTouch = () => {
   };
 
   const submit = () => {
-    if (!userQuery.telegram || !userQuery.email || !userQuery.description)
+    if (!userQuery.contact || !userQuery.title || !userQuery.description)
       return triggerAlert("Error", "Please fill all the fields.");
-    if (!userQuery.email.includes("@"))
-      return triggerAlert("Error", "Email is not valid");
+
+    GET("/internal/get-in-touch", {
+      contact: userQuery.contact,
+    });
     triggerAlert("Success", "Your query has been submitted successfully.");
   };
 
@@ -47,8 +50,8 @@ export const GetInTouch = () => {
             >
               <input
                 type="text"
-                placeholder="Telegram username"
-                name="telegram"
+                placeholder="Telegram, email, discord"
+                name="contact"
                 onChange={handleChange}
                 className="h-full w-full px-2.5 bg-[#101A32]
                        text-light-font-100 dark:text-dark-font-100 font-poppins "
@@ -63,9 +66,9 @@ export const GetInTouch = () => {
              h-[45px] w-full relative mb-5"
             >
               <input
-                type="email"
-                placeholder="Email"
-                name="email"
+                type="text"
+                placeholder="Title"
+                name="title"
                 onChange={handleChange}
                 className="h-full w-full px-2.5 bg-[#101A32]
                        text-light-font-100 dark:text-dark-font-100 font-poppins "

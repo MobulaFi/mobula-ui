@@ -3,6 +3,7 @@ import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import React, { useEffect, useRef, useState } from "react";
+import { NextChakraLink } from "../../../components/link";
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
 import { LegacyStack } from "./components/legacy-stack";
@@ -115,7 +116,7 @@ export const HomeLanding = () => {
                 to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
                  dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text text-center"
               >
-                The last data provider
+                The last web3 data provider
                 <br />
                 You&apos;ll ever need
               </h1>
@@ -126,13 +127,25 @@ export const HomeLanding = () => {
                 className=" w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
                dark:border-darkblue water-button  md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
               >
-                Get Started
+                <NextChakraLink
+                  href="https://admin.mobula.fi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Started
+                </NextChakraLink>
               </button>
               <button
                 className="dark:text-dark-font-100 font-poppins ml-8 md:ml-5 md:h-[40px] md:w-[132px] md:text-sm md:font-normal
                w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out"
               >
-                Learn More
+                <NextChakraLink
+                  href="https://docs.mobula.io/api-reference/introduction"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Read Docs {">"}
+                </NextChakraLink>
               </button>
             </div>
             <div className="flex flex-col w-full">
@@ -142,14 +155,14 @@ export const HomeLanding = () => {
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
                 </div>
                 <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins">
-                  They using our APIs
+                  Powering the best
                 </p>
                 <div className="w-full flex items-center">
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
                   <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
                 </div>
               </div>
-              <div className="grid grid-cols-5 gap-10 md:grid-cols-3 md:gap-3 mt-[50px] md:mt-7 place-items-center">
+              <div className="grid grid-cols-5 sm:col-end-2 gap-10 md:grid-cols-3 md:gap-3 mt-[50px] md:mt-7 place-items-center sm:justify-items-center">
                 <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
                 <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
                 <img src="/landing/partner/alchemy.png" alt="alchemy logo" />

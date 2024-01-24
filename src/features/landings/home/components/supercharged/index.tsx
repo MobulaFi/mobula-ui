@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { containerStyle } from "../../style";
 import { blurEffectAnimation } from "../../utils";
@@ -7,11 +8,6 @@ export const IndexingSupercharged = () => {
   const liveRef = useRef<HTMLDivElement>(null);
   const mulitRef = useRef<HTMLDivElement>(null);
   const surcharge = useRef<HTMLDivElement>(null);
-  // const chains = Object.values(blockchainsContent);
-  // const firstChains = chains.filter((_, i) => i < 6);
-  // const secChains = chains.filter((_, i) => i >= 6 && i < 13);
-  // const thirdChains = chains.filter((_, i) => i >= 13 && i < 20);
-  // const quarthChains = chains.filter((_, i) => i >= 20);
   const [isHover, setIsHover] = React.useState<number>(0);
 
   useEffect(() => {
@@ -30,7 +26,8 @@ export const IndexingSupercharged = () => {
         <div>
           <Title title="Indexing Supercharged" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-6 text-xl md:text-base text-center">
-            A new way of using subgraphs, livestreamed, multi-chain & enriched
+            Faster indexers, multi-chain, data-enabled - consumed via REST or
+            livestreamed to your DB.
           </p>
           <div
             className="p-8 md:p-4 flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
@@ -45,12 +42,14 @@ export const IndexingSupercharged = () => {
                 Livestreamed to your DB
               </h2>
               <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 text-lg mb-9 md:text-sm md:mt-3 md:mb-4 max-w-[500px]">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore,
-                facilis consequuntur quasi corrupti sequi, minima sit aspernatur
-                ea ullam aut corporis dolores ut vel ratione porro voluptate
+                Get blockchain data feeds livestreamed to your database. No more
+                polling, no more waiting, no infra to manage.
               </p>
-              <button className="w-[150px] h-[40px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal">
-                Read Docs
+              <button
+                className="w-[150px] h-[40px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
+              >
+                <Link href="mailto:contact@mobulalabs.org"> Get in touch</Link>
               </button>
             </div>
             <div className="w-2/4 md:w-full flex flex-col">
@@ -77,15 +76,15 @@ export const IndexingSupercharged = () => {
                     className="w-full object-cover"
                   />
                 </div>
-                <div className="mt-8 md:mt-4 p-3 px-8 md:p-0 pb-0">
+                <div className="mt-8 md:mt-4 p-3 px-8 md:p-5 pb-0">
                   <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium ">
                     Multi-chain Indexing
                   </h2>
                   <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:mb-5 md:text-sm max-w-[500px]">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolore, facilis consequuntur quasi corrupti sequi, minima
-                    sit aspernatur ea ullam aut corporis dolores ut vel ratione
-                    porro voluptate
+                    Enter the chain-agnostic, multi-chain future. Index data
+                    from **any** blockchain, including non-EVM realm thanks to
+                    our chain-agnostic modular architecture. Combine multiple
+                    chains into a single subgraph.
                   </p>{" "}
                 </div>
               </div>
@@ -101,13 +100,12 @@ export const IndexingSupercharged = () => {
               <div className="w-full flex flex-col mt-3 md:mt-0 mb-auto">
                 <div className="p-3 pb-0 md:p-0 pt-0">
                   <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium mt-4 md:mt-0">
-                    Multi-chain Indexing
+                    Access curated datasets, in real time.
                   </h2>
                   <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:text-sm max-w-[500px]">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolore, facilis consequuntur quasi corrupti sequi, minima
-                    sit aspernatur ea ullam aut corporis dolores ut vel ratione
-                    porro voluptate
+                    Consume Octopus, Metacore & community curated datasets
+                    directly in your subgraph, without slowing down indexing
+                    time - built for real time.
                   </p>{" "}
                 </div>
                 <div className="rounded-lg w-fit md:h-[170px] mx-auto">
