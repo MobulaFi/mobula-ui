@@ -20,6 +20,7 @@ import { useAthPrice } from "../../hooks/use-athPrice";
 import { useMarketMetrics } from "../../hooks/use-marketMetrics";
 import { percentageTags } from "../../style";
 import { PairsSelector } from "../pairs-selector";
+import { ATHnATL } from "../ui/ath-atl";
 
 interface TokenMainInfoProps {
   pairs?: any;
@@ -178,42 +179,14 @@ export const TokenMainInfo = ({ pairs = null }) => {
         <div className="flex flex-col">
           <PairsSelector />
           <div className="flex flex-col  mt-0 lg:mt-0.5">
-            <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded-md mt-[2.5px]">
-              <div
-                className={`rounded-md h-full ${
-                  isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
-                }`}
-                style={{
-                  width:
-                    baseAsset?.atl?.[1] && baseAsset?.ath?.[1]
-                      ? `${
-                          ((baseAsset?.[baseAsset?.baseToken].price -
-                            baseAsset?.atl?.[1]) /
-                            (baseAsset?.ath?.[1] - baseAsset?.atl?.[1])) *
-                          100
-                        }%`
-                      : "0%",
-                }}
-              />
-            </div>
-            <div className="flex justify-between mt-[7.5px] md:mt-[5px] w-[50%] lg:w-full">
-              <div className="flex items-center">
-                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
-                  Low
-                </SmallFont>
-                <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  ${getFormattedAmount(baseAsset?.atl?.[1])}
-                </SmallFont>
-              </div>
-              <div className="flex items-center">
-                <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
-                  High
-                </SmallFont>
-                <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-                  ${getFormattedAmount(baseAsset?.ath?.[1])}
-                </SmallFont>
-              </div>
-            </div>
+            <ATHnATL
+              isUp={false}
+              content={{
+                atl: baseAsset?.atl?.[1],
+                ath: baseAsset?.ath?.[1],
+                price: baseAsset?.[baseAsset?.baseToken].price,
+              }}
+            />
           </div>
         </div>
       ) : (
@@ -342,41 +315,14 @@ export const TokenMainInfo = ({ pairs = null }) => {
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded-md mt-[2.5px]">
-                <div
-                  className={`rounded-md h-full ${
-                    isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
-                  }`}
-                  style={{
-                    width:
-                      priceLow && priceHigh
-                        ? `${
-                            ((marketMetrics.price - priceLow) /
-                              (priceHigh - priceLow)) *
-                            100
-                          }%`
-                        : "0%",
-                  }}
-                />
-              </div>
-              <div className="flex justify-between mt-[7.5px] md:mt-[5px] w-[50%] lg:w-full">
-                <div className="flex items-center">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
-                    Low
-                  </SmallFont>
-                  <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-                    ${getFormattedAmount(priceLow)}
-                  </SmallFont>
-                </div>
-                <div className="flex items-center">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
-                    High
-                  </SmallFont>
-                  <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-                    ${getFormattedAmount(priceHigh)}
-                  </SmallFont>
-                </div>
-              </div>
+              <ATHnATL
+                isUp={isUp}
+                content={{
+                  atl: priceLow,
+                  ath: priceHigh,
+                  price: marketMetrics.price,
+                }}
+              />
             </div>
           </div>
         </>
