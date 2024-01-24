@@ -150,30 +150,40 @@ export const TokenTrades = () => {
     })
       .then((r) => r.json())
       .then((r) => {
-        if (r.data) setUserTrades(r.data.transactions);
+        if (r.data) {
+          const newTransactions = r.data.transactions;
+          const length = newTransactions.length;
+          setUserTrades((prev) => {
+            let existingTrades = [];
+            if (prev?.length > 0) {
+              existingTrades = prev?.slice(length);
+            }
+            return [...existingTrades, ...newTransactions];
+          });
+        }
       });
   }, []);
 
   const fetchPairTrade = () => {
-    console.log("INSIDE FUNCTION");
     GET(`/api/1/market/trades`, {
       asset: baseAsset?.token0?.address,
     })
       .then((res) => res.json())
       .then((r) => {
-        console.log("RRRRR", r?.data);
         if (r.data) {
           setPairTrades(r.data);
-          console.log("IM CALLED");
           setTimeout(() => {
             fetchPairTrade();
-          }, 5000);
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            fetchPairTrade();
+          }, 3000);
         }
       });
   };
 
   useEffect(() => {
-    console.log("issssss", isAssetPage, baseAsset);
     if (isAssetPage) return;
     fetchPairTrade();
   }, [baseAsset]);
@@ -394,6 +404,7 @@ export const TokenTrades = () => {
                   (trade?.unique_discriminator || 0) +
                   (trade?.id || 0)
                 }
+                className="animate-fadeIn"
               >
                 <tr>
                   <td
