@@ -3,7 +3,16 @@ import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
 import { BaseAssetContext } from "../../../context-manager";
+import { ChartHeader } from "./charts/header";
+import { ChartLite } from "./charts/linear";
+import { CoreActor } from "./core-actor";
+import { Description } from "./description";
+import { ListingDetails } from "./listing-details";
+import { PresaleDetails } from "./presale-details";
+import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
+import { Socials } from "./socials";
+import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
@@ -43,37 +52,38 @@ export const Essentials = () => {
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
         <div className="flex flex-col left-container-max-width w-calc-full-345 lg:w-full mr-[25px] md:mr-0 mt-1.5 md:mt-0">
-          <TradingViewChart
-            baseAsset={baseAsset}
-            isPair={!isAssetPage}
-            extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
-          />
-          <TokenTrades />
-          {/*     <ChartHeader
-            setChartPreference={setChartPreference}
-            chartPreference={chartPreference}
-          />
+          {isAssetPage ? (
+            <ChartHeader
+              setChartPreference={setChartPreference}
+              chartPreference={chartPreference}
+            />
+          ) : null}
           {chartPreference !== "Trading view" && !isAssetPage ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}
-          {chartPreference === "Trading view" || isAssetPage ? (
+          {chartPreference === "Trading view" || !isAssetPage ? (
             <TradingViewChart
-              baseAsset={{} as any || baseAsset}
+              baseAsset={baseAsset}
+              isPair={!isAssetPage}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
           ) : (
             <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
-          {isOffChain ? null : <TokenTrades />}
-          <Description />
-          <Socials />
-          <PriceData />
-          <CoreActor
-            extraCss={`${
-              baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"
-            } hidden`}
-          />*/}
+          {isOffChain && isAssetPage ? null : <TokenTrades />}
+          {isAssetPage ? (
+            <>
+              <Description />
+              <Socials />
+              <PriceData />
+              <CoreActor
+                extraCss={`${
+                  baseAsset?.investors?.length > 0 ? "lg:flex" : "lg:hidden"
+                } hidden`}
+              />
+            </>
+          ) : null}
         </div>
         <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
           <div className="flex">
@@ -129,18 +139,26 @@ export const Essentials = () => {
             )}
           </div>
           <TokenMetrics />
-          {/* <CoreActor
-            extraCss={`${
-              baseAsset?.investors?.length > 0 ? "flex" : "hidden"
-            } lg:hidden`}
-          />
-          <PresaleDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
-          <ListingDetails extraCss={`${hasBeenListed ? "flex" : "hidden"}`} />
-          <ListingDetails
-            extraCss={`${
-              hasBeenListed ? "md:flex" : "md:hidden"
-            } hidden mt-2.5`}
-          /> */}
+          {isAssetPage ? (
+            <>
+              <CoreActor
+                extraCss={`${
+                  baseAsset?.investors?.length > 0 ? "flex" : "hidden"
+                } lg:hidden`}
+              />
+              <PresaleDetails
+                extraCss={`${hasBeenListed ? "flex" : "hidden"}`}
+              />
+              <ListingDetails
+                extraCss={`${hasBeenListed ? "flex" : "hidden"}`}
+              />
+              <ListingDetails
+                extraCss={`${
+                  hasBeenListed ? "md:flex" : "md:hidden"
+                } hidden mt-2.5`}
+              />
+            </>
+          ) : null}
         </div>
       </div>
       <SimilarAsset />
