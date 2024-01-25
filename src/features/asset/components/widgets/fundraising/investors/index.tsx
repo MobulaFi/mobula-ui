@@ -152,7 +152,7 @@ export const Investors = () => {
               })}
           </tbody>
         ) : null}
-        {!baseAsset?.investors?.length && !isLoading ? (
+        {!baseAsset?.investors?.length || !isLoading ? (
           <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
             <div className="h-[250px] flex flex-col w-full items-center justify-center">
               <img src="/empty/ray.png" alt="No trade image" />
@@ -162,7 +162,7 @@ export const Investors = () => {
             </div>
           </caption>
         ) : null}
-        {!baseAsset?.investors?.length && isLoading ? (
+        {!baseAsset?.investors?.length && !baseAsset?.sales && isLoading ? (
           <>
             {Array.from({ length: 5 }).map((_, i) => (
               <InvestorSkeleton key={i} />
