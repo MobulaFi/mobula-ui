@@ -1,7 +1,5 @@
 "use client";
 import Lenis from "@studio-freight/lenis";
-import { gsap } from "gsap";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import React, { useEffect, useRef, useState } from "react";
 import { NextChakraLink } from "../../../components/link";
 import { CuratedDataset } from "./components/curated-dataset";
@@ -11,8 +9,6 @@ import { IndexingSupercharged } from "./components/supercharged";
 import { TryItOut } from "./components/try-it-out";
 import { containerStyle } from "./style";
 import { blurEffectAnimation } from "./utils";
-
-gsap.registerPlugin(MotionPathPlugin);
 
 export const dynamic = "force-static";
 
@@ -99,14 +95,6 @@ export const HomeLanding = () => {
           <div>
             <div className="h-fit w-fit overflow-hidden mx-auto">
               <h1
-                //   className="text-[96px] font-bold leading-[90px] font-['Poppins'] w-fit mx-auto
-                //   dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color
-                //   bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none
-                //  "
-                //   id="text"
-                //   style={{
-                //     "-webkit-text-fill-color": "transparent",
-                //   }}
                 id="text"
                 style={{
                   WebkitTextFillColor: "transparent",

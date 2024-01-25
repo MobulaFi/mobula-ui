@@ -116,7 +116,7 @@ export const useFilter = ({ setFilters, orderBy }: IUseFilter) => {
   useEffect(() => {
     const previousPath = localStorage.getItem("previousPath");
 
-    if (previousPath !== "/top100" && previousPath !== `/top100?page=${page}`)
+    if (previousPath !== "/home" && previousPath !== `/home?page=${page}`)
       return;
     if (!activeView?.isFirst || !orderBy.first || page) {
       setFilters([...getFilter()]);

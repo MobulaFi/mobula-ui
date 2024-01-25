@@ -18,7 +18,7 @@ export const MenuFixedMobile = () => {
   const { isConnected, isDisconnected } = useAccount();
   const pathname = usePathname();
   const [isHover, setIsHover] = useState({
-    home: pathname === "/top100",
+    home: pathname === "/home",
     swap: pathname === "/swap",
     portfolio: pathname === "/portfolio",
   });
@@ -28,7 +28,7 @@ export const MenuFixedMobile = () => {
   };
 
   const handleHoverOut = (key: string) => {
-    if (pathname === `/${key}` || (key === "home" && pathname === "/top100"))
+    if (pathname === `/${key}` || (key === "home" && pathname === "/home"))
       return;
     setIsHover((prev) => ({ ...prev, [key]: false }));
   };
@@ -61,7 +61,7 @@ export const MenuFixedMobile = () => {
       <div className="flex w-full h-full max-w-[340px] mx-auto">
         <div className="flex w-[33.33%] h-full items-center justify-center">
           <NextChakraLink
-            href="/top100"
+            href="/home"
             onMouseEnter={() => handleHoverIn("home")}
             onMouseLeave={() => handleHoverOut("home")}
             onClick={() =>

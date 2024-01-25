@@ -10,7 +10,7 @@ export default function HomePage() {
     `user-signature-${addressCookie}`
   )?.value;
   if (signatureCookie) {
-    redirect("/top100");
+    redirect("/home");
   }
   return (
     <HomeLandingProvider>

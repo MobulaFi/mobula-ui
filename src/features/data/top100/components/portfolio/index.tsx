@@ -53,7 +53,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
 
   useEffect(() => {
     const finalPortfolio = user?.portfolios[0] || activePortfolio;
-    if (pathname === "/top100") {
+    if (pathname === "/home") {
       if (finalPortfolio?.id) {
         const socket = new WebSocket(
           process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string

@@ -1,6 +1,7 @@
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
+import React from "react";
 import { Top100 } from "../../features/data/top100";
 import { Top100Provider } from "../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../features/data/top100/utils";
@@ -106,22 +107,26 @@ const HomePage = async ({ searchParams }) => {
   const title = "Crypto Live Prices, Market caps, Charts and Volumes | Mobula";
   return (
     <>
-      <meta property="og:title" content={title} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta
-        property="og:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        name="twitter:image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta
-        itemProp="image"
-        content="https://mobula.fi/metaimage/Generic/others.png"
-      />
-      <meta name="url" content="https://mobula.fi" />
+      <head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta
+          property="og:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          itemProp="image"
+          content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta name="url" content="https://mobula.fi" />
+      </head>
       <Top100Provider
         activeViewCookie={props.actualView}
         ethPrice={props.ethPrice}
@@ -130,14 +135,12 @@ const HomePage = async ({ searchParams }) => {
         isMobile={props.isMobile}
         isTablet={props.isTablet}
       >
-        {/* <Suspense fallback={<p>Loading feed...</p>}> */}
         <Top100
           tokens={props.tokens}
           count={props.count}
           defaultFilter={props.filteredValues}
           metrics={props.metrics}
         />
-        {/* </Suspense> */}
       </Top100Provider>
     </>
   );
