@@ -1,5 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsMoon, BsSun } from "react-icons/bs";
 import { cn } from "../../lib/shadcn/lib/utils";
@@ -14,6 +15,7 @@ export const ToggleColorMode = ({
 }: ToggleColorModeProps) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
@@ -24,8 +26,11 @@ export const ToggleColorMode = ({
   }
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => {
+        if (pathname !== "/") setTheme(theme === "dark" ? "light" : "dark");
+      }}
       className={cn(`${isMobile ? "ml-[30px]" : ""} w-fit`, extraCss)}
+      disabled={pathname === "/"}
     >
       {theme === "dark" ? (
         <div className="flex items-center">
