@@ -53,7 +53,6 @@ export const IndexingSupercharged = () => {
                   href="mailto:contact@mobulalabs.org"
                   className="text-sm md:text-xs"
                 >
-                  {" "}
                   Get in touch
                 </Link>
               </button>

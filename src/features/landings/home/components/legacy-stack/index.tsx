@@ -123,7 +123,7 @@ export const LegacyStack = () => {
               <div
                 key={stack.id}
                 className={`${
-                  legacyStackOpen === stack.id ? "h-[461px]" : "h-[70px]"
+                  legacyStackOpen === stack.id ? "h-[360px]" : "h-[70px]"
                 } flex flex-col transition-all duration-300 ease-in-out bg-[rgba(23, 27, 43, 0.22)]
                  rounded backdrop-blur-md overflow-hidden ${
                    i !== legacyStacks.length - 1
