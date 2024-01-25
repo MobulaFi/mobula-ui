@@ -6,10 +6,10 @@ import { pushData } from "../lib/mixpanel";
 import { askPermission, subscribeUserToPush } from "../utils/notif";
 
 export const pathToUrl = (path: string) => {
-  if (path === "/") {
+  if (path === "/home") {
     return {
       theme: "Crypto",
-      url: "/",
+      url: "/home",
       name: "",
     };
   }

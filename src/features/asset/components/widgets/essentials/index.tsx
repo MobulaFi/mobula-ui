@@ -11,7 +11,6 @@ import { ListingDetails } from "./listing-details";
 import { PresaleDetails } from "./presale-details";
 import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
-import { Socials } from "./socials";
 import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
@@ -65,7 +64,7 @@ export const Essentials = () => {
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isOffChain ? null : <TokenTrades />}
           <Description />
-          <Socials />
+          {/* <Socials /> */}
           <PriceData />
           <CoreActor
             extraCss={`${

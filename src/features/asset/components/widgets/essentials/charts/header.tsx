@@ -48,13 +48,6 @@ export const ChartHeader = ({
   };
   const buttonPosition = getPosition();
 
-  // useEffect(() => {
-  //   const hideTxCookie = Cookies.get("hideTx");
-  //   if (!hideTxCookie || JSON.parse(hideTxCookie) !== hideTx) {
-  //     Cookies.set("hideTx", JSON.stringify(hideTx));
-  //   }
-  // }, [hideTx]);
-
   return (
     <>
       <div

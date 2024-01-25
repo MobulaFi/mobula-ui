@@ -147,7 +147,7 @@ export const TokenVersusMarket = () => {
             {stateOfMarket?.state}
           </div>
         ) : (
-          <Skeleton extraCss="h-[23px] lg:h-[21.5px] md:h-[20px] w-[55px] ml-2.5" />
+          <Skeleton extraCss="h-[22px] lg:h-[20.5px] md:h-[19px] w-[55px] ml-2.5" />
         )}
       </div>
       <div className="w-full overflow-scroll scroll">
@@ -181,7 +181,7 @@ export const TokenVersusMarket = () => {
                 <tbody key={i}>
                   <tr>
                     <td className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] ">
-                      <Skeleton extraCss="h-[20px] w-[120px]" />
+                      <Skeleton extraCss="h-[13px] md:h-[11px] w-[120px]" />
                     </td>
                     <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5 text-end">
                       <div className="flex justify-end w-full">
