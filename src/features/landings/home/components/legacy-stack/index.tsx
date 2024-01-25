@@ -106,7 +106,7 @@ export const LegacyStack = () => {
                border border-light-border-primary dark:border-dark-border-primary"
               >
                 {activeLegacyStack.content.values.map((content) => (
-                  <div key={content.name} className="w-[25%] flex flex-col">
+                  <div key={content.name} className="w-[33%] flex flex-col">
                     <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
                       {content.name}
                     </p>
