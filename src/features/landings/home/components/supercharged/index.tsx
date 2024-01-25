@@ -127,7 +127,7 @@ export const IndexingSupercharged = () => {
                 <div className="rounded-lg w-fit md:h-[170px] mx-auto">
                   <img
                     src="/landing/supercharged/subgraph.png"
-                    className={`h-[405px] -mt-5 transition-all duration-500 ease-in-out ${
+                    className={`h-[405px] md:h-[auto] -mt-5 transition-all duration-500 ease-in-out ${
                       isHover === 2 ? "scale-105" : "scale-100"
                     }`}
                   />
