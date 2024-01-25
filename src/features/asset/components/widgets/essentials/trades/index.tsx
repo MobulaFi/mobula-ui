@@ -5,7 +5,6 @@ import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
-import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
@@ -281,13 +280,6 @@ export const TokenTrades = () => {
               </div>
             </caption>
           ) : null}
-          {isMarketMetricsLoading ? (
-            <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
-              <div className="h-[250px] flex w-full items-center justify-center">
-                <Spinner extraCss="h-[50px] w-[50px]" />
-              </div>
-            </caption>
-          ) : null}
           {!isMarketMetricsLoading &&
           marketMetrics?.trade_history?.length === 0 &&
           !isMyTrades ? (
@@ -342,7 +334,7 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {isLoading && !marketMetrics?.trade_history?.length ? (
+          {isMarketMetricsLoading ? (
             <>
               {Array.from({ length: 9 }).map((_, i) => (
                 <TradesTemplate
