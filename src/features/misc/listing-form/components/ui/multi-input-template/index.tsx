@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { isAddress } from "viem";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
@@ -31,6 +31,8 @@ export const MultiInputTemplate = ({
 }: MultiInputTemplateProps) => {
   const deleteButtonStyle =
     "flex justify-center items-center whitespace-nowrap w-fit min-w-[40px] px-2 h-[35px]  rounded-md text-sm lg:text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary text-light-font-100 dark:text-dark-font-100";
+
+  const [temporateValue, setTemporateValue] = useState<any>(state[name]);
 
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
@@ -110,8 +112,16 @@ export const MultiInputTemplate = ({
                     <input
                       className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
                       placeholder={placeholder}
+                      value={temporateValue?.[i]?.address}
                       onChange={(e) => {
                         handleNewContract(e, i, name);
+                        if (title === "Contracts") {
+                          setTemporateValue((prev) => {
+                            const buffer = [...prev];
+                            buffer[i] = { address: e.target.value };
+                            return buffer;
+                          });
+                        }
                       }}
                     />
                   </div>
@@ -122,9 +132,10 @@ export const MultiInputTemplate = ({
                   placeholder={placeholder}
                   onChange={(e) => {
                     handleNewContract(e, i, name);
-                    if (title === "Contracts")
+                    if (title === "Contracts") {
                       if (state.totalSupplyContracts.length === 0)
                         dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
+                    }
                   }}
                 />
               )}
