@@ -28,7 +28,7 @@ export const Connect = () => {
       setStatus("error");
     },
     onSuccess() {
-      Cookies.set(`address`, address, {
+      Cookies.set(`user-address`, address, {
         secure: process.env.NODE_ENV !== "development",
         sameSite: "strict",
       });
