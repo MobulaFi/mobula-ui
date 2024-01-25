@@ -373,9 +373,9 @@ export const Rounds = () => {
                                 </p>
                                 <p className="text-light-font-100 dark:text-dark-font-100 font-medium mb-[5px] text-[13px] ml-2.5">
                                   {sale?.unlockType
-                                    ? `${getFormattedAmount(
-                                        unlockedAmount
-                                      )} SUI`
+                                    ? `${getFormattedAmount(unlockedAmount)}  ${
+                                        baseAsset?.symbol
+                                      }`
                                     : "--"}
                                 </p>
                               </div>
@@ -387,7 +387,7 @@ export const Rounds = () => {
                                   {sale?.unlockType
                                     ? `${getFormattedAmount(
                                         sale.amount - unlockedAmount
-                                      )}SUI`
+                                      )} ${baseAsset?.symbol}`
                                     : "--"}{" "}
                                 </p>
                               </div>
@@ -419,7 +419,8 @@ export const Rounds = () => {
                                     </p>
                                     {sale?.unlockType ? (
                                       <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] mb-[5px]">
-                                        {getFormattedAmount(unlockedAmount)} SUI
+                                        {getFormattedAmount(unlockedAmount)}{" "}
+                                        {baseAsset?.symbol}
                                       </p>
                                     ) : (
                                       "No data"
@@ -433,7 +434,7 @@ export const Rounds = () => {
                                       {getFormattedAmount(
                                         sale.amount - unlockedAmount
                                       )}{" "}
-                                      SUI
+                                      {baseAsset?.symbol}
                                     </p>
                                   </div>
                                   <div className="h-[1px] w-full bg-light-border-primary dark:bg-dark-border-primary my-[5px]" />
