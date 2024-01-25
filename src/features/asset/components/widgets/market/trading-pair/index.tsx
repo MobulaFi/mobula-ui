@@ -175,7 +175,7 @@ export const TradingPairs = () => {
           </button>
         </div>
       </div>
-      <div className="max-h-[500px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
+      <div className="max-h-[515px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
         <table className="relative w-full" ref={containerRef}>
           <thead>
             <tr>
@@ -253,7 +253,7 @@ export const TradingPairs = () => {
                                   ?.logo || "/empty/unknown.png"
                               }
                             />
-                            <SmallFont extraCss="font-medium flex sm:hidden">
+                            <SmallFont extraCss="flex sm:hidden">
                               {pair?.exchange || "Unknown"}
                             </SmallFont>
                           </div>
@@ -282,7 +282,7 @@ export const TradingPairs = () => {
                           {isLoading ? (
                             <Skeleton extraCss="h-[20px] w-[120px]" />
                           ) : (
-                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                               ${getFormattedAmount(pair.liquidity)}
                             </SmallFont>
                           )}
@@ -296,7 +296,7 @@ export const TradingPairs = () => {
                           {isLoading ? (
                             <Skeleton extraCss="h-[20px] w-[80px]" />
                           ) : (
-                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                               ${getFormattedAmount(pair.price)}
                             </SmallFont>
                           )}
@@ -311,7 +311,7 @@ export const TradingPairs = () => {
                               className="flex items-center cursor-pointer"
                               onClick={() => copyText(pair)}
                             >
-                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
+                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                                 {addressSlicer(pair.address)}
                               </SmallFont>
                               {isCopied === pair.address ? (
@@ -350,7 +350,7 @@ export const TradingPairs = () => {
             >
               <div className="flex h-[250px] w-full items-enter justify-center flex-col">
                 <img alt="no trading pairs image" src="/empty/ray.png" />
-                <MediumFont extraCss="text-light-font-60 dark:text-font-60 font-medium mt-5 mb-2.5">
+                <MediumFont extraCss="text-light-font-60 dark:text-font-60 mt-5 mb-2.5">
                   No trading pairs detected for this token.
                 </MediumFont>
               </div>
