@@ -144,7 +144,7 @@ export const HomeLanding = () => {
                   <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
                 </div>
-                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins">
+                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins md:text-lg">
                   Powering the best
                 </p>
                 <div className="w-full flex items-center">
@@ -159,11 +159,12 @@ export const HomeLanding = () => {
                 <img
                   src="/landing/partner/embr.svg"
                   alt="embr logo"
-                  className="mx-auto"
+                  className="mx-auto md:hidden"
                 />
                 <img
                   src="/landing/partner/etherspot.svg"
                   alt="etherspot logo"
+                  className="md:hidden"
                 />
               </div>
             </div>
