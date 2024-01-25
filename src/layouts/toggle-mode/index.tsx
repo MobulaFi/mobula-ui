@@ -21,9 +21,16 @@ export const ToggleColorMode = ({
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (pathname === "/" && theme !== "dark") {
+      setTheme("dark");
+    }
+  }, [pathname]);
+
   if (!mounted) {
     return null;
   }
+
   return (
     <button
       onClick={() => {
