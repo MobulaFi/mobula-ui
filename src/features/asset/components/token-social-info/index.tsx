@@ -1,6 +1,7 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import React, { useContext } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -29,6 +30,7 @@ export const TokenSocialsInfo = () => {
     useContext(BaseAssetContext);
   const { editAssetReducer, setEditAssetReducer } = useGeneralContext();
   const { chain } = useNetwork();
+  const router = useRouter();
 
   const socials = [
     baseAsset.twitter
@@ -138,15 +140,10 @@ export const TokenSocialsInfo = () => {
       contracts: contracts,
     });
 
+    router.push("/list");
+
     console.log("editAssetReducer", editAssetReducer);
   }
-
-  useEffect(() => {
-    if (editAssetReducer.name && Object.keys(editAssetReducer).length > 0) {
-      console.log("editAssetReducer", editAssetReducer);
-      window.location.href = "/list";
-    }
-  }, [editAssetReducer]);
 
   return (
     <div className="flex flex-col w-[40%] lg:w-full">
