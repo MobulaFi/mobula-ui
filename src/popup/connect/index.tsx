@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { useAccount, useConnect, useSignMessage } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
 import { Modal, ModalTitle } from "../../components/modal-container";
@@ -25,30 +25,31 @@ export const Connect = () => {
       setStatus("error");
     },
     onSuccess() {
-      setStatus("pre-success");
-    },
-  });
-
-  const { signMessage } = useSignMessage({
-    onError() {
-      setStatus("error-sign");
-    },
-    onSuccess(data) {
-      Cookies.set(`user-signature-${address}`, data, {
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
-      });
       Cookies.set(`address`, address, {
         secure: process.env.NODE_ENV !== "development",
         sameSite: "strict",
       });
-      localStorage.setItem(`user-signature-${address}`, data);
-      setTimeout(() => {
-        setStatus("success");
-        setIsVisible(false);
-      }, 2000);
+      setStatus("pre-success");
     },
   });
+
+  // const { signMessage } = useSignMessage({
+  //   onError() {
+  //     setStatus("error-sign");
+  //   },
+  //   onSuccess(data) {
+  //     Cookies.set(`user-signature-${address}`, data, {
+  //       secure: process.env.NODE_ENV !== "development",
+  //       sameSite: "strict",
+  //     });
+
+  //     localStorage.setItem(`user-signature-${address}`, data);
+  //     setTimeout(() => {
+  //       setStatus("success");
+  //       setIsVisible(false);
+  //     }, 2000);
+  //   },
+  // });
 
   const getTitle = () => {
     switch (status) {
@@ -70,11 +71,6 @@ export const Connect = () => {
             "An error occured while signing your message, please try again",
         };
       case "pre-success":
-        return {
-          title: "Connexion success",
-          description: "You can now sign a message to confirm your identity",
-        };
-      case "success":
         return {
           title: "Successfully connected",
           description:
@@ -241,7 +237,7 @@ export const Connect = () => {
               ) : null}
             </>
           ) : null}
-          {status === "success" ? (
+          {status === "pre-success" ? (
             <div className="mb-5 mt-4">
               <FaRegCheckCircle className="text-green dark:text-green text-8xl mx-auto" />
             </div>
@@ -265,7 +261,7 @@ export const Connect = () => {
               </Button>
             </div>
           ) : null}
-          {status === "pre-success" ? (
+          {/* {status === "pre-success" ? (
             <Button
               extraCss="mx-auto h-[40px] rounded-md w-fit px-2.5 text-sm"
               onClick={() =>
@@ -276,7 +272,7 @@ export const Connect = () => {
             >
               SIGN MESSAGE
             </Button>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     </Modal>
