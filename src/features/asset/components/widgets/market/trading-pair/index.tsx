@@ -1,7 +1,7 @@
 import { famousContractsLabelFromName } from "layouts/swap/utils";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
@@ -175,7 +175,7 @@ export const TradingPairs = () => {
           </button>
         </div>
       </div>
-      <div className="max-h-[500px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
+      <div className="max-h-[515px] md:max-h-[430px] overflow-y-scroll scroll  w-full">
         <table className="relative w-full" ref={containerRef}>
           <thead>
             <tr>
@@ -240,8 +240,8 @@ export const TradingPairs = () => {
                       >
                         {isLoading ? (
                           <div className="flex items-center">
-                            <Skeleton extraCss="h-[20px] w-[120px]" />
                             <Skeleton extraCss="h-[23px] w-[23px] rounded-full ml-2.5" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[120px]" />
                           </div>
                         ) : (
                           <div className="flex items-center sm:justify-center justify-start">
@@ -253,7 +253,7 @@ export const TradingPairs = () => {
                                   ?.logo || "/empty/unknown.png"
                               }
                             />
-                            <SmallFont extraCss="font-medium flex sm:hidden">
+                            <SmallFont extraCss="flex sm:hidden">
                               {pair?.exchange || "Unknown"}
                             </SmallFont>
                           </div>
@@ -265,7 +265,7 @@ export const TradingPairs = () => {
                       >
                         <div className="flex w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[120px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px] text-blue dark:text-blue">
                               {`${baseAsset?.symbol}/`}
@@ -280,9 +280,9 @@ export const TradingPairs = () => {
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[120px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[70px]" />
                           ) : (
-                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                               ${getFormattedAmount(pair.liquidity)}
                             </SmallFont>
                           )}
@@ -294,9 +294,9 @@ export const TradingPairs = () => {
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[80px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
                           ) : (
-                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                               ${getFormattedAmount(pair.price)}
                             </SmallFont>
                           )}
@@ -305,13 +305,13 @@ export const TradingPairs = () => {
                       <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5">
                         <div className="flex justify-end w-full md:hidden">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[100px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
                           ) : (
                             <div
                               className="flex items-center cursor-pointer"
                               onClick={() => copyText(pair)}
                             >
-                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px] font-medium">
+                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                                 {addressSlicer(pair.address)}
                               </SmallFont>
                               {isCopied === pair.address ? (
@@ -350,7 +350,7 @@ export const TradingPairs = () => {
             >
               <div className="flex h-[250px] w-full items-enter justify-center flex-col">
                 <img alt="no trading pairs image" src="/empty/ray.png" />
-                <MediumFont extraCss="text-light-font-60 dark:text-font-60 font-medium mt-5 mb-2.5">
+                <MediumFont extraCss="text-light-font-60 dark:text-font-60 mt-5 mb-2.5">
                   No trading pairs detected for this token.
                 </MediumFont>
               </div>

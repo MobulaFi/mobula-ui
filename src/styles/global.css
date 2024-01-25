@@ -12,6 +12,53 @@
   --toastify-color-error: #ea3943;
 }
 
+@supports (animation: grow 0.5s cubic-bezier(0.25, 0.25, 0.25, 1) forwards) {
+  .tick {
+    stroke-opacity: 0;
+    stroke-dasharray: 29px;
+    stroke-dashoffset: 29px;
+    animation: draw 0.5s cubic-bezier(0.25, 0.25, 0.25, 1) forwards;
+    animation-delay: 0.6s;
+  }
+
+  .circle {
+    fill-opacity: 0;
+    stroke: #219a00;
+    stroke-width: 16px;
+    transform-origin: center;
+    transform: scale(0);
+    animation: grow 1s cubic-bezier(0.25, 0.25, 0.25, 1.25) forwards;
+  }
+}
+
+@keyframes grow {
+  60% {
+    transform: scale(0.8);
+    stroke-width: 4px;
+    fill-opacity: 0;
+  }
+  100% {
+    transform: scale(0.9);
+    stroke-width: 8px;
+    fill-opacity: 1;
+    fill: #219a00;
+  }
+}
+
+@keyframes draw {
+  0%,
+  100% {
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.hljs {
+  background-color: transparent; /* Remplacez par la couleur de votre choix */
+}
+
 .Toastify__toast-icon {
   margin-bottom: auto;
   font-size: 14px;
@@ -26,6 +73,7 @@
 
 input {
   background: none;
+  background-image: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -42,6 +90,7 @@ body {
   overflow-y: scroll;
   scrollbar-width: none;
   overflow-x: hidden;
+  position: relative;
 }
 
 body::-webkit-scrollbar {
@@ -52,6 +101,88 @@ body::-webkit-scrollbar {
   box-shadow: none !important;
 }
 
+textarea {
+  border: none;
+  resize: none;
+}
+textarea:focus {
+  outline: none;
+}
+
+.water-button {
+  position: relative;
+  border-radius: 35px;
+  box-shadow: 5px 5px 10px #13162788, 10px 6px 15px #13162788 inset,
+    -5px -5px 8px #131627ff, 10px 6px 15px #13162744 inset, 0 0 8px #13162755;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 2px 2px 5px #0008;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  font-family: Poppins;
+  backdrop-filter: blur(10px);
+}
+
+.water-button::before {
+  content: "";
+  position: absolute;
+  height: 5px;
+  width: 13px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  left: 10px;
+  top: 9px;
+  transform: rotate(-40deg);
+  transition: all 0.3s ease-in-out;
+}
+/* 
+.water-button::before:hover {
+  transform: scale(110%);
+} */
+.water-button:hover {
+  letter-spacing: 0.4px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.mouse-cursor-gradient-tracking {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+}
+
+.mouse-cursor-gradient-tracking span {
+  position: relative;
+}
+
+.mouse-cursor-gradient-tracking::before {
+  --size: 0;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: var(--x);
+  top: var(--y);
+  width: calc(var(--size) * 2);
+  height: calc(var(--size) * 2);
+  background: radial-gradient(circle closest-side, #0b2040, transparent);
+  backdrop-filter: blur(10px);
+  transform: translate(-50%, -50%);
+  transition: width 0.1s ease, height 0.1s ease;
+}
+
+.rotating-effect {
+  transition: transform 0.1s ease-in-out;
+}
+
+.rotating-effect:hover {
+  transform: rotateX(var(--rotateX)) rotateY(var(--rotateY));
+}
+
+.mouse-cursor-gradient-tracking:hover::before {
+  --size: 220px;
+}
 @keyframes scroller {
   to {
     transform: translateX(calc(-50% - 0.5rem));
@@ -110,6 +241,11 @@ body::-webkit-scrollbar {
 .scrollerAnimated[data-paused="true"] .scrollerAnimated-inner {
   animation-play-state: paused !important;
 }
+
+/* .skewBox {
+  transform: rotateX(calc(var(--rotateX) * 2)) rotateY(calc(var(--rotateY) * 2));
+  transition: transform 0.1s ease-out;
+} */
 
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
