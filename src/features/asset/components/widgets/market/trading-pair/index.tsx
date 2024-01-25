@@ -1,7 +1,7 @@
 import { famousContractsLabelFromName } from "layouts/swap/utils";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
@@ -240,8 +240,8 @@ export const TradingPairs = () => {
                       >
                         {isLoading ? (
                           <div className="flex items-center">
-                            <Skeleton extraCss="h-[20px] w-[120px]" />
                             <Skeleton extraCss="h-[23px] w-[23px] rounded-full ml-2.5" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[120px]" />
                           </div>
                         ) : (
                           <div className="flex items-center sm:justify-center justify-start">
@@ -265,7 +265,7 @@ export const TradingPairs = () => {
                       >
                         <div className="flex w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[120px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px] text-blue dark:text-blue">
                               {`${baseAsset?.symbol}/`}
@@ -280,7 +280,7 @@ export const TradingPairs = () => {
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[120px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[70px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                               ${getFormattedAmount(pair.liquidity)}
@@ -294,7 +294,7 @@ export const TradingPairs = () => {
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[80px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
                               ${getFormattedAmount(pair.price)}
@@ -305,7 +305,7 @@ export const TradingPairs = () => {
                       <td className="border-b border-light-border-primary dark:border-dark-border-primary px-2.5">
                         <div className="flex justify-end w-full md:hidden">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[20px] w-[100px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
                           ) : (
                             <div
                               className="flex items-center cursor-pointer"
