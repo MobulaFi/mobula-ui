@@ -111,7 +111,7 @@ export const LegacyStack = () => {
                       {content.name}
                     </p>
                     <p className="text-light-font-100 tracking-tight dark:text-dark-font-100 font-poppins mt-3 text-4xl">
-                      {getTokenPercentage(content.value)}%
+                      {getTokenPercentage(content.value as never)}%
                     </p>
                   </div>
                 ))}
