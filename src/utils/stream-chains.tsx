@@ -142,7 +142,7 @@ export const useLiteStreamMarketDataModule = (
         if (data && data.trade_history) {
           setMarketMetrics((marketMetrics) => {
             const hashes = data.trade_history.map((entry) => entry.hash);
-            setIsLoading?.(false);
+            if (setIsLoading) setIsLoading(false);
             return {
               ...marketMetrics,
               trade_history: data.trade_history
@@ -170,13 +170,15 @@ export const useLiteStreamMarketDataModule = (
             };
           });
         }
-        if (marketMetrics?.trade_history?.length > 0) setIsLoading?.(false);
+        if (marketMetrics?.trade_history?.length > 0 && setIsLoading)
+          setIsLoading(false);
       };
       if (shouldInstantLoad) changeMarketMetrics();
       const stream = setInterval(async () => {
         changeMarketMetrics();
       }, 5 * 1000);
-      if (marketMetrics?.trade_history?.length > 0) setIsLoading?.(false);
+      if (marketMetrics?.trade_history?.length > 0 && setIsLoading)
+        setIsLoading(false);
 
       return () => {
         threadId.current = Math.round(100000000 * Math.random());

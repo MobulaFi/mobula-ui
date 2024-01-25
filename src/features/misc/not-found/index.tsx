@@ -8,7 +8,7 @@ export default function NotFound() {
   const router = useRouter();
   function countdown() {
     if (timer > 0) setTimer(timer - 1);
-    else router.push("/");
+    else router.push("/home");
   }
   setTimeout(countdown, 1000);
   return (

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -11,19 +11,13 @@ import { ListingDetails } from "./listing-details";
 import { PresaleDetails } from "./presale-details";
 import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
-import { Socials } from "./socials";
 import { TimeSwitcher } from "./time-switcher";
 import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
 export const Essentials = () => {
-  const {
-    baseAsset,
-    setShowMobileMetric,
-    isAssetPage,
-    activeChart,
-    setActiveMetric,
-  } = useContext(BaseAssetContext);
+  const { baseAsset, setShowMobileMetric, isAssetPage, setActiveMetric } =
+    useContext(BaseAssetContext);
   const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
@@ -75,7 +69,7 @@ export const Essentials = () => {
           {isAssetPage ? (
             <>
               <Description />
-              <Socials />
+              {/* <Socials /> */}
               <PriceData />
               <CoreActor
                 extraCss={`${

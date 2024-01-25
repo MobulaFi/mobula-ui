@@ -29,6 +29,7 @@ interface BaseAssetProviderProps {
   tradeCookie: any;
   isAsset?: boolean;
   tradePairs?: Trade[];
+  activeSection: string;
 }
 
 export const BaseAssetProvider = ({
@@ -40,6 +41,7 @@ export const BaseAssetProvider = ({
   tradeCookie,
   isAsset = true,
   tradePairs,
+  activeSection,
 }: BaseAssetProviderProps) => {
   const [isAssetPage, setIsAssetPage] = useState(isAsset);
   const [transactions, setTransactions] = useState([]);
@@ -61,7 +63,7 @@ export const BaseAssetProvider = ({
   const [wallet, setWallet] = useState(null);
   const [portfolios, setPortfolios] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMarketMetricsLoading, setIsMarketMetricsLoading] = useState(false);
+  const [isMarketMetricsLoading, setIsMarketMetricsLoading] = useState(true);
   const [showTradeBlockchain, setShowTradeBlockchain] = useState(false);
   const [showTradeType, setShowTradeType] = useState(false);
   const [showTradeValue, setShowTradeValue] = useState(false);
@@ -76,7 +78,7 @@ export const BaseAssetProvider = ({
   const [marketMetrics, setMarketMetrics] = useState<MarketMetrics>();
   const [filters, setFilters] = useState(tradeCookie || []);
   const [shouldInstantLoad, setShouldInstantLoad] = useState(false);
-  const [activeTab, setActiveTab] = useState("Essentials");
+  const [activeTab, setActiveTab] = useState(activeSection || "Essentials");
   const [tradeHistory, setTradeHistory] = useState(tradHistory);
   const [pairTrades, setPairTrades] = useState(tradePairs);
   const [assetPairs, setAssetPairs] = useState<any>([]);
@@ -213,12 +215,14 @@ export const BaseAssetProvider = ({
       ?.filter((entry) => Date.now() > entry[0] + 7 * 24 * 60 * 60 * 1000)
       .map((entry) => [entry[0], entry[1] * multiplier]) as [number, number][];
 
-    const weeklyAsset = (recent
-      ?.filter((entry) => entry[0] + 7 * 24 * 60 * 60 * 1000 > Date.now())
-      .map((entry) => [entry[0], entry[1] * multiplier]) || []) as [
-      number,
-      number
-    ][];
+    const recentAsset = (recent.map((entry) => [
+      entry[0],
+      entry[1] * multiplier,
+    ]) || []) as [number, number][];
+
+    const weeklyAsset = recentAsset?.filter(
+      (entry) => entry[0] + 7 * 24 * 60 * 60 * 1000 > Date.now()
+    );
 
     return {
       "24H": weeklyAsset?.filter(
@@ -227,14 +231,14 @@ export const BaseAssetProvider = ({
       "7D": weeklyAsset,
       "30D": historyAssetBase
         ?.filter((entry) => entry[0] + 30 * 24 * 60 * 60 * 1000 > Date.now())
-        .concat(weeklyAsset),
+        .concat(recentAsset),
       "3M": historyAssetBase
         ?.filter((entry) => entry[0] + 90 * 24 * 60 * 60 * 1000 > Date.now())
-        .concat(weeklyAsset),
+        .concat(recentAsset),
       "1Y": historyAssetBase
         ?.filter((entry) => entry[0] + 365 * 24 * 60 * 60 * 1000 > Date.now())
-        .concat(weeklyAsset),
-      ALL: historyAssetBase?.concat(weeklyAsset),
+        .concat(recentAsset),
+      ALL: historyAssetBase?.concat(recentAsset),
     };
   };
 

@@ -1,0 +1,11 @@
+<svg width="583" height="583" viewBox="0 0 583 583" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M296 315.2L303.5 323L316 310" stroke="#15B785" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M270 282V297.333C270 297.333 270 305 288.5 305C307 305 307 297.333 307 297.333V282" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M288.5 274C307 274 307 282 307 282C307 282 307 290 288.5 290C270 290 270 282 270 282C270 282 270 274 288.5 274Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M289 320C270 320 270 312.667 270 312.667V298" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="291" cy="297.499" r="59.4048" fill="black" fill-opacity="0.07" stroke="#283657"/>
+<circle cx="290.999" cy="297.499" r="120.308" stroke="#75A1FF" stroke-opacity="0.21"/>
+<circle cx="291" cy="297.5" r="176.219" stroke="#75A1FF" stroke-opacity="0.12"/>
+<circle cx="291.001" cy="297.499" r="236.124" stroke="#75A1FF" stroke-opacity="0.08"/>
+<circle opacity="0.5" cx="291.5" cy="291.5" r="291" stroke="#75A1FF" stroke-opacity="0.07"/>
+</svg>
