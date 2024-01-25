@@ -248,6 +248,10 @@ textarea:focus {
   --_animation-speed: 250s;
 }
 
+.scrollerAnimated[data-speed="hyper-slow"] {
+  --_animation-speed: 1100s;
+}
+
 .scrollerAnimated[data-paused="true"] .scrollerAnimated-inner {
   animation-play-state: paused !important;
 }
