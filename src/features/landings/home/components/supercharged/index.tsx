@@ -47,7 +47,7 @@ export const IndexingSupercharged = () => {
               </p>
               <button
                 className="w-[150px] h-[40px] md:h-[35px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
-               dark:border-darkblue water-button md:w-[125px] md:text-sm md:font-normal"
+               dark:border-darkblue water-button md:w-[125px] md:text-sm md:font-normal md:hidden"
               >
                 <Link
                   href="mailto:contact@mobulalabs.org"
@@ -57,7 +57,7 @@ export const IndexingSupercharged = () => {
                 </Link>
               </button>
             </div>
-            <div className="w-2/4 md:w-full flex flex-col md:mt-9">
+            <div className="w-2/4 md:w-full flex flex-col md:mt-2.5">
               <div
                 className={`rounded-lg w-fit h-fit md:h-[170px] ${
                   isHover === 1 ? "scale-105" : "scale-100"
@@ -66,6 +66,17 @@ export const IndexingSupercharged = () => {
                 <img src="/landing/supercharged/livestream.png" />
               </div>
             </div>
+            <button
+              className="w-[150px] h-[40px] md:h-[35px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button md:w-[125px] md:text-sm md:font-normal hidden md:flex items-center justify-center mt-5"
+            >
+              <Link
+                href="mailto:contact@mobulalabs.org"
+                className="text-sm md:text-xs"
+              >
+                Get in touch
+              </Link>
+            </button>
           </div>
           <div className="w-full flex justify-between md:flex-col md:justify-start">
             <div
