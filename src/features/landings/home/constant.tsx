@@ -152,7 +152,7 @@ export const curatedDatasets = [
   },
   {
     title: "Metacore",
-    subtitle: "Metadata for assets & addresses",
+    subtitle: "Metadata",
     image: "/landing/curated-datasets/metacore.svg",
     headline: "Curated off-chain data",
     description:
