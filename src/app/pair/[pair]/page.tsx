@@ -8,51 +8,46 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
+const apiKey = process.env.NEXT_PUBLIC_PRICE_KEY || "";
+
 async function fetchAssetData({ params }) {
   const { pair } = params;
   try {
     if (!pair) return;
+    console.log(
+      "hjddhhdhdhd",
+      `https://api.mobula.io/api/1/market/pair?address=${pair}&stats=true`
+    );
     const fetchPair = fetch(
-      `https://api.mobula.io/api/1/market/pair?address=${pair}`
+      `https://api.mobula.io/api/1/market/pair?address=${pair}&stats=true`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+        },
+      }
     );
 
     const [activePair] = await Promise.all([fetchPair]).then((r) => {
       return Promise.all(r.map((res) => res.json()));
     });
 
+    console.log("HHHHHHHHHH", activePair);
+
     const { data: activePairData } = activePair;
 
     const fetchPairTrade = await fetch(
-      `https://api.mobula.io/api/1/market/trades?asset=${activePairData?.token0?.address}`,
+      `https://api.mobula.io/api/1/market/trades/pair?asset=${activePairData?.token0?.address}`,
       {
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": "mobula-api-key",
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
         },
       }
     ).then((res) => res.json());
 
-    try {
-      const fetchPairHistory = await fetch(
-        `https://api.mobula.io/api/1/market/history/pair?address=${pair}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "mobula-api-key",
-          },
-        }
-      ).then((res) => res.json());
+    console.log("activePair", fetchPairTrade);
 
-      console.log("activePair", fetchPairTrade);
-
-      return {
-        data: activePairData,
-        trade: fetchPairTrade,
-        history: fetchPairHistory,
-      };
-    } catch (error) {
-      console.log(error);
-    }
     return {
       data: activePairData,
       trade: fetchPairTrade,
@@ -68,7 +63,7 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { pair } = params;
-  const { data, trade, history }: any = await fetchAssetData({ params });
+  const { data, trade }: any = await fetchAssetData({ params });
   const pairInfo = {
     liquidity: 1_000_000_000,
     market_cap: 1_000_000_000,
@@ -81,7 +76,7 @@ async function AssetPage({ params }) {
     atl: [1506015467481, 0.3],
   };
 
-  console.log("token0", trade);
+  console.log("YOOOOOOOOOOOO", data);
   const newPair = {
     ...pairInfo,
     token0: {

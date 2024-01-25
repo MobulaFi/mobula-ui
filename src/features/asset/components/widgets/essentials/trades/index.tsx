@@ -35,6 +35,7 @@ export const TokenTrades = () => {
     pairTrades,
     setPairTrades,
     isLoading,
+    setsMarketMetricsLoading,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -182,6 +183,8 @@ export const TokenTrades = () => {
     if (isAssetPage) return;
     fetchPairTrade();
   }, [baseAsset]);
+
+  console.log("baseAsset", baseAsset);
 
   return (
     <div className="flex flex-col mt-2.5 w-full mx-auto">
@@ -371,7 +374,7 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {isMarketMetricsLoading ? (
+          {isMarketMetricsLoading && isAssetPage ? (
             <>
               {Array.from({ length: 9 }).map((_, i) => (
                 <TradesTemplate
@@ -384,9 +387,11 @@ export const TokenTrades = () => {
             </>
           ) : (
             <>
-              {(isMyTrades
-                ? userTrades?.filter((entry) => entry.amount > 0)
-                : marketMetrics?.trade_history
+              {(isAssetPage
+                ? isMyTrades
+                  ? userTrades?.filter((entry) => entry.amount > 0)
+                  : marketMetrics?.trade_history
+                : pairTrades
               )?.map((trade: Trade | UserTrade | any) => {
                 const isSell = trade.type === "sell";
                 const date: number = isMyTrades
@@ -403,6 +408,7 @@ export const TokenTrades = () => {
                       (trade?.unique_discriminator || 0) +
                       (trade?.id || 0)
                     }
+                    className="animate-fadeInTrade"
                   >
                     <TradesTemplate
                       trade={trade}

@@ -43,7 +43,7 @@ module.exports = {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
         },
-        fadeIn: {
+        fadeInTrade: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
@@ -89,6 +89,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         widthbar: "widthbar 5200ms linear",
         fadeIn: "fadeIn 0.5s ease-out",
+        fadeInTrade: "fadeInTrade 0.7s ease-in-out",
       },
       boxShadow: {
         "top-bottom":

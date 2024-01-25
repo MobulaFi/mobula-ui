@@ -1,5 +1,4 @@
 "use client";
-import { getUrlFromName } from "@utils/formaters";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
@@ -256,14 +255,6 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
     }, 200);
   }, [pathname]);
 
-  const getUrlFromTab = (tab: string) => {
-    let name = "";
-    if (tab === "Market") name = "market";
-    if (tab === "Fundraising") name = "fundraising";
-    if (tab === "Vesting") name = "vesting";
-    return `/asset/${getUrlFromName(baseAsset?.name)}/${name}`;
-  };
-
   return (
     <>
       <div className="flex flex-col" {...handlers}>
@@ -352,131 +343,6 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
                 className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
            md:py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary 
            overflow-x-scroll scroll w-full md:w-[95%] mx-auto md:hidden"
-          >
-            <div className="flex">
-              {tabs
-                ?.filter((tab) => tab !== "Buy")
-                // ?.filter(tab => {
-                //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
-                //   return tab;
-                // })
-                ?.map((tab) => {
-                  return (
-                    <NextChakraLink
-                      key={tab}
-                      href={getUrlFromTab(tab)}
-                      disabled={
-                        (tab === "Fundraising" && !baseAsset?.sales?.length) ||
-                        (tab === "Vesting" &&
-                          !baseAsset?.release_schedule?.length)
-                      }
-                    >
-                      <Button
-                        extraCss={`${mainButtonStyle} px-2.5 border ${
-                          tab === activeTab
-                            ? "border-blue dark:border-blue"
-                            : ""
-                        } ${
-                          (tab === "Fundraising" &&
-                            !baseAsset?.sales?.length) ||
-                          (tab === "Vesting" &&
-                            !baseAsset?.release_schedule?.length)
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
-                        }`}
-                        disabled={
-                          (tab === "Fundraising" &&
-                            !baseAsset?.sales?.length) ||
-                          (tab === "Vesting" &&
-                            !baseAsset?.release_schedule?.length)
-                        }
-                        // onClick={() => {
-                        //   setActiveTab(tab);
-                        // }}
-                      >
-                        {tab}
-                      </Button>
-                    </NextChakraLink>
-                  );
-                })}
-            </div>
-          </div>
-          {activeTab === "Essentials" ? (
-            <div
-              style={{
-                animation: getAnimation("Essentials"),
-                position: activeTab === "Essentials" ? "static" : "absolute",
-              }}
-            >
-              <Essentials />
-            </div>
-          ) : null}
-          {activeTab === "Market" ? (
-            <div
-              style={{
-                animation: getAnimation("Market"),
-                position: activeTab === "Market" ? "static" : "absolute",
-              }}
-            >
-              <Market />
-            </div>
-          ) : null}
-          {activeTab === "Social & Developer" ? (
-            <div
-              style={{
-                animation: getAnimation("Social & Developer"),
-                position:
-                  activeTab === "Social & Developer" ? "static" : "absolute",
-              }}
-            >
-              <SocialsDeveloper />
-            </div>
-          ) : null}
-          {activeTab === "Tokenomic" ? (
-            <div
-              style={{
-                animation: getAnimation("Tokenomic"),
-                position: activeTab === "Tokenomic" ? "static" : "absolute",
-              }}
-            >
-              <Tokenomic />
-            </div>
-          ) : null}
-          {activeTab === "Fundraising" ? (
-            <div
-              style={{
-                animation: getAnimation("Fundraising"),
-                position: activeTab === "Fundraising" ? "static" : "absolute",
-              }}
-            >
-              <Fundraising />
-            </div>
-          ) : null}
-          {activeTab === "Vesting" ? (
-            <div
-              style={{
-                animation: getAnimation("Vesting"),
-                position: activeTab === "Vesting" ? "static" : "absolute",
-              }}
-            >
-              <Vesting />
-            </div>
-          ) : null}
-          {activeTab === "Buy" ? (
-            <div
-              className="flex w-full justify-center lg:mt-2.5"
-              style={{
-                animation: getAnimation("Buy"),
-                position: activeTab === "Buy" ? "static" : "absolute",
-              }}
-            >
-              <SwapProvider
-                tokenOutBuffer={{
-                  ...baseAsset,
-                  address: baseAsset?.contracts?.[0],
-                  blockchain: baseAsset?.blockchains?.[0],
-                }}
-                lockToken={["out"]}
               >
                 <div className="flex">
                   {tabs
