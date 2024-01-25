@@ -1,21 +1,15 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useEffect, useState } from "react";
-import { FiExternalLink, FiFilter } from "react-icons/fi";
+import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
-import { NextChakraLink } from "../../../../../../components/link";
 import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
 import { GET } from "../../../../../../utils/fetch";
-import {
-  getClosest,
-  getFormattedAmount,
-} from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Trade, UserTrades } from "../../../../models";
 import { formatFilters } from "../../../../utils";
@@ -23,6 +17,7 @@ import { TradeBlockchainPopup } from "../../../popup/trade-blockchain-selector";
 import { TradeTypePopup } from "../../../popup/trade-type";
 import { TradeValueAmountPopup } from "../../../popup/trade-value-amount";
 import { PopoverTrade } from "../../../ui/popover-trade";
+import { TradesTemplate } from "../../../ui/trades-template";
 
 export const TokenTrades = () => {
   const { setConnect } = useContext(PopupUpdateContext);
@@ -37,6 +32,7 @@ export const TokenTrades = () => {
     filters,
     baseAsset,
     setMarketMetrics,
+    isLoading,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -346,197 +342,50 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {(isMyTrades
-            ? userTrades?.filter((entry) => entry.amount > 0)
-            : marketMetrics?.trade_history
-          )?.map((trade: Trade | UserTrade | any) => {
-            const isSell = trade.type === "sell";
-            const date: number = isMyTrades
-              ? (trade?.timestamp as number)
-              : trade?.date;
-            return (
-              <tbody
-                key={
-                  trade.date +
-                  trade.value_usd +
-                  trade.token_amount +
-                  trade.type +
-                  (trade?.hash || 0) +
-                  (trade?.unique_discriminator || 0) +
-                  (trade?.id || 0)
-                }
-              >
-                <tr>
-                  <td
-                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  md:pl-2.5 pr-2.5 py-[15px] text-[11px] lg:text-[10px] md:text-[8px] md:hidden"
+          {isLoading && !marketMetrics?.trade_history?.length ? (
+            <>
+              {Array.from({ length: 9 }).map((_, i) => (
+                <TradesTemplate
+                  key={i}
+                  isLoading
+                  trade={{} as Trade}
+                  date={"0"}
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              {(isMyTrades
+                ? userTrades?.filter((entry) => entry.amount > 0)
+                : marketMetrics?.trade_history
+              )?.map((trade: Trade | UserTrade | any) => {
+                const isSell = trade.type === "sell";
+                const date: number = isMyTrades
+                  ? (trade?.timestamp as number)
+                  : trade?.date;
+                return (
+                  <tbody
+                    key={
+                      trade.date +
+                      trade.value_usd +
+                      trade.token_amount +
+                      trade.type +
+                      (trade?.hash || 0) +
+                      (trade?.unique_discriminator || 0) +
+                      (trade?.id || 0)
+                    }
                   >
-                    <div>
-                      <SmallFont
-                        extraCss={`mb-[-2px] md:mb-[-5px] ${
-                          isSell
-                            ? "text-red dark:text-red"
-                            : "text-green dark:text-green"
-                        }`}
-                      >
-                        {isSell ? "Sell" : "Buy"}
-                      </SmallFont>
-                    </div>
-                  </td>
-                  <td
-                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  px-2.5 pr-5 md:pr-2.5 md:py-1.5"
-                  >
-                    <div className="flex items-end md:items-start w-full justify-center flex-col">
-                      {"blockchain" in trade || isMyTrades ? (
-                        <SmallFont extraCss="font-medium">
-                          <NextChakraLink
-                            href={
-                              "blockchain" in trade && "hash" in trade
-                                ? `${
-                                    blockchainsContent[trade.blockchain]
-                                      ?.explorer
-                                  }/tx/${trade.hash}`
-                                : ""
-                            }
-                            key={trade.hash}
-                            target="_blank"
-                          >
-                            {getFormattedAmount(
-                              (isMyTrades
-                                ? trade.amount
-                                : trade.token_amount) as number
-                            )}
-                          </NextChakraLink>
-                        </SmallFont>
-                      ) : null}
-                      <SmallFont
-                        extraCss={`mt-[-4px] md:mt-0 hidden md:flex ${
-                          isSell
-                            ? "text-red dark:text-red"
-                            : "text-green dark:text-green"
-                        } font-medium`}
-                      >
-                        $
-                        {getFormattedAmount(
-                          (isMyTrades
-                            ? trade.amount_usd
-                            : trade.value_usd) as number,
-                          2
-                        )}
-                      </SmallFont>
-                    </div>
-                  </td>
-                  <td
-                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                     px-2.5 table-cell md:hidden"
-                  >
-                    <div className="flex justify-end w-full min-w-[60%]">
-                      <SmallFont
-                        extraCss={`${
-                          isSell
-                            ? "text-red dark:text-red"
-                            : "text-green dark:text-green"
-                        } mr-0 lg:mr-2.5 md:mr-0`}
-                      >
-                        $
-                        {getFormattedAmount(
-                          (isMyTrades
-                            ? trade.amount_usd
-                            : trade.value_usd) as number,
-                          2
-                        )}
-                      </SmallFont>
-                    </div>
-                  </td>
-                  <td
-                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                  px-2.5 min-w-[90px]"
-                  >
-                    <div className="flex justify-end w-full">
-                      <SmallFont
-                        extraCss={`text-end ${
-                          isSell
-                            ? "text-red dark:text-red"
-                            : "text-green dark:text-green"
-                        }`}
-                      >
-                        {`$${getFormattedAmount(
-                          isMyTrades
-                            ? getClosest(
-                                baseAsset?.price_history?.price || [],
-                                trade?.timestamp as number
-                              )
-                            : trade.token_price
-                        )}`}
-                      </SmallFont>
-                    </div>
-                  </td>
-                  <td
-                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                     px-2.5 pr-5 md:pr-2.5"
-                  >
-                    <div className="flex items-end flex-col">
-                      <SmallFont extraCss="font-medium">
-                        {new Date(date).getHours() > 9
-                          ? new Date(date).getHours()
-                          : `0${new Date(date).getHours()}`}
-                        :
-                        {new Date(date).getMinutes() > 9
-                          ? new Date(date).getMinutes()
-                          : `0${new Date(date).getMinutes()}`}
-                        :
-                        {new Date(date).getSeconds() > 9
-                          ? new Date(date).getSeconds()
-                          : `0${new Date(date).getSeconds()}`}
-                      </SmallFont>
-                      {isMyTrades ? (
-                        <SmallFont extraCss="text-xs font-medium">
-                          {trade.date}
-                        </SmallFont>
-                      ) : null}{" "}
-                    </div>
-                  </td>
-                  <td
-                    className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
-                            px-2.5 pr-5 md:pr-2.5"
-                  >
-                    <div className="flex items-center justify-end  w-full">
-                      {"blockchain" in trade || isMyTrades ? (
-                        <>
-                          {" "}
-                          <NextChakraLink
-                            href={
-                              "blockchain" in trade && "hash" in trade
-                                ? `${
-                                    blockchainsContent[trade.blockchain]
-                                      ?.explorer
-                                  }/tx/${trade.hash}`
-                                : ""
-                            }
-                            key={trade.hash}
-                            target="_blank"
-                          >
-                            <FiExternalLink className="ml-[15px] md:ml-0 mb-[3px] mr-[7.5px] text-light-font-40 dark:text-dark-font-40" />
-                          </NextChakraLink>
-                          <img
-                            className="w-[18px] h-[18px] min-w-[18px] mb-0.5 rounded-full"
-                            src={
-                              blockchainsContent[trade.blockchain]?.logo ||
-                              `/logo/${
-                                trade.blockchain.toLowerCase().split(" ")[0]
-                              }.png`
-                            }
-                            alt={`${trade.blockchain} logo`}
-                          />
-                        </>
-                      ) : null}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            );
-          })}
+                    <TradesTemplate
+                      trade={trade}
+                      isSell={isSell}
+                      isMyTrades={isMyTrades}
+                      date={date}
+                    />
+                  </tbody>
+                );
+              })}
+            </>
+          )}
         </table>
       </div>
     </div>
