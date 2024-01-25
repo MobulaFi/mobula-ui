@@ -249,7 +249,7 @@ textarea:focus {
 }
 
 .scrollerAnimated[data-speed="hyper-slow"] {
-  --_animation-speed: 1000s;
+  --_animation-speed: 950s;
 }
 
 .scrollerAnimated[data-paused="true"] .scrollerAnimated-inner {
