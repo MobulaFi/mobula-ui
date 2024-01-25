@@ -1068,6 +1068,11 @@
     "@stablelib/random" "^1.0.2"
     "@stablelib/wipe" "^1.0.1"
 
+"@studio-freight/lenis@^1.0.29":
+  "integrity" "sha512-z/qS8ato5m2wlxQREYj5iALcxMrhhm06vEiLqYzLI+3HmpPzPscmJ8cXNiay4bj692vOot2hyTA3WP++AQVoKA=="
+  "resolved" "https://registry.npmjs.org/@studio-freight/lenis/-/lenis-1.0.29.tgz"
+  "version" "1.0.29"
+
 "@supabase/functions-js@^1.3.4":
   "integrity" "sha512-yYVgkECjv7IZEBKBI3EB5Q7R1p0FJ10g8Q9N7SWKIHUU6i6DnbEGHIMFLyQRm1hmiNWD8fL7bRVEYacmTRJhHw=="
   "resolved" "https://registry.npmjs.org/@supabase/functions-js/-/functions-js-1.3.4.tgz"
@@ -3587,6 +3592,11 @@
   "resolved" "https://registry.npmjs.org/hi-base32/-/hi-base32-0.5.1.tgz"
   "version" "0.5.1"
 
+"highlight.js@^11.9.0":
+  "integrity" "sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw=="
+  "resolved" "https://registry.npmjs.org/highlight.js/-/highlight.js-11.9.0.tgz"
+  "version" "11.9.0"
+
 "hmac-drbg@^1.0.1":
   "integrity" "sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg=="
   "resolved" "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz"
@@ -4510,10 +4520,10 @@
   "resolved" "https://registry.npmjs.org/mixpanel-browser/-/mixpanel-browser-2.48.1.tgz"
   "version" "2.48.1"
 
-"mobula-lite@^1.0.40", "mobula-lite@^1.0.42":
-  "integrity" "sha512-AGGpOvcLiN7J88raQAGIkG2HlkR76/52HcSDj11Mvg66rSdhcq6OpaPFYYBFjl+PVtwzudKNyaXDGu7Vksikkw=="
-  "resolved" "https://registry.npmjs.org/mobula-lite/-/mobula-lite-1.0.43.tgz"
-  "version" "1.0.43"
+"mobula-lite@^1.0.42", "mobula-lite@^1.3.8":
+  "integrity" "sha512-dq/8w4DjMPkSC948riEe7ABqwoSWJpu7tZdAeVo/4/YqjKVVkKId4mGYk7ToBCPdXhIhcmFkiAZUYlQ0LmgoLQ=="
+  "resolved" "https://registry.npmjs.org/mobula-lite/-/mobula-lite-1.3.8.tgz"
+  "version" "1.3.8"
 
 "mobula-utils@^1.1.24":
   "integrity" "sha512-LgWQ4DQY0aU+K/zlpkqtqL4OtWqOHNu82qhr7/wYll1gq5Deya/Rzk/se+7MAZRc/MN/ssOdJaQUMxQksI5kNA=="
@@ -5510,6 +5520,11 @@
     "call-bind" "^1.0.2"
     "define-properties" "^1.2.0"
     "set-function-name" "^2.0.0"
+
+"rellax@^1.12.1":
+  "integrity" "sha512-XBIi0CDpW5FLTujYjYBn1CIbK2CJL6TsAg/w409KghP2LucjjzBjsujXDAjyBLWgsfupfUcL5WzdnIPcGfK7XA=="
+  "resolved" "https://registry.npmjs.org/rellax/-/rellax-1.12.1.tgz"
+  "version" "1.12.1"
 
 "require-directory@^2.1.1":
   "integrity" "sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q=="

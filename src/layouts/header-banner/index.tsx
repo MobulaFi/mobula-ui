@@ -88,7 +88,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
       <div
         className="scrollerAnimated flex w-full overflow-hidden"
         ref={animationRef}
-        data-speed="slow"
+        data-speed="hyper-slow"
         data-animated="true"
         data-paused={!isAnimationPlaying}
       >

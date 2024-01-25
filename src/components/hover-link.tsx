@@ -5,13 +5,14 @@ interface HoverLinkProps {
   children: React.ReactNode;
 }
 
-export const HoverLink = ({ children }: HoverLinkProps) => {
+export const HoverLink = ({ children, ...props }: HoverLinkProps) => {
   const [isHover, setIsHover] = useState(false);
   return (
     <NextChakraLink
       extraCss="mx-[5px] font-medium cursor-pointer"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      {...props}
     >
       <div className="flex flex-col w-fit">
         {children}

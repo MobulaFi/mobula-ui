@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsKey } from "react-icons/bs";
 import { RiWallet3Line } from "react-icons/ri";
@@ -126,7 +126,7 @@ export const Overview = () => {
               height: (moreHistory / 10) * 514 + "px",
             }}
           >
-            {recentlyAdded.map((history: HistoryListing, i: number) => {
+            {recentlyAdded?.map((history: HistoryListing, i: number) => {
               const date = new Date(history.timestamp * 1000);
               const second = date.getTime();
               const postedDate = Math.round((Date.now() - second) / 1000);

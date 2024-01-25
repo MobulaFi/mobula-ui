@@ -65,7 +65,7 @@ export const Entry = ({
   const page = params.page;
   const isBalance =
     Object.keys(token).includes("balance") &&
-    (pathname === "/" || pathname === "/?page=" + page);
+    (pathname === "/home" || pathname === "/home?page=" + page);
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const isVisible = useIsInViewport(entryRef);
@@ -350,7 +350,7 @@ export const Entry = ({
             <TokenInfo token={token} showRank={showRank} index={index} />
           </Segment>
           {(activeView?.display?.length || 0) > 0 &&
-          (pathname === "/" || pathname === "/?page=" + page) &&
+          (pathname === "/home" || pathname === "/home?page=" + page) &&
           activeView?.name !== "All" &&
           activeView?.name !== "Portfolio"
             ? renderSegments()
@@ -396,7 +396,7 @@ export const Entry = ({
               <ChartSegment token={token} extraCss="md:hidden" />
             </>
           ) : null}
-          {pathname !== "/" && pathname !== `/?page=${page}` ? (
+          {pathname !== "/home" && pathname !== `/home?page=${page}` ? (
             <>
               <PriceSegment
                 token={token}
@@ -414,14 +414,14 @@ export const Entry = ({
                 metricsChanges={metricsChanges}
                 display="24h Volume"
               />
-              {pathname === "/" ||
-              pathname === `/?page=${page}` ||
+              {pathname === "/home" ||
+              pathname === `/home?page=${page}` ||
               isBalance ? (
                 <ChartSegment token={token} />
               ) : null}
             </>
           ) : null}
-          {pathname !== "/" && pathname !== `/?page=${page}` ? (
+          {pathname !== "/home" && pathname !== `/home?page=${page}` ? (
             <Segment>{lastComponent[lastColumn]}</Segment>
           ) : null}
           <Segment extraCss="table-cell md:hidden" noLink>
