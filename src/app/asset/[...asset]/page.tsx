@@ -92,8 +92,8 @@ const getMetaDataFromSection = (section: string, asset: string) => {
     };
   if (section === "market")
     return {
-      title: `${slicedAsset} Token Market Overview Token Comparison, Pairs, Price History and Buy/Sell Spread | Mobula.io`,
-      description: `Explore comprehensive market data of ${slicedAsset}, including token vs category analysis, trading pairs, historical price trends, and buy/sell spread details. Access all essential market insights for ${slicedAsset} in one place on Mobula.io, aiding strategic trading choices.`,
+      title: `${slicedAsset} trading pairs: Market Trends & Performance Analysis | Mobula.io`,
+      description: `Explore ${slicedAsset}’s market performance, contrasting it with benchmarks such as BTC trading pair, ETH trading pair, and altcoins trading pair over a range of timeframes, from 24 hours to a full year and beyond. Real-time data offers insights into ${slicedAsset}'s position against smart contract platforms and the crypto market. Track ${slicedAsset}'s price movements and historical highs/lows across different periods from 3 days to all-time. Comprehensive data, aggregating trading pairs from both blockchains and CEX, provides traders and investors with essential insights into ${slicedAsset}’s market trends, facilitating informed and strategic trading and investment choices.`,
     };
   if (section === "fundraising")
     return {
