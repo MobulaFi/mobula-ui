@@ -106,7 +106,7 @@ export const LegacyStack = () => {
                border border-light-border-primary dark:border-dark-border-primary"
               >
                 {activeLegacyStack.content.values.map((content) => (
-                  <div key={content.name} className="w-[25%] flex flex-col">
+                  <div key={content.name} className="w-[33%] flex flex-col">
                     <p className="text-light-font-60 tracking-tight dark:text-dark-font-60 font-poppins text-xl">
                       {content.name}
                     </p>
@@ -123,7 +123,7 @@ export const LegacyStack = () => {
               <div
                 key={stack.id}
                 className={`${
-                  legacyStackOpen === stack.id ? "h-[461px]" : "h-[70px]"
+                  legacyStackOpen === stack.id ? "h-[360px]" : "h-[70px]"
                 } flex flex-col transition-all duration-300 ease-in-out bg-[rgba(23, 27, 43, 0.22)]
                  rounded backdrop-blur-md overflow-hidden ${
                    i !== legacyStacks.length - 1

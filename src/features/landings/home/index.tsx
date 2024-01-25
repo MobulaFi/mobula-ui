@@ -110,22 +110,24 @@ export const HomeLanding = () => {
               </h1>
             </div>
 
-            <div className="flex items-center justify-center mt-[60px]">
+            <div className="flex items-center justify-center flex-col mt-[60px]">
               <button
-                className=" w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
-               dark:border-darkblue water-button  md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
+                className=" w-[250px] h-[45px] text-xl font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button  md:h-[40px] md:w-[190px] md:text-sm md:font-normal"
               >
                 <NextChakraLink
                   href="https://admin.mobula.fi"
                   target="_blank"
                   rel="noopener noreferrer"
+                  extraCss="text-base md:text-sm"
                 >
-                  Get Started
+                  Get Started for free
+                  {/* Start your journey here */}
                 </NextChakraLink>
               </button>
               <button
-                className="dark:text-dark-font-100 font-poppins ml-8 md:ml-5 md:h-[40px] md:w-[132px] md:text-sm md:font-normal
-               w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out"
+                className="dark:text-dark-font-100 font-poppins md:h-[40px] md:w-[132px] md:text-sm md:font-normal
+               w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out mt-5 md:mt-3"
               >
                 <NextChakraLink
                   href="https://docs.mobula.io/api-reference/introduction"
@@ -142,7 +144,7 @@ export const HomeLanding = () => {
                   <div className="border-[2px] border-light-font-10 dark:border-dark-font-10 h-[8px] w-[8px] rotate-[45deg]" />
                   <div className="bg-light-font-10 dark:bg-dark-font-10 h-[2px] w-full mx-2" />
                 </div>
-                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins">
+                <p className="text-light-font-40 dark:text-dark-font-40 text-xl whitespace-nowrap mx-2.5 font-poppins md:text-lg">
                   Powering the best
                 </p>
                 <div className="w-full flex items-center">
@@ -157,11 +159,12 @@ export const HomeLanding = () => {
                 <img
                   src="/landing/partner/embr.svg"
                   alt="embr logo"
-                  className="mx-auto"
+                  className="mx-auto md:hidden"
                 />
                 <img
                   src="/landing/partner/etherspot.svg"
                   alt="etherspot logo"
+                  className="md:hidden"
                 />
               </div>
             </div>

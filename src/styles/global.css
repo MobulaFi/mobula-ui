@@ -136,6 +136,16 @@ textarea:focus {
   transform: rotate(-40deg);
   transition: all 0.3s ease-in-out;
 }
+
+@media screen and (max-width: 450px) {
+  .water-button::before {
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+  }
+}
+
 /* 
 .water-button::before:hover {
   transform: scale(110%);
@@ -236,6 +246,10 @@ textarea:focus {
 }
 .scrollerAnimated[data-speed="slow"] {
   --_animation-speed: 250s;
+}
+
+.scrollerAnimated[data-speed="hyper-slow"] {
+  --_animation-speed: 950s;
 }
 
 .scrollerAnimated[data-paused="true"] .scrollerAnimated-inner {

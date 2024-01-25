@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import React from "react";
 import { HomeLanding } from "../features/landings/home";
 import { HomeLandingProvider } from "../features/landings/home/context-manager";
 
