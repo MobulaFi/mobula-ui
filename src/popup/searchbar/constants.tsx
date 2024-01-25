@@ -5,7 +5,7 @@ export const allPages = [
   {
     requests: ["top100", "top 100", "main", "home"],
     name: "Home Page",
-    url: "/",
+    url: "/home",
   },
   {
     requests: ["portfolio", "wallet", "my portfolio"],
