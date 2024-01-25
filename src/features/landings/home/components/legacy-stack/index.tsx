@@ -17,10 +17,13 @@ export const LegacyStack = () => {
     blurEffectAnimation(container);
   }, []);
 
-  const handleStackClick = (id: number) => {
+  const handleStackClick = (id: number, stack: any) => {
+    setActiveLegacyStack(stack);
     if (legacyStackOpen === id) setLegacyStackOpen(0);
     else setLegacyStackOpen(id);
   };
+
+  console.log("activeLegacyStack", activeLegacyStack);
 
   return (
     <section
@@ -133,7 +136,7 @@ export const LegacyStack = () => {
               >
                 <div
                   className="flex items-center justify-between py-[1rem] cursor-pointer"
-                  onClick={() => handleStackClick(stack.id)}
+                  onClick={() => handleStackClick(stack.id, stack)}
                 >
                   <div className="flex items-center">
                     <img
@@ -149,7 +152,6 @@ export const LegacyStack = () => {
                     <BsChevronDown />
                   </button>
                 </div>
-
                 <div
                   className="px-6 py-2 h-fit flex flex-col w-full bg-[rgba(23, 27, 43, 0.62)] shadow-top-bottom
                border border-light-border-primary dark:border-dark-border-primary rounded-xl mt-1"
