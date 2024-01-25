@@ -1,5 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FaRegCheckCircle } from "react-icons/fa";
@@ -17,6 +18,8 @@ export const Connect = () => {
   const [status, setStatus] = useState("idle");
   const { address } = useAccount();
   const [userMail, setUserMail] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
 
   const buttonStyle =
     "h-[40px] w-full mx-auto hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 px-3 bg-light-bg-terciary dark:bg-dark-bg-terciary rounded-md relative border border-light-border-primary dark:border-dark-border-primary mt-2.5";
@@ -30,6 +33,11 @@ export const Connect = () => {
         sameSite: "strict",
       });
       setStatus("pre-success");
+      if (pathname === "/") router.push("/home");
+
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 2000);
     },
   });
 
