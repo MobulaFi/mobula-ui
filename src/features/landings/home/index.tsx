@@ -112,20 +112,22 @@ export const HomeLanding = () => {
 
             <div className="flex items-center justify-center flex-col mt-[60px]">
               <button
-                className=" w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
-               dark:border-darkblue water-button  md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
+                className=" w-[250px] h-[45px] text-xl font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button  md:h-[40px] md:w-[190px] md:text-sm md:font-normal"
               >
                 <NextChakraLink
                   href="https://admin.mobula.fi"
                   target="_blank"
                   rel="noopener noreferrer"
+                  extraCss="text-base md:text-sm"
                 >
-                  Get Started
+                  Get Started for free
+                  {/* Start your journey here */}
                 </NextChakraLink>
               </button>
               <button
                 className="dark:text-dark-font-100 font-poppins md:h-[40px] md:w-[132px] md:text-sm md:font-normal
-               w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out mt-5"
+               w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out mt-5 md:mt-3"
               >
                 <NextChakraLink
                   href="https://docs.mobula.io/api-reference/introduction"

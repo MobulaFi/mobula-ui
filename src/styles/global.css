@@ -136,6 +136,16 @@ textarea:focus {
   transform: rotate(-40deg);
   transition: all 0.3s ease-in-out;
 }
+
+@media screen and (max-width: 450px) {
+  .water-button::before {
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+  }
+}
+
 /* 
 .water-button::before:hover {
   transform: scale(110%);

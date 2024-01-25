@@ -24,6 +24,8 @@ export const GetInTouch = () => {
 
     GET("/internal/get-in-touch", {
       contact: userQuery.contact,
+      title: userQuery.title,
+      body: userQuery.description,
     });
     triggerAlert("Success", "Your query has been submitted successfully.");
   };
@@ -94,7 +96,8 @@ export const GetInTouch = () => {
               />
             </div>
             <button
-              className="mt-[30px] w-[150px] h-[45px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue dark:border-darkblue water-button md:h-[40px] md:w-[132px] md:text-sm md:font-normal"
+              className="w-[150px] h-[40px] md:h-[35px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button mt-[30px] md:w-[125px] text-sm md:text-xs md:font-normal"
               onClick={submit}
             >
               Submit
