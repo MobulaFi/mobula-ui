@@ -6,13 +6,18 @@ import { getFormattedAmount } from "../../../../utils/formaters";
 import { SearchbarContext } from "../../context-manager";
 import { Title } from "../ui/title";
 
-export const PairResult = ({ callback, setTrigger, firstIndex }) => {
-  const { results, active, setActive, pairs } = useContext(SearchbarContext);
+export const PairResult = ({ setTrigger, firstIndex }) => {
+  const { active, setActive, pairs } = useContext(SearchbarContext);
   const router = useRouter();
   const clickEvent = (result) => {
     setTrigger(false);
-    pushData("Searchbar", { type: "pairs", name: result.token0.address });
-    router.push(`/pair/${result.token0.address}`);
+    pushData("Searchbar", {
+      type: "pairs",
+      soloPair: result.token0.address,
+      pair: result.address,
+    });
+    if (result?.token0) router.push(`/pair/${result.token0.address}`);
+    else router.push(`/pair/${result.address}`);
   };
   return (
     <>
@@ -24,7 +29,8 @@ export const PairResult = ({ callback, setTrigger, firstIndex }) => {
           className={`flex items-center cursor-pointer transition-all duration-200 justify-between ${
             active ? "bg-light-bg-hover dark:bg-dark-bg-hover" : ""
           } py-[7px] px-[20px] md:px-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover `}
-          onMouseOver={() => setActive(firstIndex)}
+          onMouseOver={() => setActive(index)}
+          onClick={() => clickEvent(result)}
         >
           <div className="flex items-center">
             {result?.protocol ? (

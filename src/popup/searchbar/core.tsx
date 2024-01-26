@@ -397,9 +397,7 @@ export const CoreSearchBar = ({
           }}
           ref={inputRef}
           id="search"
-          placeholder={
-            token || "Search a crypto name, symbol, a wallet or a page."
-          }
+          placeholder={token || "Search for asset, wallet, pair or page."}
         />
         <button
           className="pl-2.5 hidden md:flex"
