@@ -16,10 +16,10 @@ async function fetchAssetData({ params }) {
     if (!pair) return;
     console.log(
       "hjddhhdhdhd",
-      `https://api.mobula.io/api/1/market/pair?address=${pair}&stats=true`
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`
     );
     const fetchPair = fetch(
-      `https://api.mobula.io/api/1/market/pair?address=${pair}&stats=true`,
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -33,11 +33,12 @@ async function fetchAssetData({ params }) {
     });
 
     console.log("HHHHHHHHHH", activePair);
-
-    const { data: activePairData } = activePair;
+    const pairData = activePair?.data;
 
     const fetchPairTrade = await fetch(
-      `https://api.mobula.io/api/1/market/trades/pair?asset=${activePairData?.token0?.address}`,
+      `https://api.mobula.io/api/1/market/trades/pair?asset=${
+        activePair?.[activePair?.baseToken]?.address
+      }`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +50,7 @@ async function fetchAssetData({ params }) {
     console.log("activePair", fetchPairTrade);
 
     return {
-      data: activePairData,
+      data: pairData,
       trade: fetchPairTrade,
     };
   } catch (error) {
@@ -63,7 +64,7 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { pair } = params;
-  const test: any = await fetchAssetData({ params });
+  const { data }: any = await fetchAssetData({ params });
   const pairInfo = {
     liquidity: 1_000_000_000,
     market_cap: 1_000_000_000,
@@ -76,36 +77,9 @@ async function AssetPage({ params }) {
     atl: [1506015467481, 0.3],
   };
 
-  console.log("YOOOOOOOOOOOO", test);
+  console.log("YOOOOOOOOOOOO", data);
   const newPair = {
-    ...pairInfo,
-    token0: {
-      address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
-      name: "Ethereum",
-      price: 2200.002725868934,
-      priceToken: 1401.6847038549076,
-      priceTokenString: "1401.68470385490763874258846044540405",
-      symbol: "ETH",
-      logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579",
-    },
-    token1: {
-      address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
-      name: "Arbitrum",
-      price: 1.5728874693341508,
-      priceToken: 0.0007134272045987261,
-      priceTokenString: "0.00071342720459872607536438993137",
-      symbol: "ARB",
-      logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579",
-    },
-    quoteToken: "token0",
-    baseToken: "token1",
-    blockchain: "Ethereum",
-    volume: 1_000_000_000,
-    buyVolume: 100_000_000,
-    sellVolume: 100_000_000,
-    buys: 32_343,
-    sells: 32_343,
-    txns: 20_234,
+    ...data,
     isPair: true,
     address: pair,
   };
@@ -116,7 +90,7 @@ async function AssetPage({ params }) {
         <title>Test asset pair</title>
         <meta
           name="description"
-          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${test?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
+          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
         />
         <meta
           property="og:image"
@@ -134,8 +108,8 @@ async function AssetPage({ params }) {
       <div className="h-screen w-screen text-white dark:text-white">
         <BaseAssetProvider
           token={newPair}
-          tradHistory={test || []}
-          launchpad={test?.launchpads}
+          tradHistory={data || []}
+          launchpad={data?.launchpads}
           hideTxCookie={"{ hideTx: false }"}
           tradeCookie={undefined}
           isAsset={false}
@@ -147,24 +121,6 @@ async function AssetPage({ params }) {
             </NavActiveProvider>
           </ShowMoreProvider>
         </BaseAssetProvider>
-        <pre>
-          {JSON.stringify(
-            {
-              test,
-            },
-            null,
-            2
-          )}
-        </pre>
-        <pre>
-          {JSON.stringify(
-            {
-              trade: test?.data,
-            },
-            null,
-            2
-          )}
-        </pre>
       </div>
     </>
   );

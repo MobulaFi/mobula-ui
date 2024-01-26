@@ -24,13 +24,14 @@ export const Lines = ({
   setActive,
   index,
   extraCss,
+  isImage = false,
   ...props
 }: LinesType) => {
   let address = "";
   if ("address" in token) address = addressSlicer(token.address);
 
   const renderLogoOrAddressAvatar = (token) => {
-    if (!token || !("logo" in token)) {
+    if (!token || !isImage) {
       return null;
     }
 
@@ -46,10 +47,11 @@ export const Lines = ({
     return (
       <AddressAvatar
         extraCss="mr-2.5 rounded-full w-[20px] h-[20px] min-w-[20px]"
-        address={token.address}
+        address={token.address || token?.contracts?.[0]}
       />
     );
   };
+  const logo = renderLogoOrAddressAvatar(token);
 
   return (
     <div
@@ -60,7 +62,7 @@ export const Lines = ({
       {...props}
     >
       <div className="flex items-center">
-        {renderLogoOrAddressAvatar(token)}
+        {logo}
         {icon || null}
         <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
           {token.name}

@@ -1,8 +1,7 @@
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
-import { BsChevronRight, BsTelegram } from "react-icons/bs";
+import { BsChevronRight, BsTelegram, BsTriangleFill } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
 import { Container } from "../../components/container";
@@ -15,6 +14,7 @@ import { SwapProvider } from "../../layouts/swap";
 import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
+import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
 import { PopupSocialMobile } from "./components/popup/popup-social-mobile";
 import { PopupAllTags } from "./components/popup/tags";
@@ -256,6 +256,46 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
     }, 200);
   }, [pathname]);
 
+  const pairsStats = [
+    {
+      key: "Liquidity",
+      value: baseAsset?.liquidity,
+    },
+    {
+      key: "Volume (24h)",
+      value: baseAsset?.volume_24h,
+    },
+    {
+      key: "Market Cap",
+      value: baseAsset?.volume_24h,
+    },
+    {
+      key: "Change 5min",
+      value: baseAsset?.price_change_5min,
+      isPercentage: true,
+    },
+    {
+      key: "Change 1h",
+      value: baseAsset?.price_change_1h,
+      isPercentage: true,
+    },
+    {
+      key: "Change 4h",
+      value: baseAsset?.price_change_4h,
+      isPercentage: true,
+    },
+    {
+      key: "Change 12h",
+      value: baseAsset?.price_change_12h,
+      isPercentage: true,
+    },
+    {
+      key: "Change 24h",
+      value: baseAsset?.price_change_24h,
+      isPercentage: true,
+    },
+  ];
+
   return (
     <>
       <div className="flex flex-col" {...handlers}>
@@ -320,93 +360,59 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
                 <BsTelegram className="text-xl" />
               </Button>
             </div>
-          ) : null}
-          <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
-            <TokenMainInfo />
-            {isAssetPage ? (
+          ) : null}{" "}
+          {isAssetPage ? (
+            <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
+              <TokenMainInfo />
               <TokenSocialsInfo />
-            ) : (
-              <div
-                className="flex items-center  w-auto h-[94px]"
-                style={{
-                  minWidth: "calc(100% - 400px)",
-                }}
-              >
-                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 ml-8 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
-                    Blockchain
-                  </SmallFont>
-                  <div className="items-center flex">
-                    <img
-                      src={blockchainsContent[baseAsset?.blockchain]?.logo}
-                      alt="logo"
-                      className="w-6 h-6 mr-2"
-                    />
-                    <SmallFont extraCss="mt-1 text-light-font-40 dark:text-dark-font-40 text-center">
-                      {baseAsset?.blockchain}
-                    </SmallFont>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
-                    Change 1h
-                  </SmallFont>
-                  <SmallFont
-                    extraCss={`mt-1 ${
-                      baseAsset?.change_1h > 0
-                        ? "text-green dark:text-green"
-                        : "text-red dark:text-red"
-                    } text-center`}
-                  >
-                    {baseAsset?.change_1h}
-                  </SmallFont>
-                </div>
-                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
-                    Change 24h
-                  </SmallFont>
-                  <SmallFont
-                    extraCss={`mt-1 ${
-                      baseAsset?.change_24h > 0
-                        ? "text-green dark:text-green"
-                        : "text-red dark:text-red"
-                    } text-center`}
-                  >
-                    {baseAsset?.change_24h}
-                  </SmallFont>
-                </div>
-
-                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
-                    Change 7d
-                  </SmallFont>
-                  <SmallFont
-                    extraCss={`mt-1 ${
-                      baseAsset?.change_7d > 0
-                        ? "text-green dark:text-green"
-                        : "text-red dark:text-red"
-                    } text-center`}
-                  >
-                    {baseAsset?.change_7d}
-                  </SmallFont>
-                </div>
-                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
-                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
-                    Change 30d
-                  </SmallFont>
-                  <SmallFont
-                    extraCss={`mt-1 ${
-                      baseAsset?.change_30d > 0
-                        ? "text-green dark:text-green"
-                        : "text-red dark:text-red"
-                    } text-center`}
-                  >
-                    {baseAsset?.change_30d}
-                  </SmallFont>
-                </div>
+            </div>
+          ) : (
+            <div className="flex flex-col w-full mb-2.5">
+              <div className="max-w-[400px]">
+                <TokenMainInfo />
               </div>
-            )}
-          </div>
+              <div className="flex items-center w-full mt-2.5 border-t border-b h-[72px] border-light-border-secondary dark:border-dark-border-secondary ">
+                {pairsStats.map((pair, i) => (
+                  <div
+                    key={pair.key}
+                    className={`flex flex-col px-5 h-full items-center justify-center ${
+                      i !== 0
+                        ? "border-l border-light-border-secondary dark:border-dark-border-secondary"
+                        : ""
+                    }`}
+                  >
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center">
+                      {pair.key}
+                    </SmallFont>
+                    {pair?.isPercentage ? (
+                      <div className="flex items-center w-fit mx-auto">
+                        <BsTriangleFill
+                          className={`${
+                            pair.value < 0
+                              ? "rotate-0 text-green dark:text-green"
+                              : "rotate-180 text-red dark:text-red mt-1"
+                          } text-[8px] mr-1 `}
+                        />
+                        <SmallFont
+                          extraCss={`mt-1 ${
+                            pair.value > 0
+                              ? "text-green dark:text-green"
+                              : "text-red dark:text-red"
+                          } text-center`}
+                        >
+                          {getTokenPercentage(pair?.value)}%
+                        </SmallFont>
+                      </div>
+                    ) : (
+                      <SmallFont extraCss={`mt-1 text-center`}>
+                        ${getFormattedAmount(pair?.value)}
+                      </SmallFont>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
           {isAssetPage ? (
             <>

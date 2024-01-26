@@ -61,26 +61,40 @@ export const AssetsResults = ({
   return (
     <>
       {results.length > 0 && (
-        <Title extraCss="mt-[5px]">Assets ({results.length})</Title>
+        <Title extraCss="mt-[5px]">
+          {results?.every((entry) => !entry.id)
+            ? "Non listed Assets"
+            : "Assets"}{" "}
+          ({results.length})
+        </Title>
       )}
       {results.map((result, index) => (
         <Lines
           isImage
           token={result}
           key={result.id}
-          onClick={() => clickEvent(result)}
+          onClick={() => {
+            if (!result?.isTemplate && !result?.id) router.push(`/list`);
+            else clickEvent(result);
+          }}
           active={active === index + firstIndex}
           index={index + firstIndex}
           setActive={setActive}
         >
           {result?.isTemplate ? (
             <BiArrowToRight className="text-base md:text-sm text-light-font-60 dark:text-dark-font-60" />
-          ) : (
+          ) : null}
+          {result?.id && !result?.isTemplate ? (
             <Percentage
               isPercentage
               value={getFormattedAmount(result?.price)}
             />
-          )}
+          ) : null}
+          {!result?.isTemplate && !result?.id ? (
+            <p className="text-light-font-80 dark:text-dark-font-80 text-sm">
+              List it now
+            </p>
+          ) : null}
         </Lines>
       ))}
     </>

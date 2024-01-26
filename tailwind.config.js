@@ -114,7 +114,7 @@ module.exports = {
         },
         border: {
           primary: "rgba(255, 255, 255, 0.03)",
-          secondary: "rgba(255, 255, 255, 0.04)",
+          secondary: "rgba(255, 255, 255, 0.06)",
         },
         font: {
           100: "rgba(255, 255, 255, 0.95)",

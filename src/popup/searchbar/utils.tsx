@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Dispatch, SetStateAction } from "react";
+import { pushData } from "lib/mixpanel";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { isAddress } from "viem";
 import { allPages } from "./constants";
 import { ArticlesType, Token, User } from "./models";
@@ -102,4 +103,29 @@ export const getPagesFromInputValue = (setPages, value) => {
     });
   });
   setPages(newPages.filter((__, i) => i < 3));
+};
+
+export const handleMixpanel = (
+  timerRef: MutableRefObject<HTMLInputElement>,
+  token: string,
+  results: any
+) => {
+  if (timerRef?.current) clearTimeout(timerRef?.current);
+  timerRef.current = setTimeout(() => {
+    if (token) {
+      if (results && results?.length > 0) {
+        pushData("Search bar result ", {
+          input: token,
+        });
+      } else {
+        pushData("Search bar no result ", {
+          input: token,
+        });
+      }
+    }
+  }, 1500);
+
+  return () => {
+    if (timerRef?.current) clearTimeout(timerRef?.current);
+  };
 };

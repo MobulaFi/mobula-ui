@@ -53,7 +53,6 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
                 />
               </>
             )}
-
             <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
               {result?.token0?.symbol} / {result?.token1?.symbol}
             </p>

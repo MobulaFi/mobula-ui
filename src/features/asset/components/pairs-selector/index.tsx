@@ -1,5 +1,6 @@
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { BsTriangleFill } from "react-icons/bs";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
@@ -41,12 +42,20 @@ export const PairsSelector = () => {
           rounded-lg transition-all duration-200 ease-linear w-full mb-2.5"
         >
           <div className="flex items-center">
-            <img
-              className="w-[40px] h-[40px] min-w-[40px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] 
-              md:w-[20px] md:h-[20px] md:min-w-[20px] mr-2.5 rounded-full"
-              src={baseAsset?.[baseAsset?.baseToken]?.logo}
-              alt={`${baseAsset?.name} logo`}
-            />
+            <div className="relative w-fit h-fit mr-5">
+              <img
+                className="w-[40px] h-[40px] min-w-[40px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] 
+              md:w-[20px] md:h-[20px] md:min-w-[20px] rounded-full"
+                src={baseAsset?.[baseAsset?.baseToken]?.logo}
+                alt={`${baseAsset?.name} logo`}
+              />
+              <img
+                className="w-[20px] h-[20px] min-w-[20px] absolute -bottom-0.5 -right-1 rounded-full border
+                 border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
+                src={blockchainsContent[baseAsset?.blockchain]?.logo}
+                alt={`${baseAsset?.blockchain} logo`}
+              />
+            </div>
             <div className="flex flex-col">
               <LargeFont extraCss="leading-tight font-normal">
                 <span className="font-medium">
@@ -70,19 +79,19 @@ export const PairsSelector = () => {
               <div className="flex items-center">
                 <BsTriangleFill
                   className={`${
-                    baseAsset?.change_24h > 0
+                    baseAsset?.price_change_24h > 0
                       ? "rotate-0 text-green dark:text-green"
                       : "rotate-180 text-red dark:text-red"
                   } text-[8px] mr-1`}
                 />
                 <MediumFont
                   extraCss={`${
-                    baseAsset?.change_24h > 0
+                    baseAsset?.price_change_24h > 0
                       ? "text-green dark:text-green"
                       : "text-red dark:text-red"
                   } text-start leading-[20px]`}
                 >
-                  {getTokenPercentage(baseAsset?.change_24h)}%
+                  {getTokenPercentage(baseAsset?.price_change_24h)}%
                 </MediumFont>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../components/button";
@@ -183,7 +183,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
       {isPair ? (
         <div className="flex flex-col">
           <PairsSelector />
-          <div className="flex flex-col  mt-0 lg:mt-0.5 w-full">
+          {/* <div className="flex flex-col  mt-0 lg:mt-0.5 w-full">
             <ATHnATL
               isUp={false}
               content={{
@@ -192,7 +192,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
                 price: baseAsset?.[baseAsset?.baseToken].price,
               }}
             />
-          </div>
+          </div> */}
         </div>
       ) : (
         <>
