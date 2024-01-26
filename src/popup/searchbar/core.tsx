@@ -197,7 +197,7 @@ export const CoreSearchBar = ({
           callback={callback}
         />
         <PairResult
-          firstIndex={results?.length || 0}
+          firstIndex={pairs?.length || 0}
           setTrigger={setTrigger}
           callback={callback}
         />
@@ -296,7 +296,50 @@ export const CoreSearchBar = ({
     };
   }, [token, results]);
 
-  console.log("results", results);
+  const fetchPairs = (e) => {
+    let failed = 0;
+
+    const handleError = () => {
+      failed++;
+      if (failed === 2) setPairs([]);
+    };
+
+    GET("/api/1/market/pairs", { asset: e.target.value })
+      .then((r) => r.json())
+      .then((r) => {
+        if (r.data) {
+          const newPairs = r.data.pairs;
+          const pairsFiltered = newPairs.filter((_, i) => i < 3);
+          setPairs(pairsFiltered);
+          return;
+        }
+        if (r.error) {
+          handleError();
+          return;
+        }
+      });
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${e.target.value}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY || "",
+        },
+      }
+    )
+      .then((r) => r.json())
+      .then((r) => {
+        if (r.data) {
+          setPairs([r.data]);
+          return;
+        }
+        if (r.error) {
+          handleError();
+          return;
+        }
+      });
+  };
 
   return (
     <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-xl">
@@ -309,51 +352,17 @@ export const CoreSearchBar = ({
         <input
           className="text-light-font-100 dark:text-dark-font-100 border-none bg-light-bg-secondary dark:bg-dark-bg-secondary w-full "
           onChange={(e) => {
-            console.log("HEEEEEJEJEJEJ");
             setToken(e.target.value.split("/").join(""));
             getPagesFromInputValue(setPages, e.target.value);
             delayDebounce(e.target.value.split("/").join(""));
             getEns(e.target.value);
+            fetchPairs(e);
             getDataFromInputValue(
               e.target.value,
               supabase,
               setUsers,
-              setUserWithAddress,
-              setPairs
+              setUserWithAddress
             );
-            console.log("IM BEING CALLED");
-            try {
-              GET("/api/1/market/pairs", {
-                address: e.target.value,
-              })
-                .then((r) => r.json())
-                .then((r) => {
-                  console.log("r", r);
-                  if (r.data) {
-                    const pairsFiltered = r.data.filter((_, i) => i < 3);
-                    setPairs(pairsFiltered?.pairs);
-                  }
-                });
-            } catch (e) {
-              console.log("e", e);
-            }
-            fetch(
-              `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${e.target.value}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-                },
-              }
-            )
-              .then((r) => r.json())
-              .then((r) => {
-                console.log("rrrrrr", r);
-                if (r.data) {
-                  const pairsFiltered = r.data;
-                  setPairs([pairsFiltered]);
-                }
-              });
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

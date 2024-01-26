@@ -1,7 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Dispatch, SetStateAction } from "react";
 import { isAddress } from "viem";
-import { GET } from "../../utils/fetch";
 import { allPages } from "./constants";
 import { ArticlesType, Token, User } from "./models";
 
@@ -75,11 +74,8 @@ export const getDataFromInputValue = (
   supabase,
   setUsers,
   setUserWithAddress,
-  setPairs,
-
   maxWalletsResult = 3
 ) => {
-  console.log("VALUE IS HERE", value);
   if (value) {
     supabase
       .from("users")
@@ -93,18 +89,6 @@ export const getDataFromInputValue = (
         if (r.data) setUsers(r.data);
       });
     getUserFromAddress(setUserWithAddress, value, supabase);
-    console.log("VALUE", value);
-    if (isAddress(value))
-      GET("/api/1/market/pairs", {
-        address: value,
-      })
-        .then((r) => r.json())
-        .then((r) => {
-          if (r.data) {
-            const pairsFiltered = r.data?.filter((__, i) => i < 5);
-            setPairs(pairsFiltered);
-          }
-        });
   }
 };
 
