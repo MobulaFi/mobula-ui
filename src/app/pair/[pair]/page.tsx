@@ -1,5 +1,4 @@
 import { BaseAssetProvider } from "features/asset/context-manager";
-import React from "react";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
 import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
 import { Assets } from "../../../features/asset/index";
@@ -35,8 +34,8 @@ async function fetchAssetData({ params }) {
     console.log("HHHHHHHHHH", activePair);
     const pairData = activePair?.data;
 
-    const fetchPairTrade = await fetch(
-      `https://api.mobula.io/api/1/market/trades/pair?asset=${
+    const fetchPairTrade = fetch(
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
         activePair?.[activePair?.baseToken]?.address
       }`,
       {
@@ -45,13 +44,33 @@ async function fetchAssetData({ params }) {
           Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
         },
       }
-    ).then((res) => res.json());
+    );
+
+    const fetchSocialLink = fetch(
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?asset=${
+        activePair?.[activePair?.baseToken]?.address
+      }`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+        },
+      }
+    );
+
+    const [pairTrade, pairSocial] = await Promise.all([
+      fetchPairTrade,
+      fetchSocialLink,
+    ]).then((r) => {
+      return Promise.all(r.map((res) => res.json()));
+    });
 
     console.log("activePair", fetchPairTrade);
 
     return {
       data: pairData,
-      trade: fetchPairTrade,
+      trade: pairTrade,
+      social: pairSocial,
     };
   } catch (error) {
     console.log(error);
@@ -64,7 +83,7 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { pair } = params;
-  const { data }: any = await fetchAssetData({ params });
+  const { data, social }: any = await fetchAssetData({ params });
   const pairInfo = {
     liquidity: 1_000_000_000,
     market_cap: 1_000_000_000,
@@ -80,6 +99,7 @@ async function AssetPage({ params }) {
   console.log("YOOOOOOOOOOOO", data);
   const newPair = {
     ...data,
+    ...social,
     isPair: true,
     address: pair,
   };

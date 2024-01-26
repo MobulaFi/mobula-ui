@@ -1,13 +1,15 @@
 "use client";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
-import { BsChevronRight, BsTelegram, BsTriangleFill } from "react-icons/bs";
+import { useContext, useEffect, useState } from "react";
+import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
 import { Container } from "../../components/container";
 import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
 import { Skeleton } from "../../components/skeleton";
+import { TagPercentage } from "../../components/tag-percentage";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { TopNav } from "../../layouts/menu-mobile/top-nav";
 import { SwapProvider } from "../../layouts/swap";
@@ -16,11 +18,13 @@ import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
+import { Contracts } from "./components/contracts";
 import { PopupSocialMobile } from "./components/popup/popup-social-mobile";
 import { PopupAllTags } from "./components/popup/tags";
 import { TradeFiltersPopup } from "./components/popup/trade-filters";
 import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
+import { CustomPopOver } from "./components/ui/popover";
 import { Essentials } from "./components/widgets/essentials";
 import { Fundraising } from "./components/widgets/fundraising";
 import { Market } from "./components/widgets/market";
@@ -259,40 +263,72 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
   const pairsStats = [
     {
       key: "Liquidity",
-      value: baseAsset?.liquidity,
+      value:
+        baseAsset?.token0?.approximateReserveUSD +
+        baseAsset?.token1?.approximateReserveUSD,
+      isAmount: true,
     },
     {
-      key: "Volume (24h)",
+      key: "Volume",
       value: baseAsset?.volume_24h,
+      isAmount: true,
     },
     {
-      key: "Market Cap",
+      key: "M.Cap",
       value: baseAsset?.volume_24h,
+      isAmount: true,
     },
     {
-      key: "Change 5min",
+      key: "Txns",
+      value: baseAsset?.trades_24h,
+    },
+    {
+      key: "Sells",
+      value: baseAsset?.sells_24h,
+    },
+    {
+      key: "Buys",
+      value: baseAsset?.buys_24h,
+    },
+    {
+      key: "5min",
       value: baseAsset?.price_change_5min,
       isPercentage: true,
     },
     {
-      key: "Change 1h",
+      key: "1h",
       value: baseAsset?.price_change_1h,
       isPercentage: true,
     },
     {
-      key: "Change 4h",
+      key: "4h",
       value: baseAsset?.price_change_4h,
       isPercentage: true,
     },
     {
-      key: "Change 12h",
+      key: "12h",
       value: baseAsset?.price_change_12h,
       isPercentage: true,
     },
     {
-      key: "Change 24h",
+      key: "24h",
       value: baseAsset?.price_change_24h,
       isPercentage: true,
+    },
+  ];
+
+  const pairsContract = [
+    {
+      address: baseAsset?.address,
+      title: "Pair",
+    },
+    {
+      address: baseAsset?.token0?.address,
+      title: baseAsset?.token0?.name,
+    },
+    {
+      address: baseAsset?.token1?.address,
+      title: baseAsset?.token1?.name,
     },
   ];
 
@@ -368,44 +404,70 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
             </div>
           ) : (
             <div className="flex flex-col w-full mb-2.5">
-              <div className="max-w-[400px]">
-                <TokenMainInfo />
+              <div className="flex items-center justify-between w-full">
+                <div className="max-w-[400px] w-full">
+                  <TokenMainInfo />
+                </div>
+                <div className="flex flex-col">
+                  <SmallFont extraCss="mb-2">Info Bébou</SmallFont>
+                  <CustomPopOver
+                    title={"Contracts"}
+                    logo={
+                      blockchainsContent[baseAsset?.blockchain]?.logo ||
+                      `/logo/${
+                        baseAsset?.blockchain?.[0]?.toLowerCase().split(" ")[0]
+                      }.png`
+                    }
+                    position="left-1/2 -translate-x-1/2"
+                    isMobile
+                  >
+                    {pairsContract?.map((pair, index: number) =>
+                      pair ? (
+                        <div
+                          className={`flex text-light-font-100 dark:text-dark-font-100 ${
+                            index > 0 ? "mt-2.5" : "mt-0"
+                          }`}
+                          key={(pair?.address || 0) + index}
+                        >
+                          <Contracts
+                            contract={pair?.address}
+                            title={pair?.title || ""}
+                            blockchain={baseAsset?.blockchain}
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    )}
+                  </CustomPopOver>
+                </div>
               </div>
-              <div className="flex items-center w-full mt-2.5 border-t border-b h-[72px] border-light-border-secondary dark:border-dark-border-secondary ">
+              <div className="flex items-center w-full mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
                 {pairsStats.map((pair, i) => (
                   <div
                     key={pair.key}
-                    className={`flex flex-col px-5 h-full items-center justify-center ${
+                    className={`flex flex-col px-5 py-3 h-full items-center justify-center ${
                       i !== 0
                         ? "border-l border-light-border-secondary dark:border-dark-border-secondary"
                         : ""
                     }`}
+                    style={{
+                      width: `${100 / pairsStats.length}%`,
+                    }}
                   >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center">
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
                       {pair.key}
                     </SmallFont>
                     {pair?.isPercentage ? (
-                      <div className="flex items-center w-fit mx-auto">
-                        <BsTriangleFill
-                          className={`${
-                            pair.value < 0
-                              ? "rotate-0 text-green dark:text-green"
-                              : "rotate-180 text-red dark:text-red mt-1"
-                          } text-[8px] mr-1 `}
-                        />
-                        <SmallFont
-                          extraCss={`mt-1 ${
-                            pair.value > 0
-                              ? "text-green dark:text-green"
-                              : "text-red dark:text-red"
-                          } text-center`}
-                        >
-                          {getTokenPercentage(pair?.value)}%
-                        </SmallFont>
-                      </div>
+                      <TagPercentage
+                        percentage={getTokenPercentage(pair?.value)}
+                        isUp={pair?.value > 0}
+                      />
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>
-                        ${getFormattedAmount(pair?.value)}
+                        {pair?.isAmount
+                          ? `$${getFormattedAmount(pair?.value)}`
+                          : getFormattedAmount(pair?.value)}
                       </SmallFont>
                     )}
                   </div>
