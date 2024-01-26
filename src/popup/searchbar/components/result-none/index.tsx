@@ -36,13 +36,13 @@ export const NoResult = () => {
         src="/icon/searchbar.png"
         alt="searchbar logo"
       />
-      <p className="text-xl lg:text-lg md:text-md font-bold text-light-font-100 dark:text-dark-font-100 mx-auto">
+      <p className="text-xl lg:text-lg md:text-sm font-bold text-light-font-100 dark:text-dark-font-100 mx-auto">
         No results found
       </p>
-      <p className="text-md text-normal text-light-font-40 dark:text-dark-font-40 mt-[5px] mx-auto">
+      <p className="text-sm text-normal text-light-font-40 dark:text-dark-font-40 mt-[5px] mx-auto">
         Try adjusting your search
       </p>
-      <p className="text-md text-normal text-light-font-40 dark:text-dark-font-40 mb-2.5 mx-auto">
+      <p className="text-sm text-normal text-light-font-40 dark:text-dark-font-40 mb-2.5 mx-auto">
         or{" "}
         <span className="ml-[5px] font-medium">
           <NextChakraLink
@@ -54,7 +54,7 @@ export const NoResult = () => {
         </span>
       </p>
       <div className="mb-[5px] flex px-[20px] justify-between mt-[20px]">
-        <p className="text-md font-medium text-light-font-100 dark:text-dark-font-100">
+        <p className="text-sm font-medium text-light-font-100 dark:text-dark-font-100">
           {history ? "History" : "Trendings"}
         </p>
         {history ? null : (

@@ -38,6 +38,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
     setShowSwap,
     showSwap,
     setTimeSelected,
+    isAssetPage,
   } = useContext(BaseAssetContext);
   const { handleAddWatchlist, inWatchlist } = useWatchlist(baseAsset?.id);
   const { user } = useContext(UserContext);
@@ -174,11 +175,15 @@ export const TokenMainInfo = ({ pairs = null }) => {
   const isPair = baseAsset?.isPair;
 
   return (
-    <div className="flex flex-col w-[60%] lg:w-full">
+    <div
+      className={`flex flex-col ${
+        isAssetPage ? "w-[60%]" : "w-full"
+      } lg:w-full`}
+    >
       {isPair ? (
         <div className="flex flex-col">
           <PairsSelector />
-          <div className="flex flex-col  mt-0 lg:mt-0.5">
+          <div className="flex flex-col  mt-0 lg:mt-0.5 w-full">
             <ATHnATL
               isUp={false}
               content={{

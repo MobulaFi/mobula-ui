@@ -46,7 +46,7 @@ export const PageResults = ({ firstIndex, setTrigger }: PageResultsProps) => {
             <AiOutlineSearch className="text-lg mr-2.5 text-light-font-100 dark:text-dark-font-100" />
           }
         >
-          <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-md" />
+          <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-sm" />
         </Lines>
       ))}
     </div>

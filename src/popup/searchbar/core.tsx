@@ -10,6 +10,7 @@ import { readContract } from "wagmi/actions";
 import { Spinner } from "../../components/spinner";
 import { pushData } from "../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../lib/supabase";
+import { GET } from "../../utils/fetch";
 import { addressSlicer, getUrlFromName } from "../../utils/formaters";
 import { ForumResults } from "./components/result-article";
 import { AssetsResults } from "./components/result-asset";
@@ -17,6 +18,7 @@ import { EnsResults } from "./components/result-ens";
 import { NoResult } from "./components/result-none";
 import { NotListed } from "./components/result-not-listed";
 import { PageResults } from "./components/result-page";
+import { PairResult } from "./components/result-pair";
 import { UnknownResult } from "./components/result-unknown";
 import { WalletResult } from "./components/result-wallet";
 import { Title } from "./components/ui/title";
@@ -68,6 +70,8 @@ export const CoreSearchBar = ({
     setPages,
     ens,
     setEns,
+    setPairs,
+    pairs,
   } = useContext(SearchbarContext);
 
   const delayDebounce = (freshToken: string) => {
@@ -157,15 +161,21 @@ export const CoreSearchBar = ({
     (results?.length || 0) +
       (users?.length || 0) +
       (pages?.length || 0) +
-      (articles?.length || 0) !==
-      0 ||
+      (articles?.length || 0) ||
+    (pairs?.length || 0) !== 0 ||
     ens?.address ||
     token?.includes(".eth") ||
-    userWithAddress?.address !== undefined;
+    userWithAddress?.address !== undefined ||
+    pairs?.token0;
 
   let fullResults: React.ReactNode;
 
-  if (isUnknownUser && isSmartContract === null) {
+  if (
+    isUnknownUser &&
+    isSmartContract === null &&
+    !pairs?.length &&
+    !pairs?.token0
+  ) {
     fullResults = (
       <UnknownResult
         setTrigger={setTrigger}
@@ -182,6 +192,11 @@ export const CoreSearchBar = ({
           callback={callback}
         />
         <WalletResult
+          firstIndex={results?.length || 0}
+          setTrigger={setTrigger}
+          callback={callback}
+        />
+        <PairResult
           firstIndex={results?.length || 0}
           setTrigger={setTrigger}
           callback={callback}
@@ -281,6 +296,8 @@ export const CoreSearchBar = ({
     };
   }, [token, results]);
 
+  console.log("results", results);
+
   return (
     <div className="bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-xl">
       <div
@@ -292,6 +309,7 @@ export const CoreSearchBar = ({
         <input
           className="text-light-font-100 dark:text-dark-font-100 border-none bg-light-bg-secondary dark:bg-dark-bg-secondary w-full "
           onChange={(e) => {
+            console.log("HEEEEEJEJEJEJ");
             setToken(e.target.value.split("/").join(""));
             getPagesFromInputValue(setPages, e.target.value);
             delayDebounce(e.target.value.split("/").join(""));
@@ -301,8 +319,41 @@ export const CoreSearchBar = ({
               supabase,
               setUsers,
               setUserWithAddress,
-              setArticles
+              setPairs
             );
+            console.log("IM BEING CALLED");
+            try {
+              GET("/api/1/market/pairs", {
+                address: e.target.value,
+              })
+                .then((r) => r.json())
+                .then((r) => {
+                  console.log("r", r);
+                  if (r.data) {
+                    const pairsFiltered = r.data.filter((_, i) => i < 3);
+                    setPairs(pairsFiltered?.pairs);
+                  }
+                });
+            } catch (e) {
+              console.log("e", e);
+            }
+            fetch(
+              `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${e.target.value}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+                },
+              }
+            )
+              .then((r) => r.json())
+              .then((r) => {
+                console.log("rrrrrr", r);
+                if (r.data) {
+                  const pairsFiltered = r.data;
+                  setPairs([pairsFiltered]);
+                }
+              });
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

@@ -1,4 +1,5 @@
 "use client";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
@@ -322,19 +323,89 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
           ) : null}
           <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
             <TokenMainInfo />
-            {isAssetPage ? <TokenSocialsInfo /> : null}
-            {/* (
-              <div className="flex items-center flex-wrap w-full">
-                <div className="flex items-center justify-center flex-col">
+            {isAssetPage ? (
+              <TokenSocialsInfo />
+            ) : (
+              <div
+                className="flex items-center  w-auto h-[94px]"
+                style={{
+                  minWidth: "calc(100% - 400px)",
+                }}
+              >
+                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 ml-8 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
                   <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
-                    Liquidity
+                    Blockchain
                   </SmallFont>
-                  <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 text-center">
-                    {baseAsset?.liquidity}
+                  <div className="items-center flex">
+                    <img
+                      src={blockchainsContent[baseAsset?.blockchain]?.logo}
+                      alt="logo"
+                      className="w-6 h-6 mr-2"
+                    />
+                    <SmallFont extraCss="mt-1 text-light-font-40 dark:text-dark-font-40 text-center">
+                      {baseAsset?.blockchain}
+                    </SmallFont>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
+                    Change 1h
+                  </SmallFont>
+                  <SmallFont
+                    extraCss={`mt-1 ${
+                      baseAsset?.change_1h > 0
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-center`}
+                  >
+                    {baseAsset?.change_1h}
+                  </SmallFont>
+                </div>
+                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
+                    Change 24h
+                  </SmallFont>
+                  <SmallFont
+                    extraCss={`mt-1 ${
+                      baseAsset?.change_24h > 0
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-center`}
+                  >
+                    {baseAsset?.change_24h}
+                  </SmallFont>
+                </div>
+
+                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg mr-2.5 h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
+                    Change 7d
+                  </SmallFont>
+                  <SmallFont
+                    extraCss={`mt-1 ${
+                      baseAsset?.change_7d > 0
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-center`}
+                  >
+                    {baseAsset?.change_7d}
+                  </SmallFont>
+                </div>
+                <div className="flex items-center justify-center flex-col border border-light-border-primary dark:border-dark-border-primary rounded-lg h-full bg-light-bg-secondary dark:bg-dark-bg-secondary w-[20%]">
+                  <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 text-center">
+                    Change 30d
+                  </SmallFont>
+                  <SmallFont
+                    extraCss={`mt-1 ${
+                      baseAsset?.change_30d > 0
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-center`}
+                  >
+                    {baseAsset?.change_30d}
                   </SmallFont>
                 </div>
               </div>
-            ) */}
+            )}
           </div>
           <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
           {isAssetPage ? (

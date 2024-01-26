@@ -277,7 +277,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                 className="flex border-r border-light-border-primary dark:border-dark-border-primary 
               lg:border-transparent lg:dark:border-transparent items-center px-[7.5px] h-full rounded-l"
               >
-                <FiSearch className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100" />
+                <FiSearch className="text-sm md:text-lg text-light-font-100 dark:text-dark-font-100" />
               </div>
               <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5">
                 Crypto name, wallet, ens, token address...
@@ -345,7 +345,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               <>
                 <div className="flex flex-col w-full p-2.5">
                   <p
-                    className="text-lg md:text-md font-normal text-light-font-100 dark:text-dark-font-100
+                    className="text-lg md:text-sm font-normal text-light-font-100 dark:text-dark-font-100
                 pr-2.5 truncate max-w-full overflow-hidden"
                   >
                     {user?.username || addressSlicer(user?.address)}{" "}

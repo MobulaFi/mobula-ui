@@ -38,7 +38,7 @@ export const PairsSelector = () => {
       visibleContent={
         <div
           className="flex items-center justify-between cursor-pointer
-          rounded-lg transition-all duration-200 ease-linear w-2/4 mb-2.5"
+          rounded-lg transition-all duration-200 ease-linear w-full mb-2.5"
         >
           <div className="flex items-center">
             <img

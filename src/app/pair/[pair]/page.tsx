@@ -63,7 +63,7 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { pair } = params;
-  const { data, trade }: any = await fetchAssetData({ params });
+  const test: any = await fetchAssetData({ params });
   const pairInfo = {
     liquidity: 1_000_000_000,
     market_cap: 1_000_000_000,
@@ -76,7 +76,7 @@ async function AssetPage({ params }) {
     atl: [1506015467481, 0.3],
   };
 
-  console.log("YOOOOOOOOOOOO", data);
+  console.log("YOOOOOOOOOOOO", test);
   const newPair = {
     ...pairInfo,
     token0: {
@@ -116,7 +116,7 @@ async function AssetPage({ params }) {
         <title>Test asset pair</title>
         <meta
           name="description"
-          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
+          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${test?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
         />
         <meta
           property="og:image"
@@ -134,12 +134,12 @@ async function AssetPage({ params }) {
       <div className="h-screen w-screen text-white dark:text-white">
         <BaseAssetProvider
           token={newPair}
-          tradHistory={trade || []}
-          launchpad={data?.launchpads}
+          tradHistory={test || []}
+          launchpad={test?.launchpads}
           hideTxCookie={"{ hideTx: false }"}
           tradeCookie={undefined}
           isAsset={false}
-          tradePairs={trade.data || []}
+          tradePairs={[]}
         >
           <ShowMoreProvider>
             <NavActiveProvider>
@@ -150,7 +150,7 @@ async function AssetPage({ params }) {
         <pre>
           {JSON.stringify(
             {
-              data,
+              test,
             },
             null,
             2
@@ -159,7 +159,7 @@ async function AssetPage({ params }) {
         <pre>
           {JSON.stringify(
             {
-              trade: trade?.data,
+              trade: test?.data,
             },
             null,
             2

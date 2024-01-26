@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { SmallFont } from "../../../../../components/fonts";
 import { getFormattedAmount } from "../../../../../utils/formaters";
+import { BaseAssetContext } from "../../../context-manager";
 
 interface ATHnATLProps {
   content: {
@@ -12,9 +13,14 @@ interface ATHnATLProps {
 }
 
 export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
+  const { isAssetPage } = useContext(BaseAssetContext);
   return (
     <>
-      <div className="flex h-[7px] w-[50%] lg:w-full bg-[#87878720] rounded-md mt-[2.5px]">
+      <div
+        className={`flex h-[7px] ${
+          isAssetPage ? "w-2/4" : "w-full"
+        } lg:w-full bg-[#87878720] rounded-md mt-[2.5px]`}
+      >
         <div
           className={`rounded-md h-full ${
             isUp ? "bg-green dark:bg-green" : "bg-red dark:bg-red"
@@ -31,7 +37,11 @@ export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
           }}
         />
       </div>
-      <div className="flex justify-between mt-[7.5px] md:mt-[5px] w-[50%] lg:w-full">
+      <div
+        className={`flex justify-between mt-[7.5px] md:mt-[5px] ${
+          isAssetPage ? "w-2/4" : "w-full"
+        } lg:w-full`}
+      >
         <div className="flex items-center">
           <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
             Low

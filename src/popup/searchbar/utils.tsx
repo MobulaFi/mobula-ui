@@ -1,6 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Dispatch, SetStateAction } from "react";
 import { isAddress } from "viem";
+import { GET } from "../../utils/fetch";
 import { allPages } from "./constants";
 import { ArticlesType, Token, User } from "./models";
 
@@ -74,10 +75,12 @@ export const getDataFromInputValue = (
   supabase,
   setUsers,
   setUserWithAddress,
-  setArticles,
+  setPairs,
+
   maxWalletsResult = 3
 ) => {
-  if (value)
+  console.log("VALUE IS HERE", value);
+  if (value) {
     supabase
       .from("users")
       .select("username,address,profile_pic")
@@ -89,24 +92,20 @@ export const getDataFromInputValue = (
       .then((r) => {
         if (r.data) setUsers(r.data);
       });
-  if (value) getUserFromAddress(setUserWithAddress, value, supabase);
-  if (value)
-    supabase
-      .from("blog_posts")
-      .select("title,likes,url,type")
-      .filter("validated", "eq", "true")
-      .order("likes", { ascending: false })
-      .or(`title.ilike.%${value}%,title.ilike.${value},title.ilike.%${value}`)
-      .limit(3)
-      .then((r) => {
-        if (r.data)
-          setArticles(
-            r.data.map((entry) => ({
-              ...entry,
-              url: `/forum/${entry.type}/${entry.url}`,
-            }))
-          );
-      });
+    getUserFromAddress(setUserWithAddress, value, supabase);
+    console.log("VALUE", value);
+    if (isAddress(value))
+      GET("/api/1/market/pairs", {
+        address: value,
+      })
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            const pairsFiltered = r.data?.filter((__, i) => i < 5);
+            setPairs(pairsFiltered);
+          }
+        });
+  }
 };
 
 export const getPagesFromInputValue = (setPages, value) => {

@@ -62,10 +62,10 @@ export const Lines = ({
       <div className="flex items-center">
         {renderLogoOrAddressAvatar(token)}
         {icon || null}
-        <p className="text-md font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
+        <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
           {token.name}
         </p>
-        <p className="text-md font-medium md:font-normal text-light-font-40 dark:text-dark-font-40">
+        <p className="text-sm font-medium md:font-normal text-light-font-40 dark:text-dark-font-40">
           {"symbol" in token ? token.symbol : address}
         </p>
       </div>

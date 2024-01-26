@@ -8,7 +8,7 @@ interface TitleProps {
 export const Title = ({ children, extraCss }: TitleProps) => {
   return (
     <p
-      className={`mb-2.5 text-light-font-100 dark:text-dark-font-100 text-md px-[20px] md:px-2.5 font-medium ${extraCss}`}
+      className={`mb-2.5 text-light-font-100 dark:text-dark-font-100 text-sm px-[20px] md:px-2.5 font-medium ${extraCss}`}
     >
       {children}
     </p>

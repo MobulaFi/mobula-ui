@@ -105,7 +105,7 @@ export const Header = ({ isExplorer }: HeaderProps) => {
             onClick={() => setShowWallet(true)}
           >
             {activePortfolio?.wallets?.length} Wallet(s)
-            <BiSolidChevronDown className="ml-[2.5px] mr-[-2.5px] text-md" />
+            <BiSolidChevronDown className="ml-[2.5px] mr-[-2.5px] text-sm" />
           </Button>
         )}
         {/* <NetworkButton extraCss="flex-wrap" /> */}
