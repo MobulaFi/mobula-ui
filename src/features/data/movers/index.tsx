@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
-import { SmallFont, Title } from "../../../components/fonts";
+import { Title } from "../../../components/fonts";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { ButtonSelectorMobile } from "./components/button-selector-mobile";
@@ -30,51 +30,9 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
     localStorage.setItem("path", JSON.stringify(moverPath));
   }, []);
 
-  function toFullString(num) {
-    let str = num.toString();
-    if (str.includes("e")) {
-      const parts = str.split("e");
-      const base = parts[0].replace(".", "");
-      const exponent = parseInt(parts[1], 10);
-
-      if (exponent < 0) {
-        const decimalPlaces = Math.abs(exponent) - 1;
-        str = "0." + "0".repeat(decimalPlaces) + base;
-      } else {
-        str = base + "0".repeat(exponent - base.length + 1);
-      }
-    }
-
-    return str;
-  }
-
-  const formatSmallNumber = (number: number, id?: string) => {
-    const nbrToString = toFullString(number);
-    const cutFirstHalf = nbrToString.split("");
-    const firstHalf = [cutFirstHalf[0], cutFirstHalf[1], cutFirstHalf[2]];
-    const numberArray = cutFirstHalf.slice(3, cutFirstHalf.length);
-
-    const numberArr: string[] = [];
-    let countZero = 0;
-
-    numberArray.forEach((element, index) => {
-      if (element === "0") countZero++;
-      else numberArr.push(element);
-    });
-
-    return (
-      <>
-        {firstHalf}
-        <sub className="text-[10px] mb-[-10px] mx-[1px]">{countZero}</sub>
-        {numberArr.join("")}
-      </>
-    );
-  };
-
   return (
     <>
       <TopNav list={tabs} active="G&L" isGeneral />
-      <SmallFont>{formatSmallNumber(0.000000000000000345)}</SmallFont>
       <Container>
         <div className="flex flex-col">
           <Title
