@@ -46,9 +46,11 @@ async function fetchAssetData({ params }) {
       }
     );
 
+    console.log("activePair?.[activePair?.baseToken]?.name", activePair);
+
     const fetchSocialLink = fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?asset=${
-        activePair?.[activePair?.baseToken]?.address
+        pairData?.[pairData?.baseToken]?.name
       }`,
       {
         headers: {
@@ -65,7 +67,7 @@ async function fetchAssetData({ params }) {
       return Promise.all(r.map((res) => res.json()));
     });
 
-    console.log("activePair", fetchPairTrade);
+    console.log("activePair", pairSocial);
 
     return {
       data: pairData,
@@ -84,22 +86,11 @@ type Props = {
 async function AssetPage({ params }) {
   const { pair } = params;
   const { data, social }: any = await fetchAssetData({ params });
-  const pairInfo = {
-    liquidity: 1_000_000_000,
-    market_cap: 1_000_000_000,
-    circ_supply: 1_000_000_000,
-    change_1h: 12,
-    change_24h: 1.23,
-    change_7d: 20.23,
-    change_30d: 12.23,
-    ath: [1606015467481, 1243],
-    atl: [1506015467481, 0.3],
-  };
 
-  console.log("YOOOOOOOOOOOO", data);
+  console.log("YOOOOOOOOOOOO", social);
   const newPair = {
     ...data,
-    ...social,
+    social: social?.data,
     isPair: true,
     address: pair,
   };
@@ -125,23 +116,21 @@ async function AssetPage({ params }) {
           content="https://mobula.fi/metaimage/Generic/others.png"
         />
       </head>
-      <div className="h-screen w-screen text-white dark:text-white">
-        <BaseAssetProvider
-          token={newPair}
-          tradHistory={data || []}
-          launchpad={data?.launchpads}
-          hideTxCookie={"{ hideTx: false }"}
-          tradeCookie={undefined}
-          isAsset={false}
-          tradePairs={[]}
-        >
-          <ShowMoreProvider>
-            <NavActiveProvider>
-              <Assets isAssetPage={false} />
-            </NavActiveProvider>
-          </ShowMoreProvider>
-        </BaseAssetProvider>
-      </div>
+      <BaseAssetProvider
+        token={newPair}
+        tradHistory={data || []}
+        launchpad={data?.launchpads}
+        hideTxCookie={"{ hideTx: false }"}
+        tradeCookie={undefined}
+        isAsset={false}
+        tradePairs={[]}
+      >
+        <ShowMoreProvider>
+          <NavActiveProvider>
+            <Assets isAssetPage={false} />
+          </NavActiveProvider>
+        </ShowMoreProvider>
+      </BaseAssetProvider>
     </>
   );
 }

@@ -1,5 +1,4 @@
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
@@ -18,13 +17,12 @@ import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
-import { Contracts } from "./components/contracts";
+import { PairsSocialInfo } from "./components/pairs-social-info";
 import { PopupSocialMobile } from "./components/popup/popup-social-mobile";
 import { PopupAllTags } from "./components/popup/tags";
 import { TradeFiltersPopup } from "./components/popup/trade-filters";
 import { TokenMainInfo } from "./components/token-main-info";
 import { TokenSocialsInfo } from "./components/token-social-info";
-import { CustomPopOver } from "./components/ui/popover";
 import { Essentials } from "./components/widgets/essentials";
 import { Fundraising } from "./components/widgets/fundraising";
 import { Market } from "./components/widgets/market";
@@ -278,18 +276,7 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
       value: baseAsset?.volume_24h,
       isAmount: true,
     },
-    {
-      key: "Txns",
-      value: baseAsset?.trades_24h,
-    },
-    {
-      key: "Sells",
-      value: baseAsset?.sells_24h,
-    },
-    {
-      key: "Buys",
-      value: baseAsset?.buys_24h,
-    },
+
     {
       key: "5min",
       value: baseAsset?.price_change_5min,
@@ -317,18 +304,18 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
     },
   ];
 
-  const pairsContract = [
+  const pairsTradeInfo = [
     {
-      address: baseAsset?.address,
-      title: "Pair",
+      key: "Txns",
+      value: baseAsset?.trades_24h,
     },
     {
-      address: baseAsset?.token0?.address,
-      title: baseAsset?.token0?.name,
+      key: "Sells",
+      value: baseAsset?.sells_24h,
     },
     {
-      address: baseAsset?.token1?.address,
-      title: baseAsset?.token1?.name,
+      key: "Buys",
+      value: baseAsset?.buys_24h,
     },
   ];
 
@@ -408,38 +395,48 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
                 <div className="max-w-[400px] w-full">
                   <TokenMainInfo />
                 </div>
-                <div className="flex flex-col">
-                  <SmallFont extraCss="mb-2">Info Bébou</SmallFont>
-                  <CustomPopOver
-                    title={"Contracts"}
-                    logo={
-                      blockchainsContent[baseAsset?.blockchain]?.logo ||
-                      `/logo/${
-                        baseAsset?.blockchain?.[0]?.toLowerCase().split(" ")[0]
-                      }.png`
-                    }
-                    position="left-1/2 -translate-x-1/2"
-                    isMobile
+                <PairsSocialInfo />
+                <div className="flex items-center">
+                  <div
+                    className={`flex flex-col px-5 py-3 h-full items-center justify-center `}
                   >
-                    {pairsContract?.map((pair, index: number) =>
-                      pair ? (
-                        <div
-                          className={`flex text-light-font-100 dark:text-dark-font-100 ${
-                            index > 0 ? "mt-2.5" : "mt-0"
-                          }`}
-                          key={(pair?.address || 0) + index}
-                        >
-                          <Contracts
-                            contract={pair?.address}
-                            title={pair?.title || ""}
-                            blockchain={baseAsset?.blockchain}
-                          />
-                        </div>
-                      ) : (
-                        <></>
-                      )
-                    )}
-                  </CustomPopOver>
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
+                      Txns
+                    </SmallFont>
+                    <TagPercentage
+                      percentage={getTokenPercentage(baseAsset?.trades_24h)}
+                      isUp={undefined}
+                      isPercentage={false}
+                      inhert
+                      extraCss="ml-0"
+                    />
+                  </div>
+                  <div
+                    className={`flex flex-col px-5 py-3 h-full items-center justify-center `}
+                  >
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
+                      Buys
+                    </SmallFont>
+                    <TagPercentage
+                      isPercentage={false}
+                      percentage={getTokenPercentage(baseAsset?.buys_24h)}
+                      isUp={true}
+                      extraCss="ml-0"
+                    />
+                  </div>
+                  <div
+                    className={`flex flex-col px-5 py-3 h-full items-center justify-center `}
+                  >
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
+                      Sells
+                    </SmallFont>
+                    <TagPercentage
+                      isPercentage={false}
+                      percentage={getTokenPercentage(baseAsset?.sells_24h)}
+                      isUp={false}
+                      extraCss="ml-0"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="flex items-center w-full mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
