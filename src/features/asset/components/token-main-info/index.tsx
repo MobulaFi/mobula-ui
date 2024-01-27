@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../components/button";
@@ -241,7 +241,13 @@ export const TokenMainInfo = () => {
           <LargeFont
             extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
           >
-            ${getFormattedAmount(marketMetrics.price)}
+            $
+            {getFormattedAmount(
+              marketMetrics.price,
+              0,
+              { minifyZeros: true, minifyBigNumbers: true },
+              true
+            )}
           </LargeFont>
           <div className="flex items-center">
             <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>

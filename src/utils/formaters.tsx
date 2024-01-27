@@ -37,10 +37,51 @@ export function formatAmount(amount: number | string, decimals = 2) {
   );
 }
 
+function toFullString(num) {
+  let str = num.toString();
+  if (str.includes("e")) {
+    const parts = str.split("e");
+    const base = parts[0].replace(".", "");
+    const exponent = parseInt(parts[1], 10);
+
+    if (exponent < 0) {
+      const decimalPlaces = Math.abs(exponent) - 1;
+      str = "0." + "0".repeat(decimalPlaces) + base;
+    } else {
+      str = base + "0".repeat(exponent - base.length + 1);
+    }
+  }
+  return str;
+}
+
+const formatSmallNumber = (number: number) => {
+  const nbrToString = toFullString(number);
+  const cutFirstHalf = nbrToString.split("");
+  const firstHalf = [cutFirstHalf[0], cutFirstHalf[1], cutFirstHalf[2]];
+  const numberArray = cutFirstHalf.slice(3, cutFirstHalf.length);
+
+  const numberArr: string[] = [];
+  let countZero = 0;
+
+  numberArray.forEach((element) => {
+    if (element === "0") countZero++;
+    else numberArr.push(element);
+  });
+
+  return (
+    <>
+      {firstHalf}
+      <sub className="text-[xs] self-end font-medium mx-[2px]">{countZero}</sub>
+      {numberArr.join("")}
+    </>
+  );
+};
+
 export function getFormattedAmount(
   price: number | string | undefined,
   lessPrecision = 0,
-  settings = { minifyZeros: true, minifyBigNumbers: true }
+  settings = { minifyZeros: true, minifyBigNumbers: true },
+  noSub: boolean = false
 ) {
   try {
     if (price) {
@@ -60,6 +101,9 @@ export function getFormattedAmount(
       }
       if (Math.abs(parseFloat(price)) > 1000) {
         return String(parseInt(price)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      if (Math.abs(parseFloat(price)) < 0.0000001 && !noSub) {
+        return formatSmallNumber(Math.abs(parseFloat(price)));
       }
       if (Math.abs(parseFloat(price)) < 0.0001) {
         if (!settings.minifyZeros) {
