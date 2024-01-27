@@ -56,7 +56,7 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
         </div>
         <div className="flex mt-2.5 md:mt-0 lg:overflow-x-scroll scroll">
           <div
-            className={`flex mr-3 lg:mr-0 w-2/4 lg:w-full ${
+            className={`flex mr-3 lg:mr-0 w-2/4 lg:w-full max-w-[588px] lg:max-w-full ${
               isGainer ? "" : "lg:hidden"
             }`}
             id="left"
@@ -67,7 +67,7 @@ export const Movers = ({ gainersBuffer, losersBuffer }: MoversProps) => {
             />
           </div>
           <div
-            className={`flex ml-3 lg:ml-0 w-2/4 lg:w-full ${
+            className={`flex ml-3 lg:ml-0 w-2/4 max-w-[588px] lg:max-w-full lg:w-full ${
               !isGainer ? "" : "lg:hidden"
             }`}
           >
