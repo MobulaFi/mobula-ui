@@ -28,10 +28,14 @@ import { SocialsDeveloper } from "./components/widgets/social-developer";
 import { Tokenomic } from "./components/widgets/tokenomic";
 import { Vesting } from "./components/widgets/vesting";
 import { BaseAssetContext } from "./context-manager";
-import { PrevPathProps } from "./models";
+import { Asset, PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
 
-export const Assets = () => {
+interface AssetProps {
+  asset: Asset;
+}
+
+export const Assets = ({ asset }) => {
   const {
     baseAsset,
     marketMetrics,
@@ -101,54 +105,54 @@ export const Assets = () => {
       if (dir === "next" && currentIndex < tabs.length - 1) {
         if (
           tabs[currentIndex + 1] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex + 2] === "Vesting" &&
-          !baseAsset?.release_schedule?.length
+          !asset?.release_schedule?.length
         ) {
           setActiveTab(tabs[currentIndex + 3]);
         } else if (
           tabs[currentIndex + 1] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex + 2] === "Vesting" &&
-          baseAsset?.release_schedule?.length > 0
+          asset?.release_schedule?.length > 0
         ) {
           setActiveTab(tabs[currentIndex + 2]);
         } else if (
           tabs[currentIndex + 1] === "Fundraising" &&
-          baseAsset?.sales?.length > 0
+          asset?.sales?.length > 0
         ) {
           setActiveTab(tabs[currentIndex + 1]);
         } else if (
           tabs[currentIndex + 1] === "Vesting" &&
-          !baseAsset?.release_schedule?.length
+          !asset?.release_schedule?.length
         ) {
           setActiveTab(tabs[currentIndex + 2]);
         } else setActiveTab(tabs[currentIndex + 1]);
       } else if (dir === "previous" && currentIndex > 0) {
         if (
           tabs[currentIndex - 2] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex - 1] === "Vesting" &&
-          !baseAsset?.release_schedule?.length
+          !asset?.release_schedule?.length
         ) {
           setActiveTab(tabs[currentIndex - 3]);
         } else if (
           tabs[currentIndex - 2] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex + 1] === "Vesting" &&
-          baseAsset?.release_schedule?.length > 0
+          asset?.release_schedule?.length > 0
         ) {
           setActiveTab(tabs[currentIndex - 2]);
         } else if (
           tabs[currentIndex - 1] === "Fundraising" &&
-          baseAsset?.sales?.length > 0
+          asset?.sales?.length > 0
         ) {
           setActiveTab(tabs[currentIndex - 1]);
         } else if (
           tabs[currentIndex - 1] === "Vesting" &&
-          !baseAsset?.release_schedule?.length &&
+          !asset?.release_schedule?.length &&
           tabs[currentIndex - 2] === "Fundraising" &&
-          baseAsset?.sales?.length > 0
+          asset?.sales?.length > 0
         ) {
           setActiveTab(tabs[currentIndex - 2]);
         } else setActiveTab(tabs[currentIndex - 1]);
@@ -254,10 +258,13 @@ export const Assets = () => {
   const getUrlFromTab = (tab: string) => {
     let name = "";
     if (tab === "Market") name = "market";
-    if (tab === "Fundraising") name = "fundraising";
-    if (tab === "Vesting") name = "vesting";
-    return `/asset/${getUrlFromName(baseAsset?.name)}/${name}`;
+    if (tab === "Fundraising" && asset?.sales?.length > 0) name = "fundraising";
+    if (tab === "Vesting" && asset?.release_schedule?.length > 0)
+      name = "vesting";
+    return `/asset/${getUrlFromName(asset.name)}/${name}`;
   };
+
+  console.log("!asset?.sales?.length", !asset?.sales?.length, asset);
 
   return (
     <>
@@ -347,9 +354,8 @@ export const Assets = () => {
                       key={tab}
                       href={getUrlFromTab(tab)}
                       disabled={
-                        (tab === "Fundraising" && !baseAsset?.sales?.length) ||
-                        (tab === "Vesting" &&
-                          !baseAsset?.release_schedule?.length)
+                        (tab === "Fundraising" && !asset?.sales?.length) ||
+                        (tab === "Vesting" && !asset?.release_schedule?.length)
                       }
                     >
                       <Button
@@ -358,19 +364,13 @@ export const Assets = () => {
                             ? "border-blue dark:border-blue"
                             : ""
                         } ${
-                          (tab === "Fundraising" &&
-                            !baseAsset?.sales?.length) ||
+                          (tab === "Fundraising" && !asset?.sales?.length) ||
                           (tab === "Vesting" &&
-                            !baseAsset?.release_schedule?.length)
+                            !asset?.release_schedule?.length)
                             ? "opacity-50 cursor-not-allowed"
                             : ""
                         }`}
-                        disabled={
-                          (tab === "Fundraising" &&
-                            !baseAsset?.sales?.length) ||
-                          (tab === "Vesting" &&
-                            !baseAsset?.release_schedule?.length)
-                        }
+
                         // onClick={() => {
                         //   setActiveTab(tab);
                         // }}
