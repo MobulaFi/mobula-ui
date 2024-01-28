@@ -1,10 +1,10 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
-import { BsTriangleFill } from "react-icons/bs";
-import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
+import { LargeFont, SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
+import { TagPercentage } from "../../../../components/tag-percentage";
 import { famousContractsLabelFromName } from "../../../../layouts/swap/utils";
 import { GET } from "../../../../utils/fetch";
 import {
@@ -39,7 +39,7 @@ export const PairsSelector = () => {
       visibleContent={
         <div
           className="flex items-center justify-between cursor-pointer
-          rounded-lg transition-all duration-200 ease-linear w-full mb-2.5"
+          rounded-lg transition-all duration-200 ease-linear w-full"
         >
           <div className="flex items-center">
             <div className="relative w-fit h-fit mr-5">
@@ -57,7 +57,7 @@ export const PairsSelector = () => {
               />
             </div>
             <div className="flex flex-col">
-              <LargeFont extraCss="leading-tight font-normal">
+              <LargeFont extraCss="leading-tight text-2xl md:text-lg">
                 <span className="font-medium">
                   {baseAsset?.[baseAsset?.baseToken]?.symbol}
                 </span>{" "}
@@ -66,34 +66,18 @@ export const PairsSelector = () => {
                 </span>{" "}
                 {baseAsset?.[baseAsset?.quoteToken]?.symbol}
               </LargeFont>
-              <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 text-start">
-                {baseAsset?.[baseAsset?.baseToken]?.name}
-              </MediumFont>
             </div>
           </div>
           <div className="flex items-center">
-            <div className="flex flex-col items-end">
-              <LargeFont extraCss="leading-tight font-normal">
+            <div className="flex items-center">
+              <LargeFont extraCss="font-normal mr-2.5 text-2xl md:text-lg">
                 ${getTokenPercentage(baseAsset?.[baseAsset?.baseToken]?.price)}
               </LargeFont>
-              <div className="flex items-center">
-                <BsTriangleFill
-                  className={`${
-                    baseAsset?.price_change_24h > 0
-                      ? "rotate-0 text-green dark:text-green"
-                      : "rotate-180 text-red dark:text-red"
-                  } text-[8px] mr-1`}
-                />
-                <MediumFont
-                  extraCss={`${
-                    baseAsset?.price_change_24h > 0
-                      ? "text-green dark:text-green"
-                      : "text-red dark:text-red"
-                  } text-start leading-[20px]`}
-                >
-                  {getTokenPercentage(baseAsset?.price_change_24h)}%
-                </MediumFont>
-              </div>
+              <TagPercentage
+                percentage={baseAsset?.price_change_24h}
+                isUp={baseAsset?.price_change_24h > 0}
+                extraCss="ml-1"
+              />
             </div>
             <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 mx-2" />
           </div>

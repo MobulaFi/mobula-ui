@@ -403,32 +403,18 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               <TokenSocialsInfo />
             </div>
           ) : (
-            <div className="flex flex-col w-full mb-2.5">
+            <div className="flex flex-col w-full">
               <div className="flex items-center justify-between w-full">
-                <div className="max-w-[400px] w-full">
+                <div className="max-w-[450px] w-full">
                   <TokenMainInfo />
                 </div>
-                <PairsSocialInfo />
+
                 <div className="flex items-center">
                   <div
-                    className={`flex flex-col px-5 py-3 h-full items-center justify-center `}
+                    className={`flex px-5 py-3 h-full items-center justify-center `}
                   >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
-                      Txns
-                    </SmallFont>
-                    <TagPercentage
-                      percentage={getTokenPercentage(baseAsset?.trades_24h)}
-                      isUp={undefined}
-                      isPercentage={false}
-                      inhert
-                      extraCss="ml-0"
-                    />
-                  </div>
-                  <div
-                    className={`flex flex-col px-5 py-3 h-full items-center justify-center `}
-                  >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
-                      Buys
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
+                      Buys:
                     </SmallFont>
                     <TagPercentage
                       isPercentage={false}
@@ -438,10 +424,10 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                     />
                   </div>
                   <div
-                    className={`flex flex-col px-5 py-3 h-full items-center justify-center `}
+                    className={`flex px-5 py-3 h-full items-center justify-center `}
                   >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
-                      Sells
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
+                      Sells:
                     </SmallFont>
                     <TagPercentage
                       isPercentage={false}
@@ -450,6 +436,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                       extraCss="ml-0"
                     />
                   </div>
+                  <PairsSocialInfo />
                 </div>
               </div>
               <div className="flex items-center w-full mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
