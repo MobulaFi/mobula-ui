@@ -78,7 +78,7 @@ export const AssetsResults = ({
           ) : (
             <Percentage
               isPercentage
-              value={getFormattedAmount(result?.price)}
+              value={getFormattedAmount(result?.price) as number}
             />
           )}
         </Lines>
