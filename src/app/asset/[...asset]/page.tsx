@@ -3,6 +3,7 @@ import { ShowMoreProvider } from "features/asset/context-manager/navActive";
 import { NavActiveProvider } from "features/asset/context-manager/showMore";
 import { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { Assets } from "../../../features/asset";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -140,6 +141,14 @@ async function AssetPage({ params }) {
     if (section === "vesting") return "Vesting";
     return "Essentials";
   };
+
+  if (!data?.sales?.length && section === "fundraising") {
+    redirect(`/asset/${asset}`);
+  }
+
+  if (!data?.release_schedule?.length && section === "vesting") {
+    redirect(`/asset/${asset}`);
+  }
 
   const activeSection = getSectionState();
 
