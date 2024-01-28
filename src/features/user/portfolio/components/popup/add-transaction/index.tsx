@@ -456,7 +456,7 @@ export const AddTransactionPopup = () => {
                     minifyBigNumbers: false,
                     minifyZeros: false,
                   }
-                );
+                ) as number;
               })()}
               readOnly
             />

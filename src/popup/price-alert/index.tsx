@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../components/button";
 import { SmallFont } from "../../components/fonts";
@@ -55,7 +49,7 @@ export const PriceAlertPopup = ({
 
     GET("/user/alert", {
       asset: asset?.id || token.id,
-      target: targetPrice,
+      target: targetPrice as number,
       user: user.id,
       initial_value: asset?.price || token.price,
       account: user.address,

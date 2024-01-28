@@ -338,7 +338,7 @@ export const ViewPopup = ({
         from: 0,
         to: maxValue,
       };
-      let valueMax: number | string = maxValue;
+      let valueMax: number | string | React.ReactNode = maxValue;
       if (to === maxValue) valueMax = "Any";
       else valueMax = getFormattedAmount(to);
 

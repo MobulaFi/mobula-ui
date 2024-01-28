@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -15,7 +15,11 @@ import { SwapProvider } from "../../layouts/swap";
 import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
-import { getFormattedAmount, getTokenPercentage } from "../../utils/formaters";
+import {
+  getFormattedAmount,
+  getTokenPercentage,
+  getUrlFromName,
+} from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
 import { PairsSocialInfo } from "./components/pairs-social-info";
 import { PopupSocialMobile } from "./components/popup/popup-social-mobile";
@@ -30,14 +34,15 @@ import { SocialsDeveloper } from "./components/widgets/social-developer";
 import { Tokenomic } from "./components/widgets/tokenomic";
 import { Vesting } from "./components/widgets/vesting";
 import { BaseAssetContext } from "./context-manager";
-import { PrevPathProps } from "./models";
+import { Asset, PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
 
 interface AssetProps {
   isAssetPage?: boolean;
+  asset: Asset;
 }
 
-export const Assets = ({ isAssetPage }: AssetProps) => {
+export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   const {
     baseAsset,
     marketMetrics,
@@ -107,54 +112,54 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
       if (dir === "next" && currentIndex < tabs.length - 1) {
         if (
           tabs[currentIndex + 1] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex + 2] === "Vesting" &&
-          !baseAsset?.release_schedule?.length
+          !asset?.release_schedule?.length
         ) {
           setActiveTab(tabs[currentIndex + 3]);
         } else if (
           tabs[currentIndex + 1] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex + 2] === "Vesting" &&
-          baseAsset?.release_schedule?.length > 0
+          asset?.release_schedule?.length > 0
         ) {
           setActiveTab(tabs[currentIndex + 2]);
         } else if (
           tabs[currentIndex + 1] === "Fundraising" &&
-          baseAsset?.sales?.length > 0
+          asset?.sales?.length > 0
         ) {
           setActiveTab(tabs[currentIndex + 1]);
         } else if (
           tabs[currentIndex + 1] === "Vesting" &&
-          !baseAsset?.release_schedule?.length
+          !asset?.release_schedule?.length
         ) {
           setActiveTab(tabs[currentIndex + 2]);
         } else setActiveTab(tabs[currentIndex + 1]);
       } else if (dir === "previous" && currentIndex > 0) {
         if (
           tabs[currentIndex - 2] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex - 1] === "Vesting" &&
-          !baseAsset?.release_schedule?.length
+          !asset?.release_schedule?.length
         ) {
           setActiveTab(tabs[currentIndex - 3]);
         } else if (
           tabs[currentIndex - 2] === "Fundraising" &&
-          !baseAsset?.sales?.length &&
+          !asset?.sales?.length &&
           tabs[currentIndex + 1] === "Vesting" &&
-          baseAsset?.release_schedule?.length > 0
+          asset?.release_schedule?.length > 0
         ) {
           setActiveTab(tabs[currentIndex - 2]);
         } else if (
           tabs[currentIndex - 1] === "Fundraising" &&
-          baseAsset?.sales?.length > 0
+          asset?.sales?.length > 0
         ) {
           setActiveTab(tabs[currentIndex - 1]);
         } else if (
           tabs[currentIndex - 1] === "Vesting" &&
-          !baseAsset?.release_schedule?.length &&
+          !asset?.release_schedule?.length &&
           tabs[currentIndex - 2] === "Fundraising" &&
-          baseAsset?.sales?.length > 0
+          asset?.sales?.length > 0
         ) {
           setActiveTab(tabs[currentIndex - 2]);
         } else setActiveTab(tabs[currentIndex - 1]);
@@ -318,6 +323,14 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
       value: baseAsset?.buys_24h,
     },
   ];
+  const getUrlFromTab = (tab: string) => {
+    let name = "";
+    if (tab === "Market") name = "market";
+    if (tab === "Fundraising" && asset?.sales?.length > 0) name = "fundraising";
+    if (tab === "Vesting" && asset?.release_schedule?.length > 0)
+      name = "vesting";
+    return `/asset/${getUrlFromName(asset.name)}/${name}`;
+  };
 
   return (
     <>
@@ -487,32 +500,41 @@ export const Assets = ({ isAssetPage }: AssetProps) => {
                     //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
                     //   return tab;
                     // })
-                    ?.map((tab) => (
-                      <Button
-                        key={tab}
-                        extraCss={`${mainButtonStyle} px-2.5 border ${
-                          tab === activeTab
-                            ? "border-blue dark:border-blue"
-                            : ""
-                        } ${
-                          (tab === "Fundraising" &&
-                            !baseAsset?.sales?.length) ||
-                          (tab === "Vesting" &&
-                            !baseAsset?.release_schedule?.length)
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
-                        }`}
-                        disabled={
-                          (tab === "Fundraising" &&
-                            !baseAsset?.sales?.length) ||
-                          (tab === "Vesting" &&
-                            !baseAsset?.release_schedule?.length)
-                        }
-                        onClick={() => setActiveTab(tab)}
-                      >
-                        {tab}
-                      </Button>
-                    ))}
+                    ?.map((tab) => {
+                      return (
+                        <NextChakraLink
+                          key={tab}
+                          href={getUrlFromTab(tab)}
+                          disabled={
+                            (tab === "Fundraising" && !asset?.sales?.length) ||
+                            (tab === "Vesting" &&
+                              !asset?.release_schedule?.length)
+                          }
+                        >
+                          <Button
+                            key={tab}
+                            extraCss={`${mainButtonStyle} px-2.5 border ${
+                              tab === activeTab
+                                ? "border-blue dark:border-blue"
+                                : ""
+                            } ${
+                              (tab === "Fundraising" &&
+                                !asset?.sales?.length) ||
+                              (tab === "Vesting" &&
+                                !asset?.release_schedule?.length)
+                                ? "opacity-50 cursor-not-allowed"
+                                : ""
+                            }`}
+
+                            // onClick={() => {
+                            //   setActiveTab(tab);
+                            // }}
+                          >
+                            {tab}
+                          </Button>
+                        </NextChakraLink>
+                      );
+                    })}
                 </div>
               </div>
               {activeTab === "Essentials" ? (

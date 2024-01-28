@@ -87,7 +87,7 @@ export const AssetsResults = ({
           {result?.id && !result?.isTemplate ? (
             <Percentage
               isPercentage
-              value={getFormattedAmount(result?.price)}
+              value={getFormattedAmount(result?.price) as number}
             />
           ) : null}
           {!result?.isTemplate && !result?.id ? (
