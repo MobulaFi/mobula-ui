@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { Button } from "../../../../components/button";
@@ -268,6 +268,31 @@ export const TokenMainInfo = ({ pairs = null }) => {
           >
             <TbBellRinging className="text-lg" />
           </Button> */}
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
+          <LargeFont
+            extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
+          >
+            $
+            {getFormattedAmount(
+              marketMetrics.price,
+              0,
+              { minifyZeros: true, minifyBigNumbers: true },
+              true
+            )}
+          </LargeFont>
+          <div className="flex items-center">
+            <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>
+              <MediumFont
+                extraCss={`md:text-xs lg:text-xs ${
+                  isUp ? "text-green dark:text-green" : "text-red dark:text-red"
+                }`}
+              >
+                {isUp ? "+" : ""}
+                {getTokenPercentage(priceChange)}%
+              </MediumFont>
             </div>
           </div>
 
