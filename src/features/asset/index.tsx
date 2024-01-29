@@ -407,7 +407,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
             </div>
           ) : (
             <div className="flex flex-col w-full">
-              <div className="flex items-center justify-between w-full flex-wrap">
+              <div className="flex items-center justify-between w-full flex-wrap md:mt-2.5">
                 <div className="max-w-[450px] w-full lg:min-w-[340px] md:max-w-full md:w-full mb-2.5">
                   <TokenMainInfo />
                 </div>

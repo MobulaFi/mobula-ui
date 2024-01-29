@@ -101,7 +101,7 @@ export const CoreSearchBar = ({
       .then((r) => {
         console.log("r.data", r?.error);
         if (r.data) {
-          setResults(r.data.filter((_, i) => i < maxAssetsResult));
+          // setResults(r.data.filter((_, i) => i < maxAssetsResult));
           console.log("r.data is here", r.data);
         }
       });

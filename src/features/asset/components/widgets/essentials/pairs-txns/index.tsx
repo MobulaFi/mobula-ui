@@ -1,6 +1,8 @@
 /* eslint-disable import/no-cycle */
 import React, { useContext, useState } from "react";
+import { BiChevronDown } from "react-icons/bi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { Menu } from "../../../../../../components/menu";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
@@ -10,11 +12,10 @@ interface PairTxnsProps {
   extraCss?: string;
 }
 
-type timeframeType = "24h" | "12h" | "4h" | "1h" | "5min";
-
 export const PairTxns = ({ extraCss }: PairTxnsProps) => {
   const { baseAsset } = useContext(BaseAssetContext);
-  const [timeframe, setTimeframe] = useState<timeframeType>("24h");
+  const [timeframe, setTimeframe] = useState("24h");
+  const timestamps = ["24h", "12h", "4h", "1h", "5min"];
 
   const getPercentage = (buys: string, sells: string) => {
     const buy = baseAsset?.[buys];
@@ -25,7 +26,6 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
     return { buyPercentage, sellPercentage };
   };
 
-  const timestamps = ["24h", "12h", "4h", "1h", "5min"];
   return (
     <div
       className={cn(
@@ -37,35 +37,32 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
         <MediumFont extraCss="text-lg lg:text-base font-medium mb-0 md:mb-[7.5px] mr-4">
           Trades
         </MediumFont>
-        <div
-          className="flex items-center w-full relative bg-light-bg-terciary dark:bg-dark-bg-terciary border
-       border-light-border-primary dark:border-dark-border-primary rounded-md h-[35px] p-0.5"
+        <Menu
+          titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary
+                rounded-md text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
+                transition-all duration-200 ease-in-out border border-light-border-primary dark:border-dark-border-primary"
+          title={
+            <div className="flex items-center">
+              <SmallFont>{timeframe}</SmallFont>
+              <BiChevronDown className="ml-[5px] text-lg md:text-base text-light-font-100 dark:text-dark-font-100" />
+            </div>
+          }
         >
-          <div className="flex items-center relative justify-between w-full h-full">
-            <div
-              className="absolute bg-light-bg-hover dark:bg-dark-bg-hover rounded-md transition-all duration-200 ease-linear h-full"
-              style={{
-                width: `${100 / timestamps?.length}%`,
-                left: `${
-                  (100 / timestamps?.length) * timestamps.indexOf(timeframe)
-                }%`,
-              }}
-            />
-            {timestamps.map((timestamp) => (
-              <button
-                className={`${
-                  timestamp === timeframe
-                    ? "text-light-font-100 dark:text-dark-font-100"
-                    : "text-light-font-40 dark:text-dark-font-40"
-                } transition-all duration-200 ease-linear z-[1] h-full`}
-                style={{ width: `${100 / timestamps?.length}%` }}
-                onClick={() => setTimeframe(timestamp)}
-              >
-                {timestamp}
-              </button>
-            ))}
-          </div>
-        </div>
+          {timestamps.map((time) => (
+            <button
+              key={time}
+              onClick={() => setTimeframe(time)}
+              className={`transition-all duration-200 py-[5px] bg-light-bg-terciary dark:bg-dark-bg-terciary text-sm lg:text-[13px] md:text-xs 
+                       rounded-md ${
+                         timeframe === time
+                           ? "text-light-font-100 dark:text-dark-font-100"
+                           : "text-light-font-40 dark:text-dark-font-40 hover:text-light-font-100 hover:dark:text-dark-font-100"
+                       }`}
+            >
+              {time}
+            </button>
+          ))}
+        </Menu>
       </div>
       <div
         className={`flex w-full justify-between items-center border-b border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 md:px-[2.5%] mt-1.5`}

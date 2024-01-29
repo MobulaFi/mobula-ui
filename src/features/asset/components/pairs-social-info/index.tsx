@@ -79,7 +79,7 @@ export const PairsSocialInfo = () => {
       : null,
   ];
   return (
-    <div className="flex items-center">
+    <div className="flex items-center lg:mt-2.5">
       <CustomPopOver
         title={"Contracts"}
         logo={
@@ -226,7 +226,7 @@ export const PairsSocialInfo = () => {
         </CustomPopOver>
       ) : null}{" "}
       <Button
-        extraCss={cn(`mb-[5px] hidden lg:flex`, mainButtonStyle)}
+        extraCss={cn(`hidden lg:flex`, mainButtonStyle)}
         onClick={() => setShowPopupSocialMobile(true)}
       >
         <LuLink className="mr-[7.5px] ml-0.5" />

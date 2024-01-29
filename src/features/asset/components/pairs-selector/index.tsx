@@ -20,6 +20,7 @@ export const PairsSelector = () => {
     if (!assetPairs?.length) {
       GET("/api/1/market/pairs", {
         asset: baseAsset?.[baseAsset?.baseToken]?.name,
+        blockchain: baseAsset?.blockchain,
       })
         .then((r) => r.json())
         .then((r) => {
@@ -42,15 +43,14 @@ export const PairsSelector = () => {
           rounded-lg transition-all duration-200 ease-linear w-full"
         >
           <div className="flex items-center">
-            <div className="relative w-fit h-fit mr-5">
+            <div className="relative w-fit h-fit mr-5 md:mr-3.5">
               <img
-                className="w-[40px] h-[40px] min-w-[40px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] 
-              md:w-[20px] md:h-[20px] md:min-w-[20px] rounded-full"
+                className="w-[40px] h-[40px] min-w-[40px] md:w-[30px] md:h-[30px] md:min-w-[30px] rounded-full"
                 src={baseAsset?.[baseAsset?.baseToken]?.logo}
                 alt={`${baseAsset?.name} logo`}
               />
               <img
-                className="w-[20px] h-[20px] min-w-[20px] absolute -bottom-0.5 -right-1 rounded-full border
+                className="w-[20px] h-[20px] min-w-[20px] md:w-[15px] md:h-[15px] md:min-w-[15px] absolute -bottom-0.5 -right-1 rounded-full border
                  border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
                 src={blockchainsContent[baseAsset?.blockchain]?.logo}
                 alt={`${baseAsset?.blockchain} logo`}
@@ -84,7 +84,7 @@ export const PairsSelector = () => {
         </div>
       }
       hiddenContent={
-        <div className="flex flex-col min-w-[300px] max-h-[410px] overflow-y-scroll scroll">
+        <div className="flex flex-col min-w-[300px] max-h-[410px] w-full overflow-y-scroll scroll">
           {assetPairs?.pairs?.map((pair, i) => (
             <Link href={`/pair/${pair.address}`} key={i}>
               <div

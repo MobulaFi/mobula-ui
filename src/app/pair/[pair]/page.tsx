@@ -37,7 +37,7 @@ async function fetchAssetData({ params }) {
     const fetchPairTrade = fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
         activePair?.[activePair?.baseToken]?.address
-      }`,
+      }&blockchain=${activePair?.blockchain}`,
       {
         headers: {
           "Content-Type": "application/json",
