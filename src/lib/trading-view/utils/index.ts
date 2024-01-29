@@ -51,7 +51,6 @@ export const Datafeed = (baseAsset: Asset) => ({
       "/api/1/market/history/pair",
       {
         asset: baseAsset.contracts[0],
-        // address: "0x28200dfc4a177b2ef62165edce6c9fb7bc1e997a",
         blockchain: baseAsset.blockchains[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
@@ -129,10 +128,12 @@ export const Datafeed = (baseAsset: Asset) => ({
       onRealtimeCallback(bar);
     });
 
-    sockets.set(baseAsset.name, socket);
+    console.log("Subscribe", baseAsset.name + "-" + subscriberUID);
+    sockets.set(baseAsset.name + "-" + subscriberUID, socket);
   },
   unsubscribeBars: (subscriberUID) => {
-    sockets.get(baseAsset.name).close();
+    console.log("Unsubscribe", baseAsset.name + "-" + subscriberUID);
+    sockets.get(baseAsset.name + "-" + subscriberUID).close();
   },
   getMarks: () => ({}),
   getTimeScaleMarks: () => ({}),
