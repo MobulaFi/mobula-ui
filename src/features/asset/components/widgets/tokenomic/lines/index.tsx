@@ -3,7 +3,7 @@ import { SmallFont } from "../../../../../../components/fonts";
 
 interface LinesProps {
   title: string;
-  value: number | string;
+  value: number | string | React.ReactNode;
   odd?: boolean;
 }
 

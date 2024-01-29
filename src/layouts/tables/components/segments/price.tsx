@@ -1,9 +1,8 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { SmallFont } from "../../../../components/fonts";
 import { useTop100 } from "../../../../features/data/top100/context-manager";
 import { TableAsset } from "../../../../interfaces/assets";
 import { getFormattedAmount } from "../../../../utils/formaters";
-import { separator } from "../../utils";
 import { Segment } from "../segment";
 
 interface PriceSegmentProps {
@@ -33,20 +32,30 @@ export const PriceSegment = ({
 
   const getPriceFromType = useMemo(() => {
     if (display === "Price USD" && token.price) {
-      return `$${separator(getFormattedAmount(token.price) as number)}`;
+      return <span>${getFormattedAmount(token.price) as number}</span>;
     }
 
     if (mainCurrenciesPrices?.eth && mainCurrenciesPrices?.btc && token.price) {
       if (display === "Price ETH") {
-        return `${getFormattedAmount(
-          (token?.price as number) / (mainCurrenciesPrices.eth || 0)
-        )} ETH`;
+        return (
+          <span>
+            {getFormattedAmount(
+              (token?.price as number) / (mainCurrenciesPrices.eth || 0)
+            )}{" "}
+            ETH
+          </span>
+        );
       }
 
       if (display === "Price BTC") {
-        return `${getFormattedAmount(
-          (token?.price as number) / (mainCurrenciesPrices.btc || 0)
-        )} BTC`;
+        return (
+          <span>
+            {getFormattedAmount(
+              (token?.price as number) / (mainCurrenciesPrices.btc || 0)
+            )}{" "}
+            BTC
+          </span>
+        );
       }
     }
     return "-";

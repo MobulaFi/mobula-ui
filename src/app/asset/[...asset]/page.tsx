@@ -3,6 +3,7 @@ import { ShowMoreProvider } from "features/asset/context-manager/navActive";
 import { NavActiveProvider } from "features/asset/context-manager/showMore";
 import { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { Assets } from "../../../features/asset";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -22,7 +23,7 @@ async function fetchAssetData({ params }) {
     const request = supabase
       .from<Asset>("assets")
       .select(
-        "id,logo,price,ath,atl,github,untrack_reason,decimals,tags,audit,kyc,volume,website,off_chain_volume,ath_volume,liquidity,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,utility_score,circulating_supply,total_supply,trade_history!left(*),price_change_24h,price_change_1h,price_change_7d,price_change_1m,tracked,assets_social!left(*),launch"
+        "id,logo,price,ath,atl,github,untrack_reason,decimals,tags,release_schedule,sales,audit,kyc,volume,website,off_chain_volume,ath_volume,liquidity,ath_liquidity,rank,market_cap,market_cap_diluted,name,symbol,description,twitter,chat,discord,contracts,blockchains,market_score,trust_score,social_score,utility_score,circulating_supply,total_supply,trade_history!left(*),price_change_24h,price_change_1h,price_change_7d,price_change_1m,tracked,assets_social!left(*),launch"
       )
       .or(
         `name.ilike."${fromUrlToName(params)}"` +
@@ -141,7 +142,16 @@ async function AssetPage({ params }) {
     return "Essentials";
   };
 
+  if (!data?.asset?.sales?.length && section === "fundraising") {
+    redirect(`/asset/${asset}`);
+  }
+
+  if (!data?.asset?.release_schedule?.length && section === "vesting") {
+    redirect(`/asset/${asset}`);
+  }
+
   const activeSection = getSectionState();
+  console.log("activeSection", data?.asset);
 
   return (
     <>
@@ -171,7 +181,7 @@ async function AssetPage({ params }) {
       >
         <ShowMoreProvider>
           <NavActiveProvider>
-            <Assets />
+            <Assets asset={data?.asset} />
           </NavActiveProvider>
         </ShowMoreProvider>
       </BaseAssetProvider>
