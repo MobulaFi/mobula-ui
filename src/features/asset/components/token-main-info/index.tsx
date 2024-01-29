@@ -242,7 +242,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
                     extraCss="top-[35px]"
                   />
                 ) : null}
-                <LargeFont extraCss="mb-0 md:mb-0.5 mt-1.5 md:mt-0.5 text-light-font-60 dark:text-dark-font-60 leading-[16px]">
+                <LargeFont extraCss="mb-0 lg:mb-0.5 mt-1.5 lg:mt-0.5 text-light-font-60 dark:text-dark-font-60 leading-[16px]">
                   {baseAsset?.symbol}
                 </LargeFont>
               </div>
@@ -272,7 +272,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
       {isAssetPage ? (
         <div className="flex flex-col">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
                 <LargeFont
                   extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
