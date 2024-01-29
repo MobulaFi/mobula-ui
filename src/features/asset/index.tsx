@@ -106,63 +106,65 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   ];
 
   function switchTab(dir) {
-    setPreviousTab(activeTab);
-    if (isMobile) {
-      const currentIndex = tabs.findIndex((tab) => tab === activeTab);
-      if (dir === "next" && currentIndex < tabs.length - 1) {
-        if (
-          tabs[currentIndex + 1] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex + 2] === "Vesting" &&
-          !asset?.release_schedule?.length
-        ) {
-          setActiveTab(tabs[currentIndex + 3]);
-        } else if (
-          tabs[currentIndex + 1] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex + 2] === "Vesting" &&
-          asset?.release_schedule?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex + 2]);
-        } else if (
-          tabs[currentIndex + 1] === "Fundraising" &&
-          asset?.sales?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex + 1]);
-        } else if (
-          tabs[currentIndex + 1] === "Vesting" &&
-          !asset?.release_schedule?.length
-        ) {
-          setActiveTab(tabs[currentIndex + 2]);
-        } else setActiveTab(tabs[currentIndex + 1]);
-      } else if (dir === "previous" && currentIndex > 0) {
-        if (
-          tabs[currentIndex - 2] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex - 1] === "Vesting" &&
-          !asset?.release_schedule?.length
-        ) {
-          setActiveTab(tabs[currentIndex - 3]);
-        } else if (
-          tabs[currentIndex - 2] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex + 1] === "Vesting" &&
-          asset?.release_schedule?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex - 2]);
-        } else if (
-          tabs[currentIndex - 1] === "Fundraising" &&
-          asset?.sales?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex - 1]);
-        } else if (
-          tabs[currentIndex - 1] === "Vesting" &&
-          !asset?.release_schedule?.length &&
-          tabs[currentIndex - 2] === "Fundraising" &&
-          asset?.sales?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex - 2]);
-        } else setActiveTab(tabs[currentIndex - 1]);
+    if (isAssetPage) {
+      setPreviousTab(activeTab);
+      if (isMobile) {
+        const currentIndex = tabs.findIndex((tab) => tab === activeTab);
+        if (dir === "next" && currentIndex < tabs.length - 1) {
+          if (
+            tabs[currentIndex + 1] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex + 2] === "Vesting" &&
+            !asset?.release_schedule?.length
+          ) {
+            setActiveTab(tabs[currentIndex + 3]);
+          } else if (
+            tabs[currentIndex + 1] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex + 2] === "Vesting" &&
+            asset?.release_schedule?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex + 2]);
+          } else if (
+            tabs[currentIndex + 1] === "Fundraising" &&
+            asset?.sales?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex + 1]);
+          } else if (
+            tabs[currentIndex + 1] === "Vesting" &&
+            !asset?.release_schedule?.length
+          ) {
+            setActiveTab(tabs[currentIndex + 2]);
+          } else setActiveTab(tabs[currentIndex + 1]);
+        } else if (dir === "previous" && currentIndex > 0) {
+          if (
+            tabs[currentIndex - 2] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex - 1] === "Vesting" &&
+            !asset?.release_schedule?.length
+          ) {
+            setActiveTab(tabs[currentIndex - 3]);
+          } else if (
+            tabs[currentIndex - 2] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex + 1] === "Vesting" &&
+            asset?.release_schedule?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex - 2]);
+          } else if (
+            tabs[currentIndex - 1] === "Fundraising" &&
+            asset?.sales?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex - 1]);
+          } else if (
+            tabs[currentIndex - 1] === "Vesting" &&
+            !asset?.release_schedule?.length &&
+            tabs[currentIndex - 2] === "Fundraising" &&
+            asset?.sales?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex - 2]);
+          } else setActiveTab(tabs[currentIndex - 1]);
+        }
       }
     }
   }
@@ -324,6 +326,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     },
   ];
   const getUrlFromTab = (tab: string) => {
+    if (!isAssetPage) return;
     let name = "";
     if (tab === "Market") name = "market";
     if (tab === "Fundraising" && asset?.sales?.length > 0) name = "fundraising";

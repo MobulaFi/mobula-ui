@@ -151,7 +151,6 @@ async function AssetPage({ params }) {
   }
 
   const activeSection = getSectionState();
-  console.log("activeSection", data?.asset);
 
   return (
     <>
@@ -178,6 +177,7 @@ async function AssetPage({ params }) {
         hideTxCookie={hideTxCookie}
         tradeCookie={tradeCookie}
         activeSection={activeSection}
+        isAsset={true}
       >
         <ShowMoreProvider>
           <NavActiveProvider>

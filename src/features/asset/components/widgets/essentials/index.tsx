@@ -8,6 +8,7 @@ import { ChartLite } from "./charts/linear";
 import { CoreActor } from "./core-actor";
 import { Description } from "./description";
 import { ListingDetails } from "./listing-details";
+import { PairTxns } from "./pairs-txns";
 import { PresaleDetails } from "./presale-details";
 import { PriceData } from "./price-data";
 import { SimilarAsset } from "./similar-asset";
@@ -41,6 +42,8 @@ export const Essentials = () => {
       localStorage.setItem("chartPreference", "Linear");
     }
   }, []);
+
+  console.log("isDesktop && isAssetPage", isDesktop, isAssetPage);
 
   return (
     <>
@@ -77,18 +80,20 @@ export const Essentials = () => {
                 } hidden`}
               />
             </>
-          ) : null}
+          ) : (
+            <PairTxns />
+          )}
         </div>
         <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
           <div className="flex">
-            {isDesktop && isAssetPage && (
+            {isDesktop && isAssetPage ? (
               <SwapProvider
                 tokenOutBuffer={{
                   ...baseAsset,
-                  blockchain: baseAsset?.blockchains[0],
+                  blockchain: baseAsset?.blockchains?.[0],
                   address:
                     baseAsset && "contracts" in baseAsset
-                      ? baseAsset.contracts[0]
+                      ? baseAsset.contracts?.[0]
                       : undefined,
                   logo: baseAsset?.image || baseAsset?.logo,
                   name: baseAsset?.name || baseAsset?.symbol,
@@ -97,7 +102,7 @@ export const Essentials = () => {
               >
                 <SmallSwap asset={baseAsset} />
               </SwapProvider>
-            )}
+            ) : null}
             {!isAssetPage && (
               <SwapProvider
                 tokenInBuffer={{

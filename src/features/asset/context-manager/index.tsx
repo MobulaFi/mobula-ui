@@ -37,7 +37,6 @@ export const BaseAssetProvider = ({
   children,
   tradHistory,
   launchpad,
-  hideTxCookie,
   tradeCookie,
   isAsset = true,
   tradePairs,
