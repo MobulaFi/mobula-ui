@@ -81,7 +81,7 @@ export const Essentials = () => {
               />
             </>
           ) : (
-            <PairTxns />
+            <PairTxns extraCss="hidden lg:flex" />
           )}
         </div>
         <div className="flex flex-col max-w-[345px] lg:max-w-full w-full lg:hidden">
@@ -157,7 +157,9 @@ export const Essentials = () => {
                 } hidden mt-2.5`}
               />
             </>
-          ) : null}
+          ) : (
+            <PairTxns extraCss="flex lg:hidden" />
+          )}
         </div>
       </div>
       <SimilarAsset />

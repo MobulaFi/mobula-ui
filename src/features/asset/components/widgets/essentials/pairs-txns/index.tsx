@@ -64,15 +64,15 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
           ))}
         </Menu>
       </div>
-      <div className="flex items-center justify-space-around w-full mt-5">
-        <div className="flex flex-col item-center justify-center bg-darkgreen dark:bg-darkgreen border border-green dark:border-green">
-          <SmallFont>Buys</SmallFont>
-          <MediumFont extraCss="font-medium text-green dark:text-green">
-            {baseAsset?.sells_24h}
-          </MediumFont>
-        </div>
+      <div className="flex items-center w-full mt-2.5">
+        <SmallFont extraCss="border-r border-light-font-10 dark:border-dark-font-10 pr-2.5 mr-2.5">
+          Txns: {getFormattedAmount(baseAsset?.[`trades_${timeframe}`])}
+        </SmallFont>
+        <SmallFont>
+          Volume: ${getFormattedAmount(baseAsset?.[`volume_${timeframe}`])}
+        </SmallFont>
       </div>
-      <div className="flex flex-col w-full mt-5">
+      <div className="flex flex-col w-full mt-2.5">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col w-full">
             <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
