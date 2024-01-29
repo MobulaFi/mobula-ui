@@ -20,7 +20,9 @@ export const useSafeSwitchNetwork = () => {
     if (switchNetworkAsync && blockchainsContent[blockchain]) {
       try {
         await new Promise((resolve, reject) => {
-          switchNetworkAsync(blockchainsContent[blockchain].chainId)
+          switchNetworkAsync(
+            (blockchainsContent[blockchain].chainId || 0) as number
+          )
             .catch((e) => {
               reject(e);
             })
@@ -32,7 +34,8 @@ export const useSafeSwitchNetwork = () => {
           const interval = setInterval(() => {
             i += 1;
             if (
-              chainRef.current?.id === blockchainsContent[blockchain].chainId
+              chainRef.current?.id ===
+              (blockchainsContent[blockchain].chainId || 0)
             ) {
               resolve(null);
               clearInterval(interval);
@@ -59,7 +62,8 @@ export const useSafeSwitchNetwork = () => {
                 transport: custom((window as any).ethereum as any),
               });
               const wishedBlockchain = Object.values(idToWagmiChain).find(
-                (entry) => entry.id === blockchainsContent[blockchain].chainId
+                (entry) =>
+                  entry.id === (blockchainsContent[blockchain].chainId || 0)
               );
 
               client.addChain({
