@@ -79,7 +79,7 @@ export const PairsSelector = () => {
                 extraCss="ml-1"
               />
             </div>
-            <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 mx-2" />
+            <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 mx-2 md:mr-0" />
           </div>
         </div>
       }

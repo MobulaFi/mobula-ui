@@ -3,7 +3,7 @@ import { NextChakraLink } from "components/link";
 import { PopOverLinesStyle, mainButtonStyle } from "features/asset/style";
 import { openInNewTab } from "features/asset/utils";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -13,13 +13,14 @@ import {
 } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
+import { LuLink } from "react-icons/lu";
 import { SmallFont } from "../../../../components/fonts";
 import { BaseAssetContext } from "../../context-manager";
 import { Contracts } from "../contracts";
 import { CustomPopOver } from "../ui/popover";
 
 export const PairsSocialInfo = () => {
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, setShowPopupSocialMobile } = useContext(BaseAssetContext);
   const pairsContract = [
     {
       address: baseAsset?.address,
@@ -33,6 +34,16 @@ export const PairsSocialInfo = () => {
       address: baseAsset?.token1?.address,
       title: baseAsset?.token1?.name,
     },
+  ];
+
+  const links = [
+    baseAsset?.social?.twitter || null,
+    baseAsset?.social?.chat || null,
+    baseAsset?.social?.discord || null,
+    baseAsset?.social?.white_paper || null,
+    baseAsset?.social?.telegram || null,
+    baseAsset?.social?.audit || null,
+    baseAsset?.social?.kyc || null,
   ];
 
   const socials = [
@@ -96,51 +107,53 @@ export const PairsSocialInfo = () => {
           )
         )}
       </CustomPopOver>
-      {socials.filter((entry) => entry !== null).length > 0 ? (
-        <CustomPopOver
-          title="Community"
-          position="left-1/2 -translate-x-1/2"
-          icon={<FaRegUser className="flex md:hidden mr-[5px] text-xs" />}
-        >
-          {socials
-            .filter((entry) => entry !== null)
-            ?.map((entry, i) => {
-              if (entry) {
-                return (
-                  <NextChakraLink
-                    key={entry.url}
-                    target="_blank"
-                    href={entry.url}
-                    rel="norefferer"
-                    extraCss="mb-2"
-                  >
-                    <div
-                      className={`${
-                        i !== 0 || i !== socials.length ? "mb-0" : "mb-2.5"
-                      } border border-light-border-primary dark:border-dark-border-primary
+      <div className="flex md:hidden">
+        {socials.filter((entry) => entry !== null).length > 0 ? (
+          <CustomPopOver
+            title="Socials"
+            position="left-1/2 -translate-x-1/2"
+            icon={<FaRegUser className="flex md:hidden mr-[5px] text-xs" />}
+          >
+            {socials
+              .filter((entry) => entry !== null)
+              ?.map((entry, i) => {
+                if (entry) {
+                  return (
+                    <NextChakraLink
+                      key={entry.url}
+                      target="_blank"
+                      href={entry.url}
+                      rel="norefferer"
+                      extraCss="mb-2 md:mb-0"
+                    >
+                      <div
+                        className={`${
+                          i !== 0 || i !== socials.length ? "mb-0" : "mb-2.5"
+                        } border border-light-border-primary dark:border-dark-border-primary
                            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary ${
                              i !== 0 ? "mt-[7.5px]" : "mt-0"
                            } w-full justify-between px-2.5 rounded-md h-[32px] flex items-center`}
-                      key={entry.url}
-                    >
-                      <div className="flex items-center mr-[15px]">
-                        {entry.icon}
-                        <SmallFont>{entry.name}</SmallFont>
+                        key={entry.url}
+                      >
+                        <div className="flex items-center mr-[15px]">
+                          {entry.icon}
+                          <SmallFont>{entry.name}</SmallFont>
+                        </div>
+                        <div className="flex items-center">
+                          <SmallFont>
+                            {entry.username ? entry.username : "N/A"}
+                          </SmallFont>
+                          <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <SmallFont>
-                          {entry.username ? entry.username : "N/A"}
-                        </SmallFont>
-                        <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-                      </div>
-                    </div>
-                  </NextChakraLink>
-                );
-              }
-              return <></>;
-            })}
-        </CustomPopOver>
-      ) : null}
+                    </NextChakraLink>
+                  );
+                }
+                return <></>;
+              })}
+          </CustomPopOver>
+        ) : null}
+      </div>
       <div className="hidden lg:flex">
         {baseAsset?.website ? (
           <Button
@@ -208,6 +221,17 @@ export const PairsSocialInfo = () => {
           )}
         </CustomPopOver>
       ) : null}{" "}
+      <Button
+        extraCss={`${mainButtonStyle} mb-[5px] hidden lg:flex`}
+        onClick={() => setShowPopupSocialMobile(true)}
+      >
+        <LuLink className="mr-[7.5px] ml-0.5" />
+        <SmallFont>
+          {links.filter((entry) => entry !== null).length > 0
+            ? `+ ${links.filter((entry) => entry !== null).length}`
+            : ""}
+        </SmallFont>
+      </Button>
     </div>
   );
 };

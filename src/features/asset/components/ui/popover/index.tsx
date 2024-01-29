@@ -26,7 +26,7 @@ export const CustomPopOver = ({
   return (
     <Popover
       visibleContent={
-        <Button extraCss={`${mainButtonStyle} mb-[5px]`}>
+        <Button extraCss={`${mainButtonStyle} mb-[5px] font-normal`}>
           {isMobile ? (
             <NextImageFallback
               fallbackSrc="/empty/unknown.png"
