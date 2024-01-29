@@ -10,7 +10,6 @@ import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
 import { Skeleton } from "../../components/skeleton";
 import { PopupUpdateContext } from "../../contexts/popup";
-import { TopNav } from "../../layouts/menu-mobile/top-nav";
 import { SwapProvider } from "../../layouts/swap";
 import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
@@ -269,12 +268,6 @@ export const Assets = ({ asset }) => {
   return (
     <>
       <div className="flex flex-col" {...handlers}>
-        <TopNav
-          list={tabs}
-          setActive={setActiveTab}
-          active={activeTab}
-          setPreviousTab={setPreviousTab}
-        />
         <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
