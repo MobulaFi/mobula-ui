@@ -120,7 +120,7 @@ export const LaunchDate = () => {
             </div>
           ) : null}
         </div>
-        {atlListingPercentage !== athListingPercentage ? (
+        {/* {atlListingPercentage !== athListingPercentage ? (
           <>
             <div
               className="flex bg-light-font-60 dark:bg-dark-font-60 w-[3px] h-2.5 absolute rounded"
@@ -135,7 +135,7 @@ export const LaunchDate = () => {
               }}
             />
           </>
-        ) : null}
+        ) : null} */}
         <div
           className="flex bg-blue dark:bg-blue w-1 h-2.5 absolute rounded"
           onMouseEnter={() => setShowPriceInfo(true)}
@@ -157,7 +157,7 @@ export const LaunchDate = () => {
           ) : null}
         </div>
         <div className="flex w-full h-[3px] bg-light-font-10 dark:bg-dark-font-10" />
-        <div
+        {/* <div
           className="flex h-[3px] bg-light-font-60 dark:bg-dark-font-60 relative"
           onMouseEnter={() => setShowRangeInfo(true)}
           onMouseLeave={() => setShowRangeInfo(false)}
@@ -176,7 +176,7 @@ export const LaunchDate = () => {
               </p>
             </div>
           ) : null}
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col mt-2.5">
         <div className="flex justify-between items-center w-full mb-2">

@@ -27,6 +27,7 @@ interface BaseAssetProviderProps {
   launchpad?: ILaunchpad[];
   hideTxCookie: string;
   tradeCookie: any;
+  activeSection: string;
 }
 
 export const BaseAssetProvider = ({
@@ -36,6 +37,7 @@ export const BaseAssetProvider = ({
   launchpad,
   hideTxCookie,
   tradeCookie,
+  activeSection,
 }: BaseAssetProviderProps) => {
   const [transactions, setTransactions] = useState([]);
   const [baseAsset, setBaseAsset] = useState<Asset>(token);
@@ -56,7 +58,7 @@ export const BaseAssetProvider = ({
   const [wallet, setWallet] = useState(null);
   const [portfolios, setPortfolios] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMarketMetricsLoading, setIsMarketMetricsLoading] = useState(false);
+  const [isMarketMetricsLoading, setIsMarketMetricsLoading] = useState(true);
   const [showTradeBlockchain, setShowTradeBlockchain] = useState(false);
   const [showTradeType, setShowTradeType] = useState(false);
   const [showTradeValue, setShowTradeValue] = useState(false);
@@ -71,7 +73,7 @@ export const BaseAssetProvider = ({
   const [marketMetrics, setMarketMetrics] = useState<MarketMetrics>();
   const [filters, setFilters] = useState(tradeCookie || []);
   const [shouldInstantLoad, setShouldInstantLoad] = useState(false);
-  const [activeTab, setActiveTab] = useState("Essentials");
+  const [activeTab, setActiveTab] = useState(activeSection || "Essentials");
   const [tradeHistory, setTradeHistory] = useState(tradHistory);
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []

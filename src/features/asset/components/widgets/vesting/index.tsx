@@ -1,6 +1,7 @@
 import { LargeFont } from "components/fonts";
 import dynamic from "next/dynamic";
 import React, { useContext, useMemo } from "react";
+import { Spinner } from "../../../../../components/spinner";
 import { BaseAssetContext } from "../../../context-manager";
 import { CategoriesProps } from "../../../models";
 import { Allocation } from "../fundraising/allocation";
@@ -83,7 +84,14 @@ export const Vesting = () => {
             <LargeFont extraCss="mb-5 z-[1]">Vesting schedules</LargeFont>
             <AreaChart data={categories as CategoriesProps} />
           </>
-        ) : null}
+        ) : (
+          <>
+            <LargeFont extraCss="mb-5 z-[1]">Vesting schedules</LargeFont>
+            <div className="h-[300px] w-full flex items-center justify-center">
+              <Spinner extraCss="w-[50px] h-[50px]" />
+            </div>
+          </>
+        )}
         <CalendarEvent />
         <div className="flex-col w-full hidden lg:flex">
           <NextUnlockEvent />

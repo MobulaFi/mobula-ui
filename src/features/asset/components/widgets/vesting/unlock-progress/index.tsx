@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import {
@@ -129,13 +129,13 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
           <SmallFont extraCss="font-medium">
             {getTokenPercentage(getPercentage(totalUnlock, total))}%
           </SmallFont>
-          {daysRemaining[0] < 0 ? (
+          {daysRemaining?.[0] < 0 ? (
             <SmallFont extraCss="font-medium">
               {Math.abs(daysRemaining[0])} days ago
             </SmallFont>
           ) : (
             <SmallFont extraCss="font-medium">
-              {daysRemaining[0]} days left
+              {daysRemaining?.[0]} days left
             </SmallFont>
           )}
         </div>

@@ -4,8 +4,8 @@ import { useAccount } from "wagmi";
 
 export const useSignerGuard = () => {
   const { address } = useAccount();
-  //   const { setStep } = useContext(WalletConnectContext);
-  //   const { setConnect } = useContext(PopupUpdateContext);
+  // const { setStep } = useContext(WalletConnectContext);
+  // const { setConnect } = useContext(PopupUpdateContext);
 
   const signerGuard = (callback: Function) => {
     callback();

@@ -32,6 +32,9 @@ module.exports = {
         "calc-1/5-10": "calc(20% - 10px)",
         "calc-full-345": "calc(100% - 345px)",
       },
+      height: {
+        screenMain: "calc(100vh - 65px)",
+      },
       fontFamily: {
         sans: ["Inter", "sans-serif"], // Utilisez "Inter" comme police par défaut pour "sans"
       },
@@ -43,6 +46,10 @@ module.exports = {
         skeleton: {
           "0%, 100%": { backgroundPosition: "200% 0" },
           "50%": { backgroundPosition: "0 0" },
+        },
+        fadeIn: {
+          "0%": { opacity: 0, transform: "translateX(-10%)" },
+          "100%": { opacity: 1, transform: "translateX(0%)" },
         },
         tabs: {
           "0%": {
@@ -77,6 +84,11 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         widthbar: "widthbar 5200ms linear",
+        fadeIn: "fadeIn 0.5s ease-out",
+      },
+      boxShadow: {
+        "top-bottom":
+          "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 -10px 15px -3px rgba(0, 0, 0, 0.1)",
       },
     },
     // Header animation come from screens object

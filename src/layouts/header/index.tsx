@@ -71,7 +71,7 @@ export const Header = ({ addressCookie }) => {
         <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px]">
           <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto">
             <NextChakraLink
-              href="/"
+              href="/home"
               extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
             >
               <div className="h-fit w-fit hidden lg:flex">

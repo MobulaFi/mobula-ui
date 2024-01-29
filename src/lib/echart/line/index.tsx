@@ -151,27 +151,44 @@ const EChart: React.FC<EChartProps> = ({
 
   useEffect(() => {
     const chart = createInstance();
-    window.onresize = () => {
-      chart.resize();
+
+    const handleResize = () => {
+      if (chart) {
+        chart.resize();
+      }
     };
+
+    window.addEventListener("resize", handleResize);
 
     const parent = parentRef.current;
     if (parent) {
-      parent.addEventListener("touchend", () => {
+      const handleTouchEnd = () => {
         chart.dispatchAction({
           type: "hideTip",
         });
-
         pushData("Chart Interacted", {
           type: "Hover Mobile",
         });
-      });
+      };
 
-      parent.addEventListener("mouseleave", () => {
+      const handleMouseLeave = () => {
         pushData("Chart Interacted", {
           type: "Hover Desktop",
         });
-      });
+      };
+
+      parent.addEventListener("touchend", handleTouchEnd);
+      parent.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        parent.removeEventListener("touchend", handleTouchEnd);
+        parent.removeEventListener("mouseleave", handleMouseLeave);
+
+        if (chart) {
+          chart.dispose();
+        }
+      };
     }
   }, [resolvedTheme]);
 

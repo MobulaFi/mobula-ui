@@ -230,5 +230,5 @@ export const calculateDaysRemaining = (releaseSchedule) => {
     const daysRemaining = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
     return [daysRemaining, value];
   });
-  return daysRemainingArray[daysRemainingArray.length - 1];
+  return daysRemainingArray?.[(daysRemainingArray?.length || 1) - 1];
 };

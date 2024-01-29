@@ -13,7 +13,7 @@ interface PaginationProps {
 export const Pagination = ({
   maxPage,
   bg = true,
-  path = "/",
+  path = "/home",
 }: PaginationProps) => {
   const { setIsLoading } = useTop100();
   const params = useSearchParams();

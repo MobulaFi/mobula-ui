@@ -96,7 +96,9 @@ export const ChartLite = ({
       }, 1000);
       return () => clearInterval(interval);
     }
-    return () => {};
+    return () => {
+      return;
+    };
   }, []);
 
   const isMobile =
