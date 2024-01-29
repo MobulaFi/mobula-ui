@@ -7,7 +7,10 @@ import { NextChakraLink } from "../../../../../../components/link";
 import { Tooltip } from "../../../../../../components/tooltip";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
-import { formatAmount } from "../../../../../../utils/formaters";
+import {
+  formatAmount,
+  getFormattedDate,
+} from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Metrics } from "../../../../models";
 import { FlexBorderBox } from "../../../../style";
@@ -80,12 +83,14 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
     },
     {
       title: "Liquidity",
-      value: baseAsset?.liquidity,
+      value:
+        baseAsset?.token0?.approximateReserveUSD +
+        baseAsset?.token1?.approximateReserveUSD,
       info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
     },
     {
       title: "Volume",
-      value: baseAsset?.volume,
+      value: baseAsset?.volume_24h,
       info: "The Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
     },
     {
@@ -94,29 +99,9 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       info: "The Market Cap is the product of the current price and the total supply of the asset.",
     },
     {
-      title: "Buys Volume",
-      value: baseAsset?.buyVolume,
-      info: "The Buys Volume is the total amount worth of asset traded on centralized exchanges in the last 24 hours.",
-    },
-    {
-      title: "Sells Volume",
-      value: baseAsset?.sellVolume,
-      info: "The Sells Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
-    },
-    {
-      title: "Buys",
-      value: baseAsset?.buys,
-      info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
-    },
-    {
-      title: "Sells",
-      value: baseAsset?.sells,
-      info: "The Circulating Supply is the total amount of tokens in circulation.",
-    },
-    {
-      title: "Txns",
-      value: baseAsset?.txns,
-      info: "The transaction count is the number of transactions made on the asset's blockchain in the last 24 hours.",
+      title: "Pair created at",
+      value: getFormattedDate(new Date(baseAsset?.createdAt).getTime()),
+      info: "The date of the pair creation",
     },
   ];
 
@@ -145,7 +130,9 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       >
         {(isAssetPage ? metrics : pairsMetrics).map((entry, i) => {
           const isNotDollar =
-            entry.title.includes("Supply") || entry.title.includes("Rank");
+            entry.title.includes("Supply") ||
+            entry.title.includes("Rank") ||
+            entry.title === "Pair created at";
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
           return (
             <div

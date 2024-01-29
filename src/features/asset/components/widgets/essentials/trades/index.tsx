@@ -161,11 +161,26 @@ export const TokenTrades = () => {
   }, []);
 
   const fetchPairTrade = () => {
-    GET(`/api/1/market/trades`, {
-      asset: baseAsset?.token0?.address,
-    })
+    console.log(
+      "baseAsset",
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
+        baseAsset?.[baseAsset?.baseToken]?.address
+      }`
+    );
+    fetch(
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
+        baseAsset?.[baseAsset?.baseToken]?.address
+      }&blockchain=${baseAsset?.blockchain}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((r) => {
+        console.log("YO PTIT LOUPIO", r, r.data);
         if (r.data) {
           setPairTrades(r.data);
           setTimeout(() => {
