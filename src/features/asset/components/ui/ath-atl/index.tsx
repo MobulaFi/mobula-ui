@@ -17,9 +17,7 @@ export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
   return (
     <>
       <div
-        className={`flex h-[7px] ${
-          isAssetPage ? "w-2/4" : "w-full"
-        } lg:w-full bg-[#87878720] rounded-md mt-[2.5px]`}
+        className={`flex h-[7px] w-full bg-[#87878720] rounded-md mt-[2.5px]`}
       >
         <div
           className={`rounded-md h-full ${
@@ -37,11 +35,7 @@ export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
           }}
         />
       </div>
-      <div
-        className={`flex justify-between mt-[7.5px] md:mt-[5px] ${
-          isAssetPage ? "w-2/4" : "w-full"
-        } lg:w-full`}
-      >
+      <div className={`flex justify-between mt-[7.5px] md:mt-[5px] w-full`}>
         <div className="flex items-center">
           <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 mr-[5px]">
             Low

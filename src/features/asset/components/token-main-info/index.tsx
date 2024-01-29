@@ -172,15 +172,13 @@ export const TokenMainInfo = ({ pairs = null }) => {
     }
   };
 
-  const isPair = baseAsset?.isPair;
-
   return (
     <div
       className={`flex flex-col ${
         isAssetPage ? "w-[60%]" : "w-full"
       } lg:w-full`}
     >
-      {isPair ? (
+      {!isAssetPage ? (
         <div className="flex flex-col">
           <PairsSelector />
           {/* <div className="flex flex-col  mt-0 lg:mt-0.5 w-full">
@@ -201,13 +199,12 @@ export const TokenMainInfo = ({ pairs = null }) => {
               <img
                 className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
                 src={
-                  isPair
+                  !isAssetPage
                     ? baseAsset?.[baseAsset?.baseToken]?.logo
                     : baseAsset?.logo
                 }
                 alt={`${baseAsset?.name} logo`}
               />
-
               <div className="flex flex-wrap items-center">
                 <Popover
                   visibleContent={
@@ -275,32 +272,6 @@ export const TokenMainInfo = ({ pairs = null }) => {
       {isAssetPage ? (
         <div className="flex flex-col">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
-            <LargeFont
-              extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
-            >
-              $
-              {getFormattedAmount(
-                marketMetrics.price,
-                0,
-                { minifyZeros: true, minifyBigNumbers: true },
-                true
-              )}
-            </LargeFont>
-            <div className="flex items-center">
-              <div className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}>
-                <MediumFont
-                  extraCss={`md:text-xs lg:text-xs ${
-                    isUp
-                      ? "text-green dark:text-green"
-                      : "text-red dark:text-red"
-                  }`}
-                >
-                  {isUp ? "+" : ""}
-                  {getTokenPercentage(priceChange)}%
-                </MediumFont>
-              </div>
-            </div>
-
             <div className="flex flex-col">
               <div className="flex items-center justify-start lg:justify-between mt-[5px] md:mt-0 mb-[7.5px]">
                 <LargeFont
@@ -351,7 +322,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
                   </Menu>
                 </div>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col w-full">
                 <ATHnATL
                   isUp={isUp}
                   content={{

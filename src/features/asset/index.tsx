@@ -331,7 +331,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           active={activeTab}
           setPreviousTab={setPreviousTab}
         />
-        <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
+        <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden maximum-width">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
               <NextChakraLink
