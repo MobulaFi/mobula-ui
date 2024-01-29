@@ -408,10 +408,9 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           ) : (
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between w-full flex-wrap">
-                <div className="max-w-[450px] w-full lg:min-w-[400px] mb-2.5">
+                <div className="max-w-[450px] w-full lg:min-w-[340px] md:w-full mb-2.5">
                   <TokenMainInfo />
                 </div>
-
                 <div className="flex items-center lg:justify-between lg:w-full">
                   <div className="flex items-center w-full">
                     <div
@@ -448,14 +447,17 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                 {pairsStats.map((pair, i) => (
                   <div
                     key={pair.key}
-                    className={`flex flex-col px-5 md:px-0 py-3 h-full min-w-[80px] items-center justify-center ${
-                      i !== 0
-                        ? "border-l border-light-border-secondary dark:border-dark-border-secondary"
+                    className={`flex flex-col px-5 md:px-0 py-3 h-full min-w-[80px] items-center justify-center w-[12.5%] md:w-[25%] ${
+                      i > 3
+                        ? "md:border-t md:border-light-border-secondary md:dark:border-dark-border-secondary"
                         : ""
-                    }`}
-                    style={{
-                      width: `${100 / pairsStats.length}%`,
-                    }}
+                    } ${
+                      i !== 0
+                        ? "border-l border-light-border-secondary dark:border-dark-border-secondary "
+                        : ""
+                    }
+                    ${i === 4 ? "md:border-l-0" : ""}
+                    `}
                   >
                     <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
                       {pair.key}
