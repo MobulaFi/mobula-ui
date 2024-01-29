@@ -4,6 +4,7 @@ import { BsChevronDown } from "react-icons/bs";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
+import { getFormattedAmount } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { FlexBorderBox } from "../../../../style";
 
@@ -16,13 +17,13 @@ type timeframeType = "24h" | "12h" | "4h" | "1h" | "5min";
 export const PairTxns = ({ extraCss }: PairTxnsProps) => {
   const { baseAsset } = useContext(BaseAssetContext);
   const [timeframe, setTimeframe] = useState<timeframeType>("24h");
-  console.log("baeeeee", baseAsset);
-  const getPercentage = () => {
-    const buy = baseAsset?.[`buys_${timeframe}`];
-    const sell = baseAsset?.[`sells_${timeframe}`];
+
+  const getPercentage = (buys: string, sells: string) => {
+    const buy = baseAsset?.[buys];
+    const sell = baseAsset?.[sells];
     const total = buy + sell;
-    const buyPercentage = (buy / total) * 100;
-    const sellPercentage = (sell / total) * 100;
+    const buyPercentage = (buy / total) * 100 || 50;
+    const sellPercentage = (sell / total) * 100 || 50;
     return { buyPercentage, sellPercentage };
   };
 
@@ -71,19 +72,89 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
           </MediumFont>
         </div>
       </div>
-      <div className="flex w-full h-[9px] rounded-full mt-[30px]">
-        <div
-          className="flex h-full bg-green dark:bg-green rounded-l"
-          style={{
-            width: `${getPercentage()?.buyPercentage}%`,
-          }}
-        />
-        <div
-          className="flex h-full bg-red dark:bg-red rounded-r"
-          style={{
-            width: `${getPercentage()?.sellPercentage}%`,
-          }}
-        />
+      <div className="flex flex-col w-full mt-5">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex flex-col w-full">
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+              Buys
+            </SmallFont>
+            <SmallFont>
+              {getFormattedAmount(baseAsset?.[`buys_${timeframe}`])}
+            </SmallFont>
+          </div>
+          <div className="flex flex-col items-end w-full">
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+              Sells
+            </SmallFont>
+            <SmallFont>
+              {getFormattedAmount(baseAsset?.[`sells_${timeframe}`])}
+            </SmallFont>
+          </div>
+        </div>
+        <div className="flex w-full h-[6px] rounded-full mt-1.5">
+          <div
+            className="flex h-full bg-green dark:bg-green rounded-l"
+            style={{
+              width: `${
+                getPercentage(`buys_${timeframe}`, `sells_${timeframe}`)
+                  ?.buyPercentage
+              }%`,
+            }}
+          />
+          <div
+            className="flex h-full bg-red dark:bg-red rounded-r"
+            style={{
+              width: `${
+                getPercentage(`buys_${timeframe}`, `sells_${timeframe}`)
+                  ?.sellPercentage
+              }%`,
+            }}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col w-full mt-5">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex flex-col w-full">
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+              Buy Vol
+            </SmallFont>
+            <SmallFont>
+              ${getFormattedAmount(baseAsset?.[`buy_volume_${timeframe}`])}
+            </SmallFont>
+          </div>
+          <div className="flex flex-col items-end w-full">
+            <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+              Sell Vol
+            </SmallFont>
+            <SmallFont>
+              ${getFormattedAmount(baseAsset?.[`sell_volume_${timeframe}`])}
+            </SmallFont>
+          </div>
+        </div>
+        <div className="flex w-full h-[6px] rounded-full mt-1.5">
+          <div
+            className="flex h-full bg-green dark:bg-green rounded-l"
+            style={{
+              width: `${
+                getPercentage(
+                  `buy_volume_${timeframe}`,
+                  `sell_volume_${timeframe}`
+                )?.buyPercentage
+              }%`,
+            }}
+          />
+          <div
+            className="flex h-full bg-red dark:bg-red rounded-r"
+            style={{
+              width: `${
+                getPercentage(
+                  `buy_volume_${timeframe}`,
+                  `sell_volume_${timeframe}`
+                )?.sellPercentage
+              }%`,
+            }}
+          />
+        </div>
       </div>
     </div>
   );
