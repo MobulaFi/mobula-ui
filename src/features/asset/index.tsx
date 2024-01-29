@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
@@ -9,7 +9,6 @@ import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
 import { Skeleton } from "../../components/skeleton";
 import { TagPercentage } from "../../components/tag-percentage";
-import { PopupUpdateContext } from "../../contexts/popup";
 import { TopNav } from "../../layouts/menu-mobile/top-nav";
 import { SwapProvider } from "../../layouts/swap";
 import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
@@ -39,7 +38,7 @@ import { mainButtonStyle } from "./style";
 
 interface AssetProps {
   isAssetPage?: boolean;
-  asset: Asset;
+  asset?: Asset;
 }
 
 export const Assets = ({ asset, isAssetPage }: AssetProps) => {
@@ -59,8 +58,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   const [isBreadCrumbLoading, setIsBreadCrumbLoading] = useState(true);
   const [previousTab, setPreviousTab] = useState<string | null>(null);
   const [canSwipe, setCanSwipe] = useState(false);
-  const router = useRouter();
-  const { setShowCard } = useContext(PopupUpdateContext);
   const [prevPaths, setPrevPaths] = useState<PrevPathProps[]>([
     {
       name: "Home",

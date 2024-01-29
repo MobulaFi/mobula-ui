@@ -167,64 +167,66 @@ export const PairsSocialInfo = () => {
           <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
         </Button>
       ) : null}
-      {(baseAsset?.social?.audit && baseAsset?.social?.audit !== "null") ||
-      (baseAsset?.social?.kyc && baseAsset?.social?.kyc !== "null") ? (
-        <CustomPopOver
-          title="Audits"
-          icon={<BsShieldCheck className="flex md:hidden mr-[5px] text-xs" />}
-          position="left-1/2 -translate-x-1/2"
-          isPair
-        >
-          {baseAsset?.audit !== "null" ? (
-            <div
-              className={`${PopOverLinesStyle}  border border-light-border-primary dark:border-dark-border-primary`}
-            >
-              <div className="flex items-center mr-[15px]">
-                <SmallFont>Audit</SmallFont>
-                <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
-                  {baseAsset.audit}
-                </SmallFont>
+      <div className="flex lg:hidden">
+        {(baseAsset?.social?.audit && baseAsset?.social?.audit !== "null") ||
+        (baseAsset?.social?.kyc && baseAsset?.social?.kyc !== "null") ? (
+          <CustomPopOver
+            title="Audits"
+            icon={<BsShieldCheck className="flex md:hidden mr-[5px] text-xs" />}
+            position="left-1/2 -translate-x-1/2"
+            isPair
+          >
+            {baseAsset?.audit !== "null" ? (
+              <div
+                className={`${PopOverLinesStyle}  border border-light-border-primary dark:border-dark-border-primary`}
+              >
+                <div className="flex items-center mr-[15px]">
+                  <SmallFont>Audit</SmallFont>
+                  <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
+                    {baseAsset.audit}
+                  </SmallFont>
+                </div>
+                <div className="flex items-center">
+                  <NextChakraLink
+                    href={baseAsset.audit}
+                    target="_blank"
+                    rel="norefferer"
+                    extraCss="mb-1"
+                  >
+                    <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
+                  </NextChakraLink>
+                </div>
               </div>
-              <div className="flex items-center">
-                <NextChakraLink
-                  href={baseAsset.audit}
-                  target="_blank"
-                  rel="norefferer"
-                  extraCss="mb-1"
-                >
-                  <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-                </NextChakraLink>
+            ) : (
+              <></>
+            )}
+            {baseAsset.kyc !== "null" ? (
+              <div
+                className={`${PopOverLinesStyle} border border-light-border-primary dark:border-dark-border-primary mt-[7.5px] mb-0`}
+              >
+                <div className="flex items-center mr-[15px]">
+                  <SmallFont>KYC</SmallFont>
+                  <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
+                    {baseAsset.kyc}
+                  </SmallFont>
+                </div>
+                <div className="flex items-center">
+                  <NextChakraLink
+                    href={baseAsset.kyc}
+                    target="_blank"
+                    rel="norefferer"
+                    extraCss="mb-1"
+                  >
+                    <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
+                  </NextChakraLink>
+                </div>
               </div>
-            </div>
-          ) : (
-            <></>
-          )}
-          {baseAsset.kyc !== "null" ? (
-            <div
-              className={`${PopOverLinesStyle} border border-light-border-primary dark:border-dark-border-primary mt-[7.5px] mb-0`}
-            >
-              <div className="flex items-center mr-[15px]">
-                <SmallFont>KYC</SmallFont>
-                <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
-                  {baseAsset.kyc}
-                </SmallFont>
-              </div>
-              <div className="flex items-center">
-                <NextChakraLink
-                  href={baseAsset.kyc}
-                  target="_blank"
-                  rel="norefferer"
-                  extraCss="mb-1"
-                >
-                  <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-                </NextChakraLink>
-              </div>
-            </div>
-          ) : (
-            <></>
-          )}
-        </CustomPopOver>
-      ) : null}{" "}
+            ) : (
+              <></>
+            )}
+          </CustomPopOver>
+        ) : null}{" "}
+      </div>
       <Button
         extraCss={cn(`hidden lg:flex`, mainButtonStyle)}
         onClick={() => setShowPopupSocialMobile(true)}

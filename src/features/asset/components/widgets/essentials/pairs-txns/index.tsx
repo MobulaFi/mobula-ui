@@ -65,38 +65,9 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
         </Menu>
       </div>
       <div
-        className={`flex w-full justify-between items-center border-b border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 md:px-[2.5%] mt-1.5`}
+        className="flex flex-col w-full mt-2.5
+      "
       >
-        <div className="flex items-center">
-          <SmallFont
-            extraCss={`text-light-font-60 dark:text-dark-font-60 font-medium text-sm lg:text-[13px]`}
-          >
-            Txns:
-          </SmallFont>
-        </div>
-        <div className={`flex items-center`}>
-          <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
-            {getFormattedAmount(baseAsset?.[`trades_${timeframe}`])}
-          </p>
-        </div>
-      </div>
-      <div
-        className={`flex w-full justify-between items-center py-2.5 px-0 md:px-[2.5%]`}
-      >
-        <div className="flex items-center">
-          <SmallFont
-            extraCss={`text-light-font-60 dark:text-dark-font-60 font-medium text-sm lg:text-[13px]`}
-          >
-            Volume:
-          </SmallFont>
-        </div>
-        <div className={`flex items-center`}>
-          <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
-            ${getFormattedAmount(baseAsset?.[`volume_${timeframe}`])}
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col w-full mt-1.5">
         <div className="flex items-center justify-between w-full">
           <div className="flex flex-col w-full">
             <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
@@ -178,6 +149,38 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
               }%`,
             }}
           />
+        </div>
+      </div>
+      <div
+        className={`flex w-full justify-between items-center border-b border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 md:px-[2.5%] mt-2`}
+      >
+        <div className="flex items-center">
+          <SmallFont
+            extraCss={`text-light-font-60 dark:text-dark-font-60 font-medium text-sm lg:text-[13px]`}
+          >
+            Txns:
+          </SmallFont>
+        </div>
+        <div className={`flex items-center`}>
+          <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
+            {getFormattedAmount(baseAsset?.[`trades_${timeframe}`])}
+          </p>
+        </div>
+      </div>
+      <div
+        className={`flex w-full justify-between items-center pt-2.5 px-0 md:px-[2.5%]`}
+      >
+        <div className="flex items-center">
+          <SmallFont
+            extraCss={`text-light-font-60 dark:text-dark-font-60 font-medium text-sm lg:text-[13px]`}
+          >
+            Volume:
+          </SmallFont>
+        </div>
+        <div className={`flex items-center`}>
+          <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
+            ${getFormattedAmount(baseAsset?.[`volume_${timeframe}`])}
+          </p>
         </div>
       </div>
     </div>

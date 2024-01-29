@@ -7,16 +7,10 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
-const apiKey = process.env.NEXT_PUBLIC_PRICE_KEY || "";
-
 async function fetchAssetData({ params }) {
   const { pair } = params;
   try {
     if (!pair) return;
-    console.log(
-      "hjddhhdhdhd",
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`
-    );
     const fetchPair = fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`,
       {
@@ -31,13 +25,11 @@ async function fetchAssetData({ params }) {
       return Promise.all(r.map((res) => res.json()));
     });
 
-    console.log("HHHHHHHHHH", activePair);
     const pairData = activePair?.data;
-
     const fetchPairTrade = fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
         activePair?.[activePair?.baseToken]?.address
-      }&blockchain=${activePair?.blockchain}`,
+      }&blockchain=${activePair?.blockchain}&amount=20`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -45,9 +37,6 @@ async function fetchAssetData({ params }) {
         },
       }
     );
-
-    console.log("activePair?.[activePair?.baseToken]?.name", activePair);
-
     const fetchSocialLink = fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?asset=${
         pairData?.[pairData?.baseToken]?.name
@@ -67,8 +56,6 @@ async function fetchAssetData({ params }) {
       return Promise.all(r.map((res) => res.json()));
     });
 
-    console.log("activePair", pairSocial);
-
     return {
       data: pairData,
       trade: pairTrade,
@@ -87,7 +74,6 @@ async function AssetPage({ params }) {
   const { pair } = params;
   const { data, social }: any = await fetchAssetData({ params });
 
-  console.log("YOOOOOOOOOOOO", social);
   const newPair = {
     ...data,
     social: social?.data,

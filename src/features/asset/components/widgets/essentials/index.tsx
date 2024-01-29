@@ -137,6 +137,7 @@ export const Essentials = () => {
               </SwapProvider>
             )}
           </div>
+          {!isAssetPage ? <PairTxns extraCss="flex lg:hidden" /> : null}
           <TokenMetrics />
           {isAssetPage ? (
             <>
@@ -157,9 +158,7 @@ export const Essentials = () => {
                 } hidden mt-2.5`}
               />
             </>
-          ) : (
-            <PairTxns extraCss="flex lg:hidden" />
-          )}
+          ) : null}
         </div>
       </div>
       <SimilarAsset />
