@@ -170,7 +170,7 @@ export const TokenTrades = () => {
     fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
         baseAsset?.[baseAsset?.baseToken]?.address
-      }&blockchain=${baseAsset?.blockchain}`,
+      }&blockchain=${baseAsset?.blockchain}&amount=20`,
       {
         headers: {
           "Content-Type": "application/json",
