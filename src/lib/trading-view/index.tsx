@@ -1,7 +1,6 @@
 import { useTheme } from "next-themes";
 import React, { useEffect, useRef } from "react";
 import { Timezone } from "../../../public/static/charting_library/charting_library";
-import { Spinner } from "../../components/spinner";
 import { Asset } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
 import { DISABLED_FEATURES, ENABLED_FEATURES } from "./constant";
@@ -24,7 +23,6 @@ const TradingViewChart = ({
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
-  const [isChartLoaded, setIsChartLoaded] = React.useState(false);
   const isWhiteMode = resolvedTheme === "light";
   const chartInit = () => {
     if (!baseAsset) return () => {};
@@ -59,7 +57,7 @@ const TradingViewChart = ({
         (window as any).tvWidget = tvWidget;
 
         (window as any).tvWidget.onChartReady(() => {
-          setIsChartLoaded(true);
+          // setIsChartLoaded(true);
           (window as any).tvWidget?.applyOverrides(
             overrides(isWhiteMode) || {}
           );
@@ -70,15 +68,16 @@ const TradingViewChart = ({
 
   useEffect(() => {
     (window as any).tvWidget = null;
-    if (isChartLoaded) setIsChartLoaded(false);
+
     chartInit();
+
     return () => {
       if ((window as any).tvWidget !== null) {
         (window as any).tvWidget?.remove();
         (window as any).tvWidget = null;
       }
     };
-  }, [baseAsset, custom_css_url, mobile, isWhiteMode]);
+  }, [baseAsset?.id, custom_css_url, mobile, isWhiteMode]);
 
   return (
     <div className="relative">
@@ -90,16 +89,6 @@ const TradingViewChart = ({
         )}
         ref={ref}
       />
-      {!isChartLoaded ? (
-        <div
-          className={cn(
-            `flex flex-col w-full bg-light-bg-primary dark:bg-dark-bg-primary items-center justify-center top-0 absolute left-0`,
-            extraCss
-          )}
-        >
-          <Spinner extraCss="min-w-[60px] w-[60px] h-[60px]" />
-        </div>
-      ) : null}
     </div>
   );
 };
