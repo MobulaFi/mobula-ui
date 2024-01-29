@@ -407,46 +407,48 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
             </div>
           ) : (
             <div className="flex flex-col w-full">
-              <div className="flex items-center justify-between w-full">
-                <div className="max-w-[450px] w-full">
+              <div className="flex items-center justify-between w-full flex-wrap">
+                <div className="max-w-[450px] w-full lg:min-w-[400px] mb-2.5">
                   <TokenMainInfo />
                 </div>
 
-                <div className="flex items-center">
-                  <div
-                    className={`flex px-5 py-3 h-full items-center justify-center `}
-                  >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
-                      Buys:
-                    </SmallFont>
-                    <TagPercentage
-                      isPercentage={false}
-                      percentage={getTokenPercentage(baseAsset?.buys_24h)}
-                      isUp={true}
-                      extraCss="ml-0"
-                    />
-                  </div>
-                  <div
-                    className={`flex px-5 py-3 h-full items-center justify-center `}
-                  >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
-                      Sells:
-                    </SmallFont>
-                    <TagPercentage
-                      isPercentage={false}
-                      percentage={getTokenPercentage(baseAsset?.sells_24h)}
-                      isUp={false}
-                      extraCss="ml-0"
-                    />
+                <div className="flex items-center lg:justify-between lg:w-full">
+                  <div className="flex items-center w-full">
+                    <div
+                      className={`flex px-5 py-3 h-full items-center justify-center lg:px-0`}
+                    >
+                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
+                        Buys:
+                      </SmallFont>
+                      <TagPercentage
+                        isPercentage={false}
+                        percentage={getTokenPercentage(baseAsset?.buys_24h)}
+                        isUp={true}
+                        extraCss="ml-0"
+                      />
+                    </div>
+                    <div
+                      className={`flex px-5 py-3 h-full items-center justify-center `}
+                    >
+                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
+                        Sells:
+                      </SmallFont>
+                      <TagPercentage
+                        isPercentage={false}
+                        percentage={getTokenPercentage(baseAsset?.sells_24h)}
+                        isUp={false}
+                        extraCss="ml-0"
+                      />
+                    </div>
                   </div>
                   <PairsSocialInfo />
                 </div>
               </div>
-              <div className="flex items-center w-full mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
+              <div className="flex items-center w-full flex-wrap mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
                 {pairsStats.map((pair, i) => (
                   <div
                     key={pair.key}
-                    className={`flex flex-col px-5 py-3 h-full items-center justify-center ${
+                    className={`flex flex-col px-5 md:px-0 py-3 h-full min-w-[80px] items-center justify-center ${
                       i !== 0
                         ? "border-l border-light-border-secondary dark:border-dark-border-secondary"
                         : ""

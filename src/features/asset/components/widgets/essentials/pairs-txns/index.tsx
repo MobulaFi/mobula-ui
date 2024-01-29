@@ -36,7 +36,9 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
       )}
     >
       <div className="flex items-center justify-between w-full">
-        <MediumFont extraCss="mb-0 md:mb-[7.5px]">Trades</MediumFont>
+        <MediumFont extraCss="text-lg lg:text-base font-medium mb-0 md:mb-[7.5px]">
+          Trades
+        </MediumFont>
         <Menu
           titleCss="px-[7.5px] h-[28px] md:h-[24px] rounded-md bg-light-bg-terciary dark:bg-dark-bg-terciary
                 rounded-md text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover
