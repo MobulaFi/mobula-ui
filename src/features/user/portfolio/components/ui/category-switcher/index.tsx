@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
+import { DiAptana } from "react-icons/di";
 import { LuDownload } from "react-icons/lu";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
@@ -40,6 +41,10 @@ export const CategorySwitcher = () => {
     {
       title: "Activity",
       icon: <AiOutlineSwap className="mr-[7.5px]" />,
+    },
+    {
+      title: "Protocols",
+      icon: <DiAptana className="mr-[7.5px]" />,
     },
     // {
     //   title: "Staking",
