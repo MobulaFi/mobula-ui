@@ -181,7 +181,7 @@ async function AssetPage({ params }) {
       >
         <ShowMoreProvider>
           <NavActiveProvider>
-            <Assets asset={data?.asset} />
+            <Assets asset={data?.asset} isAssetPage={true} />
           </NavActiveProvider>
         </ShowMoreProvider>
       </BaseAssetProvider>

@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -311,20 +311,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     },
   ];
 
-  const pairsTradeInfo = [
-    {
-      key: "Txns",
-      value: baseAsset?.trades_24h,
-    },
-    {
-      key: "Sells",
-      value: baseAsset?.sells_24h,
-    },
-    {
-      key: "Buys",
-      value: baseAsset?.buys_24h,
-    },
-  ];
   const getUrlFromTab = (tab: string) => {
     if (!isAssetPage) return;
     let name = "";
@@ -335,6 +321,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     return `/asset/${getUrlFromName(asset.name)}/${name}`;
   };
 
+  console.log("isAssetPage", isAssetPage);
   return (
     <>
       <div className="flex flex-col" {...handlers}>
