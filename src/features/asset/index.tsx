@@ -411,37 +411,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                 <div className="max-w-[450px] w-full lg:min-w-[340px] md:max-w-full md:w-full mb-2.5">
                   <TokenMainInfo />
                 </div>
-                <div className="flex items-center lg:justify-between lg:w-full">
-                  <div className="flex items-center w-full">
-                    <div
-                      className={`flex px-5 py-3 h-full items-center justify-center lg:px-0`}
-                    >
-                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
-                        Buys:
-                      </SmallFont>
-                      <TagPercentage
-                        isPercentage={false}
-                        percentage={getTokenPercentage(baseAsset?.buys_24h)}
-                        isUp={true}
-                        extraCss="ml-0"
-                      />
-                    </div>
-                    <div
-                      className={`flex px-5 py-3 h-full items-center justify-center `}
-                    >
-                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mr-2.5">
-                        Sells:
-                      </SmallFont>
-                      <TagPercentage
-                        isPercentage={false}
-                        percentage={getTokenPercentage(baseAsset?.sells_24h)}
-                        isUp={false}
-                        extraCss="ml-0"
-                      />
-                    </div>
-                  </div>
-                  <PairsSocialInfo />
-                </div>
+                <PairsSocialInfo />
               </div>
               <div className="flex items-center w-full flex-wrap mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
                 {pairsStats.map((pair, i) => (
@@ -618,7 +588,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               ) : null}
 
               <TradeFiltersPopup />
-              <PopupSocialMobile />
               <PriceAlertPopup
                 show={showTargetPrice}
                 setShow={setShowTargetPrice}
@@ -628,6 +597,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           ) : (
             <Essentials />
           )}
+          <PopupSocialMobile />
         </Container>
       </div>
     </>

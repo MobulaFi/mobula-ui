@@ -13,6 +13,7 @@ interface CustomPopOverProps {
   isMobile?: boolean;
   logo?: string;
   position?: string;
+  isPair?: boolean;
 }
 
 export const CustomPopOver = ({
@@ -21,12 +22,17 @@ export const CustomPopOver = ({
   children,
   isMobile,
   logo,
+  isPair,
 }: CustomPopOverProps) => {
   const [showCustomPopover, setShowCustomPopover] = useState(false);
   return (
     <Popover
       visibleContent={
-        <Button extraCss={`${mainButtonStyle} mb-[5px] font-normal`}>
+        <Button
+          extraCss={`${mainButtonStyle} ${
+            isPair ? "" : "mb-[5px]"
+          } font-normal`}
+        >
           {isMobile ? (
             <NextImageFallback
               fallbackSrc="/empty/unknown.png"

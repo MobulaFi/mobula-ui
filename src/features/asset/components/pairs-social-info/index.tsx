@@ -6,7 +6,7 @@ import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import {
   BsDiscord,
-  BsGlobe,
+  BsLink45Deg,
   BsShieldCheck,
   BsTelegram,
   BsTwitter,
@@ -15,6 +15,7 @@ import { FaRegUser } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { LuLink } from "react-icons/lu";
 import { SmallFont } from "../../../../components/fonts";
+import { cn } from "../../../../lib/shadcn/lib/utils";
 import { BaseAssetContext } from "../../context-manager";
 import { Contracts } from "../contracts";
 import { CustomPopOver } from "../ui/popover";
@@ -87,6 +88,7 @@ export const PairsSocialInfo = () => {
         }
         position="left-1/2 -translate-x-1/2"
         isMobile
+        isPair
       >
         {pairsContract?.map((pair, index: number) =>
           pair ? (
@@ -113,6 +115,7 @@ export const PairsSocialInfo = () => {
             title="Socials"
             position="left-1/2 -translate-x-1/2"
             icon={<FaRegUser className="flex md:hidden mr-[5px] text-xs" />}
+            isPair
           >
             {socials
               .filter((entry) => entry !== null)
@@ -154,22 +157,23 @@ export const PairsSocialInfo = () => {
           </CustomPopOver>
         ) : null}
       </div>
-      <div className="hidden lg:flex">
-        {baseAsset?.website ? (
-          <Button
-            extraCss={`${mainButtonStyle} mb-[5px] px-[5px]`}
-            onClick={() => openInNewTab(baseAsset.website as string)}
-          >
-            <BsGlobe className="text-base text-light-font-100 dark:text-dark-font-100" />
-          </Button>
-        ) : null}{" "}
-      </div>
+      {baseAsset?.social?.website ? (
+        <Button
+          extraCss={`${mainButtonStyle} mb-0`}
+          onClick={() => openInNewTab(baseAsset.website as string)}
+        >
+          <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
+          Website
+          <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
+        </Button>
+      ) : null}
       {(baseAsset?.social?.audit && baseAsset?.social?.audit !== "null") ||
       (baseAsset?.social?.kyc && baseAsset?.social?.kyc !== "null") ? (
         <CustomPopOver
           title="Audits"
           icon={<BsShieldCheck className="flex md:hidden mr-[5px] text-xs" />}
           position="left-1/2 -translate-x-1/2"
+          isPair
         >
           {baseAsset?.audit !== "null" ? (
             <div
@@ -222,7 +226,7 @@ export const PairsSocialInfo = () => {
         </CustomPopOver>
       ) : null}{" "}
       <Button
-        extraCss={`${mainButtonStyle} mb-[5px] hidden lg:flex`}
+        extraCss={cn(`mb-[5px] hidden lg:flex`, mainButtonStyle)}
         onClick={() => setShowPopupSocialMobile(true)}
       >
         <LuLink className="mr-[7.5px] ml-0.5" />
