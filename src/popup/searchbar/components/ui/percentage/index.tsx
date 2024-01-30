@@ -1,4 +1,6 @@
+import React from "react";
 import { PiTriangleFill } from "react-icons/pi";
+import { getFormattedAmount } from "../../../../../utils/formaters";
 import { PercentageType } from "../../../models";
 
 export const Percentage = ({ value, isPercentage }: PercentageType) => {
@@ -25,9 +27,15 @@ export const Percentage = ({ value, isPercentage }: PercentageType) => {
   return (
     <div className="flex items-center">
       {icon}
-      <p className="font-medium text-light-font-100 dark:text-dark-font-100">
-        {isPercentage ? `$${value}` : value}
-      </p>
+      {isPercentage ? (
+        <p className="font-medium text-light-font-100 dark:text-dark-font-100">
+          ${getFormattedAmount(value)}
+        </p>
+      ) : (
+        <p className="font-medium text-light-font-100 dark:text-dark-font-100">
+          {value}
+        </p>
+      )}
     </div>
   );
 };

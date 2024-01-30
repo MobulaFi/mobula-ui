@@ -67,9 +67,9 @@ export const TradesTemplate = ({
                   key={trade.hash}
                   target="_blank"
                 >
-                  {getFormattedAmount(
-                    (isMyTrades ? trade.amount : trade.token_amount) as number
-                  )}
+                  {isMyTrades
+                    ? getFormattedAmount((trade.amount || 0) as number, 2)
+                    : getFormattedAmount(trade.token_amount as number, 2)}
                 </NextChakraLink>
               )}
             </SmallFont>
@@ -83,10 +83,9 @@ export const TradesTemplate = ({
               } font-medium`}
             >
               $
-              {getFormattedAmount(
-                (isMyTrades ? trade.amount_usd : trade.value_usd) as number,
-                2
-              )}
+              {isMyTrades
+                ? getFormattedAmount(trade.amount_usd as number, 2)
+                : getFormattedAmount(trade.value_usd as number, 2)}
             </SmallFont>
           )}
         </div>
@@ -105,10 +104,9 @@ export const TradesTemplate = ({
               } mr-0 lg:mr-2.5 md:mr-0`}
             >
               $
-              {getFormattedAmount(
-                (isMyTrades ? trade.amount_usd : trade.value_usd) as number,
-                2
-              )}
+              {isMyTrades
+                ? getFormattedAmount(trade.amount_usd as number, 2)
+                : getFormattedAmount(trade.value_usd as number, 2)}
             </SmallFont>
           )}
         </div>
@@ -126,14 +124,16 @@ export const TradesTemplate = ({
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
               }`}
             >
-              {`$${getFormattedAmount(
-                isMyTrades
-                  ? getClosest(
-                      baseAsset?.price_history?.price || [],
-                      trade?.timestamp as number
-                    )
-                  : trade.token_price
-              )}`}
+              {isMyTrades ? (
+                getFormattedAmount(
+                  getClosest(
+                    baseAsset?.price_history?.price || [],
+                    trade?.timestamp as number
+                  )
+                )
+              ) : (
+                <>${getFormattedAmount(trade.token_price)}</>
+              )}
             </SmallFont>
           )}
         </div>

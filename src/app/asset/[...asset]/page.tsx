@@ -84,30 +84,46 @@ type Props = {
   params: { asset: string };
 };
 
-const getMetaDataFromSection = (section: string, asset: string) => {
-  const slicedAsset = asset.slice(0, 1)[0].toUpperCase() + asset.slice(1);
+const getMetaDataFromSection = (
+  section: string,
+  asset: string,
+  token?: Asset
+) => {
+  const urlToName = fromUrlToName(asset);
+  const formatName =
+    urlToName.slice(0, 1).toUpperCase() + urlToName.slice(1, urlToName.length);
   if (!section)
     return {
-      title: `${slicedAsset} on-chain data: price, liquidity, volume, trades & insights | Mobula.io`,
-      description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${slicedAsset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+      title: `${formatName} ${
+        token ? `(${token?.symbol})` : ""
+      } on-chain data: price, liquidity, volume, trades & insights | Mobula.io`,
+      description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${formatName} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
     };
   if (section === "market")
     return {
-      title: `${slicedAsset} trading pairs: Market Trends & Performance Analysis | Mobula.io`,
-      description: `Explore ${slicedAsset}’s market performance, contrasting it with benchmarks such as BTC trading pair, ETH trading pair, and altcoins trading pair over a range of timeframes, from 24 hours to a full year and beyond. Real-time data offers insights into ${slicedAsset}'s position against smart contract platforms and the crypto market. Track ${slicedAsset}'s price movements and historical highs/lows across different periods from 3 days to all-time. Comprehensive data, aggregating trading pairs from both blockchains and CEX, provides traders and investors with essential insights into ${slicedAsset}’s market trends, facilitating informed and strategic trading and investment choices.`,
+      title: `${formatName} ${
+        token ? `(${token?.symbol})` : ""
+      } trading pairs: Market Trends & Performance Analysis | Mobula.io`,
+      description: `Explore ${formatName}’s market performance, contrasting it with benchmarks such as BTC trading pair, ETH trading pair, and altcoins trading pair over a range of timeframes, from 24 hours to a full year and beyond. Real-time data offers insights into ${formatName}'s position against smart contract platforms and the crypto market. Track ${formatName}'s price movements and historical highs/lows across different periods from 3 days to all-time. Comprehensive data, aggregating trading pairs from both blockchains and CEX, provides traders and investors with essential insights into ${formatName}’s market trends, facilitating informed and strategic trading and investment choices.`,
     };
   if (section === "fundraising")
     return {
-      title: `${slicedAsset} Token Fundraising Rounds & Investment Details | Mobula.io`,
+      title: `${formatName} ${
+        token ? `(${token?.symbol})` : ""
+      } Token Fundraising Rounds & Investment Details | Mobula.io`,
     };
   if (section === "vesting")
     return {
-      title: `${slicedAsset} Token Vesting Schedule & Unlock Events Tracker | Mobula.io`,
-      description: `Description: Monitor ${slicedAsset} token’s vesting progress and upcoming unlock events with Mobula.io’s comprehensive vesting schedule. Understand stake subsidies, public sale allocations, and strategic investor unlock timelines for informed trading decisions.`,
+      title: `${formatName} ${
+        token ? `(${token?.symbol})` : ""
+      } Token Vesting Schedule & Unlock Events Tracker | Mobula.io`,
+      description: `Description: Monitor ${formatName} token’s vesting progress and upcoming unlock events with Mobula.io’s comprehensive vesting schedule. Understand stake subsidies, public sale allocations, and strategic investor unlock timelines for informed trading decisions.`,
     };
   return {
-    title: `${slicedAsset} on-chain data: price, liquidity, volume, trades & insights | Mobula.io`,
-    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${slicedAsset} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
+    title: `${formatName} ${
+      token ? `(${token?.symbol})` : ""
+    } on-chain data: price, liquidity, volume, trades & insights | Mobula.io`,
+    description: `Dive into the real-time price, detailed chart analysis, and liquidity data of ${formatName} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`,
   };
 };
 
@@ -132,7 +148,11 @@ async function AssetPage({ params }) {
     unformatFilters(cookieStore.get("trade-filters")?.value || "") || [];
   const asset = params?.asset[0];
   const section = params?.asset[1];
-  const { title, description } = getMetaDataFromSection(section, asset);
+  const { title, description } = getMetaDataFromSection(
+    section,
+    asset,
+    data?.asset
+  );
 
   const getSectionState = () => {
     const section = params?.asset[1];
