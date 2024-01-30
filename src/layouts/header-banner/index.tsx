@@ -80,9 +80,9 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
   }, [assets]);
 
   return (
-    <div className="h-[40px] w-full px-[15px] flex justify-between border-b border-light-border-primary dark:border-dark-border-primary w-full">
+    <div className="h-[40px] px-[15px] flex justify-between border-b border-light-border-primary dark:border-dark-border-primary w-full">
       <div
-        className="scrollerAnimated flex w-full overflow-hidden"
+        className="scrollerAnimated flex  overflow-hidden"
         ref={animationRef}
         data-speed="hyper-slow"
         data-animated="true"

@@ -265,6 +265,12 @@ textarea:focus {
   transition: transform 0.1s ease-out;
 } */
 
+@media screen and (max-width: 1400px) {
+  .padding-screen {
+    padding: 0 20px;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
     width: 0px; /* width of the entire scrollbar */
@@ -282,6 +288,9 @@ textarea:focus {
     /* roundness of the scroll thumb */
     display: none;
     background: grey;
+  }
+  .padding-screen {
+    padding: 0 15px;
   }
 }
 

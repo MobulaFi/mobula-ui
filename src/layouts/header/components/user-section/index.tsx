@@ -2,7 +2,7 @@
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import {
+import React, {
   Dispatch,
   RefObject,
   SetStateAction,
@@ -15,6 +15,7 @@ import {
 import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
+import { PiUsersThreeLight } from "react-icons/pi";
 import { RiMenu3Line } from "react-icons/ri";
 import { TbBellRinging } from "react-icons/tb";
 import { useAccount } from "wagmi";
@@ -173,6 +174,17 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         }
         pushData("Header Clicked", {
           name: "watchlist",
+        });
+        setShowInfoPopover(false);
+      },
+      protocol: () => {
+        if (isConnected) {
+          router.push("/protocol");
+        } else {
+          setConnect(true);
+        }
+        pushData("Header Clicked", {
+          name: "protocol",
         });
         setShowInfoPopover(false);
       },
@@ -373,7 +385,15 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                     </div>
                     Watchlist
                   </div>
-
+                  <div
+                    className={`${listContainer} mt-0`}
+                    onClick={() => getEffectOnClick("protocol")()}
+                  >
+                    <div className={squareBox}>
+                      <PiUsersThreeLight className="text-base text-light-font-60 dark:text-dark-font-60" />
+                    </div>
+                    Protocol
+                  </div>
                   <div
                     className={listContainer}
                     onClick={() => getEffectOnClick("notif")()}
@@ -397,7 +417,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             }
           />
         </div>
-
         <Connect />
         <SwitchNetworkPopup />
         <button

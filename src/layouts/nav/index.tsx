@@ -16,7 +16,6 @@ import { navigation, navigationGlobal } from "./constants";
 
 export const Nav = () => {
   const { setHideNav, hideNav } = useGeneralContext();
-  const handleHideNav = () => setHideNav("visible");
   const [showChains, setShowChains] = useState(false);
   const { resolvedTheme } = useTheme();
   const [active, setActive] = useState("");
@@ -29,12 +28,11 @@ export const Nav = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
 
-  console.log("chain", chain);
   return (
     <div
-      className={`flex flex-col h-screen max-h-screen w-full tranition-all duration-100 ease-linear overflow-hidden ${
+      className={`flex lg:hidden flex-col h-screen max-h-screen w-full tranition-all duration-100 ease-linear overflow-hidden ${
         hideNav === "hidden" ? "max-w-[68px]" : "max-w-[300px]"
-      } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer shadow-xl`}
+      } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer shadow-xl min-w-[68px]`}
       onMouseEnter={() => {
         if (hideNav === "locked") return;
         setHideNav("visible");
@@ -42,10 +40,12 @@ export const Nav = () => {
       onMouseLeave={() => {
         if (hideNav === "locked") return;
         setHideNav("hidden");
+        setShowChains(false);
+        setShowGlobal(false);
       }}
     >
       <div className="flex items-center justify-between w-full mt-[4px] ">
-        <div className="pl-[18px] pt-5 pb-2.5 items-center flex">
+        <div className="pl-[18px] pt-2.5 items-center flex">
           <img
             className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
             src={
@@ -115,7 +115,7 @@ export const Nav = () => {
           <RiGlobalLine className="text-light-font-100 dark:text-dark-font-100 text-[26px] min-w-[26px]" />
           <div className="ml-6 flex items-center justify-between whitespace-nowrap overflow-hidden ">
             <MediumFont extraCss="font-poppins font-medium">Global</MediumFont>
-            <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5" />
+            <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5 ml-1.5" />
           </div>
         </div>
         {navigationGlobal.extend.map((page, i) => (
@@ -160,10 +160,10 @@ export const Nav = () => {
             <MediumFont extraCss="font-poppins font-medium">
               Chains ({Object.keys(blockchainsContent)?.length})
             </MediumFont>
-            <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5" />
+            <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5 ml-1.5" />
           </div>
         </div>
-        <div className="flex flex-col max-h-[300px] overflow-y-auto">
+        <div className="flex flex-col max-h-[270px] overflow-y-auto whitespace-nowrap">
           {Object.entries(blockchainsContent)?.map((blockchain, i) => (
             <div
               className="flex items-center mb-5 pl-7"
@@ -196,10 +196,14 @@ export const Nav = () => {
         </div>
       </div>
       <div
-        className="flex flex-col z-[2] mt-auto p-5 mb-2.5 border-t w-fit overflow-hidden whitespace-nowrap
+        className="flex flex-col z-[2] w-[300px] mt-auto p-5 mb-2.5 border-t overflow-hidden whitespace-nowrap
        border-light-border-secondary dark:border-dark-border-secondary"
       >
-        <Link href="https://github.com/MobulaFi/mobula-ui">
+        <Link
+          href="https://github.com/MobulaFi/mobula-ui"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <div className="flex items-center mb-8">
             <FaGithub className="text-2xl text-light-font-100 dark:text-dark-font-100" />
             <div className="w-fit ml-6">
@@ -226,6 +230,8 @@ export const Nav = () => {
         </Link>
         <Link
           href="https://docs.mobula.fi/?utm_source=header"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() => {
             pushData("Header Free API Key Clicked");
           }}

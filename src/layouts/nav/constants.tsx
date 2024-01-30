@@ -1,8 +1,9 @@
 import { AiOutlineLineChart, AiOutlineSwap } from "react-icons/ai";
-import { BiCandles, BiCodeAlt, BiGitBranch } from "react-icons/bi";
+import { BiCandles, BiCodeAlt } from "react-icons/bi";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdAddChart } from "react-icons/md";
 import { PiPlug } from "react-icons/pi";
+import { SlStar } from "react-icons/sl";
 import { TfiBarChart } from "react-icons/tfi";
 
 export const navigation = [
@@ -19,6 +20,14 @@ export const navigation = [
     url: "/portfolio",
     icon: (
       <AiOutlineLineChart className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
+    ),
+    description: "Secure, best rates, minimal fees.",
+  },
+  {
+    name: "Watchlist",
+    url: "/watchlist",
+    icon: (
+      <SlStar className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
     ),
     description: "Secure, best rates, minimal fees.",
   },
@@ -105,14 +114,6 @@ export const navigation = [
   //     <GovernanceIcon className="text-light-font-100 dark:text-dark-font-100 text-[21px]" />
   //   ),
   // },
-  {
-    name: "Protocol",
-    url: "/dao/protocol/overview",
-    icon: (
-      <BiGitBranch className="text-light-font-100 dark:text-dark-font-100 text-2xl" />
-    ),
-    description: "Mobula listing protocol portal.",
-  },
 ];
 
 export const navigationGlobal = {
