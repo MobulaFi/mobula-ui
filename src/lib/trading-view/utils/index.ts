@@ -113,6 +113,7 @@ export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
     socket.addEventListener("message", (event) => {
       const { data } = JSON.parse(event.data);
       const { priceUSD: price, date: timestamp } = data;
+      console.log("YO LES DATAS", data);
 
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);

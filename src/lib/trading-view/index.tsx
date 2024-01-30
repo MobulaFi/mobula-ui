@@ -30,7 +30,6 @@ const TradingViewChart = ({
   const isWhiteMode = resolvedTheme === "light";
   const chartInit = () => {
     if (!baseAsset) return () => {};
-    console.log("IM HERE BRO");
     import("../../../public/static/charting_library").then(
       ({ widget: Widget }) => {
         setIsChartLoaded(true);
