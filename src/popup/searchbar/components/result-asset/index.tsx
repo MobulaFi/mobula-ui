@@ -2,10 +2,7 @@ import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { BiArrowToRight } from "react-icons/bi";
 import { pushData } from "../../../../lib/mixpanel";
-import {
-  getFormattedAmount,
-  getUrlFromName,
-} from "../../../../utils/formaters";
+import { getUrlFromName } from "../../../../utils/formaters";
 import { SearchbarContext } from "../../context-manager";
 import { Lines } from "../ui/lines";
 import { Percentage } from "../ui/percentage";
@@ -83,8 +80,10 @@ export const AssetsResults = ({
         >
           {result?.isTemplate ? (
             <BiArrowToRight className="text-base md:text-sm text-light-font-60 dark:text-dark-font-60" />
-          ) : null}
-          {result?.id && !result?.isTemplate ? (
+          ) : (
+            <Percentage isPercentage value={result?.price as number} />
+          )}
+          {/* {result?.id && !result?.isTemplate ? (
             <Percentage
               isPercentage
               value={getFormattedAmount(result?.price) as number}
@@ -94,7 +93,7 @@ export const AssetsResults = ({
             <p className="text-light-font-80 dark:text-dark-font-80 text-sm">
               List it now
             </p>
-          ) : null}
+          ) : null} */}
         </Lines>
       ))}
     </>

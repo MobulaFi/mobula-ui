@@ -1,16 +1,12 @@
 "use client";
 import React, { useEffect } from "react";
-import { FaGithub } from "react-icons/fa6";
-import { Button } from "../../components/button";
 import { NextChakraLink } from "../../components/link";
 import { Asset, UpdateAssetProps } from "../../interfaces/assets";
-import { pushData } from "../../lib/mixpanel";
 import {
   getFormattedAmount,
   getTokenPercentage,
   getUrlFromName,
 } from "../../utils/formaters";
-import { ToggleColorMode } from "../toggle-mode";
 
 export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
   const animationRef = React.useRef(null);
@@ -134,7 +130,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
             })}
         </div>
       </div>
-      <div className="pl-5 h-full w-fit flex items-center md:hidden">
+      {/* <div className="pl-5 h-full w-fit flex items-center md:hidden">
         <Button extraCss="h-[30px] border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue">
           <NextChakraLink
             extraCss="text-[13px]"
@@ -162,7 +158,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           <FaGithub className="text-xl mr-3 text-light-font-100 dark:text-dark-font-100" />
         </NextChakraLink>
         <ToggleColorMode extraCss="mr-2 md:mr-0" />
-      </div>
+      </div> */}
     </div>
   );
 };

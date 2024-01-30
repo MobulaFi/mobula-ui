@@ -144,10 +144,12 @@ export const Datafeed = (
       onRealtimeCallback(bar);
     });
 
-    sockets.set(baseAsset.name, socket);
+    console.log("Subscribe", baseAsset.name + "-" + subscriberUID);
+    sockets.set(baseAsset.name + "-" + subscriberUID, socket);
   },
   unsubscribeBars: (subscriberUID) => {
-    sockets.get(baseAsset.name).close();
+    console.log("Unsubscribe", baseAsset.name + "-" + subscriberUID);
+    sockets.get(baseAsset.name + "-" + subscriberUID).close();
   },
   getMarks: () => ({}),
   getTimeScaleMarks: () => ({}),

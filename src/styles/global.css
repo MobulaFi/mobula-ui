@@ -12,6 +12,10 @@
   --toastify-color-error: #ea3943;
 }
 
+.nav[data-active="true"] {
+  color: #5c7df9 !important;
+}
+
 @supports (animation: grow 0.5s cubic-bezier(0.25, 0.25, 0.25, 1) forwards) {
   .tick {
     stroke-opacity: 0;
