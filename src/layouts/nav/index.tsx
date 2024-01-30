@@ -56,7 +56,7 @@ export const Nav = () => {
             alt="Mobula logo"
           />
           <h2
-            className={`text-light-font-100 dark:text-dark-font-100 text-[32px] ml-3 font-poppins ${
+            className={`text-light-font-100 dark:text-dark-font-100 text-[32px] ml-[18px] font-poppins ${
               hideNav === "hidden" ? "opacity-0" : ""
             } transition-opacity duration-100 ease-linear`}
           >
@@ -108,9 +108,12 @@ export const Nav = () => {
           showGlobal ? "max-h-[160px]" : "max-h-[40px]"
         } overflow-hidden transition-all duration-100 ease-linear`}
       >
-        <div className="flex items-center mb-4 pl-5" onClick={handleShowGlobal}>
-          <RiGlobalLine className="text-light-font-100 dark:text-dark-font-100 text-[26px]" />
-          <div className="w-full ml-6 flex items-center justify-between ">
+        <div
+          className="flex items-center mb-4 pl-5 "
+          onClick={handleShowGlobal}
+        >
+          <RiGlobalLine className="text-light-font-100 dark:text-dark-font-100 text-[26px] min-w-[26px]" />
+          <div className="ml-6 flex items-center justify-between whitespace-nowrap overflow-hidden ">
             <MediumFont extraCss="font-poppins font-medium">Global</MediumFont>
             <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5" />
           </div>
@@ -151,9 +154,9 @@ export const Nav = () => {
               blockchainsContent[chain?.name]?.logo ||
               blockchainsContent["Ethereum"]?.logo
             }
-            className="h-[22px] w-[22px] min-w-[22px] rounded-full"
+            className="h-[24px] w-[24px] min-w-[24px] rounded-full"
           />
-          <div className="w-full ml-[21px] flex items-center justify-between ">
+          <div className="ml-6 flex items-center justify-between whitespace-nowrap">
             <MediumFont extraCss="font-poppins font-medium">
               Chains ({Object.keys(blockchainsContent)?.length})
             </MediumFont>
