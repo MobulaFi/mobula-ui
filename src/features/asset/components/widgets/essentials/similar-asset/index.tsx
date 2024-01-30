@@ -6,8 +6,7 @@ import { SimilarAssetTemplate } from "../../../ui/similar-asset-template";
 
 export const SimilarAsset = () => {
   const trendings = useTrendings();
-  const { isAssetPage, setAssetPairs, assetPairs } =
-    useContext(BaseAssetContext);
+  const { isAssetPage, assetPairs } = useContext(BaseAssetContext);
 
   return (
     <div className="flex flex-col mt-[50px] md:mt-[30px] w-full md:w-[95%] mx-auto">
@@ -24,7 +23,7 @@ export const SimilarAsset = () => {
                     name: item?.name || item?.protocol || "",
                     logo: item?.logo || "/empty/unknown.png",
                     price: item?.price || 0,
-                    price_change_24: item?.price_change_24h || 0,
+                    price_change_24h: item?.price_change_24h || 0,
                   }}
                 />
               );

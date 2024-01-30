@@ -110,8 +110,8 @@ export const handleMixpanel = (
   token: string,
   results: any
 ) => {
-  if (timerRef?.current) clearTimeout(timerRef?.current);
-  timerRef.current = setTimeout(() => {
+  if (timerRef?.current) clearTimeout(timerRef?.current as never);
+  (timerRef.current as any) = setTimeout(() => {
     if (token) {
       if (results && results?.length > 0) {
         pushData("Search bar result ", {
@@ -126,6 +126,6 @@ export const handleMixpanel = (
   }, 1500);
 
   return () => {
-    if (timerRef?.current) clearTimeout(timerRef?.current);
+    if (timerRef?.current) clearTimeout(timerRef?.current as never);
   };
 };

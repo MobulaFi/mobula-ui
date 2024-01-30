@@ -17,7 +17,7 @@ interface SimilarAssetTemplateProps {
     name: string;
     logo: string;
     price: number;
-    price_change_24?: number;
+    price_change_24h?: number;
   };
 }
 

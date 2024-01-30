@@ -60,9 +60,9 @@ export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
     };
 
     if (isPair) {
-      apiParams.params.address = baseAsset?.address;
+      apiParams.params["address"] = baseAsset?.address;
     } else {
-      apiParams.params.asset = baseAsset.contracts[0];
+      apiParams.params["asset"] = baseAsset.contracts[0];
     }
 
     const response = await GET(apiParams.endpoint, apiParams.params, false, {
@@ -94,10 +94,10 @@ export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
       interval: 5,
     };
 
-    if (isPair) params.address = baseAsset?.address;
+    if (isPair) params["address"] = baseAsset?.address;
     else {
-      (params.asset = baseAsset.contracts[0]),
-        (params.blockchain = baseAsset.blockchains[0]);
+      (params["asset"] = baseAsset.contracts[0]),
+        (params["blockchain"] = baseAsset.blockchains[0]);
     }
 
     socket.addEventListener("open", () => {

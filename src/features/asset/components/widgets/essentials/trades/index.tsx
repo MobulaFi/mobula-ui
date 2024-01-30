@@ -30,12 +30,9 @@ export const TokenTrades = () => {
     showTradeTokenAmount,
     filters,
     baseAsset,
-    setMarketMetrics,
     isAssetPage,
     pairTrades,
     setPairTrades,
-    isLoading,
-    setsMarketMetricsLoading,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);

@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { SmallFont } from "../../../../../components/fonts";
 import { getFormattedAmount } from "../../../../../utils/formaters";
-import { BaseAssetContext } from "../../../context-manager";
 
 interface ATHnATLProps {
   content: {
@@ -13,7 +12,6 @@ interface ATHnATLProps {
 }
 
 export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
-  const { isAssetPage } = useContext(BaseAssetContext);
   return (
     <>
       <div

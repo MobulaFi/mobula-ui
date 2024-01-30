@@ -6,7 +6,7 @@ import { NewWalletProps, User } from "../../../models";
 
 export interface LinesType {
   token: Token | { name: string } | NewWalletProps | User;
-  children: JSX.Element;
+  children: React.ReactNode;
   icon?: any;
   isImage?: boolean;
   active: boolean;

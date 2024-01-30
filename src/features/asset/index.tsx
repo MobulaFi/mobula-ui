@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -315,10 +315,9 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     if (tab === "Fundraising" && asset?.sales?.length > 0) name = "fundraising";
     if (tab === "Vesting" && asset?.release_schedule?.length > 0)
       name = "vesting";
-    return `/asset/${getUrlFromName(asset.name)}/${name}`;
+    return `/asset/${getUrlFromName(asset?.name as string)}/${name}`;
   };
 
-  console.log("isAssetPage", isAssetPage);
   return (
     <>
       <div className="flex flex-col" {...handlers}>
