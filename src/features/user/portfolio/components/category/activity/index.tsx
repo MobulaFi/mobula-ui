@@ -789,9 +789,9 @@ export const Activity = ({
                                 <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal">
                                   Fee
                                 </SmallFont>
-                                <SmallFont>{`$${getFormattedAmount(
-                                  transaction.tx_cost_usd
-                                )}`}</SmallFont>
+                                <SmallFont>
+                                  ${getFormattedAmount(transaction.tx_cost_usd)}
+                                </SmallFont>
                               </div>
 
                               <div className="flex flex-col ml-8 md:hidden">

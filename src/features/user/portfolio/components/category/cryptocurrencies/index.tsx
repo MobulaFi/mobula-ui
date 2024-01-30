@@ -265,11 +265,14 @@ export const Cryptocurrencies = () => {
                               >
                                 {Number(
                                   getFormattedAmount(token.token_balance)
-                                ) < 0.01
-                                  ? `<0.01 ${token.symbol}`
-                                  : `${getFormattedAmount(
-                                      token.token_balance
-                                    )} ${token.symbol}`}
+                                ) < 0.01 ? (
+                                  `<0.01 ${token.symbol}`
+                                ) : (
+                                  <>
+                                    {getFormattedAmount(token.token_balance)}{" "}
+                                    {token.symbol}
+                                  </>
+                                )}
                               </SmallFont>
                             )}
                             {manager.privacy_mode ? (
@@ -280,11 +283,16 @@ export const Cryptocurrencies = () => {
                               >
                                 {Number(
                                   getFormattedAmount(token.estimated_balance)
-                                ) < 0.01
-                                  ? `<0.01$`
-                                  : `$${getFormattedAmount(
+                                ) < 0.01 ? (
+                                  `<0.01$`
+                                ) : (
+                                  <>
+                                    $
+                                    {getFormattedAmount(
                                       token.estimated_balance
-                                    )}`}
+                                    )}
+                                  </>
+                                )}
                               </SmallFont>
                             )}
                           </div>

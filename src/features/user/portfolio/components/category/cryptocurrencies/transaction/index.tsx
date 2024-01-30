@@ -669,9 +669,12 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                   <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
                                     Fee
                                   </SmallFont>
-                                  <SmallFont extraCss="font-normal text-xs md:text-xs">{`$${getFormattedAmount(
-                                    transaction.tx_cost_usd
-                                  )}`}</SmallFont>
+                                  <SmallFont extraCss="font-normal text-xs md:text-xs">
+                                    $
+                                    {getFormattedAmount(
+                                      transaction.tx_cost_usd
+                                    )}
+                                  </SmallFont>
                                 </div>
                                 <div className="flex flex-col ml-[3%] md:hidden">
                                   <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal text-xs md:text-xs">
