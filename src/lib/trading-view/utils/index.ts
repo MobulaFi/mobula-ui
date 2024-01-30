@@ -111,7 +111,7 @@ export const Datafeed = (baseAsset: Asset) => ({
       if (timestamp >= nextDailyBarTime) {
         bar = {
           time: nextDailyBarTime,
-          open: price,
+          open: lastDailyBar.close,
           high: price,
           low: price,
           close: price,
