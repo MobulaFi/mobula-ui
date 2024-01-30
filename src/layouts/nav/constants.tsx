@@ -30,30 +30,6 @@ export const navigation = [
     ),
     description: "Secure, best rates, minimal fees.",
   },
-  {
-    name: "Recently added",
-    url: "/new",
-    icon: (
-      <PiPlug className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
-    ),
-    description: "Discover the newest tokens on the market.",
-  },
-  {
-    name: "Gainers & Losers",
-    url: "/movers",
-    icon: (
-      <BiCandles className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
-    ),
-    description: "Spot today's top performers and decliners.",
-  },
-  {
-    name: "Trendings",
-    url: "/trendings",
-    icon: (
-      <TfiBarChart className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
-    ),
-    description: "Track tokens gaining traction accross the space.",
-  },
 
   // {
   //   name: "SwapDesk",
@@ -138,3 +114,33 @@ export const navigation = [
     description: "Mobula listing protocol portal.",
   },
 ];
+
+export const navigationGlobal = {
+  name: "Global",
+  extend: [
+    {
+      name: "Recently added",
+      url: "/new",
+      icon: (
+        <PiPlug className="text-light-font-100 dark:text-dark-font-100 text-lg nav" />
+      ),
+      description: "Discover the newest tokens on the market.",
+    },
+    {
+      name: "Gainers & Losers",
+      url: "/movers",
+      icon: (
+        <BiCandles className="text-light-font-100 dark:text-dark-font-100 text-lg nav" />
+      ),
+      description: "Spot today's top performers and decliners.",
+    },
+    {
+      name: "Trendings",
+      url: "/trendings",
+      icon: (
+        <TfiBarChart className="text-light-font-100 dark:text-dark-font-100 text-base nav" />
+      ),
+      description: "Track tokens gaining traction accross the space.",
+    },
+  ],
+};

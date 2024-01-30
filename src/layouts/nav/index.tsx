@@ -1,25 +1,35 @@
 "use client";
-import { MediumFont } from "components/fonts";
+import { MediumFont, SmallFont } from "components/fonts";
 import { useGeneralContext } from "contexts/general";
+import { PopupUpdateContext } from "contexts/popup";
 import { pushData } from "lib/mixpanel";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useState } from "react";
-import { FaGithub } from "react-icons/fa";
-import { FaKey } from "react-icons/fa6";
+import { useContext, useState } from "react";
+import { BiChevronDown } from "react-icons/bi";
+import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
-import { navigation } from "./constants";
+import { RiGlobalLine } from "react-icons/ri";
+import { useAccount, useNetwork } from "wagmi";
+import { navigation, navigationGlobal } from "./constants";
 
 export const Nav = () => {
   const { setHideNav, hideNav } = useGeneralContext();
   const handleHideNav = () => setHideNav("visible");
+  const [showChains, setShowChains] = useState(false);
   const { resolvedTheme } = useTheme();
   const [active, setActive] = useState("");
   const [isHover, setIsHover] = useState("");
   const handleActiveSection = (value: string) => setActive(value);
+  const [showGlobal, setShowGlobal] = useState(false);
+  const handleShowGlobal = () => setShowGlobal(!showGlobal);
+  const handleShowChains = () => setShowChains(!showChains);
+  const { setShowSwitchNetwork, setConnect } = useContext(PopupUpdateContext);
+  const { address } = useAccount();
+  const { chain } = useNetwork();
 
-  console.log("hideNav", hideNav);
-
+  console.log("chain", chain);
   return (
     <div
       className={`flex flex-col h-screen max-h-screen w-full tranition-all duration-100 ease-linear overflow-hidden ${
@@ -67,7 +77,7 @@ export const Nav = () => {
           />
         </button>
       </div>
-      <div className="p-5 w-fit overflow-hidden whitespace-nowrap">
+      <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap">
         {navigation.map((page, i) => (
           <Link
             href={page.url}
@@ -92,6 +102,95 @@ export const Nav = () => {
             </div>
           </Link>
         ))}
+      </div>
+      <div
+        className={`flex flex-col h-full ${
+          showGlobal ? "max-h-[160px]" : "max-h-[40px]"
+        } overflow-hidden transition-all duration-100 ease-linear`}
+      >
+        <div className="flex items-center mb-4 pl-5" onClick={handleShowGlobal}>
+          <RiGlobalLine className="text-light-font-100 dark:text-dark-font-100 text-[26px]" />
+          <div className="w-full ml-6 flex items-center justify-between ">
+            <MediumFont extraCss="font-poppins font-medium">Global</MediumFont>
+            <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5" />
+          </div>
+        </div>
+        {navigationGlobal.extend.map((page, i) => (
+          <Link
+            href={page.url}
+            onClick={() => handleActiveSection(page.name)}
+            onMouseEnter={() => setIsHover(page.name)}
+            onMouseLeave={() => setIsHover("")}
+          >
+            <div className="flex items-center mb-5 pl-7">
+              {page.icon}
+              <div className="w-fit ml-2.5">
+                <SmallFont extraCss="font-poppins font-medium">
+                  {page.name}
+                </SmallFont>
+                <div
+                  className={`${
+                    active === page.name || isHover === page.name
+                      ? "w-full"
+                      : "w-0"
+                  } h-[1px] rounded bg-light-font-80 dark:bg-dark-font-80 transition-all duration-100 ease-linear`}
+                />
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+      <div
+        className={`flex flex-col h-full mt-5 ${
+          showChains ? "max-h-[340px]" : "max-h-[40px]"
+        } overflow-hidden transition-all duration-100 ease-linear`}
+      >
+        <div className="flex items-center mb-4 pl-5" onClick={handleShowChains}>
+          <img
+            src={
+              blockchainsContent[chain?.name]?.logo ||
+              blockchainsContent["Ethereum"]?.logo
+            }
+            className="h-[22px] w-[22px] min-w-[22px] rounded-full"
+          />
+          <div className="w-full ml-[21px] flex items-center justify-between ">
+            <MediumFont extraCss="font-poppins font-medium">
+              Chains ({Object.keys(blockchainsContent)?.length})
+            </MediumFont>
+            <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5" />
+          </div>
+        </div>
+        <div className="flex flex-col max-h-[300px] overflow-y-auto">
+          {Object.entries(blockchainsContent)?.map((blockchain, i) => (
+            <div
+              className="flex items-center mb-5 pl-7"
+              key={blockchain[0]}
+              onClick={() => {
+                console.log(blockchain);
+                if (!address) {
+                  setConnect(true);
+                  return;
+                } else setShowSwitchNetwork(Number(blockchain[1].chainId));
+              }}
+            >
+              <img
+                src={blockchain[1]?.logo || "/empty/unknown.png"}
+                className="h-[20px] w-[20px] min-w-[20px] rounded-full"
+              />
+              <div className="w-fit ml-2.5">
+                <SmallFont
+                  extraCss={`${
+                    chain?.id === blockchain[1]?.chainId
+                      ? "text-blue dark:text-blue"
+                      : ""
+                  }font-poppins font-medium`}
+                >
+                  {blockchain[0]}
+                </SmallFont>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       <div
         className="flex flex-col z-[2] mt-auto p-5 mb-2.5 border-t w-fit overflow-hidden whitespace-nowrap

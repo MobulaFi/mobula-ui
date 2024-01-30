@@ -39,7 +39,6 @@ const Layout = async ({ children }: LayoutProps) => {
       />
       <DexDrawer />
       <HeaderBanner assets={assets || []} />
-
       <div className="flex">
         <Nav />
         <div className="w-full">
