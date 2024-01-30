@@ -17,8 +17,13 @@ import { TokenMetrics } from "./token-metrics";
 import { TokenTrades } from "./trades";
 
 export const Essentials = () => {
-  const { baseAsset, setShowMobileMetric, isAssetPage, setActiveMetric } =
-    useContext(BaseAssetContext);
+  const {
+    baseAsset,
+    setShowMobileMetric,
+    setPairTrades,
+    isAssetPage,
+    setActiveMetric,
+  } = useContext(BaseAssetContext);
   const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
   const isOffChain = !baseAsset?.blockchains?.length;
@@ -43,8 +48,6 @@ export const Essentials = () => {
     }
   }, []);
 
-  console.log("isDesktop && isAssetPage", isDesktop, isAssetPage);
-
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
@@ -62,6 +65,7 @@ export const Essentials = () => {
             <TradingViewChart
               baseAsset={baseAsset}
               isPair={!isAssetPage}
+              setPairTrades={setPairTrades}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
           ) : (

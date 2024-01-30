@@ -1,4 +1,5 @@
-import { Asset, Bar } from "../../../features/asset/models";
+import { SetStateAction } from "react";
+import { Asset, Bar, Trade } from "../../../features/asset/models";
 import { GET } from "../../../utils/fetch";
 import { getNextBarTime } from "./stream";
 
@@ -17,7 +18,11 @@ export const supportedResolutions = [
 const lastBarsCache = new Map();
 const sockets = new Map();
 
-export const Datafeed = (baseAsset: Asset, isPair: boolean) => ({
+export const Datafeed = (
+  baseAsset: Asset,
+  isPair: boolean,
+  setPairTrades: React.Dispatch<SetStateAction<Trade[] | null | undefined>>
+) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
   },

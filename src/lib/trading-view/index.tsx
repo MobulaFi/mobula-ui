@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import React, { useEffect, useRef } from "react";
 import { Timezone } from "../../../public/static/charting_library/charting_library";
 import { Spinner } from "../../components/spinner";
-import { Asset } from "../../features/asset/models";
+import { Asset, Trade } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
 import { DISABLED_FEATURES, ENABLED_FEATURES } from "./constant";
 import { widgetOptionsDefault } from "./helper";
@@ -15,6 +15,7 @@ interface TradingViewChartProps {
   custom_css_url?: string;
   extraCss?: string;
   isPair?: boolean;
+  setPairTrades?: React.Dispatch<React.SetStateAction<Trade[] | null>>;
 }
 
 const TradingViewChart = ({
@@ -23,6 +24,7 @@ const TradingViewChart = ({
   custom_css_url = "../themed.css",
   extraCss,
   isPair = false,
+  setPairTrades = null,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -36,7 +38,7 @@ const TradingViewChart = ({
         if (!ref.current) return;
 
         const tvWidget = new Widget({
-          datafeed: Datafeed(baseAsset, isPair),
+          datafeed: Datafeed(baseAsset, isPair, setPairTrades),
           symbol: baseAsset?.symbol + "/USD",
           container: ref.current,
           container_id: ref.current.id,
