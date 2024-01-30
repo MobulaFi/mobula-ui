@@ -126,14 +126,16 @@ export const TradesTemplate = ({
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
               }`}
             >
-              {`$${getFormattedAmount(
-                isMyTrades
-                  ? getClosest(
-                      baseAsset?.price_history?.price || [],
-                      trade?.timestamp as number
-                    )
-                  : trade.token_price
-              )}`}
+              {isMyTrades ? (
+                getFormattedAmount(
+                  getClosest(
+                    baseAsset?.price_history?.price || [],
+                    trade?.timestamp as number
+                  )
+                )
+              ) : (
+                <>${getFormattedAmount(trade.token_price)}</>
+              )}
             </SmallFont>
           )}
         </div>
