@@ -53,7 +53,7 @@ export function Tabs() {
                       </div>
                     </div>
                     <BsChevronRight
-                      className={`text-md ${
+                      className={`text-sm ${
                         isHover === entry.name ? "animate-tabs" : "opacity-0"
                       } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
                     />
@@ -98,7 +98,7 @@ export function Tabs() {
                       </div>
                     </div>
                     <BsChevronRight
-                      className={`text-md ${
+                      className={`text-sm ${
                         isHover === entry.name ? "animate-tabs" : "opacity-0"
                       } text-light-font-60 dark:text-dark-font-60 animate-skeleton`}
                     />

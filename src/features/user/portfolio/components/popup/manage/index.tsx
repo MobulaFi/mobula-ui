@@ -98,7 +98,7 @@ export const ManagePopup = () => {
                       return null;
                     })}
                 </div>
-                <BiSolidChevronDown className="ml-[5px] text-md text-light-font-100 dark:text-dark-font-100" />
+                <BiSolidChevronDown className="ml-[5px] text-sm text-light-font-100 dark:text-dark-font-100" />
               </Button>
             ) : (
               <Button

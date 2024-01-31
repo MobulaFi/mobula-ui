@@ -66,8 +66,8 @@ export const MenuMobile = ({
 
   return (
     <div
-      className={`bg-light-bg-primary dark:bg-dark-bg-primary z-[102] pt-[15px] top-[98px] 
-    w-screen left-0 h-screen text-light-font-100 dark:text-dark-font-100 flex flex-col 
+      className={`bg-light-bg-primary hidden lg:flex dark:bg-dark-bg-primary z-[102] pt-[15px] top-[98px] 
+    w-screen left-0 h-screen text-light-font-100 dark:text-dark-font-100 flex-col 
     overflow-x-hidden fixed ${
       isMenuMobile ? "opacity-100 translate-x-0" : "translate-x-full"
     } transition-all duration-300 ease-in-out`}

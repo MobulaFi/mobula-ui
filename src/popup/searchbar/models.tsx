@@ -21,6 +21,8 @@ export interface ISearchBarContext {
   setEns: React.Dispatch<
     React.SetStateAction<{ name: string; address: string | null }>
   >;
+  pairs: NonListedAssetProps[];
+  setPairs: React.Dispatch<React.SetStateAction<NonListedAssetProps[]>>;
 }
 
 export interface PercentageType {
@@ -80,4 +82,37 @@ export interface Page {
 export interface NewWalletProps extends User {
   type: string;
   label: string;
+}
+
+export interface NonListedAssetProps {
+  blockchains: string[];
+  contracts: string[];
+  name: string;
+  pairs: PairsSearchProps[];
+  price: number;
+  symbol: string;
+  type: string;
+}
+
+export interface PairsSearchProps {
+  address: string;
+  blockchain: string;
+  createdAt: number;
+  factory: string;
+  reserve0: string;
+  reserve1: string;
+  token0: {
+    address: string;
+    symbol: string;
+    logo: string;
+  } | null;
+  token1: {
+    address: string;
+    symbol: string;
+    logo: string;
+  } | null;
+  type: string;
+  totalVolume: number;
+  volume24h: number;
+  liquidity: number;
 }

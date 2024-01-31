@@ -65,7 +65,10 @@ export const AssetsResults = ({
           isImage
           token={result}
           key={result.id}
-          onClick={() => clickEvent(result)}
+          onClick={() => {
+            if (!result?.isTemplate && !result?.id) router.push(`/list`);
+            else clickEvent(result);
+          }}
           active={active === index + firstIndex}
           index={index + firstIndex}
           setActive={setActive}

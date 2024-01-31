@@ -12,6 +12,10 @@
   --toastify-color-error: #ea3943;
 }
 
+.nav[data-active="true"] {
+  color: #5c7df9 !important;
+}
+
 @supports (animation: grow 0.5s cubic-bezier(0.25, 0.25, 0.25, 1) forwards) {
   .tick {
     stroke-opacity: 0;
@@ -87,9 +91,8 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 body {
-  overflow-y: scroll;
+  overflow-y: hidden;
   scrollbar-width: none;
-  overflow-x: hidden;
   position: relative;
 }
 
@@ -261,6 +264,12 @@ textarea:focus {
   transition: transform 0.1s ease-out;
 } */
 
+@media screen and (max-width: 1400px) {
+  .padding-screen {
+    padding: 0 20px;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
     width: 0px; /* width of the entire scrollbar */
@@ -278,6 +287,14 @@ textarea:focus {
     /* roundness of the scroll thumb */
     display: none;
     background: grey;
+  }
+  .padding-screen {
+    padding: 0 15px;
+  }
+  body {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    position: relative;
   }
 }
 

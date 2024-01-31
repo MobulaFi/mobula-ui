@@ -30,8 +30,9 @@ export const TokenTrades = () => {
     showTradeTokenAmount,
     filters,
     baseAsset,
-    setMarketMetrics,
-    isLoading,
+    isAssetPage,
+    pairTrades,
+    setPairTrades,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -133,7 +134,7 @@ export const TokenTrades = () => {
   };
 
   useEffect(() => {
-    if (!baseAsset || (userTrades?.length || 0) > 0) return;
+    if (!baseAsset || (userTrades?.length || 0) > 0 || !isAssetPage) return;
     GET("/api/1/wallet/transactions", {
       asset: baseAsset.name,
       wallet: address || "",
@@ -142,9 +143,51 @@ export const TokenTrades = () => {
     })
       .then((r) => r.json())
       .then((r) => {
-        if (r.data) setUserTrades(r.data.transactions);
+        if (r.data) {
+          const newTransactions = r.data.transactions;
+          const length = newTransactions.length;
+          setUserTrades((prev) => {
+            let existingTrades = [];
+            if (prev?.length > 0) {
+              existingTrades = prev?.slice(length);
+            }
+            return [...existingTrades, ...newTransactions];
+          });
+        }
       });
   }, []);
+
+  const fetchPairTrade = () => {
+    fetch(
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
+        baseAsset?.[baseAsset?.baseToken]?.address
+      }&blockchain=${baseAsset?.blockchain}&amount=20`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((r) => {
+        if (r.data) {
+          setPairTrades(r.data);
+          setTimeout(() => {
+            fetchPairTrade();
+          }, 3000);
+        } else {
+          setTimeout(() => {
+            fetchPairTrade();
+          }, 3000);
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (isAssetPage) return;
+    fetchPairTrade();
+  }, [baseAsset]);
 
   return (
     <div className="flex flex-col mt-2.5 w-full mx-auto">
@@ -334,7 +377,7 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {isMarketMetricsLoading ? (
+          {isMarketMetricsLoading && isAssetPage ? (
             <>
               {Array.from({ length: 9 }).map((_, i) => (
                 <TradesTemplate
@@ -347,9 +390,11 @@ export const TokenTrades = () => {
             </>
           ) : (
             <>
-              {(isMyTrades
-                ? userTrades?.filter((entry) => entry.amount > 0)
-                : marketMetrics?.trade_history
+              {(isAssetPage
+                ? isMyTrades
+                  ? userTrades?.filter((entry) => entry.amount > 0)
+                  : marketMetrics?.trade_history
+                : pairTrades
               )?.map((trade: Trade | UserTrade | any) => {
                 const isSell = trade.type === "sell";
                 const date: number = isMyTrades
@@ -366,6 +411,7 @@ export const TokenTrades = () => {
                       (trade?.unique_discriminator || 0) +
                       (trade?.id || 0)
                     }
+                    className="animate-fadeInTrade"
                   >
                     <TradesTemplate
                       trade={trade}

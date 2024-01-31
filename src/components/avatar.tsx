@@ -1,11 +1,35 @@
+import { cn } from "lib/shadcn/lib/utils";
 import React, { useEffect, useState } from "react";
-import { cn } from "../lib/shadcn/lib/utils";
 
 const imageCache: { [address: string]: string } = {};
 
 interface AddressAvatarProps {
   address: string;
   extraCss?: string;
+}
+
+const colorPalette = [
+  "#69D2E7",
+  "#A7DBD8",
+  "#E0E4CC",
+  "#F38630",
+  "#FA6900",
+  "#FF4E50",
+  "#F9D423",
+  "#EDE574",
+  "#F9C80E",
+  "#FC6170",
+  "#5C2A9D",
+  "#365D8D",
+  "#9FD356",
+  "#F0C808",
+  "#FF9000",
+];
+
+// Function to get 3 random colors from the palette
+function getRandomColors() {
+  const shuffled = [...colorPalette].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, 3);
 }
 
 async function generateImageFromAddress(address: string): Promise<string> {
@@ -22,7 +46,10 @@ async function generateImageFromAddress(address: string): Promise<string> {
   const gridSize = Math.ceil(Math.sqrt(address.length));
   const rectSize = Math.floor(Math.min(canvas.width, canvas.height) / gridSize);
 
-  // Draw the image using the unique hash
+  // Get 3 random colors for this address
+  const randomColors = getRandomColors();
+
+  // Draw the image using the unique hash and random colors
   for (let i = 0; i < gridSize; i += 1) {
     for (let j = 0; j < gridSize; j += 1) {
       const x = i % canvas.width;
@@ -30,10 +57,8 @@ async function generateImageFromAddress(address: string): Promise<string> {
       const uniqueIndex = i * gridSize + j;
 
       if (uniqueIndex < address.length) {
-        const number = parseInt(address.substr(uniqueIndex, 1), 16);
-        const hue = 200 + ((number * 15) % 100);
-
-        const color = `hsl(${hue}, 50%, 50%)`;
+        const charIndex = parseInt(address[uniqueIndex], 16); // Convert hex char to int
+        const color = randomColors[charIndex % randomColors.length]; // Use modulo to select color
         ctx.fillStyle = color;
         ctx.fillRect(x * rectSize, y * rectSize, rectSize, rectSize);
       }
@@ -78,7 +103,7 @@ export const AddressAvatar: React.FC<AddressAvatarProps> = ({
     <img
       src={dataURI || "/empty/unknown.png"}
       alt="user default avatar"
-      className={cn("rounded-full", extraCss)}
+      className={cn(`rounded-full`, extraCss)}
     />
   );
 };

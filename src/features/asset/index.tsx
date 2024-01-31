@@ -1,6 +1,5 @@
 "use client";
-import { getUrlFromName } from "@utils/formaters";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
@@ -9,12 +8,19 @@ import { Container } from "../../components/container";
 import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
 import { Skeleton } from "../../components/skeleton";
-import { PopupUpdateContext } from "../../contexts/popup";
+import { TagPercentage } from "../../components/tag-percentage";
+import { TopNav } from "../../layouts/menu-mobile/top-nav";
 import { SwapProvider } from "../../layouts/swap";
 import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
+import {
+  getFormattedAmount,
+  getTokenPercentage,
+  getUrlFromName,
+} from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
+import { PairsSocialInfo } from "./components/pairs-social-info";
 import { PopupSocialMobile } from "./components/popup/popup-social-mobile";
 import { PopupAllTags } from "./components/popup/tags";
 import { TradeFiltersPopup } from "./components/popup/trade-filters";
@@ -31,10 +37,11 @@ import { Asset, PrevPathProps } from "./models";
 import { mainButtonStyle } from "./style";
 
 interface AssetProps {
-  asset: Asset;
+  isAssetPage?: boolean;
+  asset?: Asset;
 }
 
-export const Assets = ({ asset }) => {
+export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   const {
     baseAsset,
     marketMetrics,
@@ -51,8 +58,6 @@ export const Assets = ({ asset }) => {
   const [isBreadCrumbLoading, setIsBreadCrumbLoading] = useState(true);
   const [previousTab, setPreviousTab] = useState<string | null>(null);
   const [canSwipe, setCanSwipe] = useState(false);
-  const router = useRouter();
-  const { setShowCard } = useContext(PopupUpdateContext);
   const [prevPaths, setPrevPaths] = useState<PrevPathProps[]>([
     {
       name: "Home",
@@ -76,7 +81,7 @@ export const Assets = ({ asset }) => {
   useEffect(() => {
     if (baseAsset)
       setMarketMetrics({
-        price: baseAsset.price,
+        price: baseAsset?.price,
         priceChange: null,
         volume: 0,
         volumeChange: null,
@@ -98,63 +103,65 @@ export const Assets = ({ asset }) => {
   ];
 
   function switchTab(dir) {
-    setPreviousTab(activeTab);
-    if (isMobile) {
-      const currentIndex = tabs.findIndex((tab) => tab === activeTab);
-      if (dir === "next" && currentIndex < tabs.length - 1) {
-        if (
-          tabs[currentIndex + 1] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex + 2] === "Vesting" &&
-          !asset?.release_schedule?.length
-        ) {
-          setActiveTab(tabs[currentIndex + 3]);
-        } else if (
-          tabs[currentIndex + 1] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex + 2] === "Vesting" &&
-          asset?.release_schedule?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex + 2]);
-        } else if (
-          tabs[currentIndex + 1] === "Fundraising" &&
-          asset?.sales?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex + 1]);
-        } else if (
-          tabs[currentIndex + 1] === "Vesting" &&
-          !asset?.release_schedule?.length
-        ) {
-          setActiveTab(tabs[currentIndex + 2]);
-        } else setActiveTab(tabs[currentIndex + 1]);
-      } else if (dir === "previous" && currentIndex > 0) {
-        if (
-          tabs[currentIndex - 2] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex - 1] === "Vesting" &&
-          !asset?.release_schedule?.length
-        ) {
-          setActiveTab(tabs[currentIndex - 3]);
-        } else if (
-          tabs[currentIndex - 2] === "Fundraising" &&
-          !asset?.sales?.length &&
-          tabs[currentIndex + 1] === "Vesting" &&
-          asset?.release_schedule?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex - 2]);
-        } else if (
-          tabs[currentIndex - 1] === "Fundraising" &&
-          asset?.sales?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex - 1]);
-        } else if (
-          tabs[currentIndex - 1] === "Vesting" &&
-          !asset?.release_schedule?.length &&
-          tabs[currentIndex - 2] === "Fundraising" &&
-          asset?.sales?.length > 0
-        ) {
-          setActiveTab(tabs[currentIndex - 2]);
-        } else setActiveTab(tabs[currentIndex - 1]);
+    if (isAssetPage) {
+      setPreviousTab(activeTab);
+      if (isMobile) {
+        const currentIndex = tabs.findIndex((tab) => tab === activeTab);
+        if (dir === "next" && currentIndex < tabs.length - 1) {
+          if (
+            tabs[currentIndex + 1] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex + 2] === "Vesting" &&
+            !asset?.release_schedule?.length
+          ) {
+            setActiveTab(tabs[currentIndex + 3]);
+          } else if (
+            tabs[currentIndex + 1] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex + 2] === "Vesting" &&
+            asset?.release_schedule?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex + 2]);
+          } else if (
+            tabs[currentIndex + 1] === "Fundraising" &&
+            asset?.sales?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex + 1]);
+          } else if (
+            tabs[currentIndex + 1] === "Vesting" &&
+            !asset?.release_schedule?.length
+          ) {
+            setActiveTab(tabs[currentIndex + 2]);
+          } else setActiveTab(tabs[currentIndex + 1]);
+        } else if (dir === "previous" && currentIndex > 0) {
+          if (
+            tabs[currentIndex - 2] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex - 1] === "Vesting" &&
+            !asset?.release_schedule?.length
+          ) {
+            setActiveTab(tabs[currentIndex - 3]);
+          } else if (
+            tabs[currentIndex - 2] === "Fundraising" &&
+            !asset?.sales?.length &&
+            tabs[currentIndex + 1] === "Vesting" &&
+            asset?.release_schedule?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex - 2]);
+          } else if (
+            tabs[currentIndex - 1] === "Fundraising" &&
+            asset?.sales?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex - 1]);
+          } else if (
+            tabs[currentIndex - 1] === "Vesting" &&
+            !asset?.release_schedule?.length &&
+            tabs[currentIndex - 2] === "Fundraising" &&
+            asset?.sales?.length > 0
+          ) {
+            setActiveTab(tabs[currentIndex - 2]);
+          } else setActiveTab(tabs[currentIndex - 1]);
+        }
       }
     }
   }
@@ -248,27 +255,79 @@ export const Assets = ({ asset }) => {
     setPrevPaths(previous);
     setIsBreadCrumbLoading(false);
   };
+
   useEffect(() => {
     setTimeout(() => {
       getPreviousPath();
     }, 200);
   }, [pathname]);
 
+  const pairsStats = [
+    {
+      key: "Liquidity",
+      value:
+        baseAsset?.token0?.approximateReserveUSD +
+        baseAsset?.token1?.approximateReserveUSD,
+      isAmount: true,
+    },
+    {
+      key: "Volume",
+      value: baseAsset?.volume_24h,
+      isAmount: true,
+    },
+    {
+      key: "M.Cap",
+      value: baseAsset?.volume_24h,
+      isAmount: true,
+    },
+
+    {
+      key: "5min",
+      value: baseAsset?.price_change_5min,
+      isPercentage: true,
+    },
+    {
+      key: "1h",
+      value: baseAsset?.price_change_1h,
+      isPercentage: true,
+    },
+    {
+      key: "4h",
+      value: baseAsset?.price_change_4h,
+      isPercentage: true,
+    },
+    {
+      key: "12h",
+      value: baseAsset?.price_change_12h,
+      isPercentage: true,
+    },
+    {
+      key: "24h",
+      value: baseAsset?.price_change_24h,
+      isPercentage: true,
+    },
+  ];
+
   const getUrlFromTab = (tab: string) => {
+    if (!isAssetPage) return;
     let name = "";
     if (tab === "Market") name = "market";
     if (tab === "Fundraising" && asset?.sales?.length > 0) name = "fundraising";
     if (tab === "Vesting" && asset?.release_schedule?.length > 0)
       name = "vesting";
-    return `/asset/${getUrlFromName(asset.name)}/${name}`;
+    return `/asset/${getUrlFromName(asset?.name as string)}/${name}`;
   };
-
-  console.log("!asset?.sales?.length", !asset?.sales?.length, asset);
 
   return (
     <>
       <div className="flex flex-col" {...handlers}>
-        <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden">
+        <TopNav
+          list={tabs}
+          setActive={setActiveTab}
+          active={activeTab}
+          setPreviousTab={setPreviousTab}
+        />
+        <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden maximum-width">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
               <NextChakraLink
@@ -323,149 +382,207 @@ export const Assets = ({ asset }) => {
                 <BsTelegram className="text-xl" />
               </Button>
             </div>
-          ) : null}
-          <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
-            <TokenMainInfo />
-            <TokenSocialsInfo />
-          </div>
+          ) : null}{" "}
+          {isAssetPage ? (
+            <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
+              <TokenMainInfo />
+              <TokenSocialsInfo />
+            </div>
+          ) : (
+            <div className="flex flex-col w-full">
+              <div className="flex items-center justify-between w-full flex-wrap md:mt-2.5">
+                <div className="max-w-[450px] w-full lg:min-w-[340px] md:max-w-full md:w-full mb-2.5">
+                  <TokenMainInfo />
+                </div>
+                <PairsSocialInfo />
+              </div>
+              <div className="flex items-center w-full flex-wrap mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
+                {pairsStats.map((pair, i) => (
+                  <div
+                    key={pair.key}
+                    className={`flex flex-col px-5 md:px-0 py-3 h-full min-w-[80px] items-center justify-center w-[12.5%] md:w-[25%] ${
+                      i > 3
+                        ? "md:border-t md:border-light-border-secondary md:dark:border-dark-border-secondary"
+                        : ""
+                    } ${
+                      i !== 0
+                        ? "border-l border-light-border-secondary dark:border-dark-border-secondary "
+                        : ""
+                    }
+                    ${i === 4 ? "md:border-l-0" : ""}
+                    `}
+                  >
+                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
+                      {pair.key}
+                    </SmallFont>
+                    {pair?.isPercentage ? (
+                      <TagPercentage
+                        percentage={getTokenPercentage(pair?.value)}
+                        isUp={pair?.value > 0}
+                      />
+                    ) : (
+                      <SmallFont extraCss={`mt-1 text-center`}>
+                        {pair?.isAmount
+                          ? `$${getFormattedAmount(pair?.value)}`
+                          : getFormattedAmount(pair?.value)}
+                      </SmallFont>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
-          <div
-            className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
+          {isAssetPage ? (
+            <>
+              <div
+                className="flex items-center justify-between mt-5 lg:mt-[15px] md:mt-2.5 py-5 lg:py-[15px]
            md:py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary 
            overflow-x-scroll scroll w-full md:w-[95%] mx-auto md:hidden"
-          >
-            <div className="flex">
-              {tabs
-                ?.filter((tab) => tab !== "Buy")
-                // ?.filter(tab => {
-                //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
-                //   return tab;
-                // })
-                ?.map((tab) => {
-                  return (
-                    <NextChakraLink
-                      key={tab}
-                      href={getUrlFromTab(tab)}
-                      disabled={
-                        (tab === "Fundraising" && !asset?.sales?.length) ||
-                        (tab === "Vesting" && !asset?.release_schedule?.length)
-                      }
-                    >
-                      <Button
-                        extraCss={`${mainButtonStyle} px-2.5 border ${
-                          tab === activeTab
-                            ? "border-blue dark:border-blue"
-                            : ""
-                        } ${
-                          (tab === "Fundraising" && !asset?.sales?.length) ||
-                          (tab === "Vesting" &&
-                            !asset?.release_schedule?.length)
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
-                        }`}
-
-                        // onClick={() => {
-                        //   setActiveTab(tab);
-                        // }}
-                      >
-                        {tab}
-                      </Button>
-                    </NextChakraLink>
-                  );
-                })}
-            </div>
-          </div>
-          {activeTab === "Essentials" ? (
-            <div
-              style={{
-                animation: getAnimation("Essentials"),
-                position: activeTab === "Essentials" ? "static" : "absolute",
-              }}
-            >
-              <Essentials />
-            </div>
-          ) : null}
-          {activeTab === "Market" ? (
-            <div
-              style={{
-                animation: getAnimation("Market"),
-                position: activeTab === "Market" ? "static" : "absolute",
-              }}
-            >
-              <Market />
-            </div>
-          ) : null}
-          {activeTab === "Social & Developer" ? (
-            <div
-              style={{
-                animation: getAnimation("Social & Developer"),
-                position:
-                  activeTab === "Social & Developer" ? "static" : "absolute",
-              }}
-            >
-              <SocialsDeveloper />
-            </div>
-          ) : null}
-          {activeTab === "Tokenomic" ? (
-            <div
-              style={{
-                animation: getAnimation("Tokenomic"),
-                position: activeTab === "Tokenomic" ? "static" : "absolute",
-              }}
-            >
-              <Tokenomic />
-            </div>
-          ) : null}
-          {activeTab === "Fundraising" ? (
-            <div
-              style={{
-                animation: getAnimation("Fundraising"),
-                position: activeTab === "Fundraising" ? "static" : "absolute",
-              }}
-            >
-              <Fundraising />
-            </div>
-          ) : null}
-          {activeTab === "Vesting" ? (
-            <div
-              style={{
-                animation: getAnimation("Vesting"),
-                position: activeTab === "Vesting" ? "static" : "absolute",
-              }}
-            >
-              <Vesting />
-            </div>
-          ) : null}
-          {activeTab === "Buy" ? (
-            <div
-              className="flex w-full justify-center lg:mt-2.5"
-              style={{
-                animation: getAnimation("Buy"),
-                position: activeTab === "Buy" ? "static" : "absolute",
-              }}
-            >
-              <SwapProvider
-                tokenOutBuffer={{
-                  ...baseAsset,
-                  address: baseAsset?.contracts?.[0],
-                  blockchain: baseAsset?.blockchains?.[0],
-                }}
-                lockToken={["out"]}
               >
-                <BasicSwap activeStep={0} />
-              </SwapProvider>
-            </div>
-          ) : null}
+                <div className="flex">
+                  {tabs
+                    ?.filter((tab) => tab !== "Buy")
+                    // ?.filter(tab => {
+                    //   if (tab === "Fundraising") return baseAsset?.sales?.length > 0;
+                    //   return tab;
+                    // })
+                    ?.map((tab) => {
+                      return (
+                        <NextChakraLink
+                          key={tab}
+                          href={getUrlFromTab(tab)}
+                          disabled={
+                            (tab === "Fundraising" && !asset?.sales?.length) ||
+                            (tab === "Vesting" &&
+                              !asset?.release_schedule?.length)
+                          }
+                        >
+                          <Button
+                            key={tab}
+                            extraCss={`${mainButtonStyle} px-2.5 border ${
+                              tab === activeTab
+                                ? "border-blue dark:border-blue"
+                                : ""
+                            } ${
+                              (tab === "Fundraising" &&
+                                !asset?.sales?.length) ||
+                              (tab === "Vesting" &&
+                                !asset?.release_schedule?.length)
+                                ? "opacity-50 cursor-not-allowed"
+                                : ""
+                            }`}
 
-          <TradeFiltersPopup />
+                            // onClick={() => {
+                            //   setActiveTab(tab);
+                            // }}
+                          >
+                            {tab}
+                          </Button>
+                        </NextChakraLink>
+                      );
+                    })}
+                </div>
+              </div>
+              {activeTab === "Essentials" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Essentials"),
+                    position:
+                      activeTab === "Essentials" ? "static" : "absolute",
+                  }}
+                >
+                  <Essentials />
+                </div>
+              ) : null}
+              {activeTab === "Market" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Market"),
+                    position: activeTab === "Market" ? "static" : "absolute",
+                  }}
+                >
+                  <Market />
+                </div>
+              ) : null}
+              {activeTab === "Social & Developer" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Social & Developer"),
+                    position:
+                      activeTab === "Social & Developer"
+                        ? "static"
+                        : "absolute",
+                  }}
+                >
+                  <SocialsDeveloper />
+                </div>
+              ) : null}
+              {activeTab === "Tokenomic" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Tokenomic"),
+                    position: activeTab === "Tokenomic" ? "static" : "absolute",
+                  }}
+                >
+                  <Tokenomic />
+                </div>
+              ) : null}
+              {activeTab === "Fundraising" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Fundraising"),
+                    position:
+                      activeTab === "Fundraising" ? "static" : "absolute",
+                  }}
+                >
+                  <Fundraising />
+                </div>
+              ) : null}
+              {activeTab === "Vesting" ? (
+                <div
+                  style={{
+                    animation: getAnimation("Vesting"),
+                    position: activeTab === "Vesting" ? "static" : "absolute",
+                  }}
+                >
+                  <Vesting />
+                </div>
+              ) : null}
+              {activeTab === "Buy" ? (
+                <div
+                  className="flex w-full justify-center lg:mt-2.5"
+                  style={{
+                    animation: getAnimation("Buy"),
+                    position: activeTab === "Buy" ? "static" : "absolute",
+                  }}
+                >
+                  <SwapProvider
+                    tokenOutBuffer={{
+                      ...baseAsset,
+                      address: baseAsset?.contracts?.[0],
+                      blockchain: baseAsset?.blockchains?.[0],
+                    }}
+                    lockToken={["out"]}
+                  >
+                    <BasicSwap activeStep={0} />
+                  </SwapProvider>
+                </div>
+              ) : null}
+
+              <TradeFiltersPopup />
+              <PriceAlertPopup
+                show={showTargetPrice}
+                setShow={setShowTargetPrice}
+              />
+              <PopupAllTags />
+            </>
+          ) : (
+            <Essentials />
+          )}
           <PopupSocialMobile />
-          <PriceAlertPopup
-            show={showTargetPrice}
-            setShow={setShowTargetPrice}
-          />
-          <PopupAllTags />
         </Container>
-      </div>{" "}
+      </div>
     </>
   );
 };

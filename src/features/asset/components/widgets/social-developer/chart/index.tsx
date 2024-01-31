@@ -44,7 +44,7 @@ export const Charts = ({
                 href={baseAsset?.assets_social?.github}
                 target="_blank"
                 rel="noreferrer"
-                extraCss="text-lg lg:text-md md:text-sm text-blue dark:text-blue"
+                extraCss="text-lg lg:text-sm md:text-sm text-blue dark:text-blue"
               >
                 random-name/random
               </NextChakraLink>

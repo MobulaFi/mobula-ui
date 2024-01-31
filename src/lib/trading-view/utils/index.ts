@@ -1,4 +1,5 @@
-import { Asset, Bar } from "../../../features/asset/models";
+import { Dispatch, SetStateAction } from "react";
+import { Asset, Bar, Trade } from "../../../features/asset/models";
 import { GET } from "../../../utils/fetch";
 import { getNextBarTime } from "./stream";
 
@@ -17,7 +18,11 @@ export const supportedResolutions = [
 const lastBarsCache = new Map();
 const sockets = new Map();
 
-export const Datafeed = (baseAsset: Asset) => ({
+export const Datafeed = (
+  baseAsset: Asset,
+  isPair: boolean,
+  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>
+) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
   },
@@ -47,22 +52,27 @@ export const Datafeed = (baseAsset: Asset) => ({
     periodParams,
     onResult: Function
   ) => {
-    const response = await GET(
-      "/api/1/market/history/pair",
-      {
-        asset: baseAsset.contracts[0],
-        blockchain: baseAsset.blockchains[0],
+    const apiParams = {
+      endpoint: "/api/1/market/history/pair",
+      params: {
+        // blockchain: baseAsset?.blockchains?.[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
         usd: true,
         period: resolution,
       },
-      false,
-      {
-        headers: { Authorization: "eb66b1f3-c24b-4f43-9892-dbc5f37d5a6d" },
-      }
-    );
+    };
+
+    if (isPair) {
+      apiParams.params["address"] = baseAsset?.address;
+    } else {
+      apiParams.params["asset"] = baseAsset.contracts[0];
+    }
+
+    const response = await GET(apiParams.endpoint, apiParams.params, false, {
+      headers: { Authorization: "eb66b1f3-c24b-4f43-9892-dbc5f37d5a6d" },
+    });
     const data = await response.json();
 
     onResult(data.data, {
@@ -85,17 +95,22 @@ export const Datafeed = (baseAsset: Asset) => ({
     const socket = new WebSocket(
       process.env.NEXT_PUBLIC_PRICE_WSS_ENDPOINT as string
     );
+    const params = {
+      interval: 5,
+    };
+
+    if (isPair) params["address"] = baseAsset?.address;
+    else {
+      (params["asset"] = baseAsset.contracts[0]),
+        (params["blockchain"] = baseAsset.blockchains[0]);
+    }
 
     socket.addEventListener("open", () => {
       socket.send(
         JSON.stringify({
           type: "pair",
           authorization: process.env.NEXT_PUBLIC_PRICE_KEY,
-          payload: {
-            asset: baseAsset.contracts[0],
-            blockchain: baseAsset.blockchains[0],
-            interval: 5,
-          },
+          payload: params,
         })
       );
     });
@@ -103,6 +118,7 @@ export const Datafeed = (baseAsset: Asset) => ({
     socket.addEventListener("message", (event) => {
       const { data } = JSON.parse(event.data);
       const { priceUSD: price, date: timestamp } = data;
+      console.log("YO LES DATAS", data);
 
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);

@@ -409,7 +409,7 @@ export const Manage = () => {
                         className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
                         onClick={() => setShowCreatePortfolio(true)}
                       >
-                        <IoMdAddCircleOutline className="text-md mr-[7.5px]" />
+                        <IoMdAddCircleOutline className="text-sm mr-[7.5px]" />
                         Create a new portfolio
                       </button>
                     </div>

@@ -43,7 +43,7 @@ export const ForumResults = ({ firstIndex, setTrigger }: ForumResultsProps) => {
             index={index + firstIndex}
             setActive={setActive}
           >
-            <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 text-md" />
+            <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 text-sm" />
           </Lines>
         );
       })}

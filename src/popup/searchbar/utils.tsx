@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Dispatch, SetStateAction } from "react";
+import { pushData } from "lib/mixpanel";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { isAddress } from "viem";
 import { allPages } from "./constants";
 import { ArticlesType, Token, User } from "./models";
@@ -74,10 +75,9 @@ export const getDataFromInputValue = (
   supabase,
   setUsers,
   setUserWithAddress,
-  setArticles,
   maxWalletsResult = 3
 ) => {
-  if (value)
+  if (value) {
     supabase
       .from("users")
       .select("username,address,profile_pic")
@@ -89,24 +89,8 @@ export const getDataFromInputValue = (
       .then((r) => {
         if (r.data) setUsers(r.data);
       });
-  if (value) getUserFromAddress(setUserWithAddress, value, supabase);
-  if (value)
-    supabase
-      .from("blog_posts")
-      .select("title,likes,url,type")
-      .filter("validated", "eq", "true")
-      .order("likes", { ascending: false })
-      .or(`title.ilike.%${value}%,title.ilike.${value},title.ilike.%${value}`)
-      .limit(3)
-      .then((r) => {
-        if (r.data)
-          setArticles(
-            r.data.map((entry) => ({
-              ...entry,
-              url: `/forum/${entry.type}/${entry.url}`,
-            }))
-          );
-      });
+    getUserFromAddress(setUserWithAddress, value, supabase);
+  }
 };
 
 export const getPagesFromInputValue = (setPages, value) => {
@@ -119,4 +103,29 @@ export const getPagesFromInputValue = (setPages, value) => {
     });
   });
   setPages(newPages.filter((__, i) => i < 3));
+};
+
+export const handleMixpanel = (
+  timerRef: MutableRefObject<HTMLInputElement>,
+  token: string,
+  results: any
+) => {
+  if (timerRef?.current) clearTimeout(timerRef?.current as never);
+  (timerRef.current as any) = setTimeout(() => {
+    if (token) {
+      if (results && results?.length > 0) {
+        pushData("Search bar result ", {
+          input: token,
+        });
+      } else {
+        pushData("Search bar no result ", {
+          input: token,
+        });
+      }
+    }
+  }, 1500);
+
+  return () => {
+    if (timerRef?.current) clearTimeout(timerRef?.current as never);
+  };
 };

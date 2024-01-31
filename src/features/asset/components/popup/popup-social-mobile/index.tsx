@@ -17,18 +17,21 @@ export const PopupSocialMobile = () => {
     {
       title: "Official Links",
       content:
-        baseAsset?.website || baseAsset?.white_paper
+        baseAsset?.website ||
+        baseAsset?.white_paper ||
+        baseAsset?.social?.website ||
+        baseAsset?.social?.white_paper
           ? [
               {
                 title: "Website",
-                link: baseAsset?.website,
+                link: baseAsset?.website || baseAsset?.social?.website,
                 icon: (
                   <BsLink45Deg className="text-base text-light-font-100 dark:text-dark-font-100" />
                 ),
               },
               {
                 title: "Whitepaper",
-                link: baseAsset?.white_paper,
+                link: baseAsset?.white_paper || baseAsset?.social?.white_paper,
                 icon: (
                   <HiOutlineDocumentText className="text-sm text-light-font-100 dark:text-dark-font-100" />
                 ),
@@ -42,23 +45,31 @@ export const PopupSocialMobile = () => {
         baseAsset?.telegram ||
         baseAsset?.chat ||
         baseAsset?.twitter ||
-        baseAsset?.discord
+        baseAsset?.discord ||
+        baseAsset?.social?.telegram ||
+        baseAsset?.social?.chat ||
+        baseAsset?.social?.twitter ||
+        baseAsset?.social?.discord
           ? [
               {
                 title: "Telegram",
-                link: baseAsset?.telegram || baseAsset?.chat,
+                link:
+                  baseAsset?.telegram ||
+                  baseAsset?.chat ||
+                  baseAsset?.social?.telegram ||
+                  baseAsset?.social?.chat,
                 icon: (
                   <FaTelegramPlane className="text-telegram dark:text-telegram" />
                 ),
               },
               {
                 title: "Twitter",
-                link: baseAsset?.twitter,
+                link: baseAsset?.twitter || baseAsset?.social?.twitter,
                 icon: <FaTwitter className="text-twitter dark:text-twitter" />,
               },
               {
                 title: "Discord",
-                link: baseAsset?.discord,
+                link: baseAsset?.discord || baseAsset?.social?.discord,
                 icon: <FaDiscord className="text-discord dark:text-discord" />,
               },
             ]
@@ -67,15 +78,18 @@ export const PopupSocialMobile = () => {
     {
       title: "Audit & KYC",
       content:
-        baseAsset?.audit || baseAsset?.kyc
+        baseAsset?.audit ||
+        baseAsset?.kyc ||
+        baseAsset?.social?.audit ||
+        baseAsset?.social?.kyc
           ? [
               {
                 title: "Audit",
-                link: baseAsset?.audit,
+                link: baseAsset?.audit || baseAsset?.social?.audit,
               },
               {
                 title: "KYC",
-                link: baseAsset?.kyc,
+                link: baseAsset?.kyc || baseAsset?.social?.kyc,
               },
             ]
           : null,
