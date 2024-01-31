@@ -33,8 +33,6 @@ export const PairsSelector = () => {
     if (baseAsset) fetchPairs();
   }, [baseAsset]);
 
-  console.log("assetPairs", baseAsset);
-
   return (
     <Popover
       visibleContent={
