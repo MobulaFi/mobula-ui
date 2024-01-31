@@ -158,8 +158,9 @@ export const TokenTrades = () => {
   }, []);
 
   const fetchPairTrade = () => {
+    console.log("baseAsset", baseAsset);
     fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?address=${
         baseAsset?.[baseAsset?.baseToken]?.address
       }&blockchain=${baseAsset?.blockchain}&amount=20`,
       {
@@ -188,8 +189,6 @@ export const TokenTrades = () => {
     if (isAssetPage) return;
     fetchPairTrade();
   }, [baseAsset]);
-
-  console.log("pairTra", pairTrades);
 
   return (
     <div

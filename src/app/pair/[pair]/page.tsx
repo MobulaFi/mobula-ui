@@ -11,7 +11,6 @@ export const dynamicParams = true;
 async function fetchAssetData({ params }) {
   const { pair } = params;
   try {
-    if (!pair) return;
     const fetchPair = fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`,
       {
@@ -25,6 +24,10 @@ async function fetchAssetData({ params }) {
     const [activePair] = await Promise.all([fetchPair]).then((r) => {
       return Promise.all(r.map((res) => res.json()));
     });
+    console.log(
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true&blockchain=`
+    );
+    console.log("fetchPair", pair, activePair);
 
     const pairData = activePair?.data;
     const fetchPairTrade = fetch(
@@ -75,6 +78,8 @@ type Props = {
 async function AssetPage({ params }) {
   const { pair } = params;
   const { data, trade, social }: any = await fetchAssetData({ params });
+
+  console.log("pair", pair);
 
   const newPair = {
     ...data,
