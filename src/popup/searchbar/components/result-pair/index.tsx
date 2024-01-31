@@ -40,7 +40,6 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
             } py-[7px] px-[20px] md:px-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover `}
             onMouseOver={() => setActive(index + firstIndex)}
             onClick={() => clickEvent(pair)}
-            active={active === index + firstIndex}
           >
             <div className="flex items-center">
               {(isBaseToken(result, pair) && pair?.token0?.logo) ||
