@@ -29,7 +29,7 @@ interface BaseAssetProviderProps {
   tradeCookie: any;
   isAsset?: boolean;
   tradePairs?: Trade[];
-  activeSection: string;
+  activeSection?: string;
 }
 
 export const BaseAssetProvider = ({

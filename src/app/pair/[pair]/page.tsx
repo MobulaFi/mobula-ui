@@ -1,5 +1,5 @@
-import { BaseAssetProvider } from "features/asset/context-manager";
 import React from "react";
+import { BaseAssetProvider } from "../../../features/asset/context-manager";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
 import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
 import { Assets } from "../../../features/asset/index";
