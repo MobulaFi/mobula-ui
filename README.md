@@ -14,7 +14,7 @@ Check it out live: https://mobula.io
 
 
 ## Getting Started with Development
-Follow these instructions to set up your environment and start contributing to Mobula.
+You can follow these instructions to set up your environment and start contributing to Mobula.
 
 ## Installing Dependencies
 To install the necessary dependencies, run the following command in your terminal:
