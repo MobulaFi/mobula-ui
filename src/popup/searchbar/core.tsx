@@ -9,7 +9,6 @@ import { normalize } from "viem/ens";
 import { readContract } from "wagmi/actions";
 import { Spinner } from "../../components/spinner";
 import { createSupabaseDOClient } from "../../lib/supabase";
-import { GET } from "../../utils/fetch";
 import { addressSlicer, getUrlFromName } from "../../utils/formaters";
 import { ForumResults } from "./components/result-article";
 import { AssetsResults } from "./components/result-asset";
@@ -84,8 +83,7 @@ export const CoreSearchBar = ({
     (pairs?.length || 0) !== 0 ||
     ens?.address ||
     token?.includes(".eth") ||
-    userWithAddress?.address !== undefined ||
-    pairs?.token0;
+    userWithAddress?.address !== undefined;
 
   const fetchAssets = (input: string) => {
     fetch(
@@ -99,10 +97,11 @@ export const CoreSearchBar = ({
     )
       .then((r) => r.json())
       .then((r) => {
-        console.log("r.data", r?.error);
         if (r.data) {
-          // setResults(r.data.filter((_, i) => i < maxAssetsResult));
-          console.log("r.data is here", r.data);
+          setResults(
+            r.data.filter((entry, i) => i < maxAssetsResult && entry.id)
+          );
+          setPairs(r.data.filter((entry, i) => !entry.id));
         }
       });
   };
@@ -179,12 +178,7 @@ export const CoreSearchBar = ({
   let fullResults: React.ReactNode;
 
   const getContentToRender = () => {
-    if (
-      isUnknownUser &&
-      isSmartContract === null &&
-      !pairs?.length &&
-      !pairs?.token0
-    ) {
+    if (isUnknownUser && isSmartContract === null && !pairs?.length) {
       fullResults = (
         <UnknownResult
           setTrigger={setTrigger}
@@ -206,9 +200,8 @@ export const CoreSearchBar = ({
             callback={callback}
           />
           <PairResult
-            firstIndex={pairs?.length || 0}
+            firstIndex={results?.filter((entry) => !entry.id)?.length || 0}
             setTrigger={setTrigger}
-            callback={callback}
           />
           {token?.includes(".eth") && !ens?.address ? (
             <div className="flex flex-col">
@@ -288,53 +281,8 @@ export const CoreSearchBar = ({
   };
 
   useEffect(() => {
-    handleMixpanel(timerRef, token, results);
+    handleMixpanel(timerRef as any, token, results);
   }, [token, results]);
-
-  const fetchPairs = (e) => {
-    let failed = 0;
-
-    const handleError = () => {
-      failed++;
-      if (failed === 2) setPairs([]);
-    };
-
-    GET("/api/1/market/pairs", { asset: e.target.value })
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          const newPairs = r.data.pairs;
-          const pairsFiltered = newPairs.filter((_, i) => i < 3);
-          setPairs(pairsFiltered);
-          return;
-        }
-        if (r.error) {
-          handleError();
-          return;
-        }
-      });
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${e.target.value}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY || "",
-        },
-      }
-    )
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          setPairs([r.data]);
-          return;
-        }
-        if (r.error) {
-          handleError();
-          return;
-        }
-      });
-  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -353,7 +301,7 @@ export const CoreSearchBar = ({
       } else {
         setTrigger(false);
         router.push(completeResults[active]);
-        inputRef.current.value = "";
+        if (inputRef.current) inputRef.current.value = "";
       }
     } else if (
       e.key === "ArrowDown" &&
@@ -383,7 +331,6 @@ export const CoreSearchBar = ({
             setToken(e.target.value.split("/").join(""));
             getPagesFromInputValue(setPages, e.target.value);
             getEns(e.target.value);
-            fetchPairs(e);
             getDataFromInputValue(
               e.target.value,
               supabase,

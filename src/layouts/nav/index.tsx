@@ -1,17 +1,17 @@
 "use client";
-import { MediumFont, SmallFont } from "components/fonts";
-import { useGeneralContext } from "contexts/general";
-import { PopupUpdateContext } from "contexts/popup";
-import { pushData } from "lib/mixpanel";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
 import { RiGlobalLine } from "react-icons/ri";
 import { useAccount, useNetwork } from "wagmi";
+import { MediumFont, SmallFont } from "../../components/fonts";
+import { useGeneralContext } from "../../contexts/general";
+import { PopupUpdateContext } from "../../contexts/popup";
+import { pushData } from "../../lib/mixpanel";
 import { navigation, navigationGlobal } from "./constants";
 
 export const Nav = () => {
@@ -32,8 +32,10 @@ export const Nav = () => {
 
   return (
     <div
-      className={`flex lg:hidden flex-col h-screen max-h-screen w-full tranition-all duration-100 ease-linear overflow-hidden ${
-        hideNav === "hidden" ? "max-w-[68px]" : "max-w-[300px]"
+      className={`flex lg:hidden flex-col h-screen max-h-screen transition-all duration-100 ease-linear overflow-hidden ${
+        hideNav === "hidden"
+          ? "w-[68px] min-w-[68px] max-w-[68px]"
+          : "w-[300px] min-w-[300px] max-w-[300px]"
       } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer shadow-xl min-w-[68px]`}
       onMouseEnter={() => {
         if (hideNav === "locked") return;
@@ -153,7 +155,7 @@ export const Nav = () => {
         <div className="flex items-center mb-4 pl-5" onClick={handleShowChains}>
           <img
             src={
-              blockchainsContent[chain?.name]?.logo ||
+              blockchainsContent[chain?.name as string]?.logo ||
               blockchainsContent["Ethereum"]?.logo
             }
             className="h-[24px] w-[24px] min-w-[24px] rounded-full"
@@ -185,7 +187,7 @@ export const Nav = () => {
               <div className="w-fit ml-2.5">
                 <SmallFont
                   extraCss={`${
-                    chain?.id === blockchain[1]?.chainId
+                    (chain?.id as never) === blockchain[1]?.chainId
                       ? "text-blue dark:text-blue"
                       : ""
                   }font-poppins font-medium`}

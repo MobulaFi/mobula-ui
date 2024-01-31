@@ -58,12 +58,7 @@ export const AssetsResults = ({
   return (
     <>
       {results.length > 0 && (
-        <Title extraCss="mt-[5px]">
-          {results?.every((entry) => !entry.id)
-            ? "Non listed Assets"
-            : "Assets"}{" "}
-          ({results.length})
-        </Title>
+        <Title extraCss="mt-[5px]">Assets ({results.length})</Title>
       )}
       {results.map((result, index) => (
         <Lines
@@ -83,17 +78,6 @@ export const AssetsResults = ({
           ) : (
             <Percentage isPercentage value={result?.price as number} />
           )}
-          {/* {result?.id && !result?.isTemplate ? (
-            <Percentage
-              isPercentage
-              value={getFormattedAmount(result?.price) as number}
-            />
-          ) : null}
-          {!result?.isTemplate && !result?.id ? (
-            <p className="text-light-font-80 dark:text-dark-font-80 text-sm">
-              List it now
-            </p>
-          ) : null} */}
         </Lines>
       ))}
     </>
