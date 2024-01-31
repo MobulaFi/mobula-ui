@@ -29,7 +29,7 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
   return (
     <div
       className={cn(
-        `${FlexBorderBox} flex p-5 lg:p-[15px] rounded-2xl lg:rounded-0`,
+        `${FlexBorderBox} flex p-5 lg:p-[15px] rounded-2xl lg:rounded-0 lg:mt-2.5`,
         extraCss
       )}
     >
