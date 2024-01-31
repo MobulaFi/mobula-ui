@@ -175,6 +175,10 @@ export const CoreSearchBar = ({
     );
   }, [results, users, pages, articles, setActive, active]);
 
+  useEffect(() => {
+    if (token === "") setPairs([]);
+  }, [token]);
+
   let fullResults: React.ReactNode;
 
   const getContentToRender = () => {
