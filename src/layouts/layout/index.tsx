@@ -43,11 +43,10 @@ const Layout = async ({ children }: LayoutProps) => {
         <Nav />
         <div className="w-full overflow-scroll h-screen">
           <Header addressCookie={addressCookie || ""} />
-          <div className="w-full min-h-[70vh]">{children}</div>{" "}
+          <div className="w-full min-h-[70vh]">{children}</div> <Footer />
         </div>
       </div>
       <MenuFixedMobile />
-      <Footer />
     </div>
   );
 };

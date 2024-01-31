@@ -50,7 +50,7 @@ export const Nav = () => {
       }}
     >
       <div className="flex items-center justify-between w-full mt-[4px] ">
-        <div className="pl-[18px] pt-2.5 items-center flex">
+        <div className="pl-[18px] mt-[-15px] items-center flex">
           <img
             className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
             src={

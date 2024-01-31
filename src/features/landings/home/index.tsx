@@ -84,9 +84,9 @@ export const HomeLanding = () => {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-y-scroll">
       <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center h-screen md:h-screenMain md:pb-[50px] md:py-[100px]"
+        className="w-full flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center h-screen md:h-screenMain md:pb-[50px] md:py-[100px]"
         style={{
           backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
         }}
