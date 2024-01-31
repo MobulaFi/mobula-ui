@@ -194,14 +194,14 @@ export const CoreSearchBar = ({
             setTrigger={setTrigger}
             callback={callback}
           />
-          <WalletResult
+          <PairResult
             firstIndex={results?.length || 0}
             setTrigger={setTrigger}
-            callback={callback}
           />
-          <PairResult
-            firstIndex={results?.filter((entry) => !entry.id)?.length || 0}
+          <WalletResult
+            firstIndex={results?.length + pairs?.length || 0}
             setTrigger={setTrigger}
+            callback={callback}
           />
           {token?.includes(".eth") && !ens?.address ? (
             <div className="flex flex-col">
@@ -223,7 +223,9 @@ export const CoreSearchBar = ({
           {showPagesAndArticles ? (
             <>
               <PageResults
-                firstIndex={(pages?.length || 0) + (results?.length || 0)}
+                firstIndex={
+                  (pages?.length || 0) + (results?.length + pairs?.length || 0)
+                }
                 setTrigger={setTrigger}
               />
               <ForumResults
