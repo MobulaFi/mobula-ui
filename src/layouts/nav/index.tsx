@@ -49,8 +49,8 @@ export const Nav = () => {
         setShowGlobal(false);
       }}
     >
-      <div className="flex items-center justify-between w-full mt-[4px] ">
-        <div className="pl-[18px] mt-[-15px] items-center flex">
+      <div className="flex items-center justify-between w-full mt-0.5">
+        <div className="pl-[18px] items-center flex ">
           <img
             className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
             src={
@@ -69,7 +69,7 @@ export const Nav = () => {
           </h2>
         </div>
         <button
-          className="pr-[18px] pt-5 pb-2.5 pl-2 items-center flex mt-1"
+          className="pr-[18px] pl-2 items-center flex "
           onClick={() => {
             if (hideNav === "locked") setHideNav("hidden");
             else setHideNav("locked");
@@ -82,7 +82,7 @@ export const Nav = () => {
           />
         </button>
       </div>
-      <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap">
+      <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mt-4">
         {navigation.map((page, i) => (
           <Link
             href={page.name === "Portfolio" && isDisconnected ? `/` : page.url}
