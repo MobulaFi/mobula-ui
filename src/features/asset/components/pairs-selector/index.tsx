@@ -7,10 +7,7 @@ import { Popover } from "../../../../components/popover";
 import { TagPercentage } from "../../../../components/tag-percentage";
 import { famousContractsLabelFromName } from "../../../../layouts/swap/utils";
 import { GET } from "../../../../utils/fetch";
-import {
-  getFormattedAmount,
-  getTokenPercentage,
-} from "../../../../utils/formaters";
+import { getFormattedAmount } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 
 export const PairsSelector = () => {
@@ -32,7 +29,7 @@ export const PairsSelector = () => {
   };
 
   useEffect(() => {
-    fetchPairs();
+    if (baseAsset) fetchPairs();
   }, [baseAsset]);
 
   return (
@@ -43,7 +40,7 @@ export const PairsSelector = () => {
           rounded-lg transition-all duration-200 ease-linear w-full"
         >
           <div className="flex items-center">
-            <div className="relative w-fit h-fit mr-5 md:mr-3.5">
+            <div className="relative w-fit h-fit mr-4 md:mr-3.5">
               <img
                 className="w-[40px] h-[40px] min-w-[40px] md:w-[30px] md:h-[30px] md:min-w-[30px] rounded-full"
                 src={baseAsset?.[baseAsset?.baseToken]?.logo}
@@ -68,10 +65,10 @@ export const PairsSelector = () => {
               </LargeFont>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center ml-10">
             <div className="flex items-center">
               <LargeFont extraCss="font-normal mr-2.5 text-2xl md:text-lg">
-                ${getTokenPercentage(baseAsset?.[baseAsset?.baseToken]?.price)}
+                ${getFormattedAmount(baseAsset?.[baseAsset?.baseToken]?.price)}
               </LargeFont>
               <TagPercentage
                 percentage={baseAsset?.price_change_24h}
