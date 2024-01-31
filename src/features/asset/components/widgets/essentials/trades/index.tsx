@@ -189,6 +189,8 @@ export const TokenTrades = () => {
     fetchPairTrade();
   }, [baseAsset]);
 
+  console.log("pairTra", pairTrades);
+
   return (
     <div
       className={`flex flex-col ${

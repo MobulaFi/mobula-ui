@@ -422,9 +422,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                       />
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>
-                        {pair?.isAmount
-                          ? `$${getFormattedAmount(pair?.value)}`
-                          : getFormattedAmount(pair?.value)}
+                        {pair?.isAmount ? (
+                          <span>${getFormattedAmount(pair?.value)}</span>
+                        ) : (
+                          <span>{getFormattedAmount(pair?.value)}</span>
+                        )}
                       </SmallFont>
                     )}
                   </div>
