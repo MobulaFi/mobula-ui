@@ -165,7 +165,7 @@ export const Essentials = () => {
           ) : null}
         </div>
       </div>
-      <SimilarAsset />
+      {isAssetPage ? <SimilarAsset /> : null}
     </>
   );
 };
