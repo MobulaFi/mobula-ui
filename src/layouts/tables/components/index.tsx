@@ -224,7 +224,7 @@ export function AssetsTable({
                       ))}
                       <TableHeaderEntry
                         extraCss="w-[89px] table-cell md:hidden static"
-                        title="Interact"
+                        title="Swap"
                       />
                     </>
                   ) : null}
@@ -258,7 +258,7 @@ export function AssetsTable({
 
                           <TableHeaderEntry
                             extraCss="w-[89px] table-cell md:hidden static"
-                            title="Interact"
+                            title="Swap"
                           />
                         </>
                       ) : (
@@ -315,7 +315,7 @@ export function AssetsTable({
                       />
                       <TableHeaderEntry
                         extraCss="w-[89px] table-cell md:hidden static"
-                        title="Interact"
+                        title="Swap"
                       />
                     </>
                   ) : null}

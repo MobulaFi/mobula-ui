@@ -36,7 +36,7 @@ export const TableHeaderEntry = ({
         return false;
       case "Chart":
         return false;
-      case "Interact":
+      case "Swap":
         return false;
       case "24h Chart":
         return false;

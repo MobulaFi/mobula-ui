@@ -1,4 +1,4 @@
-import {ContentType} from "./models";
+import { ContentType } from "./models";
 
 export const getBuilderContents = () => {
   const contents: ContentType[] = [
@@ -39,7 +39,7 @@ export const getContributeContents = () => {
       title: "MOBULA DISCORD",
       subtitle: "Get involved. Share and learn.",
       description:
-        "Interact with Mobula community: thousands of crypto enthusiasts and builders sharing knowledge and insights about Mobula and the overall crypto market.",
+        "Swap with Mobula community: thousands of crypto enthusiasts and builders sharing knowledge and insights about Mobula and the overall crypto market.",
       url: "https://discord.com/invite/2a8hqNzkzN",
       button_name: "Join the Mobula Discord",
       image: "/landings/contribute/discord.png",

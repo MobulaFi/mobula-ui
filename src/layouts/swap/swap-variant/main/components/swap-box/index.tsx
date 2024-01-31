@@ -105,7 +105,7 @@ export const SwapBox = ({ position, isDex }: SwapBoxProps) => {
               <button
                 className="text-xs ml-2.5 text-light-font-100 dark:text-dark-font-100 font-medium"
                 onClick={() => {
-                  pushData("Trade Interact", {
+                  pushData("Trade Swap", {
                     type: "Max Balance",
                   });
                   setAmount!(

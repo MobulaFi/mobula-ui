@@ -49,7 +49,7 @@ export const SkeletonTable = () => {
                 extraCss="w-[89px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />{" "}
               <TableHeaderEntry
-                title="Interact"
+                title="Swap"
                 canOrder
                 extraCss="w-[89px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />

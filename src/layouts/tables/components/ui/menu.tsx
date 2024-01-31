@@ -128,7 +128,7 @@ export const MenuCommun = () => {
         className={lineStyle}
         onClick={() => {
           setShowAlert(showMenuTableMobileForToken?.name);
-          pushData("Interact", {
+          pushData("Swap", {
             name: "Alert Asset",
             from_page: pathname,
             asset: showMenuTableMobileForToken?.name,
