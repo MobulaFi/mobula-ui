@@ -81,7 +81,7 @@ export const ChainsChanger = ({
     showXBlockchains[1] <= Object.values(blockchainsContent).length;
 
   return (
-    <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
+    <div className={`hidden`}>
       <div className="flex relative w-fit">
         <Popover
           position={isMobileVersion ? "end" : "start"}

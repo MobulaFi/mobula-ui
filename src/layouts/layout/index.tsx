@@ -38,11 +38,10 @@ const Layout = async ({ children }: LayoutProps) => {
         crawl={true}
       />
       <DexDrawer />
-
+      <HeaderBanner assets={assets || []} />
       <div className="flex">
         <Nav />
         <div className="w-full">
-          <HeaderBanner assets={assets || []} />
           <Header addressCookie={addressCookie || ""} />
           <div className="w-full min-h-[70vh]">{children}</div>{" "}
         </div>

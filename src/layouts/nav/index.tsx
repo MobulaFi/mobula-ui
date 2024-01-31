@@ -28,6 +28,8 @@ export const Nav = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
 
+  console.log("hidenav", hideNav);
+
   return (
     <div
       className={`flex lg:hidden flex-col h-screen max-h-screen w-full tranition-all duration-100 ease-linear overflow-hidden ${
