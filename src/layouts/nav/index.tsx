@@ -2,7 +2,7 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
@@ -30,8 +30,21 @@ export const Nav = () => {
 
   console.log("hidenav", hideNav);
 
+  useEffect(() => {
+    const blockScrollElement = document.getElementById("container");
+
+    blockScrollElement.addEventListener("mouseover", function () {
+      document.body.style.overflow = "hidden";
+    });
+
+    blockScrollElement.addEventListener("mouseout", function () {
+      document.body.style.overflow = "";
+    });
+  }, []);
+
   return (
     <div
+      id="container"
       className={`flex lg:hidden flex-col h-screen max-h-screen transition-all duration-100 ease-linear overflow-hidden ${
         hideNav === "hidden"
           ? "w-[68px] min-w-[68px] max-w-[68px]"

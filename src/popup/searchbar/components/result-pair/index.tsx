@@ -49,8 +49,8 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
                 {pair?.token0?.symbol} / {pair?.token1?.symbol}
               </p>
             </div>
-            <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
-              <span className="text-light-font-60 dark:text-dark-font-60">
+            <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100">
+              <span className="text-light-font-40 dark:text-dark-font-40 mr-1">
                 Liquidity:
               </span>{" "}
               {getFormattedAmount(pair?.liquidity || 342_113_234)}
