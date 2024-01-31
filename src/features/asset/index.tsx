@@ -405,11 +405,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                         ? "md:border-t md:border-light-border-secondary md:dark:border-dark-border-secondary"
                         : ""
                     } ${
-                      i !== 0
+                      i !== 0 && i !== 4
                         ? "border-l border-light-border-secondary dark:border-dark-border-secondary "
                         : ""
                     }
-                    ${i === 4 ? "md:border-l-0" : ""}
+                    ${i === 3 ? "border-r md:border-r-0" : ""}
                     `}
                   >
                     <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
@@ -432,7 +432,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               </div>
             </div>
           )}
-          <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
+          <div
+            className={`hidden ${
+              isAssetPage ? "md:flex" : ""
+            } mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full`}
+          />
           {isAssetPage ? (
             <>
               <div
