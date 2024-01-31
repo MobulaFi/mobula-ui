@@ -1,5 +1,4 @@
 "use client";
-import Lenis from "@studio-freight/lenis";
 import React, { useEffect, useRef, useState } from "react";
 import { NextChakraLink } from "../../../components/link";
 import { CuratedDataset } from "./components/curated-dataset";
@@ -44,14 +43,14 @@ export const HomeLanding = () => {
   // }, []);
 
   // Smooth scroll animation
-  const lenis = new Lenis();
+  // const lenis = new Lenis();
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
+  // function raf(time) {
+  //   lenis.raf(time);
+  //   requestAnimationFrame(raf);
+  // }
 
-  requestAnimationFrame(raf);
+  // requestAnimationFrame(raf);
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
