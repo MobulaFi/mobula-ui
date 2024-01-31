@@ -1,7 +1,6 @@
 import { AiOutlineLineChart, AiOutlineSwap } from "react-icons/ai";
-import { BiCandles, BiCodeAlt } from "react-icons/bi";
+import { BiCandles } from "react-icons/bi";
 import { IoHomeOutline } from "react-icons/io5";
-import { MdAddChart } from "react-icons/md";
 import { PiPlug } from "react-icons/pi";
 import { SlStar } from "react-icons/sl";
 import { TfiBarChart } from "react-icons/tfi";
@@ -56,14 +55,7 @@ export const navigation = [
   //   ),
   //   description: "Ranked list of leading launchpads.",
   // },
-  {
-    name: "Add crypto-asset",
-    url: "/list",
-    icon: (
-      <MdAddChart className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
-    ),
-    description: "List your coin on Mobula.",
-  },
+
   // {
   //   name: "Contribute",
   //   url: "/contribute",
@@ -72,14 +64,6 @@ export const navigation = [
   //   ),
   //   description: "Contribute to Mobula DAO.",
   // },
-  {
-    name: "Mobula API",
-    url: "https://developer.mobula.fi",
-    icon: (
-      <BiCodeAlt className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
-    ),
-    description: "Institutional-grade crypto & web3 data API.",
-  },
 
   // {
   //   name: "Help Desk",

@@ -39,6 +39,7 @@ import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
+import { ToggleColorMode } from "../../../toggle-mode";
 import { AccountHeaderContext } from "../../context-manager";
 import { useUserBalance } from "../../context-manager/balance";
 import { useBalance } from "../../hooks/useBalance";
@@ -417,6 +418,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             }
           />
         </div>
+        <ToggleColorMode extraCss="lg:hidden ml-2.5" />
         <Connect />
         <SwitchNetworkPopup />
         <button
