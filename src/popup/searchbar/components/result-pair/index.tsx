@@ -16,8 +16,8 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
       soloPair: result.token0.address,
       pair: result.address,
     });
-    if (result?.token0) router.push(`/pair/${result.token0.address}`);
-    else router.push(`/pair/${result.address}`);
+    console.log("pairrrrrrrrr", result);
+    router.push(`/pair/${result.address}`);
   };
 
   const isBaseToken = (result, pair) => result?.symbol === pair?.token0?.symbol;
@@ -88,7 +88,7 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
               <span className="text-light-font-40 dark:text-dark-font-40 mr-1">
                 Liquidity:
               </span>{" "}
-              ${getFormattedAmount(pair?.liquidity || 342_113_234)}
+              ${getFormattedAmount(pair?.liquidity)}
             </p>
           </div>
         );

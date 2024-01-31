@@ -2,6 +2,7 @@ import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
+import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
 import { TagPercentage } from "../../../../components/tag-percentage";
@@ -32,6 +33,8 @@ export const PairsSelector = () => {
     if (baseAsset) fetchPairs();
   }, [baseAsset]);
 
+  console.log("assetPairs", baseAsset);
+
   return (
     <Popover
       visibleContent={
@@ -41,11 +44,18 @@ export const PairsSelector = () => {
         >
           <div className="flex items-center">
             <div className="relative w-fit h-fit mr-4 md:mr-3.5">
-              <img
-                className="w-[40px] h-[40px] min-w-[40px] md:w-[30px] md:h-[30px] md:min-w-[30px] rounded-full"
-                src={baseAsset?.[baseAsset?.baseToken]?.logo}
-                alt={`${baseAsset?.name} logo`}
-              />
+              {baseAsset?.[baseAsset?.baseToken]?.logo ? (
+                <img
+                  className="w-[40px] h-[40px] min-w-[40px] md:w-[30px] md:h-[30px] md:min-w-[30px] rounded-full"
+                  src={baseAsset?.[baseAsset?.baseToken]?.logo}
+                  alt={`${baseAsset?.name} logo`}
+                />
+              ) : (
+                <AddressAvatar
+                  address={baseAsset?.address}
+                  extraCss="w-[40px] h-[40px] min-w-[40px] md:w-[30px] md:h-[30px] md:min-w-[30px] rounded-full"
+                />
+              )}
               <img
                 className="w-[20px] h-[20px] min-w-[20px] md:w-[15px] md:h-[15px] md:min-w-[15px] absolute -bottom-0.5 -right-1 rounded-full border
                  border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
@@ -58,10 +68,9 @@ export const PairsSelector = () => {
                 <span className="font-medium">
                   {baseAsset?.[baseAsset?.baseToken]?.symbol}
                 </span>{" "}
-                <span className="text-light-font-60 dark:text-dark-font-60">
-                  /
+                <span className="text-light-font-60 dark:text-dark-font-60 font-normal">
+                  / {baseAsset?.[baseAsset?.quoteToken]?.symbol}
                 </span>{" "}
-                {baseAsset?.[baseAsset?.quoteToken]?.symbol}
               </LargeFont>
             </div>
           </div>
