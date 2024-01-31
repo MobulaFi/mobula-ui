@@ -44,6 +44,8 @@ export const Header = ({ addressCookie }) => {
     GET("/connection", {});
   }, [pathname]);
 
+  console.log("pathname", pathname);
+
   const [triggerSearch, setTriggerSearch] = useState(false);
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
   return (
@@ -71,7 +73,11 @@ export const Header = ({ addressCookie }) => {
           </TextLandingSmall>
         </Flex> */}
 
-      <div className="md:px-2.5 z-10 max-w-[1300px] w-[95%] lg:w-full mx-auto bg-light-bg-primary dark:bg-dark-bg-primary padding-screen">
+      <div
+        className={`md:px-2.5 z-10 ${
+          pathname === "/home" ? "max-w-[1300px]" : "max-w-[1200px]"
+        } w-[95%] lg:w-full mx-auto bg-light-bg-primary dark:bg-dark-bg-primary padding-screen`}
+      >
         <div className="flex justify-between items-center py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px] ">
           {/* <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto"> */}
           {/* <NextChakraLink
