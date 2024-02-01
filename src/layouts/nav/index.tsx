@@ -1,5 +1,4 @@
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -155,7 +154,7 @@ export const Nav = () => {
           </Link>
         ))}
       </div>
-      <div
+      {/* <div
         className={`flex flex-col h-full mt-5 ${
           showChains ? "max-h-[340px]" : "max-h-[40px]"
         } overflow-hidden transition-all duration-100 ease-linear`}
@@ -206,7 +205,7 @@ export const Nav = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       <div
         className="flex flex-col z-[2] w-[300px] mt-auto p-5 mb-2.5 border-t overflow-hidden whitespace-nowrap
        border-light-border-secondary dark:border-dark-border-secondary"
