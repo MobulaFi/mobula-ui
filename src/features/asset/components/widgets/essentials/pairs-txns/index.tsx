@@ -18,18 +18,19 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
   const timestamps = ["24h", "12h", "4h", "1h", "5min"];
 
   const getPercentage = (buys: string, sells: string) => {
-    const buy = baseAsset?.[buys];
-    const sell = baseAsset?.[sells];
+    const buy = baseAsset?.[buys] ?? 0;
+    const sell = baseAsset?.[sells] ?? 0;
     const total = buy + sell;
-    const buyPercentage = (buy / total) * 100 || 50;
-    const sellPercentage = (sell / total) * 100 || 50;
+    if (total === 0) return { buyPercentage: 50, sellPercentage: 50 };
+    const buyPercentage = (buy / total) * 100;
+    const sellPercentage = (sell / total) * 100;
     return { buyPercentage, sellPercentage };
   };
 
   return (
     <div
       className={cn(
-        `${FlexBorderBox} flex p-5 lg:p-[15px] rounded-2xl lg:rounded-0`,
+        `${FlexBorderBox} flex p-5 lg:p-[15px] rounded-2xl lg:rounded-0 lg:mt-2.5`,
         extraCss
       )}
     >

@@ -1,6 +1,6 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
@@ -157,158 +157,135 @@ export const TokenTrades = () => {
       });
   }, []);
 
-  const fetchPairTrade = () => {
-    fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
-        baseAsset?.[baseAsset?.baseToken]?.address
-      }&blockchain=${baseAsset?.blockchain}&amount=20`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((r) => {
-        if (r.data) {
-          setPairTrades(r.data);
-          setTimeout(() => {
-            fetchPairTrade();
-          }, 3000);
-        } else {
-          setTimeout(() => {
-            fetchPairTrade();
-          }, 3000);
-        }
-      });
-  };
-
-  useEffect(() => {
-    if (isAssetPage) return;
-    fetchPairTrade();
-  }, [baseAsset]);
-
   return (
-    <div className="flex flex-col mt-2.5 w-full mx-auto">
-      <div className="flex justify-between items-center mt-2.5 lg:hidden">
-        <div
-          className={`min-h-[45px] flex items-center transition-all ${
-            isMyTrades ? "opacity-50" : ""
-          }`}
-        >
-          {/* <PopoverTrade title={activeNames.liquidity_pool}>
+    <div
+      className={`flex flex-col ${
+        isAssetPage ? "mt-2.5" : "mt-5 md:mt-2.5"
+      } w-full mx-auto`}
+    >
+      {isAssetPage ? (
+        <>
+          <div className="flex justify-between items-center mt-2.5 lg:hidden">
+            <div
+              className={`min-h-[45px] flex items-center transition-all ${
+                isMyTrades ? "opacity-50" : ""
+              }`}
+            >
+              {/* <PopoverTrade title={activeNames.liquidity_pool}>
             <TradeLiquidityPoolPopup />
           </PopoverTrade> */}
-          <PopoverTrade
-            title={activeNames.blockchain}
-            isImage={activeNames.blockchain !== "All Chains"}
-          >
-            <TradeBlockchainPopup setActiveName={setActiveNames} />
-          </PopoverTrade>
-          <PopoverTrade title={activeNames.type}>
-            <TradeTypePopup setActiveName={setActiveNames} />
-          </PopoverTrade>
-          <PopoverTrade title={activeNames.token_amount}>
-            <TradeValueAmountPopup
-              title="token_amount"
-              state={showTradeTokenAmount}
-              setActiveName={setActiveNames}
-              setStateValue={setShowTradeTokenAmount}
-              activeName={activeNames}
-            />
-          </PopoverTrade>
-          <PopoverTrade title={activeNames.value}>
-            <TradeValueAmountPopup
-              title="Value"
-              setActiveName={setActiveNames}
-              state={showTradeValue}
-              setStateValue={setShowTradeValue}
-              activeName={activeNames}
-            />
-          </PopoverTrade>
-        </div>
-        <div
-          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative
+              <PopoverTrade
+                title={activeNames.blockchain}
+                isImage={activeNames.blockchain !== "All Chains"}
+              >
+                <TradeBlockchainPopup setActiveName={setActiveNames} />
+              </PopoverTrade>
+              <PopoverTrade title={activeNames.type}>
+                <TradeTypePopup setActiveName={setActiveNames} />
+              </PopoverTrade>
+              <PopoverTrade title={activeNames.token_amount}>
+                <TradeValueAmountPopup
+                  title="token_amount"
+                  state={showTradeTokenAmount}
+                  setActiveName={setActiveNames}
+                  setStateValue={setShowTradeTokenAmount}
+                  activeName={activeNames}
+                />
+              </PopoverTrade>
+              <PopoverTrade title={activeNames.value}>
+                <TradeValueAmountPopup
+                  title="Value"
+                  setActiveName={setActiveNames}
+                  state={showTradeValue}
+                  setStateValue={setShowTradeValue}
+                  activeName={activeNames}
+                />
+              </PopoverTrade>
+            </div>
+            <div
+              className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative
          w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary mb-2 rounded-lg"
-        >
-          <div
-            className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200"
-            style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
-          />
-          <button
-            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+            >
+              <div
+                className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200"
+                style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
+              />
+              <button
+                className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
           md:text-xs transition-all duration-200 ${
             !isMyTrades
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
           } z-[2] relative`}
-            onClick={() => {
-              setIsMyTrades(false);
-            }}
-          >
-            All trades
-          </button>
-          <button
-            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+                onClick={() => {
+                  setIsMyTrades(false);
+                }}
+              >
+                All trades
+              </button>
+              <button
+                className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
             md:text-xs transition-all duration-200 ${
               isMyTrades
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } z-[2] relative`}
-            onClick={() => {
-              if (isDisconnected) {
-                setConnect(true);
-              } else setIsMyTrades(true);
-            }}
-          >
-            My Trades
-          </button>
-        </div>
-      </div>
-      <div className="items-center justify-between hidden lg:flex my-2.5">
-        <Button
-          extraCss="max-w-fit h-[32px] px-3"
-          onClick={() => setShowTradeFilters(true)}
-        >
-          <FiFilter className="mr-[7.5px]" />
-          Filters
-        </Button>
-        <div
-          className="flex h-[32px] items-center justify-center relative bg-light-bg-terciary
+                onClick={() => {
+                  if (isDisconnected) {
+                    setConnect(true);
+                  } else setIsMyTrades(true);
+                }}
+              >
+                My Trades
+              </button>
+            </div>
+          </div>
+          <div className="items-center justify-between hidden lg:flex my-2.5">
+            <Button
+              extraCss="max-w-fit h-[32px] px-3"
+              onClick={() => setShowTradeFilters(true)}
+            >
+              <FiFilter className="mr-[7.5px]" />
+              Filters
+            </Button>
+            <div
+              className="flex h-[32px] items-center justify-center relative bg-light-bg-terciary
          dark:bg-dark-bg-terciary px-2 w-[180px] rounded-md border border-light-border-primary dark:border-dark-border-primary"
-        >
-          <div
-            className="w-[50%] z-[0] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded-md absolute transition-all duration-200"
-            style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
-          />
-          <button
-            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+            >
+              <div
+                className="w-[50%] z-[0] flex bg-light-bg-hover dark:bg-dark-bg-hover h-[26px] rounded-md absolute transition-all duration-200"
+                style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
+              />
+              <button
+                className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
                md:text-xs font-medium transition-all duration-200 ${
                  !isMyTrades
                    ? "text-light-font-100 dark:text-dark-font-100"
                    : "text-light-font-40 dark:text-dark-font-40"
                }  z-[2] relative`}
-            onClick={() => {
-              setIsMyTrades(false);
-              if (!isConnected) setConnect(true);
-            }}
-          >
-            All trades
-          </button>
-          <button
-            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+                onClick={() => {
+                  setIsMyTrades(false);
+                  if (!isConnected) setConnect(true);
+                }}
+              >
+                All trades
+              </button>
+              <button
+                className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
             md:text-xs font-medium transition-all duration-200 ${
               isMyTrades
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             }  z-[2] relative`}
-            onClick={() => setIsMyTrades(true)}
-          >
-            My Trades
-          </button>
-        </div>
-      </div>
+                onClick={() => setIsMyTrades(true)}
+              >
+                My Trades
+              </button>
+            </div>
+          </div>
+        </>
+      ) : null}
+
       <div className="w-full h-full mx-auto max-h-[480px] overflow-y-scroll ">
         <table className="relative  w-full ">
           {!isMarketMetricsLoading &&

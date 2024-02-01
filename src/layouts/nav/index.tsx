@@ -1,8 +1,8 @@
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import React, { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
@@ -25,22 +25,9 @@ export const Nav = () => {
   const handleShowGlobal = () => setShowGlobal(!showGlobal);
   const handleShowChains = () => setShowChains(!showChains);
   const { setShowSwitchNetwork, setConnect } = useContext(PopupUpdateContext);
-  const { address } = useAccount();
+  const { address, isDisconnected } = useAccount();
   const { chain } = useNetwork();
-
-  console.log("hidenav", hideNav);
-
-  useEffect(() => {
-    const blockScrollElement = document.getElementById("container");
-
-    blockScrollElement.addEventListener("mouseover", function () {
-      document.body.style.overflow = "hidden";
-    });
-
-    blockScrollElement.addEventListener("mouseout", function () {
-      document.body.style.overflow = "";
-    });
-  }, []);
+  const pathname = usePathname();
 
   return (
     <div
@@ -61,8 +48,8 @@ export const Nav = () => {
         setShowGlobal(false);
       }}
     >
-      <div className="flex items-center justify-between w-full mt-[4px] ">
-        <div className="pl-[18px] pt-2.5 items-center flex">
+      <div className="flex items-center justify-between w-full mt-0.5">
+        <div className="pl-[18px] items-center flex ">
           <img
             className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
             src={
@@ -81,7 +68,7 @@ export const Nav = () => {
           </h2>
         </div>
         <button
-          className="pr-[18px] pt-5 pb-2.5 pl-2 items-center flex mt-1"
+          className="pr-[18px] pl-2 items-center flex "
           onClick={() => {
             if (hideNav === "locked") setHideNav("hidden");
             else setHideNav("locked");
@@ -94,18 +81,25 @@ export const Nav = () => {
           />
         </button>
       </div>
-      <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap">
+      <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mt-4">
         {navigation.map((page, i) => (
           <Link
-            href={page.url}
-            onClick={() => handleActiveSection(page.name)}
+            href={page.name === "Portfolio" && isDisconnected ? `/` : page.url}
+            onClick={(e) => {
+              if (page.name === "Portfolio" && isDisconnected) {
+                e.preventDefault();
+                setConnect(true);
+                return;
+              }
+              handleActiveSection(page.name);
+            }}
             onMouseEnter={() => setIsHover(page.name)}
             onMouseLeave={() => setIsHover("")}
           >
             <div className="flex items-center mb-8">
               {page.icon}
               <div className="w-fit ml-6">
-                <MediumFont extraCss="font-poppins font-medium">
+                <MediumFont extraCss="font-poppins font-normal">
                   {page.name}
                 </MediumFont>
                 <div
@@ -131,7 +125,9 @@ export const Nav = () => {
         >
           <RiGlobalLine className="text-light-font-100 dark:text-dark-font-100 text-[26px] min-w-[26px]" />
           <div className="ml-6 flex items-center justify-between whitespace-nowrap overflow-hidden ">
-            <MediumFont extraCss="font-poppins font-medium">Global</MediumFont>
+            <MediumFont extraCss="font-poppins">
+              {navigationGlobal.name}
+            </MediumFont>
             <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5 ml-1.5" />
           </div>
         </div>
@@ -145,9 +141,7 @@ export const Nav = () => {
             <div className="flex items-center mb-5 pl-7">
               {page.icon}
               <div className="w-fit ml-2.5">
-                <SmallFont extraCss="font-poppins font-medium">
-                  {page.name}
-                </SmallFont>
+                <SmallFont extraCss="font-poppins">{page.name}</SmallFont>
                 <div
                   className={`${
                     active === page.name || isHover === page.name
@@ -160,7 +154,7 @@ export const Nav = () => {
           </Link>
         ))}
       </div>
-      <div
+      {/* <div
         className={`flex flex-col h-full mt-5 ${
           showChains ? "max-h-[340px]" : "max-h-[40px]"
         } overflow-hidden transition-all duration-100 ease-linear`}
@@ -174,7 +168,7 @@ export const Nav = () => {
             className="h-[24px] w-[24px] min-w-[24px] rounded-full"
           />
           <div className="ml-6 flex items-center justify-between whitespace-nowrap">
-            <MediumFont extraCss="font-poppins font-medium">
+            <MediumFont extraCss="font-poppins">
               Chains ({Object.keys(blockchainsContent)?.length})
             </MediumFont>
             <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5 ml-1.5" />
@@ -203,7 +197,7 @@ export const Nav = () => {
                     (chain?.id as never) === blockchain[1]?.chainId
                       ? "text-blue dark:text-blue"
                       : ""
-                  }font-poppins font-medium`}
+                  }font-poppins`}
                 >
                   {blockchain[0]}
                 </SmallFont>
@@ -211,7 +205,7 @@ export const Nav = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       <div
         className="flex flex-col z-[2] w-[300px] mt-auto p-5 mb-2.5 border-t overflow-hidden whitespace-nowrap
        border-light-border-secondary dark:border-dark-border-secondary"
@@ -224,9 +218,7 @@ export const Nav = () => {
           <div className="flex items-center mb-8">
             <FaGithub className="text-2xl text-light-font-100 dark:text-dark-font-100" />
             <div className="w-fit ml-6">
-              <MediumFont extraCss="font-poppins font-medium">
-                Github
-              </MediumFont>
+              <MediumFont extraCss="font-poppins">Github</MediumFont>
             </div>
           </div>
         </Link>
@@ -239,9 +231,7 @@ export const Nav = () => {
           <div className="flex items-center mb-8">
             <MdLibraryAdd className="text-2xl text-light-font-100 dark:text-dark-font-100" />
             <div className="w-fit ml-6">
-              <MediumFont extraCss="font-poppins font-medium">
-                Get listed
-              </MediumFont>
+              <MediumFont extraCss="font-poppins">Get listed</MediumFont>
             </div>
           </div>
         </Link>
@@ -256,9 +246,7 @@ export const Nav = () => {
           <div className="flex items-center mb-8">
             <FaKey className="text-2xl text-light-font-100 dark:text-dark-font-100" />
             <div className="w-fit ml-6">
-              <MediumFont extraCss="font-poppins font-medium">
-                Free API Key
-              </MediumFont>
+              <MediumFont extraCss="font-poppins">Free API Key</MediumFont>
             </div>
           </div>
         </Link>

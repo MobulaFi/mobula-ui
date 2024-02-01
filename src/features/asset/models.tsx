@@ -252,6 +252,7 @@ export interface Trade {
   unique_discriminator?: string;
   id?: number;
   amount_usd?: number;
+  token_amount_usd?: number;
 }
 
 export interface Metrics {

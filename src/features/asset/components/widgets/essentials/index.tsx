@@ -71,8 +71,8 @@ export const Essentials = () => {
           ) : (
             <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
-          <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isOffChain && isAssetPage ? null : <TokenTrades />}
+          <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isAssetPage ? (
             <>
               <Description />
@@ -165,7 +165,7 @@ export const Essentials = () => {
           ) : null}
         </div>
       </div>
-      <SimilarAsset />
+      {isAssetPage ? <SimilarAsset /> : null}
     </>
   );
 };

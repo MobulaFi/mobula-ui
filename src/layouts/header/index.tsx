@@ -10,8 +10,6 @@ import { useContext, useEffect, useState } from "react";
 // import {CommonPageProvider} from "../common/context-manager";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { SearchBarPopup } from "popup/searchbar";
-import { FiSearch } from "react-icons/fi";
 import {
   CommonPageContext,
   CommonPageProvider,
@@ -44,6 +42,8 @@ export const Header = ({ addressCookie }) => {
     GET("/connection", {});
   }, [pathname]);
 
+  console.log("pathname", pathname);
+
   const [triggerSearch, setTriggerSearch] = useState(false);
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
   return (
@@ -71,7 +71,9 @@ export const Header = ({ addressCookie }) => {
           </TextLandingSmall>
         </Flex> */}
 
-      <div className="md:px-2.5 z-10 max-w-[1300px] w-[95%] lg:w-full mx-auto bg-light-bg-primary dark:bg-dark-bg-primary padding-screen">
+      <div
+        className={`md:px-2.5 z-10 w-[95%] lg:w-full mx-auto bg-light-bg-primary dark:bg-dark-bg-primary padding-screen`}
+      >
         <div className="flex justify-between items-center py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px] ">
           {/* <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto"> */}
           {/* <NextChakraLink
@@ -105,34 +107,11 @@ export const Header = ({ addressCookie }) => {
               <Tabs />
             </div> */}
           {/* </div> */}
-          <div
-            className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded-md border
-            border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
-            dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-200 
-            max-w-[350px] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
-            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out overflow-hidden"
-            onClick={() => {
-              setTriggerSearch(true);
-              setIsMenuMobile(false);
-            }}
-          >
-            <div
-              className="flex border-r border-light-border-primary dark:border-dark-border-primary 
-              lg:border-transparent lg:dark:border-transparent items-center px-[7.5px] h-full rounded-l"
-            >
-              <FiSearch className="text-sm md:text-lg text-light-font-100 dark:text-dark-font-100" />
-            </div>
-            <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5">
-              Crypto name, wallet, ens, token address...
-            </p>
-          </div>
+
           <UserSection addressFromCookie={addressFromCookie} />
         </div>
       </div>
 
-      {triggerSearch ? (
-        <SearchBarPopup trigger={triggerSearch} setTrigger={setTriggerSearch} />
-      ) : null}
       {showNotif ? <NotificationDrawer /> : null}
       {showAddedToWatchlist ? <WatchlistDrawer /> : null}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />

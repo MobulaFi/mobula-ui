@@ -321,12 +321,14 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   return (
     <>
       <div className="flex flex-col" {...handlers}>
-        <TopNav
-          list={tabs}
-          setActive={setActiveTab}
-          active={activeTab}
-          setPreviousTab={setPreviousTab}
-        />
+        {isAssetPage ? (
+          <TopNav
+            list={tabs}
+            setActive={setActiveTab}
+            active={activeTab}
+            setPreviousTab={setPreviousTab}
+          />
+        ) : null}
         <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden maximum-width">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
@@ -385,13 +387,16 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           ) : null}{" "}
           {isAssetPage ? (
             <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
-              <TokenMainInfo />
+              <div className="max-w-[400px] w-full lg:max-w-full">
+                <TokenMainInfo />
+              </div>
+
               <TokenSocialsInfo />
             </div>
           ) : (
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between w-full flex-wrap md:mt-2.5">
-                <div className="max-w-[450px] w-full lg:min-w-[340px] md:max-w-full md:w-full mb-2.5">
+                <div className="max-w-[500px] w-fit lg:min-w-[340px] md:max-w-full md:w-full mb-2.5 ">
                   <TokenMainInfo />
                 </div>
                 <PairsSocialInfo />
@@ -405,11 +410,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                         ? "md:border-t md:border-light-border-secondary md:dark:border-dark-border-secondary"
                         : ""
                     } ${
-                      i !== 0
+                      i !== 0 && i !== 4
                         ? "border-l border-light-border-secondary dark:border-dark-border-secondary "
                         : ""
                     }
-                    ${i === 4 ? "md:border-l-0" : ""}
+                    ${i === 3 ? "border-r md:border-r-0" : ""}
                     `}
                   >
                     <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
@@ -419,12 +424,15 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                       <TagPercentage
                         percentage={getTokenPercentage(pair?.value)}
                         isUp={pair?.value > 0}
+                        inhert={pair?.value === 0}
                       />
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>
-                        {pair?.isAmount
-                          ? `$${getFormattedAmount(pair?.value)}`
-                          : getFormattedAmount(pair?.value)}
+                        {pair?.isAmount ? (
+                          <span>${getFormattedAmount(pair?.value)}</span>
+                        ) : (
+                          <span>{getFormattedAmount(pair?.value)}</span>
+                        )}
                       </SmallFont>
                     )}
                   </div>
@@ -432,7 +440,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               </div>
             </div>
           )}
-          <div className="hidden md:flex mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full" />
+          <div
+            className={`hidden ${
+              isAssetPage ? "md:flex" : ""
+            } mb-0 md:mb-0.5 h-0.5 bg-light-border-primary dark:bg-dark-border-primary w-full`}
+          />
           {isAssetPage ? (
             <>
               <div

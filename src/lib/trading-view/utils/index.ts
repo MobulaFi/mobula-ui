@@ -27,6 +27,9 @@ export const Datafeed = (
     callback({ supported_resolutions: supportedResolutions });
   },
   resolveSymbol: (symbolName: string, onResolve: Function) => {
+    const price = isPair
+      ? baseAsset?.[baseAsset?.baseToken]?.price
+      : baseAsset.price;
     const params = {
       name: symbolName,
       description: "",
@@ -35,7 +38,7 @@ export const Datafeed = (
       ticker: symbolName,
       minmov: 1,
       pricescale: Math.min(
-        10 ** String(Math.round(10000 / baseAsset.price)).length,
+        10 ** String(Math.round(10000 / price)).length,
         10000000000000000
       ),
       has_intraday: true,
@@ -55,7 +58,6 @@ export const Datafeed = (
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
       params: {
-        // blockchain: baseAsset?.blockchains?.[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
@@ -68,6 +70,7 @@ export const Datafeed = (
       apiParams.params["address"] = baseAsset?.address;
     } else {
       apiParams.params["asset"] = baseAsset.contracts[0];
+      apiParams.params["blockchain"] = baseAsset.blockchains[0];
     }
 
     const response = await GET(apiParams.endpoint, apiParams.params, false, {
@@ -116,9 +119,11 @@ export const Datafeed = (
     });
 
     socket.addEventListener("message", (event) => {
-      const { data } = JSON.parse(event.data);
+      const eventData = JSON.parse(event.data);
+      if (eventData?.blockchain && setPairTrades)
+        setPairTrades((prev) => [eventData, ...prev.slice(0, prev.length - 1)]);
+      const { data } = eventData;
       const { priceUSD: price, date: timestamp } = data;
-      console.log("YO LES DATAS", data);
 
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);

@@ -11,9 +11,8 @@ export const dynamicParams = true;
 async function fetchAssetData({ params }) {
   const { pair } = params;
   try {
-    if (!pair) return;
     const fetchPair = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${pair}&stats=true`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -28,9 +27,7 @@ async function fetchAssetData({ params }) {
 
     const pairData = activePair?.data;
     const fetchPairTrade = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?asset=${
-        activePair?.[activePair?.baseToken]?.address
-      }&blockchain=${activePair?.blockchain}&amount=20`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${pair}&blockchain=${pairData?.blockchain}&amount=100`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -38,10 +35,11 @@ async function fetchAssetData({ params }) {
         },
       }
     );
+
     const fetchSocialLink = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?asset=${
-        pairData?.[pairData?.baseToken]?.name
-      }`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?address=${
+        pairData?.[pairData?.baseToken]?.address
+      }&blockchain=${pairData?.blockchain}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +57,7 @@ async function fetchAssetData({ params }) {
 
     return {
       data: pairData,
-      trade: pairTrade,
+      trade: pairTrade?.data,
       social: pairSocial,
     };
   } catch (error) {
@@ -73,7 +71,7 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { pair } = params;
-  const { data, social }: any = await fetchAssetData({ params });
+  const { data, trade, social }: any = await fetchAssetData({ params });
 
   const newPair = {
     ...data,
@@ -81,15 +79,19 @@ async function AssetPage({ params }) {
     isPair: true,
     address: pair,
   };
-
+  const baseToken = newPair?.[newPair?.baseToken];
+  const vsToken = newPair?.[newPair?.quoteToken];
+  let title = "Pair loading - Mobula";
+  if (baseToken)
+    title = `${baseToken?.symbol} - ${baseToken?.name} / ${vsToken?.symbol} on ${newPair?.blockchain} - Mobula`;
+  let description = "Realtime price charts, trading history and info";
+  if (baseToken)
+    description = `${baseToken?.name} (${baseToken?.symbol}) realtime price charts, trading history and info`;
   return (
     <>
       <head>
-        <title>Test asset pair</title>
-        <meta
-          name="description"
-          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <meta
           property="og:image"
           content="https://mobula.fi/metaimage/Generic/others.png"
@@ -110,7 +112,7 @@ async function AssetPage({ params }) {
         hideTxCookie={"{ hideTx: false }"}
         tradeCookie={undefined}
         isAsset={false}
-        tradePairs={[]}
+        tradePairs={trade || []}
       >
         <ShowMoreProvider>
           <NavActiveProvider>
