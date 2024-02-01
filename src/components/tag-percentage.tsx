@@ -1,5 +1,5 @@
 import { cn } from "../lib/shadcn/lib/utils";
-import { getTokenPercentage } from "../utils/formaters";
+import { getFormattedAmount, getTokenPercentage } from "../utils/formaters";
 import { Skeleton } from "./skeleton";
 
 interface TagPercentageProps {
@@ -10,6 +10,8 @@ interface TagPercentageProps {
   fs?: string;
   isMultiple?: boolean;
   extraCss?: string;
+  isPercentage?: boolean;
+  inhert?: boolean;
 }
 
 export const TagPercentage = ({
@@ -20,14 +22,44 @@ export const TagPercentage = ({
   fs,
   isMultiple = false,
   extraCss = "",
+  isPercentage = true,
+  inhert = false,
 }: TagPercentageProps) => {
   const getDisplay = () => {
-    if (isMultiple) return `x${getTokenPercentage(Number(percentage))}`;
-    if (isUp) return `+${getTokenPercentage(Number(percentage))}%`;
-    return `${getTokenPercentage(Number(percentage))}%`;
+    if (isPercentage) {
+      if (isMultiple) return `x${getTokenPercentage(Number(percentage))}`;
+      if (isUp) return `+${getTokenPercentage(Number(percentage))}%`;
+      return `${getTokenPercentage(Number(percentage))}%`;
+    }
+    return getFormattedAmount(Number(percentage));
   };
 
   const finalPercentage = getDisplay();
+
+  const getColors = () => {
+    if (inhert) {
+      return {
+        bg: "bg-light-bg-hover dark:bg-dark-bg-hover",
+        border:
+          "border border-light-border-primary dark:border-dark-border-primary",
+        color: "text-light-font-100 dark:text-dark-font-100",
+      };
+    } else {
+      if (isUp)
+        return {
+          bg: "bg-darkgreen dark:bg-darkgreen",
+          border: "",
+          color: "text-green dark:text-green",
+        };
+      return {
+        bg: "bg-darkred dark:bg-darkred",
+        border: "",
+        color: "text-red dark:text-red",
+      };
+    }
+  };
+
+  const { bg, border, color } = getColors();
 
   return isLoading ? (
     <Skeleton
@@ -41,9 +73,7 @@ export const TagPercentage = ({
       className={cn(
         `flex items-center justify-center${
           h || "h-[26px] lg:h-[21.5px]"
-        } w-fit px-1.5 rounded ml-2.5 ${
-          isUp ? "text-green bg-darkgreen" : "text-red bg-darkred"
-        } ${
+        } w-fit px-1.5 rounded ml-2.5 ${bg} ${color} ${border} ${
           fs || "text-sm lg:text-[13px] md:text-xs"
         } font-medium text-center py-0.5`,
         extraCss

@@ -85,7 +85,10 @@ export const TradesTemplate = ({
               $
               {isMyTrades
                 ? getFormattedAmount(trade.amount_usd as number, 2)
-                : getFormattedAmount(trade.value_usd as number, 2)}
+                : getFormattedAmount(
+                    (trade?.value_usd || trade?.token_amount_usd) as number,
+                    2
+                  )}
             </SmallFont>
           )}
         </div>
@@ -106,7 +109,10 @@ export const TradesTemplate = ({
               $
               {isMyTrades
                 ? getFormattedAmount(trade.amount_usd as number, 2)
-                : getFormattedAmount(trade.value_usd as number, 2)}
+                : getFormattedAmount(
+                    (trade?.value_usd || trade?.token_amount_usd) as number,
+                    2
+                  )}
             </SmallFont>
           )}
         </div>

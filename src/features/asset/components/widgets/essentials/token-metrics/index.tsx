@@ -7,7 +7,10 @@ import { NextChakraLink } from "../../../../../../components/link";
 import { Tooltip } from "../../../../../../components/tooltip";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
-import { formatAmount } from "../../../../../../utils/formaters";
+import {
+  formatAmount,
+  getFormattedDate,
+} from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Metrics } from "../../../../models";
 import { FlexBorderBox } from "../../../../style";
@@ -19,7 +22,7 @@ interface TokenMetricsProps {
 
 export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const [showMore, setShowMore] = useState(false);
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const metrics: Metrics[] = [
     {
       title: "Total Volume (24h)",
@@ -72,10 +75,40 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const isLargerThan991 =
     typeof window !== "undefined" && window.innerWidth > 991;
 
+  const pairsMetrics = [
+    {
+      title: "Circ. Supply",
+      value: baseAsset?.circ_supply,
+      info: "The Circulating Supply is the total amount of tokens in circulation.",
+    },
+    {
+      title: "Liquidity",
+      value:
+        baseAsset?.token0?.approximateReserveUSD +
+        baseAsset?.token1?.approximateReserveUSD,
+      info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
+    },
+    {
+      title: "Volume",
+      value: baseAsset?.volume_24h,
+      info: "The Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
+    },
+    {
+      title: "Market Cap",
+      value: baseAsset?.market_cap,
+      info: "The Market Cap is the product of the current price and the total supply of the asset.",
+    },
+    {
+      title: "Pair created at",
+      value: getFormattedDate(new Date(baseAsset?.createdAt).getTime()),
+      info: "The date of the pair creation",
+    },
+  ];
+
   return (
     <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
       <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
-        Token Metrics
+        {isAssetPage ? "Token Metrics" : "Pair Metrics"}
         <div className="flex items-center ml-auto text-xs">
           Need data?
           <NextChakraLink
@@ -95,9 +128,11 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
         startingHeight={isLargerThan991 ? "max-h-full" : "max-h-[129px]"}
         isOpen={showMore}
       >
-        {metrics.map((entry, i) => {
+        {(isAssetPage ? metrics : pairsMetrics).map((entry, i) => {
           const isNotDollar =
-            entry.title.includes("Supply") || entry.title.includes("Rank");
+            entry.title.includes("Supply") ||
+            entry.title.includes("Rank") ||
+            entry.title === "Pair created at";
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
           return (
             <div

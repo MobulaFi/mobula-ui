@@ -1,6 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainName } from "mobula-lite/lib/model";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
@@ -14,16 +14,22 @@ import { BaseAssetContext } from "../../context-manager";
 interface ContractsProps {
   contract: string;
   blockchain: string;
+  title?: string;
 }
 
-export function Contracts({ contract, blockchain }: ContractsProps) {
+export function Contracts({ contract, blockchain, title }: ContractsProps) {
   const [hasCopied, setHasCopied] = useState(false);
   const { baseAsset } = useContext(BaseAssetContext);
   const { chain } = useNetwork();
-  const shortenedName =
-    blockchain === "BNB Smart Chain (BEP20)"
-      ? "BNB Chain"
-      : blockchain.split(" ")[0];
+
+  const getShortenedName = (name: string) => {
+    if (!title) {
+      if (name === "BNB Smart Chain (BEP20)") return "BNB Chain";
+      else return name.split(" ")[0];
+    } else return name;
+  };
+
+  const shortenedName = getShortenedName(title || blockchain);
 
   const onCopy = () => {
     navigator.clipboard.writeText(contract);
@@ -70,7 +76,7 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
     w-full px-2.5 h-[32px] hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover transition-all duration-200 overflow-visible"
     >
       <div className="flex items-center">
-        {blockchain ? (
+        {blockchain && !title ? (
           <NextImageFallback
             width={17}
             height={17}
@@ -108,20 +114,22 @@ export function Contracts({ contract, blockchain }: ContractsProps) {
             <BiCopy className="text-light-font-60 dark:text-dark-font-60" />
           )}
         </button>
-        <NextImageFallback
-          width={17}
-          height={17}
-          style={{
-            cursor: "pointer",
-            marginLeft: "7.5px",
-            marginTop: "2px",
-            minWidth: "17px",
-          }}
-          onClick={AddTokenToMetamask}
-          src="/logo/metamask.png"
-          alt="metamask logo"
-          fallbackSrc="/empty/unknown.png"
-        />
+        {!title ? (
+          <NextImageFallback
+            width={17}
+            height={17}
+            style={{
+              cursor: "pointer",
+              marginLeft: "7.5px",
+              marginTop: "2px",
+              minWidth: "17px",
+            }}
+            onClick={AddTokenToMetamask}
+            src="/logo/metamask.png"
+            alt="metamask logo"
+            fallbackSrc="/empty/unknown.png"
+          />
+        ) : null}
       </div>
     </div>
   );

@@ -70,11 +70,8 @@ export const formatAsset = (
   asset: SearchTokenProps,
   chainName: BlockchainName
 ) => {
-  console.log("I CAME HERE");
   if ("coin" in asset) return asset;
-  console.log("I CAME HERE");
   try {
-    console.log("EVERYTHING IS FGINE");
     return {
       ...asset,
       logo: asset.logo || "/empty/unknown.png",

@@ -14,6 +14,7 @@ export const SearchbarProvider = ({ children }) => {
   const [users, setUsers] = useState<Partial<User>[]>(defaultUsers || []);
   const [pages, setPages] = useState<Page[]>([]);
   const [ens, setEns] = useState({ name: "", address: "" || null });
+  const [pairs, setPairs] = useState([]);
   const [userWithAddress, setUserWithAddress] = useState<Partial<User>>({
     username: "",
     profile_pic: "",
@@ -39,6 +40,8 @@ export const SearchbarProvider = ({ children }) => {
       setUserWithAddress,
       ens,
       setEns,
+      setPairs,
+      pairs,
     }),
     [
       token,
@@ -50,6 +53,7 @@ export const SearchbarProvider = ({ children }) => {
       userWithAddress,
       pages,
       ens,
+      pairs,
     ]
   );
 

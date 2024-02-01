@@ -79,13 +79,12 @@ export const ChainsChanger = ({
 
   const showNextButton =
     showXBlockchains[1] <= Object.values(blockchainsContent).length;
-
   return (
     <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
       <div className="flex relative w-fit">
         <Popover
-          position={isMobileVersion ? "end" : "start"}
-          extraCss={`w-[420px] lg:w-[340px] p-2.5 rounded-lg z-[102]`}
+          position={isMobileVersion ? "end" : "center"}
+          extraCss={`w-[340px] p-2.5 rounded-lg z-[102]`}
           isOpen={showChainPopover}
           hiddenContent={
             <div className="flex flex-wrap">
@@ -105,7 +104,7 @@ export const ChainsChanger = ({
                   return (
                     <button
                       key={entry.name}
-                      className={`h-[40px] w-[185px] lg:w-[145px] ${
+                      className={`h-[40px] px-2.5 w-[150px] ${
                         isOdds ? "mr-2.5" : ""
                       } ${
                         isSelected
@@ -126,7 +125,7 @@ export const ChainsChanger = ({
                         );
                       }}
                     >
-                      <div className="flex items-center w-full h-full px-2.5 font-normal">
+                      <div className="flex items-center w-full h-full font-normal truncate">
                         <img
                           src={
                             blockchainsContent[entry.name || "Ethereum"]?.logo
@@ -147,9 +146,9 @@ export const ChainsChanger = ({
               })}
               {showXBlockchains[1] >= 8 ? (
                 <button
-                  className={`h-[40px] w-[185px] lg:w-[145px]
+                  className={`h-[40px] w-[150px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
-                     text-sm md:text-xs transition-all duration-200 mr-2.5 ${
+                     text-sm md:text-xs transition-all duration-200 mr-2.5 px-2.5 ${
                        showXBlockchains[1] === 8
                          ? "opacity-50 cursor-not-allowed"
                          : ""
@@ -159,14 +158,14 @@ export const ChainsChanger = ({
                   }
                   disabled={showXBlockchains[1] === 8}
                 >
-                  <div className="flex items-center w-full h-full px-2.5">
+                  <div className="flex items-center w-full h-full">
                     <AiOutlineDoubleLeft className="text-light-font-80 dark:text-dark-font-80 mr-2.5 text-lg font-normal" />
                     Previous
                   </div>
                 </button>
               ) : null}
               <button
-                className={`h-[40px] w-[185px] lg:w-[145px]
+                className={`h-[40px] w-[150px]
                      text-light-font-100 dark:text-dark-font-100 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover rounded-lg
                      text-sm md:text-xs transition-all duration-200 ${
                        showNextButton ? "" : "opacity-50 cursor-not-allowed"
@@ -192,7 +191,7 @@ export const ChainsChanger = ({
           }
           visibleContent={
             <Button
-              extraCss="mr-2.5"
+              extraCss="mr-2.5 "
               onClick={() => {
                 if (!setShowChainPopover || !setShowInfoPopover) return;
                 setShowChainPopover((prev) => !prev);

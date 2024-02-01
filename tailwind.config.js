@@ -10,6 +10,8 @@ module.exports = {
   theme: {
     borderWidth: {
       DEFAULT: "1px",
+      0: "0",
+      2: "2px",
     },
     fontFamily: {
       inter: "Inter",
@@ -42,6 +44,10 @@ module.exports = {
         spin: {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
+        },
+        fadeInTrade: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         skeleton: {
           "0%, 100%": { backgroundPosition: "200% 0" },
@@ -85,6 +91,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         widthbar: "widthbar 5200ms linear",
         fadeIn: "fadeIn 0.5s ease-out",
+        fadeInTrade: "fadeInTrade 0.7s ease-in-out",
       },
       boxShadow: {
         "top-bottom":
@@ -109,7 +116,7 @@ module.exports = {
         },
         border: {
           primary: "rgba(255, 255, 255, 0.03)",
-          secondary: "rgba(255, 255, 255, 0.04)",
+          secondary: "rgba(255, 255, 255, 0.06)",
         },
         font: {
           100: "rgba(255, 255, 255, 0.95)",

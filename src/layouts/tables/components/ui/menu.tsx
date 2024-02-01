@@ -119,7 +119,7 @@ export const MenuCommun = () => {
               className="bg-light-bg-hover dark:bg-dark-bg-hover rounded-md mr-2.5 p-1 w-[30px] 
             h-[30px] items-center justify-center flex"
             >
-              <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-md" />
+              <VscArrowSwap className="text-light-font-100 dark:text-dark-font-100 text-sm" />
             </div>
             {`Buy  & Sell ${showMenuTableMobileForToken.symbol}`}
           </div>
@@ -128,7 +128,7 @@ export const MenuCommun = () => {
         className={lineStyle}
         onClick={() => {
           setShowAlert(showMenuTableMobileForToken?.name);
-          pushData("Interact", {
+          pushData("Swap", {
             name: "Alert Asset",
             from_page: pathname,
             asset: showMenuTableMobileForToken?.name,

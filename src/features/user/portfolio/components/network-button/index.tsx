@@ -49,7 +49,7 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
                 : "  All networks"}
             </p>
           ) : null}
-          <BiSolidChevronDown className="ml-[5px] text-md" />
+          <BiSolidChevronDown className="ml-[5px] text-sm" />
         </Button>
       )}
     </div>

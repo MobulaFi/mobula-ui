@@ -80,7 +80,11 @@ const formatSmallNumber = (number: number) => {
 export function getFormattedAmount(
   price: number | string | undefined,
   lessPrecision = 0,
-  settings = { minifyZeros: true, minifyBigNumbers: true },
+  settings = {
+    minifyZeros: true,
+    minifyBigNumbers: true,
+  },
+  isScientificNotation = false,
   noSub: boolean = false
 ) {
   try {
@@ -93,6 +97,13 @@ export function getFormattedAmount(
           100
         )
       );
+
+      if (isScientificNotation && Math.abs(parseFloat(price)) < 0.0001) {
+        const exp = price.match(/0\.0+[1-9]/)?.[0] || "";
+        return `${price.split(".")[0]}.0..0${price
+          .split(exp.slice(0, exp.length - 2))[1]
+          .slice(1, 5 - lessPrecision)}`;
+      }
 
       if (Math.abs(parseFloat(price)) > 1000000) {
         return settings.minifyBigNumbers

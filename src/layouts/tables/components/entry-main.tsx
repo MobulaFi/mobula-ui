@@ -22,7 +22,6 @@ import { IWatchlist } from "../../../interfaces/pages/watchlist";
 import { pushData } from "../../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 // import { PriceAlertPopup } from "../../../components/popup/price-alert/indext";
-import React from "react";
 import { Button } from "../../../components/button";
 import useDeviceDetect from "../../../hooks/detect-device";
 import { useIsInViewport } from "../../../hooks/viewport";
@@ -430,7 +429,7 @@ export const Entry = ({
                   extraCss="px-0 w-[28px] h-[28px] mr-[5px]"
                   onClick={() => {
                     setShow(true);
-                    pushData("Interact", {
+                    pushData("Swap", {
                       name: "Alert Asset",
                       from_page: pathname,
                       asset: token?.name,
@@ -444,7 +443,7 @@ export const Entry = ({
                   extraCss="px-0 w-[28px] h-[28px]"
                   onClick={() => {
                     setShowBuyDrawer(token);
-                    pushData("Interact", {
+                    pushData("Swap", {
                       name: "Swap Drawer",
                       from_page: pathname,
                       asset: token?.name,

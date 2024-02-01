@@ -86,6 +86,11 @@ export interface IBasetAssetContext {
   setLaunchpads: Dispatch<SetStateAction<ILaunchpad[] | undefined>>;
   timeRemaining: TimeRemaining;
   setTimeRemaining: Dispatch<SetStateAction<TimeRemaining>>;
+  assetPairs: MultiPairDataProps;
+  setAssetPairs: Dispatch<SetStateAction<MultiPairDataProps>>;
+  isAssetPage: boolean;
+  pairTrades: Trade[];
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
 }
 
 export interface TimeRemaining {
@@ -247,6 +252,7 @@ export interface Trade {
   unique_discriminator?: string;
   id?: number;
   amount_usd?: number;
+  token_amount_usd?: number;
 }
 
 export interface Metrics {
@@ -367,4 +373,34 @@ export interface MarketMetrics {
   priceChange: boolean | null;
   volumeChange: boolean | null;
   trade_history: TradeHistory[] | null;
+}
+
+export interface MultiPairDataProps {
+  pairs: MultiPairProps[];
+  count: number;
+}
+
+export interface MultiPairProps {
+  address: string;
+  blockchain: string;
+  exchange: string;
+  factory: string;
+  liquidity: number;
+  price: number;
+  protocol: string;
+  token0: TokenPairProps;
+  token1: TokenPairProps;
+  volume: number;
+}
+
+export interface TokenPairProps {
+  address: string;
+  decimals: number;
+  id: number;
+  logo: string;
+  name: string;
+  price: number;
+  priceToken: number;
+  symbol: string;
+  priceTokenString: string;
 }

@@ -15,6 +15,7 @@ interface PopoverProps {
   isFilters?: boolean;
   position?: AlignProps;
   toggleOnHover?: any;
+  showContent?: boolean;
 }
 
 type AlignProps = "center" | "start" | "end" | undefined;
@@ -27,6 +28,7 @@ export const Popover = ({
   onToggle,
   position,
   toggleOnHover,
+  showContent = true,
 }: PopoverProps) => {
   return (
     <PopoverContainer open={isOpen} onOpenChange={onToggle as any}>
@@ -37,15 +39,17 @@ export const Popover = ({
       >
         {visibleContent}
       </PopoverTrigger>
-      <PopoverContent
-        className={cn(
-          `border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-normal p-2.5 w-fit shadow-2xl z-[101]`,
-          extraCss
-        )}
-        align={position || "start"}
-      >
-        {hiddenContent}
-      </PopoverContent>
+      {showContent ? (
+        <PopoverContent
+          className={cn(
+            `border border-light-border-primary dark:border-dark-border-primary rounded-lg bg-light-bg-secondary dark:bg-dark-bg-secondary font-normal p-2.5 w-fit shadow-2xl z-[101]`,
+            extraCss
+          )}
+          align={position || "start"}
+        >
+          {hiddenContent}
+        </PopoverContent>
+      ) : null}
     </PopoverContainer>
   );
 };

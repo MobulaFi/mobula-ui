@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
-import React, { useEffect, useRef } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { Timezone } from "../../../public/static/charting_library/charting_library";
-import { Asset } from "../../features/asset/models";
+import { Asset, Trade } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
 import { DISABLED_FEATURES, ENABLED_FEATURES } from "./constant";
 import { widgetOptionsDefault } from "./helper";
@@ -13,6 +13,8 @@ interface TradingViewChartProps {
   mobile?: boolean;
   custom_css_url?: string;
   extraCss?: string;
+  isPair?: boolean;
+  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>;
 }
 
 const TradingViewChart = ({
@@ -20,20 +22,24 @@ const TradingViewChart = ({
   mobile = false,
   custom_css_url = "../themed.css",
   extraCss,
+  isPair = false,
+  setPairTrades,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
   const isWhiteMode = resolvedTheme === "light";
   const chartInit = () => {
     if (!baseAsset) return () => {};
-
     import("../../../public/static/charting_library").then(
       ({ widget: Widget }) => {
         if (!ref.current) return;
-
+        const baseToken = baseAsset?.[baseAsset?.baseToken];
+        const quoteToken = baseAsset?.[baseAsset?.quoteToken];
         const tvWidget = new Widget({
-          datafeed: Datafeed(baseAsset),
-          symbol: baseAsset?.symbol + "/USD",
+          datafeed: Datafeed(baseAsset, isPair, setPairTrades),
+          symbol: isPair
+            ? baseToken?.symbol + "/" + quoteToken?.symbol
+            : baseAsset?.symbol + "/USD",
           container: ref.current,
           container_id: ref.current.id,
           locale: "en",

@@ -17,7 +17,7 @@ export const IndexingSupercharged = () => {
   }, []);
   return (
     <section
-      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
+      className="w-full flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
       style={{
         backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
       }}

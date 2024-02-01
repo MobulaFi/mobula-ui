@@ -1,6 +1,6 @@
 "use client";
 import { parse } from "cookie";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 // import {AddedToWatchlistPopup} from "../../Pages/User/Watchlist/components/popup/added-to-watchlist";
 // import {NotifDrawer} from "../../common/components/drawer/notif";
 // import {NextChakraLink} from "../../common/components/links";
@@ -10,16 +10,16 @@ import { useContext, useEffect } from "react";
 // import {CommonPageProvider} from "../common/context-manager";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React from "react";
-import { NextChakraLink } from "../../components/link";
-import { CommonPageProvider } from "../../contexts/commun-page";
+import {
+  CommonPageContext,
+  CommonPageProvider,
+} from "../../contexts/commun-page";
 import { PopupStateContext } from "../../contexts/popup";
 import { NotificationDrawer } from "../../drawer/notif";
 import { WatchlistDrawer } from "../../drawer/watchlist";
 import { useAnalytics } from "../../hooks/analytics";
 import { usePageLoad } from "../../hooks/pageload";
 import { GET } from "../../utils/fetch";
-import { Tabs } from "./components/tabs";
 import { UserSection } from "./components/user-section";
 import { AccountHeaderContext } from "./context-manager";
 
@@ -42,6 +42,10 @@ export const Header = ({ addressCookie }) => {
     GET("/connection", {});
   }, [pathname]);
 
+  console.log("pathname", pathname);
+
+  const [triggerSearch, setTriggerSearch] = useState(false);
+  const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
   return (
     <CommonPageProvider>
       {/* Banner to replace with new feature */}
@@ -67,10 +71,12 @@ export const Header = ({ addressCookie }) => {
           </TextLandingSmall>
         </Flex> */}
 
-      <div className="px-[15px] md:px-2.5 z-10 max-w-[1920px] mx-auto bg-light-bg-primary dark:bg-dark-bg-primary">
-        <div className="flex justify-between py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px]">
-          <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto">
-            <NextChakraLink
+      <div
+        className={`md:px-2.5 z-10 w-[95%] lg:w-full mx-auto bg-light-bg-primary dark:bg-dark-bg-primary padding-screen`}
+      >
+        <div className="flex justify-between items-center py-0 lg:py-2.5 md:py-[7.5px] min-h-[55px] ">
+          {/* <div className="flex items-center cursor-pointer min-w-fit md:min-w-[25px] h-[65px] lg:h-auto"> */}
+          {/* <NextChakraLink
               href="/home"
               extraCss="h-[25px] mr-[20px] lg:mr-auto min-w-fit lg:min-w-[25px] flex items-center"
             >
@@ -96,14 +102,16 @@ export const Header = ({ addressCookie }) => {
                   alt="Mobula logo"
                 />
               </div>
-            </NextChakraLink>
-            <div className="w-fit h-full flex lg:hidden">
+            </NextChakraLink> */}
+          {/* <div className="w-fit h-full flex lg:hidden">
               <Tabs />
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
+
           <UserSection addressFromCookie={addressFromCookie} />
         </div>
       </div>
+
       {showNotif ? <NotificationDrawer /> : null}
       {showAddedToWatchlist ? <WatchlistDrawer /> : null}
       <div className="bg-light-border-primary dark:bg-dark-border-primary h-[2px] w-full" />

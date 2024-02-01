@@ -48,7 +48,7 @@ export const UnknownResult = ({
           setActive={setActive}
           active
         >
-          <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-md" />
+          <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-sm" />
         </Lines>
       </>
     )
