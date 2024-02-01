@@ -265,7 +265,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
 
   return (
     <>
-      <div className="relative flex items-center w-full justify-end  lg:justify-end sm:w-[90%]">
+      <div className="relative flex items-center w-full justify-end lg:justify-end">
         <div
           className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded-md border
             border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 

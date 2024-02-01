@@ -87,7 +87,12 @@ export const CoreSearchBar = ({
 
   const fetchAssets = (input: string) => {
     fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/search?input=${input}`,
+      `${
+        process.env.NEXT_PUBLIC_API_ENDPOINT
+      }/api/1/search?input=${input}&filters=${JSON.stringify({
+        liquidity: { min: 100 },
+        blockchain: "BNB Smart Chain (BEP20)",
+      })}`,
       {
         headers: {
           "Content-Type": "application/json",
