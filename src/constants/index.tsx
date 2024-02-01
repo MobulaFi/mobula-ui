@@ -103,3 +103,44 @@ export const SAFU_CHAIN: Partial<Record<BlockchainName, string>> = {
   "BNB Smart Chain (BEP20)": "BSC",
   Ethereum: "ETH",
 };
+
+export const POOLS = [
+  {
+    name: "Uniswap",
+    chainid: 1,
+    logo: "https://static.debank.com/image/project/logo_url/uniswap2/87a541b3b83b041c8d12119e5a0d19f0.png",
+    pools: [
+      {
+        name: "ETH-USDC(V2)",
+        address: "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+      },
+      {
+        name: "ETH-OLAS(V2)",
+        address: "0x09D1d767eDF8Fa23A64C51fa559E0688E526812F",
+      },
+      {
+        name: "ETH-BEAM(V2)",
+        address: "0x180EFC1349A69390aDE25667487a826164C9c6E4",
+      },
+      {
+        name: "ETH-UNIBOT(V2)",
+        address: "0x8DbEE21E8586eE356130074aaa789C33159921Ca",
+      },
+      {
+        name: "ETH-VEC(V2)",
+        address: "0xB6B0C651C37EC4ca81C0a128420e02001A57Fac2",
+      },
+    ],
+  },
+  {
+    name: "TraderJoe",
+    chainid: 43114,
+    logo: "https://static.debank.com/image/project/logo_url/avax_traderjoexyz/961dd8fbeac3d6ee62170c8db600ba25.png",
+    pools: [
+      {
+        name: "AVAX-JOE",
+        address: "0x454E67025631C065d3cFAD6d71E6892f74487a15",
+      },
+    ],
+  },
+];

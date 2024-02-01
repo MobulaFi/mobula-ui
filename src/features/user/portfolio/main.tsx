@@ -9,6 +9,7 @@ import { Asset } from "../../asset/models";
 import { Activity } from "./components/category/activity";
 import { Cryptocurrencies } from "./components/category/cryptocurrencies";
 import { NFTs } from "./components/category/nfts";
+import { Protocols } from "./components/category/protocols";
 import { PortfolioChart } from "./components/chart";
 import { CumulativePnl } from "./components/cumulative-pnl";
 import { DailyPnl } from "./components/daily-pnl";
@@ -284,6 +285,11 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
                 <Activity />
               </div>
             ) : null}
+            {activeCategory === "Protocols" ? (
+              <div className={`static ${getAnimation("Activity")}`}>
+                <Protocols />
+              </div>
+            ) : null}
           </div>
           {/* MOBILE */}
           <div className="ml-5 md:ml-0 lg:ml-0 flex flex-col lg:hidden w-calc-full-340 lg:w-full">
@@ -296,6 +302,7 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
             {activeCategory === "Cryptos" ? <Cryptocurrencies /> : null}
             {activeCategory === "NFTs" ? <NFTs /> : null}
             {activeCategory === "Activity" ? <Activity /> : null}
+            {activeCategory === "Protocols" ? <Protocols /> : null}
           </div>
         </div>
         {showManage ? <ManagePopup /> : null}
