@@ -321,12 +321,14 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   return (
     <>
       <div className="flex flex-col" {...handlers}>
-        <TopNav
-          list={tabs}
-          setActive={setActiveTab}
-          active={activeTab}
-          setPreviousTab={setPreviousTab}
-        />
+        {isAssetPage ? (
+          <TopNav
+            list={tabs}
+            setActive={setActiveTab}
+            active={activeTab}
+            setPreviousTab={setPreviousTab}
+          />
+        ) : null}
         <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden maximum-width">
           {prevPaths?.length > 1 || isBreadCrumbLoading ? (
             <div className="flex items-center ml-0 md:ml-2.5">
