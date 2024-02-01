@@ -84,15 +84,14 @@ async function AssetPage({ params }) {
   let title = "Pair loading - Mobula";
   if (baseToken)
     title = `${baseToken?.symbol} - ${baseToken?.name} / ${vsToken?.symbol} on ${newPair?.blockchain} - Mobula`;
-
+  let description = "Realtime price charts, trading history and info";
+  if (baseToken)
+    description = `${baseToken?.name} (${baseToken?.symbol}) realtime price charts, trading history and info`;
   return (
     <>
       <head>
         <title>{title}</title>
-        <meta
-          name="description"
-          content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
-        />
+        <meta name="description" content={description} />
         <meta
           property="og:image"
           content="https://mobula.fi/metaimage/Generic/others.png"
