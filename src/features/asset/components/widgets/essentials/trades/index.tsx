@@ -1,6 +1,6 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
@@ -158,7 +158,6 @@ export const TokenTrades = () => {
   }, []);
 
   const fetchPairTrade = () => {
-    console.log("baseAsset", baseAsset);
     fetch(
       `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?address=${
         baseAsset?.[baseAsset?.baseToken]?.address

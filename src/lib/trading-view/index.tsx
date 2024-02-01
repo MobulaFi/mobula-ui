@@ -33,10 +33,13 @@ const TradingViewChart = ({
     import("../../../public/static/charting_library").then(
       ({ widget: Widget }) => {
         if (!ref.current) return;
-
+        const baseToken = baseAsset?.[baseAsset?.baseToken];
+        const quoteToken = baseAsset?.[baseAsset?.quoteToken];
         const tvWidget = new Widget({
           datafeed: Datafeed(baseAsset, isPair, setPairTrades),
-          symbol: baseAsset?.symbol + "/USD",
+          symbol: isPair
+            ? baseToken?.symbol + "/" + quoteToken?.symbol
+            : baseAsset?.symbol + "/USD",
           container: ref.current,
           container_id: ref.current.id,
           locale: "en",

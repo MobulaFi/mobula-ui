@@ -80,10 +80,7 @@ export const PairsSelector = () => {
           <div className="flex items-center ml-10">
             <div className="flex items-center">
               <LargeFont extraCss="font-normal mr-2.5 text-2xl md:text-lg">
-                $
-                {getFormattedAmount(
-                  baseAsset?.[baseAsset?.baseToken]?.priceToken
-                )}
+                ${getFormattedAmount(baseAsset?.[baseAsset?.baseToken]?.price)}
               </LargeFont>
               <TagPercentage
                 percentage={baseAsset?.price_change_24h}

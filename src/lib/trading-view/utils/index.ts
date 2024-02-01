@@ -27,6 +27,9 @@ export const Datafeed = (
     callback({ supported_resolutions: supportedResolutions });
   },
   resolveSymbol: (symbolName: string, onResolve: Function) => {
+    const price = isPair
+      ? baseAsset?.[baseAsset?.baseToken]?.price
+      : baseAsset.price;
     const params = {
       name: symbolName,
       description: "",
@@ -35,7 +38,7 @@ export const Datafeed = (
       ticker: symbolName,
       minmov: 1,
       pricescale: Math.min(
-        10 ** String(Math.round(10000 / baseAsset.price)).length,
+        10 ** String(Math.round(10000 / price)).length,
         10000000000000000
       ),
       has_intraday: true,
@@ -116,8 +119,13 @@ export const Datafeed = (
     });
 
     socket.addEventListener("message", (event) => {
-      const { data } = JSON.parse(event.data);
+      const eventData = JSON.parse(event.data);
+      if (eventData?.blockchain && setPairTrades)
+        setPairTrades((prev) => [eventData, ...prev.slice(0, prev.length - 1)]);
+      const { data } = eventData;
       const { priceUSD: price, date: timestamp } = data;
+
+      // setPairTrades(data)
 
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
