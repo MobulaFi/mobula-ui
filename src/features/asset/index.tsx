@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsChevronRight, BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -277,7 +277,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     },
     {
       key: "M.Cap",
-      value: baseAsset?.volume_24h,
+      value: baseAsset?.[baseAsset?.baseToken]?.market_cap,
       isAmount: true,
     },
 
