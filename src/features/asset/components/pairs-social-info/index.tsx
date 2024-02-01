@@ -22,6 +22,7 @@ import { CustomPopOver } from "../ui/popover";
 
 export const PairsSocialInfo = () => {
   const { baseAsset, setShowPopupSocialMobile } = useContext(BaseAssetContext);
+  const [isHoverStar, setIsHoverStar] = React.useState(false);
   const pairsContract = [
     {
       address: baseAsset?.address,
@@ -79,164 +80,188 @@ export const PairsSocialInfo = () => {
       : null,
   ];
   return (
-    <div className="flex items-center lg:mt-2.5">
-      <CustomPopOver
-        title={"Contracts"}
-        logo={
-          blockchainsContent[baseAsset?.blockchain]?.logo ||
-          `/logo/${baseAsset?.blockchain?.[0]?.toLowerCase().split(" ")[0]}.png`
-        }
-        position="left-1/2 -translate-x-1/2"
-        isMobile
-        isPair
-      >
-        {pairsContract?.map((pair, index: number) =>
-          pair ? (
-            <div
-              className={`flex text-light-font-100 dark:text-dark-font-100 ${
-                index > 0 ? "mt-2.5" : "mt-0"
-              }`}
-              key={(pair?.address || 0) + index}
+    <div className="flex items-center justify-between lg: w-full">
+      <div className="flex items-center lg:mt-2.5">
+        <CustomPopOver
+          title={"Contracts"}
+          logo={
+            blockchainsContent[baseAsset?.blockchain]?.logo ||
+            `/logo/${
+              baseAsset?.blockchain?.[0]?.toLowerCase().split(" ")[0]
+            }.png`
+          }
+          position="left-1/2 -translate-x-1/2"
+          isMobile
+          isPair
+        >
+          {pairsContract?.map((pair, index: number) =>
+            pair ? (
+              <div
+                className={`flex text-light-font-100 dark:text-dark-font-100 ${
+                  index > 0 ? "mt-2.5" : "mt-0"
+                }`}
+                key={(pair?.address || 0) + index}
+              >
+                <Contracts
+                  contract={pair?.address}
+                  title={pair?.title || ""}
+                  blockchain={baseAsset?.blockchain}
+                />
+              </div>
+            ) : (
+              <></>
+            )
+          )}
+        </CustomPopOver>
+        <div className="flex md:hidden">
+          {socials.filter((entry) => entry !== null).length > 0 ? (
+            <CustomPopOver
+              title="Socials"
+              position="left-1/2 -translate-x-1/2"
+              icon={<FaRegUser className="flex md:hidden mr-[5px] text-xs" />}
+              isPair
             >
-              <Contracts
-                contract={pair?.address}
-                title={pair?.title || ""}
-                blockchain={baseAsset?.blockchain}
-              />
-            </div>
-          ) : (
-            <></>
-          )
-        )}
-      </CustomPopOver>
-      <div className="flex md:hidden">
-        {socials.filter((entry) => entry !== null).length > 0 ? (
-          <CustomPopOver
-            title="Socials"
-            position="left-1/2 -translate-x-1/2"
-            icon={<FaRegUser className="flex md:hidden mr-[5px] text-xs" />}
-            isPair
-          >
-            {socials
-              .filter((entry) => entry !== null)
-              ?.map((entry, i) => {
-                if (entry) {
-                  return (
-                    <NextChakraLink
-                      key={entry.url}
-                      target="_blank"
-                      href={entry.url}
-                      rel="norefferer"
-                      extraCss="mb-2 md:mb-0"
-                    >
-                      <div
-                        className={`${
-                          i !== 0 || i !== socials.length ? "mb-0" : "mb-2.5"
-                        } border border-light-border-primary dark:border-dark-border-primary
+              {socials
+                .filter((entry) => entry !== null)
+                ?.map((entry, i) => {
+                  if (entry) {
+                    return (
+                      <NextChakraLink
+                        key={entry.url}
+                        target="_blank"
+                        href={entry.url}
+                        rel="norefferer"
+                        extraCss="mb-2 md:mb-0"
+                      >
+                        <div
+                          className={`${
+                            i !== 0 || i !== socials.length ? "mb-0" : "mb-2.5"
+                          } border border-light-border-primary dark:border-dark-border-primary
                            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover bg-light-bg-terciary dark:bg-dark-bg-terciary ${
                              i !== 0 ? "mt-[7.5px]" : "mt-0"
                            } w-full justify-between px-2.5 rounded-md h-[32px] flex items-center`}
-                        key={entry.url}
-                      >
-                        <div className="flex items-center mr-[15px]">
-                          {entry.icon}
-                          <SmallFont>{entry.name}</SmallFont>
+                          key={entry.url}
+                        >
+                          <div className="flex items-center mr-[15px]">
+                            {entry.icon}
+                            <SmallFont>{entry.name}</SmallFont>
+                          </div>
+                          <div className="flex items-center">
+                            <SmallFont>
+                              {entry.username ? entry.username : "N/A"}
+                            </SmallFont>
+                            <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
+                          </div>
                         </div>
-                        <div className="flex items-center">
-                          <SmallFont>
-                            {entry.username ? entry.username : "N/A"}
-                          </SmallFont>
-                          <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-                        </div>
-                      </div>
-                    </NextChakraLink>
-                  );
-                }
-                return <></>;
-              })}
-          </CustomPopOver>
-        ) : null}
-      </div>
-      {baseAsset?.social?.website ? (
-        <Button
-          extraCss={`${mainButtonStyle} mb-0`}
-          onClick={() => openInNewTab(baseAsset.website as string)}
-        >
-          <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
-          Website
-          <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
-        </Button>
-      ) : null}
-      <div className="flex lg:hidden">
-        {(baseAsset?.social?.audit && baseAsset?.social?.audit !== "null") ||
-        (baseAsset?.social?.kyc && baseAsset?.social?.kyc !== "null") ? (
-          <CustomPopOver
-            title="Audits"
-            icon={<BsShieldCheck className="flex md:hidden mr-[5px] text-xs" />}
-            position="left-1/2 -translate-x-1/2"
-            isPair
+                      </NextChakraLink>
+                    );
+                  }
+                  return <></>;
+                })}
+            </CustomPopOver>
+          ) : null}
+        </div>
+        {baseAsset?.social?.website ? (
+          <Button
+            extraCss={`${mainButtonStyle} mb-0`}
+            onClick={() => openInNewTab(baseAsset.website as string)}
           >
-            {baseAsset?.audit !== "null" ? (
-              <div
-                className={`${PopOverLinesStyle}  border border-light-border-primary dark:border-dark-border-primary`}
-              >
-                <div className="flex items-center mr-[15px]">
-                  <SmallFont>Audit</SmallFont>
-                  <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
-                    {baseAsset.audit}
-                  </SmallFont>
+            <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
+            Website
+            <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
+          </Button>
+        ) : null}
+        <div className="flex lg:hidden">
+          {(baseAsset?.social?.audit && baseAsset?.social?.audit !== "null") ||
+          (baseAsset?.social?.kyc && baseAsset?.social?.kyc !== "null") ? (
+            <CustomPopOver
+              title="Audits"
+              icon={
+                <BsShieldCheck className="flex md:hidden mr-[5px] text-xs" />
+              }
+              position="left-1/2 -translate-x-1/2"
+              isPair
+            >
+              {baseAsset?.audit !== "null" ? (
+                <div
+                  className={`${PopOverLinesStyle}  border border-light-border-primary dark:border-dark-border-primary`}
+                >
+                  <div className="flex items-center mr-[15px]">
+                    <SmallFont>Audit</SmallFont>
+                    <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
+                      {baseAsset.audit}
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center">
+                    <NextChakraLink
+                      href={baseAsset.audit}
+                      target="_blank"
+                      rel="norefferer"
+                      extraCss="mb-1"
+                    >
+                      <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
+                    </NextChakraLink>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <NextChakraLink
-                    href={baseAsset.audit}
-                    target="_blank"
-                    rel="norefferer"
-                    extraCss="mb-1"
-                  >
-                    <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-                  </NextChakraLink>
+              ) : (
+                <></>
+              )}
+              {baseAsset.kyc !== "null" ? (
+                <div
+                  className={`${PopOverLinesStyle} border border-light-border-primary dark:border-dark-border-primary mt-[7.5px] mb-0`}
+                >
+                  <div className="flex items-center mr-[15px]">
+                    <SmallFont>KYC</SmallFont>
+                    <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
+                      {baseAsset.kyc}
+                    </SmallFont>
+                  </div>
+                  <div className="flex items-center">
+                    <NextChakraLink
+                      href={baseAsset.kyc}
+                      target="_blank"
+                      rel="norefferer"
+                      extraCss="mb-1"
+                    >
+                      <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
+                    </NextChakraLink>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <></>
-            )}
-            {baseAsset.kyc !== "null" ? (
-              <div
-                className={`${PopOverLinesStyle} border border-light-border-primary dark:border-dark-border-primary mt-[7.5px] mb-0`}
-              >
-                <div className="flex items-center mr-[15px]">
-                  <SmallFont>KYC</SmallFont>
-                  <SmallFont extraCss="max-w-[200px] truncate ml-2.5">
-                    {baseAsset.kyc}
-                  </SmallFont>
-                </div>
-                <div className="flex items-center">
-                  <NextChakraLink
-                    href={baseAsset.kyc}
-                    target="_blank"
-                    rel="norefferer"
-                    extraCss="mb-1"
-                  >
-                    <FiExternalLink className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-                  </NextChakraLink>
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
-          </CustomPopOver>
-        ) : null}{" "}
+              ) : (
+                <></>
+              )}
+            </CustomPopOver>
+          ) : null}{" "}
+        </div>
+        <Button
+          extraCss={cn(`hidden lg:flex`, mainButtonStyle)}
+          onClick={() => setShowPopupSocialMobile(true)}
+        >
+          <LuLink className="mr-[7.5px] ml-0.5" />
+          <SmallFont>
+            {links.filter((entry) => entry !== null).length > 0
+              ? `+ ${links.filter((entry) => entry !== null).length}`
+              : ""}
+          </SmallFont>
+        </Button>
       </div>
       <Button
-        extraCss={cn(`hidden lg:flex`, mainButtonStyle)}
-        onClick={() => setShowPopupSocialMobile(true)}
+        extraCss={cn(
+          `hidden lg:flex mb-0 mt-2.5 cursor-not-allowed px-2 relative`,
+          mainButtonStyle
+        )}
+        onClick={() => setIsHoverStar((prev) => !prev)}
       >
-        <LuLink className="mr-[7.5px] ml-0.5" />
-        <SmallFont>
-          {links.filter((entry) => entry !== null).length > 0
-            ? `+ ${links.filter((entry) => entry !== null).length}`
-            : ""}
-        </SmallFont>
+        <SmallFont extraCss="opacity-50">Star Holders</SmallFont>
+
+        <div
+          className={`absolute right-0 top-[30px] bg-light-bg-terciary dark:bg-dark-bg-terciary p-1.5 shadow-2xl
+           border border-light-border-primary dark:border-dark-border-primary rounded ${
+             isHoverStar ? "opacity-100 scale-100" : "scale-90 opacity-0"
+           } transition-all duration-100 ease-linear`}
+        >
+          <SmallFont>Coming soon! </SmallFont>
+        </div>
       </Button>
     </div>
   );

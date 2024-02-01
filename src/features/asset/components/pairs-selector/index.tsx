@@ -49,7 +49,7 @@ export const PairsSelector = () => {
             <div className="relative w-fit h-fit mr-4 md:mr-3.5">
               {baseAsset?.[baseAsset?.baseToken]?.logo ? (
                 <img
-                  className="w-[40px] h-[40px] min-w-[40px] md:w-[30px] md:h-[30px] md:min-w-[30px] rounded-full"
+                  className="w-[40px] h-[40px] min-w-[40px] md:w-[25px] md:h-[25px] md:min-w-[25px] rounded-full"
                   src={baseAsset?.[baseAsset?.baseToken]?.logo}
                   alt={`${baseAsset?.name} logo`}
                 />
