@@ -7,10 +7,7 @@ import { NextChakraLink } from "../../../../../../components/link";
 import { Tooltip } from "../../../../../../components/tooltip";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
-import {
-  formatAmount,
-  getFormattedDate,
-} from "../../../../../../utils/formaters";
+import { formatAmount } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Metrics } from "../../../../models";
 import { FlexBorderBox } from "../../../../style";
@@ -95,14 +92,14 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
     },
     {
       title: "Market Cap",
-      value: baseAsset?.market_cap,
+      value: baseAsset?.[baseAsset.baseToken]?.market_cap,
       info: "The Market Cap is the product of the current price and the total supply of the asset.",
     },
-    {
-      title: "Pair created at",
-      value: getFormattedDate(new Date(baseAsset?.createdAt).getTime()),
-      info: "The date of the pair creation",
-    },
+    // {
+    //   title: "Pair created at",
+    //   value: getFormattedDate(new Date(baseAsset?.createdAt).getTime()),
+    //   info: "The date of the pair creation",
+    // },
   ];
 
   return (
