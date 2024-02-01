@@ -55,7 +55,6 @@ export const Datafeed = (
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
       params: {
-        // blockchain: baseAsset?.blockchains?.[0],
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
@@ -68,6 +67,7 @@ export const Datafeed = (
       apiParams.params["address"] = baseAsset?.address;
     } else {
       apiParams.params["asset"] = baseAsset.contracts[0];
+      apiParams.params["blockchain"] = baseAsset.blockchains[0];
     }
 
     const response = await GET(apiParams.endpoint, apiParams.params, false, {
@@ -118,7 +118,6 @@ export const Datafeed = (
     socket.addEventListener("message", (event) => {
       const { data } = JSON.parse(event.data);
       const { priceUSD: price, date: timestamp } = data;
-      console.log("YO LES DATAS", data);
 
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
