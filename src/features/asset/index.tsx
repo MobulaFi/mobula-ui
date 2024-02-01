@@ -385,7 +385,10 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           ) : null}{" "}
           {isAssetPage ? (
             <div className="flex items-center lg:items-start flex-row lg:flex-col justify-between w-full md:w-[100%] mx-auto pb-0 md:pb-2.5">
-              <TokenMainInfo />
+              <div className="max-w-[400px] w-full lg:max-w-full">
+                <TokenMainInfo />
+              </div>
+
               <TokenSocialsInfo />
             </div>
           ) : (

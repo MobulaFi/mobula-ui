@@ -173,11 +173,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
   };
 
   return (
-    <div
-      className={`flex flex-col ${
-        isAssetPage ? "w-[60%]" : "w-full"
-      } lg:w-full`}
-    >
+    <div className={`flex flex-col w-full lg:w-full`}>
       {!isAssetPage ? (
         <div className="flex flex-col">
           <PairsSelector />
@@ -194,7 +190,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5">
+          <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5 w-full">
             <div className="flex items-center mb-1 md:mb-0">
               <img
                 className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
@@ -270,7 +266,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
         </>
       )}
       {isAssetPage ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">

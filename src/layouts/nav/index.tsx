@@ -126,7 +126,9 @@ export const Nav = () => {
         >
           <RiGlobalLine className="text-light-font-100 dark:text-dark-font-100 text-[26px] min-w-[26px]" />
           <div className="ml-6 flex items-center justify-between whitespace-nowrap overflow-hidden ">
-            <MediumFont extraCss="font-poppins">Global</MediumFont>
+            <MediumFont extraCss="font-poppins">
+              {navigationGlobal.name}
+            </MediumFont>
             <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5 ml-1.5" />
           </div>
         </div>
