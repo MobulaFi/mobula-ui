@@ -41,9 +41,9 @@ async function fetchAssetData({ params }) {
     );
 
     const fetchSocialLink = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?asset=${
-        pairData?.[pairData?.baseToken]?.name
-      }`,
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?address=${
+        pairData?.[pairData?.baseToken]?.address
+      }&blockchain=${pairData?.blockchain}`,
       {
         headers: {
           "Content-Type": "application/json",
