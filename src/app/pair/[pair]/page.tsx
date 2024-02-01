@@ -1,4 +1,3 @@
-import React from "react";
 import { BaseAssetProvider } from "../../../features/asset/context-manager";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
 import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
@@ -21,18 +20,13 @@ async function fetchAssetData({ params }) {
       }
     );
 
-    console.log(
-      "PAIR IS HERE",
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`
-    );
-
     const [activePair] = await Promise.all([fetchPair]).then((r) => {
       return Promise.all(r.map((res) => res.json()));
     });
 
     const pairData = activePair?.data;
     const fetchPairTrade = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?address=${pair}&blockchain=${pairData?.blockchain}&amount=20`,
+      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?address=${pair}&blockchain=${pairData?.blockchain}&amount=100`,
       {
         headers: {
           "Content-Type": "application/json",

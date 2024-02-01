@@ -125,8 +125,6 @@ export const Datafeed = (
       const { data } = eventData;
       const { priceUSD: price, date: timestamp } = data;
 
-      // setPairTrades(data)
-
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
       let bar: Bar;

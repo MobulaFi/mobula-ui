@@ -157,38 +157,6 @@ export const TokenTrades = () => {
       });
   }, []);
 
-  const fetchPairTrade = () => {
-    fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?address=${
-        baseAsset?.[baseAsset?.baseToken]?.address
-      }&blockchain=${baseAsset?.blockchain}&amount=20`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((r) => {
-        if (r.data) {
-          setPairTrades(r.data);
-          setTimeout(() => {
-            fetchPairTrade();
-          }, 3000);
-        } else {
-          setTimeout(() => {
-            fetchPairTrade();
-          }, 3000);
-        }
-      });
-  };
-
-  useEffect(() => {
-    if (isAssetPage) return;
-    fetchPairTrade();
-  }, [baseAsset]);
-
   return (
     <div
       className={`flex flex-col ${
