@@ -80,7 +80,7 @@ export const PairsSocialInfo = () => {
       : null,
   ];
   return (
-    <div className="flex items-center justify-between lg: w-full">
+    <div className="flex items-center justify-between lg:w-full">
       <div className="flex items-center lg:mt-2.5">
         <CustomPopOver
           title={"Contracts"}
