@@ -45,6 +45,7 @@ import { AccountHeaderContext } from "../../context-manager";
 import { useUserBalance } from "../../context-manager/balance";
 import { useBalance } from "../../hooks/useBalance";
 import { MenuMobile } from "../MenuMobile";
+import { ChainsChanger } from "../chains-changer";
 import { PortfolioButton } from "../portfolio";
 
 interface UserSectionProps {
@@ -288,12 +289,12 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         </div>
         {!isMenuMobile ? (
           <>
-            {/* <ChainsChanger
+            <ChainsChanger
               showChainPopover={showChainPopover}
               setShowChainPopover={setShowChainPopover}
               showInfoPopover={showInfoPopover}
               setShowInfoPopover={setShowInfoPopover}
-            /> */}
+            />
             <PortfolioButton extraCss="flex lg:hidden" />
             <PortfolioButton extraCss="lg:flex hidden md:h-[35px]" />
           </>

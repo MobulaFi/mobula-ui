@@ -79,7 +79,7 @@ export const ChainsChanger = ({
 
   const showNextButton =
     showXBlockchains[1] <= Object.values(blockchainsContent).length;
-
+  console.log("isMobileVersion", isMobileVersion);
   return (
     <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
       <div className="flex relative w-fit">
