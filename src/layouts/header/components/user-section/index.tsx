@@ -181,7 +181,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
       },
       protocol: () => {
         if (isConnected) {
-          router.push("/protocol");
+          router.push("/dao/protocol/overview");
         } else {
           setConnect(true);
         }
