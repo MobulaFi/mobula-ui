@@ -1,3 +1,4 @@
+import React from "react";
 import { BaseAssetProvider } from "../../../features/asset/context-manager";
 import { ShowMoreProvider } from "../../../features/asset/context-manager/navActive";
 import { NavActiveProvider } from "../../../features/asset/context-manager/showMore";
@@ -78,11 +79,16 @@ async function AssetPage({ params }) {
     isPair: true,
     address: pair,
   };
+  const baseToken = newPair?.[newPair?.baseToken];
+  const vsToken = newPair?.[newPair?.quoteToken];
+  let title = "Pair loading - Mobula";
+  if (baseToken)
+    title = `${baseToken?.symbol} - ${baseToken?.name} / ${vsToken?.symbol} on ${newPair?.blockchain} - Mobula`;
 
   return (
     <>
       <head>
-        <title>Test asset pair</title>
+        <title>{title}</title>
         <meta
           name="description"
           content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
