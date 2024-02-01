@@ -11,7 +11,7 @@ async function fetchAssetData({ params }) {
   const { pair } = params;
   try {
     const fetchPair = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/pair?address=${pair}&stats=true`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${pair}&stats=true`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +26,7 @@ async function fetchAssetData({ params }) {
 
     const pairData = activePair?.data;
     const fetchPairTrade = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/market/trades/pair?address=${pair}&blockchain=${pairData?.blockchain}&amount=100`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${pair}&blockchain=${pairData?.blockchain}&amount=100`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ async function fetchAssetData({ params }) {
     );
 
     const fetchSocialLink = fetch(
-      `https://general-api-preprod-fgpupeioaa-uc.a.run.app/api/1/metadata?address=${
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?address=${
         pairData?.[pairData?.baseToken]?.address
       }&blockchain=${pairData?.blockchain}`,
       {
