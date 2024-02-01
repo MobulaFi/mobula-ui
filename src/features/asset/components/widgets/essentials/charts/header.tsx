@@ -36,6 +36,7 @@ export const ChartHeader = ({
     setUnformattedHistoricalData,
     historyData,
     setHistoryData,
+    isAssetPage,
   } = useContext(BaseAssetContext);
   const supabase = createSupabaseDOClient();
 
@@ -175,7 +176,7 @@ export const ChartHeader = ({
           comparedEntities={comparedEntities}
           extraCss="ml-2.5 mb-0"
         />
-        {chartPreference !== "Trading view" ? (
+        {chartPreference !== "Trading view" && isAssetPage ? (
           <TimeSwitcher extraCss="flex md:hidden" />
         ) : null}
       </div>
