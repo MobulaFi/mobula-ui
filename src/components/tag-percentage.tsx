@@ -39,7 +39,7 @@ export const TagPercentage = ({
   const getColors = () => {
     if (inhert) {
       return {
-        bg: "bg-light-bg-terciary dark:bg-dark-bg-terciary",
+        bg: "bg-light-bg-hover dark:bg-dark-bg-hover",
         border:
           "border border-light-border-primary dark:border-dark-border-primary",
         color: "text-light-font-100 dark:text-dark-font-100",

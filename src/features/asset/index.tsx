@@ -419,6 +419,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                       <TagPercentage
                         percentage={getTokenPercentage(pair?.value)}
                         isUp={pair?.value > 0}
+                        inhert={pair?.value === 0}
                       />
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>

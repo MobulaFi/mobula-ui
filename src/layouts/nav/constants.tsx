@@ -101,7 +101,7 @@ export const navigation = [
 ];
 
 export const navigationGlobal = {
-  name: "Global",
+  name: "Market",
   extend: [
     {
       name: "Recently added",

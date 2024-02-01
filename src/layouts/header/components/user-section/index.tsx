@@ -274,7 +274,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               setShowInfoPopover={setShowInfoPopover}
             />
             <PortfolioButton extraCss="flex lg:hidden" />
-
             <PortfolioButton extraCss="lg:flex hidden md:h-[35px]" />
           </>
         ) : null}

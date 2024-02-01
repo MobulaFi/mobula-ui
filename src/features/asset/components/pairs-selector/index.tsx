@@ -89,6 +89,7 @@ export const PairsSelector = () => {
                 percentage={baseAsset?.price_change_24h}
                 isUp={baseAsset?.price_change_24h > 0}
                 extraCss="ml-1"
+                inhert={baseAsset?.price_change_24h === 0}
               />
             </div>
             {showPopover ? (

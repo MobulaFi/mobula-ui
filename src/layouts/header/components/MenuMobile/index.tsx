@@ -153,7 +153,7 @@ export const MenuMobile = ({
       </ClientOnly>
       <div className="flex justify-between items-center mt-5">
         <ToggleColorMode isMobile />
-        <div className="flex mr-[15px]">
+        <div className="hidden mr-[15px] lg:flex">
           <ChainsChanger
             isMobileVersion
             showChainPopover={showChainPopover}
