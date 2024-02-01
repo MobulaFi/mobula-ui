@@ -32,6 +32,7 @@ export const NextChakraLink = ({
       <span
         className={cn(
           "text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs w-full",
+
           extraCss
         )}
       >

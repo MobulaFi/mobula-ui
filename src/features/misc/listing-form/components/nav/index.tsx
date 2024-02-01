@@ -51,6 +51,7 @@ export const Nav = ({ state }) => {
               : "/mobula/mobula-logo-light.svg"
           }
         />
+
         <LargeFont extraCss="mb-[30px]">Listing Form</LargeFont>
         <div className="flex flex-col w-full mb-5 relative">
           <div className="flex flex-col w-full items-start relative">
