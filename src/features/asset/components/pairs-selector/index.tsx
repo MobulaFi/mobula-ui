@@ -66,7 +66,7 @@ export const PairsSelector = () => {
                 alt={`${baseAsset?.blockchain} logo`}
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col whitespace-nowrap">
               <LargeFont extraCss="leading-tight text-2xl md:text-lg">
                 <span className="font-medium">
                   {baseAsset?.[baseAsset?.baseToken]?.symbol}
