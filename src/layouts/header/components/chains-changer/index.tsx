@@ -120,6 +120,10 @@ export const ChainsChanger = ({
                           setConnect(true);
                           return;
                         }
+                        console.log(
+                          "entry.name",
+                          newChainsOrder?.[entry.name].chainId
+                        );
                         setShowSwitchNetwork(
                           newChainsOrder?.[entry.name].chainId
                         );

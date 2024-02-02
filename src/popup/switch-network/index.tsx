@@ -21,7 +21,8 @@ export const SwitchNetworkPopup = () => {
     typeof showSwitchNetwork === "number"
       ? showSwitchNetwork
       : chainNeededBuffer;
-  const blockchain = blockchainsIdContent[chainNeeded || 1];
+  const blockchain =
+    blockchainsIdContent[showSwitchNetwork || chainNeededBuffer];
 
   useEffect(() => {
     if (chain?.id === chainNeeded) setShowSwitchNetwork(false);

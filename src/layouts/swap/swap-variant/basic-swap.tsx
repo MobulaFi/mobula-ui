@@ -65,7 +65,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
   const { chain } = useNetwork();
   const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
   const { loadToken } = useLoadToken();
-  const { data } = useFeeData({ chainId: chainNeeded || chain?.id || 1 });
+  const { data } = useFeeData({ chainId: chainNeeded || chain?.id });
   const [isMounted, setIsMounted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const switchTokenButtonStyle =

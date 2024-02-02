@@ -64,7 +64,7 @@ export const SwapNonMetaProvider = ({
   const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
 
   // Syntaxic sugar
-  const currentChain = chainNeeded || chain?.id || 1;
+  const currentChain = chainNeeded || chain?.id;
   const currentChainName = blockchainsIdContent[currentChain]?.name;
   const tokens: SyntaxicTokens = { in: tokenIn, out: tokenOut };
   const buffers: SyntaxicTokensBuffer = {
