@@ -120,8 +120,15 @@ export const Datafeed = (
 
     socket.addEventListener("message", (event) => {
       const eventData = JSON.parse(event.data);
-      if (eventData?.blockchain && setPairTrades)
-        setPairTrades((prev) => [eventData, ...prev.slice(0, prev.length - 1)]);
+      try {
+        if (eventData?.blockchain && setPairTrades)
+          setPairTrades((prev) => [
+            eventData,
+            ...prev.slice(0, prev.length - 1),
+          ]);
+      } catch (e) {
+        // console.log(e);
+      }
       const { data } = eventData;
       const { priceUSD: price, date: timestamp } = data;
 

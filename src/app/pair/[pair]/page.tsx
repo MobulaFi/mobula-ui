@@ -26,39 +26,9 @@ async function fetchAssetData({ params }) {
     });
 
     const pairData = activePair?.data;
-    const fetchPairTrade = fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${pair}&blockchain=${pairData?.blockchain}&amount=100`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    );
-
-    const fetchSocialLink = fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?address=${
-        pairData?.[pairData?.baseToken]?.address
-      }&blockchain=${pairData?.blockchain}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    );
-
-    const [pairTrade, pairSocial] = await Promise.all([
-      fetchPairTrade,
-      fetchSocialLink,
-    ]).then((r) => {
-      return Promise.all(r.map((res) => res.json()));
-    });
 
     return {
       data: pairData,
-      trade: pairTrade?.data,
-      social: pairSocial,
     };
   } catch (error) {
     console.log(error);
@@ -71,11 +41,9 @@ type Props = {
 
 async function AssetPage({ params }) {
   const { pair } = params;
-  const { data, trade, social }: any = await fetchAssetData({ params });
-
+  const { data }: any = await fetchAssetData({ params });
   const newPair = {
     ...data,
-    social: social?.data,
     isPair: true,
     address: pair,
   };
@@ -112,7 +80,7 @@ async function AssetPage({ params }) {
         hideTxCookie={"{ hideTx: false }"}
         tradeCookie={undefined}
         isAsset={false}
-        tradePairs={trade || []}
+        tradePairs={[]}
       >
         <ShowMoreProvider>
           <NavActiveProvider>

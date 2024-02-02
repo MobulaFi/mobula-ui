@@ -82,12 +82,7 @@ export const Top100 = ({
       })
       .order("market_cap", { ascending: false })
       .range(activePage * 100 - 100, activePage * 100 - 1);
-    console.log(
-      "activePage * 100 - 100",
-      activePage * 100 - 100,
-      "activePage * 100 - 1",
-      activePage * 100 - 1
-    );
+    console.log("activePage * 100 - 100", activePage);
     if (filters) {
       filters
         .filter((entry) => entry.action)
@@ -116,35 +111,40 @@ export const Top100 = ({
   let ticking = false;
 
   useEffect(() => {
+    const appContainer = document.getElementById("app");
+    let ticking = false;
+
     const handleScroll = () => {
-      if (!tableRef.current) return;
+      if (!appContainer || !tableRef.current) return;
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const windowHeight = window.innerHeight;
-          const scrollPosition = window.scrollY + windowHeight;
+          const windowHeight = appContainer.clientHeight; // Utilisez clientHeight ici
+          const scrollPosition = appContainer.scrollTop + windowHeight; // Utilisez scrollTop ici
           const triggerHeight = windowHeight * 1.5;
-          if (scrollPosition > triggerHeight && !isButtonVisible)
-            setIsButtonVisible(true);
-          if (scrollPosition <= triggerHeight && isButtonVisible)
-            setIsButtonVisible(false);
+
+          setIsButtonVisible(
+            scrollPosition > triggerHeight && !isButtonVisible
+          );
 
           const tableBottomPosition =
             tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
           if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
-            setActivePage(Math.round(resultsData?.data?.length) / 100 + 1);
+            // Supposons que resultsData est défini ailleurs
+            setActivePage(Math.round(resultsData?.data?.length / 100) + 1);
           }
+
           ticking = false;
         });
-
         ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    appContainer.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      appContainer.removeEventListener("scroll", handleScroll);
     };
   }, [isPageLoading, isButtonVisible]);
 

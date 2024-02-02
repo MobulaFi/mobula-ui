@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
+import { AddressAvatar } from "../../../../components/avatar";
 import { Button } from "../../../../components/button";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
 import { Menu } from "../../../../components/menu";
@@ -192,15 +193,18 @@ export const TokenMainInfo = ({ pairs = null }) => {
         <>
           <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5 w-full">
             <div className="flex items-center mb-1 md:mb-0">
-              <img
-                className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
-                src={
-                  !isAssetPage
-                    ? baseAsset?.[baseAsset?.baseToken]?.logo
-                    : baseAsset?.logo
-                }
-                alt={`${baseAsset?.name} logo`}
-              />
+              {baseAsset?.logo ? (
+                <img
+                  className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
+                  src={baseAsset?.logo}
+                  alt={`${baseAsset?.name} logo`}
+                />
+              ) : (
+                <AddressAvatar
+                  address={baseAsset?.contracts?.[0]}
+                  extraCss="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
+                />
+              )}
               <div className="flex flex-wrap items-center">
                 <Popover
                   visibleContent={
@@ -273,7 +277,17 @@ export const TokenMainInfo = ({ pairs = null }) => {
                 <LargeFont
                   extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
                 >
-                  ${getFormattedAmount(marketMetrics.price)}
+                  $
+                  {getFormattedAmount(
+                    marketMetrics.price,
+                    0,
+                    {
+                      minifyZeros: true,
+                      minifyBigNumbers: true,
+                    },
+                    false,
+                    true
+                  )}
                 </LargeFont>
                 <div className="flex items-center">
                   <div

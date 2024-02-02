@@ -42,7 +42,7 @@ export const useButtonStatus = () => {
       return;
     }
 
-    if (chainNeeded && chain?.id !== chainNeeded && tokenOut) {
+    if (chainNeeded && chain?.id !== Number(chainNeeded) && tokenOut) {
       setButtonStatus(
         blockchainsIdContent[chainNeeded]?.name
           ? `Switch to ${blockchainsIdContent[chainNeeded]?.name}`

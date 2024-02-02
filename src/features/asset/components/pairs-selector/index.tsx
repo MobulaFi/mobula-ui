@@ -1,6 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
@@ -66,8 +66,13 @@ export const PairsSelector = () => {
                 alt={`${baseAsset?.blockchain} logo`}
               />
             </div>
-            <div className="flex flex-col whitespace-nowrap">
-              <LargeFont extraCss="leading-tight text-2xl md:text-lg">
+            <div className="flex justify-start whitespace-nowrap flex-wrap w-max md:w-auto">
+              <LargeFont extraCss="leading-tight text-2xl md:text-lg text-start mr-2">
+                <span className=" text-light-font-60 dark:text-dark-font-60 max-w-[160px] truncate">
+                  ({baseAsset?.[baseAsset?.baseToken]?.name})
+                </span>
+              </LargeFont>
+              <LargeFont extraCss="leading-tight text-2xl md:text-lg text-start">
                 <span className="font-medium">
                   {baseAsset?.[baseAsset?.baseToken]?.symbol}
                 </span>{" "}
@@ -77,7 +82,7 @@ export const PairsSelector = () => {
               </LargeFont>
             </div>
           </div>
-          <div className="flex items-center ml-10">
+          <div className="flex items-center ml-10 md:ml-5">
             <div className="flex items-center">
               <LargeFont extraCss="font-normal mr-2.5 text-2xl md:text-lg">
                 ${getFormattedAmount(baseAsset?.[baseAsset?.baseToken]?.price)}

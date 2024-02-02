@@ -1,13 +1,12 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { BsChevronRight, BsTelegram } from "react-icons/bs";
+import React, { useContext, useEffect, useState } from "react";
+import { BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
 import { Container } from "../../components/container";
 import { SmallFont } from "../../components/fonts";
 import { NextChakraLink } from "../../components/link";
-import { Skeleton } from "../../components/skeleton";
 import { TagPercentage } from "../../components/tag-percentage";
 import { TopNav } from "../../layouts/menu-mobile/top-nav";
 import { SwapProvider } from "../../layouts/swap";
@@ -53,6 +52,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     shouldInstantLoad,
     setActiveTab,
     activeTab,
+    setBaseAsset,
   } = useContext(BaseAssetContext);
   const pathname = usePathname();
   const [isBreadCrumbLoading, setIsBreadCrumbLoading] = useState(true);
@@ -64,6 +64,31 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
       url: "/home",
     },
   ]);
+
+  useEffect(() => {
+    if (!isAssetPage && baseAsset) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?asset=${
+          baseAsset?.[baseAsset?.baseToken]?.address
+        }&blockchain=${baseAsset?.blockchain}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setBaseAsset((prev) => ({
+              ...prev,
+              social: r.data,
+            }));
+          }
+        });
+    }
+  }, [baseAsset]);
 
   useLiteStreamMarketDataModule(
     baseAsset,
@@ -320,7 +345,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
 
   return (
     <>
-      <div className="flex flex-col" {...handlers}>
+      <div className="flex flex-col mt-5 md:mt-0" {...handlers}>
         {isAssetPage ? (
           <TopNav
             list={tabs}
@@ -329,39 +354,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
             setPreviousTab={setPreviousTab}
           />
         ) : null}
-        <Container extraCss="md:w-full mb-2 lg:mb-0 pb-0 h-[21px] md:mt-1 md:hidden maximum-width">
-          {prevPaths?.length > 1 || isBreadCrumbLoading ? (
-            <div className="flex items-center ml-0 md:ml-2.5">
-              <NextChakraLink
-                extraCss="text-sm lg:text-[13px] md:text-xs text-light-font-40 dark:text-dark-font-40"
-                href={
-                  process.env.NEXT_PUBLIC_WEBSITE_URL +
-                  (prevPaths?.[0]?.url || "/home")
-                }
-              >
-                {isBreadCrumbLoading ? (
-                  <Skeleton extraCss="w-[45px] h-[15px] lg:h-[14px] md:h-[13px]" />
-                ) : (
-                  prevPaths?.[0]?.name
-                )}
-              </NextChakraLink>
-              <BsChevronRight className="text-xs text-light-font-60 dark:text-dark-font-60 mx-2 lg:mx-1.5 md:1" />
-              <NextChakraLink
-                extraCss="text-sm lg:text-[13px] md:text-xs"
-                href={
-                  process.env.NEXT_PUBLIC_WEBSITE_URL +
-                  (prevPaths?.[1]?.url || "/home")
-                }
-              >
-                {isBreadCrumbLoading ? (
-                  <Skeleton extraCss="w-[45px] h-[15px] lg:h-[14px] md:h-[13px]" />
-                ) : (
-                  prevPaths?.[1]?.name
-                )}
-              </NextChakraLink>
-            </div>
-          ) : null}
-        </Container>
         <Container extraCss="md:w-full mt-0 maximum-width">
           {baseAsset?.name === "YEBAT" ? (
             <div
