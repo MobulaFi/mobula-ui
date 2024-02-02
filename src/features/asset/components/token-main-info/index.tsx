@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
+import { AddressAvatar } from "../../../../components/avatar";
 import { Button } from "../../../../components/button";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
 import { Menu } from "../../../../components/menu";
@@ -21,7 +22,6 @@ import { useMarketMetrics } from "../../hooks/use-marketMetrics";
 import { percentageTags } from "../../style";
 import { PairsSelector } from "../pairs-selector";
 import { ATHnATL } from "../ui/ath-atl";
-import { AddressAvatar } from "../../../../components/avatar";
 
 interface TokenMainInfoProps {
   pairs?: any;
@@ -277,7 +277,17 @@ export const TokenMainInfo = ({ pairs = null }) => {
                 <LargeFont
                   extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
                 >
-                  ${getFormattedAmount(marketMetrics.price)}
+                  $
+                  {getFormattedAmount(
+                    marketMetrics.price,
+                    0,
+                    {
+                      minifyZeros: true,
+                      minifyBigNumbers: true,
+                    },
+                    false,
+                    true
+                  )}
                 </LargeFont>
                 <div className="flex items-center">
                   <div
