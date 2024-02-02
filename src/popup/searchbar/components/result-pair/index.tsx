@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AddressAvatar } from "../../../../components/avatar";
 import { pushData } from "../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../utils/formaters";
@@ -19,17 +19,31 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
     console.log("pairrrrrrrrr", result);
     router.push(`/pair/${result.address}`);
   };
-
+  const notListedTokens = results?.filter((entry) => !entry.id);
   const isBaseToken = (result, pair) => result?.symbol === pair?.token0?.symbol;
   const isQuoteToken = (result, pair) =>
     result?.symbol === pair?.token1?.symbol;
 
+  const resultsWithPair = results?.filter((entry) => entry?.pairs?.length > 0);
+
+  const finalPairs = resultsWithPair.concat(notListedTokens);
+
   return (
     <div className={`${results.length > 0 ? "mt-2.5" : "mt-0"}`}>
-      {pairs?.length > 0 && (
-        <Title extraCss="mt-[5px]">Pairs ({pairs?.length})</Title>
+      {finalPairs?.length > 0 && (
+        <Title extraCss="mt-[5px]">
+          Pairs (
+          {
+            finalPairs?.filter(
+              (entry) =>
+                entry?.pairs?.[0]?.token0?.symbol !== "BNB" &&
+                entry?.pairs?.[0]?.token1?.symbol !== "BNB"
+            )?.length
+          }
+          )
+        </Title>
       )}
-      {pairs
+      {finalPairs
         ?.filter(
           (entry) =>
             entry?.pairs?.[0]?.token0?.symbol !== "BNB" &&
@@ -49,7 +63,7 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
             >
               <div className="flex items-center">
                 {(isBaseToken(result, pair) && pair?.token0?.logo) ||
-                (!isBaseToken(result, pair) && pair?.token1?.logo) ? (
+                (!isBaseToken(result, pair) && pair?.token0?.logo) ? (
                   <img
                     src={
                       isBaseToken(result, pair)
