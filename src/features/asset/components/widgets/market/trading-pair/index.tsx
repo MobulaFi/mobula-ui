@@ -233,10 +233,12 @@ export const TradingPairs = () => {
                       key={
                         pair?.exchange + pair?.address + pair?.liquidity || i
                       }
+                      className="cursor-pointer hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary"
                     >
                       <td
                         className="border-b border-light-border-primary dark:border-dark-border-primary py-[15px]
                      pl-5 md:pl-2.5 pr-2.5 md:pr-[25px] text-[11px] lg:text-[10px] md:text-[8px]"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         {isLoading ? (
                           <div className="flex items-center">
@@ -262,6 +264,7 @@ export const TradingPairs = () => {
                       <td
                         className="border-b border-light-border-primary dark:border-dark-border-primary py-[15px]
                       px-2.5 text-[11px] lg:text-[10px] md:text-[8px]"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         <div className="flex w-full">
                           {isLoading ? (
@@ -277,6 +280,7 @@ export const TradingPairs = () => {
                       <td
                         className="border-b border-light-border-primary
                        dark:border-dark-border-primary px-2.5 text-end"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
@@ -291,6 +295,7 @@ export const TradingPairs = () => {
                       <td
                         className="border-b border-light-border-primary
                        dark:border-dark-border-primary px-2.5 text-end"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (

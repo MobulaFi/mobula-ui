@@ -15,7 +15,6 @@ interface SiteMapProps {
 export const SiteMap = ({ assets, count }: SiteMapProps) => {
   const params = useSearchParams();
   const page = params.get("page");
-  console.log("params", params);
   return (
     <Container>
       <LargeFont>Cryptocurrencies Sitemap</LargeFont>

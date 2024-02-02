@@ -103,8 +103,6 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     return false;
   };
 
-  console.log("buttonStatus", buttonStatus);
-
   return (
     <div
       className={`flex w-full justify-center ${

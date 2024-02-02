@@ -167,7 +167,6 @@ export const SwapNonMetaProvider = ({
       !tokenInBuffer &&
       !tokenOutBuffer
     ) {
-      console.log("I CHANGE TO ETH CHAIN");
       setChainNeeded(1);
     }
   }, [chain]);
