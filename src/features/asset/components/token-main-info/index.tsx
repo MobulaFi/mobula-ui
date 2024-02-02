@@ -21,6 +21,7 @@ import { useMarketMetrics } from "../../hooks/use-marketMetrics";
 import { percentageTags } from "../../style";
 import { PairsSelector } from "../pairs-selector";
 import { ATHnATL } from "../ui/ath-atl";
+import { AddressAvatar } from "../../../../components/avatar";
 
 interface TokenMainInfoProps {
   pairs?: any;
@@ -192,15 +193,18 @@ export const TokenMainInfo = ({ pairs = null }) => {
         <>
           <div className="flex items-center justify-start lg:justify-between mb-0 lg:mb-0.5 w-full">
             <div className="flex items-center mb-1 md:mb-0">
-              <img
-                className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
-                src={
-                  !isAssetPage
-                    ? baseAsset?.[baseAsset?.baseToken]?.logo
-                    : baseAsset?.logo
-                }
-                alt={`${baseAsset?.name} logo`}
-              />
+              {baseAsset?.logo ? (
+                <img
+                  className="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
+                  src={baseAsset?.logo}
+                  alt={`${baseAsset?.name} logo`}
+                />
+              ) : (
+                <AddressAvatar
+                  address={baseAsset?.contracts?.[0]}
+                  extraCss="w-[26px] h-[26px] min-w-[26px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px] md:min-w-[20px] mr-[7.5px] rounded-full"
+                />
+              )}
               <div className="flex flex-wrap items-center">
                 <Popover
                   visibleContent={
