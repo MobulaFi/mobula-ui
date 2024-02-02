@@ -1,5 +1,11 @@
 import { useTheme } from "next-themes";
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Timezone } from "../../../public/static/charting_library/charting_library";
 import { Asset, Trade } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
@@ -17,6 +23,10 @@ interface TradingViewChartProps {
   setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>;
 }
 
+function generateUserId() {
+  return `user_${Math.random().toString(36).substr(2, 9)}`;
+}
+
 const TradingViewChart = ({
   baseAsset,
   mobile = false,
@@ -25,11 +35,22 @@ const TradingViewChart = ({
   isPair = false,
   setPairTrades,
 }: TradingViewChartProps) => {
+  // State variable to store the userId
+  const [userId, setUserId] = useState("");
+  // This useEffect hook will run when the component mounts.
+  useEffect(() => {
+    let localUserId = localStorage.getItem("userId");
+    if (!localUserId) {
+      localUserId = generateUserId();
+      localStorage.setItem("userId", localUserId);
+    }
+    setUserId(localUserId);
+  }, []);
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
   const isWhiteMode = resolvedTheme === "light";
   const chartInit = () => {
-    if (!baseAsset) return () => {};
+    if (!baseAsset && !userId) return () => {};
     import("../../../public/static/charting_library").then(
       ({ widget: Widget }) => {
         if (!ref.current) return;
@@ -41,6 +62,12 @@ const TradingViewChart = ({
           container_id: ref.current.id,
           locale: "en",
           fullscreen: false,
+          user_id: userId,
+          client_id: "tradingview.com",
+          charts_storage_url: "https://chart.mobula.io",
+          charts_storage_api_version: "1.1",
+          load_last_chart: true,
+          auto_save_delay: 10,
           enabled_features: ENABLED_FEATURES,
           disabled_features: [
             ...DISABLED_FEATURES,
@@ -61,10 +88,28 @@ const TradingViewChart = ({
 
         (window as any).tvWidget.onChartReady(() => {
           // setIsChartLoaded(true);
+          tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
+          function handleAutoSave() {
+            console.log("Auto save triggered!");
+            const saveOptions = {
+              chartName: "MyChartName_Ex",
+            };
+            // Call saveChartToServer with the chart name options
+            tvWidget.saveChartToServer(
+              () => {
+                console.log("Chart successfully saved!");
+              },
+              () => {
+                console.error("Failed to save the chart!");
+              },
+              saveOptions
+            );
+          }
           (window as any).tvWidget?.applyOverrides(
             overrides(isWhiteMode) || {}
           );
         });
+        console.log("onAutoSaveNeeded event subscription set");
       }
     );
   };
