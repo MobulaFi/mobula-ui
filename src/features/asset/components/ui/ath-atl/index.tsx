@@ -25,8 +25,8 @@ export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
             width:
               content?.atl && content?.ath
                 ? `${
-                    ((content.price - content?.atl?.[1]) /
-                      (content?.ath?.[1] - content?.atl?.[1])) *
+                    ((content.price - content?.atl) /
+                      (content?.ath - content?.atl)) *
                     100
                   }%`
                 : "0%",
@@ -39,7 +39,7 @@ export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
             Low
           </SmallFont>
           <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-            ${getFormattedAmount(content?.atl?.[1])}
+            ${getFormattedAmount(content?.atl)}
           </SmallFont>
         </div>
         <div className="flex items-center">
@@ -47,7 +47,7 @@ export const ATHnATL = ({ content, isUp }: ATHnATLProps) => {
             High
           </SmallFont>
           <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 font-medium">
-            ${getFormattedAmount(content?.ath?.[1])}
+            ${getFormattedAmount(content?.ath)}
           </SmallFont>
         </div>
       </div>
