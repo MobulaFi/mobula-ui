@@ -1,4 +1,4 @@
-import router from "next/dist/client/router";
+import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -25,6 +25,7 @@ export const SimilarAssetTemplate = ({
   content,
 }: SimilarAssetTemplateProps) => {
   const { isAssetPage } = useContext(BaseAssetContext);
+  const router = useRouter();
   return (
     <Button
       key={content.id}
