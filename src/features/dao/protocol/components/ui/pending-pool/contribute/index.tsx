@@ -370,7 +370,6 @@ export const Contribute = ({ token }: ContributeProps) => {
           }
         >
           {Object.keys(buyWith).map((key) => {
-            console.log("key", buyWith[key]);
             return (
               <div
                 key={key}

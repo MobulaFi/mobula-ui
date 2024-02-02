@@ -16,7 +16,6 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
       soloPair: result.token0.address,
       pair: result.address,
     });
-    console.log("pairrrrrrrrr", result);
     router.push(`/pair/${result.address}`);
   };
   const notListedTokens = results?.filter((entry) => !entry.id);

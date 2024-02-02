@@ -93,7 +93,6 @@ export const Manage = () => {
   //   console.log("wallets", wallet);
   //   console.log("manager", manager);
   //   console.log("activePortfolio", activePortfolio);
-  console.log("portfolio", hiddenTokens);
 
   const handleCheckboxChange = (tokenId: number) => {
     setIsCheck((prev) => ({

@@ -103,7 +103,6 @@ export const CoreSearchBar = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
-          console.log("rrrrr", r.data);
           setResults(
             r.data.filter((entry, i) => i < maxAssetsResult && entry.id)
           );
