@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AddressAvatar } from "../../../../components/avatar";
 import { pushData } from "../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../utils/formaters";
@@ -88,6 +88,9 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
                   {isQuoteToken(result, pair)
                     ? pair?.token0?.symbol?.toUpperCase()
                     : pair?.token1?.symbol?.toUpperCase()}
+                </p>
+                <p className="text-sm max-w-[100px] truncate text-light-font-60 dark:text-dark-font-60 mr-2.5">
+                  {result?.name}
                 </p>
               </div>
               <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100">
