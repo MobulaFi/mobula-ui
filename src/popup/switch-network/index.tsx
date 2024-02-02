@@ -69,9 +69,9 @@ export const SwitchNetworkPopup = () => {
                 return;
               }
               const result = await handleSwitchNetwork(blockchain.name);
-
               if (result && "error" in result) {
                 setError(result?.error);
+                setShowSwitchNetwork(false);
               }
             }}
           >

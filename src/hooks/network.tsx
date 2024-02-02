@@ -21,7 +21,7 @@ export const useSafeSwitchNetwork = () => {
       try {
         await new Promise((resolve, reject) => {
           switchNetworkAsync(
-            (blockchainsContent[blockchain].chainId || 0) as number
+            blockchainsContent?.[blockchain]?.chainId as number
           )
             .catch((e) => {
               reject(e);

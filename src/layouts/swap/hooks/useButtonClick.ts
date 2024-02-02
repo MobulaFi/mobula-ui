@@ -66,7 +66,6 @@ export const useButtonClick = () => {
       dex_name: (manualQuote || quotes[0]).protocol,
       chain_name: blockchainsIdContent[chain.id]?.name,
     };
-
     switch (buttonStatus) {
       case "Approve":
         pushData("Trade Approve Clicked", dataProperties);
