@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -65,7 +65,7 @@ export const Essentials = () => {
             <TradingViewChart
               baseAsset={baseAsset}
               isPair={!isAssetPage}
-              setPairTrades={setPairTrades}
+              setPairTrades={isAssetPage ? null : setPairTrades}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
           ) : (
