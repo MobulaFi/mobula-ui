@@ -158,7 +158,7 @@ export const TokenTrades = () => {
   }, []);
 
   useEffect(() => {
-    if (!isAssetPage || !baseAsset) return;
+    if (isAssetPage || !baseAsset) return;
     fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${baseAsset?.address}&blockchain=${baseAsset?.blockchain}&amount=100`,
       {

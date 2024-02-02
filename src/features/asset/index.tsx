@@ -52,6 +52,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     shouldInstantLoad,
     setActiveTab,
     activeTab,
+    setBaseAsset,
   } = useContext(BaseAssetContext);
   const pathname = usePathname();
   const [isBreadCrumbLoading, setIsBreadCrumbLoading] = useState(true);
@@ -63,6 +64,31 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
       url: "/home",
     },
   ]);
+
+  useEffect(() => {
+    if (!isAssetPage && baseAsset) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?asset=${
+          baseAsset?.[baseAsset?.baseToken]?.address
+        }&blockchain=${baseAsset?.blockchain}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setBaseAsset((prev) => ({
+              ...prev,
+              social: r.data,
+            }));
+          }
+        });
+    }
+  }, [baseAsset]);
 
   useLiteStreamMarketDataModule(
     baseAsset,
