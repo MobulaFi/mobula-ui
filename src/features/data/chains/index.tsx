@@ -1,23 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container } from "../../../components/container";
 import { LeftBox } from "./components/box-left";
 import { MiddleBox } from "./components/box-middle";
 import { RightBox } from "./components/box-right";
+import { useChains } from "./context-manager";
 
 export const Chains = () => {
+  const { pairs, chain } = useChains();
   const [showPage, setShowPage] = useState(0);
+
+  console.log("PAIRS", pairs);
+  console.log("CHAIN", chain);
   return (
-    <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
+    <>
       <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
-        <Container
-          extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
-            justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
-        >
-          fjiofriofsrfiosrfiosrio
+        <Container extraCss="lg:flex flex-row max-w-[1300px] ">
           <div className="flex w-95per mx-auto ">
             <div className="swiper">
-              <div className="swiper-wrapper">
+              <div className="swiper-wrapper flex">
                 <div className="swiper-slide flex justify-center">
                   <LeftBox showPageMobile={showPage} />
                 </div>
@@ -32,6 +33,6 @@ export const Chains = () => {
           </div>
         </Container>
       </div>
-    </div>
+    </>
   );
 };
