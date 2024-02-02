@@ -1,6 +1,6 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
@@ -68,6 +68,9 @@ export const PairsSelector = () => {
             </div>
             <div className="flex flex-col whitespace-nowrap">
               <LargeFont extraCss="leading-tight text-2xl md:text-lg">
+                <span className=" text-light-font-60 dark:text-dark-font-60 max-w-[160px] truncate">
+                  ({baseAsset?.[baseAsset?.baseToken]?.name})
+                </span>{" "}
                 <span className="font-medium">
                   {baseAsset?.[baseAsset?.baseToken]?.symbol}
                 </span>{" "}
