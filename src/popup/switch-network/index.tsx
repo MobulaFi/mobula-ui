@@ -22,7 +22,9 @@ export const SwitchNetworkPopup = () => {
       ? showSwitchNetwork
       : chainNeededBuffer;
   const blockchain =
-    blockchainsIdContent[showSwitchNetwork || chainNeededBuffer];
+    blockchainsIdContent[
+      (showSwitchNetwork as number) || (chainNeededBuffer as number)
+    ];
 
   useEffect(() => {
     if (chain?.id === chainNeeded) setShowSwitchNetwork(false);

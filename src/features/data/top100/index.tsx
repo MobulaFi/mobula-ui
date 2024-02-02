@@ -112,7 +112,7 @@ export const Top100 = ({
 
   useEffect(() => {
     const appContainer = document.getElementById("app");
-    let ticking = false; // Déclaration de la variable ticking
+    let ticking = false;
 
     const handleScroll = () => {
       if (!appContainer || !tableRef.current) return;
