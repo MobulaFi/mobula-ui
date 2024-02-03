@@ -110,7 +110,10 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
                 <span className="text-light-font-40 dark:text-dark-font-40 mr-1">
                   Liquidity:
                 </span>{" "}
-                ${getFormattedAmount(pair?.liquidity)}
+                $
+                {getFormattedAmount(pair?.liquidity, 0, {
+                  canUseHTML: true,
+                })}
               </p>
             </div>
           );

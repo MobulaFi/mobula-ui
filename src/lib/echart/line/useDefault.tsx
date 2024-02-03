@@ -8,7 +8,6 @@ import { PublicTransaction } from "../../../interfaces/transactions";
 import {
   getDate,
   getFormattedAmount,
-  getShortenedAmount,
   getTokenPercentage,
 } from "../../../utils/formaters";
 import { getTimeStampFromTimeFrame } from "./utils";
@@ -337,7 +336,9 @@ export const useDefault = ({
       axisLabel: {
         color: getTextColorsAxis(),
         formatter: (value: number) =>
-          getShortenedAmount(value, spreadResolution + 1),
+          getFormattedAmount(value, spreadResolution + 1, {
+            isScientificNotation: true,
+          }),
         show: !noAxis,
       },
       axisPointer: {
