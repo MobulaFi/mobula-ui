@@ -61,7 +61,9 @@ export const SwapNonMetaProvider = ({
   // User-related hooks
   const { isConnected } = useAccount();
   const { chain } = useNetwork();
-  const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id,
+  });
 
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id;
@@ -141,7 +143,7 @@ export const SwapNonMetaProvider = ({
         const wishedChain =
           blockchainsContent[
             (tokens[positionRequiredToSwitch] || { blockchain: "" }).blockchain
-          ].chainId;
+          ].evmChainId;
 
         // If the wished chain is different from the current chain, we set the new one.
         // Elseway, we set the chainNeeded to undefined to clear its effect.

@@ -98,7 +98,7 @@ export const useUpdateSearch = (position: string) => {
                 blockchain: name.blockchains[0],
                 price: name.price,
                 switch:
-                  blockchainsContent[name.blockchains[0]].chainId !==
+                  blockchainsContent[name.blockchains[0]].evmChainId !==
                   currentChain,
               };
             }

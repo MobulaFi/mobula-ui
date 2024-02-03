@@ -22,6 +22,6 @@ export interface SearchTokenProps {
   balance?: number;
   switch?: boolean;
   coin?: boolean;
-  chainId?: number;
+  evmChainId?: number;
   image?: string;
 }

@@ -184,7 +184,7 @@ export const Nav = () => {
                 if (!address) {
                   setConnect(true);
                   return;
-                } else setShowSwitchNetwork(Number(blockchain[1].chainId));
+                } else setShowSwitchNetwork(Number(blockchain[1].evmChainId));
               }}
             >
               <img
@@ -194,7 +194,7 @@ export const Nav = () => {
               <div className="w-fit ml-2.5">
                 <SmallFont
                   extraCss={`${
-                    (chain?.id as never) === blockchain[1]?.chainId
+                    (chain?.id as never) === blockchain[1]?.evmChainId
                       ? "text-blue dark:text-blue"
                       : ""
                   }font-poppins`}
