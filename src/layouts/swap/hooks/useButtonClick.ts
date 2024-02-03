@@ -254,7 +254,7 @@ export const useButtonClick = () => {
       default:
         if (buttonStatus.includes("Switch to ")) {
           setShowSwitchNetwork(
-            blockchainsContent[buttonStatus.split("Switch to ")[1]].chainId
+            blockchainsContent[buttonStatus.split("Switch to ")[1]].evmChainId
           );
         }
     }

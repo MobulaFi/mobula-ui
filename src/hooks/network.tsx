@@ -21,7 +21,7 @@ export const useSafeSwitchNetwork = () => {
       try {
         await new Promise((resolve, reject) => {
           switchNetworkAsync(
-            blockchainsContent?.[blockchain as string]?.chainId as number
+            blockchainsContent?.[blockchain as string]?.evmChainId as number
           )
             .catch((e) => {
               reject(e);
@@ -35,7 +35,7 @@ export const useSafeSwitchNetwork = () => {
             i += 1;
             if (
               chainRef.current?.id ===
-              (blockchainsContent[blockchain].chainId || 0)
+              (blockchainsContent[blockchain].evmChainId || 0)
             ) {
               resolve(null);
               clearInterval(interval);
@@ -63,7 +63,7 @@ export const useSafeSwitchNetwork = () => {
               });
               const wishedBlockchain = Object.values(idToWagmiChain).find(
                 (entry) =>
-                  entry.id === (blockchainsContent[blockchain].chainId || 0)
+                  entry.id === (blockchainsContent[blockchain].evmChainId || 0)
               );
 
               client.addChain({

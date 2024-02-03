@@ -62,6 +62,8 @@ export const MenuMobile = ({
     };
   }, [isMenuMobile]);
 
+  console.log(isConnected);
+
   const { portfolioUrl } = useUrl();
 
   return (
@@ -165,17 +167,19 @@ export const MenuMobile = ({
           </div>
         </div>
       ) : null}
-      <button
-        className="ml-[28px] mt-3.5"
-        onClick={() => {
-          disconnect();
-        }}
-      >
-        <div className="flex items-center text-light-font-100 dark:text-dark-font-100 text-base">
-          <BsPower className="text-xl mr-2.5" />
-          Log Out
-        </div>
-      </button>
+      {isConnected ? (
+        <button
+          className="ml-[28px] mt-3.5"
+          onClick={() => {
+            disconnect();
+          }}
+        >
+          <div className="flex items-center text-light-font-100 dark:text-dark-font-100 text-base">
+            <BsPower className="text-xl mr-2.5" />
+            Log Out
+          </div>
+        </button>
+      ) : null}
     </div>
   );
 };

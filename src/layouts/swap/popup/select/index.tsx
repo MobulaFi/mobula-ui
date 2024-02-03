@@ -122,7 +122,8 @@ export const Select = ({
               logo: selectedToken.logo,
               symbol: selectedToken.symbol,
               blockchain: selectedToken.blockchain,
-              chainId: blockchainsContent[selectedToken.blockchain].chainId,
+              evmChainId:
+                blockchainsContent[selectedToken.blockchain].evmChainId,
               coin: true,
               address: "",
               blockchains: [],
@@ -135,14 +136,16 @@ export const Select = ({
       setVisible(false);
 
       if (shouldSwitch) {
-        setChainNeeded(blockchainsContent[finalToken.blockchain].chainId);
-        setShowSwitchNetwork(blockchainsContent[finalToken.blockchain].chainId);
+        setChainNeeded(blockchainsContent[finalToken.blockchain].evmChainId);
+        setShowSwitchNetwork(
+          blockchainsContent[finalToken.blockchain].evmChainId
+        );
       } else setChainNeeded(undefined);
 
       await loadToken(position, finalToken, {
         contextBuffer: {
           chainNeeded: shouldSwitch
-            ? blockchainsContent[finalToken.blockchain].chainId
+            ? blockchainsContent[finalToken.blockchain].evmChainId
             : undefined,
         },
       });

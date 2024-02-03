@@ -121,14 +121,15 @@ export const ChainsChanger = ({
                       onClick={() => {
                         if (!chain) {
                           setConnect(true);
+                          setShowChainPopover?.(false);
                           return;
                         }
                         console.log(
                           "entry.name",
-                          newChainsOrder?.[entry.name].chainId
+                          newChainsOrder?.[entry.name].evmChainId
                         );
                         setShowSwitchNetwork(
-                          newChainsOrder?.[entry.name].chainId
+                          newChainsOrder?.[entry.name].evmChainId
                         );
                       }}
                     >

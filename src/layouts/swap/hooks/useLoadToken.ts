@@ -39,7 +39,7 @@ export const useLoadToken = () => {
         ...defaultContext,
         ...contextBuffer,
       };
-      const chainId =
+      const evmChainId =
         context.chainNeeded || chainBuffer?.id || defaultChain?.id || 1;
 
       const supabase = createSupabaseDOClient();
@@ -56,8 +56,8 @@ export const useLoadToken = () => {
       dbQuery.order("market_cap", { ascending: false });
 
       const client = createPublicClient({
-        chain: idToWagmiChain[chainId],
-        transport: http(blockchainsIdContent[chainId].rpcs[0]),
+        chain: idToWagmiChain[evmChainId],
+        transport: http(blockchainsIdContent[evmChainId].rpcs[0]),
       });
 
       let balance: string | null = null;
@@ -128,7 +128,7 @@ export const useLoadToken = () => {
       if (
         (context.chainNeeded && defaultChain?.id === context.chainNeeded) ||
         (context.chainNeeded &&
-          chainId &&
+          evmChainId &&
           token?.blockchain === otherToken?.blockchain &&
           otherToken?.blockchain ===
             blockchainsIdContent[chainBuffer?.id || defaultChain?.id || 1]
@@ -138,9 +138,11 @@ export const useLoadToken = () => {
       } else if (
         !context.chainNeeded &&
         (defaultChain?.id || 1) !==
-          blockchainsContent[token.blockchain]?.chainId
+          blockchainsContent[token.blockchain]?.evmChainId
       ) {
-        context.setChainNeeded(blockchainsContent[token.blockchain]?.chainId);
+        context.setChainNeeded(
+          blockchainsContent[token.blockchain]?.evmChainId
+        );
       }
 
       context.setManualQuote(undefined);

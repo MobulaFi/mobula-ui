@@ -1,7 +1,7 @@
 export const SuperchargedAnimatedLine = ({ content }) => {
   return (
     <div
-      key={content.chainId}
+      key={content.evmChainId}
       className="flex justify-center items-center p-2.5 rounded-xl shadow-xl m-2.5 md:m-1 
                    border border-light-border-primary dark:border-dark-border-primary shadow-4xl "
       style={{

@@ -60,13 +60,13 @@ export const MultiInputTemplate = ({
             object,
           },
         });
-        const { chainId } = blockchainsContent[blockchainBuffer];
+        const { evmChainId } = blockchainsContent[blockchainBuffer];
         dispatch({
           type: ACTIONS.SET_ELEMENT,
           payload: {
             i,
             name: "blockchain_id",
-            value: chainId,
+            value: evmChainId,
             object,
           },
         });
@@ -77,7 +77,7 @@ export const MultiInputTemplate = ({
               payload: {
                 address: e.target.value,
                 blockchain: blockchainBuffer,
-                blockchain_id: chainId,
+                blockchain_id: evmChainId,
               },
             });
       };

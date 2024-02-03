@@ -11,14 +11,14 @@ export const useUpdateBalance = () => {
   const { chain } = useNetwork();
   const { chainNeeded, tokenIn, setTokenIn, completedTx } = useMetaContext();
 
-  const chainId = chainNeeded || chain?.id || 1;
+  const evmChainId = chainNeeded || chain?.id || 1;
 
   const updateBalance = () => {
     if (!address) return;
 
     const client = createPublicClient({
-      chain: idToWagmiChain[chainId],
-      transport: http(blockchainsIdContent[chainId].rpcs[0]),
+      chain: idToWagmiChain[evmChainId],
+      transport: http(blockchainsIdContent[evmChainId].rpcs[0]),
     });
 
     if (tokenIn && "coin" in tokenIn) {
@@ -44,7 +44,7 @@ export const useUpdateBalance = () => {
   };
 
   useEffect(() => {
-    if (blockchainsIdContent[chainId]) updateBalance();
+    if (blockchainsIdContent[evmChainId]) updateBalance();
   }, [address]);
 
   useEffect(() => {

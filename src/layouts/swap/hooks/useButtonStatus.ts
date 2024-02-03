@@ -21,7 +21,9 @@ export const useButtonStatus = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { data: balanceData } = useBalance({ address });
-  const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id,
+  });
   const [buttonStatus, setButtonStatus] = useState("Loading...");
 
   // Syntaxic sugar

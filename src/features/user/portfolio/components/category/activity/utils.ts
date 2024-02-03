@@ -104,7 +104,7 @@ export const fetchContract = (search: string) => {
       Object.values(blockchainsContent).forEach(async (blockchain) => {
         try {
           const publicClient = createPublicClient({
-            chain: idToWagmiChain[blockchain.chainId],
+            chain: idToWagmiChain[blockchain.evmChainId],
             transport: http(blockchain.rpcs[0]),
           });
 
