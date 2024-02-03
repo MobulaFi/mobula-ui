@@ -452,10 +452,7 @@ export const AddTransactionPopup = () => {
                     : getClosest(historicalData || [], timestamp) *
                         parseFloat(settings.quantity),
                   0,
-                  {
-                    minifyBigNumbers: false,
-                    minifyZeros: false,
-                  }
+                  { shouldNotMinifyBigNumbers: true }
                 ) as number;
               })()}
               readOnly

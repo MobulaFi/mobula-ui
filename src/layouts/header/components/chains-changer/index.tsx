@@ -1,4 +1,7 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import {
+  blockchainsContent,
+  blockchainsIdContent,
+} from "mobula-lite/lib/chains/constants";
 import React, { useContext, useState } from "react";
 import {
   AiFillCaretDown,
@@ -74,7 +77,7 @@ export const ChainsChanger = ({
 
   const reorderedBlockchainsContent = moveSelectedToIndexZero(
     Object.values(newChainsOrder),
-    blockchainsContent[chain?.name || 0]?.name
+    blockchainsIdContent[chain?.id || 1]?.name
   );
 
   const showNextButton =
@@ -96,7 +99,7 @@ export const ChainsChanger = ({
                 let isSelected = false;
                 if (chain)
                   isSelected =
-                    blockchainsContent[chain?.name]?.name === entry.name;
+                    blockchainsIdContent[chain?.id]?.name === entry.name;
                 if (
                   i + 1 <= showXBlockchains[1] &&
                   i + 1 >= showXBlockchains[0]
@@ -208,7 +211,7 @@ export const ChainsChanger = ({
               <img
                 className="w-[19px] h-[19px] min-w-[19px] rounded-full"
                 src={
-                  blockchainsContent[chain?.name || "Ethereum"]?.logo ||
+                  blockchainsIdContent[chain?.id || 1]?.logo ||
                   "/empty/unknown.png"
                 }
                 alt={`${chain?.name} logo`}

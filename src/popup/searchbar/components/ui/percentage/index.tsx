@@ -29,7 +29,7 @@ export const Percentage = ({ value, isPercentage }: PercentageType) => {
       {icon}
       {isPercentage ? (
         <p className="font-medium text-light-font-100 dark:text-dark-font-100">
-          ${getFormattedAmount(value)}
+          ${getFormattedAmount(value, 0, { canUseHTML: true })}
         </p>
       ) : (
         <p className="font-medium text-light-font-100 dark:text-dark-font-100">

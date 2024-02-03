@@ -1,9 +1,7 @@
 import { famousContractsLabelFromName } from "layouts/swap/utils";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { BsCheckLg } from "react-icons/bs";
-import { FaRegCopy } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
 import {
   LargeFont,
@@ -70,15 +68,6 @@ export const TradingPairs = () => {
       fetchTrades();
     } else setIsLoading(false);
   }, [baseAsset]);
-
-  const copyText = (pair) => {
-    window.navigator.clipboard.writeText(pair?.address);
-    window.focus();
-    setIsCopied(pair.address);
-    setTimeout(() => {
-      setIsCopied("");
-    }, 2000);
-  };
 
   const newPairs: IPairs[] | null = pairs;
 
@@ -223,11 +212,6 @@ export const TradingPairs = () => {
                   ? filteredArray
                   : Array.from({ length: 8 })
                 )?.map((pair: IPairs | any, i: number) => {
-                  const geckoId =
-                    blockchainsContent[pair?.blockchain]?.geckoterminalChain;
-                  const geckoUrl = geckoId
-                    ? `https://www.geckoterminal.com/${geckoId}/pools/${pair.address}`
-                    : "";
                   return (
                     <tr
                       key={
@@ -302,7 +286,10 @@ export const TradingPairs = () => {
                             <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
-                              ${getFormattedAmount(pair.price)}
+                              $
+                              {getFormattedAmount(pair.price, 0, {
+                                canUseHTML: true,
+                              })}
                             </SmallFont>
                           )}
                         </div>
@@ -312,26 +299,16 @@ export const TradingPairs = () => {
                           {isLoading ? (
                             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
                           ) : (
-                            <div
-                              className="flex items-center cursor-pointer"
-                              onClick={() => copyText(pair)}
-                            >
-                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
-                                {addressSlicer(pair.address)}
-                              </SmallFont>
-                              {isCopied === pair.address ? (
-                                <BsCheckLg className="text-green dark:text-green text-sm lg:text-[13px] md:text-xs ml-2.5" />
-                              ) : (
-                                <FaRegCopy className="ml-2.5 text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs" />
-                              )}
-                            </div>
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
+                              {addressSlicer(pair.address)}
+                            </SmallFont>
                           )}
-                        </div>
-                        <div
-                          className="hidden md:flex"
-                          onClick={() => router.push(geckoUrl)}
-                        >
-                          <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 mr-auto" />
+                          <Link
+                            className="flex ml-1"
+                            href={"/pair/" + pair?.address}
+                          >
+                            <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 mr-auto" />
+                          </Link>
                         </div>
                       </td>
                     </tr>
