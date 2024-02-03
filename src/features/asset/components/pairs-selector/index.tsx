@@ -157,15 +157,9 @@ export const PairsSelector = () => {
                   <div className="flex flex-col items-end ml-5">
                     <LargeFont extraCss="leading-tight text-light-font-80 dark:text-dark-font-80">
                       $
-                      {getFormattedAmount(
-                        pair?.price,
-                        2,
-                        {
-                          minifyZeros: true,
-                          minifyBigNumbers: true,
-                        },
-                        true
-                      )}
+                      {getFormattedAmount(pair?.price, 2, {
+                        isScientificNotation: true,
+                      })}
                     </LargeFont>
                     <div className="flex items-center">
                       <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 text-start text-xs">

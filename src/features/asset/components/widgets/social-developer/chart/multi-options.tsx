@@ -109,8 +109,7 @@ export const useDefault = ({
       )} &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ${timeFormatter.format(
         date
       )}<br>Followers: ${getFormattedAmount(followers, 0, {
-        minifyZeros: false,
-        minifyBigNumbers: false,
+        shouldNotMinifyBigNumbers: true,
       })}`;
     },
   };

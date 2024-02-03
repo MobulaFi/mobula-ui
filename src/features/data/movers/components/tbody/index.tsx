@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import React from "react";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import {
   formatAmount,
@@ -54,7 +53,9 @@ export const TbodyMovers = ({ asset }) => {
           </div>
         </td>
         <td className={`${tdStyle} text-end ${priceChange}`}>
-          {getFormattedAmount(marketMetrics.price)}
+          {getFormattedAmount(marketMetrics.price, 0, {
+            canUseHTML: true,
+          })}
         </td>
         <td className={`${tdStyle} text-end ${volumeChange}`}>
           ${formatAmount(marketMetrics.volume)}
