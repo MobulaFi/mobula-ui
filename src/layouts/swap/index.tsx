@@ -9,7 +9,6 @@ import { TransactionReceipt as TransactionReceiptInterface } from "viem";
 import { useAccount, useFeeData, useNetwork } from "wagmi";
 import { useHoldings } from "../../hooks/holdings";
 import { useButtonClick } from "./hooks/useButtonClick";
-import { useSlippage } from "./hooks/useSlippage";
 import { useMetaContext } from "./hooks/useSwapCommon";
 import { useTokenManager } from "./hooks/useTokenManager";
 import { useUpdateBalance } from "./hooks/useUpdateBalance";
@@ -66,7 +65,7 @@ export const SwapNonMetaProvider = ({
   });
 
   // Syntaxic sugar
-  const currentChain = chainNeeded || chain?.id;
+  const currentChain = chainNeeded || chain?.id || 1;
   const currentChainName = blockchainsIdContent[currentChain]?.name;
   const tokens: SyntaxicTokens = { in: tokenIn, out: tokenOut };
   const buffers: SyntaxicTokensBuffer = {
@@ -74,7 +73,7 @@ export const SwapNonMetaProvider = ({
     out: tokenOutBuffer,
   };
 
-  useSlippage();
+  // useSlippage();
 
   useUpdateBalance();
 
