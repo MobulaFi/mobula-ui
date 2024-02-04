@@ -60,19 +60,18 @@ const formatSmallNumber = (number: number) => {
   const firstHalf = [cutFirstHalf[0], cutFirstHalf[1], cutFirstHalf[2]];
   const numberArray = cutFirstHalf.slice(3, cutFirstHalf.length);
 
-  const numberArr: string[] = [];
   let countZero = 0;
 
-  numberArray.forEach((element) => {
-    if (element === "0") countZero++;
-    else numberArr.push(element);
-  });
+  for (let i = 0; i < numberArray.length; i++) {
+    if (numberArray[i] === "0") countZero++;
+    else break;
+  }
 
   return (
     <>
       {firstHalf}
       <sub className="text-[xs] self-end font-medium mx-[2px]">{countZero}</sub>
-      {numberArr.join("")}
+      {numberArray.slice(countZero, countZero + 3).join("")}
     </>
   );
 };
