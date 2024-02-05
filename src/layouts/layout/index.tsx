@@ -41,7 +41,10 @@ const Layout = async ({ children }: LayoutProps) => {
       <HeaderBanner assets={assets || []} />
       <div className="flex">
         <Nav />
-        <div className="w-full overflow-scroll h-screen ml-[68px]" id="app">
+        <div
+          className="w-full overflow-scroll h-screen ml-[68px] lg:ml-0"
+          id="app"
+        >
           <Header addressCookie={addressCookie || ""} />
           <div className="w-full min-h-[70vh]">{children}</div> <Footer />
         </div>
