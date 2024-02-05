@@ -11,8 +11,10 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import { BoxMiddle } from "./components/box-middle";
+import { BoxRight } from "./components/box-right";
+import { Portfolio } from "./components/portfolio";
 import { Top100Table } from "./components/table";
-import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
 import { Views } from "./views";
@@ -42,7 +44,6 @@ export const Top100 = ({
     ascending: false,
     first: true,
   });
-  const { isMobile } = useTop100();
   const [resultsData, setResultsData] = useState({ data: bufferTokens, count });
   const [showPage, setShowPage] = useState(0);
   const [activePage, setActivePage] = useState(1);
@@ -147,36 +148,56 @@ export const Top100 = ({
   //   window.scrollTo({ top: 0, behavior: "smooth" });
   // };
 
+  function detectMob() {
+    const toMatch = [
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i,
+    ];
+
+    return toMatch.some((toMatchItem) => {
+      return navigator.userAgent.match(toMatchItem);
+    });
+  }
+  const isMobile = detectMob();
+
   return (
     <>
       <TopNav list={tabs} active="Home" isGeneral />
       <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
         <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
-          {/* <Container
-            extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
+          {isMobile ? (
+            <Container
+              extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
             justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
-          >
-            <div className="flex w-95per mx-auto ">
-              <div className="swiper">
-                <div className="swiper-wrapper">
-                  <div className="swiper-slide flex justify-center">
-                    <Portfolio showPageMobile={showPage} />
-                  </div>
-                  <div className="swiper-slide flex justify-center">
-                    <BoxMiddle showPageMobile={showPage} metrics={metrics} />
-                  </div>
-                  <div className="swiper-slide flex justify-center">
-                    <BoxRight showPageMobile={showPage} />
+            >
+              <div className="flex w-95per mx-auto ">
+                <div className="swiper">
+                  <div className="swiper-wrapper">
+                    <div className="swiper-slide flex justify-center">
+                      <Portfolio showPageMobile={showPage} />
+                    </div>
+                    <div className="swiper-slide flex justify-center">
+                      <BoxMiddle showPageMobile={showPage} metrics={metrics} />
+                    </div>
+                    <div className="swiper-slide flex justify-center">
+                      <BoxRight showPageMobile={showPage} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Container>
-          <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
-            <Portfolio />
-            <BoxMiddle metrics={metrics} />
-            <BoxRight />
-          </Container> */}
+            </Container>
+          ) : (
+            <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
+              <Portfolio />
+              <BoxMiddle metrics={metrics} />
+              <BoxRight />
+            </Container>
+          )}
         </div>
       </div>
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
