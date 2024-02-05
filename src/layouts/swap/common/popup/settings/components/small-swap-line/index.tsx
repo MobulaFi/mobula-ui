@@ -64,7 +64,7 @@ export const SmallSwapLine = ({
 
         <div className="flex">
           <input
-            className="text-sm text-light-font-100 dark:text-dark-font-100 my-auto text-end pr-[5px] bg-light-bg-secondary dark:bg-dark-bg-secondary h-full"
+            className="text-sm text-light-font-100 dark:text-dark-font-100 my-auto text-end pr-[5px] bg-light-bg-secondary dark:bg-dark-bg-secondary h-full w-full"
             type="number"
             lang="en"
             ref={inputRef}

@@ -335,10 +335,7 @@ export const useDefault = ({
       },
       axisLabel: {
         color: getTextColorsAxis(),
-        formatter: (value: number) =>
-          getFormattedAmount(value, spreadResolution + 1, {
-            isScientificNotation: true,
-          }),
+        formatter: (value: number) => getFormattedAmount(value),
         show: !noAxis,
       },
       axisPointer: {
