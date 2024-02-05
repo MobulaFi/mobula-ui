@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
+import React, { Key, useContext, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { Ths } from "../../../../../components/table";
 import { PopupStateContext } from "../../../../../contexts/popup";
@@ -9,10 +9,8 @@ import { SkeletonTable } from "../../../../../layouts/tables/components/skeleton
 import { TableHeaderEntry } from "../../../../../layouts/tables/components/table-header-entry";
 import { MenuCommun } from "../../../../../layouts/tables/components/ui/menu";
 import { TableContext } from "../../../../../layouts/tables/context-manager";
-import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { useTop100 } from "../../context-manager";
 import { Query } from "../../models";
-import { TABLE_ASSETS_QUERY } from "../../utils";
 import { Top100TBody } from "../table-body";
 
 interface AssetsTable {
@@ -84,55 +82,55 @@ export function Top100Table({
     [lastColumn, isBalance, orderBy, hideDEXVolume]
   );
 
-  const fetchData = async () => {
-    setResultsData({ data: [], count: 0 });
-    const supabase = createSupabaseDOClient();
-    const query = supabase
-      .from("assets")
-      .select(TABLE_ASSETS_QUERY, { count: "exact" });
+  //   const fetchData = async () => {
+  //     setResultsData({ data: [], count: 0 });
+  //     const supabase = createSupabaseDOClient();
+  //     const query = supabase
+  //       .from("assets")
+  //       .select(TABLE_ASSETS_QUERY, { count: "exact" });
 
-    (filters || [])
-      .filter((entry) => entry.action)
-      .forEach((filter) => {
-        query[filter.action](...filter.value);
-      });
+  //     (filters || [])
+  //       .filter((entry) => entry.action)
+  //       .forEach((filter) => {
+  //         query[filter.action](...filter.value);
+  //       });
 
-    let orderWith = "";
-    if (orderBy.type === "volume") orderWith = "global_volume";
-    else orderWith = orderBy.type;
-    query.order(orderWith, { ascending: orderBy.ascending });
+  //     let orderWith = "";
+  //     if (orderBy.type === "volume") orderWith = "global_volume";
+  //     else orderWith = orderBy.type;
+  //     query.order(orderWith, { ascending: orderBy.ascending });
 
-    const from = page ? (parseInt(page as string, 10) - 1) * 100 : 0;
-    const res = await query.range(from, from + 99);
-    if (res.data)
-      setResultsData(
-        res as unknown as {
-          data: TableAsset[];
-          count: number;
-        }
-      );
-    setIsLoading(false);
-  };
+  //     const from = page ? (parseInt(page as string, 10) - 1) * 100 : 0;
+  //     const res = await query.range(from, from + 99);
+  //     if (res.data)
+  //       setResultsData(
+  //         res as unknown as {
+  //           data: TableAsset[];
+  //           count: number;
+  //         }
+  //       );
+  //     setIsLoading(false);
+  //   };
 
-  useEffect(() => {
-    const shouldFetchData =
-      (activeView?.name !== "Portfolio" &&
-        filters &&
-        !filters[0]?.isFirst &&
-        isConnected) ||
-      (page && isConnected && activeView?.name !== "All") ||
-      isConnected === false;
+  //   useEffect(() => {
+  //     const shouldFetchData =
+  //       (activeView?.name !== "Portfolio" &&
+  //         filters &&
+  //         !filters[0]?.isFirst &&
+  //         isConnected) ||
+  //       (page && isConnected && activeView?.name !== "All") ||
+  //       isConnected === false;
 
-    const filterOrPaginationChanged =
-      (filters && !activeView?.isFirst) || (page && page !== "1");
+  //     const filterOrPaginationChanged =
+  //       (filters && !activeView?.isFirst) || (page && page !== "1");
 
-    if (
-      (shouldFetchData && filterOrPaginationChanged) ||
-      (orderBy && !orderBy.first)
-    ) {
-      fetchData();
-    }
-  }, [filters, router, params, orderBy]);
+  //     if (
+  //       (shouldFetchData && filterOrPaginationChanged) ||
+  //       (orderBy && !orderBy.first)
+  //     ) {
+  //       fetchData();
+  //     }
+  //   }, [filters, router, params, orderBy]);
 
   return (
     <TableContext.Provider value={value}>
