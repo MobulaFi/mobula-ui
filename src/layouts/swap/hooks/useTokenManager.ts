@@ -34,7 +34,7 @@ export const useTokenManager = () => {
     return {
       ...chainDataParam.eth,
       coin: true,
-      chainId: currentChain,
+      evmChainId: currentChain,
       blockchain: chainDataParam.name,
     };
   };
@@ -146,7 +146,7 @@ export const useTokenManager = () => {
       } else {
         loadToken(position, tokenBuffer, {
           chainBuffer: {
-            id: blockchainsContent[token.blockchain]?.chainId,
+            id: blockchainsContent[token.blockchain]?.evmChainId,
           } as Chain,
         });
       }

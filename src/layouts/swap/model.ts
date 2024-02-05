@@ -121,7 +121,7 @@ export interface Coin {
   symbol: string;
   logo: string;
   coin: true;
-  chainId: number;
+  evmChainId: number;
   name?: string;
   image?: string;
   id?: number;

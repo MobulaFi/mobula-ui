@@ -42,8 +42,6 @@ export const Header = ({ addressCookie }) => {
     GET("/connection", {});
   }, [pathname]);
 
-  console.log("pathname", pathname);
-
   const [triggerSearch, setTriggerSearch] = useState(false);
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
   return (

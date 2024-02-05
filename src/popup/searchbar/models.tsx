@@ -49,6 +49,7 @@ export interface Token {
   price: number;
   market_cap?: number;
   isTemplate?: boolean;
+  pairs?: PairsSearchProps[];
 }
 
 export interface ArticlesType {

@@ -201,7 +201,7 @@ export const Submit = ({ state }) => {
                 </div>
               </SmallFont>
               <SmallFont extraCss="text-center mt-4">
-                Price: $150 (stablecoin only)
+                Price: $50 (stablecoin only)
               </SmallFont>
             </div>
             <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
@@ -218,12 +218,12 @@ export const Submit = ({ state }) => {
                 </div>
               </SmallFont>
               <SmallFont extraCss="text-center mt-4">
-                Price: $300 (stablecoin only)
+                Price: $150 (stablecoin only)
               </SmallFont>
             </div>
           </div>
           <SmallFont extraCss="mt-6">
-            Send $150 for Standard Listing or $300 for Express Listing to the
+            Send $50 for Standard Listing or $150 for Express Listing to the
             following Ethereum address:
             <div className="flex mt-1 md:ml-0">
               (Supported chains: Polygon, BSC, Ethereum)

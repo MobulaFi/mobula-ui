@@ -96,7 +96,6 @@ export const Cryptocurrencies = () => {
       return;
     }
     pushData("Asset Removed");
-    console.log("[...activePortfolio.removed_assets, asset?.id]", newAsset);
     const newPortfolio = {
       ...activePortfolio,
       removed_assets:

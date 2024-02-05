@@ -49,8 +49,10 @@ export const BlockchainSelector = ({
                 key={(entry || i) as Key}
                 onClick={async () => {
                   setShowBlockchainSelector((prev) => !prev);
-                  if (chain?.id !== (blockchain.chainId || 0)) {
-                    setShowSwitchNetwork((blockchain.chainId || 0) as number);
+                  if (chain?.id !== (blockchain.evmChainId || 0)) {
+                    setShowSwitchNetwork(
+                      (blockchain.evmChainId || 0) as number
+                    );
                   } else if (chainNeeded) {
                     setChainNeeded(undefined);
                   }

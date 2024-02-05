@@ -167,7 +167,7 @@ export const PairsSocialInfo = () => {
             onClick={() => openInNewTab(baseAsset.website as string)}
           >
             <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
-            Website
+            Web
             <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
           </Button>
         ) : null}
@@ -252,7 +252,7 @@ export const PairsSocialInfo = () => {
         )}
         onClick={() => setIsHoverStar((prev) => !prev)}
       >
-        <SmallFont extraCss="opacity-50">Star Holders</SmallFont>
+        <SmallFont extraCss="opacity-50">Top Holders</SmallFont>
 
         <div
           className={`absolute right-0 top-[30px] bg-light-bg-terciary dark:bg-dark-bg-terciary p-1.5 shadow-2xl

@@ -206,7 +206,7 @@ export interface UserHoldingsAsset {
       balance: number;
       address: string;
       balanceRaw: string;
-      chainId: number;
+      evmChainId: number;
     };
   };
 

@@ -58,7 +58,7 @@ export const Essentials = () => {
               chartPreference={chartPreference}
             />
           ) : null}
-          {chartPreference !== "Trading view" && !isAssetPage ? (
+          {chartPreference !== "Trading view" && isAssetPage ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}
           {chartPreference === "Trading view" || !isAssetPage ? (

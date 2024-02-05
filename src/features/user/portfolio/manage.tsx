@@ -93,7 +93,6 @@ export const Manage = () => {
   //   console.log("wallets", wallet);
   //   console.log("manager", manager);
   //   console.log("activePortfolio", activePortfolio);
-  console.log("portfolio", hiddenTokens);
 
   const handleCheckboxChange = (tokenId: number) => {
     setIsCheck((prev) => ({
@@ -604,7 +603,7 @@ export const Manage = () => {
           <p className="mr-4">Supported Chains:</p>
           {supportedChains.map((chain, i) => (
             <img
-              key={chain.chainId}
+              key={chain.evmChainId}
               src={chain.logo}
               alt={chain.name}
               className="w-8 h-8 -ml-1.5 rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border

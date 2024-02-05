@@ -66,7 +66,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   ]);
 
   useEffect(() => {
-    if (!isAssetPage && baseAsset) {
+    if (!isAssetPage && baseAsset && !baseAsset?.social) {
       fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?asset=${
           baseAsset?.[baseAsset?.baseToken]?.address

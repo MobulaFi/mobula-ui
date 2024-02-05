@@ -60,19 +60,18 @@ const formatSmallNumber = (number: number) => {
   const firstHalf = [cutFirstHalf[0], cutFirstHalf[1], cutFirstHalf[2]];
   const numberArray = cutFirstHalf.slice(3, cutFirstHalf.length);
 
-  const numberArr: string[] = [];
   let countZero = 0;
 
-  numberArray.forEach((element) => {
-    if (element === "0") countZero++;
-    else numberArr.push(element);
-  });
+  for (let i = 0; i < numberArray.length; i++) {
+    if (numberArray[i] === "0") countZero++;
+    else break;
+  }
 
   return (
     <>
       {firstHalf}
       <sub className="text-[xs] self-end font-medium mx-[2px]">{countZero}</sub>
-      {numberArr.join("")}
+      {numberArray.slice(countZero, countZero + 3).join("")}
     </>
   );
 };
@@ -80,12 +79,15 @@ const formatSmallNumber = (number: number) => {
 export function getFormattedAmount(
   price: number | string | undefined,
   lessPrecision = 0,
-  settings = {
-    minifyZeros: true,
-    minifyBigNumbers: true,
-  },
-  isScientificNotation = false,
-  noSub: boolean = false
+  settings: {
+    shouldNotMinifyBigNumbers?: boolean;
+    canUseHTML?: boolean;
+    isScientificNotation?: boolean;
+  } = {
+    shouldNotMinifyBigNumbers: false,
+    canUseHTML: false,
+    isScientificNotation: false,
+  }
 ) {
   try {
     if (price) {
@@ -98,7 +100,10 @@ export function getFormattedAmount(
         )
       );
 
-      if (isScientificNotation && Math.abs(parseFloat(price)) < 0.0001) {
+      if (
+        settings.isScientificNotation &&
+        Math.abs(parseFloat(price)) < 0.0001
+      ) {
         const exp = price.match(/0\.0+[1-9]/)?.[0] || "";
         return `${price.split(".")[0]}.0..0${price
           .split(exp.slice(0, exp.length - 2))[1]
@@ -106,20 +111,17 @@ export function getFormattedAmount(
       }
 
       if (Math.abs(parseFloat(price)) > 1000000) {
-        return settings.minifyBigNumbers
+        return !settings.shouldNotMinifyBigNumbers
           ? formatBigAmount(price)
           : formatAmount(price, 0);
       }
       if (Math.abs(parseFloat(price)) > 1000) {
         return String(parseInt(price)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
-      if (Math.abs(parseFloat(price)) < 0.0000001 && !noSub) {
+      if (Math.abs(parseFloat(price)) < 0.0000001 && settings.canUseHTML) {
         return formatSmallNumber(Math.abs(parseFloat(price)));
       }
       if (Math.abs(parseFloat(price)) < 0.0001) {
-        if (!settings.minifyZeros) {
-          // const last
-        }
         const priceString = price.toString();
         const newPrice = [];
         const arr = priceString.split(".");

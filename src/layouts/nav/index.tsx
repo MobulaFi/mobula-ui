@@ -36,7 +36,8 @@ export const Nav = () => {
         hideNav === "hidden"
           ? "w-[68px] min-w-[68px] max-w-[68px]"
           : "w-[300px] min-w-[300px] max-w-[300px]"
-      } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer shadow-xl min-w-[68px]`}
+      } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer bg-light-bg-primary
+       dark:bg-dark-bg-primary shadow-xl min-w-[68px] fixed top-0 left-0 z-[99]`}
       onMouseEnter={() => {
         if (hideNav === "locked") return;
         setHideNav("visible");
@@ -48,7 +49,7 @@ export const Nav = () => {
         setShowGlobal(false);
       }}
     >
-      <div className="flex items-center justify-between w-full mt-0.5">
+      <div className="flex items-center justify-between w-full mt-[42px]">
         <div className="pl-[18px] items-center flex ">
           <img
             className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
@@ -184,7 +185,7 @@ export const Nav = () => {
                 if (!address) {
                   setConnect(true);
                   return;
-                } else setShowSwitchNetwork(Number(blockchain[1].chainId));
+                } else setShowSwitchNetwork(Number(blockchain[1].evmChainId));
               }}
             >
               <img
@@ -194,7 +195,7 @@ export const Nav = () => {
               <div className="w-fit ml-2.5">
                 <SmallFont
                   extraCss={`${
-                    (chain?.id as never) === blockchain[1]?.chainId
+                    (chain?.id as never) === blockchain[1]?.evmChainId
                       ? "text-blue dark:text-blue"
                       : ""
                   }font-poppins`}
@@ -207,7 +208,7 @@ export const Nav = () => {
         </div>
       </div> */}
       <div
-        className="flex flex-col z-[2] w-[300px] mt-auto p-5 mb-2.5 border-t overflow-hidden whitespace-nowrap
+        className="flex flex-col z-[2] w-[300px] mt-auto p-5 pt-8 pb-0  border-t overflow-hidden whitespace-nowrap
        border-light-border-secondary dark:border-dark-border-secondary"
       >
         <Link

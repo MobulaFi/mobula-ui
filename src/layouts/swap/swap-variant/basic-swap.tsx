@@ -63,7 +63,9 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
   const [isBuy, setIsBuy] = useState<boolean>(true);
   const inputInRef = useRef<HTMLInputElement>(null);
   const { chain } = useNetwork();
-  const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id,
+  });
   const { loadToken } = useLoadToken();
   const { data } = useFeeData({ chainId: chainNeeded || chain?.id });
   const [isMounted, setIsMounted] = useState(false);
@@ -102,8 +104,6 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     if (i === 0) return true;
     return false;
   };
-
-  console.log("buttonStatus", buttonStatus);
 
   return (
     <div

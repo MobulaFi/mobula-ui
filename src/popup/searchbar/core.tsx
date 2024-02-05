@@ -203,10 +203,12 @@ export const CoreSearchBar = ({
             setTrigger={setTrigger}
             callback={callback}
           />
-          <PairResult
-            firstIndex={results?.length || 0}
-            setTrigger={setTrigger}
-          />
+          {results?.filter((entry) => entry?.pairs)?.length > 0 ? (
+            <PairResult
+              firstIndex={results?.length || 0}
+              setTrigger={setTrigger}
+            />
+          ) : null}
           <WalletResult
             firstIndex={results?.length + pairs?.length || 0}
             setTrigger={setTrigger}
@@ -257,9 +259,8 @@ export const CoreSearchBar = ({
           setUnknownSC={setIsSmartContract}
         />
       );
-    } else {
-      fullResults = <NoResult />;
-    }
+    } else fullResults = <NoResult />;
+
     return fullResults;
   };
 
