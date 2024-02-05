@@ -15,7 +15,6 @@ import { Top100Table } from "./components/table";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
-import { TABLE_ASSETS_QUERY } from "./utils";
 import { Views } from "./views";
 
 interface Top100Props {
@@ -69,84 +68,84 @@ export const Top100 = ({
     });
   }, []);
 
-  const fetchAssets = async () => {
-    if (activePage === 1) return;
-    setIsPageLoading(true);
-    const query = supabase
-      .from("assets")
-      .select(TABLE_ASSETS_QUERY, {
-        count: "exact",
-      })
-      .order("market_cap", { ascending: false })
-      .range(activePage * 100 - 100, activePage * 100 - 1);
-    if (filters) {
-      filters
-        .filter((entry) => entry.action)
-        .forEach((filter) => {
-          query[filter.action]?.(...filter.value);
-        });
-    }
-    const result = await query.limit(100);
+  // const fetchAssets = async () => {
+  //   if (activePage === 1) return;
+  //   setIsPageLoading(true);
+  //   const query = supabase
+  //     .from("assets")
+  //     .select(TABLE_ASSETS_QUERY, {
+  //       count: "exact",
+  //     })
+  //     .order("market_cap", { ascending: false })
+  //     .range(activePage * 100 - 100, activePage * 100 - 1);
+  //   if (filters) {
+  //     filters
+  //       .filter((entry) => entry.action)
+  //       .forEach((filter) => {
+  //         query[filter.action]?.(...filter.value);
+  //       });
+  //   }
+  //   const result = await query.limit(100);
 
-    if (result.error) setIsPageLoading(false);
-    else {
-      setResultsData((prev) => ({
-        ...prev,
-        data: [...prev.data, ...result.data],
-        count: result.count,
-      }));
+  //   if (result.error) setIsPageLoading(false);
+  //   else {
+  //     setResultsData((prev) => ({
+  //       ...prev,
+  //       data: [...prev.data, ...result.data],
+  //       count: result.count,
+  //     }));
 
-      setIsPageLoading(false);
-    }
-  };
+  //     setIsPageLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (tableRef?.current) fetchAssets();
-  }, [activePage]);
+  // useEffect(() => {
+  //   if (tableRef?.current) fetchAssets();
+  // }, [activePage]);
 
-  let ticking = false;
+  // let ticking = false;
 
-  useEffect(() => {
-    const appContainer = document.getElementById("app");
-    let ticking = false;
+  // useEffect(() => {
+  //   const appContainer = document.getElementById("app");
+  //   let ticking = false;
 
-    const handleScroll = () => {
-      if (!appContainer || !tableRef.current) return;
+  //   const handleScroll = () => {
+  //     if (!appContainer || !tableRef.current) return;
 
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const windowHeight = appContainer.clientHeight; // Utilisez clientHeight ici
-          const scrollPosition = appContainer.scrollTop + windowHeight; // Utilisez scrollTop ici
-          const triggerHeight = windowHeight * 1.5;
+  //     if (!ticking) {
+  //       window.requestAnimationFrame(() => {
+  //         const windowHeight = appContainer.clientHeight; // Utilisez clientHeight ici
+  //         const scrollPosition = appContainer.scrollTop + windowHeight; // Utilisez scrollTop ici
+  //         const triggerHeight = windowHeight * 1.5;
 
-          setIsButtonVisible(
-            scrollPosition > triggerHeight && !isButtonVisible
-          );
+  //         setIsButtonVisible(
+  //           scrollPosition > triggerHeight && !isButtonVisible
+  //         );
 
-          const tableBottomPosition =
-            tableRef.current.offsetTop + tableRef.current.offsetHeight;
+  //         const tableBottomPosition =
+  //           tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-          if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
-            // Supposons que resultsData est défini ailleurs
-            setActivePage(Math.round(resultsData?.data?.length / 100) + 1);
-          }
+  //         if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
+  //           // Supposons que resultsData est défini ailleurs
+  //           setActivePage(Math.round(resultsData?.data?.length / 100) + 1);
+  //         }
 
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+  //         ticking = false;
+  //       });
+  //       ticking = true;
+  //     }
+  //   };
 
-    appContainer.addEventListener("scroll", handleScroll);
+  //   appContainer.addEventListener("scroll", handleScroll);
 
-    return () => {
-      appContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, [isPageLoading, isButtonVisible]);
+  //   return () => {
+  //     appContainer.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [isPageLoading, isButtonVisible]);
 
-  const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // const scrollTop = () => {
+  //   window.scrollTo({ top: 0, behavior: "smooth" });
+  // };
 
   return (
     <>
