@@ -11,10 +11,10 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components";
 import { BoxMiddle } from "./components/box-middle";
 import { BoxRight } from "./components/box-right";
 import { Portfolio } from "./components/portfolio";
+import { Top100Table } from "./components/table";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
@@ -187,7 +187,7 @@ export const Top100 = ({
         <Views setResultsData={setResultsData} />
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0 mb-0 md:mb-0">
           <div className="w-full h-full" ref={tableRef}>
-            <AssetsTable
+            <Top100Table
               resultsData={resultsData}
               setResultsData={setResultsData}
               orderBy={orderBy}
@@ -196,7 +196,6 @@ export const Top100 = ({
               isTop100
               showRank
               isMobile={isMobile}
-              // noResult={!(resultsData?.data?.length > 0)}
             />
             {isPageLoading ? (
               <div className="w-full h-[60px] mb-[50px] flex items-center justify-center">

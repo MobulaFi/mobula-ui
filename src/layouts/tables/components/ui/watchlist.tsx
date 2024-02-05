@@ -22,7 +22,7 @@ export const WatchlistAdd = ({
   const [isHover, setIsHover] = useState(false);
   return (
     <div
-      className={`flex items-center justify-center ${
+      className={`flex items-center justify-start ${
         showMobile ? "" : "md:hidden"
       } `}
     >
