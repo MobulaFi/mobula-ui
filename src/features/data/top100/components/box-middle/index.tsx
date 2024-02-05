@@ -1,4 +1,4 @@
-import React, { Key, useEffect, useState } from "react";
+import React, { Key, Suspense, useEffect, useState } from "react";
 import { useTop100 } from "../../context-manager";
 import { CryptoMarket } from "./crypto-market";
 import { FearGreed } from "./fear-greed";
@@ -47,7 +47,9 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
 
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,
-    <CryptoMarket showPage={showPage} key="CryptoMarket" />,
+    <Suspense>
+      <CryptoMarket showPage={showPage} key="CryptoMarket" />
+    </Suspense>,
   ];
 
   useEffect(() => {
