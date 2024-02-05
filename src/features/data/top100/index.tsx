@@ -11,9 +11,6 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { BoxMiddle } from "./components/box-middle";
-import { BoxRight } from "./components/box-right";
-import { Portfolio } from "./components/portfolio";
 import { Top100Table } from "./components/table";
 import { useTop100 } from "./context-manager";
 import { useFilter } from "./hooks/useFilter";
@@ -156,7 +153,7 @@ export const Top100 = ({
       <TopNav list={tabs} active="Home" isGeneral />
       <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
         <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
-          <Container
+          {/* <Container
             extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
             justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
           >
@@ -180,7 +177,7 @@ export const Top100 = ({
             <Portfolio />
             <BoxMiddle metrics={metrics} />
             <BoxRight />
-          </Container>
+          </Container> */}
         </div>
       </div>
       <div className="bg-light-bg-table dark:bg-dark-bg-table">

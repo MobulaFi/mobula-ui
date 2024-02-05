@@ -234,7 +234,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               ) : null}
               {wallet === null && !isLoading ? (
                 <div className="my-auto mt-[40px] lg:mt-[35px] flex items-center">
-                  {/* <img
+                  <img
                     src={
                       !isDarkMode
                         ? "/asset/empty-roi-light.png"
@@ -242,7 +242,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     }
                     className="h-[110px] sm:h-[100px] w-auto ml-2.5"
                     alt="empty roi"
-                  /> */}
+                  />
                   <div className="flex flex-col items-center ml-auto mr-9 md:mx-auto">
                     <MediumFont extraCss="text-center">
                       No assets found
@@ -265,7 +265,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
           <>
             <MediumFont extraCss="ml-2.5 w-fit">Portfolio</MediumFont>
             <div className="my-auto mt-[20px] lg:mt-[10px] flex items-center">
-              {/* <img
+              <img
                 src={
                   !isDarkMode
                     ? "/asset/empty-roi-light.png"
@@ -273,7 +273,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 }
                 className="h-[110px] sm:h-[110px] w-auto ml-8"
                 alt="empty roi"
-              /> */}
+              />
               <div className="flex flex-col items-center mx-auto md:mx-auto">
                 <MediumFont extraCss="text-center">
                   Connect to Mobula <br />
