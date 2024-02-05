@@ -12,9 +12,13 @@ export const Chains = () => {
 
   console.log("PAIRS", pairs);
   console.log("CHAIN", chain);
+
+  // Chain traders (chart)
+  // Chain volume (chart)
+  // Chain DEX TVL (chart)
   return (
     <>
-      <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
+      <div className="flex pb-5 md:pb-2.5 w-full">
         <Container extraCss="lg:flex flex-row max-w-[1300px] ">
           <div className="flex w-95per mx-auto ">
             <div className="swiper">
