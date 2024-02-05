@@ -160,8 +160,11 @@ export const Top100 = ({
     ];
 
     return toMatch.some((toMatchItem) => {
-      if (navigator) return navigator?.userAgent?.match(toMatchItem);
-      else return false;
+      try {
+        return navigator?.userAgent?.match(toMatchItem);
+      } catch (e) {
+        return false;
+      }
     });
   }
   const isMobile = detectMob();
