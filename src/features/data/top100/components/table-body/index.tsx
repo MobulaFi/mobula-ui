@@ -68,6 +68,7 @@ export const Top100TBody = ({
   const { inWatchlist, handleAddWatchlist } = useWatchlist(token.id);
   const { setShowBuyDrawer } = useContext(SettingsMetricContext);
   const { activeView } = useTop100();
+  const [isLoading, setIsLoading] = useState(true);
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
@@ -151,7 +152,7 @@ export const Top100TBody = ({
           token.id,
           Number(activeWatchlist?.id),
           false,
-          undefined
+          setIsLoading
         );
         setActiveWatchlist((prev) => ({
           ...prev,
