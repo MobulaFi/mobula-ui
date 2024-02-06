@@ -71,6 +71,8 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
     ...(searchPairAddress || []),
   ];
 
+  console.log("resultsWithPair", resultsWithPair);
+
   return (
     <div className={`${finalPairs?.length > 0 ? "mt-2.5" : "mt-0"}`}>
       {finalPairs?.length > 0 && (

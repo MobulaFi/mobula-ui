@@ -52,8 +52,6 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
     quotes,
     setLockToken,
     chainNeeded,
-    slippageTokenIn,
-    slippageTokenOut,
   } = useContext(SwapContext);
 
   const chainData = blockchainsIdContent[chainNeeded || (chain?.id as number)];

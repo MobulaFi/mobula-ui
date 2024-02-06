@@ -106,12 +106,23 @@ export const CoreSearchBar = ({
       .then((r) => {
         if (r.data) {
           const globalResult = r.data?.filter(
-            (entry, i) =>
-              i < maxAssetsResult && !entry?.reserve0 && !entry?.reserve1
+            (entry, i) => !entry?.reserve0 && !entry?.reserve1
           );
+          globalResult.sort((entryA, entryB) => {
+            const liquidityA =
+              entryA.pairs.length > 0 ? parseInt(entryA.pairs[0].liquidity) : 0;
+            const liquidityB =
+              entryB.pairs.length > 0 ? parseInt(entryB.pairs[0].liquidity) : 0;
+
+            if (liquidityA < liquidityB) return 1;
+            else if (liquidityA > liquidityB) return -1;
+            else return 0;
+          });
+
           const pairAddressResult = r.data.filter(
             (entry) => entry?.reserve0 || entry?.reserve1
           );
+
           setResults(globalResult);
           setPairs(pairAddressResult);
         }
