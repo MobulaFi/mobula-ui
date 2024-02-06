@@ -128,15 +128,23 @@ export const PairsSelector = () => {
               >
                 <div className="flex items-center">
                   <div className="relative w-fit h-fit mr-5">
-                    <img
-                      className="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
+                    {pair?.[baseAsset?.quoteToken]?.logo ? (
+                      <img
+                        className="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
                      md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
-                      src={
-                        pair?.[baseAsset?.quoteToken]?.logo ||
-                        "/empty/unknown.png"
-                      }
-                      alt={`${baseAsset?.name} logo`}
-                    />
+                        src={
+                          pair?.[baseAsset?.quoteToken]?.logo ||
+                          "/empty/unknown.png"
+                        }
+                        alt={`${baseAsset?.name} logo`}
+                      />
+                    ) : (
+                      <AddressAvatar
+                        address={pair?.[baseAsset?.quoteToken]?.address}
+                        extraCss="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
+                      md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
+                      />
+                    )}
                     <img
                       className="w-[20px] h-[20px] min-w-[20px] rounded-full absolute bottom-[-2px] right-[-5px] shadow-2xl 
                   border border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
