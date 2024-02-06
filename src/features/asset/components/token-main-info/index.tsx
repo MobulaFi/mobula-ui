@@ -270,7 +270,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
         </>
       )}
       {isAssetPage ? (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full ">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
@@ -325,7 +325,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
                   </Menu>
                 </div>
               </div>
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full mt-2.5 md:mt-0">
                 <ATHnATL
                   isUp={isUp}
                   content={{
