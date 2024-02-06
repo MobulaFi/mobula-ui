@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { NextChakraLink } from "../../../../components/link";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
-import { getTokenPercentage } from "../../../../utils/formaters";
+import {
+  getFormattedAmount,
+  getTokenPercentage,
+} from "../../../../utils/formaters";
 import { TrendsType } from "../../models";
 import { Lines } from "../ui/lines";
 import { Percentage } from "../ui/percentage";
@@ -28,6 +31,8 @@ export const NoResult = () => {
       setHistory(JSON.parse(ls).reverse());
     }
   }, []);
+
+  console.log("history", history);
 
   return (
     <>
@@ -73,8 +78,10 @@ export const NoResult = () => {
               return (
                 <Lines token={entry} active={false} key={entry}>
                   <Percentage
-                    isPercentage
-                    value={getTokenPercentage(entry.price_change_24h)}
+                    noImage
+                    value={getFormattedAmount(entry.price, 0, {
+                      canUseHTML: true,
+                    })}
                   />
                 </Lines>
               );

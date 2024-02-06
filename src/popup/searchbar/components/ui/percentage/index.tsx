@@ -3,7 +3,11 @@ import { PiTriangleFill } from "react-icons/pi";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { PercentageType } from "../../../models";
 
-export const Percentage = ({ value, isPercentage }: PercentageType) => {
+export const Percentage = ({
+  value,
+  isPercentage,
+  noImage,
+}: PercentageType) => {
   const negative = Number(value) < 0;
 
   const renderIcon = () => {
@@ -13,6 +17,7 @@ export const Percentage = ({ value, isPercentage }: PercentageType) => {
       ) : (
         <PiTriangleFill className="mr-[5px] text-green text-[10px]" />
       );
+    if (noImage) return null;
     return (
       <img
         src="/mobula/mobula-logo.svg"
@@ -33,7 +38,7 @@ export const Percentage = ({ value, isPercentage }: PercentageType) => {
         </p>
       ) : (
         <p className="font-medium text-light-font-100 dark:text-dark-font-100">
-          {value}
+          ${value}
         </p>
       )}
     </div>

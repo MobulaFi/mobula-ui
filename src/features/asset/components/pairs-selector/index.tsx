@@ -15,7 +15,7 @@ export const PairsSelector = () => {
   const { baseAsset, setAssetPairs, assetPairs } = useContext(BaseAssetContext);
 
   const fetchPairs = () => {
-    if (!assetPairs?.pairs?.length) {
+    if (!assetPairs?.pairs?.length && baseAsset?.[baseAsset?.baseToken]?.name) {
       GET("/api/1/market/pairs", {
         asset: baseAsset?.[baseAsset?.baseToken]?.name,
         blockchain: baseAsset?.blockchain,

@@ -62,7 +62,7 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
             >
               <div className="flex items-center">
                 {(isBaseToken(result, pair) && pair?.token0?.logo) ||
-                (!isBaseToken(result, pair) && pair?.token0?.logo) ? (
+                (!isBaseToken(result, pair) && pair?.token1?.logo) ? (
                   <img
                     src={
                       isBaseToken(result, pair)

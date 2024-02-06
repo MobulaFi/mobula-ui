@@ -28,6 +28,7 @@ export interface ISearchBarContext {
 export interface PercentageType {
   isPercentage?: boolean;
   value: number | string;
+  noImage?: boolean;
 }
 
 export interface TrendsType {
