@@ -22,7 +22,6 @@ import { WalletResult } from "./components/result-wallet";
 import { Title } from "./components/ui/title";
 import { SearchbarContext } from "./context-manager";
 import {
-  getArticle,
   getDataFromInputValue,
   getPagesFromInputValue,
   handleMixpanel,
@@ -103,6 +102,7 @@ export const CoreSearchBar = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
+          console.log("rrrrrrr", results);
           setResults(
             r.data.filter((entry, i) => i < maxAssetsResult && entry.id)
           );
@@ -144,7 +144,6 @@ export const CoreSearchBar = ({
   }, [token]);
 
   useEffect(() => {
-    getArticle(setArticles, supabase);
     getPagesFromInputValue(setPages, token);
     if (token) fetchAssets(token);
     getDataFromInputValue(
@@ -156,6 +155,7 @@ export const CoreSearchBar = ({
     );
   }, []);
 
+  console.log("results", results);
   useEffect(() => {
     if (trigger) {
       setIsFocus(false);

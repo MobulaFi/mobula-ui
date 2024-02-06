@@ -7,7 +7,8 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components/index";
+import { BasicBody } from "../../../layouts/new-tables/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-wrap";
 import { Query } from "../top100/models";
 
 export default function Trendings({ tokensBuffer, isMobile, count }) {
@@ -57,16 +58,16 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
           />
           <div className="mt-2.5">
             {!isLoading ? (
-              <AssetsTable
-                resultsData={resultsData}
-                setResultsData={setResultsData}
-                lastColumn="Added"
+              <CommonTableHeader
                 orderBy={orderBy}
                 setOrderBy={setOrderBy}
-                filters={filters}
+                lastColumn="Added"
                 hideDEXVolume
-                isMobile={isMobile}
-              />
+              >
+                {resultsData?.data?.map((token, i) => (
+                  <BasicBody key={token?.id} token={token} index={i} />
+                ))}
+              </CommonTableHeader>
             ) : (
               <div className="w-full h-[600px] flex items-center justify-center">
                 <Spinner extraCss="w-[60px] h-[60px]" />

@@ -1,0 +1,327 @@
+"use client";
+import { useParams, usePathname } from "next/navigation";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { AiOutlineSwap } from "react-icons/ai";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { Button } from "../../components/button";
+import { NextImageFallback } from "../../components/image";
+import { WatchlistContext } from "../../contexts/pages/watchlist";
+import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
+import { SettingsMetricContext } from "../../contexts/settings";
+import { UserContext } from "../../contexts/user";
+import useDeviceDetect from "../../hooks/detect-device";
+import { useIsInViewport } from "../../hooks/viewport";
+import { IWatchlist } from "../../interfaces/pages/watchlist";
+import { pushData } from "../../lib/mixpanel";
+import { createSupabaseDOClient } from "../../lib/supabase";
+import { PriceAlertPopup } from "../../popup/price-alert";
+import { getUrlFromName } from "../../utils/formaters";
+import { Segment } from "../tables/components/segment";
+import { EntryContext, TableContext } from "../tables/context-manager";
+import { useWatchlist } from "../tables/hooks/watchlist";
+import { TableAsset } from "../tables/model";
+import { getCountdown } from "../tables/utils";
+import { ChangeSegment } from "./segments/change";
+import { ChartSegment } from "./segments/chart";
+import { MarketCapSegment } from "./segments/market_cap";
+import { PriceSegment } from "./segments/price";
+import { VolumeSegment } from "./segments/volume";
+import { TokenInfo } from "./ui/token";
+import { WatchlistAdd } from "./ui/watchlist";
+
+interface EntryProps {
+  token: TableAsset;
+  index: number;
+  isTop100?: boolean;
+  isMobile?: boolean;
+  showRank?: boolean;
+}
+
+export const BasicBody = ({
+  token: tokenBuffer,
+  index,
+  isTop100,
+  isMobile: nullValue,
+  showRank = false,
+}: EntryProps) => {
+  const entryRef = useRef<HTMLTableSectionElement>(null);
+  const [token, setToken] = useState<TableAsset>(tokenBuffer);
+  const [isHover, setIsHover] = useState(false);
+  const pathname = usePathname();
+  const params = useParams();
+  const page = params.page;
+  const isBalance =
+    Object.keys(token).includes("balance") &&
+    (pathname === "/home" || pathname === "/home?page=" + page);
+  const { user } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const isVisible = useIsInViewport(entryRef);
+  const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
+    useContext(WatchlistContext);
+  const [metricsChanges, setMetricsChanges] = useState<{
+    price: boolean | null;
+    volume: boolean | null;
+    market_cap: boolean | null;
+  }>({
+    price: null,
+    volume: null,
+    market_cap: null,
+  });
+  const { showAlert } = useContext(PopupStateContext);
+  const {
+    setShowAddedToWatchlist,
+    setShowMenuTableMobileForToken,
+    setShowMenuTableMobile,
+  } = useContext(PopupUpdateContext);
+  const { inWatchlist, handleAddWatchlist } = useWatchlist(token.id);
+  const { lastColumn } = useContext(TableContext);
+  const { setShowBuyDrawer } = useContext(SettingsMetricContext);
+  const [show, setShow] = useState(false);
+  const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
+  const watchlist = user?.main_watchlist as IWatchlist;
+
+  const updateMetricsChange = (key) => {
+    setMetricsChanges((prev) => {
+      let updatedValue = prev[key];
+      if (token[key]) updatedValue = true;
+      else if (token[key] !== undefined) updatedValue = false;
+      return { ...prev, [key]: updatedValue };
+    });
+
+    setTimeout(() => {
+      setMetricsChanges((prev) => ({ ...prev, [key]: null }));
+    }, 800);
+  };
+
+  useEffect(() => updateMetricsChange("price"), [token?.price]);
+  useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
+  useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
+  useEffect(() => updateMetricsChange("rank"), [token?.rank]);
+  const url = `/asset/${getUrlFromName(token.name)}`;
+
+  const lastComponent = {
+    Chart: (
+      <div className="w-[135px] h-[45px] min-w-[135px]">
+        <NextImageFallback
+          width={135}
+          height={45}
+          alt={`${token.name} sparkline`}
+          src={
+            `https://storage.googleapis.com/mobula-assets/sparklines/${token.id}/24h.png` ||
+            "/empty/sparkline.png"
+          }
+          fallbackSrc="/empty/sparkline.png"
+          priority={index < 4}
+          unoptimized
+        />
+      </div>
+    ),
+    Added: (
+      <p className="text-light-font-100 dark:text-dark-font-100 whitespace-nowrap text-sm md:text-xs">
+        {getCountdown(Date.now() - new Date(token.created_at).getTime())}
+      </p>
+    ),
+  };
+
+  const fetchPrice = () => {
+    const supabase = createSupabaseDOClient();
+    supabase
+      .from("assets")
+      .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
+      .match({ id: token.id })
+      .single()
+      .then((r) => {
+        if (
+          r.data &&
+          (r.data.price !== token.price ||
+            r.data.global_volume !== token.global_volume ||
+            r.data.market_cap !== token.market_cap ||
+            r.data.rank !== token.rank)
+        ) {
+          setToken({
+            ...token,
+            price: r.data.price,
+            priceChange:
+              r.data.price !== token.price
+                ? r.data.price > token.price
+                : undefined,
+            market_cap: r.data.market_cap,
+            marketCapChange:
+              r.data.market_cap !== token.market_cap
+                ? r.data.market_cap > token.market_cap
+                : undefined,
+            volume: r.data.global_volume,
+            rank: r.data.rank,
+            volumeChange:
+              r.data.global_volume !== token.global_volume
+                ? r.data.global_volume > token.global_volume
+                : undefined,
+            price_change_24h: r.data.price_change_24h,
+          });
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      fetchPrice();
+      const interval = setInterval(() => {
+        fetchPrice();
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+    return () => {};
+  }, [isVisible, token]);
+
+  const addOrRemoveFromWatchlist = async () => {
+    if (pathname.includes("watchlist")) {
+      if (!activeWatchlist?.assets?.includes(token?.id)) {
+        setShowAddedToWatchlist(true);
+        setTokenToAddInWatchlist(token);
+      } else {
+        handleAddWatchlist(
+          token.id,
+          Number(activeWatchlist?.id),
+          false,
+          setIsLoading
+        );
+        setActiveWatchlist((prev) => ({
+          ...prev,
+          assets: prev?.assets
+            ? prev.assets.filter((asset) => asset !== token.id)
+            : [],
+        }));
+      }
+    } else if (!inWatchlist) {
+      setShowAddedToWatchlist(true);
+      setTokenToAddInWatchlist(token);
+    } else {
+      setShowAddedToWatchlist(false);
+      handleAddWatchlist(token?.id, watchlist?.id, false, setIsLoading);
+    }
+  };
+
+  const value = useMemo(
+    () => ({
+      isHover,
+      url,
+    }),
+    [isHover, url]
+  );
+
+  const getBackgroundFromTable = () => {
+    if (isTop100 && !isHover) return "bg-light-bg-table dark:bg-dark-bg-table";
+    if (isTop100 && isHover)
+      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
+    if (!isTop100 && isHover)
+      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
+    return "bg-light-bg-primary dark:bg-dark-bg-primary";
+  };
+
+  const background = getBackgroundFromTable();
+  const { isMobile } = useDeviceDetect();
+
+  return (
+    <EntryContext.Provider value={value}>
+      <tbody
+        className={`table-row-group border-b border-light-border-primary dark:border-dark-border-primary ${
+          isHover
+            ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+            : "bg-transparent dark:bg-transparent"
+        } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        ref={entryRef}
+      >
+        <tr className="text-light-font-100 dark:text-dark-font-100">
+          <Segment
+            extraCss={`pl-2.5 md:px-[0px] pr-0   max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
+            noLink
+          >
+            <WatchlistAdd
+              addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+              setAddedToWatchlist={setAddedToWatchlist}
+              addedToWatchlist={addedToWatchlist}
+              token={token}
+            />
+            <div className="w-fit hidden md:block">
+              <button
+                className="h-full px-[5px] py-2"
+                onClick={() => {
+                  setShowMenuTableMobile(true);
+                  setShowMenuTableMobileForToken(token);
+                }}
+              >
+                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+              </button>
+            </div>
+          </Segment>
+          <Segment
+            // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${background} md:pl-0`}
+          >
+            <TokenInfo token={token} showRank={showRank} index={index} />
+          </Segment>
+
+          <PriceSegment
+            token={token}
+            metricsChanges={metricsChanges}
+            display="Price USD"
+          />
+          <ChangeSegment token={token} display="24h %" />
+          <MarketCapSegment
+            token={token}
+            metricsChanges={metricsChanges}
+            display="Market Cap"
+          />
+          <VolumeSegment
+            token={token}
+            metricsChanges={metricsChanges}
+            display="24h Volume"
+          />
+          {pathname === "/home" ||
+          pathname === `/home?page=${page}` ||
+          isBalance ? (
+            <ChartSegment token={token} />
+          ) : null}
+          <Segment>{lastComponent[lastColumn]}</Segment>
+          <Segment extraCss="table-cell md:hidden" noLink>
+            <div className="flex items-center justify-end">
+              {token.contracts && token.contracts.length > 0 && (
+                <Button
+                  extraCss="px-0 w-[28px] h-[28px]"
+                  onClick={() => {
+                    setShowBuyDrawer(token);
+                    pushData("Swap", {
+                      name: "Swap Drawer",
+                      from_page: pathname,
+                      asset: token?.name,
+                    });
+                  }}
+                >
+                  <AiOutlineSwap className="text-light-font-60 dark:text-dark-font-60 text-lg rotate-90" />
+                </Button>
+              )}
+            </div>
+          </Segment>
+        </tr>
+      </tbody>
+      {show || (isMobile && showAlert === token?.name) ? (
+        <PriceAlertPopup
+          show={show || showAlert}
+          setShow={setShow as Dispatch<SetStateAction<string | boolean>>}
+          asset={token}
+        />
+      ) : null}
+    </EntryContext.Provider>
+  );
+};

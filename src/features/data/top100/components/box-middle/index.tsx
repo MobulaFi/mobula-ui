@@ -16,17 +16,8 @@ interface BoxMiddleProps {
 
 export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   const [showPage, setShowPage] = useState(0);
-  const {
-    setTotalMarketCap,
-    setMarketCapChange,
-    setBtcDominance,
-    btcDominance,
-    totalMarketCap,
-    marketCapChange,
-  } = useTop100();
-  const tablet =
-    (typeof window !== "undefined" ? window.innerWidth : 0) < 991 &&
-    (typeof window !== "undefined" ? window.innerWidth : 0) >= 480;
+  const { setTotalMarketCap, setMarketCapChange, setBtcDominance } =
+    useTop100();
 
   const fetchMetrics = async () => {
     const req = await fetch(
@@ -41,9 +32,8 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   };
 
   useEffect(() => {
-    if (!totalMarketCap?.length || !btcDominance?.length || !marketCapChange)
-      fetchMetrics();
-  }, [totalMarketCap, btcDominance, marketCapChange, showPage]);
+    fetchMetrics();
+  }, []);
 
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,

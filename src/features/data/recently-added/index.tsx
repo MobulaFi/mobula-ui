@@ -1,15 +1,14 @@
 "use client";
-import { generateFilters } from "@utils/filters";
 import { Asset } from "features/asset/models";
-import { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
-import { OrderBy, TableAsset } from "../../../interfaces/assets";
+import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components/index";
-import { Query } from "../top100/models";
+import { BasicBody } from "../../../layouts/new-tables/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-wrap";
 
 interface recentlyAddedProps {
   tokensBuffer: Asset[];
@@ -24,11 +23,6 @@ export const RecentlyAdded = ({
 }: recentlyAddedProps) => {
   const [resultsData, setResultsData] = useState({ data: tokensBuffer, count });
   const [isLoading, setIsLoading] = useState(true);
-  const [filters, setFilters] = useState<Query[]>([
-    // To avoid the first render
-    { action: "", value: [], isFirst: true },
-    ...generateFilters("all", true),
-  ]);
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "created_at",
     ascending: false,
@@ -64,29 +58,16 @@ export const RecentlyAdded = ({
           />
           <div className="mt-2.5">
             {!isLoading ? (
-              <AssetsTable
-                resultsData={
-                  resultsData as unknown as {
-                    data: TableAsset[];
-                    count: number;
-                  }
-                }
-                setResultsData={
-                  setResultsData as unknown as React.Dispatch<
-                    SetStateAction<{
-                      data: TableAsset[];
-                      count: number;
-                    }>
-                  >
-                }
-                lastColumn="Added"
+              <CommonTableHeader
                 orderBy={orderBy}
                 setOrderBy={setOrderBy}
-                filters={filters}
+                lastColumn="Added"
                 hideDEXVolume
-                isMobile={isMobile}
-                isNews
-              />
+              >
+                {resultsData?.data?.map((token, i) => (
+                  <BasicBody key={token?.id} token={token} index={i} />
+                ))}
+              </CommonTableHeader>
             ) : (
               <div className="w-full h-[600px] flex items-center justify-center">
                 <Spinner extraCss="w-[60px] h-[60px]" />
