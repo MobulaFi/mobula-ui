@@ -74,8 +74,8 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
 
   const pairsMetrics = [
     {
-      title: "Circ. Supply",
-      value: baseAsset?.circ_supply,
+      title: "Total Supply",
+      value: baseAsset?.total_supply,
       info: "The Circulating Supply is the total amount of tokens in circulation.",
     },
     {
@@ -101,7 +101,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
     //   info: "The date of the pair creation",
     // },
   ];
-
+  console.log("baseAsset", baseAsset);
   return (
     <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
       <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
