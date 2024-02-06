@@ -56,7 +56,6 @@ export const CoreSearchBar = ({
     setResults,
     active,
     setActive,
-    setArticles,
     setIsFocus,
     users,
     setUsers,
@@ -123,7 +122,7 @@ export const CoreSearchBar = ({
             (entry) => entry?.reserve0 || entry?.reserve1
           );
 
-          setResults(globalResult);
+          setResults(globalResult?.filter((_, i) => i < maxAssetsResult));
           setPairs(pairAddressResult);
         }
       });
