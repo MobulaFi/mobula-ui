@@ -426,7 +426,12 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>
                         {pair?.isAmount ? (
-                          <span>${getFormattedAmount(pair?.value)}</span>
+                          <span>
+                            $
+                            {getFormattedAmount(pair?.value, 0, {
+                              canUseHTML: true,
+                            })}
+                          </span>
                         ) : (
                           <span>{getFormattedAmount(pair?.value)}</span>
                         )}

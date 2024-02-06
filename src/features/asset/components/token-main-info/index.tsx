@@ -277,7 +277,10 @@ export const TokenMainInfo = ({ pairs = null }) => {
                 <LargeFont
                   extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
                 >
-                  ${getFormattedAmount(marketMetrics.price, 0)}
+                  $
+                  {getFormattedAmount(marketMetrics.price, 0, {
+                    canUseHTML: true,
+                  })}
                 </LargeFont>
                 <div className="flex items-center">
                   <div

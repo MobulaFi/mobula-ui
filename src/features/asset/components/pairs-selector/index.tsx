@@ -16,7 +16,7 @@ export const PairsSelector = () => {
   const fetchPairs = () => {
     if (!assetPairs?.pairs?.length && baseAsset?.[baseAsset?.baseToken]?.name) {
       GET("/api/1/market/pairs", {
-        asset: baseAsset?.[baseAsset?.baseToken]?.name,
+        asset: baseAsset?.[baseAsset?.baseToken]?.address,
         blockchain: baseAsset?.blockchain,
       })
         .then((r) => r.json())
