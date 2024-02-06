@@ -122,7 +122,7 @@ export const CoreSearchBar = ({
             (entry) => entry?.reserve0 || entry?.reserve1
           );
 
-          setResults(globalResult?.filter((_, i) => i < maxAssetsResult));
+          setResults(globalResult);
           setPairs(pairAddressResult);
         }
       });
