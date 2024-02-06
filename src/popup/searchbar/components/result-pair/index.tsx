@@ -71,6 +71,8 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
     ...(searchPairAddress || []),
   ];
 
+  console.log("finalPair,", finalPairs);
+
   return (
     <div
       className={`${
