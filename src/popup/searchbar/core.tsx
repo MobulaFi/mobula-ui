@@ -22,7 +22,6 @@ import { WalletResult } from "./components/result-wallet";
 import { Title } from "./components/ui/title";
 import { SearchbarContext } from "./context-manager";
 import {
-  getArticle,
   getDataFromInputValue,
   getPagesFromInputValue,
   handleMixpanel,
@@ -80,35 +79,32 @@ export const CoreSearchBar = ({
       (users?.length || 0) +
       (pages?.length || 0) +
       (articles?.length || 0) ||
-    (pairs?.length || 0) !== 0 ||
     ens?.address ||
     token?.includes(".eth") ||
     userWithAddress?.address !== undefined;
 
   const fetchAssets = (input: string) => {
-    fetch(
-      `${
-        process.env.NEXT_PUBLIC_API_ENDPOINT
-      }/api/1/search?input=${input}&filters=${JSON.stringify({
-        liquidity: { min: 100 },
-        blockchain: "BNB Smart Chain (BEP20)",
-      })}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    )
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          setResults(
-            r.data.filter((entry, i) => i < maxAssetsResult && entry.id)
-          );
-          setPairs(r.data.filter((entry, i) => !entry.id));
+    if (input?.length > 0)
+      fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_ENDPOINT
+        }/api/1/search?input=${input.toLowerCase()}&filters=${JSON.stringify({
+          liquidity: { min: 100 },
+          blockchain: "BNB Smart Chain (BEP20)",
+        })}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
         }
-      });
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setResults(r.data?.filter((_, i) => i < maxAssetsResult));
+          }
+        });
   };
 
   useEffect(() => {
@@ -144,9 +140,7 @@ export const CoreSearchBar = ({
   }, [token]);
 
   useEffect(() => {
-    getArticle(setArticles, supabase);
     getPagesFromInputValue(setPages, token);
-    if (token) fetchAssets(token);
     getDataFromInputValue(
       token,
       supabase,
@@ -187,7 +181,7 @@ export const CoreSearchBar = ({
   let fullResults: React.ReactNode;
 
   const getContentToRender = () => {
-    if (isUnknownUser && isSmartContract === null && !pairs?.length) {
+    if (isUnknownUser && isSmartContract === null) {
       fullResults = (
         <UnknownResult
           setTrigger={setTrigger}
@@ -259,7 +253,7 @@ export const CoreSearchBar = ({
           setUnknownSC={setIsSmartContract}
         />
       );
-    } else fullResults = <NoResult />;
+    } else fullResults = <NoResult setTrigger={setTrigger} />;
 
     return fullResults;
   };

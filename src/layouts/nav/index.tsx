@@ -37,7 +37,7 @@ export const Nav = () => {
           ? "w-[68px] min-w-[68px] max-w-[68px]"
           : "w-[300px] min-w-[300px] max-w-[300px]"
       } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer bg-light-bg-primary
-       dark:bg-dark-bg-primary shadow-xl min-w-[68px] fixed top-0 left-0 z-[99]`}
+       dark:bg-dark-bg-primary shadow-xl min-w-[68px] fixed top-0 left-0 z-[101]`}
       onMouseEnter={() => {
         if (hideNav === "locked") return;
         setHideNav("visible");
