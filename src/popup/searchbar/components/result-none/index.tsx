@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NextChakraLink } from "../../../../components/link";
 import { createSupabaseDOClient } from "../../../../lib/supabase";
 import {
   getFormattedAmount,
   getTokenPercentage,
+  getUrlFromName,
 } from "../../../../utils/formaters";
 import { TrendsType } from "../../models";
 import { Lines } from "../ui/lines";
 import { Percentage } from "../ui/percentage";
 
-export const NoResult = () => {
+export const NoResult = ({ setTrigger }) => {
   const supabase = createSupabaseDOClient();
   const [trends, setTrends] = useState<TrendsType[]>([]);
   const [history, setHistory] = useState<any>();
@@ -32,7 +33,7 @@ export const NoResult = () => {
     }
   }, []);
 
-  console.log("history", history);
+  const handleClick = () => setTrigger(false);
 
   return (
     <>
@@ -58,8 +59,8 @@ export const NoResult = () => {
           </NextChakraLink>
         </span>
       </p>
-      <div className="mb-[5px] flex px-[20px] justify-between mt-[20px]">
-        <p className="text-sm font-medium text-light-font-100 dark:text-dark-font-100">
+      <div className="flex px-[20px] justify-between mt-[20px] py-3 border-b border-light-border-primary dark:border-dark-border-primary">
+        <p className="text-base font-medium text-light-font-100 dark:text-dark-font-100">
           {history ? "History" : "Trendings"}
         </p>
         {history ? null : (
@@ -71,32 +72,44 @@ export const NoResult = () => {
           </NextChakraLink>
         )}
       </div>
-      <div className="h-[1px] bg-light-border-primary dark:border-dark-border-primary w-full my-2.5" />
+      <div className="h-[1px] bg-light-border-primary dark:border-dark-border-primary w-full mb-2.5" />
       {history
         ? history?.map((entry, i) => {
             if (i < 5) {
               return (
-                <Lines token={entry} active={false} key={entry}>
-                  <Percentage
-                    noImage
-                    value={
-                      getFormattedAmount(entry.price, 0, {
-                        canUseHTML: true,
-                      }) as number
-                    }
-                  />
-                </Lines>
+                <NextChakraLink
+                  key={entry}
+                  href={`/asset/${getUrlFromName(entry?.name)}`}
+                  onClick={handleClick}
+                >
+                  <Lines token={entry} active={false}>
+                    <Percentage
+                      noImage
+                      value={
+                        getFormattedAmount(entry.price, 0, {
+                          canUseHTML: true,
+                        }) as number
+                      }
+                    />
+                  </Lines>
+                </NextChakraLink>
               );
             }
             return null;
           })
         : trends?.map((entry) => (
-            <Lines key={entry.id} token={entry} active={false}>
-              <Percentage
-                isPercentage
-                value={getTokenPercentage(entry.price_change_24h)}
-              />
-            </Lines>
+            <NextChakraLink
+              key={entry.id}
+              href={`/asset/${getUrlFromName(entry?.name)}`}
+              onClick={handleClick}
+            >
+              <Lines token={entry} active={false}>
+                <Percentage
+                  isPercentage
+                  value={getTokenPercentage(entry.price_change_24h)}
+                />
+              </Lines>
+            </NextChakraLink>
           ))}
     </>
   );

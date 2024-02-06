@@ -253,7 +253,7 @@ export const CoreSearchBar = ({
           setUnknownSC={setIsSmartContract}
         />
       );
-    } else fullResults = <NoResult />;
+    } else fullResults = <NoResult setTrigger={setTrigger} />;
 
     return fullResults;
   };
