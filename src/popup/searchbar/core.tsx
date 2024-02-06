@@ -21,7 +21,11 @@ import { UnknownResult } from "./components/result-unknown";
 import { WalletResult } from "./components/result-wallet";
 import { Title } from "./components/ui/title";
 import { SearchbarContext } from "./context-manager";
-import { getDataFromInputValue, getPagesFromInputValue } from "./utils";
+import {
+  getDataFromInputValue,
+  getPagesFromInputValue,
+  handleMixpanel,
+} from "./utils";
 
 interface CoreSearchBarProps {
   showPagesAndArticles?: boolean;
@@ -135,18 +139,16 @@ export const CoreSearchBar = ({
       });
   }, [token]);
 
-  // useEffect(() => {
-  //   getArticle(setArticles, supabase);
-  //   getPagesFromInputValue(setPages, token);
-  //   if (token) fetchAssets(token);
-  //   getDataFromInputValue(
-  //     token,
-  //     supabase,
-  //     setUsers,
-  //     setUserWithAddress,
-  //     maxWalletsResult
-  //   );
-  // }, []);
+  useEffect(() => {
+    getPagesFromInputValue(setPages, token);
+    getDataFromInputValue(
+      token,
+      supabase,
+      setUsers,
+      setUserWithAddress,
+      maxWalletsResult
+    );
+  }, []);
 
   useEffect(() => {
     if (trigger) {
@@ -284,9 +286,9 @@ export const CoreSearchBar = ({
       });
   };
 
-  // useEffect(() => {
-  //   handleMixpanel(timerRef as any, token, results);
-  // }, [token, results]);
+  useEffect(() => {
+    handleMixpanel(timerRef as any, token, results);
+  }, [token, results]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {

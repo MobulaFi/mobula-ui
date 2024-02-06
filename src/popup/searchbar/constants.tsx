@@ -129,12 +129,6 @@ export const defaultUsers: Partial<User>[] = [
     profile_pic:
       "https://images.crunchbase.com/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/w6bpzisljtowlathh51t",
   },
-  {
-    username: "Vitalik",
-    address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-    profile_pic:
-      "https://pbs.twimg.com/profile_images/977496875887558661/L86xyLF4_400x400.jpg",
-  },
 ];
 
 export const defaultResults: Token[] = [
