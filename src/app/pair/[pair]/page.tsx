@@ -31,7 +31,7 @@ async function fetchAssetData({ params }) {
       data: pairData,
     };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }
 

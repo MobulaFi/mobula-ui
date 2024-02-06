@@ -55,7 +55,6 @@ export const WalletResult = ({
           name: wallet.username,
           logo: wallet.profile_pic || null,
         };
-        console.log("newWallet", newWallet);
         return (
           <Lines
             key={wallet.name}
