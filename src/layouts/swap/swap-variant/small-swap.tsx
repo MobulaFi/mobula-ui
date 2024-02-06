@@ -1,8 +1,19 @@
 import { BaseAssetContext } from "features/asset/context-manager";
-import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
+import {
+  blockchainsContent,
+  blockchainsIdContent,
+} from "mobula-lite/lib/chains/constants";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
+import { useNetwork } from "wagmi";
 import { SwapContext } from "..";
 import { LargeFont, MediumFont, SmallFont } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
@@ -26,6 +37,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const { baseAsset } = useContext(BaseAssetContext);
   const [isHover, setIsHover] = useState(false);
+  const { chain } = useNetwork();
   const {
     tokenIn,
     tokenOut,
@@ -39,11 +51,15 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
     setTokenOutBuffer,
     quotes,
     setLockToken,
+    chainNeeded,
   } = useContext(SwapContext);
 
+  const chainData = blockchainsIdContent[chainNeeded || (chain?.id as number)];
   const checkValidity = () => {
-    if (asset) return asset?.contracts?.length === 0;
-    return baseAsset?.contracts?.length === 0;
+    if (asset)
+      return !blockchainsContent?.[asset?.blockchains?.[0]]?.supportedProtocols
+        ?.length;
+    return !chainData?.supportedProtocols?.length;
   };
 
   const isValid = checkValidity();

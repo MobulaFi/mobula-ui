@@ -4520,10 +4520,10 @@
   "resolved" "https://registry.npmjs.org/mixpanel-browser/-/mixpanel-browser-2.48.1.tgz"
   "version" "2.48.1"
 
-"mobula-lite@^1.0.42", "mobula-lite@^1.3.10":
-  "integrity" "sha512-WcYr87kMRBmxI/vL9zuIrVgu7J732F7e4sNMBE03qNj6t8F9HhyNnRqREYV6lANePbt8wIvQqjV90F1fcVEb8w=="
-  "resolved" "https://registry.npmjs.org/mobula-lite/-/mobula-lite-1.3.10.tgz"
-  "version" "1.3.10"
+"mobula-lite@^1.0.42", "mobula-lite@^1.3.95":
+  "integrity" "sha512-5KwGbOe5gX8FcTIkpXNKGb7junDI1EB1Jd14krNfp7niPIYOXnc22gnTIIXTprClwvelNC2ublHst+uVYKjH9Q=="
+  "resolved" "https://registry.npmjs.org/mobula-lite/-/mobula-lite-1.3.95.tgz"
+  "version" "1.3.95"
 
 "mobula-utils@^1.1.24":
   "integrity" "sha512-LgWQ4DQY0aU+K/zlpkqtqL4OtWqOHNu82qhr7/wYll1gq5Deya/Rzk/se+7MAZRc/MN/ssOdJaQUMxQksI5kNA=="
