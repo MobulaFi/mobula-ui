@@ -96,6 +96,18 @@ export interface NonListedAssetProps {
   price: number;
   symbol: string;
   type: string;
+  token0?: {
+    name: string;
+    symbol: string;
+    logo: string;
+  };
+  token1?: {
+    name: string;
+    symbol: string;
+    logo: string;
+  };
+  address?: string;
+  liquidity?: string;
 }
 
 export interface PairsSearchProps {
