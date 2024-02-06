@@ -34,7 +34,7 @@ export const Percentage = ({
       {icon}
       {isPercentage ? (
         <p className="font-medium text-light-font-100 dark:text-dark-font-100">
-          ${getFormattedAmount(value, 0, { canUseHTML: true })}
+          ${getFormattedAmount(value as number, 0, { canUseHTML: true })}
         </p>
       ) : (
         <p className="font-medium text-light-font-100 dark:text-dark-font-100">

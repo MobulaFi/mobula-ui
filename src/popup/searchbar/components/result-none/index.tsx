@@ -79,9 +79,11 @@ export const NoResult = () => {
                 <Lines token={entry} active={false} key={entry}>
                   <Percentage
                     noImage
-                    value={getFormattedAmount(entry.price, 0, {
-                      canUseHTML: true,
-                    })}
+                    value={
+                      getFormattedAmount(entry.price, 0, {
+                        canUseHTML: true,
+                      }) as number
+                    }
                   />
                 </Lines>
               );
