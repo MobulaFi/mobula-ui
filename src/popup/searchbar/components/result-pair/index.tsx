@@ -42,7 +42,7 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
     result?.symbol === pair?.token1?.symbol;
 
   const resultsWithPair = results?.filter(
-    (entry) => (entry?.pairs?.length || 0) > 0
+    (entry) => (entry?.pairs?.length || 0) > 0 && entry.id
   );
 
   const formatPairsResultFromAddress = () => {
@@ -74,7 +74,9 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
   return (
     <div
       className={`${
-        finalPairs?.filter((_, i) => i < 5)?.length > 0 ? "mt-2.5" : "mt-0"
+        finalPairs?.filter((_, i) => i < 5)?.length > 0
+          ? "mt-2.5"
+          : "mt-0 hidden"
       }`}
     >
       {finalPairs?.filter((_, i) => i < 5)?.length > 0 && (

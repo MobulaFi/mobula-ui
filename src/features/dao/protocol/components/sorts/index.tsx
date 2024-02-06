@@ -105,7 +105,6 @@ export const Sort = () => {
   );
 
   const renderTokens = () => {
-    console.log("tokenDivs", isLoading, tokenDivs);
     if (tokenDivs?.length > 0 && !isLoading) {
       if (displayedToken || displayedPool) {
         return tokenDivs
