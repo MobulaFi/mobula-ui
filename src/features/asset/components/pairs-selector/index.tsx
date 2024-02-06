@@ -37,13 +37,6 @@ export const PairsSelector = () => {
       (pair) => pair?.token1?.symbol !== "BNB" && pair?.token0?.symbol !== "BNB"
     )?.length > 0;
 
-  console.log(
-    "EEOEOOEO",
-    assetPairs?.pairs?.filter(
-      (pair) => pair?.token1?.symbol !== "BNB" && pair?.token0?.symbol !== "BNB"
-    )
-  );
-
   return (
     <Popover
       visibleContent={
@@ -145,15 +138,17 @@ export const PairsSelector = () => {
                       md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
                       />
                     )}
-                    <img
-                      className="w-[20px] h-[20px] min-w-[20px] rounded-full absolute bottom-[-2px] right-[-5px] shadow-2xl 
-                  border border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
-                      src={
-                        blockchainsContent[pair?.blockchain]?.logo ||
-                        "/empty/unknown.png"
-                      }
-                      alt={`${baseAsset?.name} logo`}
-                    />
+                    <div className="w-fit h-fit absolute bottom-[-2px] right-[-5px] rounded-full shadow-2xl border border-light-border-primary dark:border-dark-border-primary">
+                      <img
+                        className="w-[20px] h-[20px] min-w-[20px] rounded-full  shadow-2xl 
+                   bg-light-bg-hover dark:bg-dark-bg-hover"
+                        src={
+                          blockchainsContent[pair?.blockchain]?.logo ||
+                          "/empty/unknown.png"
+                        }
+                        alt={`${baseAsset?.name} logo`}
+                      />
+                    </div>
                   </div>
                   <div className="flex flex-col">
                     <LargeFont extraCss="leading-tight">
@@ -172,8 +167,8 @@ export const PairsSelector = () => {
                       <SmallFont extraCss="text-start text-xs ml-2">
                         $
                         {getFormattedAmount(
-                          pair?.token0?.approximateReserveUSD +
-                            pair?.token1?.approximateReserveUSD,
+                          (pair?.token0?.approximateReserveUSD as number) +
+                            (pair?.token1?.approximateReserveUSD as number),
                           2,
                           {
                             canUseHTML: true,
