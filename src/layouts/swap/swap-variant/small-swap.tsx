@@ -57,8 +57,8 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   const chainData = blockchainsIdContent[chainNeeded || (chain?.id as number)];
   const checkValidity = () => {
     if (asset)
-      return !blockchainsContent?.[asset?.blockchains?.[0]]?.supportedProtocols
-        ?.length;
+      return !blockchainsContent?.[asset?.blockchains?.[0] || asset?.blockchain]
+        ?.supportedProtocols?.length;
     return !chainData?.supportedProtocols?.length;
   };
 

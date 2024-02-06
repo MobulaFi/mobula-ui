@@ -270,14 +270,17 @@ export const TokenMainInfo = ({ pairs = null }) => {
         </>
       )}
       {isAssetPage ? (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full ">
           <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
                 <LargeFont
                   extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
                 >
-                  ${getFormattedAmount(marketMetrics.price, 0)}
+                  $
+                  {getFormattedAmount(marketMetrics.price, 0, {
+                    canUseHTML: true,
+                  })}
                 </LargeFont>
                 <div className="flex items-center">
                   <div
@@ -322,7 +325,7 @@ export const TokenMainInfo = ({ pairs = null }) => {
                   </Menu>
                 </div>
               </div>
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-full mt-2.5 md:mt-0">
                 <ATHnATL
                   isUp={isUp}
                   content={{

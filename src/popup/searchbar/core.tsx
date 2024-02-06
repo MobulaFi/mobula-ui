@@ -121,7 +121,6 @@ export const CoreSearchBar = ({
           const pairAddressResult = r.data.filter(
             (entry) => entry?.reserve0 || entry?.reserve1
           );
-
           setResults(globalResult);
           setPairs(pairAddressResult);
         }

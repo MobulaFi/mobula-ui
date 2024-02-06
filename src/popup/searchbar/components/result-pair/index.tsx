@@ -58,7 +58,8 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
             liquidity: pair.liquidity,
           },
         ],
-        name: "",
+        name: pair.token0?.name,
+        symbol: pair.token0?.symbol,
       };
       formatedPairs.push(templatePair);
     });
