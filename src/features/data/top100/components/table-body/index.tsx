@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
@@ -21,7 +21,6 @@ import { WatchlistAdd } from "../../../../../layouts/tables/components/ui/watchl
 import { EntryContext } from "../../../../../layouts/tables/context-manager";
 import { useWatchlist } from "../../../../../layouts/tables/hooks/watchlist";
 import { pushData } from "../../../../../lib/mixpanel";
-import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import { WatchlistContext } from "../../../../user/watchlist/context-manager";
 import { IWatchlist } from "../../../../user/watchlist/models";
@@ -72,76 +71,76 @@ export const Top100TBody = ({
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
-  const updateMetricsChange = (key) => {
-    setMetricsChanges((prev) => {
-      let updatedValue = prev[key];
-      if (token[key]) updatedValue = true;
-      else if (token[key] !== undefined) updatedValue = false;
-      return { ...prev, [key]: updatedValue };
-    });
+  // const updateMetricsChange = (key) => {
+  //   setMetricsChanges((prev) => {
+  //     let updatedValue = prev[key];
+  //     if (token[key]) updatedValue = true;
+  //     else if (token[key] !== undefined) updatedValue = false;
+  //     return { ...prev, [key]: updatedValue };
+  //   });
 
-    setTimeout(() => {
-      setMetricsChanges((prev) => ({ ...prev, [key]: null }));
-    }, 800);
-  };
+  //   setTimeout(() => {
+  //     setMetricsChanges((prev) => ({ ...prev, [key]: null }));
+  //   }, 800);
+  // };
 
-  useEffect(() => updateMetricsChange("price"), [token?.price]);
-  useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
-  useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
-  useEffect(() => updateMetricsChange("rank"), [token?.rank]);
+  // useEffect(() => updateMetricsChange("price"), [token?.price]);
+  // useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
+  // useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
+  // useEffect(() => updateMetricsChange("rank"), [token?.rank]);
+  // const url = `/asset/${getUrlFromName(token.name)}`;
+
+  // const fetchPrice = () => {
+  //   const supabase = createSupabaseDOClient();
+  //   supabase
+  //     .from("assets")
+  //     .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
+  //     .match({ id: token.id })
+  //     .single()
+  //     .then((r) => {
+  //       if (
+  //         r.data &&
+  //         (r.data.price !== token.price ||
+  //           r.data.global_volume !== token.global_volume ||
+  //           r.data.market_cap !== token.market_cap ||
+  //           r.data.rank !== token.rank)
+  //       ) {
+  //         setToken({
+  //           ...token,
+  //           price: r.data.price,
+  //           priceChange:
+  //             r.data.price !== token.price
+  //               ? r.data.price > token.price
+  //               : undefined,
+  //           market_cap: r.data.market_cap,
+  //           marketCapChange:
+  //             r.data.market_cap !== token.market_cap
+  //               ? r.data.market_cap > token.market_cap
+  //               : undefined,
+  //           volume: r.data.global_volume,
+  //           rank: r.data.rank,
+  //           volumeChange:
+  //             r.data.global_volume !== token.global_volume
+  //               ? r.data.global_volume > token.global_volume
+  //               : undefined,
+  //           price_change_24h: r.data.price_change_24h,
+  //         });
+  //       }
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     fetchPrice();
+  //     const interval = setInterval(() => {
+  //       fetchPrice();
+  //     }, 5000);
+
+  //     return () => clearInterval(interval);
+  //   }
+  //   return () => {};
+  // }, [isVisible, token]);
   const url = `/asset/${getUrlFromName(token.name)}`;
-
-  const fetchPrice = () => {
-    const supabase = createSupabaseDOClient();
-    supabase
-      .from("assets")
-      .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
-      .match({ id: token.id })
-      .single()
-      .then((r) => {
-        if (
-          r.data &&
-          (r.data.price !== token.price ||
-            r.data.global_volume !== token.global_volume ||
-            r.data.market_cap !== token.market_cap ||
-            r.data.rank !== token.rank)
-        ) {
-          setToken({
-            ...token,
-            price: r.data.price,
-            priceChange:
-              r.data.price !== token.price
-                ? r.data.price > token.price
-                : undefined,
-            market_cap: r.data.market_cap,
-            marketCapChange:
-              r.data.market_cap !== token.market_cap
-                ? r.data.market_cap > token.market_cap
-                : undefined,
-            volume: r.data.global_volume,
-            rank: r.data.rank,
-            volumeChange:
-              r.data.global_volume !== token.global_volume
-                ? r.data.global_volume > token.global_volume
-                : undefined,
-            price_change_24h: r.data.price_change_24h,
-          });
-        }
-      });
-  };
-
-  useEffect(() => {
-    if (isVisible) {
-      fetchPrice();
-      const interval = setInterval(() => {
-        fetchPrice();
-      }, 5000);
-
-      return () => clearInterval(interval);
-    }
-    return () => {};
-  }, [isVisible, token]);
-
   const addOrRemoveFromWatchlist = async () => {
     if (pathname.includes("watchlist")) {
       if (!activeWatchlist?.assets?.includes(token?.id)) {
