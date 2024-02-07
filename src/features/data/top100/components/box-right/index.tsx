@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BtcDominance } from "../box-middle/btc-dominance";
 import { AINews } from "./AI-news";
 
 interface BoxRightProps {
@@ -12,7 +13,7 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
 
   const render = [
     <AINews showPage={showPage} key="AiNews" />,
-    // <BtcDominance showPage={showPage} key="BtcDominance" />,
+    <BtcDominance showPage={showPage} key="BtcDominance" />,
     // <Discover
     //   showPage={showPage}
     //   info={getDiscoverInfos(isDark)[0]}
