@@ -1,7 +1,7 @@
 "use client";
 import { createSupabaseDOClient } from "lib/supabase";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { Button } from "../../../../../components/button";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
@@ -68,23 +68,23 @@ export const Top100TBody = ({
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
-  const updateMetricsChange = (key) => {
-    setMetricsChanges((prev) => {
-      let updatedValue = prev[key];
-      if (token[key]) updatedValue = true;
-      else if (token[key] !== undefined) updatedValue = false;
-      return { ...prev, [key]: updatedValue };
-    });
+  // const updateMetricsChange = (key) => {
+  //   setMetricsChanges((prev) => {
+  //     let updatedValue = prev[key];
+  //     if (token[key]) updatedValue = true;
+  //     else if (token[key] !== undefined) updatedValue = false;
+  //     return { ...prev, [key]: updatedValue };
+  //   });
 
-    setTimeout(() => {
-      setMetricsChanges((prev) => ({ ...prev, [key]: null }));
-    }, 800);
-  };
+  //   setTimeout(() => {
+  //     setMetricsChanges((prev) => ({ ...prev, [key]: null }));
+  //   }, 800);
+  // };
 
-  useEffect(() => updateMetricsChange("price"), [token?.price]);
-  useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
-  useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
-  useEffect(() => updateMetricsChange("rank"), [token?.rank]);
+  // useEffect(() => updateMetricsChange("price"), [token?.price]);
+  // useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
+  // useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
+  // useEffect(() => updateMetricsChange("rank"), [token?.rank]);
   // const url = `/asset/${getUrlFromName(token.name)}`;
 
   const fetchPrice = () => {
@@ -128,6 +128,7 @@ export const Top100TBody = ({
 
   useEffect(() => {
     if (isVisible && tokenBuffer?.id) {
+      fetchPrice();
       const interval = setInterval(() => {
         fetchPrice();
       }, 5000);
@@ -165,13 +166,13 @@ export const Top100TBody = ({
     }
   };
 
-  const value = useMemo(
-    () => ({
-      isHover,
-      url,
-    }),
-    [isHover, url]
-  );
+  // const value = useMemo(
+  //   () => ({
+  //     isHover,
+  //     url,
+  //   }),
+  //   [isHover, url]
+  // );
 
   const renderSegments = () =>
     activeView?.display?.map((entry) => {
@@ -226,7 +227,7 @@ export const Top100TBody = ({
   const render = renderSegments();
 
   return (
-    <EntryContext.Provider value={value}>
+    <EntryContext.Provider value={{ isHover, url }}>
       <tbody
         className={`table-row-group border-b border-light-border-primary dark:border-dark-border-primary ${
           isHover
