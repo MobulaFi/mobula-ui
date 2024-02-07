@@ -13,7 +13,6 @@ import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { useTop100 } from "../../context-manager";
 import { Query } from "../../models";
 import { TABLE_ASSETS_QUERY } from "../../utils";
-import { Top100TBody } from "../table-body";
 
 interface AssetsTable {
   resultsData: { data: TableAsset[]; count: number };
@@ -258,18 +257,7 @@ export function Top100Table({
           !isLoading
             ? resultsData.data
                 ?.sort(handleSort)
-                .map((token: TableAsset, index) => (
-                  <Top100TBody
-                    isTop100={isTop100}
-                    key={
-                      Number(token.price) + Number(token.liquidity) + token.name
-                    }
-                    token={token}
-                    index={index}
-                    showRank={showRank}
-                    isMobile={isMobile}
-                  />
-                ))
+                .map((token: TableAsset, index) => <>yo</>)
             : Array.from({ length: 10 }).map((_, i) => (
                 <SkeletonTable
                   isWatchlist

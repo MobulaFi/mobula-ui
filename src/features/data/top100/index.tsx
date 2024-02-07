@@ -14,6 +14,7 @@ import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import BoxMiddle from "./components/box-middle";
 import BoxRight from "./components/box-right";
 import Portfolio from "./components/portfolio";
+import { Top100Table } from "./components/table";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
 import { TABLE_ASSETS_QUERY } from "./utils";
@@ -208,7 +209,7 @@ export const Top100 = ({
         <Views setResultsData={setResultsData} />
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0 mb-0 md:mb-0">
           <div className="w-full h-full" ref={tableRef}>
-            {/* <Top100Table
+            <Top100Table
               resultsData={resultsData}
               setResultsData={setResultsData}
               orderBy={orderBy}
@@ -217,7 +218,7 @@ export const Top100 = ({
               isTop100
               showRank
               isMobile={isMobile}
-            /> */}
+            />
             {isPageLoading ? (
               <div className="w-full h-[60px] mb-[50px] flex items-center justify-center">
                 <Spinner extraCss="h-[30px] w-[30px]" />
