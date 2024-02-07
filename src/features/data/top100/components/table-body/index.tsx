@@ -1,6 +1,14 @@
 "use client";
+import { createSupabaseDOClient } from "lib/supabase";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { Button } from "../../../../../components/button";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
@@ -84,58 +92,82 @@ export const Top100TBody = ({
   // useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
   // useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
   // useEffect(() => updateMetricsChange("rank"), [token?.rank]);
-  // const url = `/asset/${getUrlFromName(token.name)}`;
 
-  // const fetchPrice = () => {
-  //   const supabase = createSupabaseDOClient();
-  //   supabase
-  //     .from("assets")
-  //     .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
-  //     .match({ id: token.id })
-  //     .single()
-  //     .then((r) => {
-  //       if (
-  //         r.data &&
-  //         (r.data.price !== token.price ||
-  //           r.data.global_volume !== token.global_volume ||
-  //           r.data.market_cap !== token.market_cap ||
-  //           r.data.rank !== token.rank)
-  //       ) {
-  //         setToken({
-  //           ...token,
-  //           price: r.data.price,
-  //           priceChange:
-  //             r.data.price !== token.price
-  //               ? r.data.price > token.price
-  //               : undefined,
-  //           market_cap: r.data.market_cap,
-  //           marketCapChange:
-  //             r.data.market_cap !== token.market_cap
-  //               ? r.data.market_cap > token.market_cap
-  //               : undefined,
-  //           volume: r.data.global_volume,
-  //           rank: r.data.rank,
-  //           volumeChange:
-  //             r.data.global_volume !== token.global_volume
-  //               ? r.data.global_volume > token.global_volume
-  //               : undefined,
-  //           price_change_24h: r.data.price_change_24h,
-  //         });
-  //       }
-  //     });
-  // };
+  const fetchTokenData = useCallback(async () => {
+    const supabase = createSupabaseDOClient();
+    const { data, error } = await supabase
+      .from("assets")
+      .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
+      .match({ id: token.id })
+      .single();
+    if (error) {
+      console.error("Error fetching token data:", error);
+      return;
+    }
+    if (data) {
+      const newData = {
+        price: data.price,
+        priceChange:
+          data.price !== token.price ? data.price > token.price : undefined,
+        market_cap: data.market_cap,
+        marketCapChange:
+          data.market_cap !== token.market_cap
+            ? data.market_cap > token.market_cap
+            : undefined,
+        volume: data.global_volume,
+        rank: data.rank,
+        volumeChange:
+          data.global_volume !== token.global_volume
+            ? data.global_volume > token.global_volume
+            : undefined,
+        price_change_24h: data.price_change_24h,
+      };
+      setToken((prevToken) => {
+        if (
+          prevToken.price !== newData.price ||
+          prevToken.market_cap !== newData.market_cap ||
+          prevToken.volume !== newData.volume ||
+          prevToken.rank !== newData.rank
+        ) {
+          return { ...prevToken, ...newData };
+        }
+        return prevToken;
+      });
+    }
+  }, [token]);
 
   useEffect(() => {
     if (isVisible && tokenBuffer?.id) {
-      fetchPrice();
-      const interval = setInterval(() => {
-        fetchPrice();
-      }, 5000);
-
+      fetchTokenData();
+      const interval = setInterval(fetchTokenData, 5000);
       return () => clearInterval(interval);
     }
-    return () => {};
-  }, [isVisible, token]);
+  }, [isVisible, tokenBuffer, fetchTokenData]);
+
+  const monitoredMetrics = useMemo(
+    () => ["price", "market_cap", "global_volume", "rank"],
+    []
+  );
+
+  useEffect(() => {
+    const updateMetricsChange = (key) => {
+      setMetricsChanges((prev) => {
+        let updatedValue = prev[key];
+        if (token[key]) updatedValue = true;
+        else if (token[key] !== undefined) updatedValue = false;
+        return { ...prev, [key]: updatedValue };
+      });
+
+      setTimeout(() => {
+        setMetricsChanges((prev) => ({ ...prev, [key]: null }));
+      }, 800);
+    };
+
+    for (const metric of monitoredMetrics) {
+      updateMetricsChange(metric);
+    }
+  }, [monitoredMetrics, token]);
+
   const url = `/asset/${getUrlFromName(token.name)}`;
   const addOrRemoveFromWatchlist = async () => {
     if (pathname.includes("watchlist")) {
