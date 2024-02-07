@@ -2,7 +2,7 @@
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
@@ -20,7 +20,9 @@ interface PortfolioProps {
   showPageMobile?: number;
 }
 
-const EChart = dynamic(() => import("../../../../../lib/echart/line"));
+const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
+  ssr: false,
+});
 
 const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   const router = useRouter();
