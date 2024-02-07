@@ -1,6 +1,7 @@
 import { Key, useEffect, useState } from "react";
 import { useTop100 } from "../../context-manager";
 import { CryptoMarket } from "./crypto-market";
+import { FearGreed } from "./fear-greed";
 
 interface BoxMiddleProps {
   showPageMobile?: number;
