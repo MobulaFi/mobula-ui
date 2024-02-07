@@ -1,4 +1,5 @@
 "use client";
+import { createSupabaseDOClient } from "lib/supabase";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
