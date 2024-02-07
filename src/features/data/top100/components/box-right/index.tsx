@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { BtcDominance } from "../box-middle/btc-dominance";
+import { useEffect, useState } from "react";
 import { AINews } from "./AI-news";
 
 interface BoxRightProps {
@@ -13,7 +12,7 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
 
   const render = [
     <AINews showPage={showPage} key="AiNews" />,
-    <BtcDominance showPage={showPage} key="BtcDominance" />,
+    // <BtcDominance showPage={showPage} key="BtcDominance" />,
     // <Discover
     //   showPage={showPage}
     //   info={getDiscoverInfos(isDark)[0]}
@@ -31,14 +30,14 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
     // />,
   ];
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setShowPage((prevPage) => (prevPage + 1) % 2);
-  //   }, 20000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowPage((prevPage) => (prevPage + 1) % 2);
+    }, 20000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div
