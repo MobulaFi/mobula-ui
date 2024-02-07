@@ -56,16 +56,19 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       title: "Circ. Supply",
       value: baseAsset?.circulating_supply,
       info: "The Circulating Supply is the total amount of tokens in circulation.",
+      dollar: false,
     },
     {
       title: "Total Supply",
       value: baseAsset?.total_supply || "-",
       info: "The Total Supply is the total amount of tokens that can be created.",
+      dollar: false,
     },
     {
       title: "Rank",
       value: baseAsset?.rank,
       info: "The Rank is the position of the asset in the ranking of all assets by market cap.",
+      dollar: false,
     },
   ];
 
@@ -75,8 +78,20 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const pairsMetrics = [
     {
       title: "Total Supply",
-      value: baseAsset?.total_supply,
-      info: "The Circulating Supply is the total amount of tokens in circulation.",
+      value: baseAsset?.[baseAsset.baseToken]?.total_supply || "-",
+      dollar: false,
+    },
+    {
+      title: baseAsset?.token0?.name + " Pooled",
+      value: baseAsset?.token0?.approximateReserveToken,
+      extra: " " + baseAsset?.token0?.symbol,
+      dollar: false,
+    },
+    {
+      title: baseAsset?.token1?.name + " Pooled",
+      value: baseAsset?.token1?.approximateReserveToken,
+      extra: " " + baseAsset?.token1?.symbol,
+      dollar: false,
     },
     {
       title: "Liquidity",
@@ -101,6 +116,18 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
     //   info: "The date of the pair creation",
     // },
   ];
+
+  if (
+    baseAsset?.createdAt &&
+    baseAsset?.createdAt !== "1970-01-01T00:00:00.000Z"
+  ) {
+    pairsMetrics.push({
+      title: "Pair created at",
+      value: new Date(baseAsset?.createdAt).toDateString(),
+      dollar: false,
+    });
+  }
+
   return (
     <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
       <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
@@ -125,10 +152,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
         isOpen={showMore}
       >
         {(isAssetPage ? metrics : pairsMetrics).map((entry, i) => {
-          const isNotDollar =
-            entry.title.includes("Supply") ||
-            entry.title.includes("Rank") ||
-            entry.title === "Pair created at";
+          const isNotDollar = !entry.dollar;
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
           return (
             <div
@@ -166,7 +190,9 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
                 } flex items-center`}
               >
                 <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
-                  {(!isNotDollar ? "$" : "") + formatAmount(entry.value)}
+                  {(!isNotDollar ? "$" : "") +
+                    formatAmount(entry.value) +
+                    (entry.extra ?? "")}
                 </p>
               </div>
             </div>
