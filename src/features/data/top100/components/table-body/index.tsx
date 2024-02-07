@@ -1,5 +1,4 @@
 "use client";
-import { createSupabaseDOClient } from "lib/supabase";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
@@ -87,44 +86,44 @@ export const Top100TBody = ({
   // useEffect(() => updateMetricsChange("rank"), [token?.rank]);
   // const url = `/asset/${getUrlFromName(token.name)}`;
 
-  const fetchPrice = () => {
-    const supabase = createSupabaseDOClient();
-    supabase
-      .from("assets")
-      .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
-      .match({ id: token.id })
-      .single()
-      .then((r) => {
-        if (
-          r.data &&
-          (r.data.price !== token.price ||
-            r.data.global_volume !== token.global_volume ||
-            r.data.market_cap !== token.market_cap ||
-            r.data.rank !== token.rank)
-        ) {
-          setToken({
-            ...token,
-            price: r.data.price,
-            priceChange:
-              r.data.price !== token.price
-                ? r.data.price > token.price
-                : undefined,
-            market_cap: r.data.market_cap,
-            marketCapChange:
-              r.data.market_cap !== token.market_cap
-                ? r.data.market_cap > token.market_cap
-                : undefined,
-            volume: r.data.global_volume,
-            rank: r.data.rank,
-            volumeChange:
-              r.data.global_volume !== token.global_volume
-                ? r.data.global_volume > token.global_volume
-                : undefined,
-            price_change_24h: r.data.price_change_24h,
-          });
-        }
-      });
-  };
+  // const fetchPrice = () => {
+  //   const supabase = createSupabaseDOClient();
+  //   supabase
+  //     .from("assets")
+  //     .select("price,market_cap,global_volume,rank,created_at,price_change_24h")
+  //     .match({ id: token.id })
+  //     .single()
+  //     .then((r) => {
+  //       if (
+  //         r.data &&
+  //         (r.data.price !== token.price ||
+  //           r.data.global_volume !== token.global_volume ||
+  //           r.data.market_cap !== token.market_cap ||
+  //           r.data.rank !== token.rank)
+  //       ) {
+  //         setToken({
+  //           ...token,
+  //           price: r.data.price,
+  //           priceChange:
+  //             r.data.price !== token.price
+  //               ? r.data.price > token.price
+  //               : undefined,
+  //           market_cap: r.data.market_cap,
+  //           marketCapChange:
+  //             r.data.market_cap !== token.market_cap
+  //               ? r.data.market_cap > token.market_cap
+  //               : undefined,
+  //           volume: r.data.global_volume,
+  //           rank: r.data.rank,
+  //           volumeChange:
+  //             r.data.global_volume !== token.global_volume
+  //               ? r.data.global_volume > token.global_volume
+  //               : undefined,
+  //           price_change_24h: r.data.price_change_24h,
+  //         });
+  //       }
+  //     });
+  // };
 
   useEffect(() => {
     if (isVisible && tokenBuffer?.id) {
