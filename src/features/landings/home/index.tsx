@@ -115,7 +115,7 @@ export const HomeLanding = () => {
                dark:border-darkblue water-button  md:h-[40px] md:w-[190px] md:text-sm md:font-normal"
               >
                 <NextChakraLink
-                  href="https://admin.mobula.fi"
+                  href="https://admin.mobula.fi/?utm_source=landing&utm_medium=cta&utm_campaign=origin_main_landing"
                   target="_blank"
                   rel="noopener noreferrer"
                   extraCss="text-base md:text-sm"
@@ -129,7 +129,7 @@ export const HomeLanding = () => {
                w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out mt-5 md:mt-3"
               >
                 <NextChakraLink
-                  href="https://docs.mobula.io/api-reference/introduction"
+                  href="https://docs.mobula.io/api-reference/introduction?utm_source=landing&utm_medium=cta&utm_campaign=origin_main_landing"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

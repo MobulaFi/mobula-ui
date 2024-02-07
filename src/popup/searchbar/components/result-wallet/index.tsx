@@ -45,7 +45,7 @@ export const WalletResult = ({
   };
 
   return (
-    <div className={`${results.length > 0 ? "mt-[10px]" : "mt-0"}`}>
+    <div className={`${users.length > 0 ? "mt-[10px]" : "mt-0 hidden"}`}>
       {users.length > 0 && (
         <Title extraCss="mt-[5px]">Wallets ({users.length})</Title>
       )}
@@ -53,7 +53,7 @@ export const WalletResult = ({
         const newWallet = {
           ...wallet,
           name: wallet.username,
-          logo: wallet.profile_pic,
+          logo: wallet.profile_pic || null,
         };
         return (
           <Lines

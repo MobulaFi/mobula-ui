@@ -1,5 +1,7 @@
 // import {IconType} from "react-icons/lib";
 
+import { ReactNode } from "react";
+
 export interface ISearchBarContext {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
@@ -27,7 +29,8 @@ export interface ISearchBarContext {
 
 export interface PercentageType {
   isPercentage?: boolean;
-  value: number | string;
+  value: string | number | ReactNode;
+  noImage?: boolean;
 }
 
 export interface TrendsType {
@@ -93,6 +96,18 @@ export interface NonListedAssetProps {
   price: number;
   symbol: string;
   type: string;
+  token0?: {
+    name: string;
+    symbol: string;
+    logo: string;
+  };
+  token1?: {
+    name: string;
+    symbol: string;
+    logo: string;
+  };
+  address?: string;
+  liquidity?: string;
 }
 
 export interface PairsSearchProps {

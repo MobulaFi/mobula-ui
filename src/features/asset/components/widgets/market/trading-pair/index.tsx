@@ -20,10 +20,10 @@ import { BaseAssetContext } from "../../../../context-manager";
 import { IPairs } from "../../../../models";
 
 export const TradingPairs = () => {
-  const { baseAsset, setPairs, pairs } = useContext(BaseAssetContext);
+  const { baseAsset, setPairs, pairs, isAssetPage } =
+    useContext(BaseAssetContext);
   const [isLoading, setIsLoading] = useState(!pairs?.length);
   const router = useRouter();
-  const [isCopied, setIsCopied] = useState("");
   const [activePairs, setActivePairs] = useState("dex");
   const [page, setPage] = useState(0);
   const [isTradeScrollLoading, setIsTradeScrollLoading] = useState(false);
@@ -39,6 +39,7 @@ export const TradingPairs = () => {
   ];
 
   const fetchTrades = () => {
+    if (!isAssetPage) return;
     setIsTradeScrollLoading(true);
     GET("/api/1/market/pairs", {
       asset: baseAsset?.name,

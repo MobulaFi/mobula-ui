@@ -55,31 +55,35 @@ export const AssetsResults = ({
     }
   };
 
+  const filteredResults = results?.filter((entry) => entry.id);
+
   return (
     <>
-      {results.length > 0 && (
-        <Title extraCss="mt-[5px]">Assets ({results.length})</Title>
+      {filteredResults?.length > 0 && (
+        <Title extraCss="mt-[5px]">Assets ({filteredResults?.length})</Title>
       )}
-      {results.map((result, index) => (
-        <Lines
-          isImage
-          token={result}
-          key={result.id}
-          onClick={() => {
-            if (!result?.isTemplate && !result?.id) router.push(`/list`);
-            else clickEvent(result);
-          }}
-          active={active === index + firstIndex}
-          index={index + firstIndex}
-          setActive={setActive}
-        >
-          {result?.isTemplate ? (
-            <BiArrowToRight className="text-base md:text-sm text-light-font-60 dark:text-dark-font-60" />
-          ) : (
-            <Percentage isPercentage value={result?.price as number} />
-          )}
-        </Lines>
-      ))}
+      {filteredResults
+        ?.filter((entry) => entry.id)
+        .map((result, index) => (
+          <Lines
+            isImage
+            token={result}
+            key={result.id}
+            onClick={() => {
+              if (!result?.isTemplate && !result?.id) router.push(`/list`);
+              else clickEvent(result);
+            }}
+            active={active === index + firstIndex}
+            index={index + firstIndex}
+            setActive={setActive}
+          >
+            {result?.isTemplate ? (
+              <BiArrowToRight className="text-base md:text-sm text-light-font-60 dark:text-dark-font-60" />
+            ) : (
+              <Percentage isPercentage value={result?.price as number} />
+            )}
+          </Lines>
+        ))}
     </>
   );
 };

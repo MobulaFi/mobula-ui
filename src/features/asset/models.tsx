@@ -391,6 +391,7 @@ export interface MultiPairProps {
   token0: TokenPairProps;
   token1: TokenPairProps;
   volume: number;
+  volume24h?: number;
 }
 
 export interface TokenPairProps {
@@ -403,4 +404,5 @@ export interface TokenPairProps {
   priceToken: number;
   symbol: string;
   priceTokenString: string;
+  approximateReserveUSD?: number;
 }

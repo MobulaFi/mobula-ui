@@ -29,7 +29,7 @@ export const PageResults = ({ firstIndex, setTrigger }: PageResultsProps) => {
     } else router.push(page.url);
   };
   return (
-    <div className={`${results.length > 0 ? "mt-2.5" : "mt-0"}`}>
+    <div className={`${pages.length > 0 ? "mt-2.5" : "mt-0 hidden"}`}>
       {pages.length > 0 && (
         <Title extraCss="mt-[5px]">Pages ({pages.length})</Title>
       )}
