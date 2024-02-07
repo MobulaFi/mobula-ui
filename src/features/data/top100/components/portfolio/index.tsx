@@ -1,5 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
@@ -10,7 +11,6 @@ import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
 import { useShouldConnect } from "../../../../../hooks/connect";
-import EChart from "../../../../../lib/echart/line";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { useTop100 } from "../../context-manager";
@@ -20,7 +20,9 @@ interface PortfolioProps {
   showPageMobile?: number;
 }
 
-export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
+const EChart = dynamic(() => import("../../../../../lib/echart/line"));
+
+const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   const router = useRouter();
   const [isHover, setIsHover] = useState(false);
   const { user } = useContext(UserContext);
@@ -255,3 +257,5 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     </>
   );
 };
+
+export default Portfolio;

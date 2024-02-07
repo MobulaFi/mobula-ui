@@ -13,7 +13,7 @@ interface BoxMiddleProps {
     | undefined;
 }
 
-export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
+const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   const [showPage, setShowPage] = useState(0);
   const { setTotalMarketCap, setMarketCapChange, setBtcDominance } =
     useTop100();
@@ -80,3 +80,5 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     </div>
   );
 };
+
+export default BoxMiddle;
