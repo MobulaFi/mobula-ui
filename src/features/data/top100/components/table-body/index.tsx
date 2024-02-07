@@ -268,7 +268,11 @@ export const Top100TBody = ({
             </div>
           </Segment>
           <Segment
-            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${background} md:pl-0`}
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
+              isHover
+                ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                : "bg-transparent dark:bg-transparent"
+            } md:pl-0`}
           >
             <TokenInfo token={token} showRank={showRank} index={index} />
           </Segment>
