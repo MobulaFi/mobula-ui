@@ -9,7 +9,6 @@ import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { UserContext } from "../../../../../contexts/user";
 import { useIsInViewport } from "../../../../../hooks/viewport";
 import { TableAsset } from "../../../../../interfaces/assets";
-import { Segment } from "../../../../../layouts/tables/components/segment";
 import { ChangeSegment } from "../../../../../layouts/tables/components/segments/change";
 import { ChartSegment } from "../../../../../layouts/tables/components/segments/chart";
 import { MarketCapSegment } from "../../../../../layouts/tables/components/segments/market_cap";
@@ -241,13 +240,12 @@ export const Top100TBody = ({
         ref={entryRef}
       >
         <tr className="text-light-font-100 dark:text-dark-font-100">
-          <Segment
-            extraCss={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
+          <td
+            className={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
               isHover
                 ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
                 : "bg-light-bg-table dark:bg-dark-bg-table"
             }`}
-            noLink
           >
             <WatchlistAdd
               addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
@@ -266,21 +264,21 @@ export const Top100TBody = ({
                 <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
               </button>
             </div>
-          </Segment>
-          <Segment
-            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
+          </td>
+          <td
+            className={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
               isHover
                 ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
                 : "bg-transparent dark:bg-transparent"
             } md:pl-0`}
           >
             <TokenInfo token={token} showRank={showRank} index={index} />
-          </Segment>
-          {/* {(activeView?.display?.length || 0) > 0 &&
+          </td>
+          {(activeView?.display?.length || 0) > 0 &&
           activeView?.name !== "All" &&
           activeView?.name !== "Portfolio"
             ? render
-            : null} */}
+            : null}
           {activeView?.name === "Portfolio" || activeView?.name === "All" ? (
             <>
               <PriceSegment
@@ -322,7 +320,7 @@ export const Top100TBody = ({
             </>
           ) : null}
           <ChartSegment token={token} />
-          <Segment extraCss="table-cell md:hidden" noLink>
+          <td className="table-cell md:hidden">
             <div className="flex items-center justify-end">
               {token.contracts && token.contracts.length > 0 && (
                 <Button
@@ -340,7 +338,7 @@ export const Top100TBody = ({
                 </Button>
               )}
             </div>
-          </Segment>
+          </td>
         </tr>
       </tbody>
     </EntryContext.Provider>
