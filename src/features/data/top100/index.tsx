@@ -198,7 +198,7 @@ export const Top100 = ({
             </Container>
           ) : (
             <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
-              {/* <Portfolio /> */}
+              <Portfolio />
               <BoxMiddle metrics={metrics} />
               <BoxRight />
             </Container>

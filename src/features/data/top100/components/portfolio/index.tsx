@@ -50,52 +50,6 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     if (firstRender?.current) firstRender.current = false;
   }, []);
 
-  useEffect(() => {
-    const finalPortfolio = user?.portfolios[0] || activePortfolio;
-    if (finalPortfolio?.id) {
-      const socket = new WebSocket(
-        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
-      );
-      setIsLoading(true);
-      socket.addEventListener("open", () => {
-        socket.send(
-          `{"portfolio": {"id": ${
-            finalPortfolio.id
-          },"only": "chart_24h", "settings": { "wallets": ${JSON.stringify(
-            finalPortfolio.wallets
-          )}, "removed_assets": ${JSON.stringify(
-            finalPortfolio.removed_assets
-          )}, "removed_transactions": ${JSON.stringify(
-            finalPortfolio.removed_transactions
-          )}}}, "force": true}`
-        );
-      });
-      socket.addEventListener("message", (event) => {
-        try {
-          if (JSON.parse(event.data) !== null) {
-            setWallet({
-              ...JSON.parse(event.data),
-              id: finalPortfolio.id,
-            });
-            setIsLoading(false);
-          } else {
-            setWallet(null);
-            setIsLoading(false);
-          }
-        } catch (e) {
-          // setIsLoading(false);
-          // console.log(e)
-        }
-      });
-      socket.addEventListener("error", () => {
-        setIsLoading(false);
-      });
-    }
-    console.log("isDisconnected", !isConnected);
-    if (!isConnected) setIsLoading(false);
-    return () => {};
-  }, [user?.portfolios]);
-
   function getGainsForPeriod() {
     const now = Date.now();
     const periods = {
