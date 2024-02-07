@@ -14,9 +14,11 @@ module.exports = {
       2: "2px",
     },
     fontFamily: {
-      inter: "Inter",
+      sans: ["var(--font-inter)"],
+      mono: ["var(--font-poppins)"],
+      inter: ["var(--font-inter)"],
       jetBrains: "JetBrains Mono",
-      poppins: "Poppins",
+      poppins: ["var(--font-poppins)"],
     },
     extend: {
       width: {
