@@ -138,11 +138,7 @@ export const Activity = ({
 
   useEffect(() => {
     if (assetQuery && !asset) return;
-    if (
-      transactions.length !== actualTxAmount &&
-      actualTxAmount !== 25 &&
-      transactions?.length + 26 > actualTxAmount
-    )
+    if (transactions.length !== actualTxAmount && actualTxAmount !== 25)
       fetchTransactions(true);
   }, [actualTxAmount]);
 
@@ -929,14 +925,29 @@ export const Activity = ({
         ) : null}
       </table>
       {transactions?.length + 26 > actualTxAmount ? (
-        <div
-          className="flex justify-center mt-4 items-center"
-          onClick={() => setActualTxAmount((prev) => prev + 25)}
-        >
-          <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-medium  cursor-pointer">
-            Show More
-          </p>
-          {isTxLoading ? <Spinner extraCss="h-[20px] w-[20px] ml-2" /> : null}
+        <div className="flex justify-center mt-4 items-center">
+          <div
+            className="flex justify-center items-center"
+            onClick={() => setActualTxAmount((prev) => prev + 25)}
+          >
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-medium  cursor-pointer">
+              Show More
+            </p>
+            {isTxLoading ? <Spinner extraCss="h-[20px] w-[20px] ml-2" /> : null}
+          </div>
+
+          {/* Vertical separator */}
+          <div className="h-[20px] w-[2px] bg-light-border-primary dark:bg-dark-border-primary m-4" />
+
+          <div
+            className="flex justify-center   items-center"
+            onClick={() => setActualTxAmount((prev) => prev + 1000)}
+          >
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-medium  cursor-pointer">
+              Show All
+            </p>
+            {isTxLoading ? <Spinner extraCss="h-[20px] w-[20px] ml-2" /> : null}
+          </div>
         </div>
       ) : null}
     </>
