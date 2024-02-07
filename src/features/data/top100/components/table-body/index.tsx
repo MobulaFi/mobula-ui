@@ -1,6 +1,8 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useMemo, useRef, useState } from "react";
+import { AiOutlineSwap } from "react-icons/ai";
+import { Button } from "../../../../../components/button";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { UserContext } from "../../../../../contexts/user";
@@ -11,8 +13,10 @@ import { ChartSegment } from "../../../../../layouts/tables/components/segments/
 import { MarketCapSegment } from "../../../../../layouts/tables/components/segments/market_cap";
 import { PriceSegment } from "../../../../../layouts/tables/components/segments/price";
 import { VolumeSegment } from "../../../../../layouts/tables/components/segments/volume";
+import { TokenInfo } from "../../../../../layouts/tables/components/ui/token";
 import { EntryContext } from "../../../../../layouts/tables/context-manager";
 import { useWatchlist } from "../../../../../layouts/tables/hooks/watchlist";
+import { pushData } from "../../../../../lib/mixpanel";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import { WatchlistContext } from "../../../../user/watchlist/context-manager";
 import { IWatchlist } from "../../../../user/watchlist/models";
@@ -233,7 +237,7 @@ export const Top100TBody = ({
         onMouseLeave={() => setIsHover(false)}
         ref={entryRef}
       >
-        {/* <tr className="text-light-font-100 dark:text-dark-font-100">
+        <tr className="text-light-font-100 dark:text-dark-font-100">
           <td
             className={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
               isHover
@@ -241,7 +245,7 @@ export const Top100TBody = ({
                 : "bg-light-bg-table dark:bg-dark-bg-table"
             }`}
           >
-            <WatchlistAdd
+            {/* <WatchlistAdd
               addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
               setAddedToWatchlist={setAddedToWatchlist}
               addedToWatchlist={addedToWatchlist}
@@ -257,7 +261,7 @@ export const Top100TBody = ({
               >
                 <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
               </button>
-            </div>
+            </div> */}
           </td>
           <td
             className={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
@@ -333,7 +337,7 @@ export const Top100TBody = ({
               )}
             </div>
           </td>
-        </tr> */}
+        </tr>
       </tbody>
     </EntryContext.Provider>
   );
