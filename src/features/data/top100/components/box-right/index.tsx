@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BtcDominance } from "../box-middle/btc-dominance";
 import { AINews } from "./AI-news";
 
@@ -31,14 +31,14 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
     // />,
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowPage((prevPage) => (prevPage + 1) % 2);
-    }, 20000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setShowPage((prevPage) => (prevPage + 1) % 2);
+  //   }, 20000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   return (
     <div

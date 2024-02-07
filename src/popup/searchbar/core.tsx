@@ -56,7 +56,6 @@ export const CoreSearchBar = ({
     setResults,
     active,
     setActive,
-    setArticles,
     setIsFocus,
     users,
     setUsers,
@@ -72,14 +71,17 @@ export const CoreSearchBar = ({
   } = useContext(SearchbarContext);
   const isUserRegistered: boolean = userWithAddress?.address !== undefined;
   const isUnknownUser: boolean =
-    isAddress(token) && !isUserRegistered && (results?.length || 0) === 0;
+    isAddress(token) &&
+    !isUserRegistered &&
+    (results?.length || 0) === 0 &&
+    !pairs?.length;
 
   const showResults =
     (results?.length || 0) +
       (users?.length || 0) +
       (pages?.length || 0) +
+      (pairs?.length || 0) +
       (articles?.length || 0) ||
-    (pairs?.length || 0) !== 0 ||
     ens?.address ||
     token?.includes(".eth") ||
     userWithAddress?.address !== undefined;
@@ -88,7 +90,7 @@ export const CoreSearchBar = ({
     fetch(
       `${
         process.env.NEXT_PUBLIC_API_ENDPOINT
-      }/api/1/search?input=${input}&filters=${JSON.stringify({
+      }/api/1/search?input=${input.toLowerCase()}&filters=${JSON.stringify({
         liquidity: { min: 100 },
         blockchain: "BNB Smart Chain (BEP20)",
       })}`,
@@ -102,11 +104,25 @@ export const CoreSearchBar = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
-          console.log("rrrrrrr", results);
-          setResults(
-            r.data.filter((entry, i) => i < maxAssetsResult && entry.id)
+          const globalResult = r.data?.filter(
+            (entry, i) => !entry?.reserve0 && !entry?.reserve1
           );
-          setPairs(r.data.filter((entry, i) => !entry.id));
+          globalResult.sort((entryA, entryB) => {
+            const liquidityA =
+              entryA.pairs.length > 0 ? parseInt(entryA.pairs[0].liquidity) : 0;
+            const liquidityB =
+              entryB.pairs.length > 0 ? parseInt(entryB.pairs[0].liquidity) : 0;
+
+            if (liquidityA < liquidityB) return 1;
+            else if (liquidityA > liquidityB) return -1;
+            else return 0;
+          });
+
+          const pairAddressResult = r.data.filter(
+            (entry) => entry?.reserve0 || entry?.reserve1
+          );
+          setResults(globalResult);
+          setPairs(pairAddressResult);
         }
       });
   };
@@ -145,7 +161,6 @@ export const CoreSearchBar = ({
 
   useEffect(() => {
     getPagesFromInputValue(setPages, token);
-    if (token) fetchAssets(token);
     getDataFromInputValue(
       token,
       supabase,
@@ -172,6 +187,7 @@ export const CoreSearchBar = ({
           (users?.length || 0) +
             (results?.length || 0) +
             (pages?.length || 0) +
+            (pairs?.length || 0) +
             (articles?.length || 0) -
             1,
           0
@@ -187,15 +203,7 @@ export const CoreSearchBar = ({
   let fullResults: React.ReactNode;
 
   const getContentToRender = () => {
-    if (isUnknownUser && isSmartContract === null && !pairs?.length) {
-      fullResults = (
-        <UnknownResult
-          setTrigger={setTrigger}
-          isUnknownUser={isUnknownUser}
-          callback={callback}
-        />
-      );
-    } else if (showResults) {
+    if (showResults) {
       fullResults = (
         <>
           <AssetsResults
@@ -203,14 +211,19 @@ export const CoreSearchBar = ({
             setTrigger={setTrigger}
             callback={callback}
           />
-          {results?.filter((entry) => entry?.pairs)?.length > 0 ? (
+          {results?.filter((entry) => entry?.pairs)?.length > 0 ||
+          pairs?.length > 0 ? (
             <PairResult
-              firstIndex={results?.length || 0}
+              firstIndex={results?.filter((entry) => entry.pairs)?.length || 0}
               setTrigger={setTrigger}
             />
           ) : null}
           <WalletResult
-            firstIndex={results?.length + pairs?.length || 0}
+            firstIndex={
+              results?.filter((entry) => entry.pairs)?.length +
+                results?.filter((entry) => entry.id)?.length +
+                pairs?.length || 0
+            }
             setTrigger={setTrigger}
             callback={callback}
           />
@@ -235,7 +248,10 @@ export const CoreSearchBar = ({
             <>
               <PageResults
                 firstIndex={
-                  (pages?.length || 0) + (results?.length + pairs?.length || 0)
+                  (pages?.length || 0) +
+                  (results?.filter((entry) => entry.pairs)?.length +
+                    results?.filter((entry) => entry.id)?.length +
+                    +pairs?.length || 0)
                 }
                 setTrigger={setTrigger}
               />
@@ -251,6 +267,14 @@ export const CoreSearchBar = ({
           ) : null}
         </>
       );
+    } else if (isUnknownUser && isSmartContract === null && !pairs?.length) {
+      fullResults = (
+        <UnknownResult
+          setTrigger={setTrigger}
+          isUnknownUser={isUnknownUser}
+          callback={callback}
+        />
+      );
     } else if (isSmartContract !== null && isAddress(token)) {
       fullResults = (
         <NotListed
@@ -259,7 +283,7 @@ export const CoreSearchBar = ({
           setUnknownSC={setIsSmartContract}
         />
       );
-    } else fullResults = <NoResult />;
+    } else fullResults = <NoResult setTrigger={setTrigger} />;
 
     return fullResults;
   };
@@ -321,6 +345,7 @@ export const CoreSearchBar = ({
         (results?.length || 0) +
           (users?.length || 0) +
           (pages?.length || 0) +
+          (pairs?.length || 0) +
           (articles?.length || 0) -
           1
     )

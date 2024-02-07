@@ -85,7 +85,7 @@ export const formatAsset = (
         ((asset.blockchain || "")[0] as BlockchainName),
     };
   } catch (e) {
-    console.log("ERROR", e);
+    // console.log("ERROR", e);
   }
 };
 

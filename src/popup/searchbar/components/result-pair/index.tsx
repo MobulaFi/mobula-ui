@@ -6,6 +6,24 @@ import { getFormattedAmount } from "../../../../utils/formaters";
 import { SearchbarContext } from "../../context-manager";
 import { Title } from "../ui/title";
 
+interface PairsFromAddressProps {
+  pairs: {
+    token0?: {
+      name: string;
+      symbol: string;
+      logo: string;
+    };
+    token1?: {
+      name: string;
+      symbol: string;
+      logo: string;
+    };
+    address?: string;
+    liquidity?: string;
+  }[];
+  name?: string;
+}
+
 export const PairResult = ({ setTrigger, firstIndex }) => {
   const { active, setActive, pairs, results } = useContext(SearchbarContext);
   const router = useRouter();
@@ -23,31 +41,52 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
   const isQuoteToken = (result, pair) =>
     result?.symbol === pair?.token1?.symbol;
 
-  const resultsWithPair = results?.filter((entry) => entry?.pairs?.length > 0);
+  const resultsWithPair = results?.filter(
+    (entry) => (entry?.pairs?.length || 0) > 0 && entry.id
+  );
 
-  const finalPairs = resultsWithPair.concat(notListedTokens);
+  const formatPairsResultFromAddress = () => {
+    if (!pairs?.length) return;
+    let formatedPairs: PairsFromAddressProps[] = [];
+    pairs.forEach((pair) => {
+      const templatePair = {
+        pairs: [
+          {
+            token0: pair.token0,
+            token1: pair.token1,
+            address: pair.address,
+            liquidity: pair.liquidity,
+          },
+        ],
+        name: pair.token0?.name,
+        symbol: pair.token0?.symbol,
+      };
+      formatedPairs.push(templatePair);
+    });
+    return formatedPairs || [];
+  };
+  const searchPairAddress = formatPairsResultFromAddress();
+  const finalPairs = [
+    ...resultsWithPair,
+    ...notListedTokens,
+    ...(searchPairAddress || []),
+  ];
 
   return (
-    <div className={`${results.length > 0 ? "mt-2.5" : "mt-0"}`}>
-      {finalPairs?.length > 0 && (
+    <div
+      className={`${
+        finalPairs?.filter((_, i) => i < 5)?.length > 0
+          ? "mt-2.5"
+          : "mt-0 hidden"
+      }`}
+    >
+      {finalPairs?.filter((_, i) => i < 5)?.length > 0 && (
         <Title extraCss="mt-[5px]">
-          Pairs (
-          {
-            finalPairs?.filter(
-              (entry) =>
-                entry?.pairs?.[0]?.token0?.symbol !== "BNB" &&
-                entry?.pairs?.[0]?.token1?.symbol !== "BNB"
-            )?.length
-          }
-          )
+          Pairs ({finalPairs?.filter((_, i) => i < 5)?.length})
         </Title>
       )}
       {finalPairs
-        ?.filter(
-          (entry) =>
-            entry?.pairs?.[0]?.token0?.symbol !== "BNB" &&
-            entry?.pairs?.[0]?.token1?.symbol !== "BNB"
-        )
+        ?.filter((_, i) => i < 5)
         .map((result, index) => {
           const pair = result?.pairs?.[0];
           return (
@@ -56,13 +95,13 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
                 active === index + firstIndex
                   ? "bg-light-bg-hover dark:bg-dark-bg-hover"
                   : ""
-              } py-[7px] px-[20px] md:px-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover `}
+              } py-[7px] px-[20px] md:px-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover`}
               onMouseOver={() => setActive(index + firstIndex)}
               onClick={() => clickEvent(pair)}
             >
               <div className="flex items-center">
                 {(isBaseToken(result, pair) && pair?.token0?.logo) ||
-                (!isBaseToken(result, pair) && pair?.token0?.logo) ? (
+                (!isBaseToken(result, pair) && pair?.token1?.logo) ? (
                   <img
                     src={
                       isBaseToken(result, pair)
@@ -95,15 +134,15 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
                 )}
                 <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
                   {isBaseToken(result, pair)
-                    ? pair?.token0?.symbol?.toUpperCase()
-                    : pair?.token1?.symbol?.toUpperCase()}{" "}
+                    ? pair?.token0?.symbol?.toUpperCase() || "--"
+                    : pair?.token1?.symbol?.toUpperCase() || "--"}{" "}
                   /{" "}
                   {isQuoteToken(result, pair)
-                    ? pair?.token0?.symbol?.toUpperCase()
-                    : pair?.token1?.symbol?.toUpperCase()}
+                    ? pair?.token0?.symbol?.toUpperCase() || "--"
+                    : pair?.token1?.symbol?.toUpperCase() || "--"}
                 </p>
                 <p className="text-sm max-w-[100px] truncate text-light-font-60 dark:text-dark-font-60 mr-2.5">
-                  {result?.name}
+                  {result?.name || ""}
                 </p>
               </div>
               <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100">

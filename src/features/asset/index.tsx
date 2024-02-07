@@ -66,7 +66,12 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   ]);
 
   useEffect(() => {
-    if (!isAssetPage && baseAsset && !baseAsset?.social) {
+    if (
+      !isAssetPage &&
+      baseAsset &&
+      !baseAsset?.social &&
+      baseAsset?.[baseAsset?.baseToken]?.name
+    ) {
       fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?asset=${
           baseAsset?.[baseAsset?.baseToken]?.address
@@ -421,7 +426,12 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>
                         {pair?.isAmount ? (
-                          <span>${getFormattedAmount(pair?.value)}</span>
+                          <span>
+                            $
+                            {getFormattedAmount(pair?.value, 0, {
+                              canUseHTML: true,
+                            })}
+                          </span>
                         ) : (
                           <span>{getFormattedAmount(pair?.value)}</span>
                         )}
