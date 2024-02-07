@@ -1,17 +1,16 @@
 "use client";
-import { Asset } from "features/asset/models";
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
-import { OrderBy } from "../../../interfaces/assets";
+import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { BasicBody } from "../../../layouts/new-tables/basic-body";
 import { CommonTableHeader } from "../../../layouts/new-tables/basic-wrap";
 
 interface recentlyAddedProps {
-  tokensBuffer: Asset[];
+  tokensBuffer: TableAsset[];
   isMobile: boolean;
   count: number;
 }

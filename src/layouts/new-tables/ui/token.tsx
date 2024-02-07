@@ -1,10 +1,9 @@
 import React from "react";
 import { NextImageFallback } from "../../../components/image";
-import { Asset } from "../../../interfaces/swap";
 import { TableAsset } from "../../tables/model";
 
 interface TokenInfoProps {
-  token: Asset | TableAsset;
+  token: TableAsset;
   index: number;
   showRank: boolean;
 }
