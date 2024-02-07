@@ -276,11 +276,11 @@ export const Top100TBody = ({
           >
             <TokenInfo token={token} showRank={showRank} index={index} />
           </Segment>
-          {(activeView?.display?.length || 0) > 0 &&
+          {/* {(activeView?.display?.length || 0) > 0 &&
           activeView?.name !== "All" &&
           activeView?.name !== "Portfolio"
             ? render
-            : null}
+            : null} */}
           {activeView?.name === "Portfolio" || activeView?.name === "All" ? (
             <>
               <PriceSegment
