@@ -11,13 +11,12 @@ import { PiUsersThreeLight } from "react-icons/pi";
 import { RiMenu3Line } from "react-icons/ri";
 import { TbBellRinging } from "react-icons/tb";
 import { useAccount } from "wagmi";
-import { disconnect, readContract } from "wagmi/actions";
+import { disconnect } from "wagmi/actions";
 import { AddressAvatar } from "../../../../components/avatar";
 import { SmallFont } from "../../../../components/fonts";
 import { NextImageFallback } from "../../../../components/image";
 import { Popover } from "../../../../components/popover";
 import { Skeleton } from "../../../../components/skeleton";
-import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
 import {
   PopupStateContext,
@@ -28,7 +27,6 @@ import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
 import { FeedBackPopup } from "../../../../popup/feedback";
 import { SwitchNetworkPopup } from "../../../../popup/switch-network";
-import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
 import { SwapProvider } from "../../../swap";
@@ -183,19 +181,19 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
     if (result) return result();
   };
 
-  const getBalanceOfMOBL = async () => {
-    const balance = await readContract({
-      address: MOBL_ADDRESS as `0x${string}`,
-      abi: balanceOfAbi,
-      functionName: "balanceOf",
-      args: [address],
-    });
-    setBalanceMOBL(Number(balance) / 10 ** 18 || null);
-  };
+  // const getBalanceOfMOBL = async () => {
+  //   const balance = await readContract({
+  //     address: MOBL_ADDRESS as `0x${string}`,
+  //     abi: balanceOfAbi,
+  //     functionName: "balanceOf",
+  //     args: [address],
+  //   });
+  //   setBalanceMOBL(Number(balance) / 10 ** 18 || null);
+  // };
 
-  useEffect(() => {
-    if (showInfoPopover && !balanceMOBL) getBalanceOfMOBL();
-  }, [showInfoPopover]);
+  // useEffect(() => {
+  //   if (showInfoPopover && !balanceMOBL) getBalanceOfMOBL();
+  // }, [showInfoPopover]);
 
   useEffect(() => {
     if (isDisconnected) deleteCookie("user-balance");
@@ -417,7 +415,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         <SwapProvider>
           <SwitchNetworkPopup />
         </SwapProvider>
-
         <button
           className="hidden lg:flex ml-2.5 lg:ml-1 min-w-[22px]"
           onClick={() => {
