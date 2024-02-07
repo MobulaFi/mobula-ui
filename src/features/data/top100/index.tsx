@@ -107,43 +107,43 @@ export const Top100 = ({
 
   let ticking = false;
 
-  useEffect(() => {
-    const appContainer = document.getElementById("app");
-    let ticking = false;
+  // useEffect(() => {
+  //   const appContainer = document.getElementById("app");
+  //   let ticking = false;
 
-    const handleScroll = () => {
-      if (!appContainer || !tableRef.current) return;
+  //   const handleScroll = () => {
+  //     if (!appContainer || !tableRef.current) return;
 
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const windowHeight = appContainer.clientHeight; // Utilisez clientHeight ici
-          const scrollPosition = appContainer.scrollTop + windowHeight; // Utilisez scrollTop ici
-          const triggerHeight = windowHeight * 1.5;
+  //     if (!ticking) {
+  //       window.requestAnimationFrame(() => {
+  //         const windowHeight = appContainer.clientHeight; // Utilisez clientHeight ici
+  //         const scrollPosition = appContainer.scrollTop + windowHeight; // Utilisez scrollTop ici
+  //         const triggerHeight = windowHeight * 1.5;
 
-          setIsButtonVisible(
-            scrollPosition > triggerHeight && !isButtonVisible
-          );
+  //         setIsButtonVisible(
+  //           scrollPosition > triggerHeight && !isButtonVisible
+  //         );
 
-          const tableBottomPosition =
-            tableRef.current.offsetTop + tableRef.current.offsetHeight;
+  //         const tableBottomPosition =
+  //           tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-          if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
-            // Supposons que resultsData est défini ailleurs
-            setActivePage(Math.round(resultsData?.data?.length / 100) + 1);
-          }
+  //         if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
+  //           // Supposons que resultsData est défini ailleurs
+  //           setActivePage(Math.round(resultsData?.data?.length / 100) + 1);
+  //         }
 
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+  //         ticking = false;
+  //       });
+  //       ticking = true;
+  //     }
+  //   };
 
-    appContainer.addEventListener("scroll", handleScroll);
+  //   appContainer.addEventListener("scroll", handleScroll);
 
-    return () => {
-      appContainer.removeEventListener("scroll", handleScroll);
-    };
-  }, [isPageLoading, isButtonVisible]);
+  //   return () => {
+  //     appContainer.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [isPageLoading, isButtonVisible]);
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
