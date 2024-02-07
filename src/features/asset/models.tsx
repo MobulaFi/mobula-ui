@@ -257,8 +257,9 @@ export interface Trade {
 
 export interface Metrics {
   title: string;
-  value: number;
+  value: number | string | null;
   info?: string;
+  dollar?: boolean;
 }
 
 export interface Bar {
