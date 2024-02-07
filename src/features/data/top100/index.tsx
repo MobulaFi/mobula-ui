@@ -1,6 +1,5 @@
 "use client";
 import { createSupabaseDOClient } from "lib/supabase";
-import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import Swiper from "swiper";
@@ -12,6 +11,9 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import BoxMiddle from "./components/box-middle";
+import BoxRight from "./components/box-right";
+import Portfolio from "./components/portfolio";
 import { Top100Table } from "./components/table";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
@@ -30,9 +32,6 @@ interface Top100Props {
   actualView?: View;
 }
 
-const Portfolio = dynamic(() => import("./components/portfolio"));
-const BoxRight = dynamic(() => import("./components/box-right"));
-const BoxMiddle = dynamic(() => import("./components/box-middle"));
 register();
 
 export const Top100 = ({

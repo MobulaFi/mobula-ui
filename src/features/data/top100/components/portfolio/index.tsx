@@ -97,8 +97,6 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     }
   }, [wallet, isConnected]);
 
-  console.log("isLoading:", isLoading);
-
   return (
     <>
       <div
