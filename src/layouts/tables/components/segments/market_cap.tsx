@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { SmallFont } from "../../../../components/fonts";
+import { Popover } from "../../../../components/popover";
 import { TableAsset } from "../../../../interfaces/assets";
-import { getFormattedAmount } from "../../../../utils/formaters";
+import {
+  formatAmount,
+  getFormattedAmount,
+  getTokenPercentage,
+} from "../../../../utils/formaters";
 import { Segment } from "../segment";
 
 interface MarketCapSegmentProps {
@@ -64,7 +69,7 @@ export const MarketCapSegment = ({
     <Segment extraCss={`${extraCss} text-end md:px-[5px]`}>
       {display === "Circ. Supply" ? (
         <div className="w-full items-center justify-end">
-          {/* <Popover
+          <Popover
             extraCss="min-w-[200px] top-[40px] left-1/2 -translate-x-1/2"
             toggleOnHover={() => setShow((prev) => !prev)}
             visibleContent={
@@ -148,7 +153,7 @@ export const MarketCapSegment = ({
                 setIsVisible((prev) => !prev);
               else setIsVisible((prev) => !prev);
             }}
-          /> */}
+          />
         </div>
       ) : (
         <SmallFont extraCss={`${marketColor} font-medium`}>

@@ -1,9 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useMemo, useRef, useState } from "react";
-import { AiOutlineSwap } from "react-icons/ai";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { Button } from "../../../../../components/button";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { UserContext } from "../../../../../contexts/user";
@@ -14,11 +11,8 @@ import { ChartSegment } from "../../../../../layouts/tables/components/segments/
 import { MarketCapSegment } from "../../../../../layouts/tables/components/segments/market_cap";
 import { PriceSegment } from "../../../../../layouts/tables/components/segments/price";
 import { VolumeSegment } from "../../../../../layouts/tables/components/segments/volume";
-import { TokenInfo } from "../../../../../layouts/tables/components/ui/token";
-import { WatchlistAdd } from "../../../../../layouts/tables/components/ui/watchlist";
 import { EntryContext } from "../../../../../layouts/tables/context-manager";
 import { useWatchlist } from "../../../../../layouts/tables/hooks/watchlist";
-import { pushData } from "../../../../../lib/mixpanel";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import { WatchlistContext } from "../../../../user/watchlist/context-manager";
 import { IWatchlist } from "../../../../user/watchlist/models";
@@ -239,7 +233,7 @@ export const Top100TBody = ({
         onMouseLeave={() => setIsHover(false)}
         ref={entryRef}
       >
-        <tr className="text-light-font-100 dark:text-dark-font-100">
+        {/* <tr className="text-light-font-100 dark:text-dark-font-100">
           <td
             className={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
               isHover
@@ -339,7 +333,7 @@ export const Top100TBody = ({
               )}
             </div>
           </td>
-        </tr>
+        </tr> */}
       </tbody>
     </EntryContext.Provider>
   );

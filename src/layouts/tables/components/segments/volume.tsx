@@ -62,7 +62,7 @@ export const VolumeSegment = ({
             )} USD`}</SmallFont>
           </div>
         ) : (
-          <> ${getFormattedAmount(token.global_volume)}</>
+          renderVolumeOrBalance
         )}
       </div>
     </Segment>

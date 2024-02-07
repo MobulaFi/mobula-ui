@@ -20,7 +20,6 @@ export const ChartSegment = ({ token, extraCss = "" }: ChartSegmentProps) => (
           "/empty/sparkline.png"
         }
         fallbackSrc="/empty/sparkline.png"
-        unoptimized
       />
     </div>
   </Segment>
