@@ -152,7 +152,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
         isOpen={showMore}
       >
         {(isAssetPage ? metrics : pairsMetrics).map((entry, i) => {
-          const isNotDollar = !entry.dollar;
+          const isNotDollar = entry.dollar === false;
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
           return (
             <div
