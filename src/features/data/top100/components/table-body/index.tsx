@@ -7,7 +7,6 @@ import { Button } from "../../../../../components/button";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { UserContext } from "../../../../../contexts/user";
-import useDeviceDetect from "../../../../../hooks/detect-device";
 import { useIsInViewport } from "../../../../../hooks/viewport";
 import { TableAsset } from "../../../../../interfaces/assets";
 import { Segment } from "../../../../../layouts/tables/components/segment";
@@ -177,18 +176,6 @@ export const Top100TBody = ({
     [isHover, url]
   );
 
-  const getBackgroundFromTable = () => {
-    if (isTop100 && !isHover) return "bg-light-bg-table dark:bg-dark-bg-table";
-    if (isTop100 && isHover)
-      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
-    if (!isTop100 && isHover)
-      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
-    return "bg-light-bg-primary dark:bg-dark-bg-primary";
-  };
-
-  const background = getBackgroundFromTable();
-  const { isMobile } = useDeviceDetect();
-
   const renderSegments = () =>
     activeView?.display?.map((entry) => {
       switch (entry.type) {
@@ -239,6 +226,8 @@ export const Top100TBody = ({
       }
     });
 
+  const render = renderSegments();
+
   return (
     <EntryContext.Provider value={value}>
       <tbody
@@ -253,7 +242,11 @@ export const Top100TBody = ({
       >
         <tr className="text-light-font-100 dark:text-dark-font-100">
           <Segment
-            extraCss={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
+            extraCss={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
+              isHover
+                ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                : "bg-light-bg-table dark:bg-dark-bg-table"
+            }`}
             noLink
           >
             <WatchlistAdd
@@ -282,7 +275,7 @@ export const Top100TBody = ({
           {(activeView?.display?.length || 0) > 0 &&
           activeView?.name !== "All" &&
           activeView?.name !== "Portfolio"
-            ? renderSegments()
+            ? render
             : null}
           {activeView?.name === "Portfolio" || activeView?.name === "All" ? (
             <>
