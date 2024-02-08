@@ -1,5 +1,4 @@
 "use client";
-import { generateFilters } from "@utils/filters";
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
@@ -9,19 +8,14 @@ import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
 import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
-import { Query } from "../top100/models";
 
 export default function Trendings({ tokensBuffer, isMobile, count }) {
-  const [blockchain, setBlockchain] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
   const [resultsData, setResultsData] = useState({
     data: tokensBuffer,
     count,
   });
-  const [filters, setFilters] = useState<Query[]>([
-    { action: "", value: [], isFirst: true },
-    ...generateFilters("all"),
-  ]);
+
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "trending_score",
     ascending: false,
