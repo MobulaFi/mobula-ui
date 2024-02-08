@@ -7,8 +7,8 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { BasicBody } from "../../../layouts/new-tables/basic-body";
-import { CommonTableHeader } from "../../../layouts/new-tables/basic-wrap";
+import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
 import { Query } from "../top100/models";
 
 export default function Trendings({ tokensBuffer, isMobile, count }) {

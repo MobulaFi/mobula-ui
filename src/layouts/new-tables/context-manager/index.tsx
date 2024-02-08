@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { IEntryContext, ITableContext } from "./model";
+import { IEntryContext, ITableContext } from "../model";
 
 export const TableContext = createContext({} as ITableContext);
 

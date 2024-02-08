@@ -6,7 +6,7 @@ import { PopupStateContext } from "../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
 import { TableContext } from "../../../../../layouts/new-tables/context-manager";
-import { SkeletonTable } from "../../../../../layouts/new-tables/skeleton";
+import { SkeletonTable } from "../../../../../layouts/new-tables/skeleton-table";
 import { BasicThead } from "../../../../../layouts/new-tables/ui/basic-thead";
 import { MenuCommun } from "../../../../../layouts/new-tables/ui/menu";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";

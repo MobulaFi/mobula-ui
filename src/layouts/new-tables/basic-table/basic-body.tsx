@@ -3,27 +3,27 @@ import { useParams, usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Button } from "../../components/button";
-import { NextImageFallback } from "../../components/image";
-import { WatchlistContext } from "../../contexts/pages/watchlist";
-import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
-import { SettingsMetricContext } from "../../contexts/settings";
-import { UserContext } from "../../contexts/user";
-import { IWatchlist } from "../../interfaces/pages/watchlist";
-import { pushData } from "../../lib/mixpanel";
-import { createSupabaseDOClient } from "../../lib/supabase";
-import { getUrlFromName } from "../../utils/formaters";
-import { EntryContext, TableContext } from "./context-manager";
-import { useWatchlist } from "./hooks/watchlist";
-import { TableAsset } from "./model";
-import { Segment } from "./segments";
-import { ChangeSegment } from "./segments/change";
-import { MarketCapSegment } from "./segments/market_cap";
-import { PriceSegment } from "./segments/price";
-import { VolumeSegment } from "./segments/volume";
-import { TokenInfo } from "./ui/token";
-import { WatchlistAdd } from "./ui/watchlist";
-import { getCountdown } from "./utils";
+import { Button } from "../../../components/button";
+import { NextImageFallback } from "../../../components/image";
+import { WatchlistContext } from "../../../contexts/pages/watchlist";
+import { PopupUpdateContext } from "../../../contexts/popup";
+import { SettingsMetricContext } from "../../../contexts/settings";
+import { UserContext } from "../../../contexts/user";
+import { IWatchlist } from "../../../interfaces/pages/watchlist";
+import { pushData } from "../../../lib/mixpanel";
+import { createSupabaseDOClient } from "../../../lib/supabase";
+import { getUrlFromName } from "../../../utils/formaters";
+import { EntryContext, TableContext } from "../context-manager";
+import { useWatchlist } from "../hooks/watchlist";
+import { TableAsset } from "../model";
+import { Segment } from "../segments";
+import { ChangeSegment } from "../segments/change";
+import { MarketCapSegment } from "../segments/market_cap";
+import { PriceSegment } from "../segments/price";
+import { VolumeSegment } from "../segments/volume";
+import { TokenInfo } from "../ui/token";
+import { WatchlistAdd } from "../ui/watchlist";
+import { getCountdown } from "../utils";
 
 interface EntryProps {
   token: TableAsset;
@@ -46,11 +46,7 @@ export const BasicBody = ({
   const pathname = usePathname();
   const params = useParams();
   const page = params.page;
-  const isBalance =
-    Object.keys(token).includes("balance") &&
-    (pathname === "/home" || pathname === "/home?page=" + page);
   const { user } = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(false);
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const [metricsChanges, setMetricsChanges] = useState<{
@@ -62,7 +58,6 @@ export const BasicBody = ({
     volume: null,
     market_cap: null,
   });
-  const { showAlert } = useContext(PopupStateContext);
   const {
     setShowAddedToWatchlist,
     setShowMenuTableMobileForToken,
@@ -71,7 +66,6 @@ export const BasicBody = ({
   const { inWatchlist, handleAddWatchlist } = useWatchlist(token.id);
   const { lastColumn } = useContext(TableContext);
   const { setShowBuyDrawer } = useContext(SettingsMetricContext);
-  const [show, setShow] = useState(false);
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
@@ -174,12 +168,7 @@ export const BasicBody = ({
         setShowAddedToWatchlist(true);
         setTokenToAddInWatchlist(token);
       } else {
-        handleAddWatchlist(
-          token.id,
-          Number(activeWatchlist?.id),
-          false,
-          setIsLoading
-        );
+        handleAddWatchlist(token.id, Number(activeWatchlist?.id), false);
         setActiveWatchlist((prev) => ({
           ...prev,
           assets: prev?.assets
@@ -192,7 +181,7 @@ export const BasicBody = ({
       setTokenToAddInWatchlist(token);
     } else {
       setShowAddedToWatchlist(false);
-      handleAddWatchlist(token?.id, watchlist?.id, false, setIsLoading);
+      handleAddWatchlist(token?.id, watchlist?.id, false);
     }
   };
 

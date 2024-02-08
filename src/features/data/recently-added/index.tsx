@@ -6,8 +6,8 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { BasicBody } from "../../../layouts/new-tables/basic-body";
-import { CommonTableHeader } from "../../../layouts/new-tables/basic-wrap";
+import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
 
 interface recentlyAddedProps {
   tokensBuffer: TableAsset[];
