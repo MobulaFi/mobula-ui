@@ -4,7 +4,7 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { Container } from "../../../components/container";
 import { UserContext } from "../../../contexts/user";
@@ -118,6 +118,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           //   setOrderBy={setOrderBy}
           //   isMobile={isMobile}
           // />
+          <></>
         ) : null}
         {!activeWatchlist &&
         !activeWatchlist?.assets.length &&
