@@ -20,7 +20,7 @@ export const useIsInViewport = () => {
       observer.current.observe(ref.current);
 
       return () => {
-        observer.current?.unobserve(ref.current);
+        observer.current?.unobserve(ref.current as any);
       };
     }
   }, [ref.current, observer.current]);
