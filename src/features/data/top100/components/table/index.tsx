@@ -134,6 +134,8 @@ export function Top100Table({
     }
   }, [filters, router, params, orderBy]);
 
+  console.log("I RENDER");
+
   return (
     <TableContext.Provider value={value}>
       <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px] lg:mt-0">
