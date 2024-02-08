@@ -1,7 +1,7 @@
 "use client";
 import { createSupabaseDOClient } from "lib/supabase";
 import { usePathname, useRouter } from "next/navigation";
-import {
+import React, {
   useCallback,
   useContext,
   useEffect,
@@ -10,12 +10,14 @@ import {
   useState,
 } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { UserContext } from "../../../../../contexts/user";
 import { useIsInViewport } from "../../../../../hooks/viewport";
 import { TableAsset } from "../../../../../interfaces/assets";
+import { WatchlistAdd } from "../../../../../layouts/new-tables/ui/watchlist";
 import { ChangeSegment } from "../../../../../layouts/tables/components/segments/change";
 import { ChartSegment } from "../../../../../layouts/tables/components/segments/chart";
 import { MarketCapSegment } from "../../../../../layouts/tables/components/segments/market_cap";
@@ -269,7 +271,6 @@ export const Top100TBody = ({
         onMouseLeave={() => setIsHover(false)}
         ref={ref}
       >
-        {isIntersecting ? "Visible" : "Not visible"}
         <tr className="text-light-font-100 dark:text-dark-font-100">
           <td
             className={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
@@ -278,7 +279,7 @@ export const Top100TBody = ({
                 : "bg-light-bg-table dark:bg-dark-bg-table"
             }`}
           >
-            {/* <WatchlistAdd
+            <WatchlistAdd
               addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
               setAddedToWatchlist={setAddedToWatchlist}
               addedToWatchlist={addedToWatchlist}
@@ -294,7 +295,7 @@ export const Top100TBody = ({
               >
                 <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
               </button>
-            </div> */}
+            </div>
           </td>
           <td
             className={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${

@@ -39,8 +39,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
       .select(TABLE_ASSETS_QUERY, {
         count: "exact",
       })
-      .order("market_cap", { ascending: false })
-      .limit(10);
+      .order("market_cap", { ascending: false });
 
     if (filteredValues) {
       filteredValues
@@ -49,7 +48,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(100);
+    const result = await query.limit(20);
     return result;
   };
 

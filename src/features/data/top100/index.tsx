@@ -45,7 +45,6 @@ export const Top100 = ({
     ascending: false,
     first: true,
   });
-  const [isRendered, setIsRendered] = useState(false);
   const [resultsData, setResultsData] = useState({ data: bufferTokens, count });
   const [showPage, setShowPage] = useState(0);
   const [activePage, setActivePage] = useState(1);
@@ -80,7 +79,7 @@ export const Top100 = ({
         count: "exact",
       })
       .order("market_cap", { ascending: false })
-      .range(activePage * 100 - 100, activePage * 100 - 1);
+      .range(activePage * 20 - 20, activePage * 20 - 1);
     if (filters) {
       filters
         .filter((entry) => entry.action)
@@ -88,7 +87,7 @@ export const Top100 = ({
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(100);
+    const result = await query.limit(20);
 
     if (result.error) setIsPageLoading(false);
     else {
@@ -101,6 +100,7 @@ export const Top100 = ({
       setIsPageLoading(false);
     }
   };
+  console.log("I RENDER", activePage);
 
   useEffect(() => {
     if (tableRef?.current) fetchAssets();
@@ -108,43 +108,31 @@ export const Top100 = ({
 
   let ticking = false;
 
-  // useEffect(() => {
-  //   const appContainer = document.getElementById("app");
-  //   let ticking = false;
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!tableRef.current) return;
 
-  //   const handleScroll = () => {
-  //     if (!appContainer || !tableRef.current) return;
+      const windowHeight = window.innerHeight;
+      const scrollPosition = window.scrollY + windowHeight;
+      const triggerHeight = windowHeight * 1.5;
 
-  //     if (!ticking) {
-  //       window.requestAnimationFrame(() => {
-  //         const windowHeight = appContainer.clientHeight; // Utilisez clientHeight ici
-  //         const scrollPosition = appContainer.scrollTop + windowHeight; // Utilisez scrollTop ici
-  //         const triggerHeight = windowHeight * 1.5;
+      setIsButtonVisible(scrollPosition > triggerHeight && !isButtonVisible);
 
-  //         setIsButtonVisible(
-  //           scrollPosition > triggerHeight && !isButtonVisible
-  //         );
+      const tableBottomPosition =
+        tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-  //         const tableBottomPosition =
-  //           tableRef.current.offsetTop + tableRef.current.offsetHeight;
+      // Supposons que resultsData est défini ailleurs
+      if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
+        setActivePage((prev) => prev + 1);
+      }
+    };
 
-  //         if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
-  //           // Supposons que resultsData est défini ailleurs
-  //           setActivePage(Math.round(resultsData?.data?.length / 100) + 1);
-  //         }
+    window.addEventListener("scroll", handleScroll);
 
-  //         ticking = false;
-  //       });
-  //       ticking = true;
-  //     }
-  //   };
-
-  //   appContainer.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     appContainer.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [isPageLoading, isButtonVisible]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isPageLoading, isButtonVisible]);
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -170,81 +158,6 @@ export const Top100 = ({
     });
   }
   const isMobile = detectMob();
-  if (!isRendered) {
-    setIsRendered(true);
-    return (
-      <>
-        <TopNav list={tabs} active="Home" isGeneral />
-        <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
-          <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
-            {isMobile ? (
-              <Container
-                extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
-            justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
-              >
-                <div className="flex w-95per mx-auto ">
-                  <div className="swiper">
-                    <div className="swiper-wrapper">
-                      <div className="swiper-slide flex justify-center">
-                        <Portfolio showPageMobile={showPage} />
-                      </div>
-                      <div className="swiper-slide flex justify-center">
-                        <BoxMiddle
-                          showPageMobile={showPage}
-                          metrics={metrics}
-                        />
-                      </div>
-                      <div className="swiper-slide flex justify-center">
-                        <BoxRight showPageMobile={showPage} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Container>
-            ) : (
-              <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
-                <Portfolio />
-                <BoxMiddle metrics={metrics} />
-                <BoxRight />
-              </Container>
-            )}
-          </div>
-        </div>
-        <div className="bg-light-bg-table dark:bg-dark-bg-table">
-          <Views setResultsData={setResultsData} />
-          <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0 mb-0 md:mb-0">
-            <div className="w-full h-full" ref={tableRef}>
-              <Top100Table
-                resultsData={resultsData}
-                setResultsData={setResultsData}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                filters={filters}
-                isTop100
-                showRank
-                isMobile={isMobile}
-              />
-              {isPageLoading ? (
-                <div className="w-full h-[60px] mb-[50px] flex items-center justify-center">
-                  <Spinner extraCss="h-[30px] w-[30px]" />
-                </div>
-              ) : null}
-            </div>
-          </Container>
-        </div>
-        {isButtonVisible ? (
-          <Button
-            extraCss="fixed bottom-[50px] md:bottom-[100px] right-[50px] md:right-[30px] z-[2] rounded-full
-         h-[45px] w-[45px] min-h-[45px] flex items-center justify-center shadow-lg"
-            ref={buttonRef}
-            // onClick={scrollTop}
-          >
-            <AiOutlineArrowUp className="text-2xl text-light-font-100 dark:text-dark-font-100 font-bold" />
-          </Button>
-        ) : null}
-      </>
-    );
-  }
   return (
     <>
       <TopNav list={tabs} active="Home" isGeneral />
@@ -253,7 +166,7 @@ export const Top100 = ({
           {isMobile ? (
             <Container
               extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
-          justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
+            justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
             >
               <div className="flex w-95per mx-auto ">
                 <div className="swiper">
@@ -305,7 +218,7 @@ export const Top100 = ({
       {isButtonVisible ? (
         <Button
           extraCss="fixed bottom-[50px] md:bottom-[100px] right-[50px] md:right-[30px] z-[2] rounded-full
-       h-[45px] w-[45px] min-h-[45px] flex items-center justify-center shadow-lg"
+         h-[45px] w-[45px] min-h-[45px] flex items-center justify-center shadow-lg"
           ref={buttonRef}
           // onClick={scrollTop}
         >

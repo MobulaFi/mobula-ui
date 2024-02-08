@@ -100,7 +100,6 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 body {
-  overflow-y: hidden;
   scrollbar-width: none;
   position: relative;
 }
