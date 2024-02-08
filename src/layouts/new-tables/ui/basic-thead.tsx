@@ -52,19 +52,19 @@ export const BasicThead = ({
       onClick={() => {
         if (shouldUseOrderBy() === false) return;
         setIsLoading(true);
-        if (titleToDBKey[title] === orderBy?.type) {
+        if (titleToDBKey?.[title] === orderBy?.type) {
           setOrderBy({
-            type: titleToDBKey[title],
+            type: titleToDBKey?.[title],
             ascending: !orderBy.ascending,
           });
-        } else if (titleToDBKey[title] === "rank")
+        } else if (titleToDBKey?.[title] === "rank")
           setOrderBy({
-            type: titleToDBKey[title],
+            type: titleToDBKey?.[title],
             ascending: orderBy ? !orderBy.ascending : false,
           });
         else
           setOrderBy({
-            type: titleToDBKey[title],
+            type: titleToDBKey?.[title],
             ascending: orderBy ? orderBy.ascending : false,
           });
       }}

@@ -1,4 +1,4 @@
-import { Key, useEffect, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 import { useTop100 } from "../../context-manager";
 import { CryptoMarket } from "./crypto-market";
 import { FearGreed } from "./fear-greed";
@@ -16,8 +16,14 @@ interface BoxMiddleProps {
 
 const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   const [showPage, setShowPage] = useState(0);
-  const { setTotalMarketCap, setMarketCapChange, setBtcDominance } =
-    useTop100();
+  const {
+    setTotalMarketCap,
+    setMarketCapChange,
+    setBtcDominance,
+    totalMarketCap,
+    btcDominance,
+    marketCapChange,
+  } = useTop100();
 
   const fetchMetrics = async () => {
     const req = await fetch(
@@ -32,8 +38,9 @@ const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   };
 
   useEffect(() => {
-    fetchMetrics();
-  }, []);
+    if (!totalMarketCap?.length || !btcDominance?.length || !marketCapChange)
+      fetchMetrics();
+  }, [totalMarketCap, btcDominance, marketCapChange, showPage]);
 
   const render = [
     <FearGreed showPage={showPage} metrics={metrics} key="FearGreed" />,

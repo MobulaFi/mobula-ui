@@ -56,7 +56,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
 
   useEffect(() => {
     const finalPortfolio = user?.portfolios[0] || activePortfolio;
-    if (pathname === "/home" && user) {
+    if (pathname === "/home") {
       if (finalPortfolio?.id) {
         const socket = new WebSocket(
           process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
@@ -95,8 +95,8 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
           setIsLoading(false);
         });
       }
-      if (!isConnected) setIsLoading(false);
-    }
+      if (!isConnected || isDisconnected) setIsLoading(false);
+    } else setIsLoading(false);
     return () => {};
   }, [user?.portfolios]);
 
