@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { Spinner } from "../../../components/spinner";
 import { useTop100 } from "../../../features/data/top100/context-manager";
-import { useWatchlist } from "../../tables/hooks/watchlist";
+import { useWatchlist } from "../hooks/watchlist";
 interface WatchlistAdd {
   addOrRemoveFromWatchlist: Function;
   setAddedToWatchlist;

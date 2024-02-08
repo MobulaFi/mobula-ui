@@ -14,7 +14,6 @@ import {
 } from "../../../../../contexts/popup";
 import { WatchlistDrawer } from "../../../../../drawer/watchlist";
 import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
-import { AssetsTable } from "../../../../../layouts/tables/components";
 import { addressSlicer } from "../../../../../utils/formaters";
 import { Asset } from "../../../../asset/models";
 import { WatchlistContext } from "../../context-manager";

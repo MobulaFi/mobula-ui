@@ -17,7 +17,7 @@ import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
 import { TableAsset } from "../../../../../../interfaces/assets";
-import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
+import { useWatchlist } from "../../../../../../layouts/new-tables/hooks/watchlist";
 import EChart from "../../../../../../lib/echart/line";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { triggerAlert } from "../../../../../../lib/toastify";

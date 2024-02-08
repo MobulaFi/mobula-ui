@@ -1,8 +1,8 @@
 import React from "react";
+import { Segment } from ".";
 import { TagPercentage } from "../../../components/tag-percentage";
 import { getTokenPercentage } from "../../../utils/formaters";
-import { Segment } from "../../tables/components/segment";
-import { TableAsset } from "../../tables/model";
+import { TableAsset } from "../model";
 
 interface ChangeSegmentProps {
   token: TableAsset;

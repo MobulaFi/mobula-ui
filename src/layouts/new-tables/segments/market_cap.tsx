@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Segment } from ".";
 import { SmallFont } from "../../../components/fonts";
 import { Popover } from "../../../components/popover";
 import {
@@ -6,8 +7,7 @@ import {
   getFormattedAmount,
   getTokenPercentage,
 } from "../../../utils/formaters";
-import { Segment } from "../../tables/components/segment";
-import { TableAsset } from "../../tables/model";
+import { TableAsset } from "../model";
 
 interface MarketCapSegmentProps {
   token: TableAsset;

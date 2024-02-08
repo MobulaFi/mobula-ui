@@ -1,7 +1,6 @@
-import { MediumFont, SmallFont } from "components/fonts";
-import { NextChakraLink } from "components/link";
-import { TableHeaderEntry } from "layouts/tables/components/table-header-entry";
 import { useTheme } from "next-themes";
+import React from "react";
+import { BasicThead } from "../../../../../layouts/new-tables/ui/basic-thead";
 
 export const SkeletonTable = () => {
   const { theme } = useTheme();
@@ -13,42 +12,42 @@ export const SkeletonTable = () => {
         <table className="w-full md:w-auto relative mx-auto cursor-pointer">
           <thead className="border-t border-light-border-primary dark:border-dark-border-primary sticky top-0">
             <tr className="text-start sticky top-0">
-              <TableHeaderEntry
+              <BasicThead
                 title="Rank"
                 extraCss="w-[86px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
                 canOrder
               />
-              <TableHeaderEntry
+              <BasicThead
                 title="Name"
                 extraCss="w-[170px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
                 canOrder
               />
-              <TableHeaderEntry
+              <BasicThead
                 title="Price"
                 canOrder
                 extraCss="z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
-              <TableHeaderEntry
+              <BasicThead
                 title="24 (%)"
                 canOrder
                 extraCss="z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
-              <TableHeaderEntry
+              <BasicThead
                 title="Market Cap"
                 canOrder
                 extraCss="z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />
-              <TableHeaderEntry
+              <BasicThead
                 title="Volume (24h)"
                 canOrder
                 extraCss="w-[162.5px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />{" "}
-              <TableHeaderEntry
+              <BasicThead
                 title="Chart"
                 canOrder
                 extraCss="w-[89px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"
               />{" "}
-              <TableHeaderEntry
+              <BasicThead
                 title="Swap"
                 canOrder
                 extraCss="w-[89px] z-[102] bg-light-bg-primary dark:bg-dark-bg-primary"

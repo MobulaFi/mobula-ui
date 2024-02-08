@@ -5,10 +5,10 @@ import { Ths } from "../../../../../components/table";
 import { PopupStateContext } from "../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
-import { SkeletonTable } from "../../../../../layouts/tables/components/skeletons";
-import { TableHeaderEntry } from "../../../../../layouts/tables/components/table-header-entry";
-import { MenuCommun } from "../../../../../layouts/tables/components/ui/menu";
-import { TableContext } from "../../../../../layouts/tables/context-manager";
+import { TableContext } from "../../../../../layouts/new-tables/context-manager";
+import { SkeletonTable } from "../../../../../layouts/new-tables/skeleton";
+import { BasicThead } from "../../../../../layouts/new-tables/ui/basic-thead";
+import { MenuCommun } from "../../../../../layouts/new-tables/ui/menu";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
 import { useTop100 } from "../../context-manager";
 import { Query } from "../../models";
@@ -134,8 +134,6 @@ export function Top100Table({
     }
   }, [filters, router, params, orderBy]);
 
-  console.log("I RENDER");
-
   return (
     <TableContext.Provider value={value}>
       <div className="overflow-auto relative top-0 w-full min-h-[680px] lg:min-h-[450px] sm:min-h-[300px] lg:mt-0">
@@ -153,17 +151,17 @@ export function Top100Table({
             ) : (
               <>
                 <tr className={`text-left sticky top-0`}>
-                  <TableHeaderEntry
+                  <BasicThead
                     title="Rank"
                     canOrder
                     extraCss="bg-light-bg-table dark:bg-dark-bg-table w-[86px] z-10 table-cell md:hidden"
                     titleCssPosition="justify-start"
                   />
-                  <TableHeaderEntry
+                  <BasicThead
                     title=""
                     extraCss="z-10 hidden md:table-cell bg-light-bg-table dark:bg-dark-bg-table md:px-0"
                   />
-                  <TableHeaderEntry
+                  <BasicThead
                     title="Name"
                     extraCss="text-start w-[170px] z-[100] bg-light-bg-table dark:bg-dark-bg-table left-[73px] md:left-[28px] md:px-[5px]"
                     titleCssPosition="justify-start"
@@ -173,7 +171,7 @@ export function Top100Table({
                   activeView?.name !== "Portfolio" ? (
                     <>
                       {activeView?.display?.map((entry) => (
-                        <TableHeaderEntry
+                        <BasicThead
                           key={entry.value}
                           title={
                             entry.value === "Price USD" ? "Price" : entry.value
@@ -186,7 +184,7 @@ export function Top100Table({
                           } static md:px-[5px]`}
                         />
                       ))}
-                      <TableHeaderEntry
+                      <BasicThead
                         extraCss="w-[89px] table-cell md:hidden static"
                         title="Swap"
                       />
@@ -195,11 +193,11 @@ export function Top100Table({
                   {activeView?.name === "Portfolio" ||
                   activeView?.name === "All" ? (
                     <>
-                      <TableHeaderEntry
+                      <BasicThead
                         extraCss="hidden md:table-cell md:px-[5px]"
                         title="Price"
                       />
-                      <TableHeaderEntry
+                      <BasicThead
                         extraCss="hidden md:table-cell md:px-[5px]"
                         title={
                           activeView?.name === "Portfolio" ? "Balance" : "24h %"
@@ -208,7 +206,7 @@ export function Top100Table({
                       {activeView?.name === "All" ? (
                         <>
                           {activeView?.display?.map((entry) => (
-                            <TableHeaderEntry
+                            <BasicThead
                               extraCss="static md:hidden"
                               key={entry.value as Key}
                               title={
@@ -220,30 +218,30 @@ export function Top100Table({
                             />
                           ))}
 
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="w-[89px] table-cell md:hidden static"
                             title="Swap"
                           />
                         </>
                       ) : (
                         <>
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="Price"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="24h %"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="Market Cap"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="Balance"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="24h Chart"
                           />

@@ -12,7 +12,6 @@ import { UserContext } from "../../../contexts/user";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { ButtonsHeader } from "./components/buttons-header";
 import { Header } from "./components/header";
