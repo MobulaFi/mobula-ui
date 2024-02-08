@@ -258,7 +258,6 @@ export function Top100Table({
           !isLoading
             ? resultsData.data
                 ?.sort(handleSort)
-                ?.filter((_, i) => i < 10)
                 .map((token: TableAsset, index) => (
                   <Top100TBody
                     isTop100={isTop100}

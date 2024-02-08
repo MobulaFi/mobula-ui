@@ -51,7 +51,7 @@ export const Top100TBody = ({
   const [isHover, setIsHover] = useState(false);
   const pathname = usePathname();
   const { user } = useContext(UserContext);
-  const isVisible = useIsInViewport(entryRef);
+  const { isIntersecting, ref } = useIsInViewport();
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const [metricsChanges, setMetricsChanges] = useState<{
@@ -137,12 +137,12 @@ export const Top100TBody = ({
   }, [token]);
 
   useEffect(() => {
-    if (isVisible && tokenBuffer?.id) {
+    if (isIntersecting) {
       fetchTokenData();
       const interval = setInterval(fetchTokenData, 5000);
       return () => clearInterval(interval);
     }
-  }, [isVisible, tokenBuffer, fetchTokenData]);
+  }, [isIntersecting, tokenBuffer, fetchTokenData]);
 
   const monitoredMetrics = useMemo(
     () => ["price", "market_cap", "global_volume", "rank"],
@@ -264,11 +264,12 @@ export const Top100TBody = ({
           isHover
             ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
             : "bg-transparent dark:bg-transparent"
-        } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100`}
+        } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100 h-[75px]`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        ref={entryRef}
+        ref={ref}
       >
+        {isIntersecting ? "Visible" : "Not visible"}
         <tr className="text-light-font-100 dark:text-dark-font-100">
           <td
             className={`pl-5 md:pl-0 pr-0 max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${

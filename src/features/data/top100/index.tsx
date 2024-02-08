@@ -169,7 +169,6 @@ export const Top100 = ({
     });
   }
   const isMobile = detectMob();
-
   return (
     <>
       <TopNav list={tabs} active="Home" isGeneral />
