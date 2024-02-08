@@ -1,9 +1,9 @@
-import { cn } from "lib/shadcn/lib/utils";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FaArrowUp } from "react-icons/fa";
-import { useTop100 } from "../../../features/data/top100/context-manager";
-import { titleToDBKey } from "../constants";
-import { TableContext } from "../context-manager";
+import { useTop100 } from "../../features/data/top100/context-manager";
+import { cn } from "../../lib/shadcn/lib/utils";
+import { titleToDBKey } from "./constants";
+import { TableContext } from "./context-manager";
 
 interface TableHeaderEntryProps {
   title: string;

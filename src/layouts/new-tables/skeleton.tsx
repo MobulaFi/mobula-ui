@@ -1,8 +1,9 @@
-import { ExtraLargeFont, MediumFont } from "../../../components/fonts";
-import { NextChakraLink } from "../../../components/link";
-import { Skeleton } from "../../../components/skeleton";
-import { Ths } from "../../../components/table";
-import { useTop100 } from "../../../features/data/top100/context-manager";
+import React from "react";
+import { ExtraLargeFont, MediumFont } from "../../components/fonts";
+import { NextChakraLink } from "../../components/link";
+import { Skeleton } from "../../components/skeleton";
+import { Ths } from "../../components/table";
+import { useTop100 } from "../../features/data/top100/context-manager";
 
 interface SkeletonTableProps {
   isTable: boolean;

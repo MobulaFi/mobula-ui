@@ -4,22 +4,22 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useAccount } from "wagmi";
-import { AddressAvatar } from "../../../components/avatar";
-import { SmallFont } from "../../../components/fonts";
-import { NextImageFallback } from "../../../components/image";
-import { Skeleton } from "../../../components/skeleton";
-import { WatchlistContext } from "../../../contexts/pages/watchlist";
-import { UserContext } from "../../../contexts/user";
-import { Asset } from "../../../interfaces/assets";
-import { IWatchlist } from "../../../interfaces/pages/watchlist";
-import { pushData } from "../../../lib/mixpanel";
-import { GET } from "../../../utils/fetch";
+import { AddressAvatar } from "../../components/avatar";
+import { SmallFont } from "../../components/fonts";
+import { NextImageFallback } from "../../components/image";
+import { Skeleton } from "../../components/skeleton";
+import { WatchlistContext } from "../../contexts/pages/watchlist";
+import { UserContext } from "../../contexts/user";
+import { Asset } from "../../features/asset/models";
+import { IWatchlist } from "../../interfaces/pages/watchlist";
+import { pushData } from "../../lib/mixpanel";
+import { GET } from "../../utils/fetch";
 import {
   addressSlicer,
   formatAmount,
   getTokenPercentage,
   getUrlFromName,
-} from "../../../utils/formaters";
+} from "../../utils/formaters";
 
 interface EntryWatchlistProps {
   watchlist: { id: string; name: string } & IWatchlist;

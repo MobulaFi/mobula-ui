@@ -13,17 +13,17 @@ import { IWatchlist } from "../../interfaces/pages/watchlist";
 import { pushData } from "../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../lib/supabase";
 import { getUrlFromName } from "../../utils/formaters";
-import { Segment } from "../tables/components/segment";
-import { EntryContext, TableContext } from "../tables/context-manager";
-import { useWatchlist } from "../tables/hooks/watchlist";
-import { TableAsset } from "../tables/model";
-import { getCountdown } from "../tables/utils";
+import { EntryContext, TableContext } from "./context-manager";
+import { useWatchlist } from "./hooks/watchlist";
+import { TableAsset } from "./model";
+import { Segment } from "./segments";
 import { ChangeSegment } from "./segments/change";
 import { MarketCapSegment } from "./segments/market_cap";
 import { PriceSegment } from "./segments/price";
 import { VolumeSegment } from "./segments/volume";
 import { TokenInfo } from "./ui/token";
 import { WatchlistAdd } from "./ui/watchlist";
+import { getCountdown } from "./utils";
 
 interface EntryProps {
   token: TableAsset;

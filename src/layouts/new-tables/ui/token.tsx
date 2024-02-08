@@ -1,7 +1,7 @@
 import React from "react";
 import { AddressAvatar } from "../../../components/avatar";
 import { NextImageFallback } from "../../../components/image";
-import { TableAsset } from "../../tables/model";
+import { TableAsset } from "../model";
 
 interface TokenInfoProps {
   token: TableAsset;

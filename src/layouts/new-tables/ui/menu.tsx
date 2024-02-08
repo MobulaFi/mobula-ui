@@ -8,8 +8,8 @@ import { PopupStateContext, PopupUpdateContext } from "../../../contexts/popup";
 import { SettingsMetricContext } from "../../../contexts/settings";
 import { UserContext } from "../../../contexts/user";
 import { IWatchlist } from "../../../interfaces/pages/watchlist";
-import { WatchlistAdd } from "../../tables/components/ui/watchlist";
-import { useWatchlist } from "../../tables/hooks/watchlist";
+import { useWatchlist } from "../hooks/watchlist";
+import { WatchlistAdd } from "./watchlist";
 
 export const MenuCommun = () => {
   const { showMenuTableMobileForToken, showMenuTableMobile } =

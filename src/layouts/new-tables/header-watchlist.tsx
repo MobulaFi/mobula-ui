@@ -1,45 +1,45 @@
 import React from "react";
-import { TableHeaderEntry } from "./table-header-entry";
+import { BasicThead } from "./ui/basic-thead";
 
 export const HeaderWatchlist = () => {
   return (
     <tr className="text-left">
-      <TableHeaderEntry
+      <BasicThead
         title="Follow"
         extraCss="static px-0 lg:pr-2"
         titleCssPosition="justify-center"
       />
-      <TableHeaderEntry
+      <BasicThead
         title="Name"
         extraCss="text-start static px-0"
         titleCssPosition="justify-start"
       />
-      <TableHeaderEntry
+      <BasicThead
         title="Followers"
         extraCss="text-start static px-0"
         titleCssPosition="justify-start"
       />
-      <TableHeaderEntry
+      <BasicThead
         title="Avg. Score"
         extraCss="text-start static px-0"
         titleCssPosition="justify-start"
       />
-      <TableHeaderEntry
+      <BasicThead
         title="Total Market Cap"
         extraCss="text-start static px-0"
         titleCssPosition="justify-start"
       />
-      <TableHeaderEntry
+      <BasicThead
         title="24h%"
         extraCss="text-start static  px-0"
         titleCssPosition="justify-start"
       />
-      <TableHeaderEntry
+      <BasicThead
         title="Made By"
         extraCss="text-start static  px-0"
         titleCssPosition="justify-end"
       />
-      <TableHeaderEntry title="Assets" extraCss="text-end  px-0" />
+      <BasicThead title="Assets" extraCss="text-end  px-0" />
     </tr>
   );
 };

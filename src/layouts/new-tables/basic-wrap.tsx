@@ -2,10 +2,10 @@ import React, { ReactNode, useContext, useMemo, useRef } from "react";
 import { Ths } from "../../components/table";
 import { PopupStateContext } from "../../contexts/popup";
 import { useTop100 } from "../../features/data/top100/context-manager";
-import { MenuCommun } from "../tables/components/ui/menu";
-import { TableContext } from "../tables/context-manager";
-import { OrderBy } from "../tables/model";
+import { TableContext } from "./context-manager";
+import { OrderBy } from "./model";
 import { BasicThead } from "./ui/basic-thead";
+import { MenuCommun } from "./ui/menu";
 
 interface CommonTableHeaderProps {
   lastColumn?: string;
