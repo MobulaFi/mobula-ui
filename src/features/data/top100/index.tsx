@@ -53,6 +53,7 @@ export const Top100 = ({
   const tableRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
+  const [initialTableHeight, setInitialTableHeight] = useState(0);
   const [filters, setFilters] = useState<Query[] | null>(
     defaultFilter || [{ action: "", value: [], isFirst: true }]
   );
@@ -79,7 +80,7 @@ export const Top100 = ({
         count: "exact",
       })
       .order("market_cap", { ascending: false })
-      .range(activePage * 20 - 20, activePage * 20 - 1);
+      .range(activePage * 25 - 25, activePage * 25 - 1);
     if (filters) {
       filters
         .filter((entry) => entry.action)
@@ -87,7 +88,7 @@ export const Top100 = ({
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(20);
+    const result = await query.limit(25);
 
     if (result.error) setIsPageLoading(false);
     else {
@@ -100,13 +101,10 @@ export const Top100 = ({
       setIsPageLoading(false);
     }
   };
-  console.log("I RENDER", activePage);
 
   useEffect(() => {
     if (tableRef?.current) fetchAssets();
   }, [activePage]);
-
-  let ticking = false;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,23 +112,32 @@ export const Top100 = ({
 
       const windowHeight = window.innerHeight;
       const scrollPosition = window.scrollY + windowHeight;
-      const triggerHeight = windowHeight * 1.5;
+      const triggerHeight = initialTableHeight * 0.1;
 
       setIsButtonVisible(scrollPosition > triggerHeight && !isButtonVisible);
 
       const tableBottomPosition =
         tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-      // Supposons que resultsData est défini ailleurs
-      if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
+      if (scrollPosition >= tableBottomPosition * 0.6 && !isPageLoading) {
         setActivePage((prev) => prev + 1);
       }
     };
 
+    const updateTableHeight = () => {
+      if (tableRef.current) {
+        setInitialTableHeight(tableRef.current.offsetHeight);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateTableHeight);
+
+    updateTableHeight();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateTableHeight);
     };
   }, [isPageLoading, isButtonVisible]);
 

@@ -48,7 +48,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(20);
+    const result = await query.limit(25);
     return result;
   };
 
