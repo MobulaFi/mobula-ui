@@ -66,12 +66,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
   ]);
 
   useEffect(() => {
-    if (
-      !isAssetPage &&
-      baseAsset &&
-      !baseAsset?.social &&
-      baseAsset?.[baseAsset?.baseToken]?.name
-    ) {
+    if (!isAssetPage && baseAsset && !baseAsset?.social) {
       fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata?asset=${
           baseAsset?.[baseAsset?.baseToken]?.address
@@ -89,6 +84,25 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
             setBaseAsset((prev) => ({
               ...prev,
               social: r.data,
+            }));
+          }
+        });
+
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${baseAsset?.address}&stats=true`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setBaseAsset((prev) => ({
+              ...prev,
+              ...r.data,
             }));
           }
         });

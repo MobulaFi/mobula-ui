@@ -30,13 +30,7 @@ export const TradingPairs = () => {
   const [hasMoreData, setHasMoreData] = useState(true);
   const containerRef = useRef<HTMLTableElement>(null);
   const [totalPairs, setTotalPairs] = useState(0);
-  const titles = [
-    "DEX",
-    "Trading Pairs",
-    "Liquidity",
-    "Price",
-    "Pairs Address",
-  ];
+  const titles = ["DEX", "Trading Pair", "Liquidity", "Price", "Pairs Address"];
 
   const fetchTrades = () => {
     if (!isAssetPage) return;
@@ -91,15 +85,13 @@ export const TradingPairs = () => {
   };
 
   let seenAddresses = new Set();
-  let filteredArray = pairs
-    ?.sort((a, b) => b.liquidity - a.liquidity)
-    ?.filter((entry) => {
-      if (entry.address && !seenAddresses.has(entry.address)) {
-        seenAddresses.add(entry.address);
-        return true;
-      }
-      return false;
-    });
+  let filteredArray = pairs?.filter((entry) => {
+    if (entry.address && !seenAddresses.has(entry.address)) {
+      seenAddresses.add(entry.address);
+      return true;
+    }
+    return false;
+  });
 
   return (
     <div
@@ -169,41 +161,36 @@ export const TradingPairs = () => {
         <table className="relative w-full" ref={containerRef}>
           <thead>
             <tr>
-              {titles
-                .filter((entry) => entry !== "Unit Price")
-                .map((entry, i) => {
-                  const isFirst = i === 0;
-                  const isLast = i === titles.length - 1;
-                  const isOpen = entry === "Open";
-                  return (
-                    <Ths
-                      extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px]
+              {titles.map((entry, i) => {
+                const isFirst = i === 0;
+                const isLast = i === titles.length - 1;
+                const isOpen = entry === "Open";
+                return (
+                  <Ths
+                    extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px]
                    border-t border-b px-2.5 py-[10px] border-light-border-primary dark:border-dark-border-primary
                     ${isFirst ? "pl-5 md:pl-2.5" : "pl-2.5"} ${
-                        isLast || isOpen ? "pr-5 md:pr-2.5" : "pr-2.5"
-                      } 
+                      isLast || isOpen ? "pr-5 md:pr-2.5" : "pr-2.5"
+                    } 
                     ${
-                      isFirst || entry === "Trading Pairs"
+                      isFirst || entry === "Trading Pair"
                         ? "text-start"
                         : "text-end"
-                    } table-cell ${entry === "Unit Price" ? "md:hidden" : ""}`}
-                      key={entry}
-                    >
-                      {entry === "Pairs Address" ? (
-                        <div className="flex items-center justify-end">
-                          <SmallFont extraCss="flex md:hidden text-end font-medium">
-                            {entry}
-                          </SmallFont>
-                          <SmallFont extraCss="hidden md:flex text-end font-medium">
-                            Link
-                          </SmallFont>
-                        </div>
-                      ) : (
-                        <SmallFont extraCss="font-medium">{entry}</SmallFont>
-                      )}
-                    </Ths>
-                  );
-                })}
+                    } table-cell`}
+                    key={entry}
+                  >
+                    {entry === "Pairs Address" ? (
+                      <div className="flex items-center justify-end">
+                        <SmallFont extraCss="flex md:hidden text-end font-medium">
+                          {entry}
+                        </SmallFont>
+                      </div>
+                    ) : (
+                      <SmallFont extraCss="font-medium">{entry}</SmallFont>
+                    )}
+                  </Ths>
+                );
+              })}
             </tr>
           </thead>
           {(newPairs?.length || 0) > 0 || isLoading ? (
@@ -216,7 +203,7 @@ export const TradingPairs = () => {
                   return (
                     <tr
                       key={
-                        pair?.exchange + pair?.address + pair?.liquidity || i
+                        pair?.exchange + pair?.address + pair?.volume24h || i
                       }
                       className="cursor-pointer hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary"
                     >
@@ -272,7 +259,11 @@ export const TradingPairs = () => {
                             <Skeleton extraCss="h-[13px] md:h-[11px] w-[70px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
-                              ${getFormattedAmount(pair.liquidity)}
+                              $
+                              {getFormattedAmount(
+                                (pair.token0?.approximateReserveUSD || 0) +
+                                  (pair.token1?.approximateReserveUSD || 0)
+                              )}
                             </SmallFont>
                           )}
                         </div>
