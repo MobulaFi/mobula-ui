@@ -61,7 +61,6 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
               <CommonTableHeader
                 orderBy={orderBy}
                 setOrderBy={setOrderBy}
-                lastColumn="Added"
                 hideDEXVolume
               >
                 {resultsData?.data?.map((token, i) => (

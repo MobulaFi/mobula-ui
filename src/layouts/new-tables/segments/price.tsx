@@ -32,7 +32,16 @@ export const PriceSegment = ({
 
   const getPriceFromType = useMemo(() => {
     if (display === "Price USD" && token.price) {
-      return <span>${getFormattedAmount(token.price) as number}</span>;
+      return (
+        <span>
+          $
+          {
+            getFormattedAmount(token.price, 0, {
+              canUseHTML: true,
+            }) as number
+          }
+        </span>
+      );
     }
 
     if (mainCurrenciesPrices?.eth && mainCurrenciesPrices?.btc && token.price) {
@@ -40,7 +49,11 @@ export const PriceSegment = ({
         return (
           <span>
             {getFormattedAmount(
-              (token?.price as number) / (mainCurrenciesPrices.eth || 0)
+              (token?.price as number) / (mainCurrenciesPrices.eth || 0),
+              0,
+              {
+                canUseHTML: true,
+              }
             )}{" "}
             ETH
           </span>
@@ -51,7 +64,11 @@ export const PriceSegment = ({
         return (
           <span>
             {getFormattedAmount(
-              (token?.price as number) / (mainCurrenciesPrices.btc || 0)
+              (token?.price as number) / (mainCurrenciesPrices.btc || 0),
+              0,
+              {
+                canUseHTML: true,
+              }
             )}{" "}
             BTC
           </span>

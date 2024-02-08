@@ -1,14 +1,6 @@
 "use client";
 import { useParams, usePathname } from "next/navigation";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "../../components/button";
@@ -17,12 +9,9 @@ import { WatchlistContext } from "../../contexts/pages/watchlist";
 import { PopupStateContext, PopupUpdateContext } from "../../contexts/popup";
 import { SettingsMetricContext } from "../../contexts/settings";
 import { UserContext } from "../../contexts/user";
-import useDeviceDetect from "../../hooks/detect-device";
-import { useIsInViewport } from "../../hooks/viewport";
 import { IWatchlist } from "../../interfaces/pages/watchlist";
 import { pushData } from "../../lib/mixpanel";
 import { createSupabaseDOClient } from "../../lib/supabase";
-import { PriceAlertPopup } from "../../popup/price-alert";
 import { getUrlFromName } from "../../utils/formaters";
 import { Segment } from "../tables/components/segment";
 import { EntryContext, TableContext } from "../tables/context-manager";
@@ -30,7 +19,6 @@ import { useWatchlist } from "../tables/hooks/watchlist";
 import { TableAsset } from "../tables/model";
 import { getCountdown } from "../tables/utils";
 import { ChangeSegment } from "./segments/change";
-import { ChartSegment } from "./segments/chart";
 import { MarketCapSegment } from "./segments/market_cap";
 import { PriceSegment } from "./segments/price";
 import { VolumeSegment } from "./segments/volume";
@@ -63,7 +51,6 @@ export const BasicBody = ({
     (pathname === "/home" || pathname === "/home?page=" + page);
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
-  const isVisible = useIsInViewport();
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const [metricsChanges, setMetricsChanges] = useState<{
@@ -109,18 +96,17 @@ export const BasicBody = ({
 
   const lastComponent = {
     Chart: (
-      <div className="w-[135px] h-[45px] min-w-[135px]">
+      <div className="flex justify-end w-full h-[45px] z-[1]">
         <NextImageFallback
           width={135}
           height={45}
           alt={`${token.name} sparkline`}
+          style={{ zIndex: 0, minWidth: "135px" }}
           src={
             `https://storage.googleapis.com/mobula-assets/sparklines/${token.id}/24h.png` ||
             "/empty/sparkline.png"
           }
           fallbackSrc="/empty/sparkline.png"
-          priority={index < 4}
-          unoptimized
         />
       </div>
     ),
@@ -171,7 +157,7 @@ export const BasicBody = ({
   };
 
   useEffect(() => {
-    if (isVisible) {
+    if (token) {
       fetchPrice();
       const interval = setInterval(() => {
         fetchPrice();
@@ -180,7 +166,7 @@ export const BasicBody = ({
       return () => clearInterval(interval);
     }
     return () => {};
-  }, [isVisible, token]);
+  }, [token]);
 
   const addOrRemoveFromWatchlist = async () => {
     if (pathname.includes("watchlist")) {
@@ -218,18 +204,6 @@ export const BasicBody = ({
     [isHover, url]
   );
 
-  const getBackgroundFromTable = () => {
-    if (isTop100 && !isHover) return "bg-light-bg-table dark:bg-dark-bg-table";
-    if (isTop100 && isHover)
-      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
-    if (!isTop100 && isHover)
-      return "bg-light-bg-secondary dark:bg-dark-bg-secondary";
-    return "bg-light-bg-primary dark:bg-dark-bg-primary";
-  };
-
-  const background = getBackgroundFromTable();
-  const { isMobile } = useDeviceDetect();
-
   return (
     <EntryContext.Provider value={value}>
       <tbody
@@ -244,7 +218,11 @@ export const BasicBody = ({
       >
         <tr className="text-light-font-100 dark:text-dark-font-100">
           <Segment
-            extraCss={`pl-2.5 md:px-[0px] pr-0   max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${background}`}
+            extraCss={`pl-2.5 md:px-[0px] pr-0   max-w-auto sm:max-w-[35px] sticky left-0 z-[2] py-[30px] lg:py-[0px] ${
+              isHover
+                ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                : "bg-light-bg-primary dark:bg-dark-bg-primary"
+            }`}
             noLink
           >
             <WatchlistAdd
@@ -267,7 +245,11 @@ export const BasicBody = ({
           </Segment>
           <Segment
             // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
-            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${background} md:pl-0`}
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
+              isHover
+                ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
+                : "bg-light-bg-primary dark:bg-dark-bg-primary"
+            } md:pl-0`}
           >
             <TokenInfo token={token} showRank={showRank} index={index} />
           </Segment>
@@ -288,11 +270,6 @@ export const BasicBody = ({
             metricsChanges={metricsChanges}
             display="24h Volume"
           />
-          {pathname === "/home" ||
-          pathname === `/home?page=${page}` ||
-          isBalance ? (
-            <ChartSegment token={token} />
-          ) : null}
           <Segment>{lastComponent[lastColumn]}</Segment>
           <Segment extraCss="table-cell md:hidden" noLink>
             <div className="flex items-center justify-end">
@@ -315,13 +292,6 @@ export const BasicBody = ({
           </Segment>
         </tr>
       </tbody>
-      {show || (isMobile && showAlert === token?.name) ? (
-        <PriceAlertPopup
-          show={show || showAlert}
-          setShow={setShow as Dispatch<SetStateAction<string | boolean>>}
-          asset={token}
-        />
-      ) : null}
     </EntryContext.Provider>
   );
 };
