@@ -2,7 +2,7 @@
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
@@ -54,6 +54,52 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     if (firstRender?.current) firstRender.current = false;
   }, []);
 
+  useEffect(() => {
+    const finalPortfolio = user?.portfolios[0] || activePortfolio;
+    if (pathname === "/home") {
+      if (finalPortfolio?.id) {
+        const socket = new WebSocket(
+          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
+        );
+        setIsLoading(true);
+        socket.addEventListener("open", () => {
+          socket.send(
+            `{"portfolio": {"id": ${
+              finalPortfolio.id
+            },"only": "chart_24h", "settings": { "wallets": ${JSON.stringify(
+              finalPortfolio.wallets
+            )}, "removed_assets": ${JSON.stringify(
+              finalPortfolio.removed_assets
+            )}, "removed_transactions": ${JSON.stringify(
+              finalPortfolio.removed_transactions
+            )}}}, "force": true}`
+          );
+        });
+        socket.addEventListener("message", (event) => {
+          try {
+            if (JSON.parse(event.data) !== null) {
+              setWallet({
+                ...JSON.parse(event.data),
+                id: finalPortfolio.id,
+              });
+              setIsLoading(false);
+            } else {
+              setWallet(null);
+              setIsLoading(false);
+            }
+          } catch (e) {
+            // console.log(e)
+          }
+        });
+        socket.addEventListener("error", () => {
+          setIsLoading(false);
+        });
+      }
+      if (!isConnected) setIsLoading(false);
+    }
+    return () => {};
+  }, [user?.portfolios]);
+
   function getGainsForPeriod() {
     const now = Date.now();
     const periods = {
@@ -97,6 +143,8 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     }
   }, [wallet, isConnected]);
 
+  const isWalletEmpty = !wallet?.estimated_balance_history?.length;
+
   return (
     <>
       <div
@@ -137,8 +185,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     }}
                   />
                 </div>
-                {wallet?.estimated_balance_history?.length === 0 ||
-                !wallet?.estimated_balance_history?.length ? null : (
+                {isWalletEmpty ? null : (
                   <div
                     className={`relative z-[${showPageMobile === 0 ? 11 : 1}]`}
                   >
@@ -150,8 +197,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   </div>
                 )}
               </div>
-              {wallet?.estimated_balance_history?.length === 0 ||
-              !wallet?.estimated_balance_history?.length ? null : (
+              {isWalletEmpty ? null : (
                 <LargeFont
                   extraCss={`mt-[-2px] relative z-[${
                     showPageMobile === 0 ? 11 : 1
@@ -167,7 +213,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
               )}
             </div>
             <div className="w-full h-full justify-center absolute top-5 lg:top-3  px-2.5">
-              {!isLoading && wallet?.estimated_balance_history?.length > 0 ? (
+              {!isLoading && !isWalletEmpty ? (
                 <EChart
                   data={wallet.estimated_balance_history}
                   timeframe="ALL"

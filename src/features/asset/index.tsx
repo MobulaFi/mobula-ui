@@ -387,7 +387,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               <div className="max-w-[400px] w-full lg:max-w-full">
                 <TokenMainInfo />
               </div>
-
               <TokenSocialsInfo />
             </div>
           ) : (
