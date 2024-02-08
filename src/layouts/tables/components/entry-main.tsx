@@ -67,7 +67,7 @@ export const Entry = ({
     (pathname === "/home" || pathname === "/home?page=" + page);
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
-  const isVisible = useIsInViewport(entryRef);
+  const isVisible = useIsInViewport();
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const [metricsChanges, setMetricsChanges] = useState<{
