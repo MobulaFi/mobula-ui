@@ -1,5 +1,7 @@
 import { useTheme } from "next-themes";
 import React from "react";
+import { MediumFont, SmallFont } from "../../../../../components/fonts";
+import { NextChakraLink } from "../../../../../components/link";
 import { BasicThead } from "../../../../../layouts/new-tables/ui/basic-thead";
 
 export const SkeletonTable = () => {

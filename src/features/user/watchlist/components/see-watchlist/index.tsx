@@ -1,7 +1,7 @@
 "use client";
 import { User } from "mobula-utils/lib/user/model";
 import { useRouter } from "next/navigation";
-import React, { SetStateAction, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../components/avatar";
@@ -13,7 +13,7 @@ import {
   PopupUpdateContext,
 } from "../../../../../contexts/popup";
 import { WatchlistDrawer } from "../../../../../drawer/watchlist";
-import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
+import { OrderBy } from "../../../../../interfaces/assets";
 import { addressSlicer } from "../../../../../utils/formaters";
 import { Asset } from "../../../../asset/models";
 import { WatchlistContext } from "../../context-manager";
@@ -100,7 +100,7 @@ export const SeeWatchlist = ({
       {tokens ? (
         <>
           <Header assets={tokens} activeWatchlist={watchlist} />
-          <AssetsTable
+          {/* <AssetsTable
             resultsData={
               resultsData as unknown as { data: TableAsset[]; count: number }
             }
@@ -112,7 +112,7 @@ export const SeeWatchlist = ({
             orderBy={orderBy}
             setOrderBy={setOrderBy}
             isMobile={isMobile}
-          />
+          /> */}
         </>
       ) : null}
       {showAddedToWatchlist ? <WatchlistDrawer /> : null}

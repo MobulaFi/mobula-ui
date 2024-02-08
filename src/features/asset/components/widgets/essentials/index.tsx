@@ -73,11 +73,7 @@ export const Essentials = () => {
           )}
           {isOffChain &&
           isAssetPage &&
-<<<<<<< HEAD
-          chartPreference === "Trading view" ? null : (
-=======
           chartPreference !== "Trading view" ? null : (
->>>>>>> a45cc9b106b01ced2f2512bf87d4a889c5d66683
             <TokenTrades />
           )}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />

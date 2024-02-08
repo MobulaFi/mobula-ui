@@ -1,15 +1,14 @@
 "use client";
 import React, {
-  SetStateAction,
   createRef,
   useContext,
   useEffect,
   useRef,
-  useState,
+  useState
 } from "react";
 import { Container } from "../../../components/container";
 import { UserContext } from "../../../contexts/user";
-import { OrderBy, TableAsset } from "../../../interfaces/assets";
+import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -106,19 +105,19 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
         {activeWatchlist ||
         activeWatchlist?.assets?.length > 0 ||
         tokens?.length > 0 ? (
-          <AssetsTable
-            resultsData={
-              resultsData as unknown as { data: TableAsset[]; count: number }
-            }
-            setResultsData={
-              setResultsData as unknown as React.Dispatch<
-                SetStateAction<{ data: TableAsset[]; count: number }>
-              >
-            }
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-            isMobile={isMobile}
-          />
+          // <AssetsTable
+          //   resultsData={
+          //     resultsData as unknown as { data: TableAsset[]; count: number }
+          //   }
+          //   setResultsData={
+          //     setResultsData as unknown as React.Dispatch<
+          //       SetStateAction<{ data: TableAsset[]; count: number }>
+          //     >
+          //   }
+          //   orderBy={orderBy}
+          //   setOrderBy={setOrderBy}
+          //   isMobile={isMobile}
+          // />
         ) : null}
         {!activeWatchlist &&
         !activeWatchlist?.assets.length &&
