@@ -75,23 +75,23 @@ export const Top100TBody = ({
   const [addedToWatchlist, setAddedToWatchlist] = useState(inWatchlist);
   const watchlist = user?.main_watchlist as IWatchlist;
 
-  // const updateMetricsChange = (key) => {
-  //   setMetricsChanges((prev) => {
-  //     let updatedValue = prev[key];
-  //     if (token[key]) updatedValue = true;
-  //     else if (token[key] !== undefined) updatedValue = false;
-  //     return { ...prev, [key]: updatedValue };
-  //   });
+  const updateMetricsChange = (key) => {
+    setMetricsChanges((prev) => {
+      let updatedValue = prev[key];
+      if (token[key]) updatedValue = true;
+      else if (token[key] !== undefined) updatedValue = false;
+      return { ...prev, [key]: updatedValue };
+    });
 
-  //   setTimeout(() => {
-  //     setMetricsChanges((prev) => ({ ...prev, [key]: null }));
-  //   }, 800);
-  // };
+    setTimeout(() => {
+      setMetricsChanges((prev) => ({ ...prev, [key]: null }));
+    }, 800);
+  };
 
-  // useEffect(() => updateMetricsChange("price"), [token?.price]);
-  // useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
-  // useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
-  // useEffect(() => updateMetricsChange("rank"), [token?.rank]);
+  useEffect(() => updateMetricsChange("price"), [token?.price]);
+  useEffect(() => updateMetricsChange("volume"), [token?.global_volume]);
+  useEffect(() => updateMetricsChange("market_cap"), [token?.market_cap]);
+  useEffect(() => updateMetricsChange("rank"), [token?.rank]);
 
   const fetchTokenData = useCallback(async () => {
     const supabase = createSupabaseDOClient();
