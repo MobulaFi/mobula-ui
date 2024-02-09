@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { FiUnlock } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
@@ -72,7 +73,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
       .split(",")
       .map((wallet) => encodeURIComponent(wallet))
       .join("%2C");
-
+    if (!finalPortfolio?.id && isConnected) return;
     try {
       fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/wallet/history?wallets=${encodedWallets}&from=${oneDayAgo}&to=${now}`,
@@ -86,10 +87,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
         .then((r) => r.json())
         .then((r) => {
           if (r.data) {
-            setWallet({
-              ...r.data,
-              id: finalPortfolio?.id,
-            });
+            setWallet(null);
             setIsLoading(false);
           } else {
             setWallet(null);
@@ -99,47 +97,6 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     } catch (e) {
       setIsLoading(false);
     }
-    // if (pathname === "/home") {
-    //   if (finalPortfolio?.id) {
-    //     const socket = new WebSocket(
-    //       process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
-    //     );
-    //     setIsLoading(true);
-    //     socket.addEventListener("open", () => {
-    //       socket.send(
-    //         `{"portfolio": {"id": ${
-    //           finalPortfolio.id
-    //         },"only": "chart_24h", "settings": { "wallets": ${JSON.stringify(
-    //           finalPortfolio.wallets
-    //         )}, "removed_assets": ${JSON.stringify(
-    //           finalPortfolio.removed_assets
-    //         )}, "removed_transactions": ${JSON.stringify(
-    //           finalPortfolio.removed_transactions
-    //         )}}}, "force": true}`
-    //       );
-    //     });
-    //     socket.addEventListener("message", (event) => {
-    //       try {
-    //         if (JSON.parse(event.data) !== null) {
-    //           setWallet({
-    //             ...JSON.parse(event.data),
-    //             id: finalPortfolio.id,
-    //           });
-    //           setIsLoading(false);
-    //         } else {
-    //           setWallet(null);
-    //           setIsLoading(false);
-    //         }
-    //       } catch (e) {
-    //         // console.log(e)
-    //       }
-    //     });
-    //     socket.addEventListener("error", () => {
-    //       setIsLoading(false);
-    //     });
-    //   }
-    //   if (!isConnected || isDisconnected) setIsLoading(false);
-    // } else setIsLoading(false);
     return () => {};
   }, [user?.portfolios, isConnected]);
 
@@ -150,7 +107,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     };
     const periodMillis = periods["24H"];
     const periodData =
-      wallet.balance_history.filter(
+      wallet?.balance_history?.filter(
         ([timestamp]) => now - timestamp <= periodMillis
       ) || [];
     if (periodData?.length < 2) return { difference: null, percentage: null };
@@ -168,7 +125,7 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   }
 
   useEffect(() => {
-    if (wallet?.balance_history?.length > 0) {
+    if ((wallet?.balance_history?.length as number) > 0) {
       const newGains = getGainsForPeriod();
       setGains({
         difference: newGains.difference as number,
@@ -278,26 +235,14 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 />
               ) : null}
               {wallet === null && !isLoading ? (
-                <div className="my-auto mt-[40px] lg:mt-[35px] flex items-center">
-                  <img
-                    src={
-                      !isDarkMode
-                        ? "/asset/empty-roi-light.png"
-                        : "/asset/empty-roi.png"
-                    }
-                    className="h-[110px] sm:h-[100px] w-auto ml-2.5"
-                    alt="empty roi"
-                  />
-                  <div className="flex flex-col items-center ml-auto mr-9 md:mx-auto">
-                    <MediumFont extraCss="text-center">
+                <div className="h-full flex items-center justify-center">
+                  <div className="flex flex-col mb-5">
+                    <MediumFont extraCss="text-center font-normal">
                       No assets found
                       <br />
                       Manually add a transaction
                     </MediumFont>
-                    <Button
-                      extraCss="mt-2.5 max-w-[200px]"
-                      onClick={handleConnect}
-                    >
+                    <Button extraCss="mt-2.5 mx-auto" onClick={handleConnect}>
                       Add a transaction
                     </Button>
                   </div>
@@ -306,39 +251,30 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
             </div>
           </div>
         ) : null}
-        {!isConnected && !isLoading ? (
-          <>
-            <MediumFont extraCss="ml-2.5 w-fit">Portfolio</MediumFont>
-            <div className="my-auto mt-[20px] lg:mt-[10px] flex items-center">
-              <img
-                src={
-                  !isDarkMode
-                    ? "/asset/empty-roi-light.png"
-                    : "/asset/empty-roi.png"
-                }
-                className="h-[110px] sm:h-[110px] w-auto ml-8"
-                alt="empty roi"
-              />
-              <div className="flex flex-col items-center mx-auto md:mx-auto">
-                <MediumFont extraCss="text-center">
-                  Connect to Mobula <br />
-                  to track your assets
-                </MediumFont>
-                <Button
-                  extraCss="mt-2.5 max-w-[200px]"
-                  onClick={() => setConnect(true)}
-                >
-                  Connect
-                </Button>
-              </div>
-            </div>
-          </>
-        ) : null}
         {isLoading ? (
           <>
             <MediumFont extraCss="ml-2.5 w-fit">Portfolio</MediumFont>
             <div className="flex items-center justify-center h-[110px] lg:h-[90px] mt-5">
               <Spinner extraCss="h-[40px] w-[40px]" />{" "}
+            </div>
+          </>
+        ) : null}
+        {!isConnected && !isLoading ? (
+          <>
+            <MediumFont extraCss="ml-2.5">Portfolio</MediumFont>
+            <div className="h-full flex items-center justify-center">
+              <div className="flex flex-col">
+                <MediumFont extraCss="text-center font-normal">
+                  Connect your wallet to Mobula <br /> to track your portfolio
+                </MediumFont>
+                <Button
+                  extraCss="mt-2.5 mx-auto"
+                  onClick={() => setConnect(true)}
+                >
+                  <FiUnlock className="mr-1.5" />
+                  Connect
+                </Button>
+              </div>
             </div>
           </>
         ) : null}
