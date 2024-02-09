@@ -2,7 +2,7 @@
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";

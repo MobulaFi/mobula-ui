@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
+import React from "react";
 import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
@@ -14,6 +15,7 @@ async function fetchNewAssets() {
       { count: "exact" }
     )
     .order("created_at", { ascending: false })
+    .gt("price", 0)
     .limit(100);
 
   return {
@@ -52,9 +54,9 @@ export default async function recentlyAdded() {
       <meta name="author" content="Mobula" />
       <meta name="copyright" content="Mobula" />
       <RecentlyAdded
-        tokensBuffer={data.tokens}
-        count={data.count}
-        isMobile={data.isMobile}
+        tokensBuffer={data?.tokens || []}
+        isMobile={data?.isMobile}
+        count={data?.count}
       />
     </>
   );

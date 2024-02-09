@@ -8,7 +8,6 @@ import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
 import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
 import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
-
 interface recentlyAddedProps {
   tokensBuffer: TableAsset[];
   isMobile: boolean;
