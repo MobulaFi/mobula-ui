@@ -1,9 +1,8 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
 import { Ths } from "../../../../../components/table";
 import { PopupStateContext } from "../../../../../contexts/popup";
-import { SettingsMetricContext } from "../../../../../contexts/settings";
 import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
 import { TableContext } from "../../../../../layouts/new-tables/context-manager";
 import { SkeletonTable } from "../../../../../layouts/new-tables/skeleton-table";
@@ -15,7 +14,7 @@ import { Query } from "../../models";
 import { TABLE_ASSETS_QUERY } from "../../utils";
 import { Top100TBody } from "../table-body";
 
-interface AssetsTable {
+interface Top100TableProps {
   resultsData: { data: TableAsset[]; count: number };
   setResultsData: React.Dispatch<
     React.SetStateAction<{ data: TableAsset[]; count: number }>
@@ -29,7 +28,7 @@ interface AssetsTable {
   setOrderBy: React.Dispatch<React.SetStateAction<OrderBy>>;
   hideDEXVolume?: boolean;
   filters?: Query[] | null;
-  isMobile?: boolean;
+  isMobile: boolean;
   showRank?: boolean;
   isNews?: boolean;
 }
@@ -48,15 +47,12 @@ export function Top100Table({
   isMobile,
   showRank = false,
   isNews = false,
-  ...props
-}: AssetsTable) {
+}: Top100TableProps) {
   const headerRef = useRef(null);
   const router = useRouter();
-  const { showBuyDrawer } = useContext(SettingsMetricContext);
   const isBalance = resultsData?.data?.find((entry) => entry.amount_usd);
   const { activeView, setIsLoading, isLoading } = useTop100();
   const { isConnected } = useAccount();
-  const pathname = usePathname();
   const params = useSearchParams();
   const page = params.get("page");
   const { showMenuTableMobileForToken, showMenuTableMobile } =
@@ -260,7 +256,6 @@ export function Top100Table({
                 ?.sort(handleSort)
                 .map((token: TableAsset, index) => (
                   <Top100TBody
-                    isTop100={isTop100}
                     key={
                       Number(token.price) + Number(token.liquidity) + token.name
                     }

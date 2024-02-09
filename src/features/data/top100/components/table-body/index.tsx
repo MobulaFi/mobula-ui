@@ -1,12 +1,11 @@
 "use client";
 import { createSupabaseDOClient } from "lib/supabase";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, {
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
@@ -35,20 +34,16 @@ import { useTop100 } from "../../context-manager";
 interface EntryProps {
   token: TableAsset;
   index: number;
-  isTop100?: boolean;
-  isMobile?: boolean;
+  isMobile: boolean;
   showRank?: boolean;
 }
 
 export const Top100TBody = ({
   token: tokenBuffer,
   index,
-  isTop100,
-  isMobile: nullValue,
+  isMobile,
   showRank = false,
 }: EntryProps) => {
-  const entryRef = useRef<HTMLTableSectionElement>(null);
-  const router = useRouter();
   const [token, setToken] = useState<TableAsset>(tokenBuffer);
   const [isHover, setIsHover] = useState(false);
   const pathname = usePathname();
@@ -199,13 +194,13 @@ export const Top100TBody = ({
     }
   };
 
-  // const value = useMemo(
-  //   () => ({
-  //     isHover,
-  //     url,
-  //   }),
-  //   [isHover, url]
-  // );
+  const value = useMemo(
+    () => ({
+      isHover,
+      url,
+    }),
+    [isHover, url]
+  );
 
   const renderSegments = () =>
     activeView?.display?.map((entry) => {
@@ -260,7 +255,7 @@ export const Top100TBody = ({
   const render = renderSegments();
 
   return (
-    <EntryContext.Provider value={{ isHover, url }}>
+    <EntryContext.Provider value={value}>
       <tbody
         className={`table-row-group border-b border-light-border-primary dark:border-dark-border-primary ${
           isHover
@@ -349,9 +344,9 @@ export const Top100TBody = ({
                 display="24h Volume"
                 extraCss="md:hidden"
               />
+              <ChartSegment token={token} extraCss="md:hidden" />
             </>
           ) : null}
-          <ChartSegment token={token} />
           <td className="table-cell md:hidden">
             <div className="flex items-center justify-end">
               {token.contracts && token.contracts.length > 0 && (

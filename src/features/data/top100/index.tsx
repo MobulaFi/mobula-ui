@@ -170,34 +170,31 @@ export const Top100 = ({
       <TopNav list={tabs} active="Home" isGeneral />
       <div className="flex flex-col bg-light-bg-primary dark:bg-dark-bg-primary overflow-x-hidden">
         <div className="flex bg-light-bg-table dark:bg-dark-bg-table pb-5 md:pb-2.5 w-full">
-          {isMobile ? (
-            <Container
-              extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
+          <Container
+            extraCss="lg:flex flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table 
             justify-between mb-0 md:mb-0 pb-0 overflow-x-scroll w-full hidden"
-            >
-              <div className="flex w-95per mx-auto ">
-                <div className="swiper">
-                  <div className="swiper-wrapper">
-                    <div className="swiper-slide flex justify-center">
-                      <Portfolio showPageMobile={showPage} />
-                    </div>
-                    <div className="swiper-slide flex justify-center">
-                      <BoxMiddle showPageMobile={showPage} metrics={metrics} />
-                    </div>
-                    <div className="swiper-slide flex justify-center">
-                      <BoxRight showPageMobile={showPage} />
-                    </div>
+          >
+            <div className="flex w-95per mx-auto ">
+              <div className="swiper">
+                <div className="swiper-wrapper">
+                  <div className="swiper-slide flex justify-center">
+                    <Portfolio showPageMobile={showPage} />
+                  </div>
+                  <div className="swiper-slide flex justify-center">
+                    <BoxMiddle showPageMobile={showPage} metrics={metrics} />
+                  </div>
+                  <div className="swiper-slide flex justify-center">
+                    <BoxRight showPageMobile={showPage} />
                   </div>
                 </div>
               </div>
-            </Container>
-          ) : (
-            <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
-              <Portfolio />
-              <BoxMiddle metrics={metrics} />
-              <BoxRight />
-            </Container>
-          )}
+            </div>
+          </Container>
+          <Container extraCss="scroll flex lg:hidden flex-row max-w-[1300px] bg-light-bg-table dark:bg-dark-bg-table justify-between mb-0 overflow-x-scroll md:mb-0 mt-7 md:mt-2.5 min-h-full">
+            <Portfolio />
+            <BoxMiddle metrics={metrics} />
+            <BoxRight />
+          </Container>
         </div>
       </div>
       <div className="bg-light-bg-table dark:bg-dark-bg-table">
