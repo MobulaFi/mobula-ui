@@ -36,7 +36,6 @@ interface EntryProps {
 export const BasicBody = ({
   token: tokenBuffer,
   index,
-  isTop100,
   isMobile: nullValue,
   showRank = false,
 }: EntryProps) => {

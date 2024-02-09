@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React, {
   createRef,
   useContext,
@@ -7,18 +8,21 @@ import React, {
   useState,
 } from "react";
 import { Container } from "../../../components/container";
+import { LargeFont } from "../../../components/fonts";
+import { NextChakraLink } from "../../../components/link";
 import { UserContext } from "../../../contexts/user";
 import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
+import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
+import { SkeletonTable } from "../../../layouts/new-tables/skeleton-table";
 import { createSupabaseDOClient } from "../../../lib/supabase";
-import { ButtonsHeader } from "./components/buttons-header";
 import { Header } from "./components/header";
 import { AddCoinPopup } from "./components/popup/add-coin";
 import { CreatePopup } from "./components/popup/create-watchlist";
 import { EditPopup } from "./components/popup/edit";
 import { SharePopup } from "./components/popup/share";
-import { SkeletonTable } from "./components/skeleton";
 import { WatchlistContext } from "./context-manager";
 import { IWatchlist } from "./models";
 
@@ -30,8 +34,9 @@ interface WatchlistProps {
 export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   const watchlistRefs = useRef([]);
   const supabase = createSupabaseDOClient();
-  const [loaded, setLoaded] = useState(false);
   const { user } = useContext(UserContext);
+  const pathname = usePathname();
+  const [isLoading, setIsLoading] = useState(true);
   const {
     activeWatchlist,
     setActiveWatchlist,
@@ -42,7 +47,6 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
     resultsData,
     setResultsData,
   } = useContext(WatchlistContext);
-  // const [resultsData, setResultsData] = useState({data: [], count: 0});
 
   useEffect(() => {
     if (user?.main_watchlist) {
@@ -80,6 +84,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           if (r.data) {
             setTokens(r.data);
             setResultsData({ data: r.data, count: r.count as number });
+            setIsLoading(false);
           }
         });
     }
@@ -89,41 +94,51 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
     if (user?.watchlist && watchlistRefs) {
       watchlistRefs.current = user.watchlist.map(() => createRef());
     }
-  }, [loaded, user?.watchlist]);
+  }, [user?.watchlist]);
+
+  console.log(
+    "fkrokorf",
+
+    tokens?.length > 0 && !isLoading,
+    isLoading
+  );
 
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Watchlist" isGeneral /> : null}
       <Container extraCss="w-[90%] lg:w-[95%] mb-[100px]">
-        <ButtonsHeader />
+        <div className="flex items-center">
+          <NextChakraLink href="/watchlist" extraCss="mb-0">
+            <LargeFont extraCss="cursor-pointer mb-0">Watchlists</LargeFont>
+          </NextChakraLink>
+        </div>
         <Header
           assets={tokens}
           activeWatchlist={activeWatchlist as IWatchlist}
           setActiveWatchlist={setActiveWatchlist}
           setShowCreateWL={setShowCreateWL}
         />
-        {activeWatchlist ||
-        activeWatchlist?.assets?.length > 0 ||
-        tokens?.length > 0 ? (
-          // <AssetsTable
-          //   resultsData={
-          //     resultsData as unknown as { data: TableAsset[]; count: number }
-          //   }
-          //   setResultsData={
-          //     setResultsData as unknown as React.Dispatch<
-          //       SetStateAction<{ data: TableAsset[]; count: number }>
-          //     >
-          //   }
-          //   orderBy={orderBy}
-          //   setOrderBy={setOrderBy}
-          //   isMobile={isMobile}
-          // />
-          <></>
-        ) : null}
-        {!activeWatchlist &&
-        !activeWatchlist?.assets.length &&
-        (tokens?.length || 0) === 0 ? (
-          <SkeletonTable />
+        {tokens?.length > 0 || isLoading ? (
+          <CommonTableHeader orderBy={orderBy} setOrderBy={setOrderBy}>
+            {isLoading ? (
+              Array.from({ length: 10 }).map((_, i) => (
+                <SkeletonTable
+                  isWatchlist
+                  i={i}
+                  key={i}
+                  isNews={false}
+                  isTable={false}
+                  isWatchlistLoading={isLoading}
+                />
+              ))
+            ) : (
+              <>
+                {resultsData?.data?.map((token, i) => (
+                  <BasicBody token={(token as any) || {}} index={i} />
+                ))}
+              </>
+            )}
+          </CommonTableHeader>
         ) : null}
         <SharePopup watchlist={activeWatchlist as IWatchlist} />
         <EditPopup watchlist={activeWatchlist as IWatchlist} />
