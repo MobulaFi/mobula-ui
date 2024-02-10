@@ -6,24 +6,6 @@ import { getFormattedAmount } from "../../../../utils/formaters";
 import { SearchbarContext } from "../../context-manager";
 import { Title } from "../ui/title";
 
-interface PairsFromAddressProps {
-  pairs: {
-    token0?: {
-      name: string;
-      symbol: string;
-      logo: string;
-    };
-    token1?: {
-      name: string;
-      symbol: string;
-      logo: string;
-    };
-    address?: string;
-    liquidity?: string;
-  }[];
-  name?: string;
-}
-
 export const PairResult = ({ setTrigger, firstIndex }) => {
   const { active, setActive, pairs, results } = useContext(SearchbarContext);
   const router = useRouter();
@@ -37,17 +19,13 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
     router.push(`/pair/${result.address}`);
   };
   const notListedTokens = results?.filter((entry) => !entry.id);
-  const isBaseToken = (result, pair) => result?.symbol === pair?.token0?.symbol;
-  const isQuoteToken = (result, pair) =>
-    result?.symbol === pair?.token1?.symbol;
-
   const resultsWithPair = results?.filter(
     (entry) => (entry?.pairs?.length || 0) > 0 && entry.id
   );
 
   const formatPairsResultFromAddress = () => {
     if (!pairs?.length) return;
-    let formatedPairs: PairsFromAddressProps[] = [];
+    let formatedPairs = [];
     pairs.forEach((pair) => {
       const templatePair = {
         pairs: [
