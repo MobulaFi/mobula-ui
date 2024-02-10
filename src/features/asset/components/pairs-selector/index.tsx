@@ -1,5 +1,4 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
@@ -114,7 +113,7 @@ export const PairsSelector = () => {
       hiddenContent={
         <div className="flex flex-col min-w-[300px] max-h-[410px] w-full overflow-y-scroll scroll">
           {assetPairs?.pairs?.map((pair, i) => (
-            <Link href={`/pair/${pair.address}`} key={i}>
+            <a href={`/pair/${pair.address}`} key={i}>
               <div
                 className="flex items-center justify-between p-2.5 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover cursor-pointer
                transition-all duration-200 ease-linear rounded-md"
@@ -195,7 +194,7 @@ export const PairsSelector = () => {
                   </div>
                 </div>
               </div>{" "}
-            </Link>
+            </a>
           ))}
         </div>
       }

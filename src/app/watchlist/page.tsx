@@ -55,7 +55,6 @@ export const metadata: Metadata = {
 
 export default async function WatchlistPage() {
   const data = await fetchWatchlist();
-  //   needRedirection();
   return (
     <>
       <meta

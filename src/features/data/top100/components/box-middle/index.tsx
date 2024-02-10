@@ -14,19 +14,16 @@ interface BoxMiddleProps {
     | undefined;
 }
 
-export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
+const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
   const [showPage, setShowPage] = useState(0);
   const {
     setTotalMarketCap,
     setMarketCapChange,
     setBtcDominance,
-    btcDominance,
     totalMarketCap,
+    btcDominance,
     marketCapChange,
   } = useTop100();
-  const tablet =
-    (typeof window !== "undefined" ? window.innerWidth : 0) < 991 &&
-    (typeof window !== "undefined" ? window.innerWidth : 0) >= 480;
 
   const fetchMetrics = async () => {
     const req = await fetch(
@@ -91,3 +88,5 @@ export const BoxMiddle = ({ showPageMobile = 0, metrics }: BoxMiddleProps) => {
     </div>
   );
 };
+
+export default BoxMiddle;

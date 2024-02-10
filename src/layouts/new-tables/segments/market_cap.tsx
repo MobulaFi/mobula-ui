@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { SmallFont } from "../../../../components/fonts";
-import { Popover } from "../../../../components/popover";
-import { TableAsset } from "../../../../interfaces/assets";
+import { Segment } from ".";
+import { SmallFont } from "../../../components/fonts";
+import { Popover } from "../../../components/popover";
 import {
   formatAmount,
   getFormattedAmount,
   getTokenPercentage,
-} from "../../../../utils/formaters";
-import { Segment } from "../segment";
+} from "../../../utils/formaters";
+import { TableAsset } from "../model";
 
 interface MarketCapSegmentProps {
   token: TableAsset;

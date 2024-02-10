@@ -1,6 +1,7 @@
-import { NextImageFallback } from "../../../../components/image";
-import { TableAsset } from "../../../../interfaces/assets";
-import { Segment } from "../segment";
+import React from "react";
+import { Segment } from ".";
+import { NextImageFallback } from "../../../components/image";
+import { TableAsset } from "../model";
 
 interface ChartSegmentProps {
   token: TableAsset;

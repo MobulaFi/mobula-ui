@@ -1,3 +1,4 @@
+import React from "react";
 import { ExtraLargeFont, MediumFont } from "../../../components/fonts";
 import { NextChakraLink } from "../../../components/link";
 import { Skeleton } from "../../../components/skeleton";
@@ -9,6 +10,7 @@ interface SkeletonTableProps {
   isWatchlist: boolean;
   i?: number;
   isNews?: boolean;
+  isWatchlistLoading?: boolean;
 }
 
 export const SkeletonTable = ({
@@ -16,12 +18,13 @@ export const SkeletonTable = ({
   isWatchlist,
   i,
   isNews,
+  isWatchlistLoading,
 }: SkeletonTableProps) => {
   const { isLoading, isPortfolioLoading, portfolio, activeView } = useTop100();
 
   return (
     <>
-      {isLoading || isPortfolioLoading ? (
+      {isWatchlistLoading || isLoading || isPortfolioLoading ? (
         <tbody className="w-full">
           <tr className="relative w-full">
             {isTable ? (
@@ -185,7 +188,10 @@ export const SkeletonTable = ({
           </tr>
         </tbody>
       ) : null}
-      {activeView?.name !== "Portfolio" && !isLoading && !isPortfolioLoading ? (
+      {activeView?.name !== "Portfolio" &&
+      !isLoading &&
+      !isPortfolioLoading &&
+      !isWatchlistLoading ? (
         <caption
           className={`w-full caption-bottom lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
             i === 0 ? "caption" : "hidden"
@@ -203,7 +209,8 @@ export const SkeletonTable = ({
       !isLoading &&
       !portfolio?.length &&
       !isPortfolioLoading &&
-      !isNews ? (
+      !isNews &&
+      !isWatchlistLoading ? (
         <caption
           className={`w-full caption-bottom lg:w-screen h-[600px] lg:h-[450px] md:h-[400px] sm:h-[350px] ${
             i === 0 ? "caption" : "hidden"

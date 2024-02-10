@@ -1,17 +1,14 @@
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { VscArrowSwap } from "react-icons/vsc";
-import { Drawer } from "../../../../components/drawer";
-import { WatchlistContext } from "../../../../contexts/pages/watchlist";
-import {
-  PopupStateContext,
-  PopupUpdateContext,
-} from "../../../../contexts/popup";
-import { SettingsMetricContext } from "../../../../contexts/settings";
-import { UserContext } from "../../../../contexts/user";
-import { IWatchlist } from "../../../../interfaces/pages/watchlist";
-import { useWatchlist } from "../../hooks/watchlist";
+import { Drawer } from "../../../components/drawer";
+import { WatchlistContext } from "../../../contexts/pages/watchlist";
+import { PopupStateContext, PopupUpdateContext } from "../../../contexts/popup";
+import { SettingsMetricContext } from "../../../contexts/settings";
+import { UserContext } from "../../../contexts/user";
+import { IWatchlist } from "../../../interfaces/pages/watchlist";
+import { useWatchlist } from "../hooks/watchlist";
 import { WatchlistAdd } from "./watchlist";
 
 export const MenuCommun = () => {
