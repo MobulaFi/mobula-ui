@@ -104,6 +104,7 @@ export const CoreSearchBar = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
+          console.log("R.dddd", r.data);
           const globalResult = r.data?.filter(
             (entry, i) => !entry?.reserve0 && !entry?.reserve1
           );
@@ -200,6 +201,8 @@ export const CoreSearchBar = ({
     if (token === "") setPairs([]);
   }, [token]);
 
+  console.log("Reult", results);
+
   let fullResults: React.ReactNode;
 
   const getContentToRender = () => {
@@ -211,8 +214,8 @@ export const CoreSearchBar = ({
             setTrigger={setTrigger}
             callback={callback}
           />
-          {results?.filter((entry) => entry?.pairs)?.length > 0 ||
-          pairs?.length > 0 ? (
+          {results?.filter((entry) => entry?.pairs || entry?.token0)?.length >
+            0 || pairs?.length > 0 ? (
             <PairResult
               firstIndex={results?.filter((entry) => entry.pairs)?.length || 0}
               setTrigger={setTrigger}
@@ -293,7 +296,7 @@ export const CoreSearchBar = ({
   const completeResults = isUnknownUser
     ? [`/wallet/${token}`]
     : [
-        ...(results || [])?.map(
+        ...(results?.filter((entry) => entry.id) || [])?.map(
           (entry) => `/asset/${getUrlFromName(entry.name)}`
         ),
         ...(users || [])?.map((entry) => `/wallet/${entry.address}`),
