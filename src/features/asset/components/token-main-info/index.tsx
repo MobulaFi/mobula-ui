@@ -9,7 +9,7 @@ import { Popover } from "../../../../components/popover";
 import { Spinner } from "../../../../components/spinner";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
-import { useWatchlist } from "../../../../layouts/tables/hooks/watchlist";
+import { useWatchlist } from "../../../../layouts/new-tables/hooks/watchlist";
 import {
   getClosest,
   getFormattedAmount,

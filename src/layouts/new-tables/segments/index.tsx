@@ -1,6 +1,6 @@
-import { cn } from "lib/shadcn/lib/utils";
 import React, { useContext } from "react";
 import { NextChakraLink } from "../../../components/link";
+import { cn } from "../../../lib/shadcn/lib/utils";
 import { EntryContext } from "../context-manager";
 
 interface SegmentProps {

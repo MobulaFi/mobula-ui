@@ -1,21 +1,20 @@
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Key, useContext, useEffect, useMemo, useRef } from "react";
 import { useAccount } from "wagmi";
-import { Ths } from "../../../components/table";
-import { PopupStateContext } from "../../../contexts/popup";
-import { SettingsMetricContext } from "../../../contexts/settings";
-import { useTop100 } from "../../../features/data/top100/context-manager";
-import { TABLE_ASSETS_QUERY } from "../../../features/data/top100/utils";
-import { Query } from "../../../interfaces/pages/top100";
-import { createSupabaseDOClient } from "../../../lib/supabase";
-import { TableContext } from "../context-manager";
-import { OrderBy, TableAsset } from "../model";
-import { Entry } from "./entry-main";
-import { SkeletonTable } from "./skeletons";
-import { TableHeaderEntry } from "./table-header-entry";
-import { MenuCommun } from "./ui/menu";
+import { Ths } from "../../../../../components/table";
+import { PopupStateContext } from "../../../../../contexts/popup";
+import { OrderBy, TableAsset } from "../../../../../interfaces/assets";
+import { TableContext } from "../../../../../layouts/new-tables/context-manager";
+import { SkeletonTable } from "../../../../../layouts/new-tables/skeleton-table";
+import { BasicThead } from "../../../../../layouts/new-tables/ui/basic-thead";
+import { MenuCommun } from "../../../../../layouts/new-tables/ui/menu";
+import { createSupabaseDOClient } from "../../../../../lib/supabase";
+import { useTop100 } from "../../context-manager";
+import { Query } from "../../models";
+import { TABLE_ASSETS_QUERY } from "../../utils";
+import { Top100TBody } from "../table-body";
 
-interface AssetsTable {
+interface Top100TableProps {
   resultsData: { data: TableAsset[]; count: number };
   setResultsData: React.Dispatch<
     React.SetStateAction<{ data: TableAsset[]; count: number }>
@@ -29,12 +28,12 @@ interface AssetsTable {
   setOrderBy: React.Dispatch<React.SetStateAction<OrderBy>>;
   hideDEXVolume?: boolean;
   filters?: Query[] | null;
-  isMobile?: boolean;
+  isMobile: boolean;
   showRank?: boolean;
   isNews?: boolean;
 }
 
-export function AssetsTable({
+export function Top100Table({
   resultsData,
   setResultsData,
   lastColumn = "Chart",
@@ -48,15 +47,12 @@ export function AssetsTable({
   isMobile,
   showRank = false,
   isNews = false,
-  ...props
-}: AssetsTable) {
+}: Top100TableProps) {
   const headerRef = useRef(null);
   const router = useRouter();
-  const { showBuyDrawer } = useContext(SettingsMetricContext);
   const isBalance = resultsData?.data?.find((entry) => entry.amount_usd);
   const { activeView, setIsLoading, isLoading } = useTop100();
   const { isConnected } = useAccount();
-  const pathname = usePathname();
   const params = useSearchParams();
   const page = params.get("page");
   const { showMenuTableMobileForToken, showMenuTableMobile } =
@@ -69,31 +65,6 @@ export function AssetsTable({
     else orderWith = orderBy.type;
     return b[orderWith] - a[orderWith];
   };
-
-  const entries = useMemo(() => {
-    const filteredTokens = resultsData.data?.filter((entry) => {
-      if (!isBalance) return true;
-      return (
-        !entry.name.includes(".") &&
-        entry.amount_usd > 0 &&
-        Number(entry.price) > 0 &&
-        entry.amount_usd
-      );
-    });
-
-    return filteredTokens
-      ?.sort(handleSort)
-      .map((token: TableAsset, index) => (
-        <Entry
-          isTop100={isTop100}
-          key={Number(token.price) + Number(token.liquidity) + token.name}
-          token={token}
-          index={index}
-          showRank={showRank}
-          isMobile={isMobile}
-        />
-      ));
-  }, [resultsData]);
 
   const value = useMemo(
     () => ({
@@ -176,40 +147,27 @@ export function AssetsTable({
             ) : (
               <>
                 <tr className={`text-left sticky top-0`}>
-                  <TableHeaderEntry
+                  <BasicThead
                     title="Rank"
                     canOrder
-                    extraCss={`${
-                      isTop100
-                        ? "bg-light-bg-table dark:bg-dark-bg-table"
-                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } w-[86px] z-10 table-cell md:hidden`}
+                    extraCss="bg-light-bg-table dark:bg-dark-bg-table w-[86px] z-10 table-cell md:hidden"
                     titleCssPosition="justify-start"
                   />
-                  <TableHeaderEntry
+                  <BasicThead
                     title=""
-                    extraCss={`z-10 hidden md:table-cell ${
-                      isTop100
-                        ? "bg-light-bg-table dark:bg-dark-bg-table"
-                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } md:px-0`}
+                    extraCss="z-10 hidden md:table-cell bg-light-bg-table dark:bg-dark-bg-table md:px-0"
                   />
-                  <TableHeaderEntry
+                  <BasicThead
                     title="Name"
-                    extraCss={`text-start w-[170px] z-[100] ${
-                      isTop100
-                        ? "bg-light-bg-table dark:bg-dark-bg-table"
-                        : "bg-light-bg-primary dark:bg-dark-bg-primary"
-                    } left-[73px] md:left-[28px] md:px-[5px]`}
+                    extraCss="text-start w-[170px] z-[100] bg-light-bg-table dark:bg-dark-bg-table left-[73px] md:left-[28px] md:px-[5px]"
                     titleCssPosition="justify-start"
                   />
                   {(activeView?.display?.length || 0) > 0 &&
-                  (pathname === "/home" || pathname === "/home?page=" + page) &&
                   activeView?.name !== "All" &&
                   activeView?.name !== "Portfolio" ? (
                     <>
                       {activeView?.display?.map((entry) => (
-                        <TableHeaderEntry
+                        <BasicThead
                           key={entry.value}
                           title={
                             entry.value === "Price USD" ? "Price" : entry.value
@@ -222,7 +180,7 @@ export function AssetsTable({
                           } static md:px-[5px]`}
                         />
                       ))}
-                      <TableHeaderEntry
+                      <BasicThead
                         extraCss="w-[89px] table-cell md:hidden static"
                         title="Swap"
                       />
@@ -231,11 +189,11 @@ export function AssetsTable({
                   {activeView?.name === "Portfolio" ||
                   activeView?.name === "All" ? (
                     <>
-                      <TableHeaderEntry
+                      <BasicThead
                         extraCss="hidden md:table-cell md:px-[5px]"
                         title="Price"
                       />
-                      <TableHeaderEntry
+                      <BasicThead
                         extraCss="hidden md:table-cell md:px-[5px]"
                         title={
                           activeView?.name === "Portfolio" ? "Balance" : "24h %"
@@ -244,7 +202,7 @@ export function AssetsTable({
                       {activeView?.name === "All" ? (
                         <>
                           {activeView?.display?.map((entry) => (
-                            <TableHeaderEntry
+                            <BasicThead
                               extraCss="static md:hidden"
                               key={entry.value as Key}
                               title={
@@ -256,67 +214,35 @@ export function AssetsTable({
                             />
                           ))}
 
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="w-[89px] table-cell md:hidden static"
                             title="Swap"
                           />
                         </>
                       ) : (
                         <>
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="Price"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="24h %"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="Market Cap"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="Balance"
                           />
-                          <TableHeaderEntry
+                          <BasicThead
                             extraCss="static md:hidden"
                             title="24h Chart"
                           />
                         </>
                       )}
-                    </>
-                  ) : null}
-                  {pathname !== "/home" && pathname !== "/home?page=" + page ? (
-                    <>
-                      <TableHeaderEntry
-                        extraCss="static"
-                        title="Price"
-                        canOrder
-                      />
-                      <TableHeaderEntry
-                        extraCss="static"
-                        title="24h %"
-                        canOrder
-                      />
-                      <TableHeaderEntry
-                        extraCss="static"
-                        title="Market Cap"
-                        canOrder
-                      />
-                      <TableHeaderEntry
-                        extraCss="static"
-                        title="24h Volume"
-                        canOrder
-                      />
-                      <TableHeaderEntry
-                        extraCss="static whitespace-nowrap"
-                        title={lastColumn}
-                      />
-                      <TableHeaderEntry
-                        extraCss="w-[89px] table-cell md:hidden static"
-                        title="Swap"
-                      />
                     </>
                   ) : null}
                 </tr>
@@ -325,11 +251,21 @@ export function AssetsTable({
           </thead>
           {((automatedSkeletons && resultsData?.data?.length > 0) ||
             (!automatedSkeletons && !displaySkeletons)) &&
-          !isLoading ? (
-            entries
-          ) : (
-            <>
-              {Array.from({ length: 10 }).map((_, i) => (
+          !isLoading
+            ? resultsData.data
+                ?.sort(handleSort)
+                .map((token: TableAsset, index) => (
+                  <Top100TBody
+                    key={
+                      Number(token.price) + Number(token.liquidity) + token.name
+                    }
+                    token={token}
+                    index={index}
+                    showRank={showRank}
+                    isMobile={isMobile}
+                  />
+                ))
+            : Array.from({ length: 10 }).map((_, i) => (
                 <SkeletonTable
                   isWatchlist
                   isTable={isTop100 as boolean}
@@ -338,8 +274,6 @@ export function AssetsTable({
                   isNews={isNews}
                 />
               ))}
-            </>
-          )}
         </table>
       </div>
       {showMenuTableMobileForToken && showMenuTableMobile ? (

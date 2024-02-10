@@ -1,7 +1,7 @@
-import { cn } from "lib/shadcn/lib/utils";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { useTop100 } from "../../../features/data/top100/context-manager";
+import { cn } from "../../../lib/shadcn/lib/utils";
 import { titleToDBKey } from "../constants";
 import { TableContext } from "../context-manager";
 
@@ -13,7 +13,7 @@ interface TableHeaderEntryProps {
   titleCssPosition?: string;
 }
 
-export const TableHeaderEntry = ({
+export const BasicThead = ({
   title,
   smaller = null,
   canOrder = false,
@@ -23,12 +23,6 @@ export const TableHeaderEntry = ({
   const { orderBy, setOrderBy } = useContext(TableContext);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const { setIsLoading, isLoading } = useTop100();
-
-  // const [pos, setPos] = useState(0);
-  // var oldScrollY;
-  // useEffect(() => {
-  //   if (typeof window !== undefined) setPos(window.screenTop);
-  // });
 
   const shouldUseOrderBy = () => {
     switch (title) {
@@ -58,19 +52,19 @@ export const TableHeaderEntry = ({
       onClick={() => {
         if (shouldUseOrderBy() === false) return;
         setIsLoading(true);
-        if (titleToDBKey[title] === orderBy?.type) {
+        if (titleToDBKey?.[title] === orderBy?.type) {
           setOrderBy({
-            type: titleToDBKey[title],
+            type: titleToDBKey?.[title],
             ascending: !orderBy.ascending,
           });
-        } else if (titleToDBKey[title] === "rank")
+        } else if (titleToDBKey?.[title] === "rank")
           setOrderBy({
-            type: titleToDBKey[title],
+            type: titleToDBKey?.[title],
             ascending: orderBy ? !orderBy.ascending : false,
           });
         else
           setOrderBy({
-            type: titleToDBKey[title],
+            type: titleToDBKey?.[title],
             ascending: orderBy ? orderBy.ascending : false,
           });
       }}

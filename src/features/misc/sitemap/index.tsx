@@ -1,7 +1,7 @@
 "use client";
 import { NextChakraLink } from "components/link";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import React from "react";
 import { Container } from "../../../components/container";
 import { LargeFont, SmallFont } from "../../../components/fonts";
 import { Asset } from "../../../interfaces/assets";
@@ -22,14 +22,14 @@ export const SiteMap = ({ assets, count }: SiteMapProps) => {
         <ul className="ul-sitemap">
           {assets?.map((asset) => (
             <li className="truncate">
-              <Link
+              <a
                 href={`/asset/${getUrlFromName(asset?.name)}`}
                 className="text-light-font-100 dark:text-dark-font-100 
                  hover:text-blue hover:dark:text-blue text-start overflow-hidden 
                  text-sm md:text-xs"
               >
                 {asset?.name}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>

@@ -1327,19 +1327,19 @@
   "resolved" "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   "version" "1.2.0"
 
-"@upstash/redis@1.24.3":
-  "integrity" "sha512-gw6d4IA1biB4eye5ESaXc0zOlVQI94aptsBvVcTghYWu1kRmOrJFoMFEDCa8p5uzluyYAOFCuY2GWLR6O4ZoIw=="
-  "resolved" "https://registry.npmjs.org/@upstash/redis/-/redis-1.24.3.tgz"
-  "version" "1.24.3"
+"@upstash/redis@1.25.1":
+  "integrity" "sha512-ACj0GhJ4qrQyBshwFgPod6XufVEfKX2wcaihsEvSdLYnY+m+pa13kGt1RXm/yTHKf4TQi/Dy2A8z/y6WUEOmlg=="
+  "resolved" "https://registry.npmjs.org/@upstash/redis/-/redis-1.25.1.tgz"
+  "version" "1.25.1"
   dependencies:
     "crypto-js" "^4.2.0"
 
 "@vercel/kv@^1.0.0":
-  "integrity" "sha512-StouXunmEqUfKE+1joSYfELWEEnI1MhTnzUdarHtv6H18RAm3cf5u5g9ElvA1DJNHcrMT6g5yVAhZcYRbk6lvg=="
-  "resolved" "https://registry.npmjs.org/@vercel/kv/-/kv-1.0.0.tgz"
-  "version" "1.0.0"
+  "integrity" "sha512-uTKddsqVYS2GRAM/QMNNXCTuw9N742mLoGRXoNDcyECaxEXvIHG0dEY+ZnYISV4Vz534VwJO+64fd9XeSggSKw=="
+  "resolved" "https://registry.npmjs.org/@vercel/kv/-/kv-1.0.1.tgz"
+  "version" "1.0.1"
   dependencies:
-    "@upstash/redis" "1.24.3"
+    "@upstash/redis" "1.25.1"
 
 "@wagmi/connectors@3.1.3":
   "integrity" "sha512-UgwsQKQDFObJVJMf9pDfFoXTv710o4zrTHyhIWKBTMMkLpCMsMxN5+ZaDhBYt/BgoRinfRYQo8uwuwLhxE6Log=="

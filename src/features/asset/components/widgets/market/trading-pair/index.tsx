@@ -1,5 +1,4 @@
 import { famousContractsLabelFromName } from "layouts/swap/utils";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
@@ -295,12 +294,12 @@ export const TradingPairs = () => {
                               {addressSlicer(pair.address)}
                             </SmallFont>
                           )}
-                          <Link
+                          <a
                             className="flex ml-1"
                             href={"/pair/" + pair?.address}
                           >
                             <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 mr-auto" />
-                          </Link>
+                          </a>
                         </div>
                       </td>
                     </tr>

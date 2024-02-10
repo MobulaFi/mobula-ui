@@ -1,9 +1,9 @@
 import React from "react";
-import { ChangeSegment } from "./components/segments/change";
-import { ChartSegment } from "./components/segments/chart";
-import { MarketCapSegment } from "./components/segments/market_cap";
-import { PriceSegment } from "./components/segments/price";
-import { VolumeSegment } from "./components/segments/volume";
+import { ChangeSegment } from "./segments/change";
+import { ChartSegment } from "./segments/chart";
+import { MarketCapSegment } from "./segments/market_cap";
+import { PriceSegment } from "./segments/price";
+import { VolumeSegment } from "./segments/volume";
 
 export const separator = (numb: number) => {
   if (numb && typeof numb === "number") {

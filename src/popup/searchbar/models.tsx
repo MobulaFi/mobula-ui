@@ -53,6 +53,12 @@ export interface Token {
   market_cap?: number;
   isTemplate?: boolean;
   pairs?: PairsSearchProps[];
+  token0?: {
+    name: string;
+    symbol: string;
+    logo: string;
+    address: string;
+  };
 }
 
 export interface ArticlesType {
@@ -131,4 +137,6 @@ export interface PairsSearchProps {
   totalVolume: number;
   volume24h: number;
   liquidity: number;
+  baseToken: string;
+  quoteToken: string;
 }

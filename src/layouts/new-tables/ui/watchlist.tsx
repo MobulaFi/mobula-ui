@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { Spinner } from "../../../../components/spinner";
-import { useTop100 } from "../../../../features/data/top100/context-manager";
-import { useWatchlist } from "../../hooks/watchlist";
-
+import { Spinner } from "../../../components/spinner";
+import { useTop100 } from "../../../features/data/top100/context-manager";
+import { useWatchlist } from "../hooks/watchlist";
 interface WatchlistAdd {
   addOrRemoveFromWatchlist: Function;
   setAddedToWatchlist;
@@ -22,7 +21,7 @@ export const WatchlistAdd = ({
   const [isHover, setIsHover] = useState(false);
   return (
     <div
-      className={`flex items-center justify-center ${
+      className={`flex items-center justify-start ${
         showMobile ? "" : "md:hidden"
       } `}
     >

@@ -1,17 +1,17 @@
 "use client";
 import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { FiUnlock } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../components/button";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
-import { Skeleton } from "../../../../../components/skeleton";
 import { Spinner } from "../../../../../components/spinner";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { PopupUpdateContext } from "../../../../../contexts/popup";
 import { UserContext } from "../../../../../contexts/user";
 import { useShouldConnect } from "../../../../../hooks/connect";
-import EChart from "../../../../../lib/echart/line";
 import { pushData } from "../../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { useTop100 } from "../../context-manager";
@@ -21,7 +21,11 @@ interface PortfolioProps {
   showPageMobile?: number;
 }
 
-export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
+const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
+  ssr: false,
+});
+
+const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   const router = useRouter();
   const [isHover, setIsHover] = useState(false);
   const { user } = useContext(UserContext);
@@ -51,51 +55,50 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     if (firstRender?.current) firstRender.current = false;
   }, []);
 
+  const getYesterdayTimestamp = () => {
+    const oneDayMilliseconds = 24 * 60 * 60 * 1000;
+    const currentTime = new Date().getTime();
+    const oneDayAgo = currentTime - oneDayMilliseconds;
+    return oneDayAgo;
+  };
+
   useEffect(() => {
     const finalPortfolio = user?.portfolios[0] || activePortfolio;
-    if (pathname === "/home") {
-      if (finalPortfolio?.id) {
-        const socket = new WebSocket(
-          process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
-        );
-        setIsLoading(true);
-        socket.addEventListener("open", () => {
-          socket.send(
-            `{"portfolio": {"id": ${
-              finalPortfolio.id
-            },"only": "chart_24h", "settings": { "wallets": ${JSON.stringify(
-              finalPortfolio.wallets
-            )}, "removed_assets": ${JSON.stringify(
-              finalPortfolio.removed_assets
-            )}, "removed_transactions": ${JSON.stringify(
-              finalPortfolio.removed_transactions
-            )}}}, "force": true}`
-          );
-        });
-        socket.addEventListener("message", (event) => {
-          try {
-            if (JSON.parse(event.data) !== null) {
-              setWallet({
-                ...JSON.parse(event.data),
-                id: finalPortfolio.id,
-              });
-              setIsLoading(false);
-            } else {
-              setWallet(null);
-              setIsLoading(false);
-            }
-          } catch (e) {
-            // console.log(e)
+    const walletsArr = finalPortfolio?.wallets || [];
+    const uniqueString = walletsArr.join(",");
+    const cleanedString = uniqueString.replace(/[\[\] ]/g, "");
+    const now = new Date().getTime();
+    const oneDayAgo = getYesterdayTimestamp();
+    const encodedWallets = cleanedString
+      .split(",")
+      .map((wallet) => encodeURIComponent(wallet))
+      .join("%2C");
+    if (!finalPortfolio?.id && isConnected) return;
+    try {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/wallet/history?wallets=${encodedWallets}&from=${oneDayAgo}&to=${now}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setWallet(null);
+            setIsLoading(false);
+          } else {
+            setWallet(null);
+            setIsLoading(false);
           }
         });
-        socket.addEventListener("error", () => {
-          setIsLoading(false);
-        });
-      }
-      if (!isConnected) setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
     }
     return () => {};
-  }, [user?.portfolios]);
+  }, [user?.portfolios, isConnected]);
 
   function getGainsForPeriod() {
     const now = Date.now();
@@ -104,7 +107,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     };
     const periodMillis = periods["24H"];
     const periodData =
-      wallet.estimated_balance_history.filter(
+      wallet?.balance_history?.filter(
         ([timestamp]) => now - timestamp <= periodMillis
       ) || [];
     if (periodData?.length < 2) return { difference: null, percentage: null };
@@ -122,7 +125,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
   }
 
   useEffect(() => {
-    if (wallet?.estimated_balance_history?.length > 0) {
+    if ((wallet?.balance_history?.length as number) > 0) {
       const newGains = getGainsForPeriod();
       setGains({
         difference: newGains.difference as number,
@@ -140,6 +143,8 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     }
   }, [wallet, isConnected]);
 
+  const isWalletEmpty = !wallet?.balance_history?.length;
+
   return (
     <>
       <div
@@ -150,7 +155,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
         }] py-2.5`}
         style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
       >
-        {isConnected ? (
+        {isConnected && !isLoading ? (
           <div
             className={`min-w-full  flex flex-col w-[200px] transition-all duration-200`}
           >
@@ -180,8 +185,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                     }}
                   />
                 </div>
-                {wallet?.estimated_balance_history?.length === 0 ||
-                !wallet?.estimated_balance_history?.length ? null : (
+                {isWalletEmpty ? null : (
                   <div
                     className={`relative z-[${showPageMobile === 0 ? 11 : 1}]`}
                   >
@@ -193,16 +197,7 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                   </div>
                 )}
               </div>
-              {isLoading && !wallet?.estimated_balance_history ? (
-                <>
-                  <Skeleton extraCss="h-[25px] w-[80px]" />
-                  <div className="flex items-center justify-center h-[110px] lg:h-[90px]">
-                    <Spinner extraCss="h-[30px] w-[30px]" />{" "}
-                  </div>
-                </>
-              ) : null}
-              {wallet?.estimated_balance_history?.length === 0 ||
-              !wallet?.estimated_balance_history?.length ? null : (
+              {isWalletEmpty ? null : (
                 <LargeFont
                   extraCss={`mt-[-2px] relative z-[${
                     showPageMobile === 0 ? 11 : 1
@@ -210,17 +205,17 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 >
                   $
                   {getFormattedAmount(
-                    wallet?.estimated_balance_history?.[
-                      wallet.estimated_balance_history.length - 1
+                    wallet?.balance_history?.[
+                      wallet.balance_history.length - 1
                     ][1]
                   ) || " --"}
                 </LargeFont>
               )}
             </div>
             <div className="w-full h-full justify-center absolute top-5 lg:top-3  px-2.5">
-              {!isLoading && wallet?.estimated_balance_history?.length > 0 ? (
+              {!isLoading && !isWalletEmpty ? (
                 <EChart
-                  data={wallet.estimated_balance_history}
+                  data={wallet.balance_history}
                   timeframe="ALL"
                   leftMargin={["0%", "0%"]}
                   height={
@@ -240,26 +235,14 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
                 />
               ) : null}
               {wallet === null && !isLoading ? (
-                <div className="my-auto mt-[40px] lg:mt-[35px] flex items-center">
-                  <img
-                    src={
-                      !isDarkMode
-                        ? "/asset/empty-roi-light.png"
-                        : "/asset/empty-roi.png"
-                    }
-                    className="h-[110px] sm:h-[100px] w-auto ml-2.5"
-                    alt="empty roi"
-                  />
-                  <div className="flex flex-col items-center ml-auto mr-9 md:mx-auto">
-                    <MediumFont extraCss="text-center">
+                <div className="h-full flex items-center justify-center">
+                  <div className="flex flex-col mb-5">
+                    <MediumFont extraCss="text-center font-normal">
                       No assets found
                       <br />
                       Manually add a transaction
                     </MediumFont>
-                    <Button
-                      extraCss="mt-2.5 max-w-[200px]"
-                      onClick={handleConnect}
-                    >
+                    <Button extraCss="mt-2.5 mx-auto" onClick={handleConnect}>
                       Add a transaction
                     </Button>
                   </div>
@@ -268,28 +251,27 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
             </div>
           </div>
         ) : null}
-        {isDisconnected && !isLoading ? (
+        {isLoading ? (
           <>
             <MediumFont extraCss="ml-2.5 w-fit">Portfolio</MediumFont>
-            <div className="my-auto mt-[20px] lg:mt-[10px] flex items-center">
-              <img
-                src={
-                  !isDarkMode
-                    ? "/asset/empty-roi-light.png"
-                    : "/asset/empty-roi.png"
-                }
-                className="h-[110px] sm:h-[110px] w-auto ml-8"
-                alt="empty roi"
-              />
-              <div className="flex flex-col items-center mx-auto md:mx-auto">
-                <MediumFont extraCss="text-center">
-                  Connect to Mobula <br />
-                  to track your assets
+            <div className="flex items-center justify-center h-[110px] lg:h-[90px] mt-5">
+              <Spinner extraCss="h-[40px] w-[40px]" />{" "}
+            </div>
+          </>
+        ) : null}
+        {!isConnected && !isLoading ? (
+          <>
+            <MediumFont extraCss="ml-2.5">Portfolio</MediumFont>
+            <div className="h-full flex items-center justify-center">
+              <div className="flex flex-col">
+                <MediumFont extraCss="text-center font-normal">
+                  Connect your wallet to Mobula <br /> to track your portfolio
                 </MediumFont>
                 <Button
-                  extraCss="mt-2.5 max-w-[200px]"
+                  extraCss="mt-2.5 mx-auto"
                   onClick={() => setConnect(true)}
                 >
+                  <FiUnlock className="mr-1.5" />
                   Connect
                 </Button>
               </div>
@@ -300,3 +282,5 @@ export const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
     </>
   );
 };
+
+export default Portfolio;

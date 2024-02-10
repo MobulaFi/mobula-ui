@@ -1,26 +1,25 @@
 "use client";
-import React, {
-  SetStateAction,
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Button } from "components/button";
+import { PopupUpdateContext } from "contexts/popup";
+import { pushData } from "lib/mixpanel";
+import { createRef, useContext, useEffect, useRef, useState } from "react";
+import { useAccount } from "wagmi";
 import { Container } from "../../../components/container";
+import { ExtraLargeFont, LargeFont } from "../../../components/fonts";
+import { NextChakraLink } from "../../../components/link";
 import { UserContext } from "../../../contexts/user";
-import { OrderBy, TableAsset } from "../../../interfaces/assets";
+import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components";
+import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
+import { SkeletonTable } from "../../../layouts/new-tables/skeleton-table";
 import { createSupabaseDOClient } from "../../../lib/supabase";
-import { ButtonsHeader } from "./components/buttons-header";
 import { Header } from "./components/header";
 import { AddCoinPopup } from "./components/popup/add-coin";
 import { CreatePopup } from "./components/popup/create-watchlist";
 import { EditPopup } from "./components/popup/edit";
 import { SharePopup } from "./components/popup/share";
-import { SkeletonTable } from "./components/skeleton";
 import { WatchlistContext } from "./context-manager";
 import { IWatchlist } from "./models";
 
@@ -32,8 +31,10 @@ interface WatchlistProps {
 export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   const watchlistRefs = useRef([]);
   const supabase = createSupabaseDOClient();
-  const [loaded, setLoaded] = useState(false);
   const { user } = useContext(UserContext);
+  const { isDisconnected, isConnected } = useAccount();
+  const { setConnect } = useContext(PopupUpdateContext);
+  const [isLoading, setIsLoading] = useState(true);
   const {
     activeWatchlist,
     setActiveWatchlist,
@@ -42,9 +43,9 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
     tokens,
     setTokens,
     resultsData,
+    setShowAddCoins,
     setResultsData,
   } = useContext(WatchlistContext);
-  // const [resultsData, setResultsData] = useState({data: [], count: 0});
 
   useEffect(() => {
     if (user?.main_watchlist) {
@@ -82,50 +83,84 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           if (r.data) {
             setTokens(r.data);
             setResultsData({ data: r.data, count: r.count as number });
+            setIsLoading(false);
           }
         });
     }
-  }, [activeWatchlist, supabase, user]);
+    if (isDisconnected) {
+      setIsLoading(false);
+      return;
+    }
+  }, [activeWatchlist, isDisconnected, user]);
 
   useEffect(() => {
     if (user?.watchlist && watchlistRefs) {
       watchlistRefs.current = user.watchlist.map(() => createRef());
     }
-  }, [loaded, user?.watchlist]);
+  }, [user?.watchlist]);
 
   return (
     <>
       {isMobile ? <TopNav list={tabs} active="Watchlist" isGeneral /> : null}
       <Container extraCss="w-[90%] lg:w-[95%] mb-[100px]">
-        <ButtonsHeader />
+        <div className="flex items-center">
+          <NextChakraLink href="/watchlist" extraCss="mb-0">
+            <LargeFont extraCss="cursor-pointer mb-0">Watchlists</LargeFont>
+          </NextChakraLink>
+        </div>
         <Header
           assets={tokens}
           activeWatchlist={activeWatchlist as IWatchlist}
           setActiveWatchlist={setActiveWatchlist}
           setShowCreateWL={setShowCreateWL}
         />
-        {activeWatchlist ||
-        activeWatchlist?.assets?.length > 0 ||
-        tokens?.length > 0 ? (
-          <AssetsTable
-            resultsData={
-              resultsData as unknown as { data: TableAsset[]; count: number }
-            }
-            setResultsData={
-              setResultsData as unknown as React.Dispatch<
-                SetStateAction<{ data: TableAsset[]; count: number }>
+        <CommonTableHeader orderBy={orderBy} setOrderBy={setOrderBy}>
+          {isLoading
+            ? Array.from({ length: 10 }).map((_, i) => (
+                <SkeletonTable
+                  isWatchlist
+                  i={i}
+                  key={i}
+                  isNews={false}
+                  isTable={false}
+                  isWatchlistLoading={isLoading}
+                />
+              ))
+            : null}
+          {!isLoading && tokens?.length > 0 ? (
+            <>
+              {resultsData?.data?.map((token, i) => (
+                <BasicBody token={(token as any) || {}} index={i} />
+              ))}
+            </>
+          ) : null}
+          {!isLoading && !tokens?.length && isConnected ? (
+            <caption className="h-[400px] w-full">
+              <ExtraLargeFont extraCss="mt-[100px] font-normal">
+                No results found
+              </ExtraLargeFont>
+              <Button
+                extraCss="mt-5"
+                onClick={() => {
+                  pushData("Add Assets From Watchlist", {});
+                  setShowAddCoins(true);
+                }}
               >
-            }
-            orderBy={orderBy}
-            setOrderBy={setOrderBy}
-            isMobile={isMobile}
-          />
-        ) : null}
-        {!activeWatchlist &&
-        !activeWatchlist?.assets.length &&
-        (tokens?.length || 0) === 0 ? (
-          <SkeletonTable />
-        ) : null}
+                Add Asset to Watchlist
+              </Button>
+            </caption>
+          ) : null}
+          {isDisconnected ? (
+            <caption className="h-[400px] w-full">
+              <ExtraLargeFont extraCss="mt-[100px] font-normal">
+                Please connect your wallet <br /> to view your watchlist
+              </ExtraLargeFont>
+              <Button extraCss="mt-5" onClick={() => setConnect(true)}>
+                Connect
+              </Button>
+            </caption>
+          ) : null}
+        </CommonTableHeader>
         <SharePopup watchlist={activeWatchlist as IWatchlist} />
         <EditPopup watchlist={activeWatchlist as IWatchlist} />
         <AddCoinPopup watchlist={activeWatchlist as IWatchlist} />
