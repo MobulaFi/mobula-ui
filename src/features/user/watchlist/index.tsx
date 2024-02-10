@@ -1,14 +1,11 @@
 "use client";
-import { usePathname } from "next/navigation";
-import React, {
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Button } from "components/button";
+import { PopupUpdateContext } from "contexts/popup";
+import { pushData } from "lib/mixpanel";
+import { createRef, useContext, useEffect, useRef, useState } from "react";
+import { useAccount } from "wagmi";
 import { Container } from "../../../components/container";
-import { LargeFont } from "../../../components/fonts";
+import { ExtraLargeFont, LargeFont } from "../../../components/fonts";
 import { NextChakraLink } from "../../../components/link";
 import { UserContext } from "../../../contexts/user";
 import { OrderBy } from "../../../interfaces/assets";
@@ -35,7 +32,8 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
   const watchlistRefs = useRef([]);
   const supabase = createSupabaseDOClient();
   const { user } = useContext(UserContext);
-  const pathname = usePathname();
+  const { isDisconnected, isConnected } = useAccount();
+  const { setConnect } = useContext(PopupUpdateContext);
   const [isLoading, setIsLoading] = useState(true);
   const {
     activeWatchlist,
@@ -45,6 +43,7 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
     tokens,
     setTokens,
     resultsData,
+    setShowAddCoins,
     setResultsData,
   } = useContext(WatchlistContext);
 
@@ -88,20 +87,17 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           }
         });
     }
-  }, [activeWatchlist, supabase, user]);
+    if (isDisconnected) {
+      setIsLoading(false);
+      return;
+    }
+  }, [activeWatchlist, isDisconnected, user]);
 
   useEffect(() => {
     if (user?.watchlist && watchlistRefs) {
       watchlistRefs.current = user.watchlist.map(() => createRef());
     }
   }, [user?.watchlist]);
-
-  console.log(
-    "fkrokorf",
-
-    tokens?.length > 0 && !isLoading,
-    isLoading
-  );
 
   return (
     <>
@@ -118,10 +114,9 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           setActiveWatchlist={setActiveWatchlist}
           setShowCreateWL={setShowCreateWL}
         />
-        {tokens?.length > 0 || isLoading ? (
-          <CommonTableHeader orderBy={orderBy} setOrderBy={setOrderBy}>
-            {isLoading ? (
-              Array.from({ length: 10 }).map((_, i) => (
+        <CommonTableHeader orderBy={orderBy} setOrderBy={setOrderBy}>
+          {isLoading
+            ? Array.from({ length: 10 }).map((_, i) => (
                 <SkeletonTable
                   isWatchlist
                   i={i}
@@ -131,15 +126,41 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
                   isWatchlistLoading={isLoading}
                 />
               ))
-            ) : (
-              <>
-                {resultsData?.data?.map((token, i) => (
-                  <BasicBody token={(token as any) || {}} index={i} />
-                ))}
-              </>
-            )}
-          </CommonTableHeader>
-        ) : null}
+            : null}
+          {!isLoading && tokens?.length > 0 ? (
+            <>
+              {resultsData?.data?.map((token, i) => (
+                <BasicBody token={(token as any) || {}} index={i} />
+              ))}
+            </>
+          ) : null}
+          {!isLoading && !tokens?.length && isConnected ? (
+            <caption className="h-[400px] w-full">
+              <ExtraLargeFont extraCss="mt-[100px] font-normal">
+                No results found
+              </ExtraLargeFont>
+              <Button
+                extraCss="mt-5"
+                onClick={() => {
+                  pushData("Add Assets From Watchlist", {});
+                  setShowAddCoins(true);
+                }}
+              >
+                Add Asset to Watchlist
+              </Button>
+            </caption>
+          ) : null}
+          {isDisconnected ? (
+            <caption className="h-[400px] w-full">
+              <ExtraLargeFont extraCss="mt-[100px] font-normal">
+                Please connect your wallet <br /> to view your watchlist
+              </ExtraLargeFont>
+              <Button extraCss="mt-5" onClick={() => setConnect(true)}>
+                Connect
+              </Button>
+            </caption>
+          ) : null}
+        </CommonTableHeader>
         <SharePopup watchlist={activeWatchlist as IWatchlist} />
         <EditPopup watchlist={activeWatchlist as IWatchlist} />
         <AddCoinPopup watchlist={activeWatchlist as IWatchlist} />
