@@ -5,7 +5,7 @@ import { pushData } from "lib/mixpanel";
 import { createRef, useContext, useEffect, useRef, useState } from "react";
 import { useAccount } from "wagmi";
 import { Container } from "../../../components/container";
-import { ExtraLargeFont, LargeFont } from "../../../components/fonts";
+import { LargeFont } from "../../../components/fonts";
 import { NextChakraLink } from "../../../components/link";
 import { UserContext } from "../../../contexts/user";
 import { OrderBy } from "../../../interfaces/assets";
@@ -136,9 +136,9 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           ) : null}
           {!isLoading && !tokens?.length && isConnected ? (
             <caption className="h-[400px] w-full">
-              <ExtraLargeFont extraCss="mt-[100px] font-normal">
+              <LargeFont extraCss="mt-[100px] font-normal">
                 No results found
-              </ExtraLargeFont>
+              </LargeFont>
               <Button
                 extraCss="mt-5"
                 onClick={() => {
@@ -152,9 +152,9 @@ export const Watchlist = ({ isMobile, watchlist }: WatchlistProps) => {
           ) : null}
           {isDisconnected ? (
             <caption className="h-[400px] w-full">
-              <ExtraLargeFont extraCss="mt-[100px] font-normal">
+              <LargeFont extraCss="mt-[100px] font-normal">
                 Please connect your wallet <br /> to view your watchlist
-              </ExtraLargeFont>
+              </LargeFont>
               <Button extraCss="mt-5" onClick={() => setConnect(true)}>
                 Connect
               </Button>
