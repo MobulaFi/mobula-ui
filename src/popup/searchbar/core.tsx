@@ -90,10 +90,7 @@ export const CoreSearchBar = ({
     fetch(
       `${
         process.env.NEXT_PUBLIC_API_ENDPOINT
-      }/api/1/search?input=${input.toLowerCase()}&filters=${JSON.stringify({
-        liquidity: { min: 100 },
-        blockchain: "BNB Smart Chain (BEP20)",
-      })}`,
+      }/api/1/search?input=${input.toLowerCase()}`,
       {
         headers: {
           "Content-Type": "application/json",
