@@ -462,3 +462,44 @@ textarea:focus {
     max-width: 990px;
   }
 }
+
+.nft-image {
+  height: 158px;
+  width: 158px;
+  min-width: 158px;
+  min-height: 158px;
+}
+
+.nft-card {
+  width: 18.5%;
+  margin: 0.75%;
+}
+
+/* w-[18.5%] m-[0.75%] lg:w-[31%] lg:m-[1%] */
+
+@media screen and (max-width: 1200px) {
+  .nft-card {
+    width: 31%;
+    margin: 1%;
+  }
+  .nft-image {
+    height: 150px;
+    width: 100%;
+    min-width: 130px;
+    min-height: 150px;
+    max-height: 150px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .nft-card {
+    width: 31%;
+    margin: 1%;
+  }
+  .nft-image {
+    height: 120px;
+    width: 100%;
+    min-width: 120px;
+    min-height: 120px;
+  }
+}

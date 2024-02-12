@@ -42,6 +42,7 @@ export const PortfolioV2Provider = ({
   const [showDeleteSelector, setShowDeleteSelector] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
   const [showAddTransaction, setShowAddTransaction] = useState(null);
+  const [showHiddenNfts, setShowHiddenNfts] = useState(false);
   const [showEditTransaction, setShowEditTransaction] =
     useState<null | Transaction>(null);
   const [showCreatePortfolio, setShowCreatePortfolio] = useState(false);
@@ -183,6 +184,8 @@ export const PortfolioV2Provider = ({
       setActiveStep,
       showHiddenTokensPopup,
       setShowHiddenTokensPopup,
+      showHiddenNfts,
+      setShowHiddenNfts,
 
       /** DATA DISPLAY STATES */
       activeNetworks,
@@ -276,6 +279,7 @@ export const PortfolioV2Provider = ({
       setShowDeleteSelector,
       activeStep,
       setActiveStep,
+      showHiddenNfts,
 
       /** DATA DISPLAY STATES */
       activeNetworks,
