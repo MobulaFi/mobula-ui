@@ -1,9 +1,9 @@
-interface ChainsProps {
+export interface ChainsProps {
   liquidity_history: [number, number][];
   tokens_history: [number, number][];
   volume_history: [number, number][];
 }
-interface PairsTokenProps {
+export interface PairsTokenProps {
   address: string;
   symbol: string;
   name: string;
@@ -11,7 +11,7 @@ interface PairsTokenProps {
   id: number;
 }
 
-interface PairsProps {
+export interface PairsProps {
   last_trade: string;
   pair: {
     address: string;

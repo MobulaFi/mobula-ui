@@ -49,7 +49,7 @@ export const Chains = () => {
               return (
                 <tbody
                   key={i}
-                  onClick={() => router.push(`/pair/${pair?.pair?.address}`)}
+                  onClick={() => router.push(`/pair/${pair?.address}`)}
                   className="cursor-pointer hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-100 ease-linear"
                 >
                   <Segment>

@@ -1,5 +1,6 @@
 "use client";
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import { ChainsProps, PairsProps } from "../models";
 
 interface ChainsContextProps {
   pairs: PairsProps[];
