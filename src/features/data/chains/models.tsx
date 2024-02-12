@@ -5,7 +5,7 @@ interface ChainsProps {
 }
 
 interface PairsProps {
-  liqudity: number;
+  liquidity: number;
   price: number;
   price_change_5min: number;
   price_change_1h: number;
@@ -21,4 +21,5 @@ interface PairsTokenProps {
   name: string;
   symbol: string;
   address: string;
+  logo: string;
 }

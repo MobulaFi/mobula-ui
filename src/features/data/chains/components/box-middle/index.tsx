@@ -1,4 +1,5 @@
 import { MediumFont } from "components/fonts";
+import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
 import React from "react";
 import { useChains } from "../../context-manager";
@@ -22,15 +23,21 @@ export const MiddleBox = ({ showPageMobile = 0 }: MiddleBoxProps) => {
       <MediumFont extraCss="ml-2.5 whitespace-nowrap">
         Tokens History
       </MediumFont>
-      <div className="w-[95%] mx-auto h-[210px] -mt-9">
-        <EChart
-          data={chain?.tokens_history || []}
-          timeframe="ALL"
-          height="200px"
-          noAxis
-          noDataZoom
-        />
-      </div>
+      {chain?.tokens_history?.length > 0 ? (
+        <div className="w-[95%] mx-auto h-[210px] -mt-9">
+          <EChart
+            data={chain?.tokens_history || []}
+            timeframe="ALL"
+            height="200px"
+            noAxis
+            noDataZoom
+          />
+        </div>
+      ) : (
+        <div className="h-[200px] w-full flex items-center justify-center">
+          <Spinner extraCss="w-[30px] h-[30px]" />
+        </div>
+      )}
     </div>
   );
 };

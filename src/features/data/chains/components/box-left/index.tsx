@@ -1,3 +1,4 @@
+import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
 import React from "react";
 import { MediumFont } from "../../../../../components/fonts";
@@ -23,15 +24,21 @@ export const LeftBox = ({ showPageMobile }: LeftBoxProps) => {
       style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
     >
       <MediumFont extraCss="ml-2.5">Volume History</MediumFont>
-      <div className="w-[95%] mx-auto h-[210px] -mt-9">
-        <EChart
-          data={chain?.volume_history || []}
-          timeframe="ALL"
-          height="200px"
-          noAxis
-          noDataZoom
-        />
-      </div>
+      {chain?.volume_history?.length > 0 ? (
+        <div className="w-[95%] mx-auto h-[210px] -mt-9">
+          <EChart
+            data={chain?.volume_history || []}
+            timeframe="ALL"
+            height="200px"
+            noAxis
+            noDataZoom
+          />
+        </div>
+      ) : (
+        <div className="h-[200px] w-full flex items-center justify-center">
+          <Spinner extraCss="w-[30px] h-[30px]" />
+        </div>
+      )}
     </div>
   );
 };
