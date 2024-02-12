@@ -1,6 +1,7 @@
 "use client";
 import { AddressAvatar } from "components/avatar";
 import { TagPercentage } from "components/tag-percentage";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Container } from "../../../components/container";
 import { SmallFont } from "../../../components/fonts";
@@ -14,6 +15,7 @@ import { useChains } from "./context-manager";
 
 export const Chains = () => {
   const { pairs, chain } = useChains();
+  const router = useRouter();
   const [showPage, setShowPage] = useState(0);
 
   console.log("PAIRS", pairs);
@@ -42,102 +44,125 @@ export const Chains = () => {
             </div>
           </div>
           <TableHeader isLoading={false}>
-            {pairs?.map((pair, i) => (
-              <tbody key={i}>
-                <Segment>
-                  <div className="flex items-center">
-                    <SmallFont extraCss="w-fit mr-2.5">#{i + 1}</SmallFont>
+            {pairs?.map((item, i) => {
+              const pair = item?.pair;
+              return (
+                <tbody
+                  key={i}
+                  onClick={() => router.push(`/pair/${pair?.pair?.address}`)}
+                  className="cursor-pointer hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-100 ease-linear"
+                >
+                  <Segment>
                     <div className="flex items-center">
-                      <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-start">
-                        {pair?.pair?.token0?.symbol} /{" "}
-                        <span className="text-light-font-60 dark:text-dark-font-60">
-                          {pair?.pair?.token1?.symbol}
-                        </span>
-                      </SmallFont>
+                      <SmallFont extraCss="w-fit mr-2.5">#{i + 1}</SmallFont>
                       <div className="flex items-center">
-                        {pair?.pair?.token0?.logo ? (
-                          <img
-                            className="w-[20px] h-[20px] rounded-full"
-                            alt="token logo"
-                            src={pair?.pair?.token0?.logo || ""}
-                          />
-                        ) : (
-                          <AddressAvatar
-                            address={pair?.pair?.address}
-                            extraCss="w-[20px] h-[20px] rounded-full"
-                          />
-                        )}
-                        <SmallFont extraCss="w-fit ml-2 whitespace-nowrap text-start max-w-[150px] truncate">
-                          {pair?.pair?.token0?.name}
+                        <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-start">
+                          {pair?.[pair?.baseToken]?.symbol} /{" "}
+                          <span className="text-light-font-60 dark:text-dark-font-60">
+                            {pair?.[pair?.quoteToken]?.symbol}
+                          </span>
                         </SmallFont>
+                        <div className="flex items-center">
+                          {pair?.[pair?.baseToken]?.logo ? (
+                            <img
+                              className="w-[20px] h-[20px] rounded-full"
+                              alt="token logo"
+                              src={pair?.[pair?.baseToken]?.logo || ""}
+                            />
+                          ) : (
+                            <AddressAvatar
+                              address={pair?.address}
+                              extraCss="w-[20px] h-[20px] rounded-full"
+                            />
+                          )}
+                          <SmallFont extraCss="w-fit ml-2 whitespace-nowrap text-start max-w-[150px] truncate">
+                            {pair?.[pair?.baseToken]?.name}
+                          </SmallFont>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Segment>
-                <Segment>
-                  {" "}
-                  <div className="w-full flex justify-end">
-                    <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
-                      $
-                      {getFormattedAmount(pair?.price, 0, { canUseHTML: true })}
-                    </SmallFont>
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
-                      {getFormattedAmount(pair?.trades)}
-                    </SmallFont>
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
-                      ${getFormattedAmount(pair?.volume)}
-                    </SmallFont>
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
-                      ${getFormattedAmount(pair?.liquidity)}
-                    </SmallFont>
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <TagPercentage
-                      isUp={pair?.price_change_5min > 0 || false}
-                      percentage={pair?.price_change_5min}
-                    />
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <TagPercentage
-                      isUp={pair?.price_change_1h > 0 || false}
-                      percentage={pair?.price_change_1h}
-                    />
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <TagPercentage
-                      isUp={pair?.price_change_12h > 0 || false}
-                      percentage={pair?.price_change_12h}
-                    />
-                  </div>
-                </Segment>
-                <Segment>
-                  <div className="w-full flex justify-end">
-                    <TagPercentage
-                      isUp={pair?.price_change_24h > 0 || false}
-                      percentage={pair?.price_change_24h}
-                    />
-                  </div>
-                </Segment>
-              </tbody>
-            ))}
+                  </Segment>
+                  <Segment>
+                    {" "}
+                    <div className="w-full flex justify-end">
+                      <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                        $
+                        {getFormattedAmount(item?.price, 0, {
+                          canUseHTML: true,
+                        })}
+                      </SmallFont>
+                    </div>
+                  </Segment>
+                  {/* <Segment>
+                    <div className="w-full flex justify-end">
+                      <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                        {getFormattedAmount(pair?.trades)}
+                      </SmallFont>
+                    </div>
+                  </Segment> */}
+                  <Segment>
+                    <div className="w-full flex justify-end">
+                      <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                        ${getFormattedAmount(pair?.volume24h)}
+                      </SmallFont>
+                    </div>
+                  </Segment>
+                  <Segment>
+                    <div className="w-full flex justify-end">
+                      <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                        ${getFormattedAmount(pair?.liquidity)}
+                      </SmallFont>
+                    </div>
+                  </Segment>
+                  <Segment>
+                    <div className="w-full flex justify-end">
+                      <TagPercentage
+                        isUp={item?.price_change_5min > 0 || false}
+                        percentage={item?.price_change_5min}
+                        inhert={
+                          item?.price_change_5min === 0 ||
+                          !item?.price_change_5min
+                        }
+                      />
+                    </div>
+                  </Segment>
+                  <Segment>
+                    <div className="w-full flex justify-end">
+                      <TagPercentage
+                        isUp={item?.price_change_1h > 0 || false}
+                        percentage={item?.price_change_1h}
+                        inhert={
+                          item?.price_change_1h === 0 || !item?.price_change_1h
+                        }
+                      />
+                    </div>
+                  </Segment>
+                  <Segment>
+                    <div className="w-full flex justify-end">
+                      <TagPercentage
+                        isUp={item?.price_change_4h > 0 || false}
+                        percentage={item?.price_change_4h}
+                        inhert={
+                          item?.price_change_4h === 0 || !item?.price_change_4h
+                        }
+                      />
+                    </div>
+                  </Segment>
+                  <Segment>
+                    <div className="w-full flex justify-end">
+                      <TagPercentage
+                        isUp={item?.price_change_24h > 0 || false}
+                        percentage={item?.price_change_24h}
+                        inhert={
+                          item?.price_change_24h === 0 ||
+                          !item?.price_change_24h
+                        }
+                      />
+                    </div>
+                  </Segment>
+                </tbody>
+              );
+            })}
           </TableHeader>
         </Container>
       </div>

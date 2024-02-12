@@ -1,15 +1,18 @@
 "use client";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
 import { RiGlobalLine } from "react-icons/ri";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { MediumFont, SmallFont } from "../../components/fonts";
 import { useGeneralContext } from "../../contexts/general";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { pushData } from "../../lib/mixpanel";
+import { getUrlFromName } from "../../utils/formaters";
 import { navigation, navigationGlobal } from "./constants";
 
 export const Nav = () => {
@@ -24,6 +27,8 @@ export const Nav = () => {
   const handleShowChains = () => setShowChains(!showChains);
   const { setConnect } = useContext(PopupUpdateContext);
   const { isDisconnected } = useAccount();
+  const router = useRouter();
+  const { chain } = useNetwork();
 
   return (
     <div
@@ -151,7 +156,7 @@ export const Nav = () => {
           </a>
         ))}
       </div>
-      {/* <div
+      <div
         className={`flex flex-col h-full mt-5 ${
           showChains ? "max-h-[340px]" : "max-h-[40px]"
         } overflow-hidden transition-all duration-100 ease-linear`}
@@ -177,11 +182,7 @@ export const Nav = () => {
               className="flex items-center mb-5 pl-7"
               key={blockchain[0]}
               onClick={() => {
-                console.log(blockchain);
-                if (!address) {
-                  setConnect(true);
-                  return;
-                } else setShowSwitchNetwork(Number(blockchain[1].evmChainId));
+                router.push(`/chain/${getUrlFromName(blockchain[0])}`);
               }}
             >
               <img
@@ -202,7 +203,7 @@ export const Nav = () => {
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
       <div
         className="flex flex-col z-[2] w-[300px] mt-auto p-5 pt-8 pb-0  border-t overflow-hidden whitespace-nowrap
        border-light-border-secondary dark:border-dark-border-secondary"

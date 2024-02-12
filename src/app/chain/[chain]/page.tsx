@@ -1,18 +1,16 @@
 import { Chains } from "../../../features/data/chains";
 import { ChainsProvider } from "../../../features/data/chains/context-manager";
+import { fromUrlToName } from "../../../utils/formaters";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
 async function getChains({ params }) {
-  console.log("params", params.chain);
-  console.log(
-    "request:",
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${params.chain}`
-  );
+  const blockchain = fromUrlToName(params?.chain);
+  console.log("blockchain", blockchain);
   const fetchChain = fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${params.chain}`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${blockchain}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +19,7 @@ async function getChains({ params }) {
     }
   );
   const fetchPairs = fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/pairs?blockchain=${params.chain}`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/pairs?blockchain=${blockchain}`,
     {
       headers: {
         "Content-Type": "application/json",

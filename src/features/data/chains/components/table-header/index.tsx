@@ -30,12 +30,12 @@ export const TableHeader = ({
                   titleCssPosition="justify-start"
                 />
                 <BasicThead extraCss="static" title="Price" canOrder />
-                <BasicThead extraCss="static" title="Txns" canOrder />
+                {/* <BasicThead extraCss="static" title="Txns" canOrder /> */}
                 <BasicThead extraCss="static" title="Volume" canOrder />
                 <BasicThead extraCss="static" title="Liquidity" canOrder />
                 <BasicThead extraCss="static" title="5m" canOrder />
                 <BasicThead extraCss="static" title="1h" canOrder />
-                <BasicThead extraCss="static" title="12h" canOrder />
+                <BasicThead extraCss="static" title="4h" canOrder />
                 <BasicThead extraCss="static" title="24h" canOrder />
               </tr>
             </>
