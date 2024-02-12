@@ -62,8 +62,6 @@ export const MenuMobile = ({
     };
   }, [isMenuMobile]);
 
-  console.log(isConnected);
-
   const { portfolioUrl } = useUrl();
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container } from "../../../components/container";
 import { LeftBox } from "./components/box-left";
 import { MiddleBox } from "./components/box-middle";

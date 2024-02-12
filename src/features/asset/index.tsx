@@ -87,6 +87,25 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
             }));
           }
         });
+
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${baseAsset?.address}&stats=true`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            setBaseAsset((prev) => ({
+              ...prev,
+              ...r.data,
+            }));
+          }
+        });
     }
   }, [baseAsset]);
 
@@ -382,7 +401,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               <div className="max-w-[400px] w-full lg:max-w-full">
                 <TokenMainInfo />
               </div>
-
               <TokenSocialsInfo />
             </div>
           ) : (
@@ -421,7 +439,12 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>
                         {pair?.isAmount ? (
-                          <span>${getFormattedAmount(pair?.value)}</span>
+                          <span>
+                            $
+                            {getFormattedAmount(pair?.value, 0, {
+                              canUseHTML: true,
+                            })}
+                          </span>
                         ) : (
                           <span>{getFormattedAmount(pair?.value)}</span>
                         )}

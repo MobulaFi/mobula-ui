@@ -35,6 +35,8 @@ export interface IPortfolioV2 {
   setActiveStep: Dispatch<SetStateAction<ActiveStep>>;
   showHiddenTokensPopup: boolean;
   setShowHiddenTokensPopup: Dispatch<SetStateAction<boolean>>;
+  showHiddenNfts: boolean;
+  setShowHiddenNfts: Dispatch<SetStateAction<boolean>>;
 
   /** UI State */
   isLoading: boolean;

@@ -129,12 +129,6 @@ export const defaultUsers: Partial<User>[] = [
     profile_pic:
       "https://images.crunchbase.com/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/w6bpzisljtowlathh51t",
   },
-  {
-    username: "Vitalik",
-    address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-    profile_pic:
-      "https://pbs.twimg.com/profile_images/977496875887558661/L86xyLF4_400x400.jpg",
-  },
 ];
 
 export const defaultResults: Token[] = [
@@ -147,6 +141,7 @@ export const defaultResults: Token[] = [
     rank: 1,
     symbol: "BTC",
     isTemplate: true,
+    id: 1,
   },
   {
     logo: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
@@ -157,6 +152,7 @@ export const defaultResults: Token[] = [
     rank: 2,
     symbol: "ETH",
     isTemplate: true,
+    id: 2,
   },
   {
     logo: "https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707",
@@ -167,6 +163,7 @@ export const defaultResults: Token[] = [
     rank: 3,
     symbol: "USDT",
     isTemplate: true,
+    id: 3,
   },
   {
     logo: "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850",
@@ -177,6 +174,7 @@ export const defaultResults: Token[] = [
     rank: 4,
     symbol: "BNB",
     isTemplate: true,
+    id: 4,
   },
   {
     logo: "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
@@ -187,5 +185,6 @@ export const defaultResults: Token[] = [
     rank: 5,
     symbol: "XRP",
     isTemplate: true,
+    id: 5,
   },
 ];

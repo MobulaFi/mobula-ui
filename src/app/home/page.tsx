@@ -1,7 +1,6 @@
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
-import React from "react";
 import { Top100 } from "../../features/data/top100";
 import { Top100Provider } from "../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../features/data/top100/utils";
@@ -49,7 +48,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(100);
+    const result = await query.limit(25);
     return result;
   };
 

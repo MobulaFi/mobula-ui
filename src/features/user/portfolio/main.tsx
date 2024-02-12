@@ -254,7 +254,11 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
                 ) : null}
               </div>
             ) : null}
-            <div className="w-full flex lg:hidden">
+            <div
+              className={`w-full flex ${
+                activeCategory === "NFTs" ? "" : "lg:hidden"
+              }`}
+            >
               <CategorySwitcher />
             </div>
             {activeCategory === "General" ? (

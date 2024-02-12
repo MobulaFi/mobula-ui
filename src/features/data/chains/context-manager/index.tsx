@@ -2,10 +2,10 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface ChainsContextProps {
-  pairs: any[];
-  setPairs: React.Dispatch<React.SetStateAction<any[]>>;
-  chain: any[];
-  setChain: React.Dispatch<React.SetStateAction<any[]>>;
+  pairs: PairsProps[];
+  setPairs: React.Dispatch<React.SetStateAction<PairsProps[]>>;
+  chain: ChainsProps;
+  setChain: React.Dispatch<React.SetStateAction<ChainsProps>>;
 }
 
 const ChainsContext = createContext<ChainsContextProps>(
@@ -16,8 +16,8 @@ export const useChains = () => useContext(ChainsContext);
 
 interface ChainsProviderProps {
   children: ReactNode;
-  pairs: any;
-  chain: any;
+  pairs: PairsProps[];
+  chain: ChainsProps;
 }
 
 export const ChainsProvider = ({

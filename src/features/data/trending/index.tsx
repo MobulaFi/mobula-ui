@@ -1,5 +1,4 @@
 "use client";
-import { generateFilters } from "@utils/filters";
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
@@ -7,20 +6,16 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components/index";
-import { Query } from "../top100/models";
+import { BasicBody } from "../../../layouts/new-tables/basic-table/basic-body";
+import { CommonTableHeader } from "../../../layouts/new-tables/basic-table/basic-wrap";
 
 export default function Trendings({ tokensBuffer, isMobile, count }) {
-  const [blockchain, setBlockchain] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
   const [resultsData, setResultsData] = useState({
     data: tokensBuffer,
     count,
   });
-  const [filters, setFilters] = useState<Query[]>([
-    { action: "", value: [], isFirst: true },
-    ...generateFilters("all"),
-  ]);
+
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "trending_score",
     ascending: false,
@@ -57,16 +52,15 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
           />
           <div className="mt-2.5">
             {!isLoading ? (
-              <AssetsTable
-                resultsData={resultsData}
-                setResultsData={setResultsData}
-                lastColumn="Added"
+              <CommonTableHeader
                 orderBy={orderBy}
                 setOrderBy={setOrderBy}
-                filters={filters}
                 hideDEXVolume
-                isMobile={isMobile}
-              />
+              >
+                {resultsData?.data?.map((token, i) => (
+                  <BasicBody key={token?.id} token={token} index={i} />
+                ))}
+              </CommonTableHeader>
             ) : (
               <div className="w-full h-[600px] flex items-center justify-center">
                 <Spinner extraCss="w-[60px] h-[60px]" />

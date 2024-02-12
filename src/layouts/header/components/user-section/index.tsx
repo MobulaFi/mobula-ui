@@ -1,17 +1,7 @@
 "use client";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import React, {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -36,6 +26,7 @@ import { UserContext } from "../../../../contexts/user";
 import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
 import { FeedBackPopup } from "../../../../popup/feedback";
+import { SearchBarPopup } from "../../../../popup/searchbar";
 import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
@@ -53,35 +44,12 @@ interface UserSectionProps {
   addressFromCookie: string;
 }
 
-const SearchBarPopup: any = dynamic(
-  () => import("../../../../popup/searchbar").then((mod) => mod.SearchBarPopup),
-  {
-    ssr: false,
-  }
-);
 // const ConnectWallet = dynamic(
 //   () => import("../../../../common/components/popup/wallet-reconnect"),
 //   {
 //     ssr: false,
 //   }
 // );
-
-function useOutsideAlerter(
-  ref: RefObject<HTMLDivElement>,
-  setTriggerHook: Dispatch<SetStateAction<boolean>>
-) {
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setTriggerHook(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, setTriggerHook]);
-}
 
 export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const [triggerSearch, setTriggerSearch] = useState(false);
@@ -96,9 +64,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const { user } = useContext(UserContext);
   const { setShowNotif } = useContext(AccountHeaderContext);
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
-  useOutsideAlerter(wrapperRef, setTriggerSearch);
   const [shouldMagicLinkProfile, setShouldMagicLinkProfile] = useState(false);
-  const [showTelegramConnector, setShowTelegramConnector] = useState(false);
   const [showInfoPopover, setShowInfoPopover] = useState(false);
   const [showChainPopover, setShowChainPopover] = useState(false);
   const { isConnecting, isDisconnected } = useAccount();
@@ -141,7 +107,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   useEffect(() => {
     if (isMagicLoading && address) {
       const isFirstVisitMagic = localStorage.getItem(`magic${address}`);
-
       if (!isFirstVisitMagic) {
         localStorage.setItem(`magic${address}`, "true");
         localStorage.setItem("need_magic", "true");

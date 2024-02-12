@@ -1,13 +1,11 @@
 "use client";
 import { useTheme } from "next-themes";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
 import { RiGlobalLine } from "react-icons/ri";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../components/fonts";
 import { useGeneralContext } from "../../contexts/general";
 import { PopupUpdateContext } from "../../contexts/popup";
@@ -24,10 +22,8 @@ export const Nav = () => {
   const [showGlobal, setShowGlobal] = useState(false);
   const handleShowGlobal = () => setShowGlobal(!showGlobal);
   const handleShowChains = () => setShowChains(!showChains);
-  const { setShowSwitchNetwork, setConnect } = useContext(PopupUpdateContext);
-  const { address, isDisconnected } = useAccount();
-  const { chain } = useNetwork();
-  const pathname = usePathname();
+  const { setConnect } = useContext(PopupUpdateContext);
+  const { isDisconnected } = useAccount();
 
   return (
     <div
@@ -37,7 +33,7 @@ export const Nav = () => {
           ? "w-[68px] min-w-[68px] max-w-[68px]"
           : "w-[300px] min-w-[300px] max-w-[300px]"
       } border-r border-light-border-secondary dark:border-dark-border-secondary cursor-pointer bg-light-bg-primary
-       dark:bg-dark-bg-primary shadow-xl min-w-[68px] fixed top-0 left-0 z-[99]`}
+       dark:bg-dark-bg-primary shadow-xl min-w-[68px] fixed top-0 left-0 z-[101]`}
       onMouseEnter={() => {
         if (hideNav === "locked") return;
         setHideNav("visible");
@@ -84,7 +80,7 @@ export const Nav = () => {
       </div>
       <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mt-4">
         {navigation.map((page, i) => (
-          <Link
+          <a
             href={page.name === "Portfolio" && isDisconnected ? `/` : page.url}
             onClick={(e) => {
               if (page.name === "Portfolio" && isDisconnected) {
@@ -112,7 +108,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
       <div
@@ -133,7 +129,7 @@ export const Nav = () => {
           </div>
         </div>
         {navigationGlobal.extend.map((page, i) => (
-          <Link
+          <a
             href={page.url}
             onClick={() => handleActiveSection(page.name)}
             onMouseEnter={() => setIsHover(page.name)}
@@ -152,7 +148,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
       {/* <div
@@ -211,7 +207,7 @@ export const Nav = () => {
         className="flex flex-col z-[2] w-[300px] mt-auto p-5 pt-8 pb-0  border-t overflow-hidden whitespace-nowrap
        border-light-border-secondary dark:border-dark-border-secondary"
       >
-        <Link
+        <a
           href="https://github.com/MobulaFi/mobula-ui"
           target="_blank"
           rel="noopener noreferrer"
@@ -222,8 +218,8 @@ export const Nav = () => {
               <MediumFont extraCss="font-poppins">Github</MediumFont>
             </div>
           </div>
-        </Link>
-        <Link
+        </a>
+        <a
           href="/list?utm_source=header"
           onClick={() => {
             pushData("Header Get listed Clicked");
@@ -235,8 +231,8 @@ export const Nav = () => {
               <MediumFont extraCss="font-poppins">Get listed</MediumFont>
             </div>
           </div>
-        </Link>
-        <Link
+        </a>
+        <a
           href="https://docs.mobula.fi/?utm_source=header"
           target="_blank"
           rel="noopener noreferrer"
@@ -250,7 +246,7 @@ export const Nav = () => {
               <MediumFont extraCss="font-poppins">Free API Key</MediumFont>
             </div>
           </div>
-        </Link>
+        </a>
       </div>
     </div>
   );

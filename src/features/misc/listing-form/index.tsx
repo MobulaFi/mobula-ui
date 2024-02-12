@@ -19,7 +19,7 @@ import { cleanFee, cleanVesting, formatDate } from "./utils";
 
 export const Listing = () => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const {actualPage, setActualPage, setWallet, setIsListed, isListed} =
+  const { actualPage, setActualPage, setWallet, setIsListed, isListed } =
     useContext(ListingContext);
 
   state.type = "token";
@@ -49,17 +49,17 @@ export const Listing = () => {
       const dateToSend = {
         ...state,
         contracts: state.contracts.filter(
-          (contract: {address: string}) => contract.address !== ""
+          (contract: { address: string }) => contract.address !== ""
         ),
         excludedFromCirculationAddresses:
           state.excludedFromCirculationAddresses.filter(
-            (newAddress: {address: any}) => newAddress && newAddress.address
+            (newAddress: { address: any }) => newAddress && newAddress.address
           ),
         tokenomics: {
           ...state.tokenomics,
           sales: state.tokenomics.sales
-            .filter((sale: {name: string; date: string}) => sale.name !== "")
-            .map((sale: {name: string; date: string}) => ({
+            .filter((sale: { name: string; date: string }) => sale.name !== "")
+            .map((sale: { name: string; date: string }) => ({
               ...sale,
               date:
                 typeof sale.date === "string"
@@ -70,13 +70,11 @@ export const Listing = () => {
             .filter((vesting: any[]) => vesting[0])
             .map(cleanVesting),
           fees: state.tokenomics.fees
-            .filter((fee: {name: string}) => fee.name !== "")
+            .filter((fee: { name: string }) => fee.name !== "")
             .map(cleanFee),
         },
         logo: state.image.logo,
       };
-
-      console.log("State to send:", state);
 
       const response = await axios.get(`${API_ENDPOINT}/asset/submit-token`, {
         params: {
@@ -91,14 +89,13 @@ export const Listing = () => {
           const status = await axios.get(
             `${API_ENDPOINT}/asset/listing-status`,
             {
-              params: {wallet: response.data.wallet},
+              params: { wallet: response.data.wallet },
             }
           );
 
           if (status.data.receivedFunds === true) {
             setIsListed(true);
             clearInterval(intervalId);
-            console.log("Token submission confirmed.", isListed);
           }
         } catch (statusError) {
           console.error(

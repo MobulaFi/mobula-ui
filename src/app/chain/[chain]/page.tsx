@@ -6,6 +6,11 @@ export const dynamic = "force-static";
 export const dynamicParams = true;
 
 async function getChains({ params }) {
+  console.log("params", params.chain);
+  console.log(
+    "request:",
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${params.chain}`
+  );
   const fetchChain = fetch(
     `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${params.chain}`,
     {
@@ -31,6 +36,8 @@ async function getChains({ params }) {
     }
   );
 
+  console.log("chain", chain, pairs);
+
   return {
     blockchain: chain.data,
     pairs: pairs.data,
@@ -42,6 +49,7 @@ type Props = {
 };
 
 async function ChainPage({ params }: Props) {
+  console.log("paramsparams", params);
   const { blockchain, pairs } = await getChains({ params });
   const { chain } = params;
 
