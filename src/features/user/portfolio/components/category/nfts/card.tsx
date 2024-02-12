@@ -55,19 +55,24 @@ export const NftPortfolioCard = ({
 
   const handleHiddenNft = (hash: string) => {
     const nfts = localStorage.getItem("hiddenNft");
-    console.log("nftsDeleted.includes(hash)", nftsDeleted.includes(hash));
-    if (!nftsDeleted.includes(hash)) {
-      setNftsDeleted((prev) => [...prev, hash]);
-      localStorage.setItem(
-        "hiddenNft",
-        JSON.stringify([...JSON.parse(nfts), hash])
-      );
-    } else {
-      setNftsDeleted((prev) => [...prev.filter((entry) => entry !== hash)]);
-      localStorage.setItem(
-        "hiddenNft",
-        JSON.stringify([...JSON.parse(nfts)?.filter((entry) => entry !== hash)])
-      );
+    try {
+      if (!nftsDeleted?.includes(hash)) {
+        setNftsDeleted((prev) => [...(prev || []), hash]);
+        localStorage.setItem(
+          "hiddenNft",
+          JSON.stringify([...(JSON.parse(nfts) || []), hash])
+        );
+      } else {
+        setNftsDeleted((prev) => [...prev.filter((entry) => entry !== hash)]);
+        localStorage.setItem(
+          "hiddenNft",
+          JSON.stringify([
+            ...JSON.parse(nfts)?.filter((entry) => entry !== hash),
+          ])
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
     // console.log("isNftDeleted", isNftDeleted, isNftToHide);
 

@@ -24,6 +24,7 @@ export const CategorySwitcher = () => {
     hiddenTokens,
     setShowHiddenTokensPopup,
     showHiddenNfts,
+    nftsDeleted,
     setShowHiddenNfts,
   } = useContext(PortfolioV2Context);
 
@@ -128,7 +129,7 @@ export const CategorySwitcher = () => {
       ) : null}
       {activeCategory === "NFTs" ? (
         <div className="flex w-fit">
-          {!showDeleteSelector && !showHiddenNfts ? (
+          {!showDeleteSelector && !showHiddenNfts && nftsDeleted?.length > 0 ? (
             <Button
               extraCss={`${buttonDeleteNft} mr-2`}
               onClick={() => {
