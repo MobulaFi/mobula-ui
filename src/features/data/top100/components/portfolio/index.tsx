@@ -87,7 +87,10 @@ const Portfolio = ({ showPageMobile = 0 }: PortfolioProps) => {
         .then((r) => r.json())
         .then((r) => {
           if (r.data) {
-            setWallet(null);
+            setWallet({
+              ...r.data,
+              id: finalPortfolio?.id,
+            });
             setIsLoading(false);
           } else {
             setWallet(null);

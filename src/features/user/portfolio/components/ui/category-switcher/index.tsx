@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BiCoinStack, BiImage } from "react-icons/bi";
 import { LuDownload } from "react-icons/lu";
@@ -15,9 +15,6 @@ export const CategorySwitcher = () => {
     activeCategory,
     setActiveCategory,
     setNftsDeleted,
-    setNftToDelete,
-    nftsDeleted,
-    nftToDelete,
     setShowDeleteSelector,
     showDeleteSelector,
     activeStep,
@@ -26,6 +23,9 @@ export const CategorySwitcher = () => {
     activePortfolio,
     hiddenTokens,
     setShowHiddenTokensPopup,
+    showHiddenNfts,
+    nftsDeleted,
+    setShowHiddenNfts,
   } = useContext(PortfolioV2Context);
 
   const categories = [
@@ -41,36 +41,18 @@ export const CategorySwitcher = () => {
       title: "Activity",
       icon: <AiOutlineSwap className="mr-[7.5px]" />,
     },
-    // {
-    //   title: "Staking",
-    //   icon: <RiBankLine className="mr-[7.5px]" />,
-    // },
   ];
   useEffect(() => {
     setNftsDeleted(JSON.parse(localStorage.getItem("hiddenNft") as string));
-    setNftToDelete(JSON.parse(localStorage.getItem("hiddenNft") as string));
   }, []);
-
-  const getNftHidden = () => {
-    const arrToDelete =
-      JSON.parse(localStorage.getItem("hiddenNft") as string) || [];
-    nftToDelete?.forEach((nft) => {
-      if (!arrToDelete.includes(nft)) {
-        arrToDelete.push(nft);
-      }
-    });
-    localStorage.setItem("hiddenNft", JSON.stringify(arrToDelete));
-    setNftsDeleted(arrToDelete);
-    setShowDeleteSelector(false);
-  };
 
   return (
     <div
-      className={`flex justify-between items-center h-[30px] mb-[15px] mt-5 overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
-        !manager.portfolio_chart ? "mt-0" : "mt-5"
+      className={`flex justify-between items-center h-[30px] mb-[15px] md:mb-0 mt-5 md:mt-2.5 overflow-x-visible sm:overflow-x-scroll pb-0 sm:pb-2.5 ${
+        !manager.portfolio_chart ? "mt-0" : "mt-5 md:mt-2.5"
       } w-full`}
     >
-      <div className="flex">
+      <div className="flex lg:hidden">
         {categories.map((entry, i) => (
           <div
             key={entry.title}
@@ -147,34 +129,35 @@ export const CategorySwitcher = () => {
       ) : null}
       {activeCategory === "NFTs" ? (
         <div className="flex w-fit">
-          {((nftToDelete?.length as number) > 0 && showDeleteSelector) ||
-          !showDeleteSelector ? (
+          {!showDeleteSelector && !showHiddenNfts && nftsDeleted?.length > 0 ? (
+            <Button
+              extraCss={`${buttonDeleteNft} mr-2`}
+              onClick={() => {
+                setShowHiddenNfts(true);
+              }}
+            >
+              Restore NFTs
+            </Button>
+          ) : null}
+          {!showDeleteSelector && !showHiddenNfts ? (
             <Button
               extraCss={buttonDeleteNft}
               onClick={() => {
                 if (!showDeleteSelector) setShowDeleteSelector(true);
-                else getNftHidden();
               }}
             >
-              {nftToDelete?.length > 0
-                ? `${
-                    nftToDelete?.length !== nftsDeleted?.length
-                      ? `Confirm`
-                      : `${nftToDelete.length} Hidden NFTs`
-                  }`
-                : "Manage"}
+              Hide NFTs
             </Button>
           ) : null}
-
-          {showDeleteSelector ? (
+          {showDeleteSelector || showHiddenNfts ? (
             <Button
               extraCss={`${buttonDeleteNft} ml-2.5`}
               onClick={() => {
                 setShowDeleteSelector(false);
-                setNftToDelete(nftsDeleted);
+                setShowHiddenNfts(false);
               }}
             >
-              Cancel
+              Done
             </Button>
           ) : null}
         </div>

@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 import { AddressAvatar } from "../../../components/avatar";
 import { NextImageFallback } from "../../../components/image";
@@ -10,6 +11,7 @@ interface TokenInfoProps {
 }
 
 export const TokenInfo = ({ token, index, showRank }: TokenInfoProps) => {
+  const router = useRouter();
   return (
     <div className="flex items-center w-full">
       <div className="flex w-[26px] h-[26px] min-w-[26px] min-h-[26px] mr-2.5 rounded-full">

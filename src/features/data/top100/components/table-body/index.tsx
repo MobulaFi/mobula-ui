@@ -18,6 +18,7 @@ import { useIsInViewport } from "../../../../../hooks/viewport";
 import { TableAsset } from "../../../../../interfaces/assets";
 import { EntryContext } from "../../../../../layouts/new-tables/context-manager";
 import { useWatchlist } from "../../../../../layouts/new-tables/hooks/watchlist";
+import { Segment } from "../../../../../layouts/new-tables/segments";
 import { ChangeSegment } from "../../../../../layouts/new-tables/segments/change";
 import { ChartSegment } from "../../../../../layouts/new-tables/segments/chart";
 import { MarketCapSegment } from "../../../../../layouts/new-tables/segments/market_cap";
@@ -292,15 +293,15 @@ export const Top100TBody = ({
               </button>
             </div>
           </td>
-          <td
-            className={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
+          <Segment
+            extraCss={`py-2.5 min-w-[190px]  md:min-w-[125px] sticky left-[73px] md:left-[28px] z-[9] md:pr-1 ${
               isHover
                 ? "bg-light-bg-secondary dark:bg-dark-bg-secondary"
                 : "bg-transparent dark:bg-transparent"
             } md:pl-0`}
           >
             <TokenInfo token={token} showRank={showRank} index={index} />
-          </td>
+          </Segment>
           {(activeView?.display?.length || 0) > 0 &&
           activeView?.name !== "All" &&
           activeView?.name !== "Portfolio"

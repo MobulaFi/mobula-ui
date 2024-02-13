@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import { IoEyeOffOutline } from "react-icons/io5";
+import { AiOutlineDelete } from "react-icons/ai";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Skeleton } from "../../../../../../components/skeleton";
 import { HoldingNFT } from "../../../../../../interfaces/holdings";
@@ -16,13 +16,8 @@ export const NftPortfolioCard = ({
   nft,
   showDeleteSelector,
 }: NftPortfolioCardProps) => {
-  const {
-    setNftToDelete,
-    nftToDelete,
-    setNftsDeleted,
-    nftsDeleted,
-    isNftLoading,
-  } = useContext(PortfolioV2Context);
+  const { showHiddenNfts, setNftsDeleted, nftsDeleted, isNftLoading } =
+    useContext(PortfolioV2Context);
   const [nftImage, setNftImage] = useState<string | undefined>(undefined);
   const [isHover, setIsHover] = useState<string>("");
   const { theme } = useTheme();
@@ -58,54 +53,72 @@ export const NftPortfolioCard = ({
   };
   const image = getNftImage();
 
-  const isNftToHide = nftToDelete?.includes(nft?.token_hash);
-  const isNftDeleted = nftsDeleted?.includes(nft.token_hash);
-
-  const handleHiddenNft = () => {
-    if (isNftDeleted) {
-      setNftsDeleted(
-        nftsDeleted.filter((nftHash) => nftHash !== nft.token_hash)
-      );
-      setNftToDelete(
-        nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
-      );
-    } else if (isNftToHide) {
-      setNftToDelete(
-        nftToDelete.filter((nftHash) => nftHash !== nft.token_hash)
-      );
-    } else {
-      setNftToDelete([...nftToDelete, nft.token_hash]);
+  const handleHiddenNft = (hash: string) => {
+    const nfts = localStorage.getItem("hiddenNft");
+    try {
+      if (!nftsDeleted?.includes(hash)) {
+        setNftsDeleted((prev) => [...(prev || []), hash]);
+        localStorage.setItem(
+          "hiddenNft",
+          JSON.stringify([...(JSON.parse(nfts) || []), hash])
+        );
+      } else {
+        setNftsDeleted((prev) => [...prev.filter((entry) => entry !== hash)]);
+        localStorage.setItem(
+          "hiddenNft",
+          JSON.stringify([
+            ...JSON.parse(nfts)?.filter((entry) => entry !== hash),
+          ])
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
+    // console.log("isNftDeleted", isNftDeleted, isNftToHide);
+
+    // if (isNftDeleted || isNftToHide) {
+    //   setNftsDeleted(
+    //     nftsDeleted.filter((nftHash) => nftHash !== nft.token_hash)
+    //   );
+    // } else {
+    //   setNftToDelete([...nftToDelete, nft.token_hash]);
+    // }
   };
+
+  const isHiddenNFT = nftsDeleted?.includes(nft?.token_hash);
+
+  // console.log("neft", nftsDeleted);
 
   return (
     <div
       className="flex flex-col rounded-xl bg-light-bg-terciary dark:bg-dark-bg-terciary relative 
-    border border-light-border-primary dark:border-dark-border-primary w-[23.5%] m-[0.75%] lg:w-[31%] lg:m-[1%]"
+    border border-light-border-primary dark:border-dark-border-primary nft-card"
       onMouseEnter={() => setIsHover(nft?.token_hash)}
       onMouseLeave={() => setIsHover("")}
     >
       <div className="w-full h-auto flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary">
         {isNftLoading && !nft?.image && !nftImage ? (
-          <Skeleton extraCss="h-[210px] w-full rounded-t" />
+          <Skeleton extraCss="h-[150px] w-full rounded-t" />
         ) : (
           <>
             {(nft?.image || nftImage)?.includes(".mp4") ? (
-              <video
-                className="w-full rounded-t"
-                src={nft?.image || nftImage}
-                autoPlay
-                muted
-                loop
-              />
+              <div className="flex flex-col items-center justify-center relative w-full overflow-hidden">
+                <video
+                  className="w-full rounded-t nft-image object-cover"
+                  src={nft?.image || nftImage}
+                  autoPlay
+                  muted
+                  loop
+                />
+              </div>
             ) : (
-              <div className="flex flex-col items-center justify-center relative w-full">
+              <div className="flex flex-col items-center justify-center relative w-full overflow-hidden">
                 <Image
                   src={image}
-                  width={210}
-                  height={210}
+                  width={158}
+                  height={158}
                   onLoad={() => setIsImageLoading(false)}
-                  className="rounde-t w-full p-0 h-auto max-h-[210px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-t-xl"
+                  className="rounde-t w-full p-0 h-auto object-cover bg-light-bg-hover dark:bg-dark-bg-hover rounded-t-xl nft-image"
                   onError={() => setImageState("error")}
                   loading="eager"
                   alt="nft image"
@@ -139,25 +152,27 @@ export const NftPortfolioCard = ({
       <div
         className={`flex absolute w-full h-full bg-light-bg-primary dark:bg-dark-bg-primary rounded
        transition-all duration-200 ${
-         showDeleteSelector || isHover ? "opacity-60" : "opacity-0"
+         showDeleteSelector || isHover || showHiddenNfts
+           ? "opacity-60"
+           : "opacity-0"
        } ${
           isHover && !showDeleteSelector ? "cursor-pointer" : "cursor-default"
         }`}
       />
-      {showDeleteSelector ? (
+      {showDeleteSelector || showHiddenNfts ? (
         <button
-          className="h-full w-full flex items-center justify-center rounded-full border border-light-border-primary
-           dark:border-dark-border-primary z-[1] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
-          onClick={handleHiddenNft}
+          className="h-full w-full flex items-center justify-center flex-col rounded-full border border-light-border-primary
+           dark:border-dark-border-primary z-[1] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 "
+          onClick={() => handleHiddenNft(nft?.token_hash)}
         >
-          <IoEyeOffOutline
+          <AiOutlineDelete
             className={`text-light-font-100 dark:text-dark-font-100 transition-all duration-200 ease-in-out mt-0.5 text-4xl ${
-              isNftToHide || isHover ? "opacity-100" : "opacity-0"
+              isHiddenNFT || isHover ? "opacity-100" : "opacity-0"
             }`}
           />
         </button>
       ) : null}
-      {isHover === nft?.token_hash && !showDeleteSelector ? (
+      {isHover === nft?.token_hash && !showDeleteSelector && !showHiddenNfts ? (
         <button
           className={`flex items-center justify-center absolute  w-[100%] h-full transition-all duration-200 ${
             isHover === nft?.token_hash ? "opacity-100" : "opacity-0"
@@ -169,11 +184,11 @@ export const NftPortfolioCard = ({
           }}
         >
           <div className="flex flex-col items-center justify-center">
-            <SmallFont extraCss="mb-3 font-bold text-center whitespace-pre-wrap">
+            <SmallFont extraCss="mb-3 font-medium text-center whitespace-pre-wrap">
               Watch on Opensea
             </SmallFont>
             <img
-              className="w-[35px] h-[35px] rounded-full shadow-md border border-light-border-secondary dark:border-dark-border-secondary"
+              className="w-[35px] h-[35px] md:h-[30px] md:w-[30px] rounded-full shadow-md border border-light-border-secondary dark:border-dark-border-secondary"
               src="https://opensea.io/static/images/logos/opensea-logo.svg"
               alt="Opensea logo"
             />

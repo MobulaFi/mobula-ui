@@ -101,7 +101,6 @@ export const CoreSearchBar = ({
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
-          console.log("R.dddd", r.data);
           const globalResult = r.data?.filter(
             (entry, i) => !entry?.reserve0 && !entry?.reserve1
           );
@@ -168,7 +167,6 @@ export const CoreSearchBar = ({
     );
   }, []);
 
-  console.log("results", results);
   useEffect(() => {
     if (trigger) {
       setIsFocus(false);
@@ -197,8 +195,6 @@ export const CoreSearchBar = ({
   useEffect(() => {
     if (token === "") setPairs([]);
   }, [token]);
-
-  console.log("Reult", results);
 
   let fullResults: React.ReactNode;
 
