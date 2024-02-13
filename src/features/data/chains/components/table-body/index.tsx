@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
@@ -33,29 +33,23 @@ export const TableTbody = () => {
         JSON.stringify({
           type: "pair",
           authorization: process.env.NEXT_PUBLIC_PRICE_KEY,
-          payload: { blockchain: pairs?.[0]?.pair?.blockchain, interval: 5 },
+          payload: {
+            blockchain: pairs?.newPairs?.[0]?.pair?.blockchain,
+            interval: 5,
+          },
         })
       );
     });
 
     socket.addEventListener("message", (event) => {
       const { data } = JSON.parse(event.data);
-      console.log("I change pairs", data);
-
       const newPairsMap = data.reduce((acc, item) => {
-        acc[item.pair] = {
-          price: item.price,
-          last_trade: item.last_trade,
-          price_change_5min: item.price_change_5min,
-          price_change_1h: item.price_change_1h,
-          price_change_4h: item.price_change_4h,
-          price_change_24h: item.price_change_24h,
-        };
+        acc[item.pair.address] = item;
         return acc;
       }, {});
 
       setPairs((prevPairs) => {
-        const newWebSocketPairs = prevPairs?.newPairs.map((pair) => {
+        const newWebSocketPairs = prevPairs.newPairs.map((pair) => {
           const newData = newPairsMap[pair.pair.address];
           if (newData) {
             return {
@@ -66,7 +60,11 @@ export const TableTbody = () => {
             return pair;
           }
         });
-        return { pairs: newWebSocketPairs, prevPairs: newPairsMap };
+
+        return {
+          pair: prevPairs.newPairs,
+          newPairs: newWebSocketPairs,
+        };
       });
     });
   }, []);
@@ -78,15 +76,14 @@ export const TableTbody = () => {
         ?.map((item, i) => {
           const pair = item?.pair;
           const timeAgo = useTimeAgo(item?.last_trade);
-          const prevPair =
-            pairs?.newPairs?.[i]?.pair?.address === pair?.address
-              ? pairs?.pair?.[i]
-              : null;
-          const priceChanged = prevPair?.price
-            ? item?.price !== prevPair?.price
-            : false;
-          if (priceChanged)
-            console.log("I changed", prevPair?.price, item?.price);
+          const prevPair = pairs?.pair?.find(
+            (prev) => prev.pair.address === pair.address
+          );
+          const priceChanged = item.price !== (prevPair?.price || item.price);
+          let isUp: boolean | null = null;
+          if (priceChanged) {
+            isUp = item.price > (prevPair?.price || item.price);
+          }
           return (
             <tbody
               key={i}
@@ -127,8 +124,12 @@ export const TableTbody = () => {
                 <div className="w-full flex justify-end">
                   <SmallFont
                     extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${
-                      priceChanged ? "text-red dark:text-red" : ""
-                    }`}
+                      isUp === null
+                        ? ""
+                        : isUp
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } transition-all duration-100 ease-in-out`}
                   >
                     $
                     {getFormattedAmount(item?.price, 0, {
