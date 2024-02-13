@@ -18,9 +18,7 @@ export const RightBox = ({ showPageMobile = 0 }: BoxRightProps) => {
     <div
       className={`flex flex-col h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
       border-light-border-primary dark:border-dark-border-primary py-2.5 relative  
-      min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 ${
-        showPageMobile === 1 ? "z-[3]" : "z-[1]"
-      }] mx-2.5 md:mx-0`}
+      min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 mx-2.5 md:mx-0`}
     >
       <MediumFont extraCss="ml-2.5 whitespace-nowrap">
         Liquidity History

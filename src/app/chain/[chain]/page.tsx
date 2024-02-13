@@ -1,3 +1,4 @@
+import React from "react";
 import { Chains } from "../../../features/data/chains";
 import { ChainsProvider } from "../../../features/data/chains/context-manager";
 import { fromUrlToName } from "../../../utils/formaters";
@@ -8,10 +9,6 @@ export const dynamicParams = true;
 
 async function getChains({ params }) {
   const blockchain = fromUrlToName(params?.chain);
-  console.log(
-    "blockchain",
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${blockchain}`
-  );
   const fetchChain = fetch(
     `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${blockchain}`,
     {
@@ -54,8 +51,8 @@ async function ChainPage({ params }: Props) {
   return (
     <>
       <head>
-        {/* <title>Test asset pair</title>
-        <meta
+        <title>{fromUrlToName(chain)} Chain information</title>
+        {/* <meta
           name="description"
           content={`Dive into the real-time price, detailed chart analysis, and liquidity data of ${data?.asset?.name} on Mobula. Gain insights into its current market dynamics and trends, all in one place for informed trading and investment decisions.`}
         /> */}
