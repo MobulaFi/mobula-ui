@@ -13,7 +13,7 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 });
 
 export const LeftBox = ({ showPageMobile }: LeftBoxProps) => {
-  const { chain } = useChains();
+  const { chain, pairs } = useChains();
   return (
     <div
       className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
@@ -23,7 +23,9 @@ export const LeftBox = ({ showPageMobile }: LeftBoxProps) => {
         }] py-2.5`}
       style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
     >
-      <MediumFont extraCss="ml-2.5">Volume History</MediumFont>
+      <MediumFont extraCss="ml-2.5">
+        {pairs?.[0]?.pair?.blockchain} DeFi Volume
+      </MediumFont>
       {chain?.volume_history?.length > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-9">
           <EChart

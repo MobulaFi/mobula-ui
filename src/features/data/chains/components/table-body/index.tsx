@@ -1,18 +1,30 @@
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
+import { useTimeAgo } from "../../../../../hooks/time-ago";
 import { Segment } from "../../../../../layouts/new-tables/segments";
 import { getFormattedAmount } from "../../../../../utils/formaters";
 import { useChains } from "../../context-manager";
 
 export const TableTbody = () => {
   const { pairs } = useChains();
+  const router = useRouter();
+
+  function convertScientificNotation(number) {
+    if (typeof number === "number" && number.toString().includes("e")) {
+      return 1_000_000_001;
+    } else return number;
+  }
   return (
     <>
       {pairs?.map((item, i) => {
         const pair = item?.pair;
+        const timeAgo = useTimeAgo(item?.last_trade);
+        if (pair?.[pair?.baseToken]?.symbol === "SPONGE")
+          console.log("item?.price_change_24h", item?.price_change_24h);
+
         return (
           <tbody
             key={i}
@@ -21,7 +33,6 @@ export const TableTbody = () => {
           >
             <Segment>
               <div className="flex items-center">
-                <SmallFont extraCss="w-fit mr-2.5">#{i + 1}</SmallFont>
                 <div className="flex items-center md:flex-col md:items-start">
                   <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-start">
                     {pair?.[pair?.baseToken]?.symbol} /{" "}
@@ -85,7 +96,9 @@ export const TableTbody = () => {
               <div className="w-full flex justify-end">
                 <TagPercentage
                   isUp={item?.price_change_5min > 0 || false}
-                  percentage={item?.price_change_5min}
+                  percentage={convertScientificNotation(
+                    item?.price_change_5min
+                  )}
                   inhert={
                     item?.price_change_5min === 0 || !item?.price_change_5min
                   }
@@ -96,7 +109,7 @@ export const TableTbody = () => {
               <div className="w-full flex justify-end">
                 <TagPercentage
                   isUp={item?.price_change_1h > 0 || false}
-                  percentage={item?.price_change_1h}
+                  percentage={convertScientificNotation(item?.price_change_1h)}
                   inhert={item?.price_change_1h === 0 || !item?.price_change_1h}
                 />
               </div>
@@ -105,7 +118,7 @@ export const TableTbody = () => {
               <div className="w-full flex justify-end">
                 <TagPercentage
                   isUp={item?.price_change_4h > 0 || false}
-                  percentage={item?.price_change_4h}
+                  percentage={convertScientificNotation(item?.price_change_4h)}
                   inhert={item?.price_change_4h === 0 || !item?.price_change_4h}
                 />
               </div>
@@ -114,11 +127,18 @@ export const TableTbody = () => {
               <div className="w-full flex justify-end">
                 <TagPercentage
                   isUp={item?.price_change_24h > 0 || false}
-                  percentage={item?.price_change_24h}
+                  percentage={convertScientificNotation(item?.price_change_24h)}
                   inhert={
                     item?.price_change_24h === 0 || !item?.price_change_24h
                   }
                 />
+              </div>
+            </Segment>
+            <Segment>
+              <div className="w-full flex justify-end">
+                <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                  {timeAgo || "--"}
+                </SmallFont>
               </div>
             </Segment>
           </tbody>

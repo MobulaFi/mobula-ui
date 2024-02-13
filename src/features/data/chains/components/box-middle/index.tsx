@@ -13,7 +13,7 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 });
 
 export const MiddleBox = ({ showPageMobile = 0 }: MiddleBoxProps) => {
-  const { chain } = useChains();
+  const { chain, pairs } = useChains();
   return (
     <div
       className={`flex flex-col h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
@@ -21,7 +21,7 @@ export const MiddleBox = ({ showPageMobile = 0 }: MiddleBoxProps) => {
       min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 mx-2.5 md:mx-0`}
     >
       <MediumFont extraCss="ml-2.5 whitespace-nowrap">
-        Tokens History
+        {pairs?.[0]?.pair?.blockchain} Active Tokens
       </MediumFont>
       {chain?.tokens_history?.length > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-9">

@@ -18,12 +18,9 @@ export const Chains = () => {
   const router = useRouter();
   const [showPage, setShowPage] = useState(0);
 
-  console.log("PAIRS", pairs);
-  console.log("CHAIN", chain);
-
   return (
     <div className="flex pb-5 md:pb-2.5 w-full flex-col">
-      <Container extraCss="lg:flex flex-row max-w-[1300px] justify-between mb-0 md:mb-0 pb-0 w-full overflow-x-scroll">
+      <Container extraCss="lg:flex flex-row max-w-[1300px] justify-between mb-0 md:mb-0 pb-0 lg:w-full overflow-x-scroll">
         <div className="hidden w-95per lg:w-full mx-auto mb-5 lg:flex">
           <Swiper spaceBetween={50} slidesPerView={1}>
             <SwiperSlide>
@@ -37,7 +34,7 @@ export const Chains = () => {
             </SwiperSlide>
           </Swiper>
         </div>
-        <div className="flex w-95per mx-auto mb-5 lg:hidden">
+        <div className="flex mb-5 lg:hidden">
           <div className="">
             <div className="flex">
               <div className="flex justify-center">
@@ -53,9 +50,11 @@ export const Chains = () => {
           </div>
         </div>
       </Container>
-      <TableHeader isLoading={false}>
-        <TableTbody />
-      </TableHeader>
+      <Container extraCss="max-w-[1300px] mt-0 overflow-x-scroll">
+        <TableHeader isLoading={false}>
+          <TableTbody />
+        </TableHeader>{" "}
+      </Container>
     </div>
   );
 };

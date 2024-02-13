@@ -26,6 +26,8 @@ export const TagPercentage = ({
   inhert = false,
 }: TagPercentageProps) => {
   const getDisplay = () => {
+    if (typeof percentage === "number" && percentage > 1_000_000_000)
+      return "∞";
     if (isPercentage) {
       if (isMultiple) return `x${getTokenPercentage(Number(percentage))}`;
       if (isUp) return `+${getTokenPercentage(Number(percentage))}%`;

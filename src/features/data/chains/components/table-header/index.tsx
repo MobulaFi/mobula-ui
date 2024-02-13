@@ -37,6 +37,7 @@ export const TableHeader = ({
                 <BasicThead extraCss="static" title="1h" canOrder />
                 <BasicThead extraCss="static" title="4h" canOrder />
                 <BasicThead extraCss="static" title="24h" canOrder />
+                <BasicThead extraCss="static" title="Last Tx" canOrder />
               </tr>
             </>
           )}

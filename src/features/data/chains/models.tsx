@@ -12,7 +12,7 @@ export interface PairsTokenProps {
 }
 
 export interface PairsProps {
-  last_trade: string;
+  last_trade: Date;
   pair: {
     address: string;
     baseToken: string;
