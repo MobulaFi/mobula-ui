@@ -1,7 +1,7 @@
 import { MediumFont } from "components/fonts";
-import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
 import React from "react";
+import { SmallFont } from "../../../../../components/fonts";
 import { useChains } from "../../context-manager";
 
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
@@ -10,6 +10,7 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 
 export const RightBox = () => {
   const { chain, pairs } = useChains();
+  console.log("chain?.liquidity_history", chain?.liquidity_history);
   return (
     <div
       className={`flex flex-col h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
@@ -19,7 +20,8 @@ export const RightBox = () => {
       <MediumFont extraCss="ml-2.5 whitespace-nowrap">
         {pairs?.[0]?.pair?.blockchain} DeFi Liquidity
       </MediumFont>
-      {chain?.liquidity_history?.length > 0 ? (
+      {chain?.liquidity_history?.length > 0 &&
+      chain?.liquidity_history?.[0]?.[1] > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-9">
           <EChart
             data={chain?.liquidity_history || []}
@@ -31,7 +33,7 @@ export const RightBox = () => {
         </div>
       ) : (
         <div className="h-[200px] w-full flex items-center justify-center">
-          <Spinner extraCss="w-[30px] h-[30px]" />
+          <SmallFont>No data available</SmallFont>
         </div>
       )}
     </div>
