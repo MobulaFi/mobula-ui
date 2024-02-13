@@ -8,7 +8,10 @@ export const dynamicParams = true;
 
 async function getChains({ params }) {
   const blockchain = fromUrlToName(params?.chain);
-  console.log("blockchain", blockchain);
+  console.log(
+    "blockchain",
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${blockchain}`
+  );
   const fetchChain = fetch(
     `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${blockchain}`,
     {
@@ -34,8 +37,6 @@ async function getChains({ params }) {
     }
   );
 
-  console.log("chain", chain, pairs);
-
   return {
     blockchain: chain.data,
     pairs: pairs.data,
@@ -47,11 +48,8 @@ type Props = {
 };
 
 async function ChainPage({ params }: Props) {
-  console.log("paramsparams", params);
   const { blockchain, pairs } = await getChains({ params });
   const { chain } = params;
-
-  console.log("blockchain", blockchain, pairs);
 
   return (
     <>

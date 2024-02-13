@@ -30,6 +30,10 @@ export const Nav = () => {
   const router = useRouter();
   const { chain } = useNetwork();
 
+  console.log("blockchainsContent", blockchainsContent);
+  const blockchains = Object.entries(blockchainsContent)?.filter(
+    (x) => x[1]?.FETCH_BLOCKS
+  );
   return (
     <div
       id="container"
@@ -171,18 +175,24 @@ export const Nav = () => {
           />
           <div className="ml-6 flex items-center justify-between whitespace-nowrap">
             <MediumFont extraCss="font-poppins">
-              Chains ({Object.keys(blockchainsContent)?.length})
+              Chains ({blockchains?.length})
             </MediumFont>
             <BiChevronDown className="text-light-font-100 dark:text-dark-font-100 text-2xl mr-5 ml-1.5" />
           </div>
         </div>
         <div className="flex flex-col max-h-[270px] overflow-y-auto whitespace-nowrap">
-          {Object.entries(blockchainsContent)?.map((blockchain, i) => (
+          {blockchains?.map((blockchain, i) => (
             <div
               className="flex items-center mb-5 pl-7"
               key={blockchain[0]}
               onClick={() => {
-                router.push(`/chain/${getUrlFromName(blockchain[0])}`);
+                router.push(
+                  `/chain/${
+                    blockchain[1]?.shortName
+                      ? getUrlFromName(blockchain[1]?.shortName)
+                      : getUrlFromName(blockchain[0])
+                  }`
+                );
               }}
             >
               <img
