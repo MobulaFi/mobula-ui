@@ -1,9 +1,9 @@
-import { MediumFont } from "components/fonts";
 import dynamic from "next/dynamic";
 import { BsDatabaseX } from "react-icons/bs";
 import { SmallFont } from "../../../../../components/fonts";
 import { useChains } from "../../context-manager";
 import { getChainName } from "../../utils";
+import { BoxTitle } from "../box-title";
 
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
@@ -18,9 +18,7 @@ export const RightBox = () => {
       border-light-border-primary dark:border-dark-border-primary py-2.5 relative  
       min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 ml-2.5 md:mx-0`}
     >
-      <MediumFont extraCss="ml-2.5 whitespace-nowrap">
-        {chainName} DeFi Liquidity
-      </MediumFont>
+      <BoxTitle title={`${chainName} DeFi Liquidity`} price={0} />
       {chain?.liquidity_history?.length > 0 &&
       chain?.liquidity_history?.[0]?.[1] > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-9">

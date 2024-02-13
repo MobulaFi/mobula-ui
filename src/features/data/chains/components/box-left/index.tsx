@@ -1,8 +1,8 @@
 import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import { MediumFont } from "../../../../../components/fonts";
 import { useChains } from "../../context-manager";
 import { getChainName } from "../../utils";
+import { BoxTitle } from "../box-title";
 
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
@@ -17,7 +17,7 @@ export const LeftBox = () => {
         border-light-border-primary dark:border-dark-border-primary flex-col relative overflow-hidden
         min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 lg:w-full transition duration-500 md:overflow-visible  py-2.5`}
     >
-      <MediumFont extraCss="ml-2.5">{chainName} DeFi Volume</MediumFont>
+      <BoxTitle title={`${chainName} DeFi Volume`} price={0} />
       {chain?.volume_history?.length > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-9">
           <EChart
