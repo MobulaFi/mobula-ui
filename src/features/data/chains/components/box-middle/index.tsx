@@ -1,8 +1,8 @@
 import { MediumFont } from "components/fonts";
 import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
-import React from "react";
 import { useChains } from "../../context-manager";
+import { getChainName } from "../../utils";
 
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
@@ -10,6 +10,7 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 
 export const MiddleBox = () => {
   const { chain, pairs } = useChains();
+  const chainName = getChainName(pairs?.[0]?.pair?.blockchain);
   return (
     <div
       className={`flex flex-col h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
@@ -17,7 +18,7 @@ export const MiddleBox = () => {
       min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 mx-2.5 md:mx-0`}
     >
       <MediumFont extraCss="ml-2.5 whitespace-nowrap">
-        {pairs?.[0]?.pair?.blockchain} Active Tokens
+        {chainName} Active Tokens
       </MediumFont>
       {chain?.tokens_history?.length > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-9">
