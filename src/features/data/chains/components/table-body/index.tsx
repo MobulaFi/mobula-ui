@@ -15,7 +15,13 @@ import { PairsProps } from "../../models";
 export const TableTbody = () => {
   const { pairs: pairsBuffer } = useChains();
   const router = useRouter();
-  const [pairs, setPairs] = useState<PairsProps[]>(pairsBuffer);
+  const [pairs, setPairs] = useState<{
+    pair: PairsProps[];
+    newPairs: PairsProps[];
+  }>({
+    pair: [],
+    newPairs: pairsBuffer,
+  });
 
   useEffect(() => {
     const socket = new WebSocket(
@@ -34,38 +40,53 @@ export const TableTbody = () => {
 
     socket.addEventListener("message", (event) => {
       const { data } = JSON.parse(event.data);
-      console.log("I change pairs");
-      if (data?.length === 0) return;
+      console.log("I change pairs", data);
+
+      const newPairsMap = data.reduce((acc, item) => {
+        acc[item.pair] = {
+          price: item.price,
+          last_trade: item.last_trade,
+          price_change_5min: item.price_change_5min,
+          price_change_1h: item.price_change_1h,
+          price_change_4h: item.price_change_4h,
+          price_change_24h: item.price_change_24h,
+        };
+        return acc;
+      }, {});
+
       setPairs((prevPairs) => {
-        return prevPairs?.map((pair) => {
-          const foundData = data?.find(
-            (d) => d?.pair?.address === pair?.pair?.address
-          );
-          if (foundData) {
+        const newWebSocketPairs = prevPairs?.newPairs.map((pair) => {
+          const newData = newPairsMap[pair.pair.address];
+          if (newData) {
             return {
               ...pair,
-              price: foundData.price,
-              last_trade: foundData.last_trade,
-              price_change_5min: foundData.price_change_5min,
-              price_change_1h: foundData.price_change_1h,
-              price_change_4h: foundData.price_change_4h,
-              price_change_24h: foundData.price_change_24h,
+              ...newData,
             };
           } else {
             return pair;
           }
         });
+        return { pairs: newWebSocketPairs, prevPairs: newPairsMap };
       });
     });
   }, []);
 
   return (
     <>
-      {pairs
-        ?.filter((entry) => entry.price !== 0)
+      {pairs?.newPairs
+        ?.filter((entry) => entry?.price !== 0)
         ?.map((item, i) => {
           const pair = item?.pair;
           const timeAgo = useTimeAgo(item?.last_trade);
+          const prevPair =
+            pairs?.newPairs?.[i]?.pair?.address === pair?.address
+              ? pairs?.pair?.[i]
+              : null;
+          const priceChanged = prevPair?.price
+            ? item?.price !== prevPair?.price
+            : false;
+          if (priceChanged)
+            console.log("I changed", prevPair?.price, item?.price);
           return (
             <tbody
               key={i}
@@ -104,7 +125,11 @@ export const TableTbody = () => {
               <Segment>
                 {" "}
                 <div className="w-full flex justify-end">
-                  <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                  <SmallFont
+                    extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${
+                      priceChanged ? "text-red dark:text-red" : ""
+                    }`}
+                  >
                     $
                     {getFormattedAmount(item?.price, 0, {
                       canUseHTML: true,
