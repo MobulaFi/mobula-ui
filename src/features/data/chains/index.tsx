@@ -55,7 +55,7 @@ export const Chains = () => {
                   <Segment>
                     <div className="flex items-center">
                       <SmallFont extraCss="w-fit mr-2.5">#{i + 1}</SmallFont>
-                      <div className="flex items-center">
+                      <div className="flex items-center md:flex-col md:items-start">
                         <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-start">
                           {pair?.[pair?.baseToken]?.symbol} /{" "}
                           <span className="text-light-font-60 dark:text-dark-font-60">
@@ -65,17 +65,17 @@ export const Chains = () => {
                         <div className="flex items-center">
                           {pair?.[pair?.baseToken]?.logo ? (
                             <img
-                              className="w-[20px] h-[20px] rounded-full"
+                              className="w-[20px] h-[20px] md:w-[15px] md:h-[15px] rounded-full"
                               alt="token logo"
                               src={pair?.[pair?.baseToken]?.logo || ""}
                             />
                           ) : (
                             <AddressAvatar
                               address={pair?.address}
-                              extraCss="w-[20px] h-[20px] rounded-full"
+                              extraCss="w-[20px] h-[20px] md:w-[15px] md:h-[15px] rounded-full"
                             />
                           )}
-                          <SmallFont extraCss="w-fit ml-2 whitespace-nowrap text-start max-w-[150px] truncate">
+                          <SmallFont extraCss="w-fit ml-2 md:ml-1 whitespace-nowrap text-start max-w-[150px] truncate">
                             {pair?.[pair?.baseToken]?.name}
                           </SmallFont>
                         </div>
