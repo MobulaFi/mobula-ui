@@ -8,7 +8,7 @@ import { createSupabaseDOClient } from "../../../lib/supabase";
 import { fromUrlToName } from "../../../utils/formaters";
 import { PortfolioV2Context } from "./context-manager";
 import { PortfolioMain } from "./main";
-import { IPortfolio } from "./models";
+import { IPortfolio, UserHoldings } from "./models";
 
 interface PortfolioProps {
   id?: string;
@@ -87,10 +87,11 @@ export const Portfolio = ({
       });
 
       let failed = true;
+      let portfolio: UserHoldings | null | { error: string } = null;
 
       socket.addEventListener("message", (event) => {
         try {
-          const portfolio = JSON.parse(event.data);
+          portfolio = JSON.parse(event.data);
           if (portfolio !== null) {
             failed = false;
 
@@ -100,9 +101,9 @@ export const Portfolio = ({
               );
               setWallet(null);
               setIsLoading(false);
-            } else {
+            } else if (!("error" in portfolio)) {
               failed = false;
-              const filteredWallet = portfolio.portfolio.filter(
+              const filteredWallet = portfolio.portfolio?.filter(
                 (entry) => entry.price !== 0 && entry.name !== "Mobula"
               );
               const filteredPortfolio = {
@@ -111,7 +112,7 @@ export const Portfolio = ({
               };
               setWallet({
                 ...filteredPortfolio,
-                id: id || activePortfolio?.id,
+                id: Number(id) || Number(activePortfolio?.id),
                 uniqueIdentifier: id || activePortfolio?.id,
               });
             }
@@ -125,6 +126,13 @@ export const Portfolio = ({
             if (failed) {
               setIsLoading(false);
               setWallet(null);
+            }
+
+            if (portfolio && user && "portfolio" in portfolio) {
+              (window as any).mixpanel.identify(user.id);
+              (window as any).mixpanel.people.set({
+                account_balance: portfolio.estimated_balance,
+              });
             }
           }
         }
