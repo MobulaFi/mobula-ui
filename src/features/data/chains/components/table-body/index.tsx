@@ -1,22 +1,19 @@
 import { useRouter } from "next/navigation";
-import React from "react";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import { useTimeAgo } from "../../../../../hooks/time-ago";
 import { Segment } from "../../../../../layouts/new-tables/segments";
-import { getFormattedAmount } from "../../../../../utils/formaters";
+import {
+  convertScientificNotation,
+  getFormattedAmount,
+} from "../../../../../utils/formaters";
 import { useChains } from "../../context-manager";
 
 export const TableTbody = () => {
   const { pairs } = useChains();
   const router = useRouter();
 
-  function convertScientificNotation(number) {
-    if (typeof number === "number" && number.toString().includes("e")) {
-      return 1_000_000_001;
-    } else return number;
-  }
   return (
     <>
       {pairs?.map((item, i) => {

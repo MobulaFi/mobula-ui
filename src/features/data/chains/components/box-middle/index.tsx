@@ -4,15 +4,11 @@ import dynamic from "next/dynamic";
 import React from "react";
 import { useChains } from "../../context-manager";
 
-interface MiddleBoxProps {
-  showPageMobile?: number;
-}
-
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
 });
 
-export const MiddleBox = ({ showPageMobile = 0 }: MiddleBoxProps) => {
+export const MiddleBox = () => {
   const { chain, pairs } = useChains();
   return (
     <div
