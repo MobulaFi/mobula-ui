@@ -1,22 +1,36 @@
 import { MediumFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
-import { getTokenPercentage } from "../../../../../utils/formaters";
+import {
+  getFormattedAmount,
+  getTokenPercentage,
+} from "../../../../../utils/formaters";
 
 interface BoxTitleProps {
-  title: string;
-  price: number;
+  data: {
+    title: string;
+    value: number;
+    dollar?: boolean;
+    percentage: number;
+  };
 }
 
-export const BoxTitle = ({ title, price }: BoxTitleProps) => {
+export const BoxTitle = ({ data }: BoxTitleProps) => {
   return (
     <div className="flex flex-col">
-      <MediumFont extraCss="ml-2.5 whitespace-nowrap">{title}</MediumFont>
+      <MediumFont extraCss="ml-2.5 whitespace-nowrap">{data.title}</MediumFont>
       <div className="flex items-center mt-1">
-        <MediumFont extraCss="ml-2.5 whitespace-nowrap">${price}</MediumFont>
+        <MediumFont extraCss="ml-2.5 whitespace-nowrap">
+          {data.dollar ? "$" : ""}
+          {getFormattedAmount(data.value, 0, { canUseHTML: true })}
+        </MediumFont>
         <TagPercentage
-          percentage={getTokenPercentage(price)}
-          isUp={getTokenPercentage(price) > 0}
-          inhert={price === 0}
+          percentage={getTokenPercentage(data.percentage)}
+          isUp={
+            (getTokenPercentage(
+              Number(data.percentage) || 0
+            ) as unknown as number) > 0
+          }
+          inhert={data.percentage === 0}
         />
       </div>
     </div>

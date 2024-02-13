@@ -12,16 +12,23 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 export const RightBox = () => {
   const { chain, pairs } = useChains();
   const chainName = getChainName(pairs?.[0]?.pair?.blockchain);
+  const titleInfo = {
+    value:
+      chain?.liquidity_history?.[chain?.liquidity_history?.length - 1]?.[1],
+    dollar: true,
+    percentage: chain?.liquidity_change_total,
+    title: `${chainName} DeFi Liquidity`,
+  };
   return (
     <div
       className={`flex flex-col h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
       border-light-border-primary dark:border-dark-border-primary py-2.5 relative  
       min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 ml-2.5 md:mx-0`}
     >
-      <BoxTitle title={`${chainName} DeFi Liquidity`} price={0} />
+      <BoxTitle data={titleInfo} />
       {chain?.liquidity_history?.length > 0 &&
       chain?.liquidity_history?.[0]?.[1] > 0 ? (
-        <div className="w-[95%] mx-auto h-[210px] -mt-9">
+        <div className="w-[95%] mx-auto h-[210px] -mt-[48px]">
           <EChart
             data={chain?.liquidity_history || []}
             timeframe="ALL"

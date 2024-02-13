@@ -8,9 +8,6 @@ export const useTimeAgo = (dateBuffer: Date) => {
       const now = new Date();
       const date = new Date(dateBuffer);
       const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-      console.log("seconds", seconds);
-      console.log("date", date);
-      console.log("date", dateBuffer);
       if (seconds < 60) {
         setTimeAgo(`${seconds}s ago`);
       } else if (seconds < 3600) {

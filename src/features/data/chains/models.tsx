@@ -2,6 +2,12 @@ export interface ChainsProps {
   liquidity_history: [number, number][];
   tokens_history: [number, number][];
   volume_history: [number, number][];
+  tokens_change_total: number;
+  volume_change_total: number;
+  liquidity_change_total: number;
+  tokens_change_24h: number;
+  volume_change_24h: number;
+  liquidity_change_24h: number;
 }
 export interface PairsTokenProps {
   address: string;
