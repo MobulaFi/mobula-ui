@@ -85,7 +85,7 @@ export const TableTbody = () => {
       {pairs?.pair?.map((item, i) => {
         const pair = item?.pair;
         const timeAgo = useTimeAgo(item?.last_trade);
-        const oldPairInfo = pairs?.oldPairs?.[pair.address];
+        const oldPairInfo = pairs?.oldPairs?.[pair?.address];
 
         const priceChanged =
           item?.price !== oldPairInfo?.[0] &&
