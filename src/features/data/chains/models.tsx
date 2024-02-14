@@ -39,3 +39,7 @@ export interface PairsProps {
   price_change_5min: number;
   price_change_24h: number;
 }
+
+export interface OldPairsProps {
+  [key: string]: number;
+}
