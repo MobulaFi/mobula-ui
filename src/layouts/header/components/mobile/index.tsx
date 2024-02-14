@@ -1,6 +1,6 @@
 import { Collapse } from "components/collapse";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { useAccount } from "wagmi";
@@ -19,6 +19,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
   const { isConnected } = useAccount();
   const { isMenuMobile, setIsMenuMobile, extended, setExtended } =
     useContext(CommonPageContext);
+  const router = useRouter();
   const [showChains, setShowChains] = useState(false);
   const blockchains = Object.entries(blockchainsContent)?.filter(
     (x) => x[1]?.FETCH_BLOCKS
@@ -157,6 +158,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
                           : getUrlFromName(blockchain[0])
                       }`
                     );
+                    setIsMenuMobile(false);
                   }}
                 >
                   <img
