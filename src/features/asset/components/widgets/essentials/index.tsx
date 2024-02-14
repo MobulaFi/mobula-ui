@@ -48,6 +48,12 @@ export const Essentials = () => {
     }
   }, []);
 
+  console.log(
+    "isAssetPage && chartPreference !== Trading view",
+    isAssetPage && chartPreference !== "Trading view",
+    isAssetPage
+  );
+
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
@@ -75,6 +81,7 @@ export const Essentials = () => {
           (isAssetPage && chartPreference !== "Trading view") ? null : (
             <TokenTrades />
           )}
+          {!isAssetPage ? <TokenTrades /> : null}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isAssetPage ? (
             <>
