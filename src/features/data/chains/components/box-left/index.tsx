@@ -20,17 +20,17 @@ export const LeftBox = () => {
   };
   return (
     <div
-      className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
+      className="flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
         border-light-border-primary dark:border-dark-border-primary flex-col relative overflow-hidden
-        min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 lg:w-full transition duration-500 md:overflow-visible  py-2.5`}
+        min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 lg:w-full transition duration-500 md:overflow-visible py-2.5"
     >
       <BoxTitle data={titleInfo} />
       {chain?.volume_history?.length > 0 ? (
-        <div className="w-[95%] mx-auto h-[210px] lg:h-[190px] -mt-[48px]">
+        <div className="w-[95%] mx-auto h-[210px] lg:h-[190px] -mt-[40px]">
           <EChart
             data={chain?.volume_history || []}
             timeframe="ALL"
-            height="200px"
+            height="175px"
             noAxis
             noDataZoom
           />

@@ -25,11 +25,11 @@ export const MiddleBox = () => {
     >
       <BoxTitle data={titleInfo} />
       {chain?.tokens_history?.length > 0 ? (
-        <div className="w-[95%] mx-auto h-[210px] -mt-[48px]">
+        <div className="w-[95%] mx-auto h-[210px] -mt-[40px]">
           <EChart
             data={chain?.tokens_history || []}
             timeframe="ALL"
-            height="200px"
+            height="175px"
             noAxis
             noDataZoom
           />
