@@ -1,3 +1,4 @@
+import React from "react";
 import { MediumFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
 import {
@@ -23,15 +24,17 @@ export const BoxTitle = ({ data }: BoxTitleProps) => {
           {data.dollar ? "$" : ""}
           {getFormattedAmount(data.value, 0, { canUseHTML: true })}
         </MediumFont>
-        <TagPercentage
-          percentage={getTokenPercentage(data.percentage)}
-          isUp={
-            (getTokenPercentage(
-              Number(data.percentage) || 0
-            ) as unknown as number) > 0
-          }
-          inhert={data.percentage === 0}
-        />
+        {data.percentage ? (
+          <TagPercentage
+            percentage={getTokenPercentage(data.percentage)}
+            isUp={
+              (getTokenPercentage(
+                Number(data.percentage) || 0
+              ) as unknown as number) > 0
+            }
+            inhert={data.percentage === 0}
+          />
+        ) : null}
       </div>
     </div>
   );
