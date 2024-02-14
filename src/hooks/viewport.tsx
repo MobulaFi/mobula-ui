@@ -1,29 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useIsInViewport = () => {
+export const useIsInViewport = (ref: React.RefObject<HTMLElement>) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
-  const ref = useRef<HTMLTableSectionElement | null>(null);
 
   useEffect(() => {
-    observer.current = new IntersectionObserver(([entry]) => {
-      setIsIntersecting(entry.isIntersecting);
-    });
-
-    return () => {
-      observer.current?.disconnect();
-    };
+    observer.current = new IntersectionObserver(([entry]) =>
+      setIsIntersecting(entry.isIntersecting)
+    );
   }, []);
 
   useEffect(() => {
-    if (ref.current && observer.current) {
+    if (ref?.current && observer.current) {
       observer.current.observe(ref.current);
 
       return () => {
-        observer.current?.unobserve(ref.current as any);
+        observer.current?.disconnect();
       };
     }
-  }, [ref.current, observer.current]);
+  }, [ref, observer]);
 
-  return { isIntersecting, ref };
+  return isIntersecting;
 };

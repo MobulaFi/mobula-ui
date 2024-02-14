@@ -87,7 +87,8 @@ export const Portfolio = ({
       });
 
       let failed = true;
-      let portfolio: UserHoldings | null | { error: string } = null;
+      let portfolio: UserHoldings | null | { error: string; status: "error" } =
+        null;
 
       socket.addEventListener("message", (event) => {
         try {
@@ -95,7 +96,7 @@ export const Portfolio = ({
           if (portfolio !== null) {
             failed = false;
 
-            if (portfolio.status === "error") {
+            if (portfolio?.status === "error") {
               setError(
                 "Invalid address. Mobula Portfolio does not support smart-contracts."
               );
@@ -171,7 +172,7 @@ export const Portfolio = ({
           const portfolio = JSON.parse(event.data);
 
           if (portfolio !== null) {
-            if (portfolio.status === "error") {
+            if (portfolio?.status === "error") {
               setError(
                 "Invalid address. Mobula Portfolio does not support smart-contracts."
               );

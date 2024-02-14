@@ -10,7 +10,7 @@ export const navigation = [
     name: "Home",
     url: "/home",
     icon: (
-      <IoHomeOutline className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
+      <IoHomeOutline className="text-light-font-100 dark:text-dark-font-100 text-lg nav" />
     ),
     description: "Discover the newest tokens on the market.",
   },
@@ -18,7 +18,7 @@ export const navigation = [
     name: "Portfolio",
     url: "/portfolio",
     icon: (
-      <AiOutlineLineChart className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
+      <AiOutlineLineChart className="text-light-font-100 dark:text-dark-font-100 text-lg nav" />
     ),
     description: "Secure, best rates, minimal fees.",
   },
@@ -26,7 +26,7 @@ export const navigation = [
     name: "Watchlist",
     url: "/watchlist",
     icon: (
-      <SlStar className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
+      <SlStar className="text-light-font-100 dark:text-dark-font-100 text-lg nav" />
     ),
     description: "Secure, best rates, minimal fees.",
   },
@@ -34,7 +34,7 @@ export const navigation = [
     name: "Swap",
     url: "/swap",
     icon: (
-      <AiOutlineSwap className="text-light-font-100 dark:text-dark-font-100 text-2xl nav" />
+      <AiOutlineSwap className="text-light-font-100 dark:text-dark-font-100 text-lg nav" />
     ),
     description: "Secure, best rates, minimal fees.",
   },

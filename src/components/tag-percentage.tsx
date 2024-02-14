@@ -26,6 +26,8 @@ export const TagPercentage = ({
   inhert = false,
 }: TagPercentageProps) => {
   const getDisplay = () => {
+    if (typeof percentage === "number" && percentage > 1_000_000_000)
+      return "∞";
     if (isPercentage) {
       if (isMultiple) return `x${getTokenPercentage(Number(percentage))}`;
       if (isUp) return `+${getTokenPercentage(Number(percentage))}%`;
@@ -75,7 +77,7 @@ export const TagPercentage = ({
           h || "h-[26px] lg:h-[21.5px]"
         } w-fit px-1.5 rounded ml-2.5 ${bg} ${color} ${border} ${
           fs || "text-sm lg:text-[13px] md:text-xs"
-        } font-medium text-center py-0.5`,
+        } font-medium text-center whitespace-nowrap py-0.5`,
         extraCss
       )}
     >

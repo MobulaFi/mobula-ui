@@ -41,7 +41,7 @@ export const useWebSocketResp = () => {
         try {
           const portfolio = JSON.parse(event.data);
           if (portfolio !== null) {
-            if (portfolio.status === "error") {
+            if (portfolio?.status === "error") {
               setIsLoading(false);
               setIsRefreshing(false);
               setError(

@@ -10,6 +10,7 @@ export const dynamicParams = true;
 
 async function fetchAssetData({ params }) {
   const { pair } = params;
+
   try {
     const fetchPair = fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/pair?address=${pair}&stats=metadata`,
