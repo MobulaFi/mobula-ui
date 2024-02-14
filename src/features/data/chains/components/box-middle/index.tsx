@@ -1,5 +1,6 @@
 import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
+import React from "react";
 import { useChains } from "../../context-manager";
 import { getChainName } from "../../utils";
 import { BoxTitle } from "../box-title";
@@ -32,6 +33,7 @@ export const MiddleBox = () => {
             height="175px"
             noAxis
             noDataZoom
+            unit=" "
           />
         </div>
       ) : (
