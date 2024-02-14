@@ -25,6 +25,7 @@ export const TableTbody = () => {
   });
 
   useEffect(() => {
+    if (!pairs?.pair?.[0]?.pair?.blockchain) return;
     const socket = new WebSocket(
       process.env.NEXT_PUBLIC_PRICE_WSS_ENDPOINT as string
     );
@@ -83,36 +84,34 @@ export const TableTbody = () => {
     <>
       {pairs?.pair?.map((item, i) => {
         const pair = item?.pair;
-        let timeAgo = useTimeAgo(item?.last_trade);
+        const timeAgo = useTimeAgo(item?.last_trade);
         const oldPairInfo = pairs?.oldPairs?.[pair.address];
-        if (item?.last_trade !== oldPairInfo?.[3]) {
-          timeAgo = useTimeAgo(item?.last_trade);
-        }
+
         const priceChanged =
-          item.price !== oldPairInfo?.[0] &&
+          item?.price !== oldPairInfo?.[0] &&
           oldPairInfo &&
           oldPairInfo?.[0] !== null;
         let isPriceUp: boolean | null = null;
         if (priceChanged) {
-          isPriceUp = item.price > oldPairInfo?.[0];
+          isPriceUp = item?.price > oldPairInfo?.[0];
         }
 
         const liquidityChanged =
-          pair.liquidity !== oldPairInfo?.[1] &&
+          pair?.liquidity !== oldPairInfo?.[1] &&
           oldPairInfo &&
           oldPairInfo?.[1] !== null;
         let isLiquidityUp: boolean | null = null;
         if (liquidityChanged) {
-          isLiquidityUp = pair.liquidity > oldPairInfo?.[1];
+          isLiquidityUp = pair?.liquidity > oldPairInfo?.[1];
         }
 
         const volumeChanged =
-          pair.volume24h !== oldPairInfo?.[2] &&
+          pair?.volume24h !== oldPairInfo?.[2] &&
           oldPairInfo &&
           oldPairInfo?.[2] !== null;
         let isVolumeUp: boolean | null = null;
         if (volumeChanged) {
-          isVolumeUp = pair.volume24h > oldPairInfo?.[2];
+          isVolumeUp = pair?.volume24h > oldPairInfo?.[2];
         }
 
         const priceColorClass = getColorFromChange(isPriceUp);
@@ -142,7 +141,10 @@ export const TableTbody = () => {
                 <div className="flex items-center">
                   <div className="flex items-center md:flex-col md:items-start">
                     <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-start">
-                      {pair?.[pair?.baseToken]?.symbol} /{" "}
+                      <span className="max-w-[120px] truncate">
+                        {pair?.[pair?.baseToken]?.symbol}
+                      </span>{" "}
+                      /{" "}
                       <span className="text-light-font-60 dark:text-dark-font-60">
                         {pair?.[pair?.quoteToken]?.symbol}
                       </span>

@@ -24,7 +24,7 @@ export const BoxTitle = ({ data }: BoxTitleProps) => {
           {data.dollar ? "$" : ""}
           {getFormattedAmount(data.value, 0, { canUseHTML: true })}
         </MediumFont>
-        {data.percentage ? (
+        {data?.percentage ? (
           <TagPercentage
             percentage={getTokenPercentage(data.percentage)}
             isUp={
