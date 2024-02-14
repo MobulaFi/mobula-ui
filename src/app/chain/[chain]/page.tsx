@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 import { Chains } from "../../../features/data/chains";
 import { ChainsProvider } from "../../../features/data/chains/context-manager";
@@ -44,35 +45,23 @@ type Props = {
   params: { chain: string };
 };
 
-async function ChainPage({ params }: Props) {
-  const { blockchain, pairs } = await getChains({ params });
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { chain } = params;
-
   const formatName =
     fromUrlToName(chain)?.slice(0, 1)?.toUpperCase() +
     fromUrlToName(chain)?.slice(1);
 
+  return {
+    title: `${formatName} DeFi Dashboard | Track DEX pairs - Mobula`,
+    description: `${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`,
+  };
+}
+
+async function ChainPage({ params }: Props) {
+  const { blockchain, pairs } = await getChains({ params });
+
   return (
     <>
-      <head>
-        <title>{formatName} DeFi Dashboard | Track DEX pairs - Mobula</title>
-        <meta
-          name="description"
-          content={`${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`}
-        />
-        <meta
-          property="og:image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta
-          name="twitter:image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-        <meta
-          itemProp="image"
-          content="https://mobula.fi/metaimage/Generic/others.png"
-        />
-      </head>
       <ChainsProvider chain={blockchain} pairs={pairs}>
         <Chains />
       </ChainsProvider>
