@@ -51,6 +51,7 @@ export const TableTbody = () => {
           item.price,
           item.pair.liquidity,
           item.pair.volume24h,
+          item.last_trade,
         ];
         return acc;
       }, {});
@@ -82,9 +83,11 @@ export const TableTbody = () => {
     <>
       {pairs?.pair?.map((item, i) => {
         const pair = item?.pair;
-        const timeAgo = useTimeAgo(item?.last_trade);
+        let timeAgo = useTimeAgo(item?.last_trade);
         const oldPairInfo = pairs?.oldPairs?.[pair.address];
-
+        if (item?.last_trade !== oldPairInfo?.[3]) {
+          timeAgo = useTimeAgo(item?.last_trade);
+        }
         const priceChanged =
           item.price !== oldPairInfo?.[0] &&
           oldPairInfo &&
@@ -181,7 +184,10 @@ export const TableTbody = () => {
                   <SmallFont
                     extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${volumeColorClass} transition-all duration-100 ease-in-out`}
                   >
-                    ${getFormattedAmount(pair?.volume24h)}
+                    $
+                    {getFormattedAmount(pair?.volume24h, 0, {
+                      canUseHTML: true,
+                    })}
                   </SmallFont>
                 </div>
               </Segment>
@@ -190,7 +196,10 @@ export const TableTbody = () => {
                   <SmallFont
                     extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${liquidityColorClass} transition-all duration-100 ease-in-out`}
                   >
-                    ${getFormattedAmount(pair?.liquidity)}
+                    $
+                    {getFormattedAmount(pair?.liquidity, 0, {
+                      canUseHTML: true,
+                    })}
                   </SmallFont>
                 </div>
               </Segment>
