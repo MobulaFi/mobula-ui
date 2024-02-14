@@ -20,9 +20,7 @@ export const Nav = () => {
   const { setHideNav, hideNav } = useGeneralContext();
   const [showChains, setShowChains] = useState(false);
   const { resolvedTheme } = useTheme();
-  const [active, setActive] = useState("");
   const [isHover, setIsHover] = useState("");
-  const handleActiveSection = (value: string) => setActive(value);
   const [showGlobal, setShowGlobal] = useState(false);
   const handleShowGlobal = () => setShowGlobal(!showGlobal);
   const handleShowChains = () => setShowChains(!showChains);
@@ -97,7 +95,6 @@ export const Nav = () => {
                 setConnect(true);
                 return;
               }
-              handleActiveSection(page.name);
             }}
             onMouseEnter={() => setIsHover(page.name)}
             onMouseLeave={() => setIsHover("")}
@@ -114,9 +111,7 @@ export const Nav = () => {
                 </SmallFont>
                 <div
                   className={`${
-                    active === page.name || isHover === page.name
-                      ? "w-full"
-                      : "w-0"
+                    isHover === page.name ? "w-full" : "w-0"
                   } h-[1px] rounded bg-light-font-80 dark:bg-dark-font-80 transition-all duration-100 ease-linear`}
                 />
               </div>
@@ -144,7 +139,6 @@ export const Nav = () => {
         {navigationGlobal.extend.map((page, i) => (
           <a
             href={page.url}
-            onClick={() => handleActiveSection(page.name)}
             onMouseEnter={() => setIsHover(page.name)}
             onMouseLeave={() => setIsHover("")}
           >
@@ -158,9 +152,7 @@ export const Nav = () => {
                 <SmallFont extraCss="font-poppins">{page.name}</SmallFont>
                 <div
                   className={`${
-                    active === page.name || isHover === page.name
-                      ? "w-full"
-                      : "w-0"
+                    isHover === page.name ? "w-full" : "w-0"
                   } h-[1px] rounded bg-light-font-80 dark:bg-dark-font-80 transition-all duration-100 ease-linear`}
                 />
               </div>
@@ -199,6 +191,8 @@ export const Nav = () => {
                     }`
                   );
                 }}
+                onMouseEnter={() => setIsHover(blockchain[0])}
+                onMouseLeave={() => setIsHover("")}
               >
                 <img
                   src={blockchain[1]?.logo || "/empty/unknown.png"}
@@ -208,6 +202,11 @@ export const Nav = () => {
                   <SmallFont extraCss={`font-poppins`}>
                     {blockchain[1]?.shortName || blockchain[0]}
                   </SmallFont>
+                  <div
+                    className={`${
+                      isHover === blockchain[0] ? "w-full" : "w-0"
+                    } h-[1px] rounded bg-light-font-80 dark:bg-dark-font-80 transition-all duration-100 ease-linear`}
+                  />
                 </div>
               </div>
             ))}
