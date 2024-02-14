@@ -43,6 +43,7 @@ export const TableTbody = () => {
     });
 
     socket.addEventListener("message", (event) => {
+      console.log("Message from server ");
       const { data } = JSON.parse(event.data);
       const newPairsMap = data.reduce((acc, item) => {
         acc[item.pair.address] = item;
@@ -70,6 +71,12 @@ export const TableTbody = () => {
     });
   }, []);
 
+  const getColorFromPriceChange = (isUp: boolean | null) => {
+    if (isUp === null) return "";
+    if (isUp) return "text-green dark:text-green";
+    return "text-red dark:text-red";
+  };
+
   return (
     <>
       {pairs?.newPairs
@@ -85,6 +92,7 @@ export const TableTbody = () => {
           if (priceChanged) {
             isUp = item.price > (prevPair?.price || item.price);
           }
+
           return (
             <tbody
               key={i}
@@ -134,16 +142,11 @@ export const TableTbody = () => {
                   </div>
                 </Segment>
                 <Segment>
-                  {" "}
                   <div className="w-full flex justify-end">
                     <SmallFont
-                      extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${
-                        isUp === null
-                          ? ""
-                          : isUp
-                          ? "text-green dark:text-green"
-                          : "text-red dark:text-red"
-                      } transition-all duration-100 ease-in-out`}
+                      extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${getColorFromPriceChange(
+                        isUp
+                      )} transition-all duration-100 ease-in-out`}
                     >
                       $
                       {getFormattedAmount(item?.price, 0, {
