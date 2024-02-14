@@ -12,10 +12,12 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 export const RightBox = () => {
   const { chain, pairs } = useChains();
   const chainName = getChainName(pairs?.[0]?.pair?.blockchain);
+  const hasLiqudity = chain?.liquidity_history?.[0]?.[1] > 0;
   const titleInfo = {
-    value:
-      chain?.liquidity_history?.[chain?.liquidity_history?.length - 1]?.[1],
-    dollar: true,
+    value: hasLiqudity
+      ? chain?.liquidity_history?.[chain?.liquidity_history?.length - 1]?.[1]
+      : null,
+    dollar: hasLiqudity ? true : false,
     percentage: chain?.liquidity_change_total,
     title: `${chainName} DeFi Liquidity`,
   };

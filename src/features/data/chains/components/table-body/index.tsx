@@ -172,7 +172,7 @@ export const TableTbody = () => {
               <Segment>
                 <div className="w-full flex justify-end">
                   <SmallFont
-                    extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
+                    extraCss={`w-fit whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
                   >
                     $
                     {getFormattedAmount(item?.price, 0, {
@@ -184,7 +184,7 @@ export const TableTbody = () => {
               <Segment>
                 <div className="w-full flex justify-end">
                   <SmallFont
-                    extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${volumeColorClass} transition-all duration-100 ease-in-out`}
+                    extraCss={`w-fit whitespace-nowrap text-end ${volumeColorClass} transition-all duration-100 ease-in-out`}
                   >
                     $
                     {getFormattedAmount(pair?.volume24h, 0, {
@@ -196,7 +196,7 @@ export const TableTbody = () => {
               <Segment>
                 <div className="w-full flex justify-end">
                   <SmallFont
-                    extraCss={`w-fit mr-2.5 whitespace-nowrap text-end ${liquidityColorClass} transition-all duration-100 ease-in-out`}
+                    extraCss={`w-fit whitespace-nowrap text-end ${liquidityColorClass} transition-all duration-100 ease-in-out`}
                   >
                     $
                     {getFormattedAmount(pair?.liquidity, 0, {
@@ -259,7 +259,7 @@ export const TableTbody = () => {
               </Segment>
               <Segment>
                 <div className="w-full flex justify-end">
-                  <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-end">
+                  <SmallFont extraCss="w-fit whitespace-nowrap text-end">
                     {timeAgo || "--"}
                   </SmallFont>
                 </div>

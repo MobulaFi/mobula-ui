@@ -9,7 +9,7 @@ import {
 interface BoxTitleProps {
   data: {
     title: string;
-    value: number;
+    value: number | null;
     dollar?: boolean;
     percentage: number;
   };
@@ -22,7 +22,9 @@ export const BoxTitle = ({ data }: BoxTitleProps) => {
       <div className="flex items-center mt-1">
         <MediumFont extraCss="ml-2.5 whitespace-nowrap">
           {data.dollar ? "$" : ""}
-          {getFormattedAmount(data.value, 0, { canUseHTML: true })}
+          {data?.value
+            ? getFormattedAmount(data.value, 0, { canUseHTML: true })
+            : ""}
         </MediumFont>
         {data?.percentage ? (
           <TagPercentage
