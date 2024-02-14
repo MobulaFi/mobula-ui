@@ -10,9 +10,9 @@ export interface OrderBy {
 export interface ITableContext {
   orderBy: OrderBy | undefined;
   setOrderBy: React.Dispatch<React.SetStateAction<OrderBy>>;
-  lastColumn: string;
-  bg: any;
-  hideDEXVolume: boolean;
+  lastColumn?: string;
+  bg?: string;
+  hideDEXVolume?: boolean;
 }
 
 export type TableAsset = {

@@ -85,7 +85,7 @@ export const MenuMobile = ({
           });
         }}
       >
-        <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
+        <div className="flex pl-[30px] items-center my-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
           <AiFillStar className="text-yellow dark:text-yellow text-base mr-[5px]" />
           <p className="text-base font-normal">Watchlist</p>
         </div>

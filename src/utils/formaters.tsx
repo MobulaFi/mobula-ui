@@ -465,3 +465,9 @@ export const getFormattedHours = (date: number) => {
   if (seconds < 10) seconds = `0${seconds}`;
   return `${hours}:${minutes}:${seconds}`;
 };
+
+export const convertScientificNotation = (number: number) => {
+  if (typeof number === "number" && number.toString().includes("e")) {
+    return 1_000_000_001;
+  } else return number;
+};

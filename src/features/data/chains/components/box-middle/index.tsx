@@ -1,41 +1,46 @@
-import React, { useState } from "react";
+import { Spinner } from "components/spinner";
+import dynamic from "next/dynamic";
+import React from "react";
+import { useChains } from "../../context-manager";
+import { getChainName } from "../../utils";
+import { BoxTitle } from "../box-title";
 
-interface MiddleBoxProps {
-  showPageMobile?: number;
-}
+const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
+  ssr: false,
+});
 
-export const MiddleBox = ({ showPageMobile = 0 }: MiddleBoxProps) => {
-  const [showPage, setShowPage] = useState(0);
-
+export const MiddleBox = () => {
+  const { chain, pairs } = useChains();
+  const chainName = getChainName(pairs?.[0]?.pair?.blockchain);
+  const titleInfo = {
+    value: chain?.tokens_history?.[chain?.tokens_history?.length - 1]?.[1],
+    dollar: false,
+    percentage: chain?.tokens_change_total,
+    title: `${chainName} Active Tokens`,
+  };
   return (
     <div
-      className={`flex h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
-      border-light-border-primary dark:border-dark-border-primary py-2.5 relative overflow-hidden 
-      min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 ${
-        showPageMobile === 1 ? "z-[3]" : "z-[1]"
-      }] mx-2.5 md:mx-0`}
-      style={{ transform: `translateX(-${showPageMobile * 100}%)` }}
+      className={`flex flex-col h-[200px] lg:h-[175px] rounded-xl bg-light-bg-secondary dark:bg-dark-bg-secondary border
+      border-light-border-primary dark:border-dark-border-primary py-2.5 relative  
+      min-w-[407px] md:min-w-full w-[31.5%] lg:w-full transition duration-500 mx-2.5 md:mx-0`}
     >
-      <div className="flex items-center absolute top-0 right-0 h-[35px] px-[15px] bg-light-bg-secondary dark:bg-dark-bg-secondary z-[1]">
-        {/* {render.map((_, idx) => (
-          <button
-            className={`rounded-full ${
-              showPage === idx ? "w-[9px]" : "w-[8px]"
-            } ${showPage === idx ? "h-[9px]" : "h-[8px]"} ${
-              showPage === idx ? "max-w-[9px]" : "max-w-[8px]"
-            } ${
-              showPage === idx ? "max-h-[9px]" : "max-h-[8px]"
-            } px-0 ml-[5px] ${
-              showPage === idx
-                ? "bg-light-font-80 dark:bg-dark-font-80"
-                : "bg-light-font-40 dark:bg-dark-font-40"
-            } `}
-            key={idx as Key}
-            onClick={() => setShowPage(idx)}
+      <BoxTitle data={titleInfo} />
+      {chain?.tokens_history?.length > 0 ? (
+        <div className="w-[95%] mx-auto h-[210px] -mt-[40px]">
+          <EChart
+            data={chain?.tokens_history || []}
+            timeframe="ALL"
+            height="175px"
+            noAxis
+            noDataZoom
+            unit=" "
           />
-        ))} */}
-      </div>
-      {/* {render} */}
+        </div>
+      ) : (
+        <div className="h-[200px] w-full flex items-center justify-center">
+          <Spinner extraCss="w-[30px] h-[30px]" />
+        </div>
+      )}
     </div>
   );
 };

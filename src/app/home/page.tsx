@@ -1,6 +1,7 @@
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
+import React from "react";
 import { Top100 } from "../../features/data/top100";
 import { Top100Provider } from "../../features/data/top100/context-manager";
 import { TABLE_ASSETS_QUERY } from "../../features/data/top100/utils";
@@ -123,6 +124,10 @@ const HomePage = async ({ searchParams }) => {
         <meta
           itemProp="image"
           content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          name="keywords"
+          content="Mobula, Mobula crypto, Mobula Crypto Data Aggregator"
         />
         <meta name="url" content="https://mobula.fi" />
       </head>

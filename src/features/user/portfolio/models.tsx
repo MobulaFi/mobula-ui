@@ -178,6 +178,7 @@ export interface UserHoldings {
   uniqueIdentifier: string | number;
   addresses: string[];
   final: boolean;
+  status?: string;
 }
 
 export interface UserHoldingsAsset {

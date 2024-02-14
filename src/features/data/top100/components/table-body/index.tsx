@@ -6,6 +6,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
@@ -49,7 +50,8 @@ export const Top100TBody = ({
   const [isHover, setIsHover] = useState(false);
   const pathname = usePathname();
   const { user } = useContext(UserContext);
-  const { isIntersecting, ref } = useIsInViewport();
+  const tableRef = useRef<HTMLTableSectionElement>(null);
+  const isVisible = useIsInViewport(tableRef);
   const { setTokenToAddInWatchlist, activeWatchlist, setActiveWatchlist } =
     useContext(WatchlistContext);
   const [metricsChanges, setMetricsChanges] = useState<{
@@ -135,12 +137,12 @@ export const Top100TBody = ({
   }, [token]);
 
   useEffect(() => {
-    if (isIntersecting) {
+    if (isVisible) {
       fetchTokenData();
       const interval = setInterval(fetchTokenData, 5000);
       return () => clearInterval(interval);
     }
-  }, [isIntersecting, tokenBuffer, fetchTokenData]);
+  }, [isVisible, tokenBuffer, fetchTokenData]);
 
   const monitoredMetrics = useMemo(
     () => ["price", "market_cap", "global_volume", "rank"],
@@ -265,7 +267,7 @@ export const Top100TBody = ({
         } hover:cursor-pointer text-light-font-100 dark:text-dark-font-100 h-[75px] md:h-[60px]`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        ref={ref}
+        ref={tableRef}
       >
         <tr className="text-light-font-100 dark:text-dark-font-100">
           <td

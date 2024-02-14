@@ -258,7 +258,7 @@ export const BasicBody = ({
             metricsChanges={metricsChanges}
             display="24h Volume"
           />
-          <Segment>{lastComponent[lastColumn]}</Segment>
+          <Segment>{lastComponent[lastColumn as string]}</Segment>
           <Segment extraCss="table-cell md:hidden" noLink>
             <div className="flex items-center justify-end">
               {token.contracts && token.contracts.length > 0 && (
