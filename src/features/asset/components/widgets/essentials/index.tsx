@@ -48,6 +48,12 @@ export const Essentials = () => {
     }
   }, []);
 
+  console.log(
+    "isAssetPage && chartPreference !== Trading view",
+    isAssetPage && chartPreference !== "Trading view",
+    isAssetPage
+  );
+
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
@@ -71,11 +77,11 @@ export const Essentials = () => {
           ) : (
             <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
-          {isOffChain &&
-          isAssetPage &&
-          chartPreference !== "Trading view" ? null : (
+          {isOffChain ||
+          (isAssetPage && chartPreference !== "Trading view") ? null : (
             <TokenTrades />
           )}
+          {!isAssetPage ? <TokenTrades /> : null}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isAssetPage ? (
             <>

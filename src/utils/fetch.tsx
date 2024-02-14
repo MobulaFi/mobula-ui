@@ -14,7 +14,6 @@ export const GET = (
   Object.keys(options).forEach((entry) => {
     stringOptions[entry] = String(options[entry]);
   });
-
   return fetch(
     `${external ? "" : API_ENDPOINT}${path}?${new URLSearchParams(
       stringOptions as Record<string, string>

@@ -1,8 +1,9 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
-import { useTheme } from "next-themes";
 import { useParams } from "next/navigation";
-import { LargeFont } from "../../../../../../components/fonts";
+import React from "react";
+import { LargeFont, MediumFont } from "../../../../../../components/fonts";
+import { Spinner } from "../../../../../../components/spinner";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
 import { PortfolioV2Context } from "../../../context-manager";
 import { NftPortfolioCard } from "./card";
@@ -57,43 +58,32 @@ export const blacklistedUri: Record<string, true> = {
 export const NFTs = () => {
   const {
     activePortfolio,
-    isWalletExplorer,
     isNftLoading,
-    transactions,
     showDeleteSelector,
     nfts,
     nftsDeleted,
+    showHiddenNfts,
   } = useContext(PortfolioV2Context);
-  const { theme } = useTheme();
   const params = useParams();
   const explorerAddress = params?.address as string;
-  const isWhiteMode = theme === "light";
   useMultiWalletNftHoldings(
     explorerAddress ? [explorerAddress] : activePortfolio?.wallets
   );
 
-  const checkDouble = () => {
-    const nftsMap: Record<string, boolean> = {};
-    const nftsFiltered = nfts?.filter((entry) => {
-      if (nftsMap[entry.token_hash]) return false;
-      nftsMap[entry.token_hash] = true;
-      return true;
-    });
-    return nftsFiltered;
-  };
-
-  const nftsVerified = checkDouble();
-
   return (
     <div className="flex flex-col">
-      {(nfts?.length > 0 && !isNftLoading) || isNftLoading ? (
+      {nfts?.length > 0 && !isNftLoading ? (
         <div className="flex flex-wrap">
-          {nftsVerified
-            ?.filter((entry) =>
-              showDeleteSelector
-                ? true
-                : !nftsDeleted?.includes(entry.token_hash)
-            )
+          {nfts
+            ?.filter((nft) => {
+              if (showHiddenNfts)
+                return nftsDeleted
+                  ?.filter((entry) => entry !== null)
+                  ?.includes(nft?.token_hash);
+              return !nftsDeleted
+                ?.filter((entry) => entry !== null)
+                ?.includes(nft?.token_hash);
+            })
             ?.map((nft, i) => (
               <NftPortfolioCard
                 key={nft?.token_hash + nft?.image}
@@ -101,6 +91,14 @@ export const NFTs = () => {
                 showDeleteSelector={showDeleteSelector}
               />
             ))}
+        </div>
+      ) : null}
+      {isNftLoading ? (
+        <div className="h-[300px] w-full flex items-center justify-center flex-col">
+          <Spinner extraCss="h-[50px] w-[50px]" />
+          <MediumFont extraCss="mb-[5px] text-center text-light-font-80 dark:text-dark-font-80 mt-3">
+            Loading your NFTs...
+          </MediumFont>
         </div>
       ) : null}
       {!isNftLoading && !nfts?.length ? (

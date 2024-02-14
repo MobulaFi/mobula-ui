@@ -128,7 +128,7 @@ export const TradeFiltersPopup = () => {
           }`}
           key={filter.title as Key}
           visibleContent={
-            <div className="flex items-center justify-between w-full text-[13px] text-light-font-100 dark:text-dark-font-100">
+            <div className="flex items-center py-1 justify-between w-full text-[13px] text-light-font-100 dark:text-dark-font-100">
               <p>{filter?.title}</p>
               <BsChevronDown />
             </div>

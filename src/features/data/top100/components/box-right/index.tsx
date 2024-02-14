@@ -6,7 +6,7 @@ interface BoxRightProps {
   showPageMobile?: number;
 }
 
-export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
+const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
   const [showPage, setShowPage] = useState(0);
   // const { theme } = useTheme();
   // const isDark = theme === "dark";
@@ -72,3 +72,5 @@ export const BoxRight = ({ showPageMobile = 0 }: BoxRightProps) => {
     </div>
   );
 };
+
+export default BoxRight;

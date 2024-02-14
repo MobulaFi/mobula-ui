@@ -49,7 +49,7 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(100);
+    const result = await query.limit(25);
     return result;
   };
 
@@ -124,6 +124,10 @@ const HomePage = async ({ searchParams }) => {
         <meta
           itemProp="image"
           content="https://mobula.fi/metaimage/Generic/others.png"
+        />
+        <meta
+          name="keywords"
+          content="Mobula, Mobula crypto, Mobula Crypto Data Aggregator"
         />
         <meta name="url" content="https://mobula.fi" />
       </head>

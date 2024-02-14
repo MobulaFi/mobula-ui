@@ -1,28 +1,10 @@
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { AddressAvatar } from "../../../../components/avatar";
 import { pushData } from "../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../utils/formaters";
 import { SearchbarContext } from "../../context-manager";
 import { Title } from "../ui/title";
-
-interface PairsFromAddressProps {
-  pairs: {
-    token0?: {
-      name: string;
-      symbol: string;
-      logo: string;
-    };
-    token1?: {
-      name: string;
-      symbol: string;
-      logo: string;
-    };
-    address?: string;
-    liquidity?: string;
-  }[];
-  name?: string;
-}
 
 export const PairResult = ({ setTrigger, firstIndex }) => {
   const { active, setActive, pairs, results } = useContext(SearchbarContext);
@@ -37,17 +19,13 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
     router.push(`/pair/${result.address}`);
   };
   const notListedTokens = results?.filter((entry) => !entry.id);
-  const isBaseToken = (result, pair) => result?.symbol === pair?.token0?.symbol;
-  const isQuoteToken = (result, pair) =>
-    result?.symbol === pair?.token1?.symbol;
-
   const resultsWithPair = results?.filter(
     (entry) => (entry?.pairs?.length || 0) > 0 && entry.id
   );
 
   const formatPairsResultFromAddress = () => {
     if (!pairs?.length) return;
-    let formatedPairs: PairsFromAddressProps[] = [];
+    let formatedPairs = [];
     pairs.forEach((pair) => {
       const templatePair = {
         pairs: [
@@ -88,7 +66,9 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
       {finalPairs
         ?.filter((_, i) => i < 5)
         .map((result, index) => {
-          const pair = result?.pairs?.[0];
+          let pair = result?.pairs?.[0];
+          const isSearchedPair = !pair;
+          if (isSearchedPair) pair = result;
           return (
             <div
               className={`flex items-center cursor-pointer transition-all duration-200 justify-between ${
@@ -100,49 +80,65 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
               onClick={() => clickEvent(pair)}
             >
               <div className="flex items-center">
-                {(isBaseToken(result, pair) && pair?.token0?.logo) ||
-                (!isBaseToken(result, pair) && pair?.token1?.logo) ? (
+                {(
+                  isSearchedPair
+                    ? result?.[result?.baseToken]?.logo
+                    : pair?.[pair?.baseToken]?.logo
+                ) ? (
                   <img
                     src={
-                      isBaseToken(result, pair)
-                        ? pair?.token0?.logo
-                        : pair?.token1?.logo
+                      isSearchedPair
+                        ? result?.[result?.baseToken]?.logo
+                        : pair?.[pair?.baseToken]?.logo
                     }
                     className="w-[20px] h-[20px] rounded-full mr-[7.5px]"
                   />
                 ) : (
                   <AddressAvatar
-                    address={pair?.address as string}
+                    address={
+                      isSearchedPair
+                        ? result?.[result?.baseToken]?.addres
+                        : (pair?.address as string)
+                    }
                     extraCss="w-[20px] h-[20px] rounded-full mr-[7.5px]"
                   />
                 )}
-                {(isQuoteToken(result, pair) && pair?.token0?.logo) ||
-                (!isQuoteToken(result, pair) && pair?.token1?.logo) ? (
+                {(
+                  isSearchedPair
+                    ? result?.[result?.quoteToken]?.logo
+                    : pair?.[pair?.quoteToken]?.logo
+                ) ? (
                   <img
                     src={
-                      isQuoteToken(result, pair)
-                        ? pair?.token0?.logo || "/empty/unknown.png"
-                        : pair?.token1?.logo || "/empty/unknown.png"
+                      isSearchedPair
+                        ? result?.[result?.quoteToken]?.logo
+                        : pair?.[pair?.quoteToken]?.logo
                     }
                     className="w-[20px] h-[20px] rounded-full mr-[7.5px]"
                   />
                 ) : (
                   <AddressAvatar
-                    address={pair?.address as string}
+                    address={
+                      isSearchedPair
+                        ? result?.[result?.quoteToken]?.addres
+                        : (pair?.address as string)
+                    }
                     extraCss="w-[20px] h-[20px] rounded-full mr-[7.5px]"
                   />
                 )}
                 <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
-                  {isBaseToken(result, pair)
-                    ? pair?.token0?.symbol?.toUpperCase() || "--"
-                    : pair?.token1?.symbol?.toUpperCase() || "--"}{" "}
+                  {isSearchedPair
+                    ? result?.[result?.baseToken]?.symbol
+                    : pair?.[pair?.baseToken]?.symbol}{" "}
                   /{" "}
-                  {isQuoteToken(result, pair)
-                    ? pair?.token0?.symbol?.toUpperCase() || "--"
-                    : pair?.token1?.symbol?.toUpperCase() || "--"}
+                  {isSearchedPair
+                    ? result?.[result?.quoteToken]?.symbol
+                    : pair?.[pair?.quoteToken]?.symbol}
                 </p>
                 <p className="text-sm max-w-[100px] truncate text-light-font-60 dark:text-dark-font-60 mr-2.5">
-                  {result?.name || ""}
+                  {isSearchedPair
+                    ? result?.[result?.baseToken]?.name
+                    : result?.name || ""}
                 </p>
               </div>
               <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100">

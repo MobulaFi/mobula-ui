@@ -192,6 +192,7 @@ export interface IWSWallet {
   estimated_balance_history: [number, number][];
   id: number;
   addresses: string[];
+  balance_history?: [number, number][];
 }
 
 export interface Payload {

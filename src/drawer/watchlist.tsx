@@ -9,7 +9,7 @@ import { WatchlistContext } from "../contexts/pages/watchlist";
 import { PopupStateContext, PopupUpdateContext } from "../contexts/popup";
 import { UserContext } from "../contexts/user";
 import { IWatchlist } from "../interfaces/pages/watchlist";
-import { useWatchlist } from "../layouts/tables/hooks/watchlist";
+import { useWatchlist } from "../layouts/new-tables/hooks/watchlist";
 import { createSupabaseDOClient } from "../lib/supabase";
 import { getUrlFromName } from "../utils/formaters";
 

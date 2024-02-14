@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import React from "react";
 import { MediumFont } from "../../../../../../components/fonts";
 import { getTokenPercentage } from "../../../../../../utils/formaters";
 import { useTop100 } from "../../../context-manager";

@@ -1,11 +1,12 @@
 "use client";
 import React, { ReactNode, createContext, useContext, useState } from "react";
+import { ChainsProps, PairsProps } from "../models";
 
 interface ChainsContextProps {
-  pairs: any[];
-  setPairs: React.Dispatch<React.SetStateAction<any[]>>;
-  chains: any[];
-  setChains: React.Dispatch<React.SetStateAction<any[]>>;
+  pairs: PairsProps[];
+  setPairs: React.Dispatch<React.SetStateAction<PairsProps[]>>;
+  chain: ChainsProps;
+  setChain: React.Dispatch<React.SetStateAction<ChainsProps>>;
 }
 
 const ChainsContext = createContext<ChainsContextProps>(
@@ -16,19 +17,25 @@ export const useChains = () => useContext(ChainsContext);
 
 interface ChainsProviderProps {
   children: ReactNode;
+  pairs: PairsProps[];
+  chain: ChainsProps;
 }
 
-export const ChainsProvider = ({ children }: ChainsProviderProps) => {
-  const [chains, setChains] = useState([]);
-  const [pairs, setPairs] = useState([]);
+export const ChainsProvider = ({
+  children,
+  chain: chainBuffer,
+  pairs: pairsBuffer,
+}: ChainsProviderProps) => {
+  const [chain, setChain] = useState(chainBuffer);
+  const [pairs, setPairs] = useState(pairsBuffer || []);
   const contextValue = React.useMemo(
     () => ({
       pairs,
       setPairs,
-      chains,
-      setChains,
+      chain,
+      setChain,
     }),
-    [chains, pairs]
+    [chain, pairs]
   );
 
   return (

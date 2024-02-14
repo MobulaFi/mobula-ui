@@ -35,6 +35,8 @@ export interface IPortfolioV2 {
   setActiveStep: Dispatch<SetStateAction<ActiveStep>>;
   showHiddenTokensPopup: boolean;
   setShowHiddenTokensPopup: Dispatch<SetStateAction<boolean>>;
+  showHiddenNfts: boolean;
+  setShowHiddenNfts: Dispatch<SetStateAction<boolean>>;
 
   /** UI State */
   isLoading: boolean;
@@ -176,6 +178,7 @@ export interface UserHoldings {
   uniqueIdentifier: string | number;
   addresses: string[];
   final: boolean;
+  status?: string;
 }
 
 export interface UserHoldingsAsset {

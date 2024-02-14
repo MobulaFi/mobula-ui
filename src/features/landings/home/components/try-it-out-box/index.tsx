@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { tryItOutContent } from "../../constant";
@@ -13,7 +12,7 @@ const TryItOutBox = React.forwardRef<HTMLDivElement, TryItOutBoxProps>(
       "flex items-center md:items-start max-w-[345px] md:max-w-full flex-col shadow-lg hover:shadow-2xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] md:mt-2.5 border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[31%] md:w-full h-[430px] md:h-fit hover:-translate-y-4 md:hover:translate-y-0 transition-all duration-300 ease-in-out";
     return (
       <div className={boxStyle} ref={ref}>
-        <Link
+        <a
           href={props.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -38,7 +37,7 @@ const TryItOutBox = React.forwardRef<HTMLDivElement, TryItOutBoxProps>(
               <FaArrowRightLong className="text-blue dark:text-blue text-base" />
             </div>
           </div>
-        </Link>
+        </a>
       </div>
     );
   }
