@@ -1,8 +1,8 @@
 import { Button } from "components/button";
 import { NextChakraLink } from "components/link";
 import { PopOverLinesStyle, mainButtonStyle } from "features/asset/style";
-import { openInNewTab } from "features/asset/utils";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import Link from "next/link";
 import React, { useContext } from "react";
 import {
   BsDiscord,
@@ -162,13 +162,18 @@ export const PairsSocialInfo = () => {
           ) : null}
         </div>
         {baseAsset?.social?.website ? (
-          <Button
-            extraCss={`${mainButtonStyle} mb-0`}
-            onClick={() => openInNewTab(baseAsset.website as string)}
-          >
-            <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
-            Web
-            <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
+          <Button extraCss={`${mainButtonStyle} mb-0`}>
+            <Link
+              href={baseAsset?.social?.website as string}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="flex items-center">
+                <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
+                Web
+                <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
+              </div>
+            </Link>
           </Button>
         ) : null}
         <div className="flex lg:hidden">
