@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Container } from "../../../components/container";

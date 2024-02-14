@@ -41,7 +41,7 @@ export const TableHeader = ({
                 <tr className="text-left">
                   <BasicThead
                     title="Token"
-                    extraCss="text-start"
+                    extraCss="text-start sticky left-0 z-[1] bg-light-bg-primary dark:bg-dark-bg-primary"
                     titleCssPosition="justify-start"
                   />
                   <BasicThead extraCss="static" title="Price" canOrder />
