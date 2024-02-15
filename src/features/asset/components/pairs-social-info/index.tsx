@@ -171,7 +171,7 @@ export const PairsSocialInfo = () => {
               <div className="flex items-center">
                 <BsLink45Deg className="mr-[5px] text-base text-light-font-100 dark:text-dark-font-100" />
                 Web
-                <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60" />
+                <FiExternalLink className="ml-[5px] text-sm text-light-font-60 dark:text-dark-font-60 sm:hidden" />
               </div>
             </Link>
           </Button>

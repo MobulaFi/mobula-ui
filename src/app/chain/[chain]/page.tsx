@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import React from "react";
 import { Chains } from "../../../features/data/chains";
 import { ChainsProvider } from "../../../features/data/chains/context-manager";
 import { fromUrlToName } from "../../../utils/formaters";

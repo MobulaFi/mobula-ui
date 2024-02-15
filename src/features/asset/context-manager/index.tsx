@@ -81,6 +81,7 @@ export const BaseAssetProvider = ({
   const [tradeHistory, setTradeHistory] = useState(tradHistory);
   const [pairTrades, setPairTrades] = useState(tradePairs);
   const [assetPairs, setAssetPairs] = useState<any>([]);
+  const [fadeIn, setFadeIn] = useState([]);
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []
   );
@@ -446,6 +447,8 @@ export const BaseAssetProvider = ({
       shouldInstantLoad,
       setActiveTab,
       activeTab,
+      fadeIn,
+      setFadeIn,
       // setUserActiveChart,
       // setUserTimeSelected,
       // setUserTradeAmountFilter,
@@ -470,6 +473,7 @@ export const BaseAssetProvider = ({
     baseAsset,
     setBaseAsset,
     transactions,
+    fadeIn,
     setTransactions,
     isAssetPage,
     setIsAssetPage,

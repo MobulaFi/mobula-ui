@@ -91,6 +91,8 @@ export interface IBasetAssetContext {
   isAssetPage: boolean;
   pairTrades: Trade[];
   setPairTrades: Dispatch<SetStateAction<Trade[]>>;
+  fadeIn: string[];
+  setFadeIn: Dispatch<SetStateAction<string[]>>;
 }
 
 export interface TimeRemaining {

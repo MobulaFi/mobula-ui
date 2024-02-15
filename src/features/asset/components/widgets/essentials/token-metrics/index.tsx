@@ -82,13 +82,13 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       dollar: false,
     },
     {
-      title: baseAsset?.token0?.name + " Pooled",
+      title: baseAsset?.token0?.symbol + " Pooled",
       value: baseAsset?.token0?.approximateReserveToken,
       extra: " " + baseAsset?.token0?.symbol,
       dollar: false,
     },
     {
-      title: baseAsset?.token1?.name + " Pooled",
+      title: baseAsset?.token1?.symbol + " Pooled",
       value: baseAsset?.token1?.approximateReserveToken,
       extra: " " + baseAsset?.token1?.symbol,
       dollar: false,
@@ -98,17 +98,14 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       value:
         baseAsset?.token0?.approximateReserveUSD +
         baseAsset?.token1?.approximateReserveUSD,
-      info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
     },
     {
       title: "Volume",
       value: baseAsset?.volume_24h,
-      info: "The Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
     },
     {
       title: "Market Cap",
       value: baseAsset?.[baseAsset.baseToken]?.market_cap,
-      info: "The Market Cap is the product of the current price and the total supply of the asset.",
     },
     // {
     //   title: "Pair created at",
@@ -171,18 +168,20 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
                 >
                   {entry.title}
                 </SmallFont>
-                <Tooltip
-                  tooltipText={entry.info as string}
-                  extraCss="left-0 max-w-[200px] top-[20px]"
-                  // info={entry.info}
-                  // extraCss=""
-                  // mb="3px"
-                  // cursor="pointer"
-                  // position={
-                  //   "right" as PlacementWithLogical & ResponsiveValue<any>
-                  // }
-                  // noClose
-                />
+                {entry?.info ? (
+                  <Tooltip
+                    tooltipText={entry.info as string}
+                    extraCss="left-0 max-w-[200px] top-[20px]"
+                    // info={entry.info}
+                    // extraCss=""
+                    // mb="3px"
+                    // cursor="pointer"
+                    // position={
+                    //   "right" as PlacementWithLogical & ResponsiveValue<any>
+                    // }
+                    // noClose
+                  />
+                ) : null}
               </div>
               <div
                 className={`${

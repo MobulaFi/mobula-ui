@@ -23,6 +23,7 @@ export const Essentials = () => {
     setPairTrades,
     isAssetPage,
     setActiveMetric,
+    setFadeIn,
   } = useContext(BaseAssetContext);
   const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
@@ -48,12 +49,6 @@ export const Essentials = () => {
     }
   }, []);
 
-  console.log(
-    "isAssetPage && chartPreference !== Trading view",
-    isAssetPage && chartPreference !== "Trading view",
-    isAssetPage
-  );
-
   return (
     <>
       <div className="flex flex-row lg:flex-col-reverse mt-5 lg:mt-0">
@@ -71,6 +66,7 @@ export const Essentials = () => {
             <TradingViewChart
               baseAsset={baseAsset}
               isPair={!isAssetPage}
+              setFadeIn={setFadeIn}
               setPairTrades={isAssetPage ? null : setPairTrades}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />

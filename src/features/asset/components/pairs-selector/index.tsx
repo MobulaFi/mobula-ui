@@ -64,7 +64,7 @@ export const PairsSelector = () => {
                 alt={`${baseAsset?.blockchain} logo`}
               />
             </div>
-            <div className="flex justify-start whitespace-nowrap flex-wrap w-max md:w-auto">
+            <div className="flex justify-start whitespace-nowrap flex-wrap w-max md:w-auto sm:flex-col">
               <LargeFont extraCss="leading-tight text-2xl md:text-lg text-start mr-2">
                 <span className=" text-light-font-60 dark:text-dark-font-60 max-w-[160px] truncate">
                   {baseAsset?.[baseAsset?.baseToken]?.name?.length > 15
@@ -87,7 +87,7 @@ export const PairsSelector = () => {
           </div>
           <div className="flex items-center ml-10 md:ml-5">
             <div className="flex items-center">
-              <LargeFont extraCss="font-normal mr-2.5 text-2xl md:text-lg">
+              <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg">
                 $
                 {getFormattedAmount(
                   baseAsset?.[baseAsset?.baseToken]?.price,
@@ -100,14 +100,14 @@ export const PairsSelector = () => {
               <TagPercentage
                 percentage={baseAsset?.price_change_24h}
                 isUp={baseAsset?.price_change_24h > 0}
-                extraCss="ml-1"
+                extraCss="ml-1 sm:hidden"
                 inhert={baseAsset?.price_change_24h === 0}
               />
             </div>
             {showPopover ? (
               <BiChevronDown className="text-xl text-light-font-60 dark:text-dark-font-60 mx-2 md:mr-0" />
             ) : null}
-          </div>
+          </div>{" "}
         </div>
       }
       hiddenContent={

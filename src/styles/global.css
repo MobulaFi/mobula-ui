@@ -503,3 +503,36 @@ textarea:focus {
     min-height: 120px;
   }
 }
+.sell-bg {
+  animation: bgFadeInSell 2s ease-in-out;
+}
+
+.buy-bg {
+  animation: bgFadeInBuy 2s ease-in-out;
+}
+
+@keyframes bgFadeInBuy {
+  0% {
+    background: rgba(2, 192, 118, 0.2);
+    opacity: 0%;
+  }
+  30% {
+    opacity: 100%;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@keyframes bgFadeInSell {
+  0% {
+    opacity: 0%;
+    background: rgba(234, 57, 67, 0.2);
+  }
+  30% {
+    opacity: 100%;
+  }
+  100% {
+    background: transparent;
+  }
+}

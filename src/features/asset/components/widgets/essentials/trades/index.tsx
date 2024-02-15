@@ -33,6 +33,8 @@ export const TokenTrades = () => {
     isAssetPage,
     pairTrades,
     setPairTrades,
+    setFadeIn,
+    fadeIn,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -170,7 +172,9 @@ export const TokenTrades = () => {
     )
       .then((r) => r.json())
       .then((r) => {
-        if (r.data) setPairTrades(r.data);
+        if (r.data) {
+          setPairTrades(r.data);
+        }
       });
   }, [baseAsset]);
 
@@ -394,6 +398,7 @@ export const TokenTrades = () => {
                 const date: number = isMyTrades
                   ? (trade?.timestamp as number)
                   : trade?.date;
+                const tradeClass = trade.type === "sell" ? "sell-bg" : "buy-bg";
                 return (
                   <tbody
                     key={
@@ -405,7 +410,9 @@ export const TokenTrades = () => {
                       (trade?.unique_discriminator || 0) +
                       (trade?.id || 0)
                     }
-                    className="animate-fadeInTrade"
+                    className={`${
+                      fadeIn?.includes(trade?.hash) ? tradeClass : null
+                    }`}
                   >
                     <TradesTemplate
                       trade={trade}
