@@ -98,11 +98,11 @@ export const MetricsLine = ({
           className="flex flex-wrap items-center sm:items-start mr-2.5 cursor-pointer flex-row sm:flex-col"
           onClick={handleRedirectToProfile}
         >
-          <SmallFont extraCss="whitespace-pre-wrap ml-2.5">
+          <SmallFont extraCss="ml-2.5 max-w-[120px] truncate">
             {isProtocolStat ? keys?.slice(0, keys?.length - 5) : keys}
           </SmallFont>
           <div className="flex items-center">
-            <SmallFont extraCss="ml-2.5 text-light-font-40 dark:text-dark-font-40">
+            <SmallFont extraCss="ml-2.5 text-light-font-40 dark:text-dark-font-40 ">
               {history?.token_data.symbol}
             </SmallFont>
             {address ? (

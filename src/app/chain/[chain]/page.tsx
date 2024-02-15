@@ -1,4 +1,4 @@
-import React from "react";
+import { Metadata } from "next";
 import { Chains } from "../../../features/data/chains";
 import { ChainsProvider } from "../../../features/data/chains/context-manager";
 import { fromUrlToName } from "../../../utils/formaters";
@@ -44,17 +44,16 @@ type Props = {
   params: { chain: string };
 };
 
-// export async function generateMetadata({ params }: Props): Promise<Metadata> {
-//   const { chain } = params;
-//   const formatName =
-//     fromUrlToName(chain)?.slice(0, 1)?.toUpperCase() +
-//     fromUrlToName(chain)?.slice(1);
-
-//   return {
-//     title: `${formatName} DeFi Dashboard | Track DEX pairs - Mobula`,
-//     description: `${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`,
-//   };
-// }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { chain } = params;
+  const formatName =
+    fromUrlToName(chain)?.slice(0, 1)?.toUpperCase() +
+    fromUrlToName(chain)?.slice(1);
+  return {
+    title: `${formatName} DeFi Dashboard | Track DEX pairs - Mobula`,
+    description: `${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`,
+  };
+}
 
 async function ChainPage({ params }: Props) {
   const { blockchain, pairs } = await getChains({ params });
@@ -63,15 +62,13 @@ async function ChainPage({ params }: Props) {
   const formatName =
     fromUrlToName(chain)?.slice(0, 1)?.toUpperCase() +
     fromUrlToName(chain)?.slice(1);
-
+  const title = `${formatName} DeFi Dashboard | Track DEX pairs - Mobula`;
+  const description = `${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`;
   return (
     <>
       <head>
-        <title>{formatName} DeFi Dashboard | Track DEX pairs - Mobula</title>
-        <meta
-          name="description"
-          content={`${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`}
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <meta
           property="og:image"
           content="https://mobula.fi/metaimage/Generic/others.png"
@@ -85,6 +82,7 @@ async function ChainPage({ params }: Props) {
           content="https://mobula.fi/metaimage/Generic/others.png"
         />
       </head>
+
       <ChainsProvider chain={blockchain} pairs={pairs}>
         <Chains />
       </ChainsProvider>
