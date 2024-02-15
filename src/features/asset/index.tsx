@@ -14,6 +14,7 @@ import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import {
+  formatAmount,
   getFormattedAmount,
   getTokenPercentage,
   getUrlFromName,
@@ -412,47 +413,52 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                 <PairsSocialInfo />
               </div>
               <div className="flex items-center w-full flex-wrap mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
-                {pairsStats.map((pair, i) => (
-                  <div
-                    key={pair.key}
-                    className={`flex flex-col px-5 md:px-0 py-3 h-full min-w-[80px] items-center justify-center w-[12.5%] md:w-[25%] ${
-                      i > 3
-                        ? "md:border-t md:border-light-border-secondary md:dark:border-dark-border-secondary"
-                        : ""
-                    } ${
-                      i !== 0 && i !== 4
-                        ? "border-l border-light-border-secondary dark:border-dark-border-secondary "
-                        : ""
-                    }
+                {pairsStats.map((pair, i) => {
+                  console.log("pair?.value", pair?.value);
+                  return (
+                    <div
+                      key={pair.key}
+                      className={`flex flex-col px-5 md:px-0 py-3 h-full min-w-[80px] items-center justify-center w-[12.5%] md:w-[25%] ${
+                        i > 3
+                          ? "md:border-t md:border-light-border-secondary md:dark:border-dark-border-secondary"
+                          : ""
+                      } ${
+                        i !== 0 && i !== 4
+                          ? "border-l border-light-border-secondary dark:border-dark-border-secondary "
+                          : ""
+                      }
                     ${i === 3 ? "border-r md:border-r-0" : ""}
                     `}
-                  >
-                    <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
-                      {pair.key}
-                    </SmallFont>
-                    {pair?.isPercentage ? (
-                      <TagPercentage
-                        percentage={getTokenPercentage(pair?.value)}
-                        isUp={pair?.value > 0}
-                        inhert={pair?.value === 0}
-                        isLoading={!pair?.value && pair?.value !== 0}
-                      />
-                    ) : (
-                      <SmallFont extraCss={`mt-1 text-center`}>
-                        {pair?.isAmount ? (
-                          <span>
-                            $
-                            {getFormattedAmount(pair?.value, 0, {
-                              canUseHTML: true,
-                            })}
-                          </span>
-                        ) : (
-                          <span>{getFormattedAmount(pair?.value)}</span>
-                        )}
+                    >
+                      <SmallFont extraCss="text-light-font-100 dark:text-dark-font-100 text-center mb-1">
+                        {pair.key}
                       </SmallFont>
-                    )}
-                  </div>
-                ))}
+                      {pair?.isPercentage ? (
+                        <TagPercentage
+                          percentage={getTokenPercentage(pair?.value)}
+                          isUp={pair?.value > 0}
+                          inhert={pair?.value === 0}
+                          isLoading={!pair?.value && pair?.value !== 0}
+                        />
+                      ) : (
+                        <SmallFont extraCss={`mt-1 text-center`}>
+                          {pair?.isAmount ? (
+                            <span>
+                              $
+                              {pair?.value > 1
+                                ? formatAmount(pair?.value)
+                                : getFormattedAmount(pair?.value, 0, {
+                                    canUseHTML: true,
+                                  })}
+                            </span>
+                          ) : (
+                            <span>{getFormattedAmount(pair?.value)}</span>
+                          )}
+                        </SmallFont>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
