@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
@@ -24,12 +24,13 @@ export const TradesTemplate = ({
   isLoading = false,
 }: TradesTemplateProps) => {
   const { baseAsset } = useContext(BaseAssetContext);
+  const symbol = baseAsset?.[baseAsset?.baseToken]?.symbol || baseAsset?.symbol;
   return (
     <tr>
       <td
         className={`border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                   md:pl-2.5 pr-2.5 ${
-                    isLoading ? "py-5" : "py-[15px]"
+                    isLoading ? "py-5" : "py-2.5 md:py-3"
                   } text-[11px] lg:text-[10px] md:text-[8px] md:hidden`}
       >
         <div>
@@ -52,7 +53,7 @@ export const TradesTemplate = ({
       >
         <div className="flex items-end md:items-start w-full justify-center flex-col">
           {"blockchain" in (trade || {}) || isMyTrades || isLoading ? (
-            <SmallFont extraCss="font-medium">
+            <SmallFont extraCss="whitespace-nowrap">
               {isLoading ? (
                 <Skeleton extraCss="h-[13px] md:h-[11px] w-[60px]" />
               ) : (
@@ -69,7 +70,8 @@ export const TradesTemplate = ({
                 >
                   {isMyTrades
                     ? getFormattedAmount((trade.amount || 0) as number, 2)
-                    : getFormattedAmount(trade.token_amount as number, 2)}
+                    : getFormattedAmount(trade.token_amount as number, 2)}{" "}
+                  {symbol}
                 </NextChakraLink>
               )}
             </SmallFont>
@@ -80,7 +82,7 @@ export const TradesTemplate = ({
             <SmallFont
               extraCss={`mt-[-4px] md:mt-0 hidden md:flex ${
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
-              } font-medium`}
+              }`}
             >
               $
               {isMyTrades
@@ -153,7 +155,7 @@ export const TradesTemplate = ({
             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
           ) : (
             <>
-              <SmallFont extraCss="font-medium">
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
                 {new Date(date).getHours() > 9
                   ? new Date(date).getHours()
                   : `0${new Date(date).getHours()}`}
@@ -167,7 +169,7 @@ export const TradesTemplate = ({
                   : `0${new Date(date).getSeconds()}`}
               </SmallFont>
               {isMyTrades ? (
-                <SmallFont extraCss="text-xs font-medium">
+                <SmallFont extraCss="text-xs  text-light-font-60 dark:text-dark-font-60">
                   {trade.date}
                 </SmallFont>
               ) : null}{" "}

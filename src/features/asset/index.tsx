@@ -14,7 +14,6 @@ import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import {
-  formatAmount,
   getFormattedAmount,
   getTokenPercentage,
   getUrlFromName,
@@ -414,7 +413,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
               </div>
               <div className="flex items-center w-full flex-wrap mt-2.5 border-t border-b border-light-border-secondary dark:border-dark-border-secondary ">
                 {pairsStats.map((pair, i) => {
-                  console.log("pair?.value", pair?.value);
                   return (
                     <div
                       key={pair.key}
@@ -445,11 +443,9 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                           {pair?.isAmount ? (
                             <span>
                               $
-                              {pair?.value > 1
-                                ? formatAmount(pair?.value)
-                                : getFormattedAmount(pair?.value, 0, {
-                                    canUseHTML: true,
-                                  })}
+                              {getFormattedAmount(pair?.value, 0, {
+                                canUseHTML: true,
+                              })}
                             </span>
                           ) : (
                             <span>{getFormattedAmount(pair?.value)}</span>
