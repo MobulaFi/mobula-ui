@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -435,6 +435,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                         percentage={getTokenPercentage(pair?.value)}
                         isUp={pair?.value > 0}
                         inhert={pair?.value === 0}
+                        isLoading={!pair?.value && pair?.value !== 0}
                       />
                     ) : (
                       <SmallFont extraCss={`mt-1 text-center`}>

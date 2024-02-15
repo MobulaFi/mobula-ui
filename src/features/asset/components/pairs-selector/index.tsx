@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
@@ -102,6 +102,10 @@ export const PairsSelector = () => {
                 isUp={baseAsset?.price_change_24h > 0}
                 extraCss="ml-1 sm:hidden"
                 inhert={baseAsset?.price_change_24h === 0}
+                isLoading={
+                  !baseAsset?.price_change_24h &&
+                  baseAsset?.price_change_24h !== 0
+                }
               />
             </div>
             {showPopover ? (
