@@ -1,8 +1,9 @@
 "use client";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
@@ -182,32 +183,33 @@ export const Nav = () => {
                   i !== blockchains?.length - 1 ? "mb-5" : ""
                 } pl-7`}
                 key={blockchain[0]}
-                onClick={() => {
-                  router.push(
-                    `/chain/${
-                      blockchain[1]?.shortName
-                        ? getUrlFromName(blockchain[1]?.shortName)
-                        : getUrlFromName(blockchain[0])
-                    }`
-                  );
-                }}
                 onMouseEnter={() => setIsHover(blockchain[0])}
                 onMouseLeave={() => setIsHover("")}
               >
-                <img
-                  src={blockchain[1]?.logo || "/empty/unknown.png"}
-                  className="h-[18px] w-[18px] min-w-[18px] rounded-full"
-                />
-                <div className="w-fit ml-2.5">
-                  <SmallFont extraCss={`font-poppins`}>
-                    {blockchain[1]?.shortName || blockchain[0]}
-                  </SmallFont>
-                  <div
-                    className={`${
-                      isHover === blockchain[0] ? "w-full" : "w-0"
-                    } h-[1px] rounded bg-light-font-80 dark:bg-dark-font-80 transition-all duration-100 ease-linear`}
-                  />
-                </div>
+                <Link
+                  href={`/chain/${
+                    blockchain[1]?.shortName
+                      ? getUrlFromName(blockchain[1]?.shortName)
+                      : getUrlFromName(blockchain[0])
+                  }`}
+                >
+                  <div className="flex items-center w-full">
+                    <img
+                      src={blockchain[1]?.logo || "/empty/unknown.png"}
+                      className="h-[18px] w-[18px] min-w-[18px] rounded-full"
+                    />
+                    <div className="w-fit ml-2.5">
+                      <SmallFont extraCss={`font-poppins`}>
+                        {blockchain[1]?.shortName || blockchain[0]}
+                      </SmallFont>
+                      <div
+                        className={`${
+                          isHover === blockchain[0] ? "w-full" : "w-0"
+                        } h-[1px] rounded bg-light-font-80 dark:bg-dark-font-80 transition-all duration-100 ease-linear`}
+                      />
+                    </div>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>{" "}
