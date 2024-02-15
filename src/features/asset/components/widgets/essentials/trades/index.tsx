@@ -1,6 +1,6 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
@@ -345,6 +345,8 @@ export const TokenTrades = () => {
                   const isFirst = i === 0;
                   const isLast = i === titles.length - 1;
                   const isExplorer = entry === "Explorer";
+                  const isBaseSymbol = entry === baseSymbol;
+                  const isQuoteSymbol = entry === quoteSymbol;
                   return (
                     <Ths
                       extraCss={`sticky z-[2] top-[-1px] bg-light-bg-secondary dark:bg-dark-bg-secondary 
@@ -357,23 +359,37 @@ export const TokenTrades = () => {
                        table-cell ${
                          entry === "Unit Price" ||
                          entry === "Value" ||
-                         entry === "Type"
+                         entry === "Type" ||
+                         isQuoteSymbol
                            ? "md:hidden"
                            : "md:table-cell"
                        } `}
                       key={entry}
                     >
-                      <SmallFont
-                        extraCss={`${
-                          isFirst
-                            ? " pl-0 text-start"
-                            : entry === "Tokens"
-                            ? "pl-2.5 md:text-start md:pl-2.5"
-                            : "pl-2.5 text-end"
-                        } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
-                      >
-                        {entry}
-                      </SmallFont>
+                      {isBaseSymbol ? (
+                        <SmallFont
+                          extraCss={`pl-2.5 text-end pr-2.5 md:text-start`}
+                        >
+                          <>
+                            <span className="inline md:hidden">
+                              {baseSymbol}
+                            </span>
+                            <span className="hidden md:inline">Tokens</span>
+                          </>
+                        </SmallFont>
+                      ) : (
+                        <SmallFont
+                          extraCss={`${
+                            isFirst
+                              ? " pl-0 text-start"
+                              : entry === "Tokens"
+                              ? "pl-2.5 md:text-start md:pl-2.5"
+                              : "pl-2.5 text-end"
+                          } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
+                        >
+                          {entry}
+                        </SmallFont>
+                      )}
                     </Ths>
                   );
                 })}
