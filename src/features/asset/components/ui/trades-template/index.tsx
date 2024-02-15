@@ -42,7 +42,7 @@ export const TradesTemplate = ({
       <td
         className={`border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                   md:pl-2.5 pr-2.5 ${
-                    isLoading ? "py-5" : "py-2.5 md:py-3"
+                    isLoading ? "py-[15px]" : "py-2.5 md:py-3"
                   } text-[11px] lg:text-[10px] md:text-[8px] md:hidden`}
       >
         <div>

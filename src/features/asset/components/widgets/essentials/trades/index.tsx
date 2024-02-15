@@ -42,6 +42,7 @@ export const TokenTrades = () => {
   const { isConnected, isDisconnected } = useAccount();
   const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
+  const [isTradeLoading, setIsTradeLoading] = useState(!isAssetPage);
   const titles: string[] = [
     "Type",
     isAssetPage ? "Tokens" : baseSymbol,
@@ -176,6 +177,7 @@ export const TokenTrades = () => {
       .then((r) => {
         if (r.data) {
           setPairTrades(r.data);
+          setIsTradeLoading(false);
         }
       });
   }, [baseAsset]);
@@ -377,7 +379,8 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {isMarketMetricsLoading && isAssetPage ? (
+          {(isMarketMetricsLoading && isAssetPage) ||
+          (!isAssetPage && isTradeLoading) ? (
             <>
               {Array.from({ length: 9 }).map((_, i) => (
                 <TradesTemplate
