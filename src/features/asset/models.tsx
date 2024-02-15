@@ -255,6 +255,7 @@ export interface Trade {
   id?: number;
   amount_usd?: number;
   token_amount_usd?: number;
+  token_price_vs: number;
 }
 
 export interface Metrics {

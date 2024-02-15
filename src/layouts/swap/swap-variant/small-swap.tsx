@@ -3,13 +3,7 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";

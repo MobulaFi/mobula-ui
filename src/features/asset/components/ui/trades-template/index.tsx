@@ -23,8 +23,20 @@ export const TradesTemplate = ({
   date,
   isLoading = false,
 }: TradesTemplateProps) => {
-  const { baseAsset } = useContext(BaseAssetContext);
-  const symbol = baseAsset?.[baseAsset?.baseToken]?.symbol || baseAsset?.symbol;
+  const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
+  const calculateQuoteTokenAmount = (
+    baseAmount: number,
+    basePrice: number,
+    quotePrice: number
+  ) => {
+    return (baseAmount * basePrice) / quotePrice;
+  };
+  const quoteTokenAmount = calculateQuoteTokenAmount(
+    trade.token_amount,
+    trade.token_price,
+    trade.token_price_vs
+  );
+
   return (
     <tr>
       <td
@@ -71,7 +83,6 @@ export const TradesTemplate = ({
                   {isMyTrades
                     ? getFormattedAmount((trade.amount || 0) as number, 2)
                     : getFormattedAmount(trade.token_amount as number, 2)}{" "}
-                  {symbol}
                 </NextChakraLink>
               )}
             </SmallFont>
@@ -95,6 +106,30 @@ export const TradesTemplate = ({
           )}
         </div>
       </td>
+      {isAssetPage ? null : (
+        <td
+          className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                      px-2.5 table-cell md:hidden"
+        >
+          <div className="flex justify-end w-full min-w-[60%]">
+            {isLoading ? (
+              <Skeleton extraCss="mr-0 lg:mr-2.5 md:mr-0 h-[13px] md:h-[11px] w-[70px]" />
+            ) : (
+              <SmallFont
+                extraCss={`${
+                  isSell
+                    ? "text-red dark:text-red"
+                    : "text-green dark:text-green"
+                } mr-0 lg:mr-2.5 md:mr-0`}
+              >
+                {getFormattedAmount(quoteTokenAmount as number, 2, {
+                  canUseHTML: true,
+                })}
+              </SmallFont>
+            )}
+          </div>
+        </td>
+      )}
       <td
         className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                      px-2.5 table-cell md:hidden"
@@ -110,10 +145,13 @@ export const TradesTemplate = ({
             >
               $
               {isMyTrades
-                ? getFormattedAmount(trade.amount_usd as number, 2)
+                ? getFormattedAmount(trade.amount_usd as number, 2, {
+                    canUseHTML: true,
+                  })
                 : getFormattedAmount(
-                    (trade?.value_usd || trade?.token_amount_usd) as number,
-                    2
+                    (trade?.token_amount_usd || trade?.value_usd) as number,
+                    0,
+                    { canUseHTML: true }
                   )}
             </SmallFont>
           )}

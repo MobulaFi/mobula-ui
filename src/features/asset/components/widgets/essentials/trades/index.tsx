@@ -33,7 +33,6 @@ export const TokenTrades = () => {
     isAssetPage,
     pairTrades,
     setPairTrades,
-    setFadeIn,
     fadeIn,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
@@ -41,9 +40,12 @@ export const TokenTrades = () => {
   const [isMyTrades, setIsMyTrades] = useState<boolean>(false);
   const maxValue = 1_000_000_000_000;
   const { isConnected, isDisconnected } = useAccount();
+  const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
+  const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const titles: string[] = [
     "Type",
-    "Tokens",
+    isAssetPage ? "Tokens" : baseSymbol,
+    isAssetPage ? null : quoteSymbol,
     "Value",
     "Price",
     "Time",
@@ -336,7 +338,7 @@ export const TokenTrades = () => {
           <thead>
             <tr>
               {titles
-                .filter((entry) => entry !== "Unit Price")
+                .filter((entry) => entry !== "Unit Price" && entry)
                 .map((entry, i) => {
                   const isFirst = i === 0;
                   const isLast = i === titles.length - 1;
@@ -399,6 +401,7 @@ export const TokenTrades = () => {
                   ? (trade?.timestamp as number)
                   : trade?.date;
                 const tradeClass = trade.type === "sell" ? "sell-bg" : "buy-bg";
+
                 return (
                   <tbody
                     key={
@@ -412,7 +415,7 @@ export const TokenTrades = () => {
                     }
                     className={`${
                       fadeIn?.includes(trade?.hash) ? tradeClass : null
-                    }`}
+                    } hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-100 ease-linear cursor-pointer`}
                   >
                     <TradesTemplate
                       trade={trade}
