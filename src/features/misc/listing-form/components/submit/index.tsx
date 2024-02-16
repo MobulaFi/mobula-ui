@@ -185,8 +185,31 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
-        <div className="flex w-full flex-col">
-          <div className="flex justify-between mt-5">
+        <div className="flex flex-col w-full max-w-[1000px] mx-auto">
+          <div className="flex sm:flex-wrap justify-between mt-5">
+            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
+              <MediumFont>Free Listing Offer</MediumFont>
+              <SmallFont extraCss="text-center mt-2">
+                <div className="flex items-center mb-[5px]">
+                  <SmallFont>
+                    List for free by using our Lambo Buy Bot.
+                  </SmallFont>
+                </div>
+              </SmallFont>
+              <Button
+                extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-5 md:mt-2.5 w-fit"
+                onClick={() => {
+                  window.open(
+                    "https://t.me/MobulaPartnerBot?start=Free_Listing",
+                    "_blank"
+                  );
+                  window.focus();
+                }}
+              >
+                Contact us
+                <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 mb-[1px] ml-[5px]" />
+              </Button>
+            </div>
             <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
               <MediumFont>Standard Listing</MediumFont>
               <SmallFont extraCss="text-center mt-2">
@@ -200,7 +223,7 @@ export const Submit = ({ state }) => {
                   <AiOutlineClose className="text-red dark:text-red ml-[7.5px]" />
                 </div>
               </SmallFont>
-              <SmallFont extraCss="text-center mt-4">
+              <SmallFont extraCss="mt-4">
                 Price: $50 (stablecoin only)
               </SmallFont>
             </div>
@@ -217,7 +240,7 @@ export const Submit = ({ state }) => {
                   <BsCheckLg className="text-blue dark:text-blue ml-[7.5px]" />
                 </div>
               </SmallFont>
-              <SmallFont extraCss="text-center mt-4">
+              <SmallFont extraCss="mt-4">
                 Price: $150 (stablecoin only)
               </SmallFont>
             </div>
