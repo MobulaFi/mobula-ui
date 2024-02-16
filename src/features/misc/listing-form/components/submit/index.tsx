@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsTwitter } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -77,7 +77,7 @@ export const Submit = ({ state }) => {
       </Button>
     </div>
   ) : (
-    <div className="flex flex-col w-[1040px] md:w-full">
+    <div className="flex flex-col max-w-[800px] w-full">
       <div className="flex items-center">
         <button
           className="hidden md:flex"
@@ -185,32 +185,9 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
-        <div className="flex flex-col w-full mx-auto">
-          <div className="flex sm:flex-wrap justify-between mt-5">
-            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
-              <MediumFont>Free Listing Offer</MediumFont>
-              <SmallFont extraCss="text-center mt-2">
-                <div className="flex items-center mb-[5px]">
-                  <SmallFont>
-                    List for free by using our Lambo Buy Bot.
-                  </SmallFont>
-                </div>
-              </SmallFont>
-              <Button
-                extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-5 md:mt-2.5 w-fit"
-                onClick={() => {
-                  window.open(
-                    "https://t.me/MobulaPartnerBot?start=Free_Listing",
-                    "_blank"
-                  );
-                  window.focus();
-                }}
-              >
-                Contact us
-                <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 mb-[1px] ml-[5px]" />
-              </Button>
-            </div>
-            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
+        <div className="flex flex-col w-full">
+          <div className="flex justify-between mt-5">
+            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-2/4 mr-3">
               <MediumFont>Standard Listing</MediumFont>
               <SmallFont extraCss="text-center mt-2">
                 <div className="flex items-center mb-[5px]">
@@ -227,7 +204,7 @@ export const Submit = ({ state }) => {
                 Price: $50 (stablecoin only)
               </SmallFont>
             </div>
-            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[600px]">
+            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-2/4 ml-3">
               <MediumFont>Express Listing</MediumFont>
               <SmallFont extraCss="text-center mt-2">
                 <div className="flex items-center mb-[5px]">
@@ -244,6 +221,36 @@ export const Submit = ({ state }) => {
                 Price: $150 (stablecoin only)
               </SmallFont>
             </div>
+          </div>
+          <div className="flex flex-col w-full">
+            <div className="relative flex items-center justify-center my-2">
+              <div className="flex-grow border-t border-gray-300 opacity-50"></div>
+              <span className="relative bg-dark-background px-2 text-sm text-gray-500">
+                OR
+              </span>
+              <div className="flex-grow border-t border-gray-300 opacity-50"></div>
+            </div>
+          </div>
+          <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4">
+            <MediumFont>Free Listing Offer</MediumFont>
+            <SmallFont extraCss="text-center mt-2">
+              <div className="flex items-center mb-[5px]">
+                <SmallFont>List for free by using our Lambo Buy Bot.</SmallFont>
+              </div>
+            </SmallFont>
+            <Button
+              extraCss="border-darkblue dark:border-darkblue hover:border-blue hover:dark:border-blue mt-5 md:mt-2.5 w-fit"
+              onClick={() => {
+                window.open(
+                  "https://t.me/MobulaPartnerBot?start=Free_Listing",
+                  "_blank"
+                );
+                window.focus();
+              }}
+            >
+              Contact us
+              <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 mb-[1px] ml-[5px]" />
+            </Button>
           </div>
           <SmallFont extraCss="mt-6">
             Send $50 for Standard Listing or $150 for Express Listing to the
