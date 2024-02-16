@@ -82,7 +82,9 @@ export const TradesTemplate = ({
                 >
                   {isMyTrades
                     ? getFormattedAmount((trade.amount || 0) as number, 2)
-                    : getFormattedAmount(trade.token_amount as number, 2)}{" "}
+                    : getFormattedAmount(trade.token_amount as number, 0, {
+                        canUseHTML: true,
+                      })}{" "}
                 </NextChakraLink>
               )}
             </SmallFont>
@@ -122,7 +124,7 @@ export const TradesTemplate = ({
                     : "text-green dark:text-green"
                 } mr-0 lg:mr-2.5 md:mr-0`}
               >
-                {getFormattedAmount(quoteTokenAmount as number, 2, {
+                {getFormattedAmount(quoteTokenAmount as number, 0, {
                   canUseHTML: true,
                 })}
               </SmallFont>
@@ -145,7 +147,7 @@ export const TradesTemplate = ({
             >
               $
               {isMyTrades
-                ? getFormattedAmount(trade.amount_usd as number, 2, {
+                ? getFormattedAmount(trade.amount_usd as number, 0, {
                     canUseHTML: true,
                   })
                 : getFormattedAmount(
@@ -178,7 +180,12 @@ export const TradesTemplate = ({
                   )
                 )
               ) : (
-                <>${getFormattedAmount(trade.token_price)}</>
+                <>
+                  $
+                  {getFormattedAmount(trade.token_price, 0, {
+                    canUseHTML: true,
+                  })}
+                </>
               )}
             </SmallFont>
           )}
