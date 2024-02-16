@@ -186,8 +186,8 @@ export const Submit = ({ state }) => {
             </Slider>
           </div> */}
         <div className="flex flex-col w-full">
-          <div className="flex justify-between mt-5">
-            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-2/4 mr-3">
+          <div className="flex justify-between mt-5 lg:flex-wrap">
+            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-full md:w-1/2 lg:w-full mr-2">
               <MediumFont>Standard Listing</MediumFont>
               <SmallFont extraCss="text-center mt-2">
                 <div className="flex items-center mb-[5px]">
@@ -204,7 +204,7 @@ export const Submit = ({ state }) => {
                 Price: $50 (stablecoin only)
               </SmallFont>
             </div>
-            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-2/4 ml-3">
+            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-full md:w-1/2 lg:w-full mr-2">
               <MediumFont>Express Listing</MediumFont>
               <SmallFont extraCss="text-center mt-2">
                 <div className="flex items-center mb-[5px]">
@@ -259,7 +259,9 @@ export const Submit = ({ state }) => {
               (Supported chains: Polygon, BSC, Ethereum)
             </div>
             <div className="font-bold mt-5 flex items-center">
-              {wallet}
+              <div className="overflow-hidden text-ellipsis w-full">
+                {wallet}
+              </div>
               <button
                 onClick={() => copyToClipboard(`${wallet}`)}
                 className="ml-2 flex items-center"
