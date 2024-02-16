@@ -374,6 +374,3 @@ export const Top100TBody = ({
     </EntryContext.Provider>
   );
 };
-function fetchPrice() {
-  throw new Error("Function not implemented.");
-}

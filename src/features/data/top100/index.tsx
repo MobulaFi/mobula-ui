@@ -114,7 +114,7 @@ export const Top100 = ({
       const scrollPosition = window.scrollY + windowHeight;
       const triggerHeight = initialTableHeight * 0.1;
 
-      setIsButtonVisible(scrollPosition > triggerHeight && !isButtonVisible);
+      setIsButtonVisible(scrollPosition > windowHeight * 1.5);
 
       const tableBottomPosition =
         tableRef.current.offsetTop + tableRef.current.offsetHeight;
@@ -224,7 +224,7 @@ export const Top100 = ({
           extraCss="fixed bottom-[50px] md:bottom-[100px] right-[50px] md:right-[30px] z-[2] rounded-full
          h-[45px] w-[45px] min-h-[45px] flex items-center justify-center shadow-lg"
           ref={buttonRef}
-          // onClick={scrollTop}
+          onClick={scrollTop}
         >
           <AiOutlineArrowUp className="text-2xl text-light-font-100 dark:text-dark-font-100 font-bold" />
         </Button>
