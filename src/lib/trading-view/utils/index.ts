@@ -21,7 +21,8 @@ const sockets = new Map();
 export const Datafeed = (
   baseAsset: Asset,
   isPair: boolean,
-  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>
+  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>,
+  setFadeIn?: Dispatch<SetStateAction<string[]>>
 ) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
@@ -126,6 +127,10 @@ export const Datafeed = (
             eventData,
             ...prev.slice(0, prev.length - 1),
           ]);
+
+        setFadeIn((prev) => [...prev, eventData?.hash]);
+        const timeout = setTimeout(() => setFadeIn([]), 2000);
+        return () => clearTimeout(timeout);
       } catch (e) {
         // console.log(e);
       }

@@ -1,6 +1,6 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
@@ -33,15 +33,20 @@ export const TokenTrades = () => {
     isAssetPage,
     pairTrades,
     setPairTrades,
+    fadeIn,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
   const [isMyTrades, setIsMyTrades] = useState<boolean>(false);
   const maxValue = 1_000_000_000_000;
   const { isConnected, isDisconnected } = useAccount();
+  const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
+  const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
+  const [isTradeLoading, setIsTradeLoading] = useState(!isAssetPage);
   const titles: string[] = [
     "Type",
-    "Tokens",
+    isAssetPage ? "Tokens" : baseSymbol,
+    isAssetPage ? null : quoteSymbol,
     "Value",
     "Price",
     "Time",
@@ -170,7 +175,10 @@ export const TokenTrades = () => {
     )
       .then((r) => r.json())
       .then((r) => {
-        if (r.data) setPairTrades(r.data);
+        if (r.data) {
+          setPairTrades(r.data);
+          setIsTradeLoading(false);
+        }
       });
   }, [baseAsset]);
 
@@ -332,11 +340,13 @@ export const TokenTrades = () => {
           <thead>
             <tr>
               {titles
-                .filter((entry) => entry !== "Unit Price")
+                .filter((entry) => entry !== "Unit Price" && entry)
                 .map((entry, i) => {
                   const isFirst = i === 0;
                   const isLast = i === titles.length - 1;
                   const isExplorer = entry === "Explorer";
+                  const isBaseSymbol = entry === baseSymbol;
+                  const isQuoteSymbol = entry === quoteSymbol;
                   return (
                     <Ths
                       extraCss={`sticky z-[2] top-[-1px] bg-light-bg-secondary dark:bg-dark-bg-secondary 
@@ -349,29 +359,44 @@ export const TokenTrades = () => {
                        table-cell ${
                          entry === "Unit Price" ||
                          entry === "Value" ||
-                         entry === "Type"
+                         entry === "Type" ||
+                         isQuoteSymbol
                            ? "md:hidden"
                            : "md:table-cell"
                        } `}
                       key={entry}
                     >
-                      <SmallFont
-                        extraCss={`${
-                          isFirst
-                            ? " pl-0 text-start"
-                            : entry === "Tokens"
-                            ? "pl-2.5 md:text-start md:pl-2.5"
-                            : "pl-2.5 text-end"
-                        } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
-                      >
-                        {entry}
-                      </SmallFont>
+                      {isBaseSymbol ? (
+                        <SmallFont
+                          extraCss={`pl-2.5 text-end pr-2.5 md:text-start`}
+                        >
+                          <>
+                            <span className="inline md:hidden">
+                              {baseSymbol}
+                            </span>
+                            <span className="hidden md:inline">Tokens</span>
+                          </>
+                        </SmallFont>
+                      ) : (
+                        <SmallFont
+                          extraCss={`${
+                            isFirst
+                              ? " pl-0 text-start"
+                              : entry === "Tokens"
+                              ? "pl-2.5 md:text-start md:pl-2.5"
+                              : "pl-2.5 text-end"
+                          } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
+                        >
+                          {entry}
+                        </SmallFont>
+                      )}
                     </Ths>
                   );
                 })}
             </tr>
           </thead>
-          {isMarketMetricsLoading && isAssetPage ? (
+          {(isMarketMetricsLoading && isAssetPage) ||
+          (!isAssetPage && isTradeLoading) ? (
             <>
               {Array.from({ length: 9 }).map((_, i) => (
                 <TradesTemplate
@@ -394,6 +419,8 @@ export const TokenTrades = () => {
                 const date: number = isMyTrades
                   ? (trade?.timestamp as number)
                   : trade?.date;
+                const tradeClass = trade.type === "sell" ? "sell-bg" : "buy-bg";
+
                 return (
                   <tbody
                     key={
@@ -405,7 +432,9 @@ export const TokenTrades = () => {
                       (trade?.unique_discriminator || 0) +
                       (trade?.id || 0)
                     }
-                    className="animate-fadeInTrade"
+                    className={`${
+                      fadeIn?.includes(trade?.hash) ? tradeClass : null
+                    } hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-100 ease-linear cursor-pointer`}
                   >
                     <TradesTemplate
                       trade={trade}

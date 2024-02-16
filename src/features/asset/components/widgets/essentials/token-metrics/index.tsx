@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiSolidChevronDown, BiSolidChevronUp } from "react-icons/bi";
 import { Button } from "../../../../../../components/button";
 import { Collapse } from "../../../../../../components/collapse";
@@ -7,7 +7,10 @@ import { NextChakraLink } from "../../../../../../components/link";
 import { Tooltip } from "../../../../../../components/tooltip";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
-import { formatAmount } from "../../../../../../utils/formaters";
+import {
+  formatAmount,
+  getFormattedDate,
+} from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Metrics } from "../../../../models";
 import { FlexBorderBox } from "../../../../style";
@@ -82,13 +85,13 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       dollar: false,
     },
     {
-      title: baseAsset?.token0?.name + " Pooled",
+      title: baseAsset?.token0?.symbol + " Pooled",
       value: baseAsset?.token0?.approximateReserveToken,
       extra: " " + baseAsset?.token0?.symbol,
       dollar: false,
     },
     {
-      title: baseAsset?.token1?.name + " Pooled",
+      title: baseAsset?.token1?.symbol + " Pooled",
       value: baseAsset?.token1?.approximateReserveToken,
       extra: " " + baseAsset?.token1?.symbol,
       dollar: false,
@@ -98,17 +101,14 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       value:
         baseAsset?.token0?.approximateReserveUSD +
         baseAsset?.token1?.approximateReserveUSD,
-      info: "The Liquidity is the total amount locked in the asset's on-chain liquidity pools.",
     },
     {
       title: "Volume",
       value: baseAsset?.volume_24h,
-      info: "The Volume is the total amount worth of asset traded on decentralized exchanges (Uniswap V2-forks only yet) in the last 24 hours.",
     },
     {
       title: "Market Cap",
       value: baseAsset?.[baseAsset.baseToken]?.market_cap,
-      info: "The Market Cap is the product of the current price and the total supply of the asset.",
     },
     // {
     //   title: "Pair created at",
@@ -123,14 +123,14 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   ) {
     pairsMetrics.push({
       title: "Pair created at",
-      value: new Date(baseAsset?.createdAt).toDateString(),
+      value: getFormattedDate(baseAsset?.createdAt),
       dollar: false,
     });
   }
 
   return (
-    <div className={cn(`${FlexBorderBox} w-full `, extraCss)}>
-      <div className="text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
+    <div className={cn(`${FlexBorderBox} w-full`, extraCss)}>
+      <div className="z-[1] text-lg lg:text-base font-medium mb-2.5 text-light-font-100 dark:text-dark-font-100 items-center flex px-0 md:px-[2.5%] pt-0 md:pt-[15px]">
         {isAssetPage ? "Token Metrics" : "Pair Metrics"}
         <div className="flex items-center ml-auto text-xs">
           Need data?
@@ -154,9 +154,10 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
         {(isAssetPage ? metrics : pairsMetrics).map((entry, i) => {
           const isNotDollar = entry.dollar === false;
           const noLiquidity = entry.title === "Liquidity" && entry.value === 0;
+          const isDate = entry.title === "Pair created at";
           return (
             <div
-              className={`flex w-full justify-between items-center ${
+              className={`z-[1] flex w-full justify-between items-center ${
                 i === 0 ? "border-0" : "border-t"
               } border-light-border-primary dark:border-dark-border-primary py-2.5 px-0 md:px-[2.5%] ${
                 metrics.length - 1 === i ? "pb-0" : "pb-2.5"
@@ -171,29 +172,37 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
                 >
                   {entry.title}
                 </SmallFont>
-                <Tooltip
-                  tooltipText={entry.info as string}
-                  extraCss="left-0 max-w-[200px] top-[20px]"
-                  // info={entry.info}
-                  // extraCss=""
-                  // mb="3px"
-                  // cursor="pointer"
-                  // position={
-                  //   "right" as PlacementWithLogical & ResponsiveValue<any>
-                  // }
-                  // noClose
-                />
+                {entry?.info ? (
+                  <Tooltip
+                    tooltipText={entry.info as string}
+                    extraCss="left-0 max-w-[200px] top-[20px]"
+                    // info={entry.info}
+                    // extraCss=""
+                    // mb="3px"
+                    // cursor="pointer"
+                    // position={
+                    //   "right" as PlacementWithLogical & ResponsiveValue<any>
+                    // }
+                    // noClose
+                  />
+                ) : null}
               </div>
               <div
                 className={`${
                   noLiquidity ? "opacity-50" : ""
                 } flex items-center`}
               >
-                <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
-                  {(!isNotDollar ? "$" : "") +
-                    formatAmount(entry.value) +
-                    (entry.extra ?? "")}
-                </p>
+                {isDate ? (
+                  <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
+                    {entry.value}
+                  </p>
+                ) : (
+                  <p className="text-[13px] text-light-font-100 dark:text-dark-font-100 font-medium">
+                    {(!isNotDollar ? "$" : "") +
+                      formatAmount(entry.value) +
+                      (entry.extra ?? "")}
+                  </p>
+                )}
               </div>
             </div>
           );

@@ -15,6 +15,7 @@ interface TradingViewChartProps {
   extraCss?: string;
   isPair?: boolean;
   setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>;
+  setFadeIn?: Dispatch<SetStateAction<string[]>>;
 }
 
 const TradingViewChart = ({
@@ -24,6 +25,7 @@ const TradingViewChart = ({
   extraCss,
   isPair = false,
   setPairTrades,
+  setFadeIn,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -36,7 +38,7 @@ const TradingViewChart = ({
         const baseToken = baseAsset?.[baseAsset?.baseToken];
         const quoteToken = baseAsset?.[baseAsset?.quoteToken];
         const tvWidget = new Widget({
-          datafeed: Datafeed(baseAsset, isPair, setPairTrades),
+          datafeed: Datafeed(baseAsset, isPair, setPairTrades, setFadeIn),
           symbol: isPair
             ? baseToken?.symbol + "/" + quoteToken?.symbol
             : baseAsset?.symbol + "/USD",
