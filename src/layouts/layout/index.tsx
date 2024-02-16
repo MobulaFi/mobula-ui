@@ -41,7 +41,7 @@ const Layout = async ({ children }: LayoutProps) => {
       <HeaderBanner assets={assets || []} />
       <div className="flex">
         <Nav />
-        <div className="w-full ml-[68px] lg:ml-0" id="app">
+        <div className="w-full pl-[68px] lg:pl-0" id="app">
           <Header addressCookie={addressCookie || ""} />
           <div className="w-full min-h-[70vh]">{children}</div> <Footer />
         </div>
