@@ -77,7 +77,7 @@ export const Submit = ({ state }) => {
       </Button>
     </div>
   ) : (
-    <div className="flex flex-col w-[800px] md:w-full">
+    <div className="flex flex-col w-[1040px] md:w-full">
       <div className="flex items-center">
         <button
           className="hidden md:flex"
@@ -185,7 +185,7 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
-        <div className="flex flex-col w-full max-w-[1000px] mx-auto">
+        <div className="flex flex-col w-full mx-auto">
           <div className="flex sm:flex-wrap justify-between mt-5">
             <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
               <MediumFont>Free Listing Offer</MediumFont>
@@ -227,7 +227,7 @@ export const Submit = ({ state }) => {
                 Price: $50 (stablecoin only)
               </SmallFont>
             </div>
-            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[500px]">
+            <div className="border border-light-border-primary dark:border-dark-border-primary rounded-md p-4 w-[600px]">
               <MediumFont>Express Listing</MediumFont>
               <SmallFont extraCss="text-center mt-2">
                 <div className="flex items-center mb-[5px]">
