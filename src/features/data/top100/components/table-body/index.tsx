@@ -351,7 +351,7 @@ export const Top100TBody = ({
             </>
           ) : null}
           <td className="table-cell md:hidden">
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end pr-5">
               {token.contracts && token.contracts.length > 0 && (
                 <Button
                   extraCss="px-0 w-[28px] h-[28px]"
