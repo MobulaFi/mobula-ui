@@ -536,3 +536,11 @@ textarea:focus {
     background: transparent;
   }
 }
+
+.home-width {
+  max-width: 1300px;
+}
+
+.page-width {
+  max-width: 1200px;
+}
