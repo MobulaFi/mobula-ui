@@ -68,21 +68,23 @@ export const TableTbody = () => {
 
   return (
     <>
-      {pairs?.pair?.map((item, i) => {
-        const pair = item?.pair;
-        const oldPairInfo = pairs?.oldPairs?.[pair?.address];
-        return (
-          <TableRow
-            key={i}
-            item={item}
-            isHover={isHover}
-            setIsHover={setIsHover}
-            router={router}
-            pair={pair}
-            oldPairInfo={oldPairInfo}
-          />
-        );
-      })}
+      {pairs?.pair
+        ?.filter((entry) => entry)
+        ?.map((item, i) => {
+          const pair = item?.pair;
+          const oldPairInfo = pairs?.oldPairs?.[pair?.address];
+          return (
+            <TableRow
+              key={i}
+              item={item}
+              isHover={isHover}
+              setIsHover={setIsHover}
+              router={router}
+              pair={pair}
+              oldPairInfo={oldPairInfo}
+            />
+          );
+        })}
     </>
   );
 };
