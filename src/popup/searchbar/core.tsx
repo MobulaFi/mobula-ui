@@ -86,42 +86,50 @@ export const CoreSearchBar = ({
     token?.includes(".eth") ||
     userWithAddress?.address !== undefined;
 
-  const fetchAssets = (input: string) => {
-    fetch(
-      `${
-        process.env.NEXT_PUBLIC_API_ENDPOINT
-      }/api/1/search?input=${input.toLowerCase()}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    )
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          const globalResult = r.data?.filter(
-            (entry, i) => !entry?.reserve0 && !entry?.reserve1
-          );
-          globalResult.sort((entryA, entryB) => {
-            const liquidityA =
-              entryA.pairs.length > 0 ? parseInt(entryA.pairs[0].liquidity) : 0;
-            const liquidityB =
-              entryB.pairs.length > 0 ? parseInt(entryB.pairs[0].liquidity) : 0;
-
-            if (liquidityA < liquidityB) return 1;
-            else if (liquidityA > liquidityB) return -1;
-            else return 0;
-          });
-
-          const pairAddressResult = r.data.filter(
-            (entry) => entry?.reserve0 || entry?.reserve1
-          );
-          setResults(globalResult);
-          setPairs(pairAddressResult);
+  const fetchAssets = async (input: string) => {
+    try {
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_ENDPOINT
+        }/api/1/search?input=${input.toLowerCase()}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
         }
-      });
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const data = await response.json();
+
+      if (data.data) {
+        const globalResult = data.data?.filter(
+          (entry, i) => !entry?.reserve0 && !entry?.reserve1
+        );
+        globalResult.sort((entryA, entryB) => {
+          const liquidityA =
+            entryA.pairs.length > 0 ? parseInt(entryA.pairs[0].liquidity) : 0;
+          const liquidityB =
+            entryB.pairs.length > 0 ? parseInt(entryB.pairs[0].liquidity) : 0;
+
+          if (liquidityA < liquidityB) return 1;
+          else if (liquidityA > liquidityB) return -1;
+          else return 0;
+        });
+
+        const pairAddressResult = data.data.filter(
+          (entry) => entry?.reserve0 || entry?.reserve1
+        );
+        setResults(globalResult);
+        setPairs(pairAddressResult);
+      }
+    } catch (error) {
+      console.error("Error fetching assets:", error);
+    }
   };
 
   useEffect(() => {
