@@ -544,3 +544,11 @@ textarea:focus {
 .page-width {
   max-width: 1200px;
 }
+:root:not(.dark) .theme-image.dark {
+  display: none;
+}
+
+/* Cacher l'image de thème clair lorsque le thème actif est "dark" */
+:root.dark .theme-image.light {
+  display: none;
+}
