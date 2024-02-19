@@ -153,7 +153,8 @@ export const Views = ({ setResultsData }) => {
               key !== "categories" &&
               (filter?.from !== 0 || filter?.to !== 100_000_000_000_000_000)) ||
             (key === "blockchains" &&
-              filter.length !== Object.keys(blockchainsContent).length) ||
+              filter.length !==
+                Object.keys(blockchainsContentWithNonEVM).length) ||
             (key === "categories" &&
               filter.length !== defaultCategories?.length)
         )

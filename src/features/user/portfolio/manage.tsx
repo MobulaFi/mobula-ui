@@ -28,10 +28,10 @@ import { colors, manageOptions } from "./constants";
 import { PortfolioV2Context } from "./context-manager";
 import { useWebSocketResp } from "./hooks";
 import {
-    boxStyle,
-    buttonPopupStyle,
-    buttonSquareStyle,
-    flexGreyBoxStyle,
+  boxStyle,
+  buttonPopupStyle,
+  buttonSquareStyle,
+  flexGreyBoxStyle,
 } from "./style";
 import { copyText } from "./utils";
 
@@ -172,13 +172,13 @@ export const Manage = () => {
     }
   };
 
-  const supportedChainsName = Object.keys(blockchainsContent).filter(
+  const supportedChainsName = Object.keys(blockchainsContentWithNonEVM).filter(
     (entry) => blockchainsContentWithNonEVM[entry].apiType === "etherscan-like"
   );
 
   const getSupportedChains = () => {
     let chains = [];
-    const entries = Object.entries(blockchainsContent);
+    const entries = Object.entries(blockchainsContentWithNonEVM);
     supportedChainsName.forEach((chain) => {
       entries.forEach((entry, i) => {
         if (entry[0] === chain) chains.push(entry[1]);

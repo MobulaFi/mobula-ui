@@ -41,7 +41,7 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
           {activeNetworks?.length > 4 ? (
             <p className="ml-2">
               {activeNetworks?.length !==
-              Object.keys(blockchainsContent)?.length
+              Object.keys(blockchainsContentWithNonEVM)?.length
                 ? `+${
                     activeNetworks?.filter((entry) => entry !== null)?.length -
                     4

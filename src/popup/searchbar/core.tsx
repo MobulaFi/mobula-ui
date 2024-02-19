@@ -133,7 +133,7 @@ export const CoreSearchBar = ({
 
   useEffect(() => {
     if (isAddress(token))
-      Object.values(blockchainsContent).forEach((blockchain) => {
+      Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
         const getContract = async () => {
           const abi = [
             {

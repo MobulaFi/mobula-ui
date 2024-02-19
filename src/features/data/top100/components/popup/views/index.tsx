@@ -1,14 +1,14 @@
 import Cookies from "js-cookie";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, {
-    ChangeEvent,
-    Dispatch,
-    SetStateAction,
-    forwardRef,
-    useCallback,
-    useContext,
-    useEffect,
-    useState,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 import { AiFillStar, AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsCheckLg, BsChevronDown, BsTrash3 } from "react-icons/bs";
@@ -29,12 +29,12 @@ import { triggerAlert } from "../../../../../../lib/toastify";
 import { GET, POST } from "../../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../../utils/formaters";
 import {
-    colors,
-    defaultCategories,
-    defaultTop100,
-    displays,
-    filters,
-    formatDataForFilters,
+  colors,
+  defaultCategories,
+  defaultTop100,
+  displays,
+  filters,
+  formatDataForFilters,
 } from "../../../constants";
 import { useTop100 } from "../../../context-manager";
 import { View } from "../../../models";
@@ -738,32 +738,34 @@ export const ViewPopup = ({
                       {filter.title === "Blockchains" ? (
                         <div className="flex flex-col w-full">
                           <div className="flex flex-col w-full max-h-[255px] overflow-y-scroll ">
-                            {Object.keys(blockchainsContent).map((chain) => (
-                              <div
-                                className="my-[5px] justify-between flex cursor-pointer"
-                                key={chain}
-                                onClick={() => handleBlockchainsChange(chain)}
-                              >
-                                <div className="flex items-center">
-                                  <img
-                                    className="w-[22px] h-[22px] min-h-[22px] min-w-[22px] rounded-full mr-[7.5px]"
-                                    src={
-                                      blockchainsContentWithNonEVM[chain]?.logo ||
-                                      "/empty/unknown.png"
-                                    }
-                                    alt={chain + " logo"}
-                                  />
-                                  <SmallFont>{chain}</SmallFont>
+                            {Object.keys(blockchainsContentWithNonEVM).map(
+                              (chain) => (
+                                <div
+                                  className="my-[5px] justify-between flex cursor-pointer"
+                                  key={chain}
+                                  onClick={() => handleBlockchainsChange(chain)}
+                                >
+                                  <div className="flex items-center">
+                                    <img
+                                      className="w-[22px] h-[22px] min-h-[22px] min-w-[22px] rounded-full mr-[7.5px]"
+                                      src={
+                                        blockchainsContentWithNonEVM[chain]
+                                          ?.logo || "/empty/unknown.png"
+                                      }
+                                      alt={chain + " logo"}
+                                    />
+                                    <SmallFont>{chain}</SmallFont>
+                                  </div>
+                                  <button className="flex items-center justify-center w-[15px] h-[15px] rounded-md border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
+                                    {(state?.filters?.blockchains || []).some(
+                                      (item) => item === chain
+                                    ) ? (
+                                      <BsCheckLg className="text-blue text-[14px]" />
+                                    ) : null}
+                                  </button>
                                 </div>
-                                <button className="flex items-center justify-center w-[15px] h-[15px] rounded-md border border-light-border-secondary dark:border-dark-border-secondary mr-[15px]">
-                                  {(state?.filters?.blockchains || []).some(
-                                    (item) => item === chain
-                                  ) ? (
-                                    <BsCheckLg className="text-blue text-[14px]" />
-                                  ) : null}
-                                </button>
-                              </div>
-                            ))}
+                              )
+                            )}
                           </div>
                           <div className="flex pt-2.5 bg-light-bg-secondary dark:bg-dark-bg-secondary mb-2.5">
                             <Button

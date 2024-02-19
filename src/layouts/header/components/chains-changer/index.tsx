@@ -1,5 +1,4 @@
 import {
-  blockchainsContent,
   blockchainsContentWithNonEVM,
   blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
@@ -41,7 +40,11 @@ export const ChainsChanger = ({
   const [showXBlockchains, setShowXBlockchains] = useState([1, 8]);
 
   const orderBlockchainsByNewest = () => {
-    const newArray = [...Object.entries(blockchainsContent)];
+    const newArray = [
+      ...Object.entries(blockchainsContentWithNonEVM).filter(
+        (entry) => entry[1].evmChainId
+      ),
+    ];
     [newArray[2], newArray[21]] = [newArray[21], newArray[2]];
     [newArray[1], newArray[25]] = [newArray[25], newArray[1]];
     [newArray[6], newArray[26]] = [newArray[26], newArray[6]];
@@ -82,7 +85,7 @@ export const ChainsChanger = ({
   );
 
   const showNextButton =
-    showXBlockchains[1] <= Object.values(blockchainsContent).length;
+    showXBlockchains[1] <= Object.values(blockchainsContentWithNonEVM).length;
   return (
     <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
       <div className="flex relative w-fit">
@@ -95,8 +98,8 @@ export const ChainsChanger = ({
               {reorderedBlockchainsContent.map((entry, i) => {
                 const isOdds = i % 2 === 0;
                 const isLasts =
-                  Object.values(blockchainsContent).length - 1 === i ||
-                  i === showXBlockchains[1] - 1;
+                  Object.values(blockchainsContentWithNonEVM).length - 1 ===
+                    i || i === showXBlockchains[1] - 1;
                 let isSelected = false;
                 if (chain)
                   isSelected =
@@ -189,7 +192,7 @@ export const ChainsChanger = ({
                   Next
                   {showNextButton
                     ? ` (${
-                        Object.values(blockchainsContent).length -
+                        Object.values(blockchainsContentWithNonEVM).length -
                         showXBlockchains[1]
                       })`
                     : null}

@@ -86,7 +86,7 @@ export const useFilter = ({ setFilters, orderBy }: IUseFilter) => {
         }
         if (
           key === "blockchains" &&
-          value.length !== Object.keys(blockchainsContent)?.length
+          value.length !== Object.keys(blockchainsContentWithNonEVM)?.length
         ) {
           const filters = value.map((v: string) => `blockchains.cs.{${v}}`);
           const filterString = filters.join(",");
