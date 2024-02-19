@@ -1,4 +1,3 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BiCandles } from "react-icons/bi";
 import { BsWallet2 } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";

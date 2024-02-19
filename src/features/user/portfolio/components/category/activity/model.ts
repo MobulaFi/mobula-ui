@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 
 export interface TransactionResponse {
   data: {
@@ -28,7 +28,7 @@ export interface PublicTransaction {
 
   tx_cost: string;
   tx_cost_usd: number;
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
 
   id: number;
 

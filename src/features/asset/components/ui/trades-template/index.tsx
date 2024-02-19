@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
@@ -72,9 +72,10 @@ export const TradesTemplate = ({
                 <NextChakraLink
                   href={
                     "blockchain" in trade && "hash" in trade
-                      ? `${blockchainsContent[trade.blockchain]?.explorer}/tx/${
-                          trade.hash
-                        }`
+                      ? `${
+                          blockchainsContentWithNonEVM[trade.blockchain]
+                            ?.explorer
+                        }/tx/${trade.hash}`
                       : ""
                   }
                   key={trade.hash}
@@ -240,7 +241,8 @@ export const TradesTemplate = ({
                     href={
                       "blockchain" in trade && "hash" in trade
                         ? `${
-                            blockchainsContent[trade.blockchain]?.explorer
+                            blockchainsContentWithNonEVM[trade.blockchain]
+                              ?.explorer
                           }/tx/${trade.hash}`
                         : ""
                     }
@@ -253,7 +255,7 @@ export const TradesTemplate = ({
                   <img
                     className="w-[18px] h-[18px] min-w-[18px] mb-0.5 rounded-full"
                     src={
-                      blockchainsContent[trade.blockchain]?.logo ||
+                      blockchainsContentWithNonEVM[trade.blockchain]?.logo ||
                       `/logo/${
                         trade.blockchain.toLowerCase().split(" ")[0]
                       }.png`

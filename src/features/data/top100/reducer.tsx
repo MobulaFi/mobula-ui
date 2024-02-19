@@ -1,4 +1,3 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { defaultCategories } from "./constants";
 import { Payload, Reducer, View } from "./models";
 

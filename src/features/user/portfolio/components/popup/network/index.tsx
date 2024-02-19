@@ -1,5 +1,4 @@
 import { NextImageFallback } from "components/image";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";

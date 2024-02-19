@@ -1,5 +1,5 @@
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -29,9 +29,13 @@ export const Nav = () => {
   const { isDisconnected } = useAccount();
   const router = useRouter();
 
-  const blockchains = Object.entries(blockchainsContent)?.filter(
-    (x) => x[1]?.FETCH_BLOCKS
+  const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
+    (x) => {
+      console.log("poulet", x[1]?.FETCH_BLOCKS, x[0]);
+      return x[1]?.FETCH_BLOCKS;
+    }
   );
+  
   return (
     <div
       id="container"

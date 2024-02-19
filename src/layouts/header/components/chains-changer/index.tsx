@@ -1,6 +1,7 @@
 import {
   blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useState } from "react";
 import {
@@ -77,7 +78,7 @@ export const ChainsChanger = ({
 
   const reorderedBlockchainsContent = moveSelectedToIndexZero(
     Object.values(newChainsOrder),
-    blockchainsIdContent[chain?.id || 1]?.name
+    blockchainsIdContentWithNonEVM[String(chain?.id || 1)]?.name
   );
 
   const showNextButton =
@@ -99,7 +100,8 @@ export const ChainsChanger = ({
                 let isSelected = false;
                 if (chain)
                   isSelected =
-                    blockchainsIdContent[chain?.id]?.name === entry.name;
+                    blockchainsIdContentWithNonEVM[String(chain?.id)]?.name ===
+                    entry.name;
                 if (
                   i + 1 <= showXBlockchains[1] &&
                   i + 1 >= showXBlockchains[0]
@@ -132,7 +134,9 @@ export const ChainsChanger = ({
                       <div className="flex items-center w-full h-full font-normal truncate">
                         <img
                           src={
-                            blockchainsContent[entry.name || "Ethereum"]?.logo
+                            blockchainsContentWithNonEVM[
+                              entry.name || "Ethereum"
+                            ]?.logo
                           }
                           className="mr-[7.5px] rounded-full w-[22px] h-[22px] min-w-[22px]"
                           alt={`${entry.name} logo`}
@@ -208,8 +212,8 @@ export const ChainsChanger = ({
               <img
                 className="w-[19px] h-[19px] min-w-[19px] rounded-full"
                 src={
-                  blockchainsIdContent[chain?.id || 1]?.logo ||
-                  "/empty/unknown.png"
+                  blockchainsIdContentWithNonEVM[String(chain?.id || 1)]
+                    ?.logo || "/empty/unknown.png"
                 }
                 alt={`${chain?.name} logo`}
               />

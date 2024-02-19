@@ -3,7 +3,7 @@ import { Button } from "components/button";
 import { SmallFont } from "components/fonts";
 import { Input } from "components/input";
 import { Cookies } from "js-cookie";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { Key, useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
@@ -165,7 +165,7 @@ export const PopoverTrade = ({
                         <img
                           className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] min-h-[25px] mr-2.5"
                           src={
-                            blockchainsContent[chain]?.logo ||
+                            blockchainsContentWithNonEVM[chain]?.logo ||
                             `/logo/${chain.toLowerCase().split(" ")[0]}.png`
                           }
                           alt={`${chain} logo`}

@@ -1,6 +1,6 @@
 import { LargeFont, SmallFont } from "components/fonts";
 import { pushData } from "lib/mixpanel";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
@@ -28,10 +28,10 @@ import { colors, manageOptions } from "./constants";
 import { PortfolioV2Context } from "./context-manager";
 import { useWebSocketResp } from "./hooks";
 import {
-  boxStyle,
-  buttonPopupStyle,
-  buttonSquareStyle,
-  flexGreyBoxStyle,
+    boxStyle,
+    buttonPopupStyle,
+    buttonSquareStyle,
+    flexGreyBoxStyle,
 } from "./style";
 import { copyText } from "./utils";
 
@@ -173,7 +173,7 @@ export const Manage = () => {
   };
 
   const supportedChainsName = Object.keys(blockchainsContent).filter(
-    (entry) => blockchainsContent[entry].apiType === "etherscan-like"
+    (entry) => blockchainsContentWithNonEVM[entry].apiType === "etherscan-like"
   );
 
   const getSupportedChains = () => {

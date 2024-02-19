@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { Button } from "../../../../../components/button";
@@ -33,7 +33,7 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
                   <img
                     className="h-[18px] w-[18px] mr-[-3px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-full"
                     alt={`${blockchain} logo`}
-                    src={blockchainsContent[blockchain]?.logo}
+                    src={blockchainsContentWithNonEVM[blockchain]?.logo}
                   />
                 );
               return null;

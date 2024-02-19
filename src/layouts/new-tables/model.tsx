@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Trade } from "../../interfaces/trades";
 
 export interface OrderBy {
@@ -29,7 +29,7 @@ export type TableAsset = {
   market_score: number;
   trust_score: number;
   social_score: number;
-  blockchains?: BlockchainName[];
+  blockchains?: BlockchainNameWithNonEVM[];
   contracts?: string[];
   trade_history: Trade[];
   created_at: string;

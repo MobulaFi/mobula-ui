@@ -1,6 +1,6 @@
 import { SmallFont } from "components/fonts";
 import { NextImageFallback } from "components/image";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { Key, useContext, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { Accordion } from "../../../../../components/accordion";
@@ -43,10 +43,14 @@ export const TradeFiltersPopup = () => {
                         height={18}
                         key={item}
                         alt={
-                          blockchainsContent[activeNames.blockchain[i]]?.name
+                          blockchainsContentWithNonEVM[
+                            activeNames.blockchain[i]
+                          ]?.name
                         }
                         src={
-                          blockchainsContent[activeNames.blockchain[i]]?.logo ||
+                          blockchainsContentWithNonEVM[
+                            activeNames.blockchain[i]
+                          ]?.logo ||
                           `/logo/${
                             activeNames.blockchain[i]
                               ?.toLowerCase()

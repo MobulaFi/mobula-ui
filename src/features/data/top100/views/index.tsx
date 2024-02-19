@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
 import {
   useCallback,

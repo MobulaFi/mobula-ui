@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { TransactionReceipt } from "viem";
 import { HoldingsResponse } from "../../interfaces/holdings";
@@ -107,12 +107,12 @@ export interface ISwapContext extends IMetaSwapContext {
 export interface Asset {
   symbol: string;
   logo: string;
-  blockchains: BlockchainName[];
+  blockchains: BlockchainNameWithNonEVM[];
   contracts: string[];
   address: string;
   image?: string;
   id?: number;
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
   balance?: number;
   name?: string;
 }
@@ -125,9 +125,9 @@ export interface Coin {
   name?: string;
   image?: string;
   id?: number;
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
   balance?: number;
-  blockchains?: BlockchainName[];
+  blockchains?: BlockchainNameWithNonEVM[];
   address?: string;
   contracts?: string[];
 }

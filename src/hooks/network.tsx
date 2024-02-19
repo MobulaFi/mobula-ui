@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainName } from "mobula-lite/lib/model";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { useEffect, useRef } from "react";
 import { createWalletClient, custom } from "viem";
 import { Chain, mainnet, useNetwork, useSwitchNetwork } from "wagmi";
@@ -15,9 +15,9 @@ export const useSafeSwitchNetwork = () => {
     chainRef.current = chain;
   }, [chain]);
 
-  const handleSwitchNetwork = async (blockchain: BlockchainName) => {
+  const handleSwitchNetwork = async (blockchain: BlockchainNameWithNonEVM) => {
     let switched = false;
-    if (switchNetworkAsync && blockchainsContent[blockchain]) {
+    if (switchNetworkAsync && blockchainsContentWithNonEVM[blockchain]) {
       try {
         await new Promise((resolve, reject) => {
           switchNetworkAsync(
@@ -35,7 +35,7 @@ export const useSafeSwitchNetwork = () => {
             i += 1;
             if (
               chainRef.current?.id ===
-              (blockchainsContent[blockchain].evmChainId || 0)
+              (blockchainsContentWithNonEVM[blockchain].evmChainId || 0)
             ) {
               resolve(null);
               clearInterval(interval);
@@ -63,7 +63,8 @@ export const useSafeSwitchNetwork = () => {
               });
               const wishedBlockchain = Object.values(idToWagmiChain).find(
                 (entry) =>
-                  entry.id === (blockchainsContent[blockchain].evmChainId || 0)
+                  entry.id ===
+                  (blockchainsContentWithNonEVM[blockchain].evmChainId || 0)
               );
 
               client.addChain({
