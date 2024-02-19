@@ -30,7 +30,6 @@ export const Nav = () => {
 
   const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
     (x) => {
-      console.log("poulet", x[1]?.FETCH_BLOCKS, x[0]);
       return x[1]?.FETCH_BLOCKS;
     }
   );
