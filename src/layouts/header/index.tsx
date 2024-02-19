@@ -1,7 +1,8 @@
 "use client";
 import { parse } from "cookie";
+import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import {
   CommonPageContext,
@@ -19,10 +20,12 @@ import { AccountHeaderContext } from "./context-manager";
 
 export const Header = ({ addressCookie }) => {
   usePageLoad();
+  const { theme } = useTheme();
   const { showNotif } = useContext(AccountHeaderContext);
   const { showAddedToWatchlist } = useContext(PopupStateContext);
   const pathname = usePathname();
   const cookie = parse(addressCookie);
+  const [test, setTest] = useState("");
   const addressFromCookie = cookie.address;
   useAnalytics();
   useEffect(() => {
@@ -46,6 +49,17 @@ export const Header = ({ addressCookie }) => {
 
   const maxWidth = getPageMaxWidth();
 
+  useEffect(() => {
+    const elements = document.querySelectorAll("[data-class]");
+    elements.forEach((element) => {
+      const dataTheme = element.getAttribute("data-class");
+      if (dataTheme === theme) {
+        element.classList.add("active");
+      } else {
+        element.classList.remove("active");
+      }
+    });
+  }, [theme]);
   return (
     <CommonPageProvider>
       {/* Banner to replace with new feature */}
@@ -70,7 +84,6 @@ export const Header = ({ addressCookie }) => {
             </NextChakraLink>
           </TextLandingSmall>
         </Flex> */}
-
       <div
         className={`md:px-2.5 z-10 w-[95%] lg:w-full mx-auto bg-light-bg-primary dark:bg-dark-bg-primary padding-screen ${maxWidth}`}
       >
