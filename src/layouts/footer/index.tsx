@@ -1,5 +1,4 @@
 "use client";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useAccount } from "wagmi";
@@ -14,7 +13,6 @@ import { getPath } from "./constant";
 
 export const Footer = () => {
   const pages = getPath();
-  const { resolvedTheme } = useTheme();
   const [isHover, setIsHover] = useState(null);
   const router = useRouter();
   const { portfolioUrl } = useUrl();
