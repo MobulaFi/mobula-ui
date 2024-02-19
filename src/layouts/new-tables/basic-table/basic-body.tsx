@@ -1,6 +1,7 @@
 "use client";
+import { SmallFont } from "components/fonts";
 import { useParams, usePathname } from "next/navigation";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "../../../components/button";
@@ -31,6 +32,7 @@ interface EntryProps {
   isTop100?: boolean;
   isMobile?: boolean;
   showRank?: boolean;
+  isTrending?: boolean;
 }
 
 export const BasicBody = ({
@@ -38,6 +40,7 @@ export const BasicBody = ({
   index,
   isMobile: nullValue,
   showRank = false,
+  isTrending = false,
 }: EntryProps) => {
   const entryRef = useRef<HTMLTableSectionElement>(null);
   const [token, setToken] = useState<TableAsset>(tokenBuffer);
@@ -213,23 +216,36 @@ export const BasicBody = ({
             }`}
             noLink
           >
-            <WatchlistAdd
-              addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
-              setAddedToWatchlist={setAddedToWatchlist}
-              addedToWatchlist={addedToWatchlist}
-              token={token}
-            />
-            <div className="w-fit hidden md:block">
-              <button
-                className="h-full px-[5px] py-2"
-                onClick={() => {
-                  setShowMenuTableMobile(true);
-                  setShowMenuTableMobileForToken(token);
-                }}
-              >
-                <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
-              </button>
-            </div>
+            {isTrending ? (
+              <div className="flex w-full justify-center pr-5">
+                <SmallFont>
+                  <span className="text-light-font-60 dark:text-dark-font-60">
+                    #
+                  </span>
+                  {index + 1}
+                </SmallFont>{" "}
+              </div>
+            ) : (
+              <>
+                <WatchlistAdd
+                  addOrRemoveFromWatchlist={addOrRemoveFromWatchlist}
+                  setAddedToWatchlist={setAddedToWatchlist}
+                  addedToWatchlist={addedToWatchlist}
+                  token={token}
+                />
+                <div className="w-fit hidden md:block">
+                  <button
+                    className="h-full px-[5px] py-2"
+                    onClick={() => {
+                      setShowMenuTableMobile(true);
+                      setShowMenuTableMobileForToken(token);
+                    }}
+                  >
+                    <BsThreeDotsVertical className="text-light-font-100 dark:text-dark-font-100 text-lg" />
+                  </button>
+                </div>
+              </>
+            )}
           </Segment>
           <Segment
             // max-w-[190px] lg:max-w-[150px] md:max-w-[100px] sm:max-w-[160px]
