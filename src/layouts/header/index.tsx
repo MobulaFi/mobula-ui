@@ -40,7 +40,7 @@ export const Header = ({ addressCookie }) => {
   const getPageMaxWidth = () => {
     if (pathname.includes("asset") || pathname.includes("pair"))
       return "maximum-width";
-    if (pathname === "/home") return "home-width";
+    if (pathname === "/home" || pathname.includes("chain")) return "home-width";
     return "page-width";
   };
 

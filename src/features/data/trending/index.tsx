@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
@@ -57,9 +57,16 @@ export default function Trendings({ tokensBuffer, isMobile, count }) {
                 setOrderBy={setOrderBy}
                 hideDEXVolume
               >
-                {resultsData?.data?.map((token, i) => (
-                  <BasicBody key={token?.id} token={token} index={i} />
-                ))}
+                {resultsData?.data
+                  ?.filter((entry) => entry.id)
+                  ?.map((token, i) => (
+                    <BasicBody
+                      key={token?.id}
+                      token={token}
+                      index={i}
+                      isTrending
+                    />
+                  ))}
               </CommonTableHeader>
             ) : (
               <div className="w-full h-[600px] flex items-center justify-center">
