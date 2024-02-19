@@ -1,6 +1,6 @@
 import { BlockchainName } from "mobula-lite/lib/model";
 
-export const PROTOCOL_ADDRESS = "0xf46d858053ac892c4aca49c24bbf6ad4fc0f9bad";
+export const PROTOCOL_ADDRESS = "0xE6688BD7ca4D4B06a716aaee6b77c8c4017C0Fc3";
 export const API_ADDRESS = "0x006405852388f9d195d7d2a1ba4f5353d6f5d5e4";
 export const PROTOCOL_BNB_ADDRESS =
   "0x65d121150E03d02a00C362159383BF5860Ab8526";
