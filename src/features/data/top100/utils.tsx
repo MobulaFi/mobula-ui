@@ -1,4 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { Asset, Token } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { getFormattedAmount } from "../../../utils/formaters";

@@ -1,3 +1,4 @@
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { MutableRefObject, useContext, useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";

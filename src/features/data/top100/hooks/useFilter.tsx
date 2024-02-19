@@ -1,4 +1,5 @@
 "use client";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useParams } from "next/navigation";
 import { SetStateAction, useEffect } from "react";
 import { useAccount } from "wagmi";

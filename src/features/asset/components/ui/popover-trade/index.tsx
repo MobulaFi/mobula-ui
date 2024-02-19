@@ -1,3 +1,4 @@
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { Button } from "../../../../../components/button";

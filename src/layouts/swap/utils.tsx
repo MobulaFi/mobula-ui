@@ -1,3 +1,4 @@
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import {
   TransactionReceipt,
@@ -20,10 +21,12 @@ export const fetchContract = (search: string) => {
     new Promise((r) => {
       let fails = 0;
 
-      Object.values(blockchainsContentWithNonEVM).forEach(
-        async (blockchain) => {
+      Object.values(blockchainsContentWithNonEVM)
+        .filter((entry) => entry.evmChainId)
+        .forEach(async (blockchain) => {
           try {
             const publicClient = createPublicClient({
+              // @ts-ignore - we are sure that the chain is EVM
               chain: idToWagmiChain[blockchain.evmChainId],
               transport: http(blockchain.rpcs[0]),
             });
@@ -42,8 +45,7 @@ export const fetchContract = (search: string) => {
               r(null);
             }
           }
-        }
-      );
+        });
     })
   );
 
