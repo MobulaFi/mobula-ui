@@ -1,5 +1,5 @@
 import { NextImageFallback } from "components/image";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { SmallFont } from "../../../../../../components/fonts";
@@ -40,7 +40,7 @@ export const NetworkPopup = () => {
       }}
     >
       <div className="w-full p-0 max-h-[420px] overflow-y-scroll">
-        {Object.values(blockchainsContent).map((blockchain, i) => {
+        {Object.values(blockchainsContentWithNonEVM).map((blockchain, i) => {
           const isOdds = i % 2 === 0;
           const isBnb = blockchain.name === "BNB Smart Chain (BEP20)";
           const isAvax = blockchain.name === "Avalanche C-Chain";

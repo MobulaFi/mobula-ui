@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  :root:not(.dark) .theme-image.dark {
+    display: none;
+  }
+
+  :root.dark .theme-image.light {
+    display: none;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;

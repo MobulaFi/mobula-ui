@@ -1,9 +1,8 @@
 "use client";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
@@ -11,6 +10,7 @@ import { RiGlobalLine } from "react-icons/ri";
 import { SiHiveBlockchain } from "react-icons/si";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../components/fonts";
+import { NextChakraLink } from "../../components/link";
 import { useGeneralContext } from "../../contexts/general";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { pushData } from "../../lib/mixpanel";
@@ -20,18 +20,25 @@ import { navigation, navigationGlobal } from "./constants";
 export const Nav = () => {
   const { setHideNav, hideNav } = useGeneralContext();
   const [showChains, setShowChains] = useState(false);
-  const { resolvedTheme } = useTheme();
+  const router = useRouter();
+  const { theme } = useTheme();
   const [isHover, setIsHover] = useState("");
   const [showGlobal, setShowGlobal] = useState(false);
   const handleShowGlobal = () => setShowGlobal(!showGlobal);
   const handleShowChains = () => setShowChains(!showChains);
   const { setConnect } = useContext(PopupUpdateContext);
   const { isDisconnected } = useAccount();
-  const router = useRouter();
 
-  const blockchains = Object.entries(blockchainsContent)?.filter(
-    (x) => x[1]?.FETCH_BLOCKS
+  const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
+    (x) => {
+      return x[1]?.FETCH_BLOCKS;
+    }
   );
+
+  const image =
+    theme === "dark"
+      ? "/mobula/mobula-logo.svg"
+      : "/mobula/mobula-logo-light.svg";
   return (
     <div
       id="container"
@@ -55,15 +62,22 @@ export const Nav = () => {
     >
       <div className="flex items-center justify-between w-full mt-[42px] mb-4">
         <div className="pl-[13px] items-center flex ">
-          <img
-            className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
-            src={
-              resolvedTheme === "dark"
-                ? "/mobula/mobula-logo.svg"
-                : "/mobula/mobula-logo-light.svg"
-            }
-            alt="Mobula logo"
-          />
+          <div className="theme-image dark">
+            <img
+              src="/mobula/mobula-logo.svg"
+              className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
+              width={32}
+              height={32}
+            />
+          </div>
+          <div className="theme-image light">
+            <img
+              src="/mobula/mobula-logo-light.svg"
+              className="w-[32px] h-[32px] max-w-[32px] max-h-[32px]"
+              width={32}
+              height={32}
+            />
+          </div>
           <h2
             className={`text-light-font-100 dark:text-dark-font-100 text-2xl ml-3 font-poppins ${
               hideNav === "hidden" ? "opacity-0" : ""
@@ -88,7 +102,7 @@ export const Nav = () => {
       </div>
       <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mb-5 min-h-[164px]">
         {navigation.map((page, i) => (
-          <a
+          <NextChakraLink
             href={page.name === "Portfolio" && isDisconnected ? `/` : page.url}
             onClick={(e) => {
               if (page.name === "Portfolio" && isDisconnected) {
@@ -117,7 +131,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </a>
+          </NextChakraLink>
         ))}
       </div>
       <div
@@ -138,10 +152,10 @@ export const Nav = () => {
           </div>
         </div>
         {navigationGlobal.extend.map((page, i) => (
-          <a
-            href={page.url}
+          <NextChakraLink
             onMouseEnter={() => setIsHover(page.name)}
             onMouseLeave={() => setIsHover("")}
+            href={page.url}
           >
             <div
               className={`flex items-center ${
@@ -158,7 +172,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </a>
+          </NextChakraLink>
         ))}
       </div>
       <div
@@ -186,7 +200,7 @@ export const Nav = () => {
                 onMouseEnter={() => setIsHover(blockchain[0])}
                 onMouseLeave={() => setIsHover("")}
               >
-                <Link
+                <NextChakraLink
                   href={`/chain/${
                     blockchain[1]?.shortName
                       ? getUrlFromName(blockchain[1]?.shortName)
@@ -209,7 +223,7 @@ export const Nav = () => {
                       />
                     </div>
                   </div>
-                </Link>
+                </NextChakraLink>
               </div>
             ))}
           </div>{" "}

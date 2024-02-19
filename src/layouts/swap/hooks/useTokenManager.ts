@@ -1,8 +1,8 @@
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
-import { BlockchainParams } from "mobula-lite/lib/model";
+import { BlockchainParamsWithNonEVM } from "mobula-lite/lib/model";
 import { useCallback } from "react";
 import { Chain, useNetwork } from "wagmi";
 import { Coin, Loaded, SyntaxicTokens } from "../model";
@@ -26,9 +26,9 @@ export const useTokenManager = () => {
 
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id || 1;
-  const chainData = blockchainsIdContent[currentChain];
+  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
   const nativeEthereum = (
-    chainDataParam: BlockchainParams
+    chainDataParam: BlockchainParamsWithNonEVM
   ): Coin | undefined => {
     if (!chainData) return undefined;
     return {
@@ -47,7 +47,7 @@ export const useTokenManager = () => {
       const finalChain =
         (position === "in" ? tokens.out?.blockchain : tokens.in?.blockchain) ||
         chainData.name;
-      const finalChainData = blockchainsContent[finalChain];
+      const finalChainData = blockchainsContentWithNonEVM[finalChain];
 
       if (position === "in") {
         if (tokenOut && "coin" in tokenOut) {
@@ -146,7 +146,7 @@ export const useTokenManager = () => {
       } else {
         loadToken(position, tokenBuffer, {
           chainBuffer: {
-            id: blockchainsContent[token.blockchain]?.evmChainId,
+            id: blockchainsContentWithNonEVM[token.blockchain]?.evmChainId,
           } as Chain,
         });
       }

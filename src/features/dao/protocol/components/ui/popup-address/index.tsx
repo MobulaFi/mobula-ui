@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React from "react";
 import { SmallFont } from "../../../../../../components/fonts";
 import { Modal } from "../../../../../../components/modal-container";
@@ -19,7 +19,7 @@ export const PopupAddress = ({ isOpen, setIsOpen, distribution }) => {
         >
           {blockchain && (
             <img
-              src={blockchainsContent[blockchain].logo}
+              src={blockchainsContentWithNonEVM[blockchain].logo}
               className="w-5 h-5 rounded-full mr-[7.5px] md:h-4 md:w-4"
               alt={`${blockchain} logo`}
             />

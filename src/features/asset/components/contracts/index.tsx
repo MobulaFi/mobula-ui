@@ -1,6 +1,6 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainName } from "mobula-lite/lib/model";
-import { useContext, useState } from "react";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import React, { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
@@ -47,12 +47,16 @@ export function Contracts({ contract, blockchain, title }: ContractsProps) {
             options: {
               address:
                 baseAsset.contracts[
-                  baseAsset.blockchains.indexOf(chain?.name as BlockchainName)
+                  baseAsset.blockchains.indexOf(
+                    chain?.name as BlockchainNameWithNonEVM
+                  )
                 ],
               symbol: baseAsset.symbol,
               decimals:
                 baseAsset.decimals[
-                  baseAsset.blockchains.indexOf(chain?.name as BlockchainName)
+                  baseAsset.blockchains.indexOf(
+                    chain?.name as BlockchainNameWithNonEVM
+                  )
                 ],
               image: baseAsset.logo, // A string url of the token logo
             },
@@ -87,7 +91,7 @@ export function Contracts({ contract, blockchain, title }: ContractsProps) {
             }}
             alt={`${blockchain} logo`}
             src={
-              blockchainsContent[blockchain]?.logo ||
+              blockchainsContentWithNonEVM[blockchain]?.logo ||
               `/logo/${blockchain.toLowerCase().split(" ")[0]}.png` ||
               "/empty/unknown.png"
             }
@@ -100,7 +104,7 @@ export function Contracts({ contract, blockchain, title }: ContractsProps) {
       </div>
       <div className="flex justify-end ml-5">
         <NextChakraLink
-          href={`${blockchainsContent[blockchain]?.explorer}/address/${contract}`}
+          href={`${blockchainsContentWithNonEVM[blockchain]?.explorer}/address/${contract}`}
           target="_blank"
           rel="norefer"
           className="mr-2.5 text-start ml-[9px]"

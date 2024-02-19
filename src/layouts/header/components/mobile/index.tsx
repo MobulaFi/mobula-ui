@@ -1,5 +1,5 @@
 import { Collapse } from "components/collapse";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
@@ -21,7 +21,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
     useContext(CommonPageContext);
   const router = useRouter();
   const [showChains, setShowChains] = useState(false);
-  const blockchains = Object.entries(blockchainsContent)?.filter(
+  const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
     (x) => x[1]?.FETCH_BLOCKS
   );
   return (
@@ -145,32 +145,33 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
           <div className="relative overflow-y-scroll mt-3">
             <div className="flex flex-col whitespace-nowrap relative">
               {blockchains?.map((blockchain, i) => (
-                <div
-                  className={`flex items-center ${
-                    i !== blockchains?.length - 1 ? "mb-4" : ""
+                <NextChakraLink
+                  href={`/chain/${
+                    blockchain[1]?.shortName
+                      ? getUrlFromName(blockchain[1]?.shortName)
+                      : getUrlFromName(blockchain[0])
                   }`}
-                  key={blockchain[0]}
-                  onClick={() => {
-                    router.push(
-                      `/chain/${
-                        blockchain[1]?.shortName
-                          ? getUrlFromName(blockchain[1]?.shortName)
-                          : getUrlFromName(blockchain[0])
-                      }`
-                    );
-                    setIsMenuMobile(false);
-                  }}
                 >
-                  <img
-                    src={blockchain[1]?.logo || "/empty/unknown.png"}
-                    className="h-[18px] w-[18px] min-w-[18px] rounded-full"
-                  />
-                  <div className="w-fit ml-2.5">
-                    <SmallFont extraCss={`font-poppins text-sm md:text-sm`}>
-                      {blockchain[1]?.shortName || blockchain[0]}
-                    </SmallFont>
+                  <div
+                    className={`flex items-center ${
+                      i !== blockchains?.length - 1 ? "mb-4" : ""
+                    }`}
+                    key={blockchain[0]}
+                    onClick={() => {
+                      setIsMenuMobile(false);
+                    }}
+                  >
+                    <img
+                      src={blockchain[1]?.logo || "/empty/unknown.png"}
+                      className="h-[18px] w-[18px] min-w-[18px] rounded-full"
+                    />
+                    <div className="w-fit ml-2.5">
+                      <SmallFont extraCss={`font-poppins text-sm md:text-sm`}>
+                        {blockchain[1]?.shortName || blockchain[0]}
+                      </SmallFont>
+                    </div>
                   </div>
-                </div>
+                </NextChakraLink>
               ))}
             </div>{" "}
             <div className="from-light-bg-primary to-[rgba(0,0,0,0)] h-[30px] w-full sticky bottom-[-10px] bg-gradient-to-t dark:from-dark-bg-primary dark:to-[rgba(0,0,0,0)]" />{" "}

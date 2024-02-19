@@ -1,6 +1,6 @@
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
@@ -64,7 +64,7 @@ export const useButtonClick = () => {
       amount_sold_crypto: amountIn,
       amount_sold_usd: (tokenIn?.price || 0) * parseFloat(amountIn),
       dex_name: (manualQuote || quotes[0]).protocol,
-      chain_name: blockchainsIdContent[chain.id]?.name,
+      chain_name: blockchainsIdContentWithNonEVM[String(chain.id)]?.name,
     };
     switch (buttonStatus) {
       case "Approve":
@@ -190,7 +190,7 @@ export const useButtonClick = () => {
             account: address || null,
             hash: transaction || null,
             blockchain: encodeURIComponent(
-              blockchainsIdContent[chain.id]?.name
+              blockchainsIdContentWithNonEVM[String(chain.id)]?.name
             ),
             value: volume,
             router: (manualQuote || quotes[0]).protocol,
@@ -254,7 +254,8 @@ export const useButtonClick = () => {
       default:
         if (buttonStatus.includes("Switch to ")) {
           setShowSwitchNetwork(
-            blockchainsContent[buttonStatus.split("Switch to ")[1]].evmChainId
+            blockchainsContentWithNonEVM[buttonStatus.split("Switch to ")[1]]
+              .evmChainId
           );
         }
     }

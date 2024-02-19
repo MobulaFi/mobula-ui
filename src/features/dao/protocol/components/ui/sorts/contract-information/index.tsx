@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -48,7 +48,7 @@ export const ContractInformation = ({ token }: ContractInformationProps) => {
                       className="w-[22px] h-[22px] rounded-full mr-[7.5px]"
                       alt={`${blockchain} logo`}
                       src={
-                        blockchainsContent[blockchain]?.logo ||
+                        blockchainsContentWithNonEVM[blockchain]?.logo ||
                         "/icon/unknown.png"
                       }
                     />

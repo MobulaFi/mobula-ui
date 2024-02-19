@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 
 export const PROTOCOL_ADDRESS = "0xE6688BD7ca4D4B06a716aaee6b77c8c4017C0Fc3";
 export const API_ADDRESS = "0x118f3e7DAE8B63601f8a51C853291805c76aAD64";
@@ -99,7 +99,7 @@ export const supportedRPCs = [
 
 export const types = ["price", "volume", "liquidity", "rank"];
 
-export const SAFU_CHAIN: Partial<Record<BlockchainName, string>> = {
+export const SAFU_CHAIN: Partial<Record<BlockchainNameWithNonEVM, string>> = {
   "BNB Smart Chain (BEP20)": "BSC",
   Ethereum: "ETH",
 };
