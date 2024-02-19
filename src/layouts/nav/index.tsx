@@ -1,9 +1,8 @@
 "use client";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { FaGithub, FaKey } from "react-icons/fa";
 import { MdLibraryAdd, MdOutlineKeyboardCapslock } from "react-icons/md";
@@ -20,6 +19,7 @@ import { navigation, navigationGlobal } from "./constants";
 export const Nav = () => {
   const { setHideNav, hideNav } = useGeneralContext();
   const [showChains, setShowChains] = useState(false);
+  const router = useRouter();
   const { theme } = useTheme();
   const [isHover, setIsHover] = useState("");
   const [showGlobal, setShowGlobal] = useState(false);
@@ -27,7 +27,6 @@ export const Nav = () => {
   const handleShowChains = () => setShowChains(!showChains);
   const { setConnect } = useContext(PopupUpdateContext);
   const { isDisconnected } = useAccount();
-  const router = useRouter();
 
   const blockchains = Object.entries(blockchainsContent)?.filter(
     (x) => x[1]?.FETCH_BLOCKS
@@ -100,9 +99,11 @@ export const Nav = () => {
       </div>
       <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mb-5 min-h-[164px]">
         {navigation.map((page, i) => (
-          <Link
-            href={page.name === "Portfolio" && isDisconnected ? `/` : page.url}
+          <button
             onClick={(e) => {
+              router.push(
+                page.name === "Portfolio" && isDisconnected ? `/` : page.url
+              );
               if (page.name === "Portfolio" && isDisconnected) {
                 e.preventDefault();
                 setConnect(true);
@@ -129,7 +130,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </Link>
+          </button>
         ))}
       </div>
       <div
@@ -150,8 +151,8 @@ export const Nav = () => {
           </div>
         </div>
         {navigationGlobal.extend.map((page, i) => (
-          <Link
-            href={page.url}
+          <button
+            onClick={() => router.push(page.url)}
             onMouseEnter={() => setIsHover(page.name)}
             onMouseLeave={() => setIsHover("")}
           >
@@ -170,7 +171,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </Link>
+          </button>
         ))}
       </div>
       <div
@@ -198,12 +199,16 @@ export const Nav = () => {
                 onMouseEnter={() => setIsHover(blockchain[0])}
                 onMouseLeave={() => setIsHover("")}
               >
-                <Link
-                  href={`/chain/${
-                    blockchain[1]?.shortName
-                      ? getUrlFromName(blockchain[1]?.shortName)
-                      : getUrlFromName(blockchain[0])
-                  }`}
+                <button
+                  onClick={() =>
+                    router.push(
+                      `/chain/${
+                        blockchain[1]?.shortName
+                          ? getUrlFromName(blockchain[1]?.shortName)
+                          : getUrlFromName(blockchain[0])
+                      }`
+                    )
+                  }
                 >
                   <div className="flex items-center w-full">
                     <img
@@ -221,7 +226,7 @@ export const Nav = () => {
                       />
                     </div>
                   </div>
-                </Link>
+                </button>
               </div>
             ))}
           </div>{" "}
