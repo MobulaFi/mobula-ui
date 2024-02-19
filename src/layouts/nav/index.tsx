@@ -100,6 +100,7 @@ export const Nav = () => {
       <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mb-5 min-h-[164px]">
         {navigation.map((page, i) => (
           <button
+            className="flex flex-col"
             onClick={(e) => {
               router.push(
                 page.name === "Portfolio" && isDisconnected ? `/` : page.url
