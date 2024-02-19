@@ -1,4 +1,4 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { useParams, usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -146,7 +146,10 @@ export const Activity = ({
   // ETH is ETH vs Stable
   // Other is Other vs Stable or ETH
   const ethSymbols = useMemo(
-    () => Object.values(blockchainsIdContent).map((entry) => entry.eth.symbol),
+    () =>
+      Object.values(blockchainsIdContentWithNonEVM).map(
+        (entry) => entry.eth.symbol
+      ),
     []
   );
 
@@ -685,12 +688,14 @@ export const Activity = ({
                                   className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] 
                             border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                   src={
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.logo || "/empty/unknown.png"
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.logo || "/empty/unknown.png"
                                   }
                                   alt={`${
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.name
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.name
                                   } logo`}
                                 />
                               </div>
@@ -709,8 +714,8 @@ export const Activity = ({
                                       onClick={() =>
                                         window.open(
                                           `${
-                                            blockchainsIdContent[
-                                              transaction.chain_id
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
                                             ]?.explorer
                                           }/tx/${transaction.hash}`
                                         )
@@ -722,13 +727,13 @@ export const Activity = ({
                                         <img
                                           className="w-[15px] h-[15px] min-w-[15px]"
                                           src={
-                                            blockchainsIdContent[
-                                              transaction.chain_id
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
                                             ]?.logo
                                           }
                                           alt={`${
-                                            blockchainsIdContent[
-                                              transaction.chain_id
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
                                             ]?.name
                                           } logo`}
                                         />
@@ -803,8 +808,8 @@ export const Activity = ({
                                     onClick={() =>
                                       window.open(
                                         `${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
+                                          blockchainsIdContentWithNonEVM[
+                                            String(transaction.chain_id)
                                           ]?.explorer
                                         }/tx/${transaction.hash}`
                                       )
@@ -833,12 +838,14 @@ export const Activity = ({
                                 <img
                                   className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                   src={
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.logo || "/icon/unknown.png"
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.logo || "/icon/unknown.png"
                                   }
                                   alt={`$${
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.name
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.name
                                   } logo`}
                                 />
                                 <FiExternalLink
@@ -846,8 +853,8 @@ export const Activity = ({
                                   onClick={() =>
                                     window.open(
                                       `${
-                                        blockchainsIdContent[
-                                          transaction.chain_id
+                                        blockchainsIdContentWithNonEVM[
+                                          String(transaction.chain_id)
                                         ]?.explorer
                                       }/tx/${transaction.hash}`
                                     )

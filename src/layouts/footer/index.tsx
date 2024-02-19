@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAccount } from "wagmi";
 import { Container } from "../../components/container";
 import { LargeFont, SmallFont } from "../../components/fonts";
@@ -30,15 +30,20 @@ export const Footer = () => {
         <Container extraCss="pt-[28px] md:pt-[5px] mt-0 w-full">
           <div className="flex mt-[15px] md:mt-0 flex-row sm:flex-col-reverse mx-auto w-[90%] md:w-[100%]">
             <div className="flex w-1/5">
-              <img
-                className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] mt-0 md:mt-[15px] ml-0 sm:ml-[20px] mb-auto"
-                src={
-                  resolvedTheme === "dark"
-                    ? "/mobula/mobula-logo.svg"
-                    : "/mobula/mobula-logo-light.svg"
-                }
-                alt="Mobula logo"
-              />
+              <div className="theme-image dark">
+                <img
+                  src="/mobula/mobula-logo.svg"
+                  className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] md:max-w-[42px] md:max-h-[42px] mt-0 md:mt-[15px] ml-0 sm:ml-[20px] mb-auto"
+                  alt="mobula logo"
+                />
+              </div>
+              <div className="theme-image light">
+                <img
+                  src="/mobula/mobula-logo-light.svg"
+                  className="h-[62px] w-[62px] md:w-[42px] md:h-[42px] md:max-w-[42px] md:max-h-[42px] mt-0 md:mt-[15px] ml-0 sm:ml-[20px] mb-auto"
+                  alt="mobula logo light"
+                />
+              </div>
             </div>
             <div className="flex sm:hidden justify-between w-full">
               {pages.map((entry) => (

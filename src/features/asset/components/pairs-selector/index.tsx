@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useEffect } from "react";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
@@ -60,7 +60,7 @@ export const PairsSelector = () => {
               <img
                 className="w-[20px] h-[20px] min-w-[20px] md:w-[15px] md:h-[15px] md:min-w-[15px] absolute -bottom-0.5 -right-1 rounded-full border
                  border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
-                src={blockchainsContent[baseAsset?.blockchain]?.logo}
+                src={blockchainsContentWithNonEVM[baseAsset?.blockchain]?.logo}
                 alt={`${baseAsset?.blockchain} logo`}
               />
             </div>
@@ -146,8 +146,8 @@ export const PairsSelector = () => {
                         className="w-[20px] h-[20px] min-w-[20px] rounded-full  shadow-2xl 
                    bg-light-bg-hover dark:bg-dark-bg-hover"
                         src={
-                          blockchainsContent[pair?.blockchain]?.logo ||
-                          "/empty/unknown.png"
+                          blockchainsContentWithNonEVM[pair?.blockchain]
+                            ?.logo || "/empty/unknown.png"
                         }
                         alt={`${baseAsset?.name} logo`}
                       />
