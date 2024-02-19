@@ -10,6 +10,7 @@ import { RiGlobalLine } from "react-icons/ri";
 import { SiHiveBlockchain } from "react-icons/si";
 import { useAccount } from "wagmi";
 import { SmallFont } from "../../components/fonts";
+import { NextChakraLink } from "../../components/link";
 import { useGeneralContext } from "../../contexts/general";
 import { PopupUpdateContext } from "../../contexts/popup";
 import { pushData } from "../../lib/mixpanel";
@@ -101,12 +102,9 @@ export const Nav = () => {
       </div>
       <div className="p-5 pb-0 w-fit overflow-hidden whitespace-nowrap mb-5 min-h-[164px]">
         {navigation.map((page, i) => (
-          <button
-            className="flex flex-col"
+          <NextChakraLink
+            href={page.name === "Portfolio" && isDisconnected ? `/` : page.url}
             onClick={(e) => {
-              router.push(
-                page.name === "Portfolio" && isDisconnected ? `/` : page.url
-              );
               if (page.name === "Portfolio" && isDisconnected) {
                 e.preventDefault();
                 setConnect(true);
@@ -133,7 +131,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </button>
+          </NextChakraLink>
         ))}
       </div>
       <div
@@ -154,10 +152,10 @@ export const Nav = () => {
           </div>
         </div>
         {navigationGlobal.extend.map((page, i) => (
-          <button
-            onClick={() => router.push(page.url)}
+          <NextChakraLink
             onMouseEnter={() => setIsHover(page.name)}
             onMouseLeave={() => setIsHover("")}
+            href={page.url}
           >
             <div
               className={`flex items-center ${
@@ -174,7 +172,7 @@ export const Nav = () => {
                 />
               </div>
             </div>
-          </button>
+          </NextChakraLink>
         ))}
       </div>
       <div
@@ -202,16 +200,12 @@ export const Nav = () => {
                 onMouseEnter={() => setIsHover(blockchain[0])}
                 onMouseLeave={() => setIsHover("")}
               >
-                <button
-                  onClick={() =>
-                    router.push(
-                      `/chain/${
-                        blockchain[1]?.shortName
-                          ? getUrlFromName(blockchain[1]?.shortName)
-                          : getUrlFromName(blockchain[0])
-                      }`
-                    )
-                  }
+                <NextChakraLink
+                  href={`/chain/${
+                    blockchain[1]?.shortName
+                      ? getUrlFromName(blockchain[1]?.shortName)
+                      : getUrlFromName(blockchain[0])
+                  }`}
                 >
                   <div className="flex items-center w-full">
                     <img
@@ -229,7 +223,7 @@ export const Nav = () => {
                       />
                     </div>
                   </div>
-                </button>
+                </NextChakraLink>
               </div>
             ))}
           </div>{" "}
