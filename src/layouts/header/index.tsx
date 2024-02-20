@@ -2,7 +2,7 @@
 import { parse } from "cookie";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import {
   CommonPageContext,
@@ -60,6 +60,7 @@ export const Header = ({ addressCookie }) => {
       }
     });
   }, [theme]);
+
   return (
     <CommonPageProvider>
       {/* Banner to replace with new feature */}

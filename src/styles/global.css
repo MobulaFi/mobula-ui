@@ -544,6 +544,7 @@ textarea:focus {
 .page-width {
   max-width: 1200px;
 }
+
 :root:not(.dark) .theme-image.dark {
   display: none;
 }
