@@ -42,3 +42,6 @@ export const pricings = [
     ],
   },
 ];
+
+export const pricingBoxStyle =
+  "flex items-center shadow-xl min-w-[300px] bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[45%] md:mt-5 overflow-hidden  rotating-effect md:w-full";

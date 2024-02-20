@@ -4,6 +4,7 @@ import { Title } from "../home/components/ui/title";
 import { containerStyle } from "../home/style";
 import { blurEffectAnimation } from "../home/utils";
 import { PricingBox } from "./components/pricing-box";
+import { pricingBoxStyle } from "./constants";
 
 export const Pricing = () => {
   const liveRef = useRef<HTMLDivElement>(null);
@@ -16,6 +17,7 @@ export const Pricing = () => {
     blurEffectAnimation(mulitRef.current);
     blurEffectAnimation(surcharge.current);
   }, []);
+
   return (
     <section
       className="w-full flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
@@ -35,28 +37,13 @@ export const Pricing = () => {
               livestreamed to your DB.
             </p>
             <div className="w-full flex justify-between md:flex-col md:justify-start">
-              <div
-                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[45%] md:mt-5 
-                   overflow-hidden  rotating-effect md:w-full"
-                ref={mulitRef}
-              >
+              <div className={pricingBoxStyle} ref={mulitRef}>
                 <PricingBox id={0} />
               </div>
-              <div
-                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[45%] md:mt-5 
-                   overflow-hidden mx-5 rotating-effect md:w-full"
-                ref={mulitRef}
-              >
+              <div className={`${pricingBoxStyle} mx-5`} ref={mulitRef}>
                 <PricingBox id={1} />
               </div>
-              <div
-                className=" flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
-                   border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[45%] md:mt-5 
-                   overflow-hidden  rotating-effect md:w-full"
-                ref={mulitRef}
-              >
+              <div className={pricingBoxStyle} ref={mulitRef}>
                 <PricingBox id={2} />
               </div>
             </div>
