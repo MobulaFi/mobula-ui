@@ -47,7 +47,6 @@ export const Datafeed = (
       intraday_multipliers: ["1", "15", "30", "60"],
       supported_resolution: supportedResolutions,
       volume_precision: 8,
-      price: 12,
       data_status: "streaming",
     };
     onResolve(params);
