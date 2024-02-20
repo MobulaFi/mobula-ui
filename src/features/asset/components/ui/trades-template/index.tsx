@@ -1,6 +1,6 @@
 import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
@@ -151,34 +151,16 @@ export const TradesTemplate = ({
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
               } mr-0 lg:mr-2.5 md:mr-0`}
             >
-              {isMyTrades ? (
-                <>
-                  $
-                  {getFormattedAmount(trade.amount_usd as number, 0, {
+              $
+              {isMyTrades
+                ? getFormattedAmount(trade.amount_usd as number, 0, {
                     canUseHTML: true,
-                  })}
-                </>
-              ) : isUsd ? (
-                <>
-                  $
-                  {getFormattedAmount(
+                  })
+                : getFormattedAmount(
                     (trade?.token_amount_usd || trade?.value_usd) as number,
                     0,
                     { canUseHTML: true }
                   )}
-                </>
-              ) : (
-                <>
-                  {getFormattedAmount(
-                    trade.token_amount_vs / trade.token_amount,
-                    0,
-                    {
-                      canUseHTML: true,
-                    }
-                  )}{" "}
-                  {baseAsset?.[baseAsset?.quoteToken]?.symbol}
-                </>
-              )}
             </SmallFont>
           )}
         </div>
@@ -205,10 +187,25 @@ export const TradesTemplate = ({
                 )
               ) : (
                 <>
-                  $
-                  {getFormattedAmount(trade.token_price, 0, {
-                    canUseHTML: true,
-                  })}
+                  {isUsd ? (
+                    <>
+                      $
+                      {getFormattedAmount(trade.token_price, 0, {
+                        canUseHTML: true,
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      {getFormattedAmount(
+                        trade.token_amount_vs / trade.token_amount,
+                        0,
+                        {
+                          canUseHTML: true,
+                        }
+                      )}{" "}
+                      {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+                    </>
+                  )}
                 </>
               )}
             </SmallFont>
