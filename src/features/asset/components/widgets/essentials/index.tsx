@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -59,6 +59,12 @@ export const Essentials = () => {
               chartPreference={chartPreference}
             />
           ) : null}
+          {/* (
+            <Button>
+              <HiOutlineSwitchHorizontal className="mr-1.5" />
+              Switch to ${baseAsset?.[baseAsset?.baseToken]?.symbol}
+            </Button>
+          ) */}
           {chartPreference !== "Trading view" && isAssetPage ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}

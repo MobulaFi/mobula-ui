@@ -1,12 +1,15 @@
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
 import { TagPercentage } from "../../../../components/tag-percentage";
 import { GET } from "../../../../utils/fetch";
-import { getFormattedAmount } from "../../../../utils/formaters";
+import {
+  convertScientificNotation,
+  getFormattedAmount,
+} from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 
 export const PairsSelector = () => {
@@ -98,7 +101,9 @@ export const PairsSelector = () => {
                 )}
               </LargeFont>
               <TagPercentage
-                percentage={baseAsset?.price_change_24h}
+                percentage={convertScientificNotation(
+                  baseAsset?.price_change_24h
+                )}
                 isUp={baseAsset?.price_change_24h > 0}
                 extraCss="ml-1 sm:hidden"
                 inhert={baseAsset?.price_change_24h === 0}

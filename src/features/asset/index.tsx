@@ -14,8 +14,8 @@ import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import {
+  convertScientificNotation,
   getFormattedAmount,
-  getTokenPercentage,
   getUrlFromName,
 } from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
@@ -433,10 +433,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                       </SmallFont>
                       {pair?.isPercentage ? (
                         <TagPercentage
-                          percentage={getTokenPercentage(pair?.value)}
+                          percentage={convertScientificNotation(pair?.value)}
                           isUp={pair?.value > 0}
                           inhert={pair?.value === 0}
                           isLoading={!pair?.value && pair?.value !== 0}
+                          extraCss="ml-0"
                         />
                       ) : (
                         <SmallFont extraCss={`mt-1 text-center`}>
