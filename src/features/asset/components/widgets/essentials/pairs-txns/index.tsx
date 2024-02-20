@@ -126,7 +126,7 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
               Sell Vol
             </SmallFont>
             <SmallFont>
-              ${" "}
+              $
               {getFormattedAmount(baseAsset?.[`sell_volume_${timeframe}`], 0, {
                 canUseHTML: true,
               })}
