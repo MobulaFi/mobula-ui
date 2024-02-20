@@ -594,7 +594,7 @@ const customExplorers: Partial<
   Record<BlockchainNameWithNonEVM, Record<string, string>>
 > = {
   Alephium: {
-    tx: "transaction",
+    tx: "transactions",
     address: "addresses",
   },
 };

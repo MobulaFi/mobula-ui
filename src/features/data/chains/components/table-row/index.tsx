@@ -1,3 +1,4 @@
+import React from "react";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
@@ -48,6 +49,8 @@ export const TableRow = ({
   const liquidityColorClass = getColorFromChange(isLiquidityUp);
   const volumeColorClass = getColorFromChange(isVolumeUp);
   const timeAgo = useTimeAgo(item?.last_trade);
+
+  console.log("pair", pair);
 
   return (
     <tbody
@@ -130,6 +133,18 @@ export const TableRow = ({
             >
               $
               {getFormattedAmount(pair?.liquidity, 0, {
+                canUseHTML: true,
+              })}
+            </SmallFont>
+          </div>
+        </Segment>
+        <Segment>
+          <div className="w-full flex justify-end">
+            <SmallFont
+              extraCss={`w-fit whitespace-nowrap text-end transition-all duration-100 ease-in-out`}
+            >
+              $
+              {getFormattedAmount(pair?.[pair?.baseToken]?.market_cap, 0, {
                 canUseHTML: true,
               })}
             </SmallFont>

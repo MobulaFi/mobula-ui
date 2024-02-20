@@ -40,8 +40,6 @@ export const PairsSelector = () => {
       (pair) => pair?.token1?.symbol !== "BNB" && pair?.token0?.symbol !== "BNB"
     )?.length > 0;
 
-  console.log("baseAsset", baseAsset);
-
   return (
     <Popover
       visibleContent={
