@@ -47,6 +47,7 @@ export const Datafeed = (
       intraday_multipliers: ["1", "15", "30", "60"],
       supported_resolution: supportedResolutions,
       volume_precision: 8,
+      price: 12,
       data_status: "streaming",
     };
     onResolve(params);
@@ -57,7 +58,6 @@ export const Datafeed = (
     periodParams,
     onResult: Function
   ) => {
-    console.log("isUsd", isUsd, "usdDefined", isUsd !== undefined);
     const usdDefined = isUsd !== undefined;
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
@@ -143,6 +143,7 @@ export const Datafeed = (
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
       let bar: Bar;
+      console.log("highlow", price, price);
 
       if (timestamp >= nextDailyBarTime) {
         bar = {

@@ -63,7 +63,10 @@ export const Essentials = () => {
               chartPreference={chartPreference}
             />
           ) : (
-            <Button onClick={() => setSwitchedToNative((prev) => !prev)}>
+            <Button
+              extraCss="lg:hidden"
+              onClick={() => setSwitchedToNative((prev) => !prev)}
+            >
               <HiOutlineSwitchHorizontal className="mr-1.5" />
               Switch to $
               {switchedToNative

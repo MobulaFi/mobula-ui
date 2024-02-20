@@ -1,5 +1,5 @@
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
@@ -13,7 +13,8 @@ import {
 import { BaseAssetContext } from "../../context-manager";
 
 export const PairsSelector = () => {
-  const { baseAsset, setAssetPairs, assetPairs } = useContext(BaseAssetContext);
+  const { baseAsset, setAssetPairs, assetPairs, switchedToNative } =
+    useContext(BaseAssetContext);
 
   const fetchPairs = () => {
     if (!assetPairs?.pairs?.length && baseAsset?.[baseAsset?.baseToken]?.name) {
@@ -38,6 +39,8 @@ export const PairsSelector = () => {
     assetPairs?.pairs?.filter(
       (pair) => pair?.token1?.symbol !== "BNB" && pair?.token0?.symbol !== "BNB"
     )?.length > 0;
+
+  console.log("baseAsset", baseAsset);
 
   return (
     <Popover
@@ -90,16 +93,30 @@ export const PairsSelector = () => {
           </div>
           <div className="flex items-center ml-10 md:ml-5">
             <div className="flex items-center">
-              <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg">
-                $
-                {getFormattedAmount(
-                  baseAsset?.[baseAsset?.baseToken]?.price,
-                  0,
-                  {
-                    canUseHTML: true,
-                  }
-                )}
-              </LargeFont>
+              {switchedToNative ? (
+                <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg whitespace-nowrap">
+                  {getFormattedAmount(
+                    baseAsset?.[baseAsset?.baseToken]?.priceToken,
+                    0,
+                    {
+                      canUseHTML: true,
+                    }
+                  )}{" "}
+                  {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+                </LargeFont>
+              ) : (
+                <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg">
+                  $
+                  {getFormattedAmount(
+                    baseAsset?.[baseAsset?.baseToken]?.price,
+                    0,
+                    {
+                      canUseHTML: true,
+                    }
+                  )}
+                </LargeFont>
+              )}
+
               <TagPercentage
                 percentage={convertScientificNotation(
                   baseAsset?.price_change_24h

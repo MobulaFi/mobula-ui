@@ -39,7 +39,6 @@ export const TradesTemplate = ({
     trade.token_price,
     trade.token_price_vs
   );
-  console.log("trade", trade);
 
   return (
     <tr>
