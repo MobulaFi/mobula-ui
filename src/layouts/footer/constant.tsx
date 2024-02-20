@@ -23,6 +23,7 @@ export const getPath = () => {
         { name: "Support", url: "https://discord.gg/2a8hqNzkzN" },
         { name: "Blog", url: "https://blog.mobula.io/" },
         { name: "Docs", url: "https://docs.mobula.fi/" },
+        { name: "Sitemap", url: "/sitemap" },
         // { name: "Sitemap", url: "https://mobula.fi/sitemap" },
       ],
     },

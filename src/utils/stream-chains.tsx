@@ -37,16 +37,17 @@ export const useLiteStreamMarketData = (
 ) => {
   const supabase = createSupabaseDOClient();
   const [marketMetrics, setMarketMetrics] = useState<MarketMetrics>({
-    price: baseAsset.price,
+    price: baseAsset?.price,
     priceChange: null,
-    liquidity: baseAsset.liquidity,
-    volume: baseAsset.volume,
+    liquidity: baseAsset?.liquidity,
+    volume: baseAsset?.volume,
     volumeChange: null,
-    market_cap: baseAsset.market_cap,
+    market_cap: baseAsset?.market_cap,
     trade_history: baseAsset?.trade_history || [],
   });
 
   useEffect(() => {
+    if (baseAsset?.token0) return;
     const stream = setInterval(async () => {
       try {
         const { data } = await supabase
@@ -115,7 +116,9 @@ export const useLiteStreamMarketDataModule = (
   shouldInstantLoad?: boolean
 ) => {
   const threadId = useRef(Math.round(100000000 * Math.random()));
+
   useEffect(() => {
+    if (baseAsset?.token0) return;
     if (setIsLoading !== undefined) setIsLoading(true);
     const threadIdCurrent = threadId.current;
     if (baseAsset !== undefined) {
@@ -184,6 +187,8 @@ export const useLiteStreamMarketDataModule = (
     }
     return () => {};
   }, [baseAsset, filters]);
+
+  if (baseAsset?.token0) return null;
   return [marketMetrics, setMarketMetrics];
 };
 

@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainName } from "mobula-lite/lib/model";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import {
   TransactionReceipt,
   createPublicClient,
@@ -21,28 +21,31 @@ export const fetchContract = (search: string) => {
     new Promise((r) => {
       let fails = 0;
 
-      Object.values(blockchainsContent).forEach(async (blockchain) => {
-        try {
-          const publicClient = createPublicClient({
-            chain: idToWagmiChain[blockchain.chainId],
-            transport: http(blockchain.rpcs[0]),
-          });
+      Object.values(blockchainsContentWithNonEVM)
+        .filter((entry) => entry.evmChainId)
+        .forEach(async (blockchain) => {
+          try {
+            const publicClient = createPublicClient({
+              // @ts-ignore - we are sure that the chain is EVM
+              chain: idToWagmiChain[blockchain.evmChainId],
+              transport: http(blockchain.rpcs[0]),
+            });
 
-          const contract = getContract({
-            address: search as never,
-            abi: erc20ABI,
-            publicClient: publicClient as never,
-          }) as any;
+            const contract = getContract({
+              address: search as never,
+              abi: erc20ABI,
+              publicClient: publicClient as never,
+            }) as any;
 
-          const symbol = await contract.read.symbol();
-          r({ symbol, blockchain: blockchain.name });
-        } catch (e) {
-          fails += 1;
-          if (fails === Object.keys(blockchainsContent).length) {
-            r(null);
+            const symbol = await contract.read.symbol();
+            r({ symbol, blockchain: blockchain.name });
+          } catch (e) {
+            fails += 1;
+            if (fails === Object.keys(blockchainsContentWithNonEVM).length) {
+              r(null);
+            }
           }
-        }
-      });
+        });
     })
   );
 
@@ -68,13 +71,10 @@ export const cleanNumber = (
 
 export const formatAsset = (
   asset: SearchTokenProps,
-  chainName: BlockchainName
+  chainName: BlockchainNameWithNonEVM
 ) => {
-  console.log("I CAME HERE");
   if ("coin" in asset) return asset;
-  console.log("I CAME HERE");
   try {
-    console.log("EVERYTHING IS FGINE");
     return {
       ...asset,
       logo: asset.logo || "/empty/unknown.png",
@@ -83,12 +83,12 @@ export const formatAsset = (
         asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
         asset.contracts[0],
       blockchain:
-        (asset.blockchain as BlockchainName) ||
+        (asset.blockchain as BlockchainNameWithNonEVM) ||
         chainName ||
-        ((asset.blockchain || "")[0] as BlockchainName),
+        ((asset.blockchain || "")[0] as BlockchainNameWithNonEVM),
     };
   } catch (e) {
-    console.log("ERROR", e);
+    // console.log("ERROR", e);
   }
 };
 

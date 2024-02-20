@@ -1,5 +1,4 @@
 "use client";
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { FaLink } from "react-icons/fa6";
@@ -24,6 +23,7 @@ import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { TokenDivs } from "../../../../models";
 import styles from "../box-prevote/Prevote.module.scss";
 import { CommunityPopup } from "../popup-community";
@@ -90,7 +90,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   const getMOBLForVote = async () => {
     const client = createPublicClient({
       chain: polygon,
-      transport: http(blockchainsIdContent[137].rpcs[0]),
+      transport: http(blockchainsContentWithNonEVM["Polygon"].rpcs[0]),
     });
 
     const contract: any = getContract({

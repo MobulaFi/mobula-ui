@@ -1,4 +1,4 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useEffect } from "react";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { disconnect } from "wagmi/actions";
@@ -21,7 +21,10 @@ export const SwitchNetworkPopup = () => {
     typeof showSwitchNetwork === "number"
       ? showSwitchNetwork
       : chainNeededBuffer;
-  const blockchain = blockchainsIdContent[chainNeeded || 1];
+  const blockchain =
+    blockchainsIdContentWithNonEVM[
+      String((showSwitchNetwork as number) || (chainNeededBuffer as number))
+    ];
 
   useEffect(() => {
     if (chain?.id === chainNeeded) setShowSwitchNetwork(false);
@@ -68,9 +71,9 @@ export const SwitchNetworkPopup = () => {
                 return;
               }
               const result = await handleSwitchNetwork(blockchain.name);
-
               if (result && "error" in result) {
                 setError(result?.error);
+                setShowSwitchNetwork(false);
               }
             }}
           >

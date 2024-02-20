@@ -33,26 +33,7 @@ export const useSlippage = () => {
       return;
     }
 
-    if (address) {
-      // setIsFeesLoading(true);
-      fetch(
-        `https://api.staysafu.org/api/scan?tokenAddress=${address}&key=mobulaforever&onlySimulateBuy=true&chain=${
-          SAFU_CHAIN[token!.blockchain]
-        }`
-      )
-        .then((r) => r.json())
-        .then((r) => {
-          // setIsFeesLoading(false);
-          if (
-            !Number.isNaN(r?.result?.trade?.buyFee) &&
-            !Number.isNaN(r?.result?.trade?.sellFee)
-          ) {
-            if (position === "in") {
-              setSlippageTokenIn(r.result.trade.sellFee * 1.1 + 0.25);
-            } else setSlippageTokenOut(r.result.trade.buyFee * 1.1 + 0.25);
-          } else setSlippage[position](0.25);
-        });
-    } else setSlippage[position](0.25);
+    setSlippage[position](0.25);
   };
 
   useEffect(() => {

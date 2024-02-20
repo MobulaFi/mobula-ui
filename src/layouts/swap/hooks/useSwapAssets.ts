@@ -1,6 +1,6 @@
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
@@ -15,7 +15,7 @@ export const useSwapAssets = (position: string) => {
   const [results, setResults] = useState<SearchTokenProps[]>([]);
 
   const currentChain = chain?.id || 1;
-  const chainData = blockchainsIdContent[currentChain];
+  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
   const realHoldings = holdings?.holdings.multichain.filter(
     (entry) => (entry?.price || 0) > 0 && entry.balance > 0
   );
@@ -54,7 +54,8 @@ export const useSwapAssets = (position: string) => {
             ];
 
           const coin =
-            blockchainsContent[name.blockchains[0]].eth.symbol === name.symbol;
+            blockchainsContentWithNonEVM[name.blockchains[0]].eth.symbol ===
+            name.symbol;
 
           if (coin) {
             return {
@@ -63,7 +64,7 @@ export const useSwapAssets = (position: string) => {
               blockchain: name.blockchains[0],
               price: name.price,
               switch:
-                blockchainsContent[name.blockchains[0]].chainId !==
+                blockchainsContentWithNonEVM[name.blockchains[0]].evmChainId !==
                 currentChain,
             };
           }
@@ -72,7 +73,8 @@ export const useSwapAssets = (position: string) => {
             return {
               ...name,
               address,
-              blockchain: blockchainsIdContent[currentChain]?.name,
+              blockchain:
+                blockchainsIdContentWithNonEVM[String(currentChain)]?.name,
               price: name.price,
             };
           }

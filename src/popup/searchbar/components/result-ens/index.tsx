@@ -53,7 +53,7 @@ export const EnsResults = ({
         setActive={setActive}
         onClick={clickEvent}
       >
-        <MdPersonSearch className="text-light-font-60 dark:text-dark-font-60 text-md" />
+        <MdPersonSearch className="text-light-font-60 dark:text-dark-font-60 text-sm" />
       </Lines>
     </>
   ) : null;

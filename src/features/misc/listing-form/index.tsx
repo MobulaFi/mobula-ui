@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import React, { useContext, useReducer } from "react";
+import { useContext, useReducer } from "react";
 import { API_ENDPOINT } from "../../../../src/constants/index";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
@@ -25,6 +25,7 @@ export const Listing = () => {
     reducer,
     editAssetReducer || INITIAL_STATE
   );
+
   const { actualPage, setActualPage, setWallet, setIsListed, isListed } =
     useContext(ListingContext);
 
@@ -82,8 +83,6 @@ export const Listing = () => {
         logo: state.image.logo,
       };
 
-      console.log("State to send:", state);
-
       const response = await axios.get(`${API_ENDPOINT}/asset/submit-token`, {
         params: {
           assetFormattedData: dateToSend,
@@ -104,7 +103,6 @@ export const Listing = () => {
           if (status.data.receivedFunds === true) {
             setIsListed(true);
             clearInterval(intervalId);
-            console.log("Token submission confirmed.", isListed);
           }
         } catch (statusError) {
           console.error(

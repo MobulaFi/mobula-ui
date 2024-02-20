@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { Asset } from "../../../interfaces/assets";
 import { HoldingNFT } from "../../../interfaces/holdings";
@@ -35,6 +35,8 @@ export interface IPortfolioV2 {
   setActiveStep: Dispatch<SetStateAction<ActiveStep>>;
   showHiddenTokensPopup: boolean;
   setShowHiddenTokensPopup: Dispatch<SetStateAction<boolean>>;
+  showHiddenNfts: boolean;
+  setShowHiddenNfts: Dispatch<SetStateAction<boolean>>;
 
   /** UI State */
   isLoading: boolean;
@@ -176,6 +178,7 @@ export interface UserHoldings {
   uniqueIdentifier: string | number;
   addresses: string[];
   final: boolean;
+  status?: string;
 }
 
 export interface UserHoldingsAsset {
@@ -206,7 +209,7 @@ export interface UserHoldingsAsset {
       balance: number;
       address: string;
       balanceRaw: string;
-      chainId: number;
+      evmChainId: number;
     };
   };
 
@@ -220,7 +223,7 @@ export interface UserHoldingsAsset {
   change_24h: number;
   image: string;
   contracts: string[];
-  blockchains: BlockchainName[];
+  blockchains: BlockchainNameWithNonEVM[];
 }
 
 export interface PopupToken {

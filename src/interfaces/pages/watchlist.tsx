@@ -1,6 +1,5 @@
 import { User } from "mobula-utils/lib/user/model";
-import { TableAsset } from "../../layouts/tables/model";
-import { Asset } from "../assets";
+import { Asset, TableAsset } from "../assets";
 
 export interface TokenWatchlist {
   id: string;

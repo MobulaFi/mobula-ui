@@ -1,6 +1,6 @@
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useState } from "react";
 import { isAddress } from "viem";
@@ -17,7 +17,7 @@ export const useUpdateSearch = (position: string) => {
   const [results, setResults] = useState<SearchTokenProps[]>([]);
 
   const currentChain = chain?.id || 1;
-  const chainData = blockchainsIdContent[currentChain];
+  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
   const realHoldings = holdings?.holdings.multichain.filter(
     (entry) => (entry?.price || 0) > 0 && entry.balance > 0
   );
@@ -88,7 +88,7 @@ export const useUpdateSearch = (position: string) => {
               ];
 
             const coin =
-              blockchainsContent[name.blockchains[0]].eth.symbol ===
+              blockchainsContentWithNonEVM[name.blockchains[0]].eth.symbol ===
               name.symbol;
 
             if (coin) {
@@ -98,8 +98,8 @@ export const useUpdateSearch = (position: string) => {
                 blockchain: name.blockchains[0],
                 price: name.price,
                 switch:
-                  blockchainsContent[name.blockchains[0]].chainId !==
-                  currentChain,
+                  blockchainsContentWithNonEVM[name.blockchains[0]]
+                    .evmChainId !== currentChain,
               };
             }
 
@@ -107,7 +107,8 @@ export const useUpdateSearch = (position: string) => {
               return {
                 ...name,
                 address,
-                blockchain: blockchainsIdContent[currentChain]?.name,
+                blockchain:
+                  blockchainsIdContentWithNonEVM[String(currentChain)]?.name,
                 price: name.price,
               };
             }

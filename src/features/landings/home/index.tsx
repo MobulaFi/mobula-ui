@@ -1,5 +1,4 @@
 "use client";
-import Lenis from "@studio-freight/lenis";
 import React, { useEffect, useRef, useState } from "react";
 import { NextChakraLink } from "../../../components/link";
 import { CuratedDataset } from "./components/curated-dataset";
@@ -44,14 +43,14 @@ export const HomeLanding = () => {
   // }, []);
 
   // Smooth scroll animation
-  const lenis = new Lenis();
+  // const lenis = new Lenis();
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
+  // function raf(time) {
+  //   lenis.raf(time);
+  //   requestAnimationFrame(raf);
+  // }
 
-  requestAnimationFrame(raf);
+  // requestAnimationFrame(raf);
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -84,9 +83,9 @@ export const HomeLanding = () => {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-y-scroll">
       <section
-        className="w-screen flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center h-screen md:h-screenMain md:pb-[50px] md:py-[100px]"
+        className="w-full flex justify-center items-center bg-no-repeat bg-contain md:bg-cover bg-center relative snap-center h-screen md:h-screenMain md:pb-[50px] md:py-[100px]"
         style={{
           backgroundImage: `url('/landing/main-background.svg'), radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
         }}
@@ -116,7 +115,7 @@ export const HomeLanding = () => {
                dark:border-darkblue water-button  md:h-[40px] md:w-[190px] md:text-sm md:font-normal"
               >
                 <NextChakraLink
-                  href="https://admin.mobula.fi"
+                  href="https://admin.mobula.fi/?utm_source=landing&utm_medium=cta&utm_campaign=origin_main_landing"
                   target="_blank"
                   rel="noopener noreferrer"
                   extraCss="text-base md:text-sm"
@@ -130,7 +129,7 @@ export const HomeLanding = () => {
                w-[150px] h-[50px] text-[15px] font-medium hover:tracking-[0.5px] transition-all duration-300 ease-in-out mt-5 md:mt-3"
               >
                 <NextChakraLink
-                  href="https://docs.mobula.io/api-reference/introduction"
+                  href="https://docs.mobula.io/api-reference/introduction?utm_source=landing&utm_medium=cta&utm_campaign=origin_main_landing"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

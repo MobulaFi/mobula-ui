@@ -17,7 +17,7 @@ import {
 } from "../../../../../../contexts/popup";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
 import { TimeSelected } from "../../../../../../interfaces/pages/asset";
-import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
+import { useWatchlist } from "../../../../../../layouts/new-tables/hooks/watchlist";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { GET } from "../../../../../../utils/fetch";
 import {

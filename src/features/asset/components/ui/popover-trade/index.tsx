@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { Button } from "../../../../../components/button";
@@ -46,9 +46,9 @@ export const PopoverTrade = ({
                         width={18}
                         className="rounded-full bg-light-bg-primary dark:bg-dark-bg-primary ml-[-5px]"
                         key={item}
-                        alt={blockchainsContent[title[i]]?.name}
+                        alt={blockchainsContentWithNonEVM[title[i]]?.name}
                         src={
-                          blockchainsContent[title[i]]?.logo ||
+                          blockchainsContentWithNonEVM[title[i]]?.logo ||
                           `/logo/${title[i]?.toLowerCase().split(" ")[0]}.png`
                         }
                         fallbackSrc={"/empty/unknown.png"}

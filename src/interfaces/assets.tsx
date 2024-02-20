@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { TradeHistory } from "../features/asset/models";
 import { Trade } from "./trades";
 
@@ -30,7 +30,7 @@ export type TableAsset = {
   market_score: number;
   trust_score: number;
   social_score: number;
-  blockchains?: BlockchainName[];
+  blockchains?: BlockchainNameWithNonEVM[];
   contracts?: string[];
   trade_history: Trade[];
   created_at: string;
@@ -101,7 +101,7 @@ export type Asset = {
   trust_score: number;
   social_score: number;
   decimals: number;
-  blockchains: BlockchainName[];
+  blockchains: BlockchainNameWithNonEVM[];
   contracts: string[] | any;
   trade_history: TradeHistory[] | null;
   created_at: string;
@@ -122,13 +122,13 @@ export type Asset = {
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
   address: string;
 };
 
 export interface RawPairs {
   pairs_data?: Record<string, number>;
-  pairs_per_chain?: Record<BlockchainName, number>;
+  pairs_per_chain?: Record<BlockchainNameWithNonEVM, number>;
 }
 
 export interface FakeToken {

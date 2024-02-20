@@ -18,12 +18,18 @@ interface TransactionsAmountProps {
 const CoreComponent = ({ amount, symbol, amount_usd }: CoreComponentProps) => {
   return (
     <div className="flex flex-col">
-      <SmallFont extraCss="whitespace-nowrap font-medium">{`${getFormattedAmount(
-        amount
-      )} ${symbol}`}</SmallFont>
-      <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
-        {amount_usd ? `$${getFormattedAmount(amount_usd)} ` : "--"}
+      <SmallFont extraCss="whitespace-nowrap font-medium">
+        {getFormattedAmount(amount)} {symbol}
       </SmallFont>
+      {amount_usd ? (
+        <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+          ${getFormattedAmount(amount_usd)}
+        </SmallFont>
+      ) : (
+        <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+          {"--"}
+        </SmallFont>
+      )}
     </div>
   );
 };

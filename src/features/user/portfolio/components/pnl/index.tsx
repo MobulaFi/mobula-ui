@@ -55,8 +55,7 @@ export const PNL = () => {
                     >
                       $
                       {getFormattedAmount(wallet?.estimated_balance, 0, {
-                        minifyBigNumbers: false,
-                        minifyZeros: false,
+                        shouldNotMinifyBigNumbers: true,
                       })}
                     </p>
                   )}

@@ -1,4 +1,4 @@
-import { BlockchainParams } from "mobula-lite/lib/model";
+import { BlockchainParamsWithNonEVM } from "mobula-lite/lib/model";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { BiArrowToRight } from "react-icons/bi";
@@ -11,9 +11,12 @@ import { Title } from "../ui/title";
 
 interface NotListedProps {
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  unknownSC: { name: string; blockchain: BlockchainParams } | null;
+  unknownSC: { name: string; blockchain: BlockchainParamsWithNonEVM } | null;
   setUnknownSC: React.Dispatch<
-    React.SetStateAction<{ name: string; blockchain: BlockchainParams }>
+    React.SetStateAction<{
+      name: string;
+      blockchain: BlockchainParamsWithNonEVM;
+    }>
   >;
 }
 
@@ -61,7 +64,7 @@ export const NotListed = ({
         setActive={setActive}
         active
       >
-        <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-md" />
+        <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-sm" />
       </Lines>
     </>
   );

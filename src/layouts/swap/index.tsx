@@ -1,15 +1,14 @@
 /* eslint-disable import/no-cycle */
 "use client";
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { TransactionReceipt as TransactionReceiptInterface } from "viem";
 import { useAccount, useFeeData, useNetwork } from "wagmi";
 import { useHoldings } from "../../hooks/holdings";
 import { useButtonClick } from "./hooks/useButtonClick";
-import { useSlippage } from "./hooks/useSlippage";
 import { useMetaContext } from "./hooks/useSwapCommon";
 import { useTokenManager } from "./hooks/useTokenManager";
 import { useUpdateBalance } from "./hooks/useUpdateBalance";
@@ -61,18 +60,21 @@ export const SwapNonMetaProvider = ({
   // User-related hooks
   const { isConnected } = useAccount();
   const { chain } = useNetwork();
-  const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id,
+  });
 
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id || 1;
-  const currentChainName = blockchainsIdContent[currentChain]?.name;
+  const currentChainName =
+    blockchainsIdContentWithNonEVM[String(currentChain)]?.name;
   const tokens: SyntaxicTokens = { in: tokenIn, out: tokenOut };
   const buffers: SyntaxicTokensBuffer = {
     in: tokenInBuffer,
     out: tokenOutBuffer,
   };
 
-  useSlippage();
+  // useSlippage();
 
   useUpdateBalance();
 
@@ -139,9 +141,9 @@ export const SwapNonMetaProvider = ({
 
       if (positionRequiredToSwitch !== undefined) {
         const wishedChain =
-          blockchainsContent[
+          blockchainsContentWithNonEVM[
             (tokens[positionRequiredToSwitch] || { blockchain: "" }).blockchain
-          ].chainId;
+          ].evmChainId;
 
         // If the wished chain is different from the current chain, we set the new one.
         // Elseway, we set the chainNeeded to undefined to clear its effect.
@@ -161,7 +163,7 @@ export const SwapNonMetaProvider = ({
   useEffect(() => {
     if (
       chain?.id &&
-      !blockchainsIdContent[chain.id] &&
+      !blockchainsIdContentWithNonEVM[String(chain.id)] &&
       !tokenIn &&
       !tokenOut &&
       !tokenInBuffer &&

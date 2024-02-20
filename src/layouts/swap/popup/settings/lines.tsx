@@ -41,7 +41,7 @@ export const InputLines = ({
             }));
           }}
         />
-        <p className="text-light-font-100 dark:text-dark-font-100 text-md pr-2.5">
+        <p className="text-light-font-100 dark:text-dark-font-100 text-sm pr-2.5">
           {isSeconds ? "sec" : "%"}
         </p>
       </div>

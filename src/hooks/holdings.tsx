@@ -125,15 +125,12 @@ export const useNftHoldings = (address?: string) => {
 
 export const useMultiWalletNftHoldings = (addresses?: string[]) => {
   const params = useParams();
-  const { nfts, setNfts, setIsNftLoading, nftsDeleted } =
-    useContext(PortfolioV2Context);
-  console.log("params?.address", params?.address, nfts?.[0]?.minter_address);
+  const { nfts, setNfts, setIsNftLoading } = useContext(PortfolioV2Context);
   useEffect(() => {
     if (
       (addresses?.length > 0 && !nfts?.length) ||
       nfts?.[0]?.minter_address !== params?.address
     ) {
-      console.log("params is fetching");
       const promises = addresses?.map((address) =>
         GET(
           "/api/1/wallet/nfts",
@@ -171,23 +168,9 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
             !entry.name?.toLowerCase().includes("reward") &&
             !entry.name?.toLowerCase().includes("event")
         );
-        const secondNftFilter = [];
-        const exist = new Set();
-        filteredHoldings?.forEach((nft) => {
-          if (nftsDeleted?.length > 0) {
-            if (nftsDeleted?.includes(nft.token_hash)) {
-              return;
-            } else {
-              if (!exist.has(nft?.token_hash)) {
-                exist.add(nft?.token_hash);
-                secondNftFilter.push(nft);
-              }
-            }
-          } else secondNftFilter.push(nft);
-        });
 
         setNfts(
-          secondNftFilter
+          filteredHoldings
             ?.map((entry) => {
               try {
                 const url =

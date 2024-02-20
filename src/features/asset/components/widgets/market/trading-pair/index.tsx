@@ -1,9 +1,6 @@
 import { famousContractsLabelFromName } from "layouts/swap/utils";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { BsCheckLg } from "react-icons/bs";
-import { FaRegCopy } from "react-icons/fa6";
 import { FiExternalLink } from "react-icons/fi";
 import {
   LargeFont,
@@ -22,25 +19,20 @@ import { BaseAssetContext } from "../../../../context-manager";
 import { IPairs } from "../../../../models";
 
 export const TradingPairs = () => {
-  const { baseAsset, setPairs, pairs } = useContext(BaseAssetContext);
+  const { baseAsset, setPairs, pairs, isAssetPage } =
+    useContext(BaseAssetContext);
   const [isLoading, setIsLoading] = useState(!pairs?.length);
   const router = useRouter();
-  const [isCopied, setIsCopied] = useState("");
   const [activePairs, setActivePairs] = useState("dex");
   const [page, setPage] = useState(0);
   const [isTradeScrollLoading, setIsTradeScrollLoading] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
   const containerRef = useRef<HTMLTableElement>(null);
   const [totalPairs, setTotalPairs] = useState(0);
-  const titles = [
-    "DEX",
-    "Trading Pairs",
-    "Liquidity",
-    "Price",
-    "Pairs Address",
-  ];
+  const titles = ["DEX", "Trading Pair", "Liquidity", "Price", "Pairs Address"];
 
   const fetchTrades = () => {
+    if (!isAssetPage) return;
     setIsTradeScrollLoading(true);
     GET("/api/1/market/pairs", {
       asset: baseAsset?.name,
@@ -71,15 +63,6 @@ export const TradingPairs = () => {
     } else setIsLoading(false);
   }, [baseAsset]);
 
-  const copyText = (pair) => {
-    window.navigator.clipboard.writeText(pair?.address);
-    window.focus();
-    setIsCopied(pair.address);
-    setTimeout(() => {
-      setIsCopied("");
-    }, 2000);
-  };
-
   const newPairs: IPairs[] | null = pairs;
 
   const getPositionFromPair = (pair: string) => {
@@ -101,15 +84,13 @@ export const TradingPairs = () => {
   };
 
   let seenAddresses = new Set();
-  let filteredArray = pairs
-    ?.sort((a, b) => b.liquidity - a.liquidity)
-    ?.filter((entry) => {
-      if (entry.address && !seenAddresses.has(entry.address)) {
-        seenAddresses.add(entry.address);
-        return true;
-      }
-      return false;
-    });
+  let filteredArray = pairs?.filter((entry) => {
+    if (entry.address && !seenAddresses.has(entry.address)) {
+      seenAddresses.add(entry.address);
+      return true;
+    }
+    return false;
+  });
 
   return (
     <div
@@ -179,41 +160,36 @@ export const TradingPairs = () => {
         <table className="relative w-full" ref={containerRef}>
           <thead>
             <tr>
-              {titles
-                .filter((entry) => entry !== "Unit Price")
-                .map((entry, i) => {
-                  const isFirst = i === 0;
-                  const isLast = i === titles.length - 1;
-                  const isOpen = entry === "Open";
-                  return (
-                    <Ths
-                      extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px]
+              {titles.map((entry, i) => {
+                const isFirst = i === 0;
+                const isLast = i === titles.length - 1;
+                const isOpen = entry === "Open";
+                return (
+                  <Ths
+                    extraCss={`sticky bg-light-bg-secondary dark:bg-dark-bg-secondary z-[2] top-[-1px]
                    border-t border-b px-2.5 py-[10px] border-light-border-primary dark:border-dark-border-primary
                     ${isFirst ? "pl-5 md:pl-2.5" : "pl-2.5"} ${
-                        isLast || isOpen ? "pr-5 md:pr-2.5" : "pr-2.5"
-                      } 
+                      isLast || isOpen ? "pr-5 md:pr-2.5" : "pr-2.5"
+                    } 
                     ${
-                      isFirst || entry === "Trading Pairs"
+                      isFirst || entry === "Trading Pair"
                         ? "text-start"
                         : "text-end"
-                    } table-cell ${entry === "Unit Price" ? "md:hidden" : ""}`}
-                      key={entry}
-                    >
-                      {entry === "Pairs Address" ? (
-                        <div className="flex items-center justify-end">
-                          <SmallFont extraCss="flex md:hidden text-end font-medium">
-                            {entry}
-                          </SmallFont>
-                          <SmallFont extraCss="hidden md:flex text-end font-medium">
-                            Link
-                          </SmallFont>
-                        </div>
-                      ) : (
-                        <SmallFont extraCss="font-medium">{entry}</SmallFont>
-                      )}
-                    </Ths>
-                  );
-                })}
+                    } table-cell`}
+                    key={entry}
+                  >
+                    {entry === "Pairs Address" ? (
+                      <div className="flex items-center justify-end">
+                        <SmallFont extraCss="flex md:hidden text-end font-medium">
+                          {entry}
+                        </SmallFont>
+                      </div>
+                    ) : (
+                      <SmallFont extraCss="font-medium">{entry}</SmallFont>
+                    )}
+                  </Ths>
+                );
+              })}
             </tr>
           </thead>
           {(newPairs?.length || 0) > 0 || isLoading ? (
@@ -223,20 +199,17 @@ export const TradingPairs = () => {
                   ? filteredArray
                   : Array.from({ length: 8 })
                 )?.map((pair: IPairs | any, i: number) => {
-                  const geckoId =
-                    blockchainsContent[pair?.blockchain]?.geckoterminalChain;
-                  const geckoUrl = geckoId
-                    ? `https://www.geckoterminal.com/${geckoId}/pools/${pair.address}`
-                    : "";
                   return (
                     <tr
                       key={
-                        pair?.exchange + pair?.address + pair?.liquidity || i
+                        pair?.exchange + pair?.address + pair?.volume24h || i
                       }
+                      className="cursor-pointer hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary"
                     >
                       <td
                         className="border-b border-light-border-primary dark:border-dark-border-primary py-[15px]
                      pl-5 md:pl-2.5 pr-2.5 md:pr-[25px] text-[11px] lg:text-[10px] md:text-[8px]"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         {isLoading ? (
                           <div className="flex items-center">
@@ -262,6 +235,7 @@ export const TradingPairs = () => {
                       <td
                         className="border-b border-light-border-primary dark:border-dark-border-primary py-[15px]
                       px-2.5 text-[11px] lg:text-[10px] md:text-[8px]"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         <div className="flex w-full">
                           {isLoading ? (
@@ -277,13 +251,18 @@ export const TradingPairs = () => {
                       <td
                         className="border-b border-light-border-primary
                        dark:border-dark-border-primary px-2.5 text-end"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
                             <Skeleton extraCss="h-[13px] md:h-[11px] w-[70px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
-                              ${getFormattedAmount(pair.liquidity)}
+                              $
+                              {getFormattedAmount(
+                                (pair.token0?.approximateReserveUSD || 0) +
+                                  (pair.token1?.approximateReserveUSD || 0)
+                              )}
                             </SmallFont>
                           )}
                         </div>
@@ -291,13 +270,17 @@ export const TradingPairs = () => {
                       <td
                         className="border-b border-light-border-primary
                        dark:border-dark-border-primary px-2.5 text-end"
+                        onClick={() => router.push(`/pair/${pair?.address}`)}
                       >
                         <div className="flex justify-end w-full">
                           {isLoading ? (
                             <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
-                              ${getFormattedAmount(pair.price)}
+                              $
+                              {getFormattedAmount(pair.price, 0, {
+                                canUseHTML: true,
+                              })}
                             </SmallFont>
                           )}
                         </div>
@@ -307,26 +290,16 @@ export const TradingPairs = () => {
                           {isLoading ? (
                             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
                           ) : (
-                            <div
-                              className="flex items-center cursor-pointer"
-                              onClick={() => copyText(pair)}
-                            >
-                              <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
-                                {addressSlicer(pair.address)}
-                              </SmallFont>
-                              {isCopied === pair.address ? (
-                                <BsCheckLg className="text-green dark:text-green text-sm lg:text-[13px] md:text-xs ml-2.5" />
-                              ) : (
-                                <FaRegCopy className="ml-2.5 text-light-font-100 dark:text-dark-font-100 text-sm lg:text-[13px] md:text-xs" />
-                              )}
-                            </div>
+                            <SmallFont extraCss="-mb-0.5 md:mb-[-5px]">
+                              {addressSlicer(pair.address)}
+                            </SmallFont>
                           )}
-                        </div>
-                        <div
-                          className="hidden md:flex"
-                          onClick={() => router.push(geckoUrl)}
-                        >
-                          <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 mr-auto" />
+                          <a
+                            className="flex ml-1"
+                            href={"/pair/" + pair?.address}
+                          >
+                            <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 mr-auto" />
+                          </a>
                         </div>
                       </td>
                     </tr>

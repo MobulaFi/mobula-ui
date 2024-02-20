@@ -1,5 +1,5 @@
 import { SmallFont } from "components/fonts";
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { Dispatch, SetStateAction } from "react";
 import { useNetwork } from "wagmi";
 import { Button } from "../../../../components/button";
@@ -29,7 +29,8 @@ export const CoinDecision = ({
   callback,
 }: CoinDecisionProps) => {
   const { chain } = useNetwork();
-  const chainName = blockchainsIdContent[chain?.id || 1]?.name;
+  const chainName =
+    blockchainsIdContentWithNonEVM[String(chain?.id || 1)]?.name;
 
   return (
     <Modal

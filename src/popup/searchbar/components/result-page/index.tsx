@@ -29,7 +29,7 @@ export const PageResults = ({ firstIndex, setTrigger }: PageResultsProps) => {
     } else router.push(page.url);
   };
   return (
-    <div className={`${results.length > 0 ? "mt-2.5" : "mt-0"}`}>
+    <div className={`${pages.length > 0 ? "mt-2.5" : "mt-0 hidden"}`}>
       {pages.length > 0 && (
         <Title extraCss="mt-[5px]">Pages ({pages.length})</Title>
       )}
@@ -46,7 +46,7 @@ export const PageResults = ({ firstIndex, setTrigger }: PageResultsProps) => {
             <AiOutlineSearch className="text-lg mr-2.5 text-light-font-100 dark:text-dark-font-100" />
           }
         >
-          <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-md" />
+          <BiArrowToRight className="text-light-font-60 dark:text-dark-font-60 text-sm" />
         </Lines>
       ))}
     </div>

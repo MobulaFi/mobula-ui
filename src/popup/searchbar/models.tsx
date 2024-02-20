@@ -1,5 +1,7 @@
 // import {IconType} from "react-icons/lib";
 
+import { ReactNode } from "react";
+
 export interface ISearchBarContext {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
@@ -21,11 +23,14 @@ export interface ISearchBarContext {
   setEns: React.Dispatch<
     React.SetStateAction<{ name: string; address: string | null }>
   >;
+  pairs: NonListedAssetProps[];
+  setPairs: React.Dispatch<React.SetStateAction<NonListedAssetProps[]>>;
 }
 
 export interface PercentageType {
   isPercentage?: boolean;
-  value: number | string;
+  value: string | number | ReactNode;
+  noImage?: boolean;
 }
 
 export interface TrendsType {
@@ -47,6 +52,13 @@ export interface Token {
   price: number;
   market_cap?: number;
   isTemplate?: boolean;
+  pairs?: PairsSearchProps[];
+  token0?: {
+    name: string;
+    symbol: string;
+    logo: string;
+    address: string;
+  };
 }
 
 export interface ArticlesType {
@@ -80,4 +92,51 @@ export interface Page {
 export interface NewWalletProps extends User {
   type: string;
   label: string;
+}
+
+export interface NonListedAssetProps {
+  blockchains: string[];
+  contracts: string[];
+  name: string;
+  pairs: PairsSearchProps[];
+  price: number;
+  symbol: string;
+  type: string;
+  token0?: {
+    name: string;
+    symbol: string;
+    logo: string;
+  };
+  token1?: {
+    name: string;
+    symbol: string;
+    logo: string;
+  };
+  address?: string;
+  liquidity?: string;
+}
+
+export interface PairsSearchProps {
+  address: string;
+  blockchain: string;
+  createdAt: number;
+  factory: string;
+  reserve0: string;
+  reserve1: string;
+  token0: {
+    address: string;
+    symbol: string;
+    logo: string;
+  } | null;
+  token1: {
+    address: string;
+    symbol: string;
+    logo: string;
+  } | null;
+  type: string;
+  totalVolume: number;
+  volume24h: number;
+  liquidity: number;
+  baseToken: string;
+  quoteToken: string;
 }

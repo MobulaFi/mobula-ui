@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { Button } from "../../../../../components/button";
@@ -33,7 +33,7 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
                   <img
                     className="h-[18px] w-[18px] mr-[-3px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-full"
                     alt={`${blockchain} logo`}
-                    src={blockchainsContent[blockchain]?.logo}
+                    src={blockchainsContentWithNonEVM[blockchain]?.logo}
                   />
                 );
               return null;
@@ -41,7 +41,7 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
           {activeNetworks?.length > 4 ? (
             <p className="ml-2">
               {activeNetworks?.length !==
-              Object.keys(blockchainsContent)?.length
+              Object.keys(blockchainsContentWithNonEVM)?.length
                 ? `+${
                     activeNetworks?.filter((entry) => entry !== null)?.length -
                     4
@@ -49,7 +49,7 @@ export const NetworkButton = ({ extraCss, ...props }: NetworkButtonProps) => {
                 : "  All networks"}
             </p>
           ) : null}
-          <BiSolidChevronDown className="ml-[5px] text-md" />
+          <BiSolidChevronDown className="ml-[5px] text-sm" />
         </Button>
       )}
     </div>

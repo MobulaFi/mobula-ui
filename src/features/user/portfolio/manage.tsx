@@ -1,6 +1,6 @@
 import { LargeFont, SmallFont } from "components/fonts";
 import { pushData } from "lib/mixpanel";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
@@ -93,7 +93,6 @@ export const Manage = () => {
   //   console.log("wallets", wallet);
   //   console.log("manager", manager);
   //   console.log("activePortfolio", activePortfolio);
-  console.log("portfolio", hiddenTokens);
 
   const handleCheckboxChange = (tokenId: number) => {
     setIsCheck((prev) => ({
@@ -173,13 +172,13 @@ export const Manage = () => {
     }
   };
 
-  const supportedChainsName = Object.keys(blockchainsContent).filter(
-    (entry) => blockchainsContent[entry].apiType === "etherscan-like"
+  const supportedChainsName = Object.keys(blockchainsContentWithNonEVM).filter(
+    (entry) => blockchainsContentWithNonEVM[entry].apiType === "etherscan-like"
   );
 
   const getSupportedChains = () => {
     let chains = [];
-    const entries = Object.entries(blockchainsContent);
+    const entries = Object.entries(blockchainsContentWithNonEVM);
     supportedChainsName.forEach((chain) => {
       entries.forEach((entry, i) => {
         if (entry[0] === chain) chains.push(entry[1]);
@@ -409,7 +408,7 @@ export const Manage = () => {
                         className="flex items-center text-sm lg:text-[13px] md:text-xs text-light-font-100 dark:text-dark-font-100"
                         onClick={() => setShowCreatePortfolio(true)}
                       >
-                        <IoMdAddCircleOutline className="text-md mr-[7.5px]" />
+                        <IoMdAddCircleOutline className="text-sm mr-[7.5px]" />
                         Create a new portfolio
                       </button>
                     </div>
@@ -604,7 +603,7 @@ export const Manage = () => {
           <p className="mr-4">Supported Chains:</p>
           {supportedChains.map((chain, i) => (
             <img
-              key={chain.chainId}
+              key={chain.evmChainId}
               src={chain.logo}
               alt={chain.name}
               className="w-8 h-8 -ml-1.5 rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border

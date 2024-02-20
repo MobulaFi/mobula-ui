@@ -8,7 +8,6 @@ import { PublicTransaction } from "../../../interfaces/transactions";
 import {
   getDate,
   getFormattedAmount,
-  getShortenedAmount,
   getTokenPercentage,
 } from "../../../utils/formaters";
 import { getTimeStampFromTimeFrame } from "./utils";
@@ -249,10 +248,7 @@ export const useDefault = ({
             }${
               isPercentage
                 ? getTokenPercentage(param.value[1] * 100)
-                : (getFormattedAmount(param.value[1], 0, {
-                    minifyZeros: false,
-                    minifyBigNumbers: true,
-                  }) as number)
+                : (getFormattedAmount(param.value[1], 0) as number)
             }${isPercentage ? "%" : ""} ${
               unitPosition === "after" ? unit : ""
             }</div>`
@@ -339,8 +335,7 @@ export const useDefault = ({
       },
       axisLabel: {
         color: getTextColorsAxis(),
-        formatter: (value: number) =>
-          getShortenedAmount(value, spreadResolution + 1),
+        formatter: (value: number) => getFormattedAmount(value),
         show: !noAxis,
       },
       axisPointer: {
@@ -506,17 +501,19 @@ export const useDefault = ({
                   };">${getVerb(tx.type)} at:</span> <span style="color=${
                     lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
                   };font-weight:600">$${getFormattedAmount(
-                    tx.amount_usd / tx.amount
+                    tx.amount_usd / tx.amount,
+                    0
                   )}</span><br/><span style="margin-right:5px;color:${
                     lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
                   };">Amount:</span> <span style="color=${
                     lightMode ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)"
-                  };font-weight:600">${`${getFormattedAmount(tx.amount)} ${
-                    tx.asset?.symbol
-                  }`}</span>
+                  };font-weight:600">${`${getFormattedAmount(tx.amount, 0, {
+                    isScientificNotation: false,
+                    canUseHTML: false,
+                  })} ${tx.asset?.symbol}`}</span>
         <span style="margin-right:5px;color:${
           lightMode ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)"
-        };">($${getFormattedAmount(tx.amount_usd)})</span>`;
+        };">($${getFormattedAmount(tx.amount_usd, 0)})</span>`;
                 },
               },
             })) || [],

@@ -1,4 +1,4 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { useParams, usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -138,11 +138,7 @@ export const Activity = ({
 
   useEffect(() => {
     if (assetQuery && !asset) return;
-    if (
-      transactions.length !== actualTxAmount &&
-      actualTxAmount !== 25 &&
-      transactions?.length + 26 > actualTxAmount
-    )
+    if (transactions.length !== actualTxAmount && actualTxAmount !== 25)
       fetchTransactions(true);
   }, [actualTxAmount]);
 
@@ -150,7 +146,10 @@ export const Activity = ({
   // ETH is ETH vs Stable
   // Other is Other vs Stable or ETH
   const ethSymbols = useMemo(
-    () => Object.values(blockchainsIdContent).map((entry) => entry.eth.symbol),
+    () =>
+      Object.values(blockchainsIdContentWithNonEVM).map(
+        (entry) => entry.eth.symbol
+      ),
     []
   );
 
@@ -689,12 +688,14 @@ export const Activity = ({
                                   className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] 
                             border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                   src={
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.logo || "/empty/unknown.png"
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.logo || "/empty/unknown.png"
                                   }
                                   alt={`${
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.name
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.name
                                   } logo`}
                                 />
                               </div>
@@ -713,8 +714,8 @@ export const Activity = ({
                                       onClick={() =>
                                         window.open(
                                           `${
-                                            blockchainsIdContent[
-                                              transaction.chain_id
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
                                             ]?.explorer
                                           }/tx/${transaction.hash}`
                                         )
@@ -726,13 +727,13 @@ export const Activity = ({
                                         <img
                                           className="w-[15px] h-[15px] min-w-[15px]"
                                           src={
-                                            blockchainsIdContent[
-                                              transaction.chain_id
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
                                             ]?.logo
                                           }
                                           alt={`${
-                                            blockchainsIdContent[
-                                              transaction.chain_id
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
                                             ]?.name
                                           } logo`}
                                         />
@@ -789,9 +790,9 @@ export const Activity = ({
                                 <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 font-normal">
                                   Fee
                                 </SmallFont>
-                                <SmallFont>{`$${getFormattedAmount(
-                                  transaction.tx_cost_usd
-                                )}`}</SmallFont>
+                                <SmallFont>
+                                  ${getFormattedAmount(transaction.tx_cost_usd)}
+                                </SmallFont>
                               </div>
 
                               <div className="flex flex-col ml-8 md:hidden">
@@ -807,8 +808,8 @@ export const Activity = ({
                                     onClick={() =>
                                       window.open(
                                         `${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
+                                          blockchainsIdContentWithNonEVM[
+                                            String(transaction.chain_id)
                                           ]?.explorer
                                         }/tx/${transaction.hash}`
                                       )
@@ -837,12 +838,14 @@ export const Activity = ({
                                 <img
                                   className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                   src={
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.logo || "/icon/unknown.png"
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.logo || "/icon/unknown.png"
                                   }
                                   alt={`$${
-                                    blockchainsIdContent[transaction.chain_id]
-                                      ?.name
+                                    blockchainsIdContentWithNonEVM[
+                                      String(transaction.chain_id)
+                                    ]?.name
                                   } logo`}
                                 />
                                 <FiExternalLink
@@ -850,8 +853,8 @@ export const Activity = ({
                                   onClick={() =>
                                     window.open(
                                       `${
-                                        blockchainsIdContent[
-                                          transaction.chain_id
+                                        blockchainsIdContentWithNonEVM[
+                                          String(transaction.chain_id)
                                         ]?.explorer
                                       }/tx/${transaction.hash}`
                                     )
@@ -929,14 +932,29 @@ export const Activity = ({
         ) : null}
       </table>
       {transactions?.length + 26 > actualTxAmount ? (
-        <div
-          className="flex justify-center mt-4 items-center"
-          onClick={() => setActualTxAmount((prev) => prev + 25)}
-        >
-          <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-medium  cursor-pointer">
-            Show More
-          </p>
-          {isTxLoading ? <Spinner extraCss="h-[20px] w-[20px] ml-2" /> : null}
+        <div className="flex justify-center mt-4 items-center">
+          <div
+            className="flex justify-center items-center"
+            onClick={() => setActualTxAmount((prev) => prev + 25)}
+          >
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-medium  cursor-pointer">
+              Show More
+            </p>
+            {isTxLoading ? <Spinner extraCss="h-[20px] w-[20px] ml-2" /> : null}
+          </div>
+
+          {/* Vertical separator */}
+          <div className="h-[20px] w-[2px] bg-light-border-primary dark:bg-dark-border-primary m-4" />
+
+          <div
+            className="flex justify-center   items-center"
+            onClick={() => setActualTxAmount((prev) => prev + 1000)}
+          >
+            <p className="text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs font-medium  cursor-pointer">
+              Show All
+            </p>
+            {isTxLoading ? <Spinner extraCss="h-[20px] w-[20px] ml-2" /> : null}
+          </div>
         </div>
       ) : null}
     </>

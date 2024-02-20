@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useEffect } from "react";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import React, { useContext, useEffect } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
@@ -122,7 +122,7 @@ export const TradeBlockchainPopup = ({
               <img
                 className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] mr-2.5"
                 src={
-                  blockchainsContent[entry]?.logo ||
+                  blockchainsContentWithNonEVM[entry]?.logo ||
                   `/logo/${entry.toLowerCase().split(" ")[0]}.png`
                 }
                 alt={`${entry} logo`}

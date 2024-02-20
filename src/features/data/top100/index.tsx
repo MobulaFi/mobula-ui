@@ -11,11 +11,10 @@ import { Spinner } from "../../../components/spinner";
 import { OrderBy, TableAsset } from "../../../interfaces/assets";
 import { tabs } from "../../../layouts/menu-mobile/constant";
 import { TopNav } from "../../../layouts/menu-mobile/top-nav";
-import { AssetsTable } from "../../../layouts/tables/components";
-import { BoxMiddle } from "./components/box-middle";
-import { BoxRight } from "./components/box-right";
-import { Portfolio } from "./components/portfolio";
-import { useTop100 } from "./context-manager";
+import BoxMiddle from "./components/box-middle";
+import BoxRight from "./components/box-right";
+import Portfolio from "./components/portfolio";
+import { Top100Table } from "./components/table";
 import { useFilter } from "./hooks/useFilter";
 import { Query, View } from "./models";
 import { TABLE_ASSETS_QUERY } from "./utils";
@@ -46,7 +45,6 @@ export const Top100 = ({
     ascending: false,
     first: true,
   });
-  const { isMobile } = useTop100();
   const [resultsData, setResultsData] = useState({ data: bufferTokens, count });
   const [showPage, setShowPage] = useState(0);
   const [activePage, setActivePage] = useState(1);
@@ -55,6 +53,7 @@ export const Top100 = ({
   const tableRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
+  const [initialTableHeight, setInitialTableHeight] = useState(0);
   const [filters, setFilters] = useState<Query[] | null>(
     defaultFilter || [{ action: "", value: [], isFirst: true }]
   );
@@ -81,13 +80,7 @@ export const Top100 = ({
         count: "exact",
       })
       .order("market_cap", { ascending: false })
-      .range(activePage * 100 - 100, activePage * 100 - 1);
-    console.log(
-      "activePage * 100 - 100",
-      activePage * 100 - 100,
-      "activePage * 100 - 1",
-      activePage * 100 - 1
-    );
+      .range(activePage * 25 - 25, activePage * 25 - 1);
     if (filters) {
       filters
         .filter((entry) => entry.action)
@@ -95,7 +88,7 @@ export const Top100 = ({
           query[filter.action]?.(...filter.value);
         });
     }
-    const result = await query.limit(100);
+    const result = await query.limit(25);
 
     if (result.error) setIsPageLoading(false);
     else {
@@ -113,38 +106,38 @@ export const Top100 = ({
     if (tableRef?.current) fetchAssets();
   }, [activePage]);
 
-  let ticking = false;
-
   useEffect(() => {
     const handleScroll = () => {
       if (!tableRef.current) return;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const windowHeight = window.innerHeight;
-          const scrollPosition = window.scrollY + windowHeight;
-          const triggerHeight = windowHeight * 1.5;
-          if (scrollPosition > triggerHeight && !isButtonVisible)
-            setIsButtonVisible(true);
-          if (scrollPosition <= triggerHeight && isButtonVisible)
-            setIsButtonVisible(false);
 
-          const tableBottomPosition =
-            tableRef.current.offsetTop + tableRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const scrollPosition = window.scrollY + windowHeight;
+      const triggerHeight = initialTableHeight * 0.1;
 
-          if (scrollPosition >= tableBottomPosition * 0.8 && !isPageLoading) {
-            setActivePage(Math.round(resultsData?.data?.length) / 100 + 1);
-          }
-          ticking = false;
-        });
+      setIsButtonVisible(scrollPosition > windowHeight * 1.5);
 
-        ticking = true;
+      const tableBottomPosition =
+        tableRef.current.offsetTop + tableRef.current.offsetHeight;
+
+      if (scrollPosition >= tableBottomPosition * 0.6 && !isPageLoading) {
+        setActivePage((prev) => prev + 1);
+      }
+    };
+
+    const updateTableHeight = () => {
+      if (tableRef.current) {
+        setInitialTableHeight(tableRef.current.offsetHeight);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateTableHeight);
+
+    updateTableHeight();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateTableHeight);
     };
   }, [isPageLoading, isButtonVisible]);
 
@@ -152,6 +145,26 @@ export const Top100 = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  function detectMob() {
+    const toMatch = [
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i,
+    ];
+
+    return toMatch.some((toMatchItem) => {
+      try {
+        return navigator?.userAgent?.match(toMatchItem);
+      } catch (e) {
+        return false;
+      }
+    });
+  }
+  const isMobile = detectMob();
   return (
     <>
       <TopNav list={tabs} active="Home" isGeneral />
@@ -188,7 +201,7 @@ export const Top100 = ({
         <Views setResultsData={setResultsData} />
         <Container extraCss="flex-row max-w-[1300px] justify-between mb-0 mt-0 overflow-x-hidden lg:mt-0 mb-0 md:mb-0">
           <div className="w-full h-full" ref={tableRef}>
-            <AssetsTable
+            <Top100Table
               resultsData={resultsData}
               setResultsData={setResultsData}
               orderBy={orderBy}
@@ -197,7 +210,6 @@ export const Top100 = ({
               isTop100
               showRank
               isMobile={isMobile}
-              // noResult={!(resultsData?.data?.length > 0)}
             />
             {isPageLoading ? (
               <div className="w-full h-[60px] mb-[50px] flex items-center justify-center">

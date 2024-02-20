@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { ILaunchpad } from "../../interfaces/launchpads";
 import { PublicTransaction } from "../../interfaces/transactions";
@@ -86,6 +86,13 @@ export interface IBasetAssetContext {
   setLaunchpads: Dispatch<SetStateAction<ILaunchpad[] | undefined>>;
   timeRemaining: TimeRemaining;
   setTimeRemaining: Dispatch<SetStateAction<TimeRemaining>>;
+  assetPairs: MultiPairDataProps;
+  setAssetPairs: Dispatch<SetStateAction<MultiPairDataProps>>;
+  isAssetPage: boolean;
+  pairTrades: Trade[];
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
+  fadeIn: string[];
+  setFadeIn: Dispatch<SetStateAction<string[]>>;
 }
 
 export interface TimeRemaining {
@@ -184,7 +191,7 @@ export type Asset = {
   trust_score: number;
   social_score: number;
   decimals: number;
-  blockchains: BlockchainName[];
+  blockchains: BlockchainNameWithNonEVM[];
   contracts: string[];
   trade_history: TradeHistory[] | null;
   created_at: string;
@@ -205,7 +212,7 @@ export type Asset = {
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
   address: string;
 };
 
@@ -215,7 +222,7 @@ export interface CategoriesProps {
 
 export interface RawPairs {
   pairs_data?: Record<string, number>;
-  pairs_per_chain?: Record<BlockchainName, number>;
+  pairs_per_chain?: Record<BlockchainNameWithNonEVM, number>;
 }
 
 export interface Socials {
@@ -247,12 +254,15 @@ export interface Trade {
   unique_discriminator?: string;
   id?: number;
   amount_usd?: number;
+  token_amount_usd?: number;
+  token_price_vs: number;
 }
 
 export interface Metrics {
   title: string;
-  value: number;
+  value: number | string | null;
   info?: string;
+  dollar?: boolean;
 }
 
 export interface Bar {
@@ -367,4 +377,36 @@ export interface MarketMetrics {
   priceChange: boolean | null;
   volumeChange: boolean | null;
   trade_history: TradeHistory[] | null;
+}
+
+export interface MultiPairDataProps {
+  pairs: MultiPairProps[];
+  count: number;
+}
+
+export interface MultiPairProps {
+  address: string;
+  blockchain: string;
+  exchange: string;
+  factory: string;
+  liquidity: number;
+  price: number;
+  protocol: string;
+  token0: TokenPairProps;
+  token1: TokenPairProps;
+  volume: number;
+  volume24h?: number;
+}
+
+export interface TokenPairProps {
+  address: string;
+  decimals: number;
+  id: number;
+  logo: string;
+  name: string;
+  price: number;
+  priceToken: number;
+  symbol: string;
+  priceTokenString: string;
+  approximateReserveUSD?: number;
 }

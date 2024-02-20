@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import React, { ChangeEvent, useState } from "react";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { isAddress } from "viem";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
@@ -62,13 +62,13 @@ export const MultiInputTemplate = ({
             object,
           },
         });
-        const { chainId } = blockchainsContent[blockchainBuffer];
+        const { evmChainId } = blockchainsContentWithNonEVM[blockchainBuffer];
         dispatch({
           type: ACTIONS.SET_ELEMENT,
           payload: {
             i,
             name: "blockchain_id",
-            value: chainId,
+            value: evmChainId,
             object,
           },
         });
@@ -79,7 +79,7 @@ export const MultiInputTemplate = ({
               payload: {
                 address: e.target.value,
                 blockchain: blockchainBuffer,
-                blockchain_id: chainId,
+                blockchain_id: evmChainId,
               },
             });
       };
@@ -105,7 +105,9 @@ export const MultiInputTemplate = ({
                       width={20}
                       fallbackSrc="/empty/unknown.png"
                       src={
-                        blockchainsContent[state.contracts[i]?.blockchain]?.logo
+                        blockchainsContentWithNonEVM[
+                          state.contracts[i]?.blockchain
+                        ]?.logo
                       }
                       alt={`${state.contracts[i]?.blockchain} logo`}
                     />

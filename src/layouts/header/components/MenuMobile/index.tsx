@@ -66,8 +66,8 @@ export const MenuMobile = ({
 
   return (
     <div
-      className={`bg-light-bg-primary dark:bg-dark-bg-primary z-[102] pt-[15px] top-[98px] 
-    w-screen left-0 h-screen text-light-font-100 dark:text-dark-font-100 flex flex-col 
+      className={`bg-light-bg-primary hidden lg:flex dark:bg-dark-bg-primary z-[102] pt-[15px] top-[98px] 
+    w-screen left-0 h-screen text-light-font-100 dark:text-dark-font-100 flex-col 
     overflow-x-hidden fixed ${
       isMenuMobile ? "opacity-100 translate-x-0" : "translate-x-full"
     } transition-all duration-300 ease-in-out`}
@@ -80,12 +80,13 @@ export const MenuMobile = ({
         onClick={() => {
           if (!isConnected) setConnect(true);
           setIsMenuMobile(false);
+          setShowChainPopover(false);
           pushData("Header Clicked", {
             name: "Watchlist",
           });
         }}
       >
-        <div className="flex pl-[30px] items-center mt-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
+        <div className="flex pl-[30px] items-center my-2.5 text-light-font-100 dark:text-dark-font-100 cursor-pointer">
           <AiFillStar className="text-yellow dark:text-yellow text-base mr-[5px]" />
           <p className="text-base font-normal">Watchlist</p>
         </div>
@@ -151,29 +152,33 @@ export const MenuMobile = ({
           </button>
         )}
       </ClientOnly>
-      <div className="flex justify-between items-center mt-5">
-        <ToggleColorMode isMobile />
-        <div className="flex mr-[15px]">
-          <ChainsChanger
-            isMobileVersion
-            showChainPopover={showChainPopover}
-            setShowChainPopover={setShowChainPopover}
-            setShowInfoPopover={setShowInfoPopover}
-            showInfoPopover={showInfoPopover}
-          />
+      {isMenuMobile ? (
+        <div className="hidden lg:flex justify-between items-center mt-5">
+          <ToggleColorMode isMobile />
+          <div className="hidden mr-[15px] lg:flex">
+            <ChainsChanger
+              isMobileVersion
+              showChainPopover={showChainPopover}
+              setShowChainPopover={setShowChainPopover}
+              setShowInfoPopover={setShowInfoPopover}
+              showInfoPopover={showInfoPopover}
+            />
+          </div>
         </div>
-      </div>{" "}
-      <button
-        className="ml-[28px] mt-3.5"
-        onClick={() => {
-          disconnect();
-        }}
-      >
-        <div className="flex items-center text-light-font-100 dark:text-dark-font-100 text-base">
-          <BsPower className="text-xl mr-2.5" />
-          Log Out
-        </div>
-      </button>
+      ) : null}
+      {isConnected ? (
+        <button
+          className="ml-[28px] mt-3.5"
+          onClick={() => {
+            disconnect();
+          }}
+        >
+          <div className="flex items-center text-light-font-100 dark:text-dark-font-100 text-base">
+            <BsPower className="text-xl mr-2.5" />
+            Log Out
+          </div>
+        </button>
+      ) : null}
     </div>
   );
 };

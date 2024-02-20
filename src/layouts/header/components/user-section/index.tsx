@@ -1,21 +1,11 @@
 "use client";
 import Cookies from "js-cookie";
-import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import React, {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
+import { PiUsersThreeLight } from "react-icons/pi";
 import { RiMenu3Line } from "react-icons/ri";
 import { TbBellRinging } from "react-icons/tb";
 import { useAccount } from "wagmi";
@@ -27,10 +17,7 @@ import { Popover } from "../../../../components/popover";
 import { Skeleton } from "../../../../components/skeleton";
 import { MOBL_ADDRESS } from "../../../../constants";
 import { CommonPageContext } from "../../../../contexts/commun-page";
-import {
-  PopupStateContext,
-  PopupUpdateContext,
-} from "../../../../contexts/popup";
+import { PopupUpdateContext } from "../../../../contexts/popup";
 import { UserContext } from "../../../../contexts/user";
 import { pushData } from "../../../../lib/mixpanel";
 import { Connect } from "../../../../popup/connect";
@@ -39,6 +26,8 @@ import { SwitchNetworkPopup } from "../../../../popup/switch-network";
 import { balanceOfAbi } from "../../../../utils/abi";
 import { addressSlicer, getFormattedAmount } from "../../../../utils/formaters";
 import { deleteCookie } from "../../../../utils/general";
+import { SwapProvider } from "../../../swap";
+import { ToggleColorMode } from "../../../toggle-mode";
 import { AccountHeaderContext } from "../../context-manager";
 import { useUserBalance } from "../../context-manager/balance";
 import { useBalance } from "../../hooks/useBalance";
@@ -50,52 +39,16 @@ interface UserSectionProps {
   addressFromCookie: string;
 }
 
-const SearchBarPopup: any = dynamic(
-  () => import("../../../../popup/searchbar").then((mod) => mod.SearchBarPopup),
-  {
-    ssr: false,
-  }
-);
-// const ConnectWallet = dynamic(
-//   () => import("../../../../common/components/popup/wallet-reconnect"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-function useOutsideAlerter(
-  ref: RefObject<HTMLDivElement>,
-  setTriggerHook: Dispatch<SetStateAction<boolean>>
-) {
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setTriggerHook(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, setTriggerHook]);
-}
-
 export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   const [triggerSearch, setTriggerSearch] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const [isConnectorOpen, setIsConnectorOpen] = useState(false);
   const { setConnect } = useContext(PopupUpdateContext);
-  const { connect, showCard, showConnectSocialPopup } =
-    useContext(PopupStateContext);
   const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
   const { address, isConnected } = useAccount();
   const { user } = useContext(UserContext);
   const { setShowNotif } = useContext(AccountHeaderContext);
   const { isMenuMobile, setIsMenuMobile } = useContext(CommonPageContext);
-  useOutsideAlerter(wrapperRef, setTriggerSearch);
   const [shouldMagicLinkProfile, setShouldMagicLinkProfile] = useState(false);
-  const [showTelegramConnector, setShowTelegramConnector] = useState(false);
   const [showInfoPopover, setShowInfoPopover] = useState(false);
   const [showChainPopover, setShowChainPopover] = useState(false);
   const { isConnecting, isDisconnected } = useAccount();
@@ -138,7 +91,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
   useEffect(() => {
     if (isMagicLoading && address) {
       const isFirstVisitMagic = localStorage.getItem(`magic${address}`);
-
       if (!isFirstVisitMagic) {
         localStorage.setItem(`magic${address}`, "true");
         localStorage.setItem("need_magic", "true");
@@ -174,6 +126,17 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
         }
         pushData("Header Clicked", {
           name: "watchlist",
+        });
+        setShowInfoPopover(false);
+      },
+      protocol: () => {
+        if (isConnected) {
+          router.push("/dao/protocol/overview");
+        } else {
+          setConnect(true);
+        }
+        pushData("Header Clicked", {
+          name: "protocol",
         });
         setShowInfoPopover(false);
       },
@@ -249,10 +212,9 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
     "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded-md w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
     "flex items-center text-sm font-medium px-[15px] py-[12.5px] text-light-font-100 dark:text-dark-font-100 cursor-pointer transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
-
   return (
     <>
-      <div className="relative flex items-center w-full justify-end  lg:justify-end sm:w-[90%]">
+      <div className="relative flex items-center w-full lg:w-fit justify-end lg:justify-end">
         {!isMenuMobile ? (
           <>
             <ChainsChanger
@@ -262,27 +224,6 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               setShowInfoPopover={setShowInfoPopover}
             />
             <PortfolioButton extraCss="flex lg:hidden" />
-            <div
-              className="flex text-light-font-60 dark:text-dark-font-60 items-center rounded-md border
-            border-light-border-primary dark:border-dark-border-primary bg-light-bg-secondary 
-            dark:bg-dark-bg-secondary h-[35px] mr-2.5 md:mr-[7.5px] transition-all duration-200 
-            max-w-[16vw] lg:max-w-full w-full ml-0 lg:ml-2.5 cursor-pointer 
-            hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover ease-in-out overflow-hidden"
-              onClick={() => {
-                setTriggerSearch(true);
-                setIsMenuMobile(false);
-              }}
-            >
-              <div
-                className="flex border-r border-light-border-primary dark:border-dark-border-primary 
-              lg:border-transparent lg:dark:border-transparent items-center px-[7.5px] h-full rounded-l"
-              >
-                <FiSearch className="text-md md:text-lg text-light-font-100 dark:text-dark-font-100" />
-              </div>
-              <p className="text-sm text-light-font-100 dark:text-dark-font-100 truncate pl-2 lg:pl-2.5">
-                Crypto name, wallet, ens, token address...
-              </p>
-            </div>
             <PortfolioButton extraCss="lg:flex hidden md:h-[35px]" />
           </>
         ) : null}
@@ -345,7 +286,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
               <>
                 <div className="flex flex-col w-full p-2.5">
                   <p
-                    className="text-lg md:text-md font-normal text-light-font-100 dark:text-dark-font-100
+                    className="text-lg md:text-sm font-normal text-light-font-100 dark:text-dark-font-100
                 pr-2.5 truncate max-w-full overflow-hidden"
                   >
                     {user?.username || addressSlicer(user?.address)}{" "}
@@ -394,7 +335,15 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
                     </div>
                     Watchlist
                   </div>
-
+                  <div
+                    className={`${listContainer} mt-0`}
+                    onClick={() => getEffectOnClick("protocol")()}
+                  >
+                    <div className={squareBox}>
+                      <PiUsersThreeLight className="text-base text-light-font-60 dark:text-dark-font-60" />
+                    </div>
+                    Protocol
+                  </div>
                   <div
                     className={listContainer}
                     onClick={() => getEffectOnClick("notif")()}
@@ -418,18 +367,17 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
             }
           />
         </div>
-        {triggerSearch ? (
-          <SearchBarPopup
-            trigger={triggerSearch}
-            setTrigger={setTriggerSearch}
-          />
-        ) : null}
+        <ToggleColorMode extraCss="lg:hidden ml-2.5" />
         <Connect />
-        <SwitchNetworkPopup />
+        <SwapProvider>
+          <SwitchNetworkPopup />
+        </SwapProvider>
+
         <button
           className="hidden lg:flex ml-2.5 lg:ml-1 min-w-[22px]"
           onClick={() => {
             setIsMenuMobile(!isMenuMobile);
+            setShowChainPopover(false);
           }}
         >
           {isMenuMobile ? (

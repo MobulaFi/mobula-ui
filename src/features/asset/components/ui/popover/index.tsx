@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BsChevronDown } from "react-icons/bs";
+import { useState } from "react";
+import { BiChevronDown } from "react-icons/bi";
 import { Button } from "../../../../../components/button";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../components/image";
@@ -13,6 +13,7 @@ interface CustomPopOverProps {
   isMobile?: boolean;
   logo?: string;
   position?: string;
+  isPair?: boolean;
 }
 
 export const CustomPopOver = ({
@@ -21,18 +22,23 @@ export const CustomPopOver = ({
   children,
   isMobile,
   logo,
+  isPair,
 }: CustomPopOverProps) => {
   const [showCustomPopover, setShowCustomPopover] = useState(false);
   return (
     <Popover
       visibleContent={
-        <Button extraCss={`${mainButtonStyle} mb-[5px]`}>
+        <Button
+          extraCss={`${mainButtonStyle} ${
+            isPair ? "" : "mb-[5px]"
+          } font-normal`}
+        >
           {isMobile ? (
             <NextImageFallback
               fallbackSrc="/empty/unknown.png"
               height={15}
               width={15}
-              className="w-[15px] h-[15px] min-w-[15px] rounded-full mr-[5px]"
+              className="w-[15px] h-[15px] min-w-[15px] rounded-full mr-[5px] object-cover"
               src={logo || "/empty/unknown.png"}
               alt="logo"
             />
@@ -40,7 +46,7 @@ export const CustomPopOver = ({
             icon
           )}
           <SmallFont extraCss="font-medium">{title}</SmallFont>
-          <BsChevronDown className="text-sm ml-[5px]" />
+          <BiChevronDown className="text-base ml-[2px]" />
         </Button>
       }
       hiddenContent={

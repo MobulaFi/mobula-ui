@@ -1,6 +1,6 @@
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import { useCallback, useContext } from "react";
 import { createPublicClient, getContract, http } from "viem";
@@ -39,7 +39,7 @@ export const useLoadToken = () => {
         ...defaultContext,
         ...contextBuffer,
       };
-      const chainId =
+      const evmChainId =
         context.chainNeeded || chainBuffer?.id || defaultChain?.id || 1;
 
       const supabase = createSupabaseDOClient();
@@ -56,8 +56,10 @@ export const useLoadToken = () => {
       dbQuery.order("market_cap", { ascending: false });
 
       const client = createPublicClient({
-        chain: idToWagmiChain[chainId],
-        transport: http(blockchainsIdContent[chainId].rpcs[0]),
+        chain: idToWagmiChain[evmChainId],
+        transport: http(
+          blockchainsIdContentWithNonEVM[String(evmChainId)].rpcs[0]
+        ),
       });
 
       let balance: string | null = null;
@@ -65,7 +67,8 @@ export const useLoadToken = () => {
       let decimalsQuery: Promise<number> | null = null;
 
       const isCoin =
-        blockchainsContent[token.blockchain].eth.symbol === token.symbol;
+        blockchainsContentWithNonEVM[token.blockchain].eth.symbol ===
+        token.symbol;
 
       const newToken: SearchTokenProps = {
         ...token,
@@ -128,19 +131,22 @@ export const useLoadToken = () => {
       if (
         (context.chainNeeded && defaultChain?.id === context.chainNeeded) ||
         (context.chainNeeded &&
-          chainId &&
+          evmChainId &&
           token?.blockchain === otherToken?.blockchain &&
           otherToken?.blockchain ===
-            blockchainsIdContent[chainBuffer?.id || defaultChain?.id || 1]
-              ?.name)
+            blockchainsIdContentWithNonEVM[
+              String(chainBuffer?.id || defaultChain?.id || 1)
+            ]?.name)
       ) {
         context.setChainNeeded(undefined);
       } else if (
         !context.chainNeeded &&
         (defaultChain?.id || 1) !==
-          blockchainsContent[token.blockchain]?.chainId
+          blockchainsContentWithNonEVM[token.blockchain]?.evmChainId
       ) {
-        context.setChainNeeded(blockchainsContent[token.blockchain]?.chainId);
+        context.setChainNeeded(
+          blockchainsContentWithNonEVM[token.blockchain]?.evmChainId
+        );
       }
 
       context.setManualQuote(undefined);

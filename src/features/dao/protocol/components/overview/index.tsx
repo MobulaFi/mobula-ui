@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg, BsKey } from "react-icons/bs";
 import { RiWallet3Line } from "react-icons/ri";
@@ -66,6 +66,8 @@ export const Overview = () => {
     }
   }, [countdown]);
 
+  console.log("recentlyAdded", recentlyAdded);
+
   return (
     <Container extraCss="flex-row lg:flex-col">
       <div className="block lg:hidden">
@@ -126,81 +128,83 @@ export const Overview = () => {
               height: (moreHistory / 10) * 514 + "px",
             }}
           >
-            {recentlyAdded?.map((history: HistoryListing, i: number) => {
-              const date = new Date(history.timestamp * 1000);
-              const second = date.getTime();
-              const postedDate = Math.round((Date.now() - second) / 1000);
-              let format = {
-                timeframe: "day",
-                time: 0,
-              };
-              // TODO : if else under do not work if in a fonction ( see in utils.tsx)
-              if (postedDate < 60) {
-                format = { timeframe: "seconds", time: postedDate };
-              } else if (postedDate >= 60 && postedDate < 120) {
-                format = {
-                  timeframe: "minute",
-                  time: Math.floor(postedDate / 60),
-                };
-              } else if (postedDate >= 120 && postedDate < 3600) {
-                format = {
-                  timeframe: "minutes",
-                  time: Math.floor(postedDate / 60),
-                };
-              } else if (postedDate >= 3600 && postedDate < 7200) {
-                format = {
-                  timeframe: "hour",
-                  time: Math.floor(postedDate / 3600),
-                };
-              } else if (postedDate >= 7200 && postedDate < 86400) {
-                format = {
-                  timeframe: "hours",
-                  time: Math.floor(postedDate / 3600),
-                };
-              } else if (postedDate >= 86400 && postedDate < 172800) {
-                format = {
+            {recentlyAdded
+              ?.filter((entry) => entry?.votes?.length > 0)
+              .map((history: HistoryListing, i: number) => {
+                const date = new Date(history.timestamp * 1000);
+                const second = date.getTime();
+                const postedDate = Math.round((Date.now() - second) / 1000);
+                let format = {
                   timeframe: "day",
-                  time: Math.floor(postedDate / 86400),
+                  time: 0,
                 };
-              } else if (postedDate >= 172800) {
-                format = {
-                  timeframe: "days",
-                  time: Math.floor(postedDate / 86400),
-                };
-              }
-              if (i < moreHistory) {
-                return (
-                  <MetricsLine
-                    keys={history.token_data.name}
-                    history={history}
-                    logo={history.token_data.logo}
-                    key={history.token_data.name}
-                  >
-                    <div className="flex w-[60%] md:w-auto sm:w-[60%] justify-between">
-                      <SmallFont extraCss="whitespace-nowrap flex sm:hidden">
-                        {format.time} {format.timeframe} ago
-                      </SmallFont>
-                      <SmallFont extraCss="whitespace-nowrap ml-5">
-                        {history.final_decision === true
-                          ? "Final Validation"
-                          : "First Sort"}
-                      </SmallFont>
-                      <div className="flex items-center ml-5">
-                        {history.validated ? (
-                          <BsCheckLg className="text-sm text-green dark:text-green mr-2" />
-                        ) : (
-                          <AiOutlineClose className="text-sm text-red dark:text-red mr-2" />
-                        )}
-                        <SmallFont extraCss="whitespace-nowrap">
-                          {history?.votes?.length} VOTES
+                // TODO : if else under do not work if in a fonction ( see in utils.tsx)
+                if (postedDate < 60) {
+                  format = { timeframe: "seconds", time: postedDate };
+                } else if (postedDate >= 60 && postedDate < 120) {
+                  format = {
+                    timeframe: "minute",
+                    time: Math.floor(postedDate / 60),
+                  };
+                } else if (postedDate >= 120 && postedDate < 3600) {
+                  format = {
+                    timeframe: "minutes",
+                    time: Math.floor(postedDate / 60),
+                  };
+                } else if (postedDate >= 3600 && postedDate < 7200) {
+                  format = {
+                    timeframe: "hour",
+                    time: Math.floor(postedDate / 3600),
+                  };
+                } else if (postedDate >= 7200 && postedDate < 86400) {
+                  format = {
+                    timeframe: "hours",
+                    time: Math.floor(postedDate / 3600),
+                  };
+                } else if (postedDate >= 86400 && postedDate < 172800) {
+                  format = {
+                    timeframe: "day",
+                    time: Math.floor(postedDate / 86400),
+                  };
+                } else if (postedDate >= 172800) {
+                  format = {
+                    timeframe: "days",
+                    time: Math.floor(postedDate / 86400),
+                  };
+                }
+                if (i < moreHistory) {
+                  return (
+                    <MetricsLine
+                      keys={history.token_data.name}
+                      history={history}
+                      logo={history.token_data.logo}
+                      key={history.token_data.name}
+                    >
+                      <div className="flex w-[60%] md:w-auto sm:w-[60%] justify-between">
+                        <SmallFont extraCss="whitespace-nowrap flex sm:hidden">
+                          {format.time} {format.timeframe} ago
                         </SmallFont>
+                        <SmallFont extraCss="whitespace-nowrap ml-5">
+                          {history.final_decision === true
+                            ? "Final Validation"
+                            : "First Sort"}
+                        </SmallFont>
+                        <div className="flex items-center ml-5">
+                          {history.validated ? (
+                            <BsCheckLg className="text-sm text-green dark:text-green mr-2" />
+                          ) : (
+                            <AiOutlineClose className="text-sm text-red dark:text-red mr-2" />
+                          )}
+                          <SmallFont extraCss="whitespace-nowrap">
+                            {history?.votes?.length} VOTES
+                          </SmallFont>
+                        </div>
                       </div>
-                    </div>
-                  </MetricsLine>
-                );
-              }
-              return null;
-            })}
+                    </MetricsLine>
+                  );
+                }
+                return null;
+              })}
           </div>
           <div className="flex items-center justify-center w-full">
             {showMore && (

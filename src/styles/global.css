@@ -2,14 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&family=Source+Code+Pro:wght@200;300;400&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&family=Ubuntu&display=swap");
-
 :root {
   --toastify-color-info: #5c7df9;
   --toastify-color-success: #0ecb81;
   --toastify-color-warning: #ffc82c;
   --toastify-color-error: #ea3943;
+}
+
+.nav[data-active="true"] {
+  color: #5c7df9 !important;
 }
 
 @supports (animation: grow 0.5s cubic-bezier(0.25, 0.25, 0.25, 1) forwards) {
@@ -29,6 +30,18 @@
     transform: scale(0);
     animation: grow 1s cubic-bezier(0.25, 0.25, 0.25, 1.25) forwards;
   }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 @keyframes grow {
@@ -87,9 +100,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 body {
-  overflow-y: scroll;
   scrollbar-width: none;
-  overflow-x: hidden;
   position: relative;
 }
 
@@ -261,6 +272,12 @@ textarea:focus {
   transition: transform 0.1s ease-out;
 } */
 
+@media screen and (max-width: 1400px) {
+  .padding-screen {
+    padding: 0 20px;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .scrollFilter::-webkit-scrollbar {
     width: 0px; /* width of the entire scrollbar */
@@ -278,6 +295,14 @@ textarea:focus {
     /* roundness of the scroll thumb */
     display: none;
     background: grey;
+  }
+  .padding-screen {
+    padding: 0 15px;
+  }
+  body {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    position: relative;
   }
 }
 
@@ -436,4 +461,95 @@ textarea:focus {
   .left-container-max-width {
     max-width: 990px;
   }
+}
+
+.nft-image {
+  height: 158px;
+  width: 158px;
+  min-width: 158px;
+  min-height: 158px;
+}
+
+.nft-card {
+  width: 18.5%;
+  margin: 0.75%;
+}
+
+/* w-[18.5%] m-[0.75%] lg:w-[31%] lg:m-[1%] */
+
+@media screen and (max-width: 1200px) {
+  .nft-card {
+    width: 31%;
+    margin: 1%;
+  }
+  .nft-image {
+    height: 150px;
+    width: 100%;
+    min-width: 130px;
+    min-height: 150px;
+    max-height: 150px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .nft-card {
+    width: 31%;
+    margin: 1%;
+  }
+  .nft-image {
+    height: 120px;
+    width: 100%;
+    min-width: 120px;
+    min-height: 120px;
+  }
+}
+.sell-bg {
+  animation: bgFadeInSell 2s ease-in-out;
+}
+
+.buy-bg {
+  animation: bgFadeInBuy 2s ease-in-out;
+}
+
+@keyframes bgFadeInBuy {
+  0% {
+    background: rgba(2, 192, 118, 0.2);
+    opacity: 0%;
+  }
+  30% {
+    opacity: 100%;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@keyframes bgFadeInSell {
+  0% {
+    opacity: 0%;
+    background: rgba(234, 57, 67, 0.2);
+  }
+  30% {
+    opacity: 100%;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+.home-width {
+  max-width: 1300px;
+}
+
+.page-width {
+  max-width: 1200px;
+}
+
+:root:not(.dark) .theme-image.dark {
+  display: none;
+}
+
+/* Cacher l'image de thème clair lorsque le thème actif est "dark" */
+:root.dark .theme-image.light {
+  display: none;
 }

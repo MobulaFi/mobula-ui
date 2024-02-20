@@ -1,4 +1,4 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance, useFeeData, useNetwork } from "wagmi";
 import { getFormattedAmount } from "../../../utils/formaters";
@@ -21,7 +21,9 @@ export const useButtonStatus = () => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { data: balanceData } = useBalance({ address });
-  const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id,
+  });
   const [buttonStatus, setButtonStatus] = useState("Loading...");
 
   // Syntaxic sugar
@@ -42,10 +44,12 @@ export const useButtonStatus = () => {
       return;
     }
 
-    if (chainNeeded && chain?.id !== chainNeeded && tokenOut) {
+    if (chainNeeded && chain?.id !== Number(chainNeeded) && tokenOut) {
       setButtonStatus(
-        blockchainsIdContent[chainNeeded]?.name
-          ? `Switch to ${blockchainsIdContent[chainNeeded]?.name}`
+        blockchainsIdContentWithNonEVM[String(chainNeeded)]?.name
+          ? `Switch to ${
+              blockchainsIdContentWithNonEVM[String(chainNeeded)]?.name
+            }`
           : "Unsupported chain"
       );
       return;
@@ -64,7 +68,7 @@ export const useButtonStatus = () => {
     if (gasBalance !== null && gasBalance - gasSpent < 0) {
       setButtonStatus(
         `Not enough ${
-          blockchainsIdContent[chain?.id as number].eth.symbol
+          blockchainsIdContentWithNonEVM[String(chain?.id as number)].eth.symbol
         } (${getFormattedAmount(gasSpent)} needed total)`
       );
       return;

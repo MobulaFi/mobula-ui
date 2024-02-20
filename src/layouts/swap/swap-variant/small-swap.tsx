@@ -1,14 +1,13 @@
 import { BaseAssetContext } from "features/asset/context-manager";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import {
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
+} from "mobula-lite/lib/chains/constants";
+import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
+import { useNetwork } from "wagmi";
 import { SwapContext } from "..";
 import { LargeFont, MediumFont, SmallFont } from "../../../components/fonts";
 import { Spinner } from "../../../components/spinner";
@@ -32,6 +31,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   const [settingsVisible, setSettingsVisible] = useState<boolean>(false);
   const { baseAsset } = useContext(BaseAssetContext);
   const [isHover, setIsHover] = useState(false);
+  const { chain } = useNetwork();
   const {
     tokenIn,
     tokenOut,
@@ -45,11 +45,19 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
     setTokenOutBuffer,
     quotes,
     setLockToken,
+    chainNeeded,
   } = useContext(SwapContext);
 
+  const chainData =
+    blockchainsIdContentWithNonEVM[
+      String(chainNeeded || (chain?.id as number))
+    ];
   const checkValidity = () => {
-    if (asset) return asset?.contracts?.length === 0;
-    return baseAsset?.contracts?.length === 0;
+    if (asset)
+      return !blockchainsContentWithNonEVM?.[
+        asset?.blockchains?.[0] || asset?.blockchain
+      ]?.supportedProtocols?.length;
+    return !chainData?.supportedProtocols?.length;
   };
 
   const isValid = checkValidity();
@@ -129,7 +137,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
           <div className="flex text-center mt-[15px] mx-auto justify-center">
             {!quotes?.length ? (
               <div className="flex items-center cursor-pointer mx-auto">
-                <AiOutlineThunderbolt className="text-light-font-100 text-md dark:text-dark-font-100 mr-[5px]" />
+                <AiOutlineThunderbolt className="text-light-font-100 text-sm dark:text-dark-font-100 mr-[5px]" />
                 <SmallFont>Best Price, 0 fees from Mobula</SmallFont>
                 <BsChevronDown className="text-light-font-100 text-xs dark:text-dark-font-100 ml-[5px]" />
               </div>
@@ -137,7 +145,7 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
             <InfoPopupQuotes isSwapRouter>
               {quotes?.length ? (
                 <div className="flex items-center cursor-pointer mx-auto w-fit">
-                  <AiOutlineThunderbolt className="text-light-font-100 text-md dark:text-dark-font-100 mr-[5px]" />
+                  <AiOutlineThunderbolt className="text-light-font-100 text-sm dark:text-dark-font-100 mr-[5px]" />
                   <SmallFont>Best Price, 0 fees from Mobula</SmallFont>
                   <BsChevronDown className="text-light-font-100 text-xs dark:text-dark-font-100 ml-[5px]" />
                 </div>

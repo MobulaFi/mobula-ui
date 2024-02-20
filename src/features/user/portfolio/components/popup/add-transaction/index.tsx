@@ -424,7 +424,7 @@ export const AddTransactionPopup = () => {
               }
             }}
           />
-          <BiTimeFive className="text-md text-light-font-100 dark:text-dark-font-100" />
+          <BiTimeFive className="text-sm text-light-font-100 dark:text-dark-font-100" />
         </div>
       </div>
       {typeSelected === "Transfer" ? null : (
@@ -452,10 +452,7 @@ export const AddTransactionPopup = () => {
                     : getClosest(historicalData || [], timestamp) *
                         parseFloat(settings.quantity),
                   0,
-                  {
-                    minifyBigNumbers: false,
-                    minifyZeros: false,
-                  }
+                  { shouldNotMinifyBigNumbers: true }
                 ) as number;
               })()}
               readOnly

@@ -17,7 +17,7 @@ import { Skeleton } from "../../../../../../components/skeleton";
 import { TagPercentage } from "../../../../../../components/tag-percentage";
 import { SettingsMetricContext } from "../../../../../../contexts/settings";
 import { TableAsset } from "../../../../../../interfaces/assets";
-import { useWatchlist } from "../../../../../../layouts/tables/hooks/watchlist";
+import { useWatchlist } from "../../../../../../layouts/new-tables/hooks/watchlist";
 import EChart from "../../../../../../lib/echart/line";
 import { pushData } from "../../../../../../lib/mixpanel";
 import { triggerAlert } from "../../../../../../lib/toastify";
@@ -96,7 +96,6 @@ export const Cryptocurrencies = () => {
       return;
     }
     pushData("Asset Removed");
-    console.log("[...activePortfolio.removed_assets, asset?.id]", newAsset);
     const newPortfolio = {
       ...activePortfolio,
       removed_assets:
@@ -265,11 +264,14 @@ export const Cryptocurrencies = () => {
                               >
                                 {Number(
                                   getFormattedAmount(token.token_balance)
-                                ) < 0.01
-                                  ? `<0.01 ${token.symbol}`
-                                  : `${getFormattedAmount(
-                                      token.token_balance
-                                    )} ${token.symbol}`}
+                                ) < 0.01 ? (
+                                  `<0.01 ${token.symbol}`
+                                ) : (
+                                  <>
+                                    {getFormattedAmount(token.token_balance)}{" "}
+                                    {token.symbol}
+                                  </>
+                                )}
                               </SmallFont>
                             )}
                             {manager.privacy_mode ? (
@@ -280,11 +282,16 @@ export const Cryptocurrencies = () => {
                               >
                                 {Number(
                                   getFormattedAmount(token.estimated_balance)
-                                ) < 0.01
-                                  ? `<0.01$`
-                                  : `$${getFormattedAmount(
+                                ) < 0.01 ? (
+                                  `<0.01$`
+                                ) : (
+                                  <>
+                                    $
+                                    {getFormattedAmount(
                                       token.estimated_balance
-                                    )}`}
+                                    )}
+                                  </>
+                                )}
                               </SmallFont>
                             )}
                           </div>

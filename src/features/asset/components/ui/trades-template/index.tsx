@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
@@ -23,13 +23,26 @@ export const TradesTemplate = ({
   date,
   isLoading = false,
 }: TradesTemplateProps) => {
-  const { baseAsset } = useContext(BaseAssetContext);
+  const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
+  const calculateQuoteTokenAmount = (
+    baseAmount: number,
+    basePrice: number,
+    quotePrice: number
+  ) => {
+    return (baseAmount * basePrice) / quotePrice;
+  };
+  const quoteTokenAmount = calculateQuoteTokenAmount(
+    trade.token_amount,
+    trade.token_price,
+    trade.token_price_vs
+  );
+
   return (
     <tr>
       <td
         className={`border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                   md:pl-2.5 pr-2.5 ${
-                    isLoading ? "py-5" : "py-[15px]"
+                    isLoading ? "py-[15px]" : "py-2.5 md:py-3"
                   } text-[11px] lg:text-[10px] md:text-[8px] md:hidden`}
       >
         <div>
@@ -52,24 +65,27 @@ export const TradesTemplate = ({
       >
         <div className="flex items-end md:items-start w-full justify-center flex-col">
           {"blockchain" in (trade || {}) || isMyTrades || isLoading ? (
-            <SmallFont extraCss="font-medium">
+            <SmallFont extraCss="whitespace-nowrap">
               {isLoading ? (
                 <Skeleton extraCss="h-[13px] md:h-[11px] w-[60px]" />
               ) : (
                 <NextChakraLink
                   href={
                     "blockchain" in trade && "hash" in trade
-                      ? `${blockchainsContent[trade.blockchain]?.explorer}/tx/${
-                          trade.hash
-                        }`
+                      ? `${
+                          blockchainsContentWithNonEVM[trade.blockchain]
+                            ?.explorer
+                        }/tx/${trade.hash}`
                       : ""
                   }
                   key={trade.hash}
                   target="_blank"
                 >
-                  {getFormattedAmount(
-                    (isMyTrades ? trade.amount : trade.token_amount) as number
-                  )}
+                  {isMyTrades
+                    ? getFormattedAmount((trade.amount || 0) as number, 2)
+                    : getFormattedAmount(trade.token_amount as number, 0, {
+                        canUseHTML: true,
+                      })}{" "}
                 </NextChakraLink>
               )}
             </SmallFont>
@@ -80,17 +96,43 @@ export const TradesTemplate = ({
             <SmallFont
               extraCss={`mt-[-4px] md:mt-0 hidden md:flex ${
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
-              } font-medium`}
+              }`}
             >
               $
-              {getFormattedAmount(
-                (isMyTrades ? trade.amount_usd : trade.value_usd) as number,
-                2
-              )}
+              {isMyTrades
+                ? getFormattedAmount(trade.amount_usd as number, 2)
+                : getFormattedAmount(
+                    (trade?.value_usd || trade?.token_amount_usd) as number,
+                    2
+                  )}
             </SmallFont>
           )}
         </div>
       </td>
+      {isAssetPage ? null : (
+        <td
+          className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
+                      px-2.5 table-cell md:hidden"
+        >
+          <div className="flex justify-end w-full min-w-[60%]">
+            {isLoading ? (
+              <Skeleton extraCss="mr-0 lg:mr-2.5 md:mr-0 h-[13px] md:h-[11px] w-[70px]" />
+            ) : (
+              <SmallFont
+                extraCss={`${
+                  isSell
+                    ? "text-red dark:text-red"
+                    : "text-green dark:text-green"
+                } mr-0 lg:mr-2.5 md:mr-0`}
+              >
+                {getFormattedAmount(quoteTokenAmount as number, 0, {
+                  canUseHTML: true,
+                })}
+              </SmallFont>
+            )}
+          </div>
+        </td>
+      )}
       <td
         className="border-b border-light-border-primary dark:border-dark-border-primary pl-5 
                      px-2.5 table-cell md:hidden"
@@ -105,10 +147,15 @@ export const TradesTemplate = ({
               } mr-0 lg:mr-2.5 md:mr-0`}
             >
               $
-              {getFormattedAmount(
-                (isMyTrades ? trade.amount_usd : trade.value_usd) as number,
-                2
-              )}
+              {isMyTrades
+                ? getFormattedAmount(trade.amount_usd as number, 0, {
+                    canUseHTML: true,
+                  })
+                : getFormattedAmount(
+                    (trade?.token_amount_usd || trade?.value_usd) as number,
+                    0,
+                    { canUseHTML: true }
+                  )}
             </SmallFont>
           )}
         </div>
@@ -126,14 +173,21 @@ export const TradesTemplate = ({
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
               }`}
             >
-              {`$${getFormattedAmount(
-                isMyTrades
-                  ? getClosest(
-                      baseAsset?.price_history?.price || [],
-                      trade?.timestamp as number
-                    )
-                  : trade.token_price
-              )}`}
+              {isMyTrades ? (
+                getFormattedAmount(
+                  getClosest(
+                    baseAsset?.price_history?.price || [],
+                    trade?.timestamp as number
+                  )
+                )
+              ) : (
+                <>
+                  $
+                  {getFormattedAmount(trade.token_price, 0, {
+                    canUseHTML: true,
+                  })}
+                </>
+              )}
             </SmallFont>
           )}
         </div>
@@ -147,7 +201,7 @@ export const TradesTemplate = ({
             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
           ) : (
             <>
-              <SmallFont extraCss="font-medium">
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
                 {new Date(date).getHours() > 9
                   ? new Date(date).getHours()
                   : `0${new Date(date).getHours()}`}
@@ -161,7 +215,7 @@ export const TradesTemplate = ({
                   : `0${new Date(date).getSeconds()}`}
               </SmallFont>
               {isMyTrades ? (
-                <SmallFont extraCss="text-xs font-medium">
+                <SmallFont extraCss="text-xs  text-light-font-60 dark:text-dark-font-60">
                   {trade.date}
                 </SmallFont>
               ) : null}{" "}
@@ -187,7 +241,8 @@ export const TradesTemplate = ({
                     href={
                       "blockchain" in trade && "hash" in trade
                         ? `${
-                            blockchainsContent[trade.blockchain]?.explorer
+                            blockchainsContentWithNonEVM[trade.blockchain]
+                              ?.explorer
                           }/tx/${trade.hash}`
                         : ""
                     }
@@ -200,7 +255,7 @@ export const TradesTemplate = ({
                   <img
                     className="w-[18px] h-[18px] min-w-[18px] mb-0.5 rounded-full"
                     src={
-                      blockchainsContent[trade.blockchain]?.logo ||
+                      blockchainsContentWithNonEVM[trade.blockchain]?.logo ||
                       `/logo/${
                         trade.blockchain.toLowerCase().split(" ")[0]
                       }.png`

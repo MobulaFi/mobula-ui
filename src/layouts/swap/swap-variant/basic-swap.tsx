@@ -1,4 +1,4 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 // import {InfoPopup} from "../../../../components/popup-hover";
@@ -63,9 +63,11 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
   const [isBuy, setIsBuy] = useState<boolean>(true);
   const inputInRef = useRef<HTMLInputElement>(null);
   const { chain } = useNetwork();
-  const { data: gasData } = useFeeData({ chainId: chainNeeded || chain?.id });
+  const { data: gasData } = useFeeData({
+    chainId: chainNeeded || chain?.id,
+  });
   const { loadToken } = useLoadToken();
-  const { data } = useFeeData({ chainId: chainNeeded || chain?.id || 1 });
+  const { data } = useFeeData({ chainId: chainNeeded || chain?.id });
   const [isMounted, setIsMounted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const switchTokenButtonStyle =
@@ -76,7 +78,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
       settings.gasPriceRatio
     : 0;
   const currentChain = chainNeeded || chain?.id || 1;
-  const chainData = blockchainsIdContent[currentChain];
+  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
   const supportedProtocols =
     chainData?.supportedProtocols.filter(
       (entry) =>
@@ -102,8 +104,6 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
     if (i === 0) return true;
     return false;
   };
-
-  console.log("buttonStatus", buttonStatus);
 
   return (
     <div

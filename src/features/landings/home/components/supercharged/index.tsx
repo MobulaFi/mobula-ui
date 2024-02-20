@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import { containerStyle } from "../../style";
 import { blurEffectAnimation } from "../../utils";
@@ -17,7 +16,7 @@ export const IndexingSupercharged = () => {
   }, []);
   return (
     <section
-      className="w-screen flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
+      className="w-full flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center py-[150px] md:py-[50px]"
       style={{
         backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
       }}
@@ -49,12 +48,12 @@ export const IndexingSupercharged = () => {
                 className="w-[150px] h-[40px] md:h-[35px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
                dark:border-darkblue water-button md:w-[125px] md:text-sm md:font-normal md:hidden"
               >
-                <Link
+                <a
                   href="mailto:contact@mobulalabs.org"
                   className="text-sm md:text-xs"
                 >
                   Get in touch
-                </Link>
+                </a>
               </button>
             </div>
             <div className="w-2/4 md:w-full flex flex-col md:mt-2.5">
@@ -66,17 +65,19 @@ export const IndexingSupercharged = () => {
                 <img src="/landing/supercharged/livestream.png" />
               </div>
             </div>
-            <button
-              className="w-[150px] h-[40px] md:h-[35px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
-               dark:border-darkblue water-button md:w-[125px] md:text-sm md:font-normal hidden md:flex items-center justify-center mt-5"
-            >
-              <Link
-                href="mailto:contact@mobulalabs.org"
-                className="text-sm md:text-xs"
+            <div className="hidden md:flex w-fit h-fit">
+              <button
+                className="hidden w-[150px] h-[40px] md:h-[35px] text-[15px] font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
+               dark:border-darkblue water-button md:w-[125px] md:text-sm md:font-normal md:flex md:items-center md:justify-center mt-5"
               >
-                Get in touch
-              </Link>
-            </button>
+                <a
+                  href="mailto:contact@mobulalabs.org"
+                  className="text-sm md:text-xs"
+                >
+                  Get in touch
+                </a>
+              </button>
+            </div>
           </div>
           <div className="w-full flex justify-between md:flex-col md:justify-start">
             <div

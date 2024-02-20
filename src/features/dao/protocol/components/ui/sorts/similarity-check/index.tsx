@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useEffect, useState } from "react";
 import { SiConvertio } from "react-icons/si";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
@@ -128,12 +128,13 @@ export const SimiliratyCheck = ({ token }: SimilarityCheckProps) => {
                     </Tds>
                     <Tds extraCss="px-2.5 py-[15px] text-end">
                       <div className="flex items-center w-full justify-end">
-                        {blockchainsContent[similarTokens[key].blockchains?.[0]]
-                          ?.logo ? (
+                        {blockchainsContentWithNonEVM[
+                          similarTokens[key].blockchains?.[0]
+                        ]?.logo ? (
                           <img
                             className="rounded-full mr-[7.5px] w-4 h-4"
                             src={
-                              blockchainsContent[
+                              blockchainsContentWithNonEVM[
                                 similarTokens[key].blockchains?.[0]
                               ]?.logo || "/empty/unknown.png"
                             }

@@ -1,13 +1,11 @@
 export const getNextBarTime = (resolution: string, time: number) => {
-  const date = new Date(time * 1000);
+  const date = new Date(time);
   const utcDate = new Date(
-    Date.UTC(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      date.getHours(),
-      date.getMinutes()
-    )
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes()
   );
 
   switch (resolution) {
@@ -33,5 +31,5 @@ export const getNextBarTime = (resolution: string, time: number) => {
       break;
   }
 
-  return Math.floor(utcDate.getTime() / 1000);
+  return Math.floor(utcDate.getTime());
 };

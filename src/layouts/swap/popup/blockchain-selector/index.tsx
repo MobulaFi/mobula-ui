@@ -1,5 +1,8 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainName, BlockchainParams } from "mobula-lite/lib/model";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import {
+  BlockchainNameWithNonEVM,
+  BlockchainParamsWithNonEVM,
+} from "mobula-lite/lib/model";
 import React, { Key, useContext } from "react";
 import { useNetwork } from "wagmi";
 import { SwapContext } from "../..";
@@ -36,8 +39,8 @@ export const BlockchainSelector = ({
       <div className="flex flex-wrap flex-col" {...props}>
         <div className="flex flex-wrap">
           {blockchains?.map((entry, i) => {
-            const blockchain: BlockchainParams =
-              blockchainsContent[entry as BlockchainName];
+            const blockchain: BlockchainParamsWithNonEVM =
+              blockchainsContentWithNonEVM[entry as BlockchainNameWithNonEVM];
             if (blockchain === undefined) return null;
             return (
               <div
@@ -49,8 +52,10 @@ export const BlockchainSelector = ({
                 key={(entry || i) as Key}
                 onClick={async () => {
                   setShowBlockchainSelector((prev) => !prev);
-                  if (chain?.id !== (blockchain.chainId || 0)) {
-                    setShowSwitchNetwork((blockchain.chainId || 0) as number);
+                  if (chain?.id !== (blockchain.evmChainId || 0)) {
+                    setShowSwitchNetwork(
+                      (blockchain.evmChainId || 0) as number
+                    );
                   } else if (chainNeeded) {
                     setChainNeeded(undefined);
                   }

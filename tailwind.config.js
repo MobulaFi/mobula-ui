@@ -10,11 +10,15 @@ module.exports = {
   theme: {
     borderWidth: {
       DEFAULT: "1px",
+      0: "0",
+      2: "2px",
     },
     fontFamily: {
-      inter: "Inter",
+      sans: ["var(--font-inter)"],
+      mono: ["var(--font-poppins)"],
+      inter: ["var(--font-inter)"],
       jetBrains: "JetBrains Mono",
-      poppins: "Poppins",
+      poppins: ["var(--font-poppins)"],
     },
     extend: {
       width: {
@@ -42,6 +46,10 @@ module.exports = {
         spin: {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
+        },
+        fadeInTrade: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         skeleton: {
           "0%, 100%": { backgroundPosition: "200% 0" },
@@ -85,6 +93,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         widthbar: "widthbar 5200ms linear",
         fadeIn: "fadeIn 0.5s ease-out",
+        fadeInTrade: "fadeInTrade 0.7s ease-in-out",
       },
       boxShadow: {
         "top-bottom":
@@ -103,13 +112,13 @@ module.exports = {
           primary: "rgba(19, 22, 39, 1)",
           secondary: "rgba(21, 25, 41, 1)",
           terciary: "rgba(23, 27, 43, 1)",
-          table: "rgba(17, 21, 36, 1)",
+          table: "rgba(19, 22, 39, 1)",
           hover: "rgba(34, 37, 49, 1)",
           tags: "rgba(40, 43, 55, 1)",
         },
         border: {
           primary: "rgba(255, 255, 255, 0.03)",
-          secondary: "rgba(255, 255, 255, 0.04)",
+          secondary: "rgba(255, 255, 255, 0.06)",
         },
         font: {
           100: "rgba(255, 255, 255, 0.95)",
@@ -125,7 +134,7 @@ module.exports = {
           primary: "rgba(255,255,255,1)",
           secondary: "rgba(252.5, 252.5, 252.5, 1)",
           terciary: "rgba(250, 250, 250, 1)",
-          table: "rgba(255, 255, 255, 1)",
+          table: "rgba(255,255,255,1)",
           hover: "rgba(245, 245, 245, 1)",
           tags: "rgba(227, 227, 227, 1)",
         },

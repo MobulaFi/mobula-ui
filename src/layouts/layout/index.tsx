@@ -7,6 +7,7 @@ import { Footer } from "../footer";
 import { Header } from "../header";
 import { HeaderBanner } from "../header-banner";
 import { MenuFixedMobile } from "../menu-mobile";
+import { Nav } from "../nav";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -38,10 +39,14 @@ const Layout = async ({ children }: LayoutProps) => {
       />
       <DexDrawer />
       <HeaderBanner assets={assets || []} />
-      <Header addressCookie={addressCookie || ""} />
-      <div className="w-full min-h-[70vh]">{children}</div>
+      <div className="flex">
+        <Nav />
+        <div className="w-full pl-[68px] lg:pl-0" id="app">
+          <Header addressCookie={addressCookie || ""} />
+          <div className="w-full min-h-[70vh]">{children}</div> <Footer />
+        </div>
+      </div>
       <MenuFixedMobile />
-      <Footer />
     </div>
   );
 };
