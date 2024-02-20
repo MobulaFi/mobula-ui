@@ -1,7 +1,7 @@
 "use client";
 import Cookies from "js-cookie";
 import { useParams, useRouter } from "next/navigation";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { AiOutlineClose, AiOutlineStar } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -212,7 +212,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
     "flex items-center bg-light-bg-hover dark:bg-dark-bg-hover rounded-md w-[22px] h-[22px] min-w-[22px] justify-center mr-2.5";
   const listContainer =
     "flex items-center text-sm font-medium px-[15px] py-[12.5px] text-light-font-100 dark:text-dark-font-100 cursor-pointer transition-all duration-200 hover:bg-light-bg-hover hover:dark:bg-dark-bg-hover";
-
+  console.log("Should show popover chain", showChainPopover);
   return (
     <>
       <div className="relative flex items-center w-full justify-end lg:justify-end">
@@ -378,6 +378,7 @@ export const UserSection = ({ addressFromCookie }: UserSectionProps) => {
           className="hidden lg:flex ml-2.5 lg:ml-1 min-w-[22px]"
           onClick={() => {
             setIsMenuMobile(!isMenuMobile);
+            setShowChainPopover(false);
           }}
         >
           {isMenuMobile ? (

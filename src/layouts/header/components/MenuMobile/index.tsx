@@ -80,6 +80,7 @@ export const MenuMobile = ({
         onClick={() => {
           if (!isConnected) setConnect(true);
           setIsMenuMobile(false);
+          setShowChainPopover(false);
           pushData("Header Clicked", {
             name: "Watchlist",
           });
