@@ -73,6 +73,8 @@ const TradingViewChart = ({
           ...widgetOptionsDefault,
         });
 
+        (window as any).tvWidget = tvWidget;
+
         (window as any).tvWidget.onChartReady(() => {
           (window as any).tvWidget?.applyOverrides(
             overrides(isWhiteMode) || {}
