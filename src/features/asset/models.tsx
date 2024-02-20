@@ -258,6 +258,7 @@ export interface Trade {
   amount_usd?: number;
   token_amount_usd?: number;
   token_price_vs: number;
+  token_amount_vs: number;
 }
 
 export interface Metrics {

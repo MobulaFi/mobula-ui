@@ -34,6 +34,7 @@ export const TokenTrades = () => {
     pairTrades,
     setPairTrades,
     fadeIn,
+    switchedToNative,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -43,6 +44,7 @@ export const TokenTrades = () => {
   const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const [isTradeLoading, setIsTradeLoading] = useState(!isAssetPage);
+  const isUsd = !switchedToNative || isAssetPage;
   const titles: string[] = [
     "Type",
     isAssetPage ? "Tokens" : baseSymbol,
@@ -441,6 +443,7 @@ export const TokenTrades = () => {
                       isSell={isSell}
                       isMyTrades={isMyTrades}
                       date={date}
+                      isUsd={isUsd}
                     />
                   </tbody>
                 );

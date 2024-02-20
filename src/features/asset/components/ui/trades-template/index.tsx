@@ -15,6 +15,7 @@ interface TradesTemplateProps {
   isMyTrades?: boolean;
   date: string | number | undefined;
   isLoading?: boolean;
+  isUsd?: boolean;
 }
 
 export const TradesTemplate = ({
@@ -23,6 +24,7 @@ export const TradesTemplate = ({
   isMyTrades,
   date,
   isLoading = false,
+  isUsd = true,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const calculateQuoteTokenAmount = (
@@ -37,6 +39,7 @@ export const TradesTemplate = ({
     trade.token_price,
     trade.token_price_vs
   );
+  console.log("trade", trade);
 
   return (
     <tr>
@@ -148,16 +151,34 @@ export const TradesTemplate = ({
                 isSell ? "text-red dark:text-red" : "text-green dark:text-green"
               } mr-0 lg:mr-2.5 md:mr-0`}
             >
-              $
-              {isMyTrades
-                ? getFormattedAmount(trade.amount_usd as number, 0, {
+              {isMyTrades ? (
+                <>
+                  $
+                  {getFormattedAmount(trade.amount_usd as number, 0, {
                     canUseHTML: true,
-                  })
-                : getFormattedAmount(
+                  })}
+                </>
+              ) : isUsd ? (
+                <>
+                  $
+                  {getFormattedAmount(
                     (trade?.token_amount_usd || trade?.value_usd) as number,
                     0,
                     { canUseHTML: true }
                   )}
+                </>
+              ) : (
+                <>
+                  {getFormattedAmount(
+                    trade.token_amount_vs / trade.token_amount,
+                    0,
+                    {
+                      canUseHTML: true,
+                    }
+                  )}{" "}
+                  {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+                </>
+              )}
             </SmallFont>
           )}
         </div>
