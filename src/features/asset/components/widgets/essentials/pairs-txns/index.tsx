@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
@@ -115,7 +115,10 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
               Buy Vol
             </SmallFont>
             <SmallFont>
-              ${getFormattedAmount(baseAsset?.[`buy_volume_${timeframe}`])}
+              $
+              {getFormattedAmount(baseAsset?.[`buy_volume_${timeframe}`], 0, {
+                canUseHTML: true,
+              })}
             </SmallFont>
           </div>
           <div className="flex flex-col items-end w-full">
@@ -123,7 +126,10 @@ export const PairTxns = ({ extraCss }: PairTxnsProps) => {
               Sell Vol
             </SmallFont>
             <SmallFont>
-              ${getFormattedAmount(baseAsset?.[`sell_volume_${timeframe}`])}
+              ${" "}
+              {getFormattedAmount(baseAsset?.[`sell_volume_${timeframe}`], 0, {
+                canUseHTML: true,
+              })}
             </SmallFont>
           </div>
         </div>
