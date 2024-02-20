@@ -24,6 +24,7 @@ import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { TokenDivs } from "../../../../models";
 import styles from "../box-prevote/Prevote.module.scss";
 import { CommunityPopup } from "../popup-community";
@@ -302,7 +303,9 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                     >
                       <Contracts
                         contract={contract.address}
-                        blockchain={contract.blockchain}
+                        blockchain={
+                          contract.blockchain as BlockchainNameWithNonEVM
+                        }
                       />
                     </div>
                   )

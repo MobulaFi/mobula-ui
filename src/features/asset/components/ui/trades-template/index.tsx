@@ -1,6 +1,6 @@
 import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
@@ -15,6 +15,7 @@ interface TradesTemplateProps {
   isMyTrades?: boolean;
   date: string | number | undefined;
   isLoading?: boolean;
+  isUsd?: boolean;
 }
 
 export const TradesTemplate = ({
@@ -23,6 +24,7 @@ export const TradesTemplate = ({
   isMyTrades,
   date,
   isLoading = false,
+  isUsd = true,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const calculateQuoteTokenAmount = (
@@ -184,10 +186,25 @@ export const TradesTemplate = ({
                 )
               ) : (
                 <>
-                  $
-                  {getFormattedAmount(trade.token_price, 0, {
-                    canUseHTML: true,
-                  })}
+                  {isUsd ? (
+                    <>
+                      $
+                      {getFormattedAmount(trade.token_price, 0, {
+                        canUseHTML: true,
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      {getFormattedAmount(
+                        trade.token_amount_vs / trade.token_amount,
+                        0,
+                        {
+                          canUseHTML: true,
+                        }
+                      )}{" "}
+                      {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+                    </>
+                  )}
                 </>
               )}
             </SmallFont>

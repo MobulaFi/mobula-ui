@@ -93,6 +93,8 @@ export interface IBasetAssetContext {
   setPairTrades: Dispatch<SetStateAction<Trade[]>>;
   fadeIn: string[];
   setFadeIn: Dispatch<SetStateAction<string[]>>;
+  switchedToNative: boolean;
+  setSwitchedToNative: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface TimeRemaining {
@@ -256,6 +258,7 @@ export interface Trade {
   amount_usd?: number;
   token_amount_usd?: number;
   token_price_vs: number;
+  token_amount_vs: number;
 }
 
 export interface Metrics {
