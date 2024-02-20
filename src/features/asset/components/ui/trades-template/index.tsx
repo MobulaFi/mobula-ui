@@ -1,3 +1,4 @@
+import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
@@ -72,10 +73,11 @@ export const TradesTemplate = ({
                 <NextChakraLink
                   href={
                     "blockchain" in trade && "hash" in trade
-                      ? `${
-                          blockchainsContentWithNonEVM[trade.blockchain]
-                            ?.explorer
-                        }/tx/${trade.hash}`
+                      ? `${explorerTransformer(
+                          trade.blockchain,
+                          trade.hash,
+                          "tx"
+                        )}`
                       : ""
                   }
                   key={trade.hash}
@@ -240,10 +242,11 @@ export const TradesTemplate = ({
                   <NextChakraLink
                     href={
                       "blockchain" in trade && "hash" in trade
-                        ? `${
-                            blockchainsContentWithNonEVM[trade.blockchain]
-                              ?.explorer
-                          }/tx/${trade.hash}`
+                        ? explorerTransformer(
+                            trade.blockchain,
+                            trade.hash,
+                            "tx"
+                          )
                         : ""
                     }
                     key={trade.hash}

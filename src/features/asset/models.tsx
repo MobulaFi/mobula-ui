@@ -246,7 +246,7 @@ export interface Trade {
   value_usd: number;
   token_amount: number;
   type: "sell" | "buy";
-  blockchain: string;
+  blockchain: BlockchainNameWithNonEVM;
   date: number;
   token_price: number;
   timestamp?: number;
