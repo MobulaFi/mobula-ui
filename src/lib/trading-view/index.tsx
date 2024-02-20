@@ -40,7 +40,13 @@ const TradingViewChart = ({
         const baseToken = baseAsset?.[baseAsset?.baseToken];
         const quoteToken = baseAsset?.[baseAsset?.quoteToken];
         const tvWidget = new Widget({
-          datafeed: Datafeed(baseAsset, isPair, setPairTrades, setFadeIn),
+          datafeed: Datafeed(
+            baseAsset,
+            isPair,
+            setPairTrades,
+            setFadeIn,
+            isUsd
+          ),
           symbol: isPair
             ? isUsd
               ? baseToken?.symbol + "/USD"

@@ -62,18 +62,7 @@ export const Essentials = () => {
               setChartPreference={setChartPreference}
               chartPreference={chartPreference}
             />
-          ) : (
-            <Button
-              extraCss="lg:hidden"
-              onClick={() => setSwitchedToNative((prev) => !prev)}
-            >
-              <HiOutlineSwitchHorizontal className="mr-1.5" />
-              Switch to $
-              {switchedToNative
-                ? "USD"
-                : baseAsset?.[baseAsset?.baseToken]?.symbol}
-            </Button>
-          )}
+          ) : null}
           {chartPreference !== "Trading view" && isAssetPage ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}

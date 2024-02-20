@@ -57,14 +57,14 @@ export const Datafeed = (
     periodParams,
     onResult: Function
   ) => {
-    const usdDefined = isUsd !== undefined;
+    console.log("isUsd", isUsd);
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
       params: {
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
-        usd: usdDefined ? isUsd : true,
+        usd: isUsd,
         period: resolution,
       },
     };
