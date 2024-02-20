@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { Timezone } from "../../../public/static/charting_library/charting_library";
 import { Asset, Trade } from "../../features/asset/models";
 import { cn } from "../shadcn/lib/utils";
@@ -39,15 +39,8 @@ const TradingViewChart = ({
         if (!ref.current) return;
         const baseToken = baseAsset?.[baseAsset?.baseToken];
         const quoteToken = baseAsset?.[baseAsset?.quoteToken];
-
         const tvWidget = new Widget({
-          datafeed: Datafeed(
-            baseAsset,
-            isPair,
-            setPairTrades,
-            setFadeIn,
-            isUsd
-          ),
+          datafeed: Datafeed(baseAsset, isPair, setPairTrades, setFadeIn),
           symbol: isPair
             ? isUsd
               ? baseToken?.symbol + "/USD"
@@ -76,6 +69,7 @@ const TradingViewChart = ({
         (window as any).tvWidget = tvWidget;
 
         (window as any).tvWidget.onChartReady(() => {
+          // setIsChartLoaded(true);
           (window as any).tvWidget?.applyOverrides(
             overrides(isWhiteMode) || {}
           );
