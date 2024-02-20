@@ -148,8 +148,7 @@ export const PairsSelector = () => {
                   <div className="relative w-fit h-fit mr-5">
                     {pair?.[baseAsset?.quoteToken]?.logo ? (
                       <img
-                        className="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
-                     md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
+                        className="w-[34px] h-[34px] min-w-[34px] lg:w-[28px] lg:h-[28px] lg:min-w-[28px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
                         src={
                           pair?.[baseAsset?.quoteToken]?.logo ||
                           "/empty/unknown.png"
@@ -159,13 +158,12 @@ export const PairsSelector = () => {
                     ) : (
                       <AddressAvatar
                         address={pair?.[baseAsset?.quoteToken]?.address}
-                        extraCss="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
-                      md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
+                        extraCss="w-[34px] h-[34px] min-w-[34px] lg:w-[28px] lg:h-[28px] lg:min-w-[28px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
                       />
                     )}
                     <div className="w-fit h-fit absolute bottom-[-2px] right-[-5px] rounded-full shadow-2xl border border-light-border-primary dark:border-dark-border-primary">
                       <img
-                        className="w-[20px] h-[20px] min-w-[20px] rounded-full  shadow-2xl 
+                        className="w-[20px] h-[20px] min-w-[20px] lg:w-[16px] lg:h-[16px] rounded-full  shadow-2xl 
                    bg-light-bg-hover dark:bg-dark-bg-hover"
                         src={
                           blockchainsContentWithNonEVM[pair?.blockchain]
