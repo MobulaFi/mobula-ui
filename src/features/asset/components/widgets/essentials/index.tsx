@@ -1,4 +1,6 @@
+import { Button } from "components/button";
 import React, { useContext, useEffect, useState } from "react";
+import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -24,6 +26,8 @@ export const Essentials = () => {
     isAssetPage,
     setActiveMetric,
     setFadeIn,
+    setSwitchedToNative,
+    switchedToNative,
   } = useContext(BaseAssetContext);
   const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
@@ -58,7 +62,18 @@ export const Essentials = () => {
               setChartPreference={setChartPreference}
               chartPreference={chartPreference}
             />
-          ) : null}
+          ) : (
+            <Button
+              extraCss="lg:hidden"
+              onClick={() => setSwitchedToNative((prev) => !prev)}
+            >
+              <HiOutlineSwitchHorizontal className="mr-1.5" />
+              Switch to $
+              {switchedToNative
+                ? "USD"
+                : baseAsset?.[baseAsset?.baseToken]?.symbol}
+            </Button>
+          )}
           {chartPreference !== "Trading view" && isAssetPage ? (
             <TimeSwitcher extraCss="hidden md:flex mr-0 mt-0" />
           ) : null}
@@ -67,6 +82,7 @@ export const Essentials = () => {
               baseAsset={baseAsset}
               isPair={!isAssetPage}
               setFadeIn={setFadeIn}
+              isUsd={isAssetPage ? undefined : !switchedToNative}
               setPairTrades={isAssetPage ? null : setPairTrades}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />

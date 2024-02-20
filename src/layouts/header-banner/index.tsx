@@ -60,44 +60,42 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           onMouseEnter={() => setIsAnimationPlaying(false)}
           onMouseLeave={() => setIsAnimationPlaying(true)}
         >
-          {assetsUpdated
-            ?.filter((entry) => entry.price_change_24h < 1000)
-            .map((asset, index) => {
-              const isUp: boolean =
-                Number(getTokenPercentage(asset?.price_change_24h)) > 0;
-              return (
-                <NextChakraLink
-                  key={asset?.id + "-" + index}
-                  href={`/asset/${getUrlFromName(asset?.name || "")}`}
+          {assetsUpdated?.map((asset, index) => {
+            const isUp: boolean =
+              Number(getTokenPercentage(asset?.price_change_24h)) > 0;
+            return (
+              <NextChakraLink
+                key={asset?.id + "-" + index}
+                href={`/asset/${getUrlFromName(asset?.name || "")}`}
+              >
+                <div
+                  className={`flex items-center justify-center h-full w-full mx-1`}
                 >
-                  <div
-                    className={`flex items-center justify-center h-full w-full mx-1`}
+                  <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] ml-[5px] font-['Poppins']">
+                    {asset?.symbol}
+                  </p>
+                  <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] ml-1.5 font-['Poppins']">
+                    $
+                    {getFormattedAmount(asset?.price, 0, {
+                      canUseHTML: true,
+                    })}
+                  </p>
+                  <p
+                    className={`${
+                      isUp
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-[13px] ml-1.5 font-['Poppins']`}
                   >
-                    <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] ml-[5px] font-['Poppins']">
-                      {asset?.symbol}
-                    </p>
-                    <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] ml-1.5 font-['Poppins']">
-                      $
-                      {getFormattedAmount(asset?.price, 0, {
-                        canUseHTML: true,
-                      })}
-                    </p>
-                    <p
-                      className={`${
-                        isUp
-                          ? "text-green dark:text-green"
-                          : "text-red dark:text-red"
-                      } text-[13px] ml-1.5 font-['Poppins']`}
-                    >
-                      {isUp
-                        ? `+${getTokenPercentage(asset?.price_change_24h)}`
-                        : getTokenPercentage(asset?.price_change_24h)}
-                      %
-                    </p>{" "}
-                  </div>{" "}
-                </NextChakraLink>
-              );
-            })}
+                    {isUp
+                      ? `+${getTokenPercentage(asset?.price_change_24h)}`
+                      : getTokenPercentage(asset?.price_change_24h)}
+                    %
+                  </p>{" "}
+                </div>{" "}
+              </NextChakraLink>
+            );
+          })}
         </div>
       </div>
     </div>

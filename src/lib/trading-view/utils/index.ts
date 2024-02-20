@@ -22,7 +22,8 @@ export const Datafeed = (
   baseAsset: Asset,
   isPair: boolean,
   setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>,
-  setFadeIn?: Dispatch<SetStateAction<string[]>>
+  setFadeIn?: Dispatch<SetStateAction<string[]>>,
+  isUsd?: boolean
 ) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
@@ -56,13 +57,14 @@ export const Datafeed = (
     periodParams,
     onResult: Function
   ) => {
+    const usdDefined = isUsd !== undefined;
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
       params: {
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
-        usd: true,
+        usd: usdDefined ? isUsd : true,
         period: resolution,
       },
     };
@@ -140,6 +142,7 @@ export const Datafeed = (
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
       let bar: Bar;
+      console.log("highlow", price, price);
 
       if (timestamp >= nextDailyBarTime) {
         bar = {

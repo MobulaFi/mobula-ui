@@ -1,6 +1,7 @@
+import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { useNetwork } from "wagmi";
@@ -13,7 +14,7 @@ import { BaseAssetContext } from "../../context-manager";
 
 interface ContractsProps {
   contract: string;
-  blockchain: string;
+  blockchain: BlockchainNameWithNonEVM;
   title?: string;
 }
 
@@ -104,7 +105,7 @@ export function Contracts({ contract, blockchain, title }: ContractsProps) {
       </div>
       <div className="flex justify-end ml-5">
         <NextChakraLink
-          href={`${blockchainsContentWithNonEVM[blockchain]?.explorer}/address/${contract}`}
+          href={explorerTransformer(blockchain, contract, "address")}
           target="_blank"
           rel="norefer"
           className="mr-2.5 text-start ml-[9px]"

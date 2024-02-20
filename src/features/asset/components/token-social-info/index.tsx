@@ -1,5 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { useContext } from "react";
 import {
   BsDiscord,
@@ -195,7 +196,7 @@ export const TokenSocialsInfo = () => {
                   >
                     <Contracts
                       contract={newContracts?.[index]}
-                      blockchain={blockchain}
+                      blockchain={blockchain as BlockchainNameWithNonEVM}
                     />
                   </div>
                 ) : (
@@ -251,7 +252,7 @@ export const TokenSocialsInfo = () => {
                       >
                         <Contracts
                           contract={newContracts?.[index]}
-                          blockchain={blockchain}
+                          blockchain={blockchain as BlockchainNameWithNonEVM}
                         />
                       </div>
                     );

@@ -82,6 +82,7 @@ export const BaseAssetProvider = ({
   const [pairTrades, setPairTrades] = useState(tradePairs);
   const [assetPairs, setAssetPairs] = useState<any>([]);
   const [fadeIn, setFadeIn] = useState([]);
+  const [switchedToNative, setSwitchedToNative] = useState(false);
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []
   );
@@ -468,9 +469,12 @@ export const BaseAssetProvider = ({
       setTimeRemaining,
       setAssetPairs,
       assetPairs,
+      setSwitchedToNative,
+      switchedToNative,
     };
   }, [
     baseAsset,
+    switchedToNative,
     setBaseAsset,
     transactions,
     fadeIn,

@@ -16,6 +16,7 @@ interface TradingViewChartProps {
   isPair?: boolean;
   setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>;
   setFadeIn?: Dispatch<SetStateAction<string[]>>;
+  isUsd?: boolean;
 }
 
 const TradingViewChart = ({
@@ -26,6 +27,7 @@ const TradingViewChart = ({
   isPair = false,
   setPairTrades,
   setFadeIn,
+  isUsd = true,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -40,7 +42,9 @@ const TradingViewChart = ({
         const tvWidget = new Widget({
           datafeed: Datafeed(baseAsset, isPair, setPairTrades, setFadeIn),
           symbol: isPair
-            ? baseToken?.symbol + "/" + quoteToken?.symbol
+            ? isUsd
+              ? baseToken?.symbol + "/USD"
+              : baseToken?.symbol + "/" + quoteToken?.symbol
             : baseAsset?.symbol + "/USD",
           container: ref.current,
           container_id: ref.current.id,
@@ -85,7 +89,7 @@ const TradingViewChart = ({
         (window as any).tvWidget = null;
       }
     };
-  }, [baseAsset?.id, custom_css_url, mobile, isWhiteMode]);
+  }, [baseAsset?.id, custom_css_url, mobile, isWhiteMode, isUsd]);
 
   return (
     <div className="relative">
