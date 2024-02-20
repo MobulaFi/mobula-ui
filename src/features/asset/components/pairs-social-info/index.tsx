@@ -258,12 +258,13 @@ export const PairsSocialInfo = () => {
         </Button>
       </div>
       <Button
-        extraCss="mb-0 h-[30px] lg:mt-2.5 hidden lg:flex"
+        extraCss="mb-0 h-[30px] lg:mt-2.5 flex"
         onClick={() => setSwitchedToNative((prev) => !prev)}
       >
         <HiOutlineSwitchHorizontal className="mr-1.5 text-sm md:text-sm" />
-        {switchedToNative ? "USD" : baseAsset?.[baseAsset?.baseToken]?.symbol}
+        {switchedToNative ? "USD" : baseAsset?.[baseAsset?.quoteToken]?.symbol}
       </Button>
+
       {/* <Button
         extraCss={cn(
           `hidden lg:flex mb-0 mt-2.5 cursor-not-allowed px-2 relative`,
