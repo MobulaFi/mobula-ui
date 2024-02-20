@@ -57,7 +57,6 @@ export const Datafeed = (
     periodParams,
     onResult: Function
   ) => {
-    console.log("isUsd", isUsd);
     const apiParams = {
       endpoint: "/api/1/market/history/pair",
       params: {

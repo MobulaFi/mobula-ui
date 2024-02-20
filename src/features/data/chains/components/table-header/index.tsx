@@ -48,6 +48,7 @@ export const TableHeader = ({
                   {/* <BasicThead extraCss="static" title="Txns" canOrder /> */}
                   <BasicThead extraCss="static" title="Volume" canOrder />
                   <BasicThead extraCss="static" title="Liquidity" canOrder />
+                  <BasicThead extraCss="static" title="Market Cap" canOrder />
                   <BasicThead extraCss="static" title="5m" canOrder />
                   <BasicThead extraCss="static" title="1h" canOrder />
                   <BasicThead extraCss="static" title="4h" canOrder />

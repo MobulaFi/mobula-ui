@@ -44,6 +44,9 @@ export const TokenTrades = () => {
   const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const [isTradeLoading, setIsTradeLoading] = useState(!isAssetPage);
+  const [orderBy, setOrderBy] = useState("desc" as "asc" | "desc");
+  const [offset, setOffset] = useState(0);
+  const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
   const titles: string[] = [
     "Type",
@@ -166,8 +169,9 @@ export const TokenTrades = () => {
 
   useEffect(() => {
     if (isAssetPage || !baseAsset) return;
+    // setIsLoadingMoreTrade(true);
     fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${baseAsset?.address}&blockchain=${baseAsset?.blockchain}&amount=100`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${baseAsset?.address}&blockchain=${baseAsset?.blockchain}&amount=100&sortOrder=${orderBy}&offset=${offset}&sortBy=date`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -179,11 +183,15 @@ export const TokenTrades = () => {
       .then((r) => {
         if (r.data) {
           setPairTrades(r.data);
+          // setPairTrades((prev) => [...prev, ...r.data]);
           setIsTradeLoading(false);
+          // setIsLoadingMoreTrade(false);
         }
       });
   }, [baseAsset]);
 
+  const handleOrderBy = () => setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  const handleMoreTrades = () => setOffset((prev) => prev + 1);
   return (
     <div
       className={`flex flex-col ${
@@ -312,7 +320,12 @@ export const TokenTrades = () => {
           </div>
         </>
       ) : null}
-
+      {/* (
+        <div className="flex my-2.5 items-center">
+          <Button onClick={handleOrderBy}>Filter ASC</Button>
+          <SmallFont>{pairTrades?.length || 0} trades loaded</SmallFont>
+        </div>
+      ) */}
       <div className="w-full h-full mx-auto max-h-[480px] overflow-y-scroll ">
         <table className="relative  w-full ">
           {!isMarketMetricsLoading &&
@@ -416,7 +429,7 @@ export const TokenTrades = () => {
                   ? userTrades?.filter((entry) => entry.amount > 0)
                   : marketMetrics?.trade_history
                 : pairTrades
-              )?.map((trade: Trade | UserTrade | any) => {
+              )?.map((trade: Trade | UserTrade | any, i: number) => {
                 const isSell = trade.type === "sell";
                 const date: number = isMyTrades
                   ? (trade?.timestamp as number)
@@ -424,28 +437,40 @@ export const TokenTrades = () => {
                 const tradeClass = trade.type === "sell" ? "sell-bg" : "buy-bg";
 
                 return (
-                  <tbody
-                    key={
-                      trade.date +
-                      trade.value_usd +
-                      trade.token_amount +
-                      trade.type +
-                      (trade?.hash || 0) +
-                      (trade?.unique_discriminator || 0) +
-                      (trade?.id || 0)
-                    }
-                    className={`${
-                      fadeIn?.includes(trade?.hash) ? tradeClass : null
-                    } hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-100 ease-linear cursor-pointer`}
-                  >
-                    <TradesTemplate
-                      trade={trade}
-                      isSell={isSell}
-                      isMyTrades={isMyTrades}
-                      date={date}
-                      isUsd={isUsd}
-                    />
-                  </tbody>
+                  <>
+                    <tbody
+                      key={
+                        trade.date +
+                        trade.value_usd +
+                        trade.token_amount +
+                        trade.type +
+                        (trade?.hash || 0) +
+                        (trade?.unique_discriminator || 0) +
+                        (trade?.id || 0)
+                      }
+                      className={`${
+                        fadeIn?.includes(trade?.hash) ? tradeClass : null
+                      } hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary transition-all duration-100 ease-linear cursor-pointer`}
+                    >
+                      <TradesTemplate
+                        trade={trade}
+                        isSell={isSell}
+                        isMyTrades={isMyTrades}
+                        date={date}
+                        isUsd={isUsd}
+                      />
+                    </tbody>
+                    {/* {i === 0 ? (
+                      <caption>
+                        {isLoadingMoreTrade ? (
+                          <Spinner extraCss="h-[30px] w-[30px]" />
+                        ) : null}
+                        <button className="text-red" onClick={handleMoreTrades}>
+                          Load more
+                        </button>
+                      </caption>
+                    ) : null} */}
+                  </>
                 );
               })}
             </>
