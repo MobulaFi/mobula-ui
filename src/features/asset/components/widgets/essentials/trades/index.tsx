@@ -7,7 +7,6 @@ import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Popover } from "../../../../../../components/popover";
-import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
@@ -443,7 +442,7 @@ export const TokenTrades = () => {
                   </>
                 );
               })}
-              {!isMyTrades ? (
+              {/* {!isMyTrades ? (
                 <caption className="py-3 caption-bottom">
                   <div className="flex justify-center items-center">
                     {isLoadingMoreTrade ? (
@@ -457,7 +456,7 @@ export const TokenTrades = () => {
                     </button>
                   </div>
                 </caption>
-              ) : null}
+              ) : null} */}
             </>
           )}
         </table>
