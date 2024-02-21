@@ -5,6 +5,7 @@ import { FiFilter } from "react-icons/fi";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
@@ -182,13 +183,24 @@ export const TokenTrades = () => {
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
-          setPairTrades(r.data);
-          // setPairTrades((prev) => [...prev, ...r.data]);
+          // setPairTrades(r.data);
+
+          if (100 * (offset + 1) > pairTrades?.length) {
+            const removeDoublePairs = r?.data?.filter((entry) => {
+              if (pairTrades?.some((trade) => trade?.hash === entry?.hash))
+                return false;
+              return true;
+            });
+            console.log("removeDoublePairs", removeDoublePairs);
+            setPairTrades((prev) => [...prev, ...removeDoublePairs]);
+          } else setPairTrades(r.data);
           setIsTradeLoading(false);
-          // setIsLoadingMoreTrade(false);
+          setIsLoadingMoreTrade(false);
         }
       });
-  }, [baseAsset]);
+  }, [baseAsset, offset, orderBy]);
+
+  console.log("order", orderBy, offset, pairTrades.length);
 
   const handleOrderBy = () => setOrderBy(orderBy === "asc" ? "desc" : "asc");
   const handleMoreTrades = () => setOffset((prev) => prev + 1);
@@ -319,13 +331,13 @@ export const TokenTrades = () => {
             </div>
           </div>
         </>
-      ) : null}
-      {/* (
+      ) : (
         <div className="flex my-2.5 items-center">
           <Button onClick={handleOrderBy}>Filter ASC</Button>
           <SmallFont>{pairTrades?.length || 0} trades loaded</SmallFont>
         </div>
-      ) */}
+      )}
+
       <div className="w-full h-full mx-auto max-h-[480px] overflow-y-scroll ">
         <table className="relative  w-full ">
           {!isMarketMetricsLoading &&
@@ -460,19 +472,22 @@ export const TokenTrades = () => {
                         isUsd={isUsd}
                       />
                     </tbody>
-                    {/* {i === 0 ? (
-                      <caption>
-                        {isLoadingMoreTrade ? (
-                          <Spinner extraCss="h-[30px] w-[30px]" />
-                        ) : null}
-                        <button className="text-red" onClick={handleMoreTrades}>
-                          Load more
-                        </button>
-                      </caption>
-                    ) : null} */}
                   </>
                 );
               })}
+              <caption className="py-3 caption-bottom">
+                <div className="flex justify-center items-center">
+                  {isLoadingMoreTrade ? (
+                    <Spinner extraCss="h-[20px] w-[20px]" />
+                  ) : null}
+                  <button
+                    className="text-light-font-60 dark:text-dark-font-60 text-sm md:text-xs hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-100 ease-linear"
+                    onClick={handleMoreTrades}
+                  >
+                    Load more
+                  </button>
+                </div>
+              </caption>
             </>
           )}
         </table>
