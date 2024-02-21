@@ -202,7 +202,10 @@ export const TokenTrades = () => {
 
   console.log("order", orderBy, offset, pairTrades.length);
 
-  const handleOrderBy = () => setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  const handleOrderBy = () => {
+    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+    setOffset(0);
+  };
   const handleMoreTrades = () => setOffset((prev) => prev + 1);
   return (
     <div
