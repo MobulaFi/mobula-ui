@@ -2,46 +2,31 @@ export const pricings = [
   {
     type: "BASIC",
     usecase: "Basic personal use",
-    price: "$29",
-    pricePerMonth: "/mo",
-    pricePerMonthAlt: "$35 / mo",
+    price: "FREE",
+    pricePerMonth: "",
+    pricePerMonthAlt: "Free (forever)",
     url: "https://mobula.io",
-    features: [
-      "9 latest market data endpoints",
-      "110K call credits /mo",
-      "12 months of historical data",
-      "Personal use",
-    ],
+    features: ["30,000 calls /mo", "23 endpoints"],
   },
   {
     type: "STARTUP",
-    usecase: "Basic personal use",
-    price: "$79",
+    usecase: "Commercial use",
+    price: "$49.99",
     pricePerMonth: "/mo",
-    pricePerMonthAlt: "$86 / mo",
+    pricePerMonthAlt: "$55 / mo",
     url: "https://mobula.io",
-    features: [
-      "9 latest market data endpoints",
-      "110K call credits /mo",
-      "12 months of historical data",
-      "Personal use",
-    ],
+    features: ["500,000 calls /mo", "All premium endpoints"],
   },
   {
-    type: "STANDARD",
-    usecase: "Basic personal use",
-    price: "$299",
+    type: "GROWTH",
+    usecase: "Commercial use",
+    price: "$399",
     pricePerMonth: "/mo",
-    pricePerMonthAlt: "$350 / mo",
+    pricePerMonthAlt: "$450 / mo",
     url: "https://mobula.io",
-    features: [
-      "9 latest market data endpoints",
-      "110K call credits /mo",
-      "12 months of historical data",
-      "Personal use",
-    ],
+    features: ["5,000,000 calls /mo", "Websockets", "24/7 support"],
   },
 ];
 
 export const pricingBoxStyle =
-  "flex items-center shadow-xl min-w-[300px] bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[45%] md:mt-5 overflow-hidden rotating-effect md:w-full";
+  "flex shadow-xl min-w-[300px] bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] border-light-border-primary dark:border-dark-border-primary mouse-cursor-gradient-tracking w-[45%] md:mt-5 overflow-hidden rotating-effect md:w-full";
