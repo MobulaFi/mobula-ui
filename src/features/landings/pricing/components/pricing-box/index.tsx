@@ -1,9 +1,10 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 import { SmallFont } from "../../../../../components/fonts";
-import { NextChakraLink } from "../../../../../components/link";
 import { pricings } from "../../constants";
 
 export const PricingBox = ({ id }: { id: number }) => {
+  const router = useRouter();
   return (
     <div className="w-full flex flex-col p-8">
       <SmallFont extraCss="font-poppins font-medium text-center text-lg">
@@ -25,10 +26,14 @@ export const PricingBox = ({ id }: { id: number }) => {
         Billed annually or {pricings[id].pricePerMonthAlt}
       </SmallFont>
       <button
-        className="my-5 w-[200px] mx-auto h-[45px] text-base font-medium bg-[#253558] hover:bg-[#415288] border hover:border-blue
-               dark:border-darkblue water-button  md:h-[40px] md:w-[190px] md:text-sm md:font-normal"
+        className="w-full h-[50px] rounded-lg bg-light-font-5 dark:bg-dark-font-5 shadow-xl 
+      backdrop-blur-md border border-light-border-primary dark:border-dark-border-primary
+       hover:bg-light-font-80 hover:dark:bg-dark-font-80 transition-all duration-300 ease-in-out
+        hover:text-dark-font-100 hover:dark:text-light-font-100 font-poppins text-base 
+        text-light-font-100 dark:text-dark-font-100 my-5"
+        onClick={() => router.push(pricings[id].url)}
       >
-        <NextChakraLink href={pricings[id].url}>Get started now</NextChakraLink>
+        Get started now
       </button>
       <ul className="mt-2.5">
         {pricings[id].features.map((feature) => (

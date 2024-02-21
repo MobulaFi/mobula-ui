@@ -25,14 +25,14 @@ export const Pricing = () => {
         backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
       }}
     >
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center w-full">
         <div className={containerStyle}>
           <div className="w-full">
             <Title
               title="Mobula API Pricing"
               extraCss="text-start w-full justify-start mx-0"
             />
-            <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-6 text-xl md:text-base text-start">
+            <p className="text-light-font-60 dark:text-dark-font-60 text-center font-poppins mt-6 text-xl md:text-base">
               Faster indexers, multi-chain, data-enabled - consumed via REST or
               livestreamed to your DB.
             </p>
