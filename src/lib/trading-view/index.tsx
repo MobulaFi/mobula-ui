@@ -17,6 +17,7 @@ interface TradingViewChartProps {
   setPairTrades: Dispatch<SetStateAction<Trade[]>>;
   setFadeIn?: Dispatch<SetStateAction<string[]>>;
   isUsd?: boolean;
+  shouldLoadMoreTrade?: boolean;
 }
 
 const TradingViewChart = ({
@@ -28,6 +29,7 @@ const TradingViewChart = ({
   setPairTrades,
   setFadeIn,
   isUsd = true,
+  shouldLoadMoreTrade = true,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -45,7 +47,8 @@ const TradingViewChart = ({
             isPair,
             setPairTrades,
             setFadeIn,
-            isUsd
+            isUsd,
+            shouldLoadMoreTrade
           ),
           symbol: isPair
             ? isUsd
@@ -95,7 +98,14 @@ const TradingViewChart = ({
         (window as any).tvWidget = null;
       }
     };
-  }, [baseAsset?.id, custom_css_url, mobile, isWhiteMode, isUsd]);
+  }, [
+    baseAsset?.id,
+    custom_css_url,
+    mobile,
+    isWhiteMode,
+    isUsd,
+    shouldLoadMoreTrade,
+  ]);
 
   return (
     <div className="relative">

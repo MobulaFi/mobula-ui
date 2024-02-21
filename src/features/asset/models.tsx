@@ -95,6 +95,8 @@ export interface IBasetAssetContext {
   setFadeIn: Dispatch<SetStateAction<string[]>>;
   switchedToNative: boolean;
   setSwitchedToNative: Dispatch<SetStateAction<boolean>>;
+  orderBy: "asc" | "desc";
+  setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
 }
 
 export interface TimeRemaining {

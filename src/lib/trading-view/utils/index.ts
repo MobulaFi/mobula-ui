@@ -23,7 +23,8 @@ export const Datafeed = (
   isPair: boolean,
   setPairTrades: Dispatch<SetStateAction<Trade[]>>,
   setFadeIn?: Dispatch<SetStateAction<string[]>>,
-  isUsd?: boolean
+  isUsd?: boolean,
+  shouldLoadMoreTrade: boolean
 ) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
@@ -122,8 +123,9 @@ export const Datafeed = (
 
     socket.addEventListener("message", (event) => {
       const eventData = JSON.parse(event.data);
+      console.log(shouldLoadMoreTrade);
       try {
-        if (eventData?.blockchain && setPairTrades)
+        if (eventData?.blockchain && setPairTrades && shouldLoadMoreTrade)
           setPairTrades((prev) => [
             eventData,
             ...prev.slice(0, prev.length - 1),

@@ -83,6 +83,7 @@ export const BaseAssetProvider = ({
   const [assetPairs, setAssetPairs] = useState<any>([]);
   const [fadeIn, setFadeIn] = useState([]);
   const [switchedToNative, setSwitchedToNative] = useState(false);
+  const [orderBy, setOrderBy] = useState("desc" as "asc" | "desc");
   const [comparedEntities, setComparedEntities] = useState<ComparedEntity[]>(
     []
   );
@@ -471,6 +472,8 @@ export const BaseAssetProvider = ({
       assetPairs,
       setSwitchedToNative,
       switchedToNative,
+      orderBy,
+      setOrderBy,
     };
   }, [
     baseAsset,
@@ -551,6 +554,7 @@ export const BaseAssetProvider = ({
     setGlobalPairs,
     setAssetPairs,
     assetPairs,
+    orderBy,
   ]);
 
   return (

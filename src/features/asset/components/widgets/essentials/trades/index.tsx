@@ -12,7 +12,6 @@ import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
 import { GET } from "../../../../../../utils/fetch";
-import { getFormattedDate } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Trade, UserTrades } from "../../../../models";
 import { TradesTemplate } from "../../../ui/trades-template";
@@ -20,30 +19,24 @@ import { TradesTemplate } from "../../../ui/trades-template";
 export const TokenTrades = () => {
   const { setConnect } = useContext(PopupUpdateContext);
   const {
-    setShowTradeFilters,
     marketMetrics,
-    isMarketMetricsLoading,
-    setShowTradeValue,
-    showTradeValue,
-    setShowTradeTokenAmount,
-    showTradeTokenAmount,
-    filters,
     baseAsset,
     isAssetPage,
     globalPairs,
     setGlobalPairs,
     fadeIn,
     switchedToNative,
+    orderBy,
+    setOrderBy,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
   const [isMyTrades, setIsMyTrades] = useState<boolean>(false);
-  const maxValue = 1_000_000_000_000;
-  const { isConnected, isDisconnected } = useAccount();
+  const { isDisconnected } = useAccount();
   const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
-  const [isTradeLoading, setIsTradeLoading] = useState(!isAssetPage);
-  const [orderBy, setOrderBy] = useState("desc" as "asc" | "desc");
+  const [isTradeLoading, setIsTradeLoading] = useState(true);
+
   const [offset, setOffset] = useState(0);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
@@ -57,14 +50,6 @@ export const TokenTrades = () => {
     "Time",
     "Explorer",
   ];
-
-  const [activeNames, setActiveNames] = useState({
-    liquidity_pool: "Any Liquidity Pool",
-    blockchain: "All Chains",
-    type: "Any Type",
-    token_amount: "Any Amount",
-    value: "Any Value",
-  });
 
   const getPositionOfSwitcherButton = (myTrade: boolean) => {
     if (myTrade) return "calc(50% - 2px)";
@@ -106,9 +91,7 @@ export const TokenTrades = () => {
       date: isAssetPage ? "&sortBy=date" : "&sortBy=date",
       type: isAssetPage ? "asset" : "address",
     };
-    console.log(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}`
-    );
+
     fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}`,
       {
@@ -120,9 +103,7 @@ export const TokenTrades = () => {
     )
       .then((r) => r.json())
       .then((r) => {
-        console.log("I CHANGE", getFormattedDate(r.data?.[0]?.date));
         if (r.data) {
-          // setPairTrades(r.data);
           if (100 * (offset + 1) > globalPairs?.length) {
             const removeDoublePairs = r?.data?.filter((entry) => {
               if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
@@ -134,16 +115,9 @@ export const TokenTrades = () => {
           setIsTradeLoading(false);
           setIsLoadingMoreTrade(false);
         }
-      })
-      .catch((e) => {
-        console.log("error", e);
       });
   }, [baseAsset, offset, orderBy]);
 
-  const handleOrderBy = (type: "asc" | "desc") => {
-    setOrderBy(orderBy === type);
-    setOffset(0);
-  };
   const handleMoreTrades = () => setOffset((prev) => prev + 1);
   return (
     <div
@@ -188,46 +162,49 @@ export const TokenTrades = () => {
                 />
               </PopoverTrade>
             </div> */}
-        <Popover
-          visibleContent={
-            <Button>
-              <BsFilterLeft className="text-xl mt-[1px]" />
-            </Button>
-          }
-          extraCss={`${isMyTrades ? "hidden" : ""}`}
-          hiddenContent={
-            <div className="flex flex-col">
-              <button
-                className="pb-2.5 flex justify-between w-[200px] items-center"
-                onClick={() => {
-                  setOrderBy("desc");
-                  setOffset(0);
-                }}
-              >
-                <SmallFont>Order by newest</SmallFont>
-                <div className="w-5 h-5 rounded border-2 border-light-border-secondary dark:border-dark-border-secondary flex items-center justify-center">
-                  {orderBy === "desc" ? (
-                    <FaCheck className="text-[10px] text-light-font-100 dark:text-dark-font-100" />
-                  ) : null}
-                </div>
-              </button>
-              <button
-                className="flex justify-between w-[200px] items-center"
-                onClick={() => {
-                  setOrderBy("asc");
-                  setOffset(0);
-                }}
-              >
-                <SmallFont>Order by oldest</SmallFont>
-                <div className="w-5 h-5 rounded border-2 border-light-border-secondary dark:border-dark-border-secondary flex items-center justify-center">
-                  {orderBy === "asc" ? (
-                    <FaCheck className="text-[10px] text-light-font-100 dark:text-dark-font-100" />
-                  ) : null}
-                </div>
-              </button>
-            </div>
-          }
-        />
+        <div className="flex w-fit">
+          <Popover
+            visibleContent={
+              <Button>
+                <BsFilterLeft className="text-xl mt-[1px] mr-2.5 md:mr-0" />
+                <SmallFont extraCss="md:hidden">Order</SmallFont>
+              </Button>
+            }
+            extraCss={`${isMyTrades ? "hidden" : ""} mr-auto`}
+            hiddenContent={
+              <div className="flex flex-col">
+                <button
+                  className="pb-2.5 flex justify-between w-[200px] items-center"
+                  onClick={() => {
+                    setOrderBy("desc");
+                    setOffset(0);
+                  }}
+                >
+                  <SmallFont>Order by newest</SmallFont>
+                  <div className="w-5 h-5 rounded border-2 border-light-border-secondary dark:border-dark-border-secondary flex items-center justify-center">
+                    {orderBy === "desc" ? (
+                      <FaCheck className="text-[10px] text-light-font-100 dark:text-dark-font-100" />
+                    ) : null}
+                  </div>
+                </button>
+                <button
+                  className="flex justify-between w-[200px] items-center"
+                  onClick={() => {
+                    setOrderBy("asc");
+                    setOffset(0);
+                  }}
+                >
+                  <SmallFont>Order by oldest</SmallFont>
+                  <div className="w-5 h-5 rounded border-2 border-light-border-secondary dark:border-dark-border-secondary flex items-center justify-center">
+                    {orderBy === "asc" ? (
+                      <FaCheck className="text-[10px] text-light-font-100 dark:text-dark-font-100" />
+                    ) : null}
+                  </div>
+                </button>
+              </div>
+            }
+          />{" "}
+        </div>
         <div
           className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative
          w-[200px] border border-light-border-primary dark:border-dark-border-primary mb-2 rounded-lg"
@@ -311,9 +288,7 @@ export const TokenTrades = () => {
           </div> */}
       <div className="w-full h-full mx-auto max-h-[480px] overflow-y-scroll ">
         <table className="relative  w-full ">
-          {!isMarketMetricsLoading &&
-          isMyTrades &&
-          (userTrades?.length || 0) === 0 ? (
+          {!isTradeLoading && isMyTrades && (userTrades?.length || 0) === 0 ? (
             <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
               <div className="h-[250px] flex flex-col w-full items-center justify-center">
                 <img src="/empty/ray.png" alt="No trade image" />
@@ -323,7 +298,7 @@ export const TokenTrades = () => {
               </div>
             </caption>
           ) : null}
-          {!isMarketMetricsLoading &&
+          {!isTradeLoading &&
           marketMetrics?.trade_history?.length === 0 &&
           !isMyTrades ? (
             <caption className="caption-bottom border border-light-border-primary dark:border-dark-border-primary mt-0 rounded-b border-t-0">
@@ -418,8 +393,7 @@ export const TokenTrades = () => {
                 })}
             </tr>
           </thead>
-          {(isMarketMetricsLoading && isAssetPage) ||
-          (!isAssetPage && isTradeLoading) ? (
+          {isTradeLoading ? (
             <>
               {Array.from({ length: 9 }).map((_, i) => (
                 <TradesTemplate
