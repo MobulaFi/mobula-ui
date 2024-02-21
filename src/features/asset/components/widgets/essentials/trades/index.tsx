@@ -400,7 +400,7 @@ export const TokenTrades = () => {
                   key={i}
                   isLoading
                   trade={{} as Trade}
-                  date={"0"}
+                  date={0}
                 />
               ))}
             </>

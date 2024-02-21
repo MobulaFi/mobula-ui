@@ -21,10 +21,10 @@ const sockets = new Map();
 export const Datafeed = (
   baseAsset: Asset,
   isPair: boolean,
+  shouldLoadMoreTrade: boolean,
   setPairTrades: Dispatch<SetStateAction<Trade[]>>,
   setFadeIn?: Dispatch<SetStateAction<string[]>>,
-  isUsd?: boolean,
-  shouldLoadMoreTrade: boolean
+  isUsd?: boolean
 ) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });

@@ -17,7 +17,7 @@ interface TradesTemplateProps {
   trade: Trade;
   isSell?: boolean;
   isMyTrades?: boolean;
-  date: string | number | undefined;
+  date: number;
   isLoading?: boolean;
   isUsd?: boolean;
   changeToDate?: boolean;

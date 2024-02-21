@@ -45,10 +45,10 @@ const TradingViewChart = ({
           datafeed: Datafeed(
             baseAsset,
             isPair,
+            shouldLoadMoreTrade,
             setPairTrades,
             setFadeIn,
-            isUsd,
-            shouldLoadMoreTrade
+            isUsd
           ),
           symbol: isPair
             ? isUsd
