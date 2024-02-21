@@ -48,8 +48,9 @@ export const TradesTemplate = ({
   );
 
   const timeAgo = useTimeAgo(
-    (trade?.date || trade?.timestamp) as never as Date
+    (trade?.date || new Date(trade?.timestamp)) as never as Date
   );
+
   return (
     <tr>
       <td
@@ -233,11 +234,6 @@ export const TradesTemplate = ({
               <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal">
                 {changeToDate ? getFormattedDate(date) : timeAgo}
               </SmallFont>
-              {isMyTrades ? (
-                <SmallFont extraCss="text-xs  text-light-font-60 dark:text-dark-font-60">
-                  {trade.date}
-                </SmallFont>
-              ) : null}{" "}
             </>
           )}
         </div>

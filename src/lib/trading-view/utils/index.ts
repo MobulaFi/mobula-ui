@@ -21,7 +21,7 @@ const sockets = new Map();
 export const Datafeed = (
   baseAsset: Asset,
   isPair: boolean,
-  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>,
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>,
   setFadeIn?: Dispatch<SetStateAction<string[]>>,
   isUsd?: boolean
 ) => ({
@@ -141,7 +141,6 @@ export const Datafeed = (
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
       let bar: Bar;
-      console.log("highlow", price, price);
 
       if (timestamp >= nextDailyBarTime) {
         bar = {

@@ -14,7 +14,7 @@ interface TradingViewChartProps {
   custom_css_url?: string;
   extraCss?: string;
   isPair?: boolean;
-  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>;
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
   setFadeIn?: Dispatch<SetStateAction<string[]>>;
   isUsd?: boolean;
 }

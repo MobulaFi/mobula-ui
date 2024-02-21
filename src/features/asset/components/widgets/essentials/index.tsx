@@ -1,6 +1,4 @@
-import { Button } from "components/button";
 import React, { useContext, useEffect, useState } from "react";
-import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -22,7 +20,7 @@ export const Essentials = () => {
   const {
     baseAsset,
     setShowMobileMetric,
-    setPairTrades,
+    setGlobalPairs,
     isAssetPage,
     setActiveMetric,
     setFadeIn,
@@ -72,7 +70,7 @@ export const Essentials = () => {
               isPair={!isAssetPage}
               setFadeIn={setFadeIn}
               isUsd={isAssetPage ? undefined : !switchedToNative}
-              setPairTrades={isAssetPage ? null : setPairTrades}
+              setPairTrades={setGlobalPairs}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
           ) : (

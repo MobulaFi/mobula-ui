@@ -89,8 +89,8 @@ export interface IBasetAssetContext {
   assetPairs: MultiPairDataProps;
   setAssetPairs: Dispatch<SetStateAction<MultiPairDataProps>>;
   isAssetPage: boolean;
-  pairTrades: Trade[];
-  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
+  globalPairs: Trade[];
+  setGlobalPairs: Dispatch<SetStateAction<Trade[]>>;
   fadeIn: string[];
   setFadeIn: Dispatch<SetStateAction<string[]>>;
   switchedToNative: boolean;

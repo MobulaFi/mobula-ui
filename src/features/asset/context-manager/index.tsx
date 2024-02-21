@@ -79,7 +79,7 @@ export const BaseAssetProvider = ({
   const [shouldInstantLoad, setShouldInstantLoad] = useState(false);
   const [activeTab, setActiveTab] = useState(activeSection || "Essentials");
   const [tradeHistory, setTradeHistory] = useState(tradHistory);
-  const [pairTrades, setPairTrades] = useState(tradePairs);
+  const [globalPairs, setGlobalPairs] = useState([]);
   const [assetPairs, setAssetPairs] = useState<any>([]);
   const [fadeIn, setFadeIn] = useState([]);
   const [switchedToNative, setSwitchedToNative] = useState(false);
@@ -387,8 +387,8 @@ export const BaseAssetProvider = ({
 
     return {
       baseAsset,
-      pairTrades,
-      setPairTrades,
+      globalPairs,
+      setGlobalPairs,
       isAssetPage,
       setIsAssetPage,
       setBaseAsset,
@@ -547,8 +547,8 @@ export const BaseAssetProvider = ({
     setLaunchpads,
     timeRemaining,
     setTimeRemaining,
-    pairTrades,
-    setPairTrades,
+    globalPairs,
+    setGlobalPairs,
     setAssetPairs,
     assetPairs,
   ]);

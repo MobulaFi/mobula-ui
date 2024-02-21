@@ -34,8 +34,8 @@ export const TokenTrades = () => {
     filters,
     baseAsset,
     isAssetPage,
-    pairTrades,
-    setPairTrades,
+    globalPairs,
+    setGlobalPairs,
     fadeIn,
     switchedToNative,
   } = useContext(BaseAssetContext);
@@ -62,79 +62,12 @@ export const TokenTrades = () => {
     "Explorer",
   ];
 
-  const getDefaultName = (title: string) => {
-    let newValue = "";
-    const defaultValue = [0, maxValue];
-    let tokenAmounts = [...defaultValue];
-    let valueUsd = [...defaultValue];
-
-    filters.forEach((filter) => {
-      const name = filter.value?.[0]?.split("trade_history")[1].split(".")[1];
-      const value = filter.value?.[1];
-      switch (name) {
-        case "token_amount": {
-          if (title === "token_amount") {
-            if (filter.action === "gte" && tokenAmounts[0] === value) {
-              tokenAmounts = [tokenAmounts[0], tokenAmounts[1]];
-              newValue = `${tokenAmounts[0]} - ${tokenAmounts[1]}`;
-            } else if (filter.action === "gte" && tokenAmounts[0] !== value) {
-              tokenAmounts = [value, tokenAmounts[1]];
-              newValue = `${tokenAmounts[0]} - ${tokenAmounts[1]}`;
-            } else if (filter.action === "lte" && tokenAmounts[1] === value) {
-              tokenAmounts = [tokenAmounts[0], tokenAmounts[1]];
-              newValue = `${tokenAmounts[0]} - ${tokenAmounts[1]}`;
-            } else if (filter.action === "lte" && tokenAmounts[1] !== value) {
-              tokenAmounts = [tokenAmounts[0], value];
-              newValue = `${tokenAmounts[0]} - ${tokenAmounts[1]}`;
-            } else newValue = "Any Amount";
-            return newValue;
-          }
-          break;
-        }
-        case "value_usd": {
-          if (title === "value_usd") {
-            if (filter.action === "gte" && valueUsd[0] === value) {
-              valueUsd = [valueUsd[0], valueUsd[1]];
-              newValue = `${valueUsd[0]} - ${valueUsd[1]}`;
-            } else if (filter.action === "gte" && valueUsd[0] !== value) {
-              valueUsd = [value, valueUsd[1]];
-              newValue = `${valueUsd[0]} - ${valueUsd[1]}`;
-            } else if (filter.action === "lte" && valueUsd[1] === value) {
-              valueUsd = [valueUsd[0], valueUsd[1]];
-              newValue = `${valueUsd[0]} - ${valueUsd[1]}`;
-            } else if (filter.action === "lte" && valueUsd[1] !== value) {
-              valueUsd = [valueUsd[0], value];
-              newValue = `${valueUsd[0]} - ${valueUsd[1]}`;
-            } else newValue = "Any Amount";
-            return newValue;
-          }
-          break;
-        }
-        case "type": {
-          if (title === "type") {
-            const text = filter.value?.[1];
-            newValue = `${text.charAt(0).toUpperCase()}${text.slice(1)} Tx`;
-          }
-          break;
-        }
-        default:
-          return "All";
-      }
-      return newValue;
-    });
-
-    if (newValue.includes(maxValue.toString()))
-      newValue = newValue.replace(maxValue.toString(), "Any");
-
-    return newValue;
-  };
-
   const [activeNames, setActiveNames] = useState({
     liquidity_pool: "Any Liquidity Pool",
     blockchain: "All Chains",
-    type: getDefaultName("type") || "Any Type",
-    token_amount: getDefaultName("token_amount") || "Any Amount",
-    value: getDefaultName("value_usd") || "Any Value",
+    type: "Any Type",
+    token_amount: "Any Amount",
+    value: "Any Value",
   });
   const filterFormatted = formatFilters(filters);
 
@@ -172,10 +105,29 @@ export const TokenTrades = () => {
   }, []);
 
   useEffect(() => {
-    if (isAssetPage || !baseAsset) return;
-    // setIsLoadingMoreTrade(true);
+    if (!baseAsset) return;
+    console.log(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${
+        isAssetPage ? "asset" : "address"
+      }=${
+        isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address
+      }&blockchain=${
+        isAssetPage ? baseAsset?.blockchains?.[0] : baseAsset?.blockchain
+      }&amount=100${
+        isAssetPage ? "" : `&sortOrder=${orderBy}&offset=${offset}&sortBy=date`
+      }`
+    );
+    console.log("baseAsset", baseAsset);
     fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?address=${baseAsset?.address}&blockchain=${baseAsset?.blockchain}&amount=100&sortOrder=${orderBy}&offset=${offset}&sortBy=date`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${
+        isAssetPage ? "asset" : "address"
+      }=${
+        isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address
+      }&blockchain=${
+        isAssetPage ? baseAsset?.blockchains?.[0] : baseAsset?.blockchain
+      }&amount=100${
+        isAssetPage ? "" : `&sortOrder=${orderBy}&offset=${offset}&sortBy=date`
+      }`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -185,32 +137,31 @@ export const TokenTrades = () => {
     )
       .then((r) => r.json())
       .then((r) => {
+        console.log("r", r);
         if (r.data) {
           // setPairTrades(r.data);
-
-          if (100 * (offset + 1) > pairTrades?.length) {
+          if (100 * (offset + 1) > globalPairs?.length) {
             const removeDoublePairs = r?.data?.filter((entry) => {
-              if (pairTrades?.some((trade) => trade?.hash === entry?.hash))
+              if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
                 return false;
               return true;
             });
-            console.log("removeDoublePairs", removeDoublePairs);
-            setPairTrades((prev) => [...prev, ...removeDoublePairs]);
-          } else setPairTrades(r.data);
+            setGlobalPairs((prev) => [...prev, ...removeDoublePairs]);
+          } else setGlobalPairs(r.data);
           setIsTradeLoading(false);
           setIsLoadingMoreTrade(false);
         }
+      })
+      .catch((e) => {
+        console.log("error", e);
       });
   }, [baseAsset, offset, orderBy]);
-
-  console.log("order", orderBy, offset, pairTrades.length, changeToDate);
 
   const handleOrderBy = () => {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
     setOffset(0);
   };
   const handleMoreTrades = () => setOffset((prev) => prev + 1);
-  console.log("changeToDate", changeToDate);
   return (
     <div
       className={`flex flex-col ${
@@ -341,7 +292,7 @@ export const TokenTrades = () => {
       ) : (
         <div className="flex my-2.5 items-center">
           <Button onClick={handleOrderBy}>Filter ASC</Button>
-          <SmallFont>{pairTrades?.length || 0} trades loaded</SmallFont>
+          <SmallFont>{globalPairs?.length || 0} trades loaded</SmallFont>
         </div>
       )}
 
@@ -460,18 +411,15 @@ export const TokenTrades = () => {
             </>
           ) : (
             <>
-              {(isAssetPage
-                ? isMyTrades
-                  ? userTrades?.filter((entry) => entry.amount > 0)
-                  : marketMetrics?.trade_history
-                : pairTrades
+              {(isMyTrades
+                ? userTrades?.filter((entry) => entry.amount > 0)
+                : globalPairs
               )?.map((trade: Trade | UserTrade | any, i: number) => {
                 const isSell = trade.type === "sell";
                 const date: number = isMyTrades
-                  ? (trade?.timestamp as number)
+                  ? (trade?.date as number)
                   : trade?.date;
                 const tradeClass = trade.type === "sell" ? "sell-bg" : "buy-bg";
-
                 return (
                   <>
                     <tbody
