@@ -6,7 +6,11 @@ import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
 import { Skeleton } from "../../../../../components/skeleton";
 import { useTimeAgo } from "../../../../../hooks/time-ago";
-import { getClosest, getFormattedAmount } from "../../../../../utils/formaters";
+import {
+  getClosest,
+  getFormattedAmount,
+  getFormattedDate,
+} from "../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../context-manager";
 import { Trade } from "../../../models";
 
@@ -17,6 +21,7 @@ interface TradesTemplateProps {
   date: string | number | undefined;
   isLoading?: boolean;
   isUsd?: boolean;
+  changeToDate?: boolean;
 }
 
 export const TradesTemplate = ({
@@ -26,6 +31,7 @@ export const TradesTemplate = ({
   date,
   isLoading = false,
   isUsd = true,
+  changeToDate = false,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const calculateQuoteTokenAmount = (
@@ -225,7 +231,7 @@ export const TradesTemplate = ({
           ) : (
             <>
               <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal">
-                {timeAgo}
+                {changeToDate ? getFormattedDate(date) : timeAgo}
               </SmallFont>
               {isMyTrades ? (
                 <SmallFont extraCss="text-xs  text-light-font-60 dark:text-dark-font-60">

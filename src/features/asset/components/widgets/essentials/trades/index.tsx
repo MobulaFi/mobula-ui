@@ -1,7 +1,9 @@
 /* eslint-disable no-fallthrough */
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useState } from "react";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import { FiFilter } from "react-icons/fi";
+import { MdOutlineTimer } from "react-icons/md";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
@@ -49,6 +51,7 @@ export const TokenTrades = () => {
   const [offset, setOffset] = useState(0);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
+  const [changeToDate, setChangeToDate] = useState(false);
   const titles: string[] = [
     "Type",
     isAssetPage ? "Tokens" : baseSymbol,
@@ -200,13 +203,14 @@ export const TokenTrades = () => {
       });
   }, [baseAsset, offset, orderBy]);
 
-  console.log("order", orderBy, offset, pairTrades.length);
+  console.log("order", orderBy, offset, pairTrades.length, changeToDate);
 
   const handleOrderBy = () => {
     setOrderBy(orderBy === "asc" ? "desc" : "asc");
     setOffset(0);
   };
   const handleMoreTrades = () => setOffset((prev) => prev + 1);
+  console.log("changeToDate", changeToDate);
   return (
     <div
       className={`flex flex-col ${
@@ -377,6 +381,7 @@ export const TokenTrades = () => {
                   const isExplorer = entry === "Explorer";
                   const isBaseSymbol = entry === baseSymbol;
                   const isQuoteSymbol = entry === quoteSymbol;
+                  const isTime = entry === "Time";
                   return (
                     <Ths
                       extraCss={`sticky z-[2] top-[-1px] bg-light-bg-secondary dark:bg-dark-bg-secondary 
@@ -393,8 +398,13 @@ export const TokenTrades = () => {
                          isQuoteSymbol
                            ? "md:hidden"
                            : "md:table-cell"
-                       } `}
+                       } ${isTime ? "cursor-pointer" : ""}`}
                       key={entry}
+                      onClick={() => {
+                        if (isTime) {
+                          setChangeToDate((prev) => !prev);
+                        }
+                      }}
                     >
                       {isBaseSymbol ? (
                         <SmallFont
@@ -408,17 +418,28 @@ export const TokenTrades = () => {
                           </>
                         </SmallFont>
                       ) : (
-                        <SmallFont
-                          extraCss={`${
-                            isFirst
-                              ? " pl-0 text-start"
-                              : entry === "Tokens"
-                              ? "pl-2.5 md:text-start md:pl-2.5"
-                              : "pl-2.5 text-end"
-                          } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"}`}
-                        >
-                          {entry}
-                        </SmallFont>
+                        <div className="flex items-center justify-end w-full ">
+                          {isTime ? (
+                            <>
+                              {changeToDate ? (
+                                <MdOutlineTimer className="text-sm text-light-font-100 dark:text-dark-font-100" />
+                              ) : (
+                                <FaRegCalendarAlt className="text-sm text-light-font-100 dark:text-dark-font-100" />
+                              )}
+                            </>
+                          ) : null}
+                          <SmallFont
+                            extraCss={`${
+                              isFirst
+                                ? " pl-0 text-start"
+                                : entry === "Tokens"
+                                ? "pl-2.5 md:text-start md:pl-2.5"
+                                : "pl-2.5 text-end"
+                            } ${isLast || isExplorer ? "pr-0 " : "pr-2.5"} `}
+                          >
+                            {entry}
+                          </SmallFont>
+                        </div>
                       )}
                     </Ths>
                   );
@@ -473,6 +494,7 @@ export const TokenTrades = () => {
                         isMyTrades={isMyTrades}
                         date={date}
                         isUsd={isUsd}
+                        changeToDate={changeToDate}
                       />
                     </tbody>
                   </>
