@@ -1,11 +1,10 @@
 import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
 import { Skeleton } from "../../../../../components/skeleton";
-import { useTimeAgo } from "../../../../../hooks/time-ago";
 import {
   getClosest,
   getFormattedAmount,
@@ -45,10 +44,6 @@ export const TradesTemplate = ({
     trade.token_amount,
     trade.token_price,
     trade.token_price_vs
-  );
-
-  const timeAgo = useTimeAgo(
-    (trade?.date || new Date(trade?.timestamp)) as never as Date
   );
 
   return (
@@ -231,8 +226,24 @@ export const TradesTemplate = ({
             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
           ) : (
             <>
-              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal">
-                {changeToDate ? getFormattedDate(date) : timeAgo}
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal whitespace-nowrap">
+                {changeToDate ? (
+                  getFormattedDate(date)
+                ) : (
+                  <>
+                    {new Date(date).getHours() > 9
+                      ? new Date(date).getHours()
+                      : `0${new Date(date).getHours()}`}
+                    :
+                    {new Date(date).getMinutes() > 9
+                      ? new Date(date).getMinutes()
+                      : `0${new Date(date).getMinutes()}`}
+                    :
+                    {new Date(date).getSeconds() > 9
+                      ? new Date(date).getSeconds()
+                      : `0${new Date(date).getSeconds()}`}
+                  </>
+                )}
               </SmallFont>
             </>
           )}

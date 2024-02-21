@@ -1,24 +1,20 @@
 /* eslint-disable no-fallthrough */
-import Cookies from "js-cookie";
 import React, { useContext, useEffect, useState } from "react";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import { FiFilter } from "react-icons/fi";
+import { BsFilterLeft } from "react-icons/bs";
+import { FaCheck, FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
 import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
+import { Popover } from "../../../../../../components/popover";
 import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
 import { GET } from "../../../../../../utils/fetch";
+import { getFormattedDate } from "../../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Trade, UserTrades } from "../../../../models";
-import { formatFilters } from "../../../../utils";
-import { TradeBlockchainPopup } from "../../../popup/trade-blockchain-selector";
-import { TradeTypePopup } from "../../../popup/trade-type";
-import { TradeValueAmountPopup } from "../../../popup/trade-value-amount";
-import { PopoverTrade } from "../../../ui/popover-trade";
 import { TradesTemplate } from "../../../ui/trades-template";
 
 export const TokenTrades = () => {
@@ -69,11 +65,6 @@ export const TokenTrades = () => {
     token_amount: "Any Amount",
     value: "Any Value",
   });
-  const filterFormatted = formatFilters(filters);
-
-  useEffect(() => {
-    if (filters.length > 0) Cookies.set("trade-filters", filterFormatted);
-  }, [filters]);
 
   const getPositionOfSwitcherButton = (myTrade: boolean) => {
     if (myTrade) return "calc(50% - 2px)";
@@ -106,28 +97,20 @@ export const TokenTrades = () => {
 
   useEffect(() => {
     if (!baseAsset) return;
+
+    const params = {
+      address: isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address,
+      blockchain: isAssetPage
+        ? baseAsset?.blockchains?.[0]
+        : baseAsset?.blockchain,
+      date: isAssetPage ? "&sortBy=date" : "&sortBy=date",
+      type: isAssetPage ? "asset" : "address",
+    };
     console.log(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${
-        isAssetPage ? "asset" : "address"
-      }=${
-        isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address
-      }&blockchain=${
-        isAssetPage ? baseAsset?.blockchains?.[0] : baseAsset?.blockchain
-      }&amount=100${
-        isAssetPage ? "" : `&sortOrder=${orderBy}&offset=${offset}&sortBy=date`
-      }`
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}`
     );
-    console.log("baseAsset", baseAsset);
     fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${
-        isAssetPage ? "asset" : "address"
-      }=${
-        isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address
-      }&blockchain=${
-        isAssetPage ? baseAsset?.blockchains?.[0] : baseAsset?.blockchain
-      }&amount=100${
-        isAssetPage ? "" : `&sortOrder=${orderBy}&offset=${offset}&sortBy=date`
-      }`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -137,7 +120,7 @@ export const TokenTrades = () => {
     )
       .then((r) => r.json())
       .then((r) => {
-        console.log("r", r);
+        console.log("I CHANGE", getFormattedDate(r.data?.[0]?.date));
         if (r.data) {
           // setPairTrades(r.data);
           if (100 * (offset + 1) > globalPairs?.length) {
@@ -157,8 +140,8 @@ export const TokenTrades = () => {
       });
   }, [baseAsset, offset, orderBy]);
 
-  const handleOrderBy = () => {
-    setOrderBy(orderBy === "asc" ? "desc" : "asc");
+  const handleOrderBy = (type: "asc" | "desc") => {
+    setOrderBy(orderBy === type);
     setOffset(0);
   };
   const handleMoreTrades = () => setOffset((prev) => prev + 1);
@@ -168,17 +151,15 @@ export const TokenTrades = () => {
         isAssetPage ? "mt-2.5" : "mt-5 md:mt-2.5"
       } w-full mx-auto`}
     >
-      {isAssetPage ? (
-        <>
-          <div className="flex justify-between items-center mt-2.5 lg:hidden">
-            <div
+      <div className="flex justify-between items-center mt-2.5">
+        {/* <div
               className={`min-h-[45px] flex items-center transition-all ${
                 isMyTrades ? "opacity-50" : ""
               }`}
             >
               {/* <PopoverTrade title={activeNames.liquidity_pool}>
             <TradeLiquidityPoolPopup />
-          </PopoverTrade> */}
+          </PopoverTrade> 
               <PopoverTrade
                 title={activeNames.blockchain}
                 isImage={activeNames.blockchain !== "All Chains"}
@@ -206,46 +187,86 @@ export const TokenTrades = () => {
                   activeName={activeNames}
                 />
               </PopoverTrade>
-            </div>
-            <div
-              className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative
-         w-[200px] lg:hidden border border-light-border-primary dark:border-dark-border-primary mb-2 rounded-lg"
-            >
-              <div
-                className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200"
-                style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
-              />
+            </div> */}
+        <Popover
+          visibleContent={
+            <Button>
+              <BsFilterLeft className="text-xl mt-[1px]" />
+            </Button>
+          }
+          extraCss={`${isMyTrades ? "hidden" : ""}`}
+          hiddenContent={
+            <div className="flex flex-col">
               <button
-                className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+                className="pb-2.5 flex justify-between w-[200px] items-center"
+                onClick={() => {
+                  setOrderBy("desc");
+                  setOffset(0);
+                }}
+              >
+                <SmallFont>Order by newest</SmallFont>
+                <div className="w-5 h-5 rounded border-2 border-light-border-secondary dark:border-dark-border-secondary flex items-center justify-center">
+                  {orderBy === "desc" ? (
+                    <FaCheck className="text-[10px] text-light-font-100 dark:text-dark-font-100" />
+                  ) : null}
+                </div>
+              </button>
+              <button
+                className="flex justify-between w-[200px] items-center"
+                onClick={() => {
+                  setOrderBy("asc");
+                  setOffset(0);
+                }}
+              >
+                <SmallFont>Order by oldest</SmallFont>
+                <div className="w-5 h-5 rounded border-2 border-light-border-secondary dark:border-dark-border-secondary flex items-center justify-center">
+                  {orderBy === "asc" ? (
+                    <FaCheck className="text-[10px] text-light-font-100 dark:text-dark-font-100" />
+                  ) : null}
+                </div>
+              </button>
+            </div>
+          }
+        />
+        <div
+          className="flex items-center bg-light-bg-terciary dark:bg-dark-bg-terciary h-[35px] relative
+         w-[200px] border border-light-border-primary dark:border-dark-border-primary mb-2 rounded-lg"
+        >
+          <div
+            className="flex z-[0] w-[50%] h-[29px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-md absolute transition-all duration-200"
+            style={{ left: getPositionOfSwitcherButton(isMyTrades) }}
+          />
+          <button
+            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
           md:text-xs transition-all duration-200 ${
             !isMyTrades
               ? "text-light-font-100 dark:text-dark-font-100"
               : "text-light-font-40 dark:text-dark-font-40"
           } z-[2] relative`}
-                onClick={() => {
-                  setIsMyTrades(false);
-                }}
-              >
-                All trades
-              </button>
-              <button
-                className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
+            onClick={() => {
+              setIsMyTrades(false);
+            }}
+          >
+            All trades
+          </button>
+          <button
+            className={`flex items-center justify-center h-full w-[50%] text-sm lg:text-[13px] 
             md:text-xs transition-all duration-200 ${
               isMyTrades
                 ? "text-light-font-100 dark:text-dark-font-100"
                 : "text-light-font-40 dark:text-dark-font-40"
             } z-[2] relative`}
-                onClick={() => {
-                  if (isDisconnected) {
-                    setConnect(true);
-                  } else setIsMyTrades(true);
-                }}
-              >
-                My Trades
-              </button>
-            </div>
-          </div>
-          <div className="items-center justify-between hidden lg:flex my-2.5">
+            onClick={() => {
+              if (isDisconnected) {
+                setConnect(true);
+              } else setIsMyTrades(true);
+            }}
+          >
+            My Trades
+          </button>
+        </div>
+      </div>
+      {/* <div className="items-center justify-between hidden lg:flex my-2.5">
             <Button
               extraCss="max-w-fit h-[32px] px-3"
               onClick={() => setShowTradeFilters(true)}
@@ -287,15 +308,7 @@ export const TokenTrades = () => {
                 My Trades
               </button>
             </div>
-          </div>
-        </>
-      ) : (
-        <div className="flex my-2.5 items-center">
-          <Button onClick={handleOrderBy}>Filter ASC</Button>
-          <SmallFont>{globalPairs?.length || 0} trades loaded</SmallFont>
-        </div>
-      )}
-
+          </div> */}
       <div className="w-full h-full mx-auto max-h-[480px] overflow-y-scroll ">
         <table className="relative  w-full ">
           {!isMarketMetricsLoading &&
@@ -369,7 +382,15 @@ export const TokenTrades = () => {
                           </>
                         </SmallFont>
                       ) : (
-                        <div className="flex items-center justify-end w-full ">
+                        <div
+                          className={`flex items-center ${
+                            entry === "Type" ? "" : "justify-end"
+                          } ${
+                            entry === "Tokens"
+                              ? "justify-end md:justify-start"
+                              : ""
+                          } w-full `}
+                        >
                           {isTime ? (
                             <>
                               {changeToDate ? (
@@ -417,7 +438,7 @@ export const TokenTrades = () => {
               )?.map((trade: Trade | UserTrade | any, i: number) => {
                 const isSell = trade.type === "sell";
                 const date: number = isMyTrades
-                  ? (trade?.date as number)
+                  ? (trade?.timestamp as number)
                   : trade?.date;
                 const tradeClass = trade.type === "sell" ? "sell-bg" : "buy-bg";
                 return (
@@ -448,19 +469,21 @@ export const TokenTrades = () => {
                   </>
                 );
               })}
-              <caption className="py-3 caption-bottom">
-                <div className="flex justify-center items-center">
-                  {isLoadingMoreTrade ? (
-                    <Spinner extraCss="h-[20px] w-[20px]" />
-                  ) : null}
-                  <button
-                    className="text-light-font-60 dark:text-dark-font-60 text-sm md:text-xs hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-100 ease-linear"
-                    onClick={handleMoreTrades}
-                  >
-                    Load more
-                  </button>
-                </div>
-              </caption>
+              {!isMyTrades ? (
+                <caption className="py-3 caption-bottom">
+                  <div className="flex justify-center items-center">
+                    {isLoadingMoreTrade ? (
+                      <Spinner extraCss="h-[20px] w-[20px]" />
+                    ) : null}
+                    <button
+                      className="text-light-font-60 dark:text-dark-font-60 text-sm md:text-xs hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-100 ease-linear"
+                      onClick={handleMoreTrades}
+                    >
+                      Load more
+                    </button>
+                  </div>
+                </caption>
+              ) : null}
             </>
           )}
         </table>
