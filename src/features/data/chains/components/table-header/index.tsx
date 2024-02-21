@@ -45,6 +45,7 @@ export const TableHeader = ({
                     titleCssPosition="justify-start"
                   />
                   <BasicThead extraCss="static" title="Price" canOrder />
+                  <BasicThead extraCss="static" title="Price Native" canOrder />
                   {/* <BasicThead extraCss="static" title="Txns" canOrder /> */}
                   <BasicThead extraCss="static" title="Volume" canOrder />
                   <BasicThead extraCss="static" title="Liquidity" canOrder />

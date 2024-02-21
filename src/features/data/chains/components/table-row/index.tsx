@@ -1,4 +1,3 @@
-import React from "react";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
@@ -50,7 +49,7 @@ export const TableRow = ({
   const volumeColorClass = getColorFromChange(isVolumeUp);
   const timeAgo = useTimeAgo(item?.last_trade);
 
-  console.log("pair", pair);
+  console.log("item", item);
 
   return (
     <tbody
@@ -111,6 +110,18 @@ export const TableRow = ({
               {getFormattedAmount(item?.price, 0, {
                 canUseHTML: true,
               })}
+            </SmallFont>
+          </div>
+        </Segment>
+        <Segment>
+          <div className="w-full flex justify-end">
+            <SmallFont
+              extraCss={`w-fit whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
+            >
+              {getFormattedAmount(pair?.[pair?.baseToken]?.priceToken, 0, {
+                canUseHTML: true,
+              })}{" "}
+              {pair?.[pair?.quoteToken]?.symbol}
             </SmallFont>
           </div>
         </Segment>
