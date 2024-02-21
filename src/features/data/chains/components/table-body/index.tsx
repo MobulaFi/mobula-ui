@@ -82,6 +82,7 @@ export const TableTbody = () => {
               router={router}
               pair={pair}
               oldPairInfo={oldPairInfo}
+              switchedToNative={undefined}
             />
           );
         })}

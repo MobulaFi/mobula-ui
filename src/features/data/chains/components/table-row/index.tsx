@@ -7,6 +7,7 @@ import {
   convertScientificNotation,
   getFormattedAmount,
 } from "../../../../../utils/formaters";
+import { useChains } from "../../context-manager";
 
 export const TableRow = ({
   pair,
@@ -16,6 +17,7 @@ export const TableRow = ({
   isHover,
   setIsHover,
 }) => {
+  const { switchedToNative } = useChains();
   const getColorFromChange = (isUp: boolean | null) => {
     if (isUp === null) return "";
     if (isUp) return "text-green dark:text-green";
@@ -48,8 +50,6 @@ export const TableRow = ({
   const liquidityColorClass = getColorFromChange(isLiquidityUp);
   const volumeColorClass = getColorFromChange(isVolumeUp);
   const timeAgo = useTimeAgo(item?.last_trade);
-
-  console.log("item", item);
 
   return (
     <tbody
@@ -103,26 +103,25 @@ export const TableRow = ({
         </Segment>
         <Segment>
           <div className="w-full flex justify-end">
-            <SmallFont
-              extraCss={`w-fit whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
-            >
-              $
-              {getFormattedAmount(item?.price, 0, {
-                canUseHTML: true,
-              })}
-            </SmallFont>
-          </div>
-        </Segment>
-        <Segment>
-          <div className="w-full flex justify-end">
-            <SmallFont
-              extraCss={`w-fit whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
-            >
-              {getFormattedAmount(pair?.[pair?.baseToken]?.priceToken, 0, {
-                canUseHTML: true,
-              })}{" "}
-              {pair?.[pair?.quoteToken]?.symbol}
-            </SmallFont>
+            {switchedToNative ? (
+              <SmallFont
+                extraCss={`w-fit whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
+              >
+                {getFormattedAmount(pair?.[pair?.baseToken]?.priceToken, 0, {
+                  canUseHTML: true,
+                })}{" "}
+                {pair?.[pair?.quoteToken]?.symbol}
+              </SmallFont>
+            ) : (
+              <SmallFont
+                extraCss={`w-fit whitespace-nowrap text-end ${priceColorClass} transition-all duration-100 ease-in-out`}
+              >
+                $
+                {getFormattedAmount(item?.price, 0, {
+                  canUseHTML: true,
+                })}
+              </SmallFont>
+            )}
           </div>
         </Segment>
         <Segment>
