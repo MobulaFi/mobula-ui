@@ -7,6 +7,7 @@ import { useAccount } from "wagmi";
 import { Button } from "../../../../../../components/button";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Popover } from "../../../../../../components/popover";
+import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
@@ -36,7 +37,7 @@ export const TokenTrades = () => {
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const [isTradeLoading, setIsTradeLoading] = useState(true);
 
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(100);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
   const [changeToDate, setChangeToDate] = useState(false);
@@ -81,7 +82,8 @@ export const TokenTrades = () => {
 
   useEffect(() => {
     if (!baseAsset) return;
-
+    console.log("baseAsset", offset, globalPairs?.length);
+    setIsLoadingMoreTrade(true);
     const params = {
       address: isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address,
       blockchain: isAssetPage
@@ -90,9 +92,8 @@ export const TokenTrades = () => {
       date: isAssetPage ? "&sortBy=date" : "&sortBy=date",
       type: isAssetPage ? "asset" : "address",
     };
-
     fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}&offset=${offset}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +104,7 @@ export const TokenTrades = () => {
       .then((r) => r.json())
       .then((r) => {
         if (r.data) {
-          if (100 * (offset + 1) > globalPairs?.length) {
+          if (offset > globalPairs?.length) {
             const removeDoublePairs = r?.data?.filter((entry) => {
               if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
                 return false;
@@ -114,10 +115,11 @@ export const TokenTrades = () => {
           setIsTradeLoading(false);
           setIsLoadingMoreTrade(false);
         }
+        setIsLoadingMoreTrade(false);
       });
   }, [baseAsset, offset, orderBy]);
 
-  const handleMoreTrades = () => setOffset((prev) => prev + 1);
+  const handleMoreTrades = () => setOffset((prev) => prev + 100);
   return (
     <div
       className={`flex flex-col ${
@@ -176,7 +178,7 @@ export const TokenTrades = () => {
                   className="pb-2.5 flex justify-between w-[200px] items-center"
                   onClick={() => {
                     setOrderBy("desc");
-                    setOffset(0);
+                    setOffset(100);
                   }}
                 >
                   <SmallFont>Order by newest</SmallFont>
@@ -190,7 +192,7 @@ export const TokenTrades = () => {
                   className="flex justify-between w-[200px] items-center"
                   onClick={() => {
                     setOrderBy("asc");
-                    setOffset(0);
+                    setOffset(100);
                   }}
                 >
                   <SmallFont>Order by oldest</SmallFont>
@@ -442,7 +444,7 @@ export const TokenTrades = () => {
                   </>
                 );
               })}
-              {/* {!isMyTrades ? (
+              {!isMyTrades ? (
                 <caption className="py-3 caption-bottom">
                   <div className="flex justify-center items-center">
                     {isLoadingMoreTrade ? (
@@ -456,7 +458,7 @@ export const TokenTrades = () => {
                     </button>
                   </div>
                 </caption>
-              ) : null} */}
+              ) : null}
             </>
           )}
         </table>
