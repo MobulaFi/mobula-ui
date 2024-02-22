@@ -79,12 +79,9 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
       })
       .then((res) => {
         const tokenData = res.find((token) => {
-          console.log("tokenId", tokenId);
-          console.log("token", token);
           const tokenIDValue = token.token.id;
           if (tokenIDValue === tokenId) return token;
         });
-        console.log("tokenData", tokenData);
         r(tokenData?.token.ipfsHash);
       });
   });
