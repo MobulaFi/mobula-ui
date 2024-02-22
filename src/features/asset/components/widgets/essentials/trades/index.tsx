@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsFilterLeft } from "react-icons/bs";
 import { FaCheck, FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
@@ -37,7 +37,7 @@ export const TokenTrades = () => {
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const [isTradeLoading, setIsTradeLoading] = useState(true);
 
-  const [offset, setOffset] = useState(100);
+  const [offset, setOffset] = useState(0);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
   const [changeToDate, setChangeToDate] = useState(false);
@@ -178,7 +178,7 @@ export const TokenTrades = () => {
                   className="pb-2.5 flex justify-between w-[200px] items-center"
                   onClick={() => {
                     setOrderBy("desc");
-                    setOffset(100);
+                    setOffset(0);
                   }}
                 >
                   <SmallFont>Order by newest</SmallFont>
@@ -192,7 +192,7 @@ export const TokenTrades = () => {
                   className="flex justify-between w-[200px] items-center"
                   onClick={() => {
                     setOrderBy("asc");
-                    setOffset(100);
+                    setOffset(0);
                   }}
                 >
                   <SmallFont>Order by oldest</SmallFont>
