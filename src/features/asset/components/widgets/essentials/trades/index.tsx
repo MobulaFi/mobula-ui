@@ -36,6 +36,7 @@ export const TokenTrades = () => {
   const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const [isTradeLoading, setIsTradeLoading] = useState(true);
+
   const [offset, setOffset] = useState(0);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;

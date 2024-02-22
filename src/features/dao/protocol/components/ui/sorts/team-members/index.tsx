@@ -55,14 +55,14 @@ export const TeamMembers = ({ token }: TeamMembersProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       extraCss={`${
-                        member.telegram
+                        member?.telegram
                           ? "text-blue dark:text-blue"
                           : "text-light-font-40 dark:text-dark-font-40"
                       }`}
                     >
                       <div className="flex items-center">
-                        {member.telegram?.split("t.me/")[1] || "--"}
-                        {member.telegram ? (
+                        {member?.telegram?.split("t.me/")[1] || "--"}
+                        {member?.telegram ? (
                           <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
                         ) : null}
                       </div>
@@ -70,18 +70,18 @@ export const TeamMembers = ({ token }: TeamMembersProps) => {
                   </Tds>
                   <Tds extraCss="px-2.5 py-[25px]">
                     <NextChakraLink
-                      href={member.twitter}
+                      href={member?.twitter}
                       target="_blank"
                       rel="noopener noreferrer"
                       extraCss={`${
-                        member.twitter
+                        member?.twitter
                           ? "text-blue dark:text-blue"
                           : "text-light-font-40 dark:text-dark-font-40"
                       }`}
                     >
                       <div className="flex items-center">
-                        {member.twitter.split("twitter.com/")[1] || "--"}
-                        {member.twitter ? (
+                        {member?.twitter?.split("twitter.com/")[1] || "--"}
+                        {member?.twitter ? (
                           <FiExternalLink className="text-light-font-40 dark:text-dark-font-40 ml-[7.5px] mb-0.5" />
                         ) : null}
                       </div>
