@@ -22,8 +22,6 @@ export const ChangeTemplate = ({
     setHasCopied(true);
     setTimeout(() => setHasCopied(false), 2000);
   };
-  console.log("oldValue", oldValue, isContract);
-  console.log("newValue", newValue, isContract);
   return (
     <BoxContainer extraCss="mb-5">
       <TitleContainer extraCss="px-[15px]">
