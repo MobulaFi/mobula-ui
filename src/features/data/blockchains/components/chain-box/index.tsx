@@ -34,8 +34,6 @@ export const ChainBox = ({ blockchain }) => {
     fetchPairs();
   }, []);
 
-  console.log("pairsData", pairsData);
-
   return (
     <div
       className="flex flex-col w-[49%] bg-light-bg-secondary dark:bg-dark-bg-secondary 
@@ -87,13 +85,13 @@ export const ChainBox = ({ blockchain }) => {
                     )}
                     {isLoading ? (
                       <div>
-                        <Skeleton extraCss="h-3.5 w-[100px]" />
+                        <Skeleton extraCss="h-4 w-[100px]" />
                         <Skeleton extraCss="h-3 mt-1 w-[120px]" />
                       </div>
                     ) : (
                       <div>
                         <SmallFont extraCss="font-medium">
-                          {baseToken?.symbol}/
+                          {baseToken?.symbol} /{" "}
                           <span className="text-light-font-40 dark:text-dark-font-40 font-normal">
                             {quoteToken?.symbol}
                           </span>
