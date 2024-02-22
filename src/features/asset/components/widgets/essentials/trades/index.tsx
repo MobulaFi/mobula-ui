@@ -448,7 +448,7 @@ export const TokenTrades = () => {
                 <caption className="py-3 caption-bottom">
                   <div className="flex justify-center items-center">
                     {isLoadingMoreTrade ? (
-                      <Spinner extraCss="h-[20px] w-[20px]" />
+                      <Spinner extraCss="h-[16px] w-[16px]" />
                     ) : null}
                     <button
                       className="text-light-font-60 dark:text-dark-font-60 text-sm md:text-xs hover:text-light-font-100 hover:dark:text-dark-font-100 transition-all duration-100 ease-linear"
