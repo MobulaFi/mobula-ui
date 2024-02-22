@@ -1,5 +1,5 @@
-import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import {
   BsDiscord,
@@ -14,8 +14,10 @@ import { FiExternalLink } from "react-icons/fi";
 import { LuLink } from "react-icons/lu";
 import { SlMagnifier } from "react-icons/sl";
 import { useNetwork } from "wagmi";
+import { Button } from "../../../../components/button";
 import { SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
+import { useGeneralContext } from "../../../../contexts/general";
 import { addressSlicer } from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 import { PopOverLinesStyle, mainButtonStyle } from "../../style";
@@ -27,6 +29,9 @@ export const TokenSocialsInfo = () => {
   const { baseAsset, setShowPopupSocialMobile, setShowSeeAllTags } =
     useContext(BaseAssetContext);
   const { chain } = useNetwork();
+  const { editAssetReducer, setEditAssetReducer, setBaseEditAssetReducer } =
+    useGeneralContext();
+  const router = useRouter();
 
   const socials = [
     baseAsset?.twitter
@@ -88,6 +93,77 @@ export const TokenSocialsInfo = () => {
     return { newChains, newContracts };
   }
 
+  function editPage() {
+    const contracts = baseAsset.contracts.map((address, index) => ({
+      address: address,
+      blockchain: baseAsset.blockchains[index],
+      blockchain_id: baseAsset.decimals[index], // Assuming decimals is meant to be the ID here
+    }));
+
+    const totalSupplyContracts = baseAsset.total_supply_contracts.map(
+      (address, index) => ({
+        address: address,
+        blockchain: baseAsset.blockchains[index],
+        blockchain_id: baseAsset.decimals[index], // Assuming decimals is meant to be the ID here
+      })
+    );
+
+    const excludedFromCirculationAddresses =
+      baseAsset.circulating_supply_addresses.map((address, index) => ({
+        address: address,
+        blockchain: baseAsset.blockchains[index],
+        blockchain_id: baseAsset.decimals[index], // Assuming decimals is meant to be the ID here
+      }));
+
+    const asset = {
+      name: baseAsset.name,
+      symbol: baseAsset.symbol,
+      type: "token",
+      image: {
+        loading: false,
+        uploaded_logo: true,
+        logo: baseAsset.logo,
+      },
+      description: baseAsset.description,
+      categories: baseAsset.tags,
+      completed: false,
+      links: {
+        website: baseAsset.website,
+        twitter: baseAsset.twitter,
+        telegram: baseAsset.telegram,
+        discord: baseAsset.discord,
+        github: baseAsset.github,
+        audit: baseAsset.audit,
+        kyc: baseAsset.kyc,
+      },
+      team: baseAsset.team || [],
+      contracts: contracts,
+      totalSupplyContracts: totalSupplyContracts,
+      excludedFromCirculationAddresses: excludedFromCirculationAddresses,
+      tokenomics: {
+        distribution: baseAsset.distribution,
+        launch: baseAsset.launch,
+        sales: baseAsset.sales,
+        vestingSchedule: baseAsset.release_schedule,
+        fees: [
+          {
+            name: "",
+            percentage: 0,
+            details: "",
+            side: "buy",
+          },
+        ],
+      },
+      protocol_id: baseAsset.protocol_id,
+    };
+
+    setEditAssetReducer(asset);
+
+    setBaseEditAssetReducer(asset);
+
+    router.push("/list");
+  }
+
   const { newChains, newContracts } = reorganizeArrays(
     chain?.name as string,
     baseAsset?.blockchains,
@@ -112,6 +188,14 @@ export const TokenSocialsInfo = () => {
               Tags
             </SmallFont>
           ) : null}
+          <div className="h-[26px] px-2.5 ml-[80%]">
+            <Button
+              onClick={editPage}
+              extraCss="text-light-font-60 dark:text-dark-font-60 hover:underline"
+            >
+              Edit Page
+            </Button>
+          </div>
           <div className="flex items-center mt-2.5 lg:mt-0 w-full">
             <div className="flex justify-between items-center w-full">
               {baseAsset?.tags?.length > 0 ? (

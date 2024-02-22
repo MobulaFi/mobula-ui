@@ -329,8 +329,8 @@ export interface HistoryListing {
 export interface EditingTemplate {
   oldImage: string;
   newImage: string;
-  oldValue: string;
-  newValue: string;
+  oldValue: any;
+  newValue: any;
   type: string;
 }
 export interface IVoteContext {

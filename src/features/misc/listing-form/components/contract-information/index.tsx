@@ -9,13 +9,11 @@ import {
 import { ListingContext } from "../../context-manager";
 import { ACTIONS } from "../../reducer";
 import { addButtonStyle } from "../../styles";
-import { Distribution } from "../distribution";
 import { Launch } from "../launch";
-import { Sales } from "../sales";
 import { MultiInputTemplate } from "../ui/multi-input-template";
 
 export const ContractInformation = ({ dispatch, state }) => {
-  const {isLaunched, setIsLaunched, actualPage, setActualPage} =
+  const { isLaunched, setIsLaunched, actualPage, setActualPage } =
     useContext(ListingContext);
 
   return (
@@ -112,8 +110,9 @@ export const ContractInformation = ({ dispatch, state }) => {
             </div>
           </div>
           {isLaunched ? null : <Launch dispatch={dispatch} state={state} />}
-          <Sales dispatch={dispatch} state={state} />
-          <Distribution dispatch={dispatch} state={state} />
+          {/* TO FIX CORRECLTY LATER (useless actually) */}
+          {/* <Sales dispatch={dispatch} state={state} /> */}
+          {/* <Distribution dispatch={dispatch} state={state} /> */}
         </>
       )}
     </div>

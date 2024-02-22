@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { useContext, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import {
@@ -103,6 +103,7 @@ export const VestingInformation = ({ dispatch, state }) => {
             }`}
             ref={dateRef}
             type="text"
+            value={new Date(d[0]).toLocaleDateString()}
             placeholder="DD/MM/YYYY"
             onChange={(e) => isoToTimestamp(e.target.value, i)}
           />
@@ -116,17 +117,19 @@ export const VestingInformation = ({ dispatch, state }) => {
             className={`${inputStyle} mb-5 w-full min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
             type="number"
             placeholder="10000.00"
+            value={d[1].toFixed(2)}
             onChange={(e) =>
               updateItem(i, { value: parseFloat(e.target.value) })
             }
           />
           <LargeFont extraCss="mb-2.5">Breakdown</LargeFont>
-          {d[2].map((_, j) => (
+          {Object.keys(d[2]).map((_, j) => (
             <div className="flex" key={i}>
               <input
                 className={`${inputStyle} mr-2.5 w-full min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
                 placeholder="1,000.00"
                 type="number"
+                value={d[2][_]}
                 onChange={(e) => {
                   const newBreakdown = [...d[2]];
                   newBreakdown[j] = {
@@ -143,6 +146,7 @@ export const VestingInformation = ({ dispatch, state }) => {
                 className={`${inputStyle} mb-2.5 w-[150px] min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
                 type="text"
                 placeholder="Role"
+                value={_}
                 onChange={(e) => {
                   const newBreakdown = [...d[2]];
                   newBreakdown[j] = {
@@ -160,7 +164,9 @@ export const VestingInformation = ({ dispatch, state }) => {
           <button
             className={`${addButtonStyle} px-3 mb-5 mt-0 w-fit`}
             onClick={() =>
-              updateItem(i, { breakdown: [...d[2], { name: "", amount: "" }] })
+              updateItem(i, {
+                breakdown: [...d[2], { name: "", amount: "" }],
+              })
             }
           >
             + Add breakdown

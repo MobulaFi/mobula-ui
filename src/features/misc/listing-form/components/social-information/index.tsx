@@ -77,32 +77,11 @@ export const SocialInformation = ({ dispatch, state }) => {
     }
   };
 
-  const handleArrayChange = (e, i) => {
-    if (state.links[e.target.name].length > 0) {
-      dispatch({
-        type: ACTIONS.SET_ARRAY,
-        payload: {
-          name: e.target.name,
-          value: e.target.value,
-          i,
-        },
-      });
-    } else {
-      dispatch({
-        type: ACTIONS.ADD_TO_ARRAY,
-        payload: {
-          name: e.target.name,
-        },
-      });
-      dispatch({
-        type: ACTIONS.SET_ARRAY,
-        payload: {
-          name: e.target.name,
-          value: e.target.value,
-          i,
-        },
-      });
-    }
+  const handleChange = (e: { target: { name: any; value: any } }) => {
+    dispatch({
+      type: ACTIONS.SET_INPUT_LINKS,
+      payload: { name: e.target.name, value: e.target.value },
+    });
   };
 
   const deleteButtonStyle =
@@ -119,10 +98,12 @@ export const SocialInformation = ({ dispatch, state }) => {
         </button>
         <ExtraLargeFont>Social Information</ExtraLargeFont>
       </div>
-      {links.map((link) => (
+      {links?.map((link) => (
         <InputTemplate
           name={link.name}
           dispatch={dispatch}
+          state={state}
+          isLink={true}
           title={link.title}
           action={ACTIONS.SET_INPUT_LINKS}
           icon={link.icon}
@@ -136,61 +117,42 @@ export const SocialInformation = ({ dispatch, state }) => {
         <div className="flex flex-col mt-5">
           <div className="flex items-center">
             <BsShieldFillCheck className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xl lg:text-lg md:text-base" />
-            <LargeFont>Audits</LargeFont>
+            <LargeFont>Audit</LargeFont>
           </div>
-          {inputs.map((input, i) => (
+          {inputs?.map((input, i) => (
             <div className="flex" key={input.id}>
               <input
-                className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mt-2.5`}
-                name="audits"
+                className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mt-2.5 w-full`}
+                name="audit"
                 key={input.id}
+                value={state?.links?.audit}
                 placeholder="www.certik.com/audit"
-                onChange={(e) => handleArrayChange(e, i)}
+                onChange={(e) => handleChange(e)}
               />
-              <button
-                className={`${deleteButtonStyle} ${i > 0 ? "flex" : "hidden"}`}
-                onClick={() => removeInput(input.id, i, "audits")}
-              >
-                <AiOutlineClose className="text-xs" />
-              </button>
             </div>
           ))}
-          <button className={addButtonStyle} onClick={() => addInput("audit")}>
-            Add more
-          </button>
         </div>
         <div className="flex flex-col mt-5">
           <div className="flex items-center">
             <MdVisibility className="text-light-font-100 dark:text-dark-font-100 mr-[7.5px] text-xl lg:text-lg md:text-base" />
-            <LargeFont>KYCs</LargeFont>
+            <LargeFont>KYC</LargeFont>
           </div>
-          {inputsKyc.map((input, i) => (
+          {inputsKyc?.map?.((input, i) => (
             <div className="flex" key={input.id}>
               <input
                 className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary mt-2.5 w-full`}
-                name="kycs"
+                name="kyc"
                 key={input.id}
-                value={state.links.kycs[i]}
+                value={state?.links?.kyc}
                 placeholder="www.certik.com/kyc"
-                onChange={(e) => handleArrayChange(e, i)}
+                onChange={(e) => handleChange(e)}
               />
-              <button
-                className={`flex items-center justify-center ${deleteButtonStyle} ${
-                  i > 0 ? "flex" : "hidden"
-                }`}
-                onClick={() => removeInput(input.id, i, "kycs")}
-              >
-                <AiOutlineClose className="text-xs" />
-              </button>
             </div>
           ))}
-          <button className={addButtonStyle} onClick={() => addInput("kyc")}>
-            Add more
-          </button>
         </div>
         <div className="flex flex-col mt-[30px] pt-5 border-t border-light-border-primary dark:border-dark-border-primary">
           <LargeFont>Team member(s)</LargeFont>
-          {state.team.map((member, i) => (
+          {state?.team?.map?.((member, i) => (
             <div
               className={`${i !== 0 ? "mt-[50px]" : ""} w-full flex flex-col`}
               key={member.name + i}

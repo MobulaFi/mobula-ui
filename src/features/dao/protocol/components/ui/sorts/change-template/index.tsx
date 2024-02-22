@@ -1,7 +1,4 @@
-import { addressSlicer } from "@utils/formaters";
 import { useState } from "react";
-import { BiCopy } from "react-icons/bi";
-import { BsCheckLg } from "react-icons/bs";
 import { FaArrowDownLong } from "react-icons/fa6";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { TitleContainer } from "../../../../../../../components/title";
@@ -16,14 +13,43 @@ export const ChangeTemplate = ({
   type,
 }: EditingTemplate) => {
   const [hasCopied, setHasCopied] = useState(false);
-  const isContract = type === "Contract";
+  const isContract = type === "Contract" || type === "contracts";
+  const isLinks = type === "links";
   const onCopy = () => {
     navigator.clipboard.writeText(newValue);
     setHasCopied(true);
     setTimeout(() => setHasCopied(false), 2000);
   };
-  console.log("oldValue", oldValue, isContract);
-  console.log("newValue", newValue, isContract);
+
+  if (type === "contracts") {
+    oldValue = oldValue.map(
+      (contract: { address: string }) => contract.address
+    );
+    newValue = newValue.map(
+      (contract: { address: string }) => contract.address
+    );
+  }
+
+  const oldData = [];
+  const newData = [];
+
+  if (type === "links") {
+    Object.keys(newValue).forEach((key) => {
+      if (newValue?.[key] !== oldValue?.[key]) {
+        oldData.push(oldValue[key] as never);
+        newData.push(newValue[key] as never);
+      }
+    });
+  }
+
+  oldValue = oldData;
+  newValue = newData;
+
+  if (type === "image") {
+    oldValue = oldValue.logo;
+    newValue = newValue.logo;
+  }
+
   return (
     <BoxContainer extraCss="mb-5">
       <TitleContainer extraCss="px-[15px]">
@@ -39,13 +65,17 @@ export const ChangeTemplate = ({
               src={oldImage}
               className="mr-2.5 rounded-full w-[26px] h-[26px]"
             />
-            <SmallFont extraCss="overflow-x-scroll scroll whitespace-pre-wrap text-start flex md:hidden">
-              {oldValue}
-            </SmallFont>
-            <SmallFont extraCss="overflow-x-scroll scroll whitespace-pre-wrap text-start hidden md:flex">
+            <SmallFont extraCss="text-start md:flex flex-col">
               {isContract
-                ? `${oldValue?.slice(0, 4)}...${oldValue?.slice(-4)}`
-                : oldValue}
+                ? oldValue.map((contract) => (
+                    <div key={contract}>{`${contract}`}</div>
+                  ))
+                : null}
+              {isLinks
+                ? oldValue.map((links) => <div key={links}>{`${links}`}</div>)
+                : null}
+
+              {!isContract && !isLinks ? oldValue : null}
             </SmallFont>
           </div>
         </BoxContainer>
@@ -59,28 +89,18 @@ export const ChangeTemplate = ({
               src={newImage}
               className="mr-2.5 rounded-full w-[26px] h-[26px]"
             />
-            <SmallFont
-              extraCss={`overflow-x-scroll scroll whitespace-pre-wrap text-start flex ${
-                isContract ? "" : "md:flex"
-              }`}
-            >
-              {newValue}
+            <SmallFont extraCss="text-start md:flex flex-col">
+              {isContract
+                ? newValue.map((contract) => (
+                    <div key={contract}>{`${contract}`}</div>
+                  ))
+                : null}
+              {isLinks
+                ? newValue.map((links) => <div key={links}>{`${links}`}</div>)
+                : null}
+
+              {!isContract && !isLinks ? newValue : null}
             </SmallFont>
-            {isContract ? (
-              <SmallFont extraCss="overflow-x-scroll scroll whitespace-pre-wrap text-start hidden md:flex">
-                {addressSlicer(newValue)}
-              </SmallFont>
-            ) : null}
-            <button
-              className="whitespace-pre-wrap cursor-pointer w-fit"
-              onClick={onCopy}
-            >
-              {hasCopied ? (
-                <BsCheckLg className="ml-2.5 text-green dark:text-green" />
-              ) : (
-                <BiCopy className="ml-2.5 text-light-font-40 dark:text-dark-font-40" />
-              )}
-            </button>
           </div>
         </BoxContainer>
       </div>
