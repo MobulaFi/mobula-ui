@@ -21,7 +21,8 @@ const sockets = new Map();
 export const Datafeed = (
   baseAsset: Asset,
   isPair: boolean,
-  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>,
+  shouldLoadMoreTrade: boolean,
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>,
   setFadeIn?: Dispatch<SetStateAction<string[]>>,
   isUsd?: boolean
 ) => ({
@@ -122,8 +123,9 @@ export const Datafeed = (
 
     socket.addEventListener("message", (event) => {
       const eventData = JSON.parse(event.data);
+      console.log(shouldLoadMoreTrade);
       try {
-        if (eventData?.blockchain && setPairTrades)
+        if (eventData?.blockchain && setPairTrades && shouldLoadMoreTrade)
           setPairTrades((prev) => [
             eventData,
             ...prev.slice(0, prev.length - 1),
@@ -141,7 +143,6 @@ export const Datafeed = (
       const lastDailyBar = lastBarsCache.get(baseAsset.name);
       const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
       let bar: Bar;
-      console.log("highlow", price, price);
 
       if (timestamp >= nextDailyBarTime) {
         bar = {

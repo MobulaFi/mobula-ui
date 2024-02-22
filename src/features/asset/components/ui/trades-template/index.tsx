@@ -5,7 +5,11 @@ import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
 import { Skeleton } from "../../../../../components/skeleton";
-import { getClosest, getFormattedAmount } from "../../../../../utils/formaters";
+import {
+  getClosest,
+  getFormattedAmount,
+  getFormattedDate,
+} from "../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../context-manager";
 import { Trade } from "../../../models";
 
@@ -13,9 +17,10 @@ interface TradesTemplateProps {
   trade: Trade;
   isSell?: boolean;
   isMyTrades?: boolean;
-  date: string | number | undefined;
+  date: number;
   isLoading?: boolean;
   isUsd?: boolean;
+  changeToDate?: boolean;
 }
 
 export const TradesTemplate = ({
@@ -25,6 +30,7 @@ export const TradesTemplate = ({
   date,
   isLoading = false,
   isUsd = true,
+  changeToDate = false,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
   const calculateQuoteTokenAmount = (
@@ -220,24 +226,25 @@ export const TradesTemplate = ({
             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
           ) : (
             <>
-              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                {new Date(date).getHours() > 9
-                  ? new Date(date).getHours()
-                  : `0${new Date(date).getHours()}`}
-                :
-                {new Date(date).getMinutes() > 9
-                  ? new Date(date).getMinutes()
-                  : `0${new Date(date).getMinutes()}`}
-                :
-                {new Date(date).getSeconds() > 9
-                  ? new Date(date).getSeconds()
-                  : `0${new Date(date).getSeconds()}`}
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal whitespace-nowrap">
+                {changeToDate ? (
+                  getFormattedDate(date)
+                ) : (
+                  <>
+                    {new Date(date).getHours() > 9
+                      ? new Date(date).getHours()
+                      : `0${new Date(date).getHours()}`}
+                    :
+                    {new Date(date).getMinutes() > 9
+                      ? new Date(date).getMinutes()
+                      : `0${new Date(date).getMinutes()}`}
+                    :
+                    {new Date(date).getSeconds() > 9
+                      ? new Date(date).getSeconds()
+                      : `0${new Date(date).getSeconds()}`}
+                  </>
+                )}
               </SmallFont>
-              {isMyTrades ? (
-                <SmallFont extraCss="text-xs  text-light-font-60 dark:text-dark-font-60">
-                  {trade.date}
-                </SmallFont>
-              ) : null}{" "}
             </>
           )}
         </div>

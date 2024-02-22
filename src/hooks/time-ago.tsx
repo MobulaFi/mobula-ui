@@ -18,7 +18,7 @@ export const useTimeAgo = (dateBuffer: Date) => {
         setTimeAgo(`${hours}h ago`);
       } else {
         const days = Math.floor(seconds / 86400);
-        setTimeAgo(`${days + (days > 1 ? "days" : "day")} ago`);
+        setTimeAgo(`${days + (days > 1 ? " days" : " day")} ago`);
       }
     }, 1000);
 
