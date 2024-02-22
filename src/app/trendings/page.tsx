@@ -1,37 +1,36 @@
 import { Metadata } from "next";
 import { cookies, headers } from "next/headers";
-import React from "react";
 import Trendings from "../../features/data/trending";
-import { createSupabaseDOClient } from "../../lib/supabase";
 
 async function fetchTrendingsAssets() {
-  const supabase = createSupabaseDOClient();
   const cookieStore = cookies();
   const userAgent: string = headers().get("user-agent") || "";
-  const settings = {
-    liquidity: 0,
-    volume: 0,
-    onChainOnly: false,
-    default: true,
-  };
   const isMobile = /mobile/i.test(userAgent) && !/tablet/i.test(userAgent);
-  const { data, count } = await supabase
-    .from("assets")
-    .select(
-      "id,name,price_change_24h,global_volume,off_chain_volume,symbol,logo,market_cap,price,liquidity,rank,contracts,blockchains,twitter,website,chat,created_at",
-      { count: "exact" }
-    )
-    .gte("liquidity", settings.liquidity)
-    .gte("global_volume", settings.volume)
-    .gte("market_cap", 0)
-    .order("trending_score", { ascending: false })
-    .limit(100);
-  return {
-    tokens: data || [],
-    count: count || 0,
-    cookies: cookieStore ?? "",
-    isMobile,
-  };
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/metadata/trendings`,
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+        },
+      }
+    );
+    const data = await response.json();
+    return {
+      tokens: data || [],
+      count: 0,
+      cookies: cookieStore ?? "",
+      isMobile,
+    };
+  } catch (error) {
+    return {
+      tokens: [],
+      count: 0,
+      cookies: cookieStore ?? "",
+      isMobile,
+    };
+  }
 }
 
 export const metadata: Metadata = {

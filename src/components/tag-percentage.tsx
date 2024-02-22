@@ -1,5 +1,9 @@
 import { cn } from "../lib/shadcn/lib/utils";
-import { getFormattedAmount, getTokenPercentage } from "../utils/formaters";
+import {
+  convertScientificNotation,
+  getFormattedAmount,
+  getTokenPercentage,
+} from "../utils/formaters";
 import { Skeleton } from "./skeleton";
 
 interface TagPercentageProps {
@@ -26,14 +30,23 @@ export const TagPercentage = ({
   inhert = false,
 }: TagPercentageProps) => {
   const getDisplay = () => {
-    if (typeof percentage === "number" && percentage > 1_000_000_000)
+    const removeScientificNotation = convertScientificNotation(
+      percentage as number
+    );
+    if (
+      typeof removeScientificNotation === "number" &&
+      removeScientificNotation > 1_000_000_000
+    ) {
       return "∞";
-    if (isPercentage) {
-      if (isMultiple) return `x${getTokenPercentage(Number(percentage))}`;
-      if (isUp) return `+${getTokenPercentage(Number(percentage))}%`;
-      return `${getTokenPercentage(Number(percentage))}%`;
     }
-    return getFormattedAmount(Number(percentage));
+    if (isPercentage) {
+      if (isMultiple)
+        return `x${getTokenPercentage(Number(removeScientificNotation))}`;
+      if (isUp)
+        return `+${getTokenPercentage(Number(removeScientificNotation))}%`;
+      return `${getTokenPercentage(Number(removeScientificNotation))}%`;
+    }
+    return getFormattedAmount(Number(removeScientificNotation));
   };
 
   const finalPercentage = getDisplay();

@@ -4,9 +4,10 @@ interface TableProps {
   children: any;
   bg?: any;
   extraCss?: string;
+  [key: string]: any;
 }
 
-export const Ths = ({ children, bg, extraCss }: TableProps) => {
+export const Ths = ({ children, bg, extraCss, ...props }: TableProps) => {
   return (
     <th
       className={cn(
@@ -15,6 +16,7 @@ export const Ths = ({ children, bg, extraCss }: TableProps) => {
         } `,
         extraCss
       )}
+      {...props}
     >
       {children}
     </th>

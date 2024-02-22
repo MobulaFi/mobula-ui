@@ -1,4 +1,4 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -12,6 +12,7 @@ import { Menu } from "../../../../../../../components/menu";
 import { Skeleton } from "../../../../../../../components/skeleton";
 import { Tooltip } from "../../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../../contexts/user";
+import { explorerTransformer } from "../../../../../../../utils/chains";
 import { GET } from "../../../../../../../utils/fetch";
 import {
   addressSlicer,
@@ -127,7 +128,10 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
   // ETH is ETH vs Stable
   // Other is Other vs Stable or ETH
   const ethSymbols = useMemo(
-    () => Object.values(blockchainsIdContent).map((entry) => entry.eth.symbol),
+    () =>
+      Object.values(blockchainsIdContentWithNonEVM).map(
+        (entry) => entry.eth.symbol
+      ),
     []
   );
 
@@ -569,12 +573,14 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                 className="bg-light-bg-hover dark:bg-dark-bg-hover w-[18px] h-[18px] min-w-[18px] 
                             border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                 src={
-                                  blockchainsIdContent[transaction.chain_id]
-                                    ?.logo || "/empty/unknown.png"
+                                  blockchainsIdContentWithNonEVM[
+                                    String(transaction.chain_id)
+                                  ]?.logo || "/empty/unknown.png"
                                 }
                                 alt={`${
-                                  blockchainsIdContent[transaction.chain_id]
-                                    ?.name
+                                  blockchainsIdContentWithNonEVM[
+                                    String(transaction.chain_id)
+                                  ]?.name
                                 } logo`}
                               />
                             </div>
@@ -592,11 +598,13 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                     className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary"
                                     onClick={() =>
                                       window.open(
-                                        `${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
-                                          ]?.explorer
-                                        }/tx/${transaction.hash}`
+                                        explorerTransformer(
+                                          blockchainsIdContentWithNonEVM[
+                                            String(transaction.chain_id)
+                                          ]?.name,
+                                          transaction.hash,
+                                          "tx"
+                                        )
                                       )
                                     }
                                   >
@@ -606,13 +614,13 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                       <img
                                         className="w-[15px] h-[15px] min-w-[15px]"
                                         src={
-                                          blockchainsIdContent[
-                                            transaction.chain_id
+                                          blockchainsIdContentWithNonEVM[
+                                            String(transaction.chain_id)
                                           ]?.logo
                                         }
                                         alt={`${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
+                                          blockchainsIdContentWithNonEVM[
+                                            String(transaction.chain_id)
                                           ]?.name
                                         } logo`}
                                       />
@@ -688,11 +696,13 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                       className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xs md:text-xs"
                                       onClick={() =>
                                         window.open(
-                                          `${
-                                            blockchainsIdContent[
-                                              transaction.chain_id
-                                            ]?.explorer
-                                          }/tx/${transaction.hash}`
+                                          explorerTransformer(
+                                            blockchainsIdContentWithNonEVM[
+                                              String(transaction.chain_id)
+                                            ]?.name,
+                                            transaction.hash,
+                                            "tx"
+                                          )
                                         )
                                       }
                                     />
@@ -720,11 +730,13 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                     className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-base"
                                     onClick={() =>
                                       window.open(
-                                        `${
-                                          blockchainsIdContent[
-                                            transaction.chain_id
-                                          ]?.explorer
-                                        }/tx/${transaction.hash}`
+                                        explorerTransformer(
+                                          blockchainsIdContentWithNonEVM[
+                                            String(transaction.chain_id)
+                                          ]?.name,
+                                          transaction.hash,
+                                          "tx"
+                                        )
                                       )
                                     }
                                   />

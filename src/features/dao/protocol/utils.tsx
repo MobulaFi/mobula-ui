@@ -1,5 +1,5 @@
 import levenshtein from "js-levenshtein";
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { createPublicClient, getContract, http } from "viem";
 import { polygon } from "viem/chains";
 import { PROTOCOL_ADDRESS } from "../../../constants";
@@ -59,7 +59,7 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
   new Promise((r) => {
     const client = createPublicClient({
       chain: polygon,
-      transport: http(blockchainsIdContent[137].rpcs[0]),
+      transport: http(blockchainsContentWithNonEVM["Polygon"].rpcs[0]),
     });
 
     const contract: any = getContract({

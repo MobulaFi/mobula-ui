@@ -1,16 +1,20 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { useContext, useEffect } from "react";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import React, { useContext, useEffect } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AddressAvatar } from "../../../../components/avatar";
 import { LargeFont, SmallFont } from "../../../../components/fonts";
 import { Popover } from "../../../../components/popover";
 import { TagPercentage } from "../../../../components/tag-percentage";
 import { GET } from "../../../../utils/fetch";
-import { getFormattedAmount } from "../../../../utils/formaters";
+import {
+  convertScientificNotation,
+  getFormattedAmount,
+} from "../../../../utils/formaters";
 import { BaseAssetContext } from "../../context-manager";
 
 export const PairsSelector = () => {
-  const { baseAsset, setAssetPairs, assetPairs } = useContext(BaseAssetContext);
+  const { baseAsset, setAssetPairs, assetPairs, switchedToNative } =
+    useContext(BaseAssetContext);
 
   const fetchPairs = () => {
     if (!assetPairs?.pairs?.length && baseAsset?.[baseAsset?.baseToken]?.name) {
@@ -60,7 +64,7 @@ export const PairsSelector = () => {
               <img
                 className="w-[20px] h-[20px] min-w-[20px] md:w-[15px] md:h-[15px] md:min-w-[15px] absolute -bottom-0.5 -right-1 rounded-full border
                  border-blue dark:border-blue bg-light-bg-hover dark:bg-dark-bg-hover"
-                src={blockchainsContent[baseAsset?.blockchain]?.logo}
+                src={blockchainsContentWithNonEVM[baseAsset?.blockchain]?.logo}
                 alt={`${baseAsset?.blockchain} logo`}
               />
             </div>
@@ -87,18 +91,34 @@ export const PairsSelector = () => {
           </div>
           <div className="flex items-center ml-10 md:ml-5">
             <div className="flex items-center">
-              <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg">
-                $
-                {getFormattedAmount(
-                  baseAsset?.[baseAsset?.baseToken]?.price,
-                  0,
-                  {
-                    canUseHTML: true,
-                  }
-                )}
-              </LargeFont>
+              {switchedToNative ? (
+                <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg whitespace-nowrap">
+                  {getFormattedAmount(
+                    baseAsset?.[baseAsset?.baseToken]?.priceToken,
+                    0,
+                    {
+                      canUseHTML: true,
+                    }
+                  )}{" "}
+                  {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+                </LargeFont>
+              ) : (
+                <LargeFont extraCss="font-normal mr-2.5 sm:mr-0 text-2xl md:text-lg">
+                  $
+                  {getFormattedAmount(
+                    baseAsset?.[baseAsset?.baseToken]?.price,
+                    0,
+                    {
+                      canUseHTML: true,
+                    }
+                  )}
+                </LargeFont>
+              )}
+
               <TagPercentage
-                percentage={baseAsset?.price_change_24h}
+                percentage={convertScientificNotation(
+                  baseAsset?.price_change_24h
+                )}
                 isUp={baseAsset?.price_change_24h > 0}
                 extraCss="ml-1 sm:hidden"
                 inhert={baseAsset?.price_change_24h === 0}
@@ -126,8 +146,7 @@ export const PairsSelector = () => {
                   <div className="relative w-fit h-fit mr-5">
                     {pair?.[baseAsset?.quoteToken]?.logo ? (
                       <img
-                        className="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
-                     md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
+                        className="w-[34px] h-[34px] min-w-[34px] lg:w-[28px] lg:h-[28px] lg:min-w-[28px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
                         src={
                           pair?.[baseAsset?.quoteToken]?.logo ||
                           "/empty/unknown.png"
@@ -137,17 +156,16 @@ export const PairsSelector = () => {
                     ) : (
                       <AddressAvatar
                         address={pair?.[baseAsset?.quoteToken]?.address}
-                        extraCss="w-[34px] h-[34px] min-w-[34px] lg:w-[22px] lg:h-[22px] lg:min-w-[22px] md:w-[20px] md:h-[20px]
-                      md:min-w-[20px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
+                        extraCss="w-[34px] h-[34px] min-w-[34px] lg:w-[28px] lg:h-[28px] lg:min-w-[28px] rounded-full bg-light-bg-hover dark:bg-dark-bg-hover border-2 border-blue dark:border-blue"
                       />
                     )}
                     <div className="w-fit h-fit absolute bottom-[-2px] right-[-5px] rounded-full shadow-2xl border border-light-border-primary dark:border-dark-border-primary">
                       <img
-                        className="w-[20px] h-[20px] min-w-[20px] rounded-full  shadow-2xl 
+                        className="w-[20px] h-[20px] min-w-[20px] lg:w-[16px] lg:h-[16px] rounded-full  shadow-2xl 
                    bg-light-bg-hover dark:bg-dark-bg-hover"
                         src={
-                          blockchainsContent[pair?.blockchain]?.logo ||
-                          "/empty/unknown.png"
+                          blockchainsContentWithNonEVM[pair?.blockchain]
+                            ?.logo || "/empty/unknown.png"
                         }
                         alt={`${baseAsset?.name} logo`}
                       />

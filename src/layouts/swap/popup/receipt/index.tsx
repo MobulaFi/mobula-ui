@@ -1,8 +1,9 @@
+import { explorerTransformer } from "@utils/chains";
 import { Button } from "components/button";
 import { Skeleton } from "components/skeleton";
 import { Spinner } from "components/spinner";
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect, useState } from "react";
+import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { useContext, useEffect, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
@@ -138,10 +139,12 @@ export const TransactionReceipt = () => {
                               address as string,
                               tokenOut && "address" in tokenOut
                                 ? tokenOut.address ||
-                                    blockchainsIdContent[chain?.id || 1].eth
-                                      .address
-                                : blockchainsIdContent[chain?.id || 1].eth
-                                    .address,
+                                    blockchainsIdContentWithNonEVM[
+                                      String(chain?.id || 1)
+                                    ].eth.address
+                                : blockchainsIdContentWithNonEVM[
+                                    String(chain?.id || 1)
+                                  ].eth.address,
                               tokenOut?.decimals
                             )
                           )
@@ -194,8 +197,12 @@ export const TransactionReceipt = () => {
                         address!,
                         tokenOut && "address" in tokenOut
                           ? tokenOut.address ||
-                              blockchainsIdContent[chain?.id || 1].eth.address
-                          : blockchainsIdContent[chain?.id || 1].eth.address,
+                              blockchainsIdContentWithNonEVM[
+                                String(chain?.id || 1)
+                              ].eth.address
+                          : blockchainsIdContentWithNonEVM[
+                              String(chain?.id || 1)
+                            ].eth.address,
                         tokenOut?.decimals
                       )
                     : parseFloat(amountOut)) / parseFloat(amountIn)
@@ -213,7 +220,8 @@ export const TransactionReceipt = () => {
           >
             <SmallFont>
               {`${getFormattedAmount(finalGasUsed)} ${
-                blockchainsIdContent[chain?.id || 1].eth.symbol
+                blockchainsIdContentWithNonEVM[String(chain?.id || 1)].eth
+                  .symbol
               }`}
             </SmallFont>
           </Lines>
@@ -250,9 +258,11 @@ export const TransactionReceipt = () => {
                 )}...${completedTx.transactionHash.slice(-4)}`}
               </SmallFont>
               <NextChakraLink
-                href={`${blockchainsIdContent[chain?.id || 1]?.explorer}/tx/${
-                  completedTx.transactionHash
-                }`}
+                href={explorerTransformer(
+                  blockchainsIdContentWithNonEVM[String(chain?.id || 1)]?.name,
+                  completedTx.hash,
+                  "tx"
+                )}
                 target="_blank"
               >
                 <FiExternalLink className="text-light-font-60 dark:text-dark-font-60 ml-[5px]" />

@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { Asset, Token } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
 import { getFormattedAmount } from "../../../utils/formaters";
@@ -184,11 +184,12 @@ export const unformatActiveView = (
         };
       if (key === "blockchains0") {
         const blockchains = JSON.parse(value)?.map(
-          (indexChain: number) => Object.keys(blockchainsContent)[indexChain]
+          (indexChain: number) =>
+            Object.keys(blockchainsContentWithNonEVM)[indexChain]
         );
         filters = {
           ...filters,
-          blockchains: Object.keys(blockchainsContent).filter(
+          blockchains: Object.keys(blockchainsContentWithNonEVM).filter(
             (chainName) => !blockchains.includes(chainName)
           ),
         };
@@ -196,7 +197,9 @@ export const unformatActiveView = (
       if (key === "blockchains1") {
         const blockchains: string[] = [];
         JSON.parse(value).forEach((indexChain: number) => {
-          blockchains.push(Object.keys(blockchainsContent)[indexChain]);
+          blockchains.push(
+            Object.keys(blockchainsContentWithNonEVM)[indexChain]
+          );
         });
         filters = {
           ...filters,

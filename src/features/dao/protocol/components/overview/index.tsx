@@ -66,8 +66,6 @@ export const Overview = () => {
     }
   }, [countdown]);
 
-  console.log("recentlyAdded", recentlyAdded);
-
   return (
     <Container extraCss="flex-row lg:flex-col">
       <div className="block lg:hidden">

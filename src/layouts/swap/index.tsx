@@ -1,8 +1,8 @@
 /* eslint-disable import/no-cycle */
 "use client";
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { TransactionReceipt as TransactionReceiptInterface } from "viem";
@@ -66,7 +66,8 @@ export const SwapNonMetaProvider = ({
 
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id || 1;
-  const currentChainName = blockchainsIdContent[currentChain]?.name;
+  const currentChainName =
+    blockchainsIdContentWithNonEVM[String(currentChain)]?.name;
   const tokens: SyntaxicTokens = { in: tokenIn, out: tokenOut };
   const buffers: SyntaxicTokensBuffer = {
     in: tokenInBuffer,
@@ -140,7 +141,7 @@ export const SwapNonMetaProvider = ({
 
       if (positionRequiredToSwitch !== undefined) {
         const wishedChain =
-          blockchainsContent[
+          blockchainsContentWithNonEVM[
             (tokens[positionRequiredToSwitch] || { blockchain: "" }).blockchain
           ].evmChainId;
 
@@ -162,7 +163,7 @@ export const SwapNonMetaProvider = ({
   useEffect(() => {
     if (
       chain?.id &&
-      !blockchainsIdContent[chain.id] &&
+      !blockchainsIdContentWithNonEVM[String(chain.id)] &&
       !tokenIn &&
       !tokenOut &&
       !tokenInBuffer &&
