@@ -63,7 +63,7 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
             </tr>
           </thead>
           <tbody>
-            {token?.tokenomics.vestingSchedule?.map((vesting) => (
+            {token?.tokenomics?.vestingSchedule?.map((vesting) => (
               <tr key={vesting[1]}>
                 <Tds extraCss="px-2.5 py-[15px]">
                   {getFormattedAmount(vesting[1])} {token?.symbol}
@@ -72,8 +72,8 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
                   {formatDate(vesting[0])}
                 </Tds>
                 <Tds extraCss="px-2.5 py-[15px] text-end">
-                  {vesting[2].length
-                    ? vesting[2].map((entry) => (
+                  {vesting[2]?.length
+                    ? vesting[2]?.map((entry) => (
                         <SmallFont key={entry.name}>
                           {entry.name}: {getFormattedAmount(entry.amount)}
                           {token?.symbol}
