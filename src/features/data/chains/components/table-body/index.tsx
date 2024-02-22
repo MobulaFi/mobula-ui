@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useChains } from "../../context-manager";
 import { OldPairsProps, PairsProps } from "../../models";
 import { TableRow } from "../table-row";
@@ -82,7 +82,6 @@ export const TableTbody = () => {
               router={router}
               pair={pair}
               oldPairInfo={oldPairInfo}
-              switchedToNative={undefined}
             />
           );
         })}
