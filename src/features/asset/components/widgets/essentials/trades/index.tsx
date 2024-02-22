@@ -81,8 +81,6 @@ export const TokenTrades = () => {
   }, []);
 
   useEffect(() => {
-    if (!baseAsset) return;
-    console.log("baseAsset", offset, globalPairs?.length);
     setIsLoadingMoreTrade(true);
     const params = {
       address: isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address,
@@ -92,32 +90,36 @@ export const TokenTrades = () => {
       date: isAssetPage ? "&sortBy=date" : "&sortBy=date",
       type: isAssetPage ? "asset" : "address",
     };
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}&offset=${offset}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    )
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          if (offset > globalPairs?.length) {
-            const removeDoublePairs = r?.data?.filter((entry) => {
-              if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
-                return false;
-              return true;
-            });
-            setGlobalPairs((prev) => [...prev, ...removeDoublePairs]);
-          } else setGlobalPairs(r.data);
-          setIsTradeLoading(false);
-          setIsLoadingMoreTrade(false);
+    try {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}&offset=${offset}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
         }
-        setIsLoadingMoreTrade(false);
-      });
-  }, [baseAsset, offset, orderBy]);
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            if (offset > globalPairs?.length) {
+              const removeDoublePairs = r?.data?.filter((entry) => {
+                if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
+                  return false;
+                return true;
+              });
+              setGlobalPairs((prev) => [...prev, ...removeDoublePairs]);
+            } else setGlobalPairs(r.data);
+            setIsTradeLoading(false);
+            setIsLoadingMoreTrade(false);
+          }
+          setIsLoadingMoreTrade(false);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }, [offset, orderBy]);
 
   const handleMoreTrades = () => setOffset((prev) => prev + 100);
   return (

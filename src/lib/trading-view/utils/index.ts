@@ -123,7 +123,6 @@ export const Datafeed = (
 
     socket.addEventListener("message", (event) => {
       const eventData = JSON.parse(event.data);
-      console.log(shouldLoadMoreTrade);
       try {
         if (eventData?.blockchain && setPairTrades && shouldLoadMoreTrade)
           setPairTrades((prev) => [
