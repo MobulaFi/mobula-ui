@@ -37,10 +37,10 @@ export const Pricing = () => {
                 title="Mobula API Pricing"
                 extraCss="text-start w-full justify-start mx-0"
               />
-              <p className="text-light-font-60 dark:text-dark-font-60 text-center font-poppins mt-6 text-xl md:text-base lg:max-w-[80%] mx-auto lg:mb-5">
+              {/* <p className="text-light-font-60 dark:text-dark-font-60 text-center font-poppins mt-6 text-xl md:text-base lg:max-w-[80%] mx-auto lg:mb-5">
                 Faster indexers, multi-chain, data-enabled - consumed via REST
                 or livestreamed to your DB.
-              </p>
+              </p> */}
               <div className="w-full flex justify-between lg:flex-col lg:justify-center lg:items-center">
                 <div className={pricingBoxStyle} ref={basicRef}>
                   <PricingBox id={0} />
@@ -84,7 +84,7 @@ export const Pricing = () => {
                 Contact us
               </button>
             </div>
-            <div className="flex justify-between mt-8 w-[70%] mr-auto">
+            <div className="flex justify-between mt-8 w-[70%] mr-auto lg:w-full lg:mr-0">
               <div className="flex flex-col">
                 <MediumFont extraCss="font-poppins text-light-font-60 dark:text-dark-font-60">
                   Custom endpoints
