@@ -12,18 +12,20 @@ export const Pricing = () => {
   const basicRef = useRef<HTMLDivElement>(null);
   const startupRef = useRef<HTMLDivElement>(null);
   const entrepriseRef = useRef<HTMLDivElement>(null);
+  const needsRef = useRef<HTMLDivElement>(null);
   const [isHover, setIsHover] = React.useState<number>(0);
 
   useEffect(() => {
     blurEffectAnimation(basicRef.current);
     blurEffectAnimation(startupRef.current);
     blurEffectAnimation(entrepriseRef.current);
+    blurEffectAnimation(needsRef.current);
   }, []);
 
   return (
     <>
       <section
-        className="w-full flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center pt-[150px] pb-5 md:py-[50px]"
+        className="w-full flex justify-center items-center bg-no-repeat bg-cover bg-center relative snap-center pt-[100px] pb-5 md:py-[50px]"
         style={{
           backgroundImage: `radial-gradient(at right bottom, rgba(11, 32, 64, 1.0), #131627 80%, #131627)`,
         }}
@@ -35,11 +37,11 @@ export const Pricing = () => {
                 title="Mobula API Pricing"
                 extraCss="text-start w-full justify-start mx-0"
               />
-              <p className="text-light-font-60 dark:text-dark-font-60 text-center font-poppins mt-6 text-xl md:text-base">
+              <p className="text-light-font-60 dark:text-dark-font-60 text-center font-poppins mt-6 text-xl md:text-base lg:max-w-[80%] mx-auto lg:mb-5">
                 Faster indexers, multi-chain, data-enabled - consumed via REST
                 or livestreamed to your DB.
               </p>
-              <div className="w-full flex justify-between md:flex-col md:justify-start">
+              <div className="w-full flex justify-between lg:flex-col lg:justify-center lg:items-center">
                 <div className={pricingBoxStyle} ref={basicRef}>
                   <PricingBox id={0} />
                 </div>
@@ -62,8 +64,11 @@ export const Pricing = () => {
       >
         <div className={containerStyle}>
           <div
-            className={cn(pricingBoxStyle, "w-full p-8 flex flex-col")}
-            ref={entrepriseRef}
+            className={cn(
+              pricingBoxStyle,
+              "w-full p-8 flex flex-col mt-0 lg:mt-0 md:mt-0 lg:mx-auto"
+            )}
+            ref={needsRef}
           >
             <div className="flex items-center justify-between w-full">
               <MediumFont extraCss="font-poppins ">
