@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsFilterLeft } from "react-icons/bs";
 import { FaCheck, FaRegCalendarAlt } from "react-icons/fa";
 import { MdOutlineTimer } from "react-icons/md";
@@ -36,8 +36,7 @@ export const TokenTrades = () => {
   const baseSymbol = baseAsset?.[baseAsset?.baseToken]?.symbol;
   const quoteSymbol = baseAsset?.[baseAsset?.quoteToken]?.symbol;
   const [isTradeLoading, setIsTradeLoading] = useState(true);
-
-  const [offset, setOffset] = useState(100);
+  const [offset, setOffset] = useState(0);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
   const [changeToDate, setChangeToDate] = useState(false);
@@ -81,8 +80,6 @@ export const TokenTrades = () => {
   }, []);
 
   useEffect(() => {
-    if (!baseAsset) return;
-    console.log("baseAsset", offset, globalPairs?.length);
     setIsLoadingMoreTrade(true);
     const params = {
       address: isAssetPage ? baseAsset?.contracts?.[0] : baseAsset?.address,
@@ -92,32 +89,36 @@ export const TokenTrades = () => {
       date: isAssetPage ? "&sortBy=date" : "&sortBy=date",
       type: isAssetPage ? "asset" : "address",
     };
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}&offset=${offset}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-        },
-      }
-    )
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.data) {
-          if (offset > globalPairs?.length) {
-            const removeDoublePairs = r?.data?.filter((entry) => {
-              if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
-                return false;
-              return true;
-            });
-            setGlobalPairs((prev) => [...prev, ...removeDoublePairs]);
-          } else setGlobalPairs(r.data);
-          setIsTradeLoading(false);
-          setIsLoadingMoreTrade(false);
+    try {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/trades/pair?${params.type}=${params.address}&blockchain=${params.blockchain}&amount=100${params.date}&sortOrder=${orderBy}&offset=${offset}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
         }
-        setIsLoadingMoreTrade(false);
-      });
-  }, [baseAsset, offset, orderBy]);
+      )
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.data) {
+            if (offset > globalPairs?.length) {
+              const removeDoublePairs = r?.data?.filter((entry) => {
+                if (globalPairs?.some((trade) => trade?.hash === entry?.hash))
+                  return false;
+                return true;
+              });
+              setGlobalPairs((prev) => [...prev, ...removeDoublePairs]);
+            } else setGlobalPairs(r.data);
+            setIsTradeLoading(false);
+            setIsLoadingMoreTrade(false);
+          }
+          setIsLoadingMoreTrade(false);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }, [offset, orderBy]);
 
   const handleMoreTrades = () => setOffset((prev) => prev + 100);
   return (
@@ -178,7 +179,7 @@ export const TokenTrades = () => {
                   className="pb-2.5 flex justify-between w-[200px] items-center"
                   onClick={() => {
                     setOrderBy("desc");
-                    setOffset(100);
+                    setOffset(0);
                   }}
                 >
                   <SmallFont>Order by newest</SmallFont>
@@ -192,7 +193,7 @@ export const TokenTrades = () => {
                   className="flex justify-between w-[200px] items-center"
                   onClick={() => {
                     setOrderBy("asc");
-                    setOffset(100);
+                    setOffset(0);
                   }}
                 >
                   <SmallFont>Order by oldest</SmallFont>
