@@ -102,7 +102,7 @@ export const Submit = ({ state }) => {
       </Button>
     </div>
   ) : (
-    <div className="flex flex-col w-[800px] md:w-full">
+    <div className="flex flex-col max-w-[800px] w-full">
       <div className="flex items-center">
         <button
           className="hidden md:flex"
@@ -209,6 +209,7 @@ export const Submit = ({ state }) => {
               </SliderThumb>
             </Slider>
           </div> */}
+
       {!editAssetReducer ? (
         <div className="flex w-full flex-col">
           <div className="flex items-end flex-wrap mt-5 lg:mt-[15px]">

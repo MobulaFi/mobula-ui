@@ -8,7 +8,7 @@ const createSupabaseDOClient = (settings?: { noCache: boolean }) => {
     return new Postbula(
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
-      "https://postgrest-internal-fgpupeioaa-uc.a.run.app",
+      process.env.NEXT_PUBLIC_SUPABASE_URL || "http://localhost:3000",
       { headers: { "Cache-Control": "no cache" } }
     );
   }
@@ -16,7 +16,7 @@ const createSupabaseDOClient = (settings?: { noCache: boolean }) => {
     supabaseDO = new Postbula(
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidW5hdXRoZW50aWZpZWQifQ.Fwr7hObDoGDsWDgmfMX8-xVqHoP-4f_DrAR3apJKIrw",
-      "https://postgrest-internal-fgpupeioaa-uc.a.run.app"
+      process.env.NEXT_PUBLIC_SUPABASE_URL || "http://localhost:3000"
     );
   }
   return supabaseDO;

@@ -1,10 +1,10 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 
 export interface MultichainAsset {
   name: string;
   symbol: string;
   contracts: string[];
-  blockchains: BlockchainName[];
+  blockchains: BlockchainNameWithNonEVM[];
   logo?: string;
   rank?: number;
   balance: number;
@@ -13,7 +13,7 @@ export interface MultichainAsset {
   market_cap?: number;
   price?: number;
   price_change_24h?: number;
-  blockchain?: BlockchainName;
+  blockchain?: BlockchainNameWithNonEVM;
   address?: string;
   id?: number;
 }
@@ -22,7 +22,7 @@ export interface SolochainAsset {
   name: string;
   symbol: string;
   address: string;
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
   logo?: string;
   rank?: number;
   balance: number;

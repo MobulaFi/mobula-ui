@@ -1,5 +1,5 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 // eslint-disable-next-line import/no-cycle
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { timestamps } from "./constant";
 import {
   FormattedHistoricalData,
@@ -69,10 +69,10 @@ export const getColorAndLogoFromName = (name: string) => {
     },
   };
 
-  if (!infos[name] && blockchainsContent[name]) {
+  if (!infos[name] && blockchainsContentWithNonEVM[name]) {
     infos[name] = {
-      logo: blockchainsContent[name].logo,
-      color: `${blockchainsContent[name].color}`,
+      logo: blockchainsContentWithNonEVM[name].logo,
+      color: `${blockchainsContentWithNonEVM[name].color}`,
     };
   }
   return infos[name];

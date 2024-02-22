@@ -1,4 +1,4 @@
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { User } from "mobula-utils/lib/user/model";
 import React, { RefObject } from "react";
 
@@ -77,13 +77,13 @@ export interface TokenDivs {
   completed: boolean;
   contracts: {
     address: string;
-    blockchain: BlockchainName;
+    blockchain: BlockchainNameWithNonEVM;
     blockchain_id: number;
   }[];
   description: string;
   excludedFromCirculationAddresses: {
     address: string;
-    blockchain: BlockchainName;
+    blockchain: BlockchainNameWithNonEVM;
     blockchain_id: number;
   }[];
   id: number;
@@ -117,7 +117,7 @@ export interface TokenDivs {
       percentage?: number;
       addresses?: {
         address: string;
-        blockchain: BlockchainName | string;
+        blockchain: BlockchainNameWithNonEVM | string;
         blockchain_id: number;
       }[];
     }[];
@@ -153,7 +153,7 @@ export interface TokenDivs {
   type: string;
   totalSupplyContracts: {
     address: string;
-    blockchain: BlockchainName;
+    blockchain: BlockchainNameWithNonEVM;
     blockchain_id: number;
   }[];
   votes: number;

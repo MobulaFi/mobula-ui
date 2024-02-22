@@ -1,4 +1,5 @@
 import { cn } from "lib/shadcn/lib/utils";
+import Link from "next/link";
 import React from "react";
 
 interface NextChakraLinkProps {
@@ -27,7 +28,7 @@ export const NextChakraLink = ({
       </span>
     );
   return (
-    <a href={href} {...props}>
+    <Link href={href} {...props}>
       <span
         className={cn(
           "text-light-font-100 dark:text-dark-font-100 text-sm md:text-xs w-full",
@@ -37,6 +38,6 @@ export const NextChakraLink = ({
       >
         {children}
       </span>
-    </a>
+    </Link>
   );
 };

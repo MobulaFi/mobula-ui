@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useChains } from "../../context-manager";
 import { OldPairsProps, PairsProps } from "../../models";
 import { TableRow } from "../table-row";
@@ -68,21 +68,23 @@ export const TableTbody = () => {
 
   return (
     <>
-      {pairs?.pair?.map((item, i) => {
-        const pair = item?.pair;
-        const oldPairInfo = pairs?.oldPairs?.[pair?.address];
-        return (
-          <TableRow
-            key={i}
-            item={item}
-            isHover={isHover}
-            setIsHover={setIsHover}
-            router={router}
-            pair={pair}
-            oldPairInfo={oldPairInfo}
-          />
-        );
-      })}
+      {pairs?.pair
+        ?.filter((entry) => entry)
+        ?.map((item, i) => {
+          const pair = item?.pair;
+          const oldPairInfo = pairs?.oldPairs?.[pair?.address];
+          return (
+            <TableRow
+              key={i}
+              item={item}
+              isHover={isHover}
+              setIsHover={setIsHover}
+              router={router}
+              pair={pair}
+              oldPairInfo={oldPairInfo}
+            />
+          );
+        })}
     </>
   );
 };

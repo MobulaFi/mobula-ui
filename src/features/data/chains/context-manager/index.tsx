@@ -7,6 +7,8 @@ interface ChainsContextProps {
   setPairs: React.Dispatch<React.SetStateAction<PairsProps[]>>;
   chain: ChainsProps;
   setChain: React.Dispatch<React.SetStateAction<ChainsProps>>;
+  switchedToNative: boolean;
+  setSwitchedToNative?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ChainsContext = createContext<ChainsContextProps>(
@@ -28,14 +30,18 @@ export const ChainsProvider = ({
 }: ChainsProviderProps) => {
   const [chain, setChain] = useState(chainBuffer);
   const [pairs, setPairs] = useState(pairsBuffer || []);
+  const [switchedToNative, setSwitchedToNative] = useState(false);
+
   const contextValue = React.useMemo(
     () => ({
       pairs,
       setPairs,
       chain,
       setChain,
+      switchedToNative,
+      setSwitchedToNative,
     }),
-    [chain, pairs]
+    [chain, pairs, switchedToNative]
   );
 
   return (

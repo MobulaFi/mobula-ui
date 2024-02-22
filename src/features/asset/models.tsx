@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { BlockchainName } from "mobula-lite/lib/model";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { ILaunchpad } from "../../interfaces/launchpads";
 import { PublicTransaction } from "../../interfaces/transactions";
@@ -89,10 +89,14 @@ export interface IBasetAssetContext {
   assetPairs: MultiPairDataProps;
   setAssetPairs: Dispatch<SetStateAction<MultiPairDataProps>>;
   isAssetPage: boolean;
-  pairTrades: Trade[];
-  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
+  globalPairs: Trade[];
+  setGlobalPairs: Dispatch<SetStateAction<Trade[]>>;
   fadeIn: string[];
   setFadeIn: Dispatch<SetStateAction<string[]>>;
+  switchedToNative: boolean;
+  setSwitchedToNative: Dispatch<SetStateAction<boolean>>;
+  orderBy: "asc" | "desc";
+  setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
 }
 
 export interface TimeRemaining {
@@ -191,7 +195,7 @@ export type Asset = {
   trust_score: number;
   social_score: number;
   decimals: number;
-  blockchains: BlockchainName[];
+  blockchains: BlockchainNameWithNonEVM[];
   contracts: string[];
   trade_history: TradeHistory[] | null;
   created_at: string;
@@ -212,7 +216,7 @@ export type Asset = {
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
-  blockchain: BlockchainName;
+  blockchain: BlockchainNameWithNonEVM;
   address: string;
 };
 
@@ -222,7 +226,7 @@ export interface CategoriesProps {
 
 export interface RawPairs {
   pairs_data?: Record<string, number>;
-  pairs_per_chain?: Record<BlockchainName, number>;
+  pairs_per_chain?: Record<BlockchainNameWithNonEVM, number>;
 }
 
 export interface Socials {
@@ -246,7 +250,7 @@ export interface Trade {
   value_usd: number;
   token_amount: number;
   type: "sell" | "buy";
-  blockchain: string;
+  blockchain: BlockchainNameWithNonEVM;
   date: number;
   token_price: number;
   timestamp?: number;
@@ -256,6 +260,7 @@ export interface Trade {
   amount_usd?: number;
   token_amount_usd?: number;
   token_price_vs: number;
+  token_amount_vs: number;
 }
 
 export interface Metrics {

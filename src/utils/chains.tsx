@@ -1,3 +1,5 @@
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Chain } from "wagmi";
 
 // TODO: resolve ts issue
@@ -586,4 +588,26 @@ export const idToWagmiChain: Record<number, Chain> = {
   56: bnbChain,
   109: shibarium,
   8453: base,
+};
+
+const customExplorers: Partial<
+  Record<BlockchainNameWithNonEVM, Record<string, string>>
+> = {
+  Alephium: {
+    tx: "transactions",
+    address: "addresses",
+  },
+};
+
+export const explorerTransformer = (
+  chainName: BlockchainNameWithNonEVM,
+  value: string,
+  type: "tx" | "address"
+) => {
+  const blockchain = blockchainsContentWithNonEVM[chainName];
+  if (!blockchain) return "";
+
+  return `${blockchain.explorer}/${
+    customExplorers[chainName]?.[type] || type
+  }/${value}`;
 };

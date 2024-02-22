@@ -1,4 +1,4 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { defaultCategories } from "./constants";
 import { Payload, Reducer, View } from "./models";
 
@@ -16,7 +16,7 @@ export const INITIAL_VALUE: View = {
     { type: "chart", value: "24h Chart" },
   ],
   filters: {
-    blockchains: Object.keys(blockchainsContent),
+    blockchains: Object.keys(blockchainsContentWithNonEVM),
     rank: { from: 0, to: maxValue },
     price: { from: 0, to: maxValue },
     price_change: { from: 0, to: maxValue },
@@ -95,7 +95,7 @@ export const reducer = (state: View, action: Reducer) => {
         ...state,
         filters: {
           ...state.filters,
-          blockchains: Object.keys(blockchainsContent),
+          blockchains: Object.keys(blockchainsContentWithNonEVM),
         },
       };
     case ACTIONS.REMOVE_DISPLAY:
@@ -151,7 +151,7 @@ export const reducer = (state: View, action: Reducer) => {
       return {
         ...state,
         filters: {
-          blockchains: Object.keys(blockchainsContent),
+          blockchains: Object.keys(blockchainsContentWithNonEVM),
           rank: { from: 0, to: maxValue },
           price: { from: 0, to: maxValue },
           price_change: { from: 0, to: maxValue },

@@ -14,8 +14,10 @@ interface TradingViewChartProps {
   custom_css_url?: string;
   extraCss?: string;
   isPair?: boolean;
-  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>;
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
   setFadeIn?: Dispatch<SetStateAction<string[]>>;
+  isUsd?: boolean;
+  shouldLoadMoreTrade?: boolean;
 }
 
 const TradingViewChart = ({
@@ -26,6 +28,8 @@ const TradingViewChart = ({
   isPair = false,
   setPairTrades,
   setFadeIn,
+  isUsd = true,
+  shouldLoadMoreTrade = true,
 }: TradingViewChartProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
@@ -38,9 +42,18 @@ const TradingViewChart = ({
         const baseToken = baseAsset?.[baseAsset?.baseToken];
         const quoteToken = baseAsset?.[baseAsset?.quoteToken];
         const tvWidget = new Widget({
-          datafeed: Datafeed(baseAsset, isPair, setPairTrades, setFadeIn),
+          datafeed: Datafeed(
+            baseAsset,
+            isPair,
+            shouldLoadMoreTrade,
+            setPairTrades,
+            setFadeIn,
+            isUsd
+          ),
           symbol: isPair
-            ? baseToken?.symbol + "/" + quoteToken?.symbol
+            ? isUsd
+              ? baseToken?.symbol + "/USD"
+              : baseToken?.symbol + "/" + quoteToken?.symbol
             : baseAsset?.symbol + "/USD",
           container: ref.current,
           container_id: ref.current.id,
@@ -85,7 +98,14 @@ const TradingViewChart = ({
         (window as any).tvWidget = null;
       }
     };
-  }, [baseAsset?.id, custom_css_url, mobile, isWhiteMode]);
+  }, [
+    baseAsset?.id,
+    custom_css_url,
+    mobile,
+    isWhiteMode,
+    isUsd,
+    shouldLoadMoreTrade,
+  ]);
 
   return (
     <div className="relative">

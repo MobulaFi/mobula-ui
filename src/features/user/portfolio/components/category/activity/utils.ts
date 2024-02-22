@@ -1,6 +1,6 @@
 import { EventProps, LogProps } from "layouts/swap/model";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainName } from "mobula-lite/lib/model";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { createPublicClient, getContract, http } from "viem";
 import { erc20ABI } from "wagmi";
 import { MultichainAsset } from "../../../../../../interfaces/holdings";
@@ -101,28 +101,31 @@ export const fetchContract = (search: string) => {
     new Promise((r) => {
       let fails = 0;
 
-      Object.values(blockchainsContent).forEach(async (blockchain) => {
-        try {
-          const publicClient = createPublicClient({
-            chain: idToWagmiChain[blockchain.evmChainId],
-            transport: http(blockchain.rpcs[0]),
-          });
+      Object.values(blockchainsContentWithNonEVM)
+        .filter((entry) => entry.evmChainId)
+        .forEach(async (blockchain) => {
+          try {
+            const publicClient = createPublicClient({
+              // @ts-ignore
+              chain: idToWagmiChain[blockchain.evmChainId],
+              transport: http(blockchain.rpcs[0]),
+            });
 
-          const contract: any = getContract({
-            address: search as never,
-            abi: erc20ABI,
-            publicClient: publicClient as any,
-          });
+            const contract: any = getContract({
+              address: search as never,
+              abi: erc20ABI,
+              publicClient: publicClient as any,
+            });
 
-          const symbol = await contract.read.symbol();
-          r({ symbol, blockchain: blockchain.name });
-        } catch (e) {
-          fails += 1;
-          if (fails === Object.keys(blockchainsContent).length) {
-            r(null);
+            const symbol = await contract.read.symbol();
+            r({ symbol, blockchain: blockchain.name });
+          } catch (e) {
+            fails += 1;
+            if (fails === Object.keys(blockchainsContentWithNonEVM).length) {
+              r(null);
+            }
           }
-        }
-      });
+        });
     })
   );
 
@@ -148,7 +151,7 @@ export const cleanNumber = (
 
 export const formatAsset = (
   asset: (Asset | MultichainAsset | Coin) & Results,
-  chainName: BlockchainName
+  chainName: BlockchainNameWithNonEVM
 ) => {
   if ("coin" in asset) return asset;
   return {
@@ -159,9 +162,9 @@ export const formatAsset = (
       asset.contracts[asset?.blockchain?.indexOf(chainName) || 0] ||
       asset.contracts[0],
     blockchain:
-      (asset.blockchain as BlockchainName) ||
+      (asset.blockchain as BlockchainNameWithNonEVM) ||
       chainName ||
-      (asset?.blockchain?.[0] as BlockchainName),
+      (asset?.blockchain?.[0] as BlockchainNameWithNonEVM),
   };
 };
 

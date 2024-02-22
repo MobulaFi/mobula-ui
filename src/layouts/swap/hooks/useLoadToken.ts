@@ -1,6 +1,6 @@
 import {
-  blockchainsContent,
-  blockchainsIdContent,
+  blockchainsContentWithNonEVM,
+  blockchainsIdContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
 import { useCallback, useContext } from "react";
 import { createPublicClient, getContract, http } from "viem";
@@ -57,7 +57,9 @@ export const useLoadToken = () => {
 
       const client = createPublicClient({
         chain: idToWagmiChain[evmChainId],
-        transport: http(blockchainsIdContent[evmChainId].rpcs[0]),
+        transport: http(
+          blockchainsIdContentWithNonEVM[String(evmChainId)].rpcs[0]
+        ),
       });
 
       let balance: string | null = null;
@@ -65,7 +67,8 @@ export const useLoadToken = () => {
       let decimalsQuery: Promise<number> | null = null;
 
       const isCoin =
-        blockchainsContent[token.blockchain].eth.symbol === token.symbol;
+        blockchainsContentWithNonEVM[token.blockchain].eth.symbol ===
+        token.symbol;
 
       const newToken: SearchTokenProps = {
         ...token,
@@ -131,17 +134,18 @@ export const useLoadToken = () => {
           evmChainId &&
           token?.blockchain === otherToken?.blockchain &&
           otherToken?.blockchain ===
-            blockchainsIdContent[chainBuffer?.id || defaultChain?.id || 1]
-              ?.name)
+            blockchainsIdContentWithNonEVM[
+              String(chainBuffer?.id || defaultChain?.id || 1)
+            ]?.name)
       ) {
         context.setChainNeeded(undefined);
       } else if (
         !context.chainNeeded &&
         (defaultChain?.id || 1) !==
-          blockchainsContent[token.blockchain]?.evmChainId
+          blockchainsContentWithNonEVM[token.blockchain]?.evmChainId
       ) {
         context.setChainNeeded(
-          blockchainsContent[token.blockchain]?.evmChainId
+          blockchainsContentWithNonEVM[token.blockchain]?.evmChainId
         );
       }
 

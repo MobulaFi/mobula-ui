@@ -1,4 +1,6 @@
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { Button } from "components/button";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import {
@@ -14,7 +16,6 @@ import { FiExternalLink } from "react-icons/fi";
 import { LuLink } from "react-icons/lu";
 import { SlMagnifier } from "react-icons/sl";
 import { useNetwork } from "wagmi";
-import { Button } from "../../../../components/button";
 import { SmallFont } from "../../../../components/fonts";
 import { NextChakraLink } from "../../../../components/link";
 import { useGeneralContext } from "../../../../contexts/general";
@@ -263,7 +264,7 @@ export const TokenSocialsInfo = () => {
             <CustomPopOver
               title={addressSlicer(newContracts?.[0])}
               logo={
-                blockchainsContent[newChains?.[0]]?.logo ||
+                blockchainsContentWithNonEVM[newChains?.[0]]?.logo ||
                 `/logo/${newChains?.[0]?.toLowerCase().split(" ")[0]}.png`
               }
               position="left-1/2 -translate-x-1/2"
@@ -279,7 +280,7 @@ export const TokenSocialsInfo = () => {
                   >
                     <Contracts
                       contract={newContracts?.[index]}
-                      blockchain={blockchain}
+                      blockchain={blockchain as BlockchainNameWithNonEVM}
                     />
                   </div>
                 ) : (
@@ -335,7 +336,7 @@ export const TokenSocialsInfo = () => {
                       >
                         <Contracts
                           contract={newContracts?.[index]}
-                          blockchain={blockchain}
+                          blockchain={blockchain as BlockchainNameWithNonEVM}
                         />
                       </div>
                     );

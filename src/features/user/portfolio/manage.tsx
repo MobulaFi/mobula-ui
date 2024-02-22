@@ -1,6 +1,6 @@
 import { LargeFont, SmallFont } from "components/fonts";
 import { pushData } from "lib/mixpanel";
-import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { BiCopy } from "react-icons/bi";
@@ -172,13 +172,13 @@ export const Manage = () => {
     }
   };
 
-  const supportedChainsName = Object.keys(blockchainsContent).filter(
-    (entry) => blockchainsContent[entry].apiType === "etherscan-like"
+  const supportedChainsName = Object.keys(blockchainsContentWithNonEVM).filter(
+    (entry) => blockchainsContentWithNonEVM[entry].apiType === "etherscan-like"
   );
 
   const getSupportedChains = () => {
     let chains = [];
-    const entries = Object.entries(blockchainsContent);
+    const entries = Object.entries(blockchainsContentWithNonEVM);
     supportedChainsName.forEach((chain) => {
       entries.forEach((entry, i) => {
         if (entry[0] === chain) chains.push(entry[1]);
