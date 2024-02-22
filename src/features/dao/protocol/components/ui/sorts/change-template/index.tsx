@@ -1,10 +1,10 @@
+import { addressSlicer } from "@utils/formaters";
 import { useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
 import { FaArrowDownLong } from "react-icons/fa6";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { TitleContainer } from "../../../../../../../components/title";
-import { addressSlicer } from "../../../../../../../utils/formaters";
 import { BoxContainer } from "../../../../../common/components/box-container";
 import { EditingTemplate } from "../../../../models";
 
@@ -22,6 +22,8 @@ export const ChangeTemplate = ({
     setHasCopied(true);
     setTimeout(() => setHasCopied(false), 2000);
   };
+  console.log("oldValue", oldValue, isContract);
+  console.log("newValue", newValue, isContract);
   return (
     <BoxContainer extraCss="mb-5">
       <TitleContainer extraCss="px-[15px]">
@@ -58,7 +60,7 @@ export const ChangeTemplate = ({
               className="mr-2.5 rounded-full w-[26px] h-[26px]"
             />
             <SmallFont
-              extraCss={`overflow-x-scroll scroll whitespace-pre-wrap text-start hidden ${
+              extraCss={`overflow-x-scroll scroll whitespace-pre-wrap text-start flex ${
                 isContract ? "" : "md:flex"
               }`}
             >
