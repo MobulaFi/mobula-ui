@@ -97,6 +97,8 @@ export interface IBasetAssetContext {
   setSwitchedToNative: Dispatch<SetStateAction<boolean>>;
   orderBy: "asc" | "desc";
   setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
+  changeToDate: boolean;
+  setChangeToDate: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface TimeRemaining {

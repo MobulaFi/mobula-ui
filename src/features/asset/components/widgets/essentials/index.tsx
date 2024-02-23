@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -77,11 +77,9 @@ export const Essentials = () => {
           ) : (
             <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
-          {isOffChain ||
-          (isAssetPage && chartPreference !== "Trading view") ? null : (
+          {!isOffChain || chartPreference === "Trading view" || !isAssetPage ? (
             <TokenTrades />
-          )}
-          {!isAssetPage ? <TokenTrades /> : null}
+          ) : null}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isAssetPage ? (
             <>

@@ -32,7 +32,7 @@ export const Blockchains = () => {
 
   return (
     <Container
-      extraCss="flex flex-row flex-wrap w-full justify-between"
+      extraCss="flex flex-row flex-wrap w-full justify-between md:w-full"
       ref={containerRef}
       id="container"
     >
