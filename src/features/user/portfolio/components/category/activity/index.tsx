@@ -94,7 +94,6 @@ export const Activity = ({
   const lowerCaseWallets = wallets.map((newWallet) =>
     (newWallet as string)?.toLowerCase()
   );
-
   const fetchTransactions = (refresh = false) => {
     if (actualTxAmount > 25) setIsTxLoading(true);
     const txsLimit = assetQuery ? 200 : actualTxAmount;
@@ -102,7 +101,7 @@ export const Activity = ({
       should_fetch: false,
       limit: txsLimit,
       offset: refresh ? 0 : transactions.length,
-      wallets: lowerCaseWallets.join(","),
+      wallets: wallets.join(","),
       portfolio_id: portfolioId,
       added_transactions: true,
     };
