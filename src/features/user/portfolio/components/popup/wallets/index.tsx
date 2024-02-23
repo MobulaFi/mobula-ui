@@ -46,9 +46,8 @@ export const WalletsPopup = () => {
         wallets: newPortfolio.wallets.join(","),
         removed_transactions: newPortfolio.removed_transactions.join(","),
         removed_assets: newPortfolio.removed_assets.join(","),
-
         reprocess: true,
-        account: address,
+        account: address as string,
       });
 
       setActivePortfolio(newPortfolio);
