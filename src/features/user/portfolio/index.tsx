@@ -1,7 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef } from "react";
-import { getAddress } from "viem";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -153,10 +152,10 @@ export const Portfolio = ({
     ) {
       if (
         typeof isWalletExplorer === "string"
-          ? isWalletExplorer !== getAddress(address)
+          ? (isWalletExplorer as string).toLowerCase() !== address.toLowerCase()
           : true
       )
-        setIsWalletExplorer(getAddress(address));
+        setIsWalletExplorer(address);
       setIsLoading(true);
 
       const socket = new WebSocket(

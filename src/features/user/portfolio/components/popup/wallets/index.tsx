@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BiChevronDown, BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
-import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { AddressAvatar } from "../../../../../../components/avatar";
 import { SmallFont } from "../../../../../../components/fonts";
@@ -47,9 +46,8 @@ export const WalletsPopup = () => {
         wallets: newPortfolio.wallets.join(","),
         removed_transactions: newPortfolio.removed_transactions.join(","),
         removed_assets: newPortfolio.removed_assets.join(","),
-
         reprocess: true,
-        account: address,
+        account: address as string,
       });
 
       setActivePortfolio(newPortfolio);
@@ -62,31 +60,29 @@ export const WalletsPopup = () => {
   };
 
   const addWallet = (newWalletAddress: string) => {
-    if (isAddress(newWalletAddress)) {
-      signerGuard(() => {
-        const newPortfolio = {
-          ...activePortfolio,
-          wallets: [...activePortfolio.wallets, newWalletAddress],
-        };
-        pushData("Wallet Added");
-        GET("/portfolio/edit", {
-          id: newPortfolio.id,
-          name: newPortfolio.name,
-          public: newPortfolio.public,
-          reprocess: true,
-          wallets: newPortfolio.wallets.join(","),
-          removed_transactions: newPortfolio.removed_transactions.join(","),
-          removed_assets: newPortfolio.removed_assets.join(","),
-          account: address,
-        });
-        setActivePortfolio(newPortfolio);
-        refreshPortfolio(newPortfolio);
-
-        setShowAddWallet(false);
-        setShowWallet(false);
-        setNewWalletAddress("");
+    signerGuard(() => {
+      const newPortfolio = {
+        ...activePortfolio,
+        wallets: [...activePortfolio.wallets, newWalletAddress],
+      };
+      pushData("Wallet Added");
+      GET("/portfolio/edit", {
+        id: newPortfolio.id,
+        name: newPortfolio.name,
+        public: newPortfolio.public,
+        reprocess: true,
+        wallets: newPortfolio.wallets.join(","),
+        removed_transactions: newPortfolio.removed_transactions.join(","),
+        removed_assets: newPortfolio.removed_assets.join(","),
+        account: address as string,
       });
-    }
+      setActivePortfolio(newPortfolio);
+      refreshPortfolio(newPortfolio);
+
+      setShowAddWallet(false);
+      setShowWallet(false);
+      setNewWalletAddress("");
+    });
   };
 
   return (

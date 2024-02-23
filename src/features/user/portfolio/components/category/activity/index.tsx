@@ -6,6 +6,7 @@ import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { VscAdd, VscArrowUp } from "react-icons/vsc";
+import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
@@ -91,9 +92,11 @@ export const Activity = ({
     ? [explorerAddress]
     : [...(activePortfolio?.wallets || [])] || [];
 
-  const lowerCaseWallets = wallets.map((newWallet) =>
-    (newWallet as string)?.toLowerCase()
-  );
+  const lowerCaseWallets = wallets.map((newWallet) => {
+    if (isAddress(newWallet as string))
+      return (newWallet as string)?.toLowerCase();
+    return newWallet;
+  });
 
   const fetchTransactions = (refresh = false) => {
     if (actualTxAmount > 25) setIsTxLoading(true);

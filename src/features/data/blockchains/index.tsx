@@ -5,7 +5,7 @@ import { Container } from "../../../components/container";
 import { ChainBox } from "../blockchains/components/chain-box";
 
 export const Blockchains = () => {
-  const [baseChainNumber, setBaseChainNumber] = useState(6);
+  const [chainNumber, setChainNumber] = useState(6);
   const containerRef = useRef<HTMLDivElement>(null);
   const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
     (x) => {
@@ -14,12 +14,11 @@ export const Blockchains = () => {
   );
 
   const handleScroll = () => {
-    if (baseChainNumber === blockchains?.length) return;
-    const windowHeight = window.innerHeight;
-    const scrollPosition = window.scrollY;
-
-    if (scrollPosition > windowHeight * 0.2) {
-      setBaseChainNumber(blockchains?.length);
+    const bottom =
+      document.documentElement.scrollHeight - window.innerHeight - 500 <=
+      window.scrollY;
+    if (bottom) {
+      setChainNumber((prev) => prev + 6);
     }
   };
 
@@ -32,12 +31,12 @@ export const Blockchains = () => {
 
   return (
     <Container
-      extraCss="flex flex-row flex-wrap w-full justify-between md:w-full"
+      extraCss="flex flex-row flex-wrap w-[95%] justify-between md:w-full"
       ref={containerRef}
       id="container"
     >
       {blockchains.map((blockchain, i) => {
-        if (i < baseChainNumber)
+        if (i < chainNumber)
           return <ChainBox key={i} blockchain={blockchain?.[1]} />;
       })}
     </Container>

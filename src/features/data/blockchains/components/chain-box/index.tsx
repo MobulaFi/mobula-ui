@@ -9,6 +9,7 @@ import { EntryContext } from "../../../../../layouts/new-tables/context-manager"
 import { Segment } from "../../../../../layouts/new-tables/segments/index";
 import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { GET } from "../../../../../utils/fetch";
+import { PairsProps } from "../../../chains/models";
 
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
   ssr: false,
@@ -16,8 +17,8 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 
 export const ChainBox = ({ blockchain }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [pairsData, setPairsData] = useState([]);
-  const [history, setHistory] = useState([]);
+  const [pairsData, setPairsData] = useState<PairsProps[]>([]);
+  const [history, setHistory] = useState<[number, number][]>([]);
 
   const header = {
     headers: {
@@ -40,7 +41,9 @@ export const ChainBox = ({ blockchain }) => {
       .then((r) => {
         setIsLoading(false);
         if (r.data) {
-          setPairsData(r.data.slice(0, 6));
+          setPairsData(
+            r.data?.filter((entry) => entry?.price > 0)?.slice(0, 6)
+          );
         }
       });
 
@@ -60,44 +63,39 @@ export const ChainBox = ({ blockchain }) => {
       });
   };
 
-  //   const fetchChain = fetch(
-  //   `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats?blockchain=${blockchain}`,
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-  //     },
-  //   }
-  // );
-
   useEffect(() => {
     fetchPairs();
   }, []);
 
-  console.log("voleelele", history);
+  console.log("pairsData", blockchain);
 
   return (
     <div
       className="flex flex-col w-[49%] md:w-full bg-light-bg-secondary dark:bg-dark-bg-secondary 
     rounded-lg border border-light-border-primary dark:border-dark-border-primary mb-5 md:mb-2.5 sm:rounded-none"
     >
-      <div className="flex items-center justify-between w-full p-5 relative">
+      <div
+        className={`flex items-center justify-between w-full p-5 relative`}
+        style={{
+          backgroundImage: `linear-gradient(122deg, rgba(21, 16, 1, 0.6), rgba(28, 28, 33) 70%) padding-box padding-box, linear-gradient(145deg, rgba(240, 185, 11, 0.4), rgba(148, 154, 191, 0.3) 70%) border-box border-box`,
+        }}
+      >
         <div className="flex items-center">
           <img
-            className="h-[60px] w-[60px] lg:h-[40px] lg:w-[40px] mr-4 lg:mr-2.5 rounded-full object-cover bg-light-bg-hover dark:bg-light-bg-hover"
+            className="h-[50px] w-[50px] lg:h-[40px] lg:w-[40px] mr-4 lg:mr-2.5 rounded-full object-cover bg-light-bg-hover dark:bg-light-bg-hover"
             src={blockchain.logo}
             alt={blockchain.name}
           />
           <div>
-            <MediumFont extraCss="leading-tight text-2xl">
+            <MediumFont extraCss="leading-tight text-xl">
               {blockchain?.shortName || blockchain.name}
             </MediumFont>
-            <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 leading-tighter text-lg">
+            <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 leading-tighter text-base">
               {blockchain.eth.symbol}
             </MediumFont>
           </div>
         </div>
-        <div className="w-[200px] absolute -top-9 right-5">
+        <div className="w-[180px] absolute -top-9 right-5">
           <EChart
             data={history || []}
             timeframe="24H"
@@ -112,90 +110,95 @@ export const ChainBox = ({ blockchain }) => {
         </div>
       </div>
       <table>
-        {(isLoading ? Array.from({ length: 6 }) : pairsData)?.map((data, i) => {
-          const baseToken = data?.pair?.[data.pair.baseToken];
-          const quoteToken = data?.pair?.[data.pair.quoteToken];
-          const segmentStyle = `py-2 border-light-border-secondary dark:border-dark-border-secondary px-2.5 ${
-            i === 5 ? "border-0" : ""
-          } ${i === 0 ? "border-t" : ""}`;
-          return (
-            <>
-              <EntryContext.Provider
-                value={{ url: `/pair/${data?.pair?.address}`, isHover: false }}
-              >
-                <tbody
-                  key={i}
-                  className="hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary cursor-pointer transition-all duration-200 ease-in-out"
+        {(isLoading ? Array.from({ length: 6 }) : pairsData)?.map(
+          (data: PairsProps, i: number) => {
+            const baseToken = data?.pair?.[data.pair.baseToken];
+            const quoteToken = data?.pair?.[data.pair.quoteToken];
+            const segmentStyle = `py-2 border-light-border-secondary dark:border-dark-border-secondary px-2.5 ${
+              i === 5 ? "border-0" : ""
+            } ${i === 0 ? "border-t" : ""}`;
+            return (
+              <>
+                <EntryContext.Provider
+                  value={{
+                    url: `/pair/${data?.pair?.address}`,
+                    isHover: false,
+                  }}
                 >
-                  <tr>
-                    <Segment extraCss={cn("text-start", segmentStyle)}>
-                      <div className="flex w-full items-center">
+                  <tbody
+                    key={i}
+                    className="hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary cursor-pointer transition-all duration-200 ease-in-out"
+                  >
+                    <tr>
+                      <Segment extraCss={cn("text-start", segmentStyle)}>
+                        <div className="flex w-full items-center">
+                          {isLoading ? (
+                            <Skeleton extraCss="h-[35px] w-[35px] rounded-full mr-2.5" />
+                          ) : (
+                            <>
+                              {baseToken?.logo ? (
+                                <img
+                                  className="w-[35px] h-[35px] lg:w-[25px] lg:h-[25px] mr-2.5 rounded-full object-cover bg-light-bg-hover dark:bg-light-bg-hover"
+                                  src={baseToken?.logo}
+                                  alt={baseToken?.name}
+                                />
+                              ) : (
+                                <AddressAvatar
+                                  address={data?.pair?.address}
+                                  extraCss="w-[35px] h-[35px] lg:w-[25px] lg:h-[25px] mr-2.5 rounded-full"
+                                />
+                              )}
+                            </>
+                          )}
+                          {isLoading ? (
+                            <div>
+                              <Skeleton extraCss="h-4 w-[100px]" />
+                              <Skeleton extraCss="h-3 mt-1 w-[120px]" />
+                            </div>
+                          ) : (
+                            <div>
+                              <Font extraCss="font-medium text-sm lg:text-[13px]">
+                                {baseToken?.symbol} /{" "}
+                                <span className="text-light-font-40 dark:text-dark-font-40 font-normal">
+                                  {quoteToken?.symbol}
+                                </span>
+                              </Font>
+                              <Font extraCss="text-light-font-60 dark:text-dark-font-60 lg:text-[13px] truncate max-w-[130px]">
+                                {baseToken?.name}
+                              </Font>
+                            </div>
+                          )}
+                        </div>
+                      </Segment>
+                      <Segment extraCss={segmentStyle}>
                         {isLoading ? (
-                          <Skeleton extraCss="h-[35px] w-[35px] rounded-full mr-2.5" />
+                          <Skeleton extraCss="h-3.5 w-[100px]" />
                         ) : (
-                          <>
-                            {baseToken?.logo ? (
-                              <img
-                                className="w-[35px] h-[35px] lg:w-[25px] lg:h-[25px] mr-2.5 rounded-full object-cover bg-light-bg-hover dark:bg-light-bg-hover"
-                                src={baseToken?.logo}
-                                alt={baseToken?.name}
-                              />
-                            ) : (
-                              <AddressAvatar
-                                address={data?.pair?.address}
-                                extraCss="w-[35px] h-[35px] lg:w-[25px] lg:h-[25px] mr-2.5 rounded-full"
-                              />
-                            )}
-                          </>
+                          <Font extraCss="font-medium text-sm lg:text-[13px]">
+                            $
+                            {getFormattedAmount(data?.price, 0, {
+                              canUseHTML: true,
+                            })}
+                          </Font>
                         )}
-                        {isLoading ? (
-                          <div>
-                            <Skeleton extraCss="h-4 w-[100px]" />
-                            <Skeleton extraCss="h-3 mt-1 w-[120px]" />
-                          </div>
-                        ) : (
-                          <div>
-                            <Font extraCss="font-medium text-sm lg:text-[13px]">
-                              {baseToken?.symbol} /{" "}
-                              <span className="text-light-font-40 dark:text-dark-font-40 font-normal">
-                                {quoteToken?.symbol}
-                              </span>
-                            </Font>
-                            <Font extraCss="text-light-font-60 dark:text-dark-font-60 lg:text-[13px] truncate max-w-[130px]">
-                              {baseToken?.name}
-                            </Font>
-                          </div>
-                        )}
-                      </div>
-                    </Segment>
-                    <Segment extraCss={segmentStyle}>
-                      {isLoading ? (
-                        <Skeleton extraCss="h-3.5 w-[100px]" />
-                      ) : (
-                        <Font extraCss="font-medium text-sm lg:text-[13px]">
-                          $
-                          {getFormattedAmount(data?.price, 0, {
-                            canUseHTML: true,
-                          })}
-                        </Font>
-                      )}
-                    </Segment>
-                    <Segment extraCss={segmentStyle}>
-                      <div className="flex justify-end w-full">
-                        <TagPercentage
-                          percentage={data?.price_change_24h}
-                          isUp={data?.price_change_24h > 0}
-                          inhert={data?.price_change_24h === 0}
-                          isLoading={isLoading}
-                        />
-                      </div>
-                    </Segment>
-                  </tr>
-                </tbody>
-              </EntryContext.Provider>
-            </>
-          );
-        })}
+                      </Segment>
+                      <Segment extraCss={segmentStyle}>
+                        <div className="flex justify-end w-full">
+                          <TagPercentage
+                            percentage={data?.price_change_24h}
+                            isUp={data?.price_change_24h > 0}
+                            inhert={data?.price_change_24h === 0}
+                            isLoading={isLoading}
+                          />
+                        </div>
+                      </Segment>
+                    </tr>
+                  </tbody>
+                </EntryContext.Provider>
+              </>
+            );
+          }
+        )}
       </table>
     </div>
   );

@@ -86,12 +86,12 @@ export const CoreSearchBar = ({
     token?.includes(".eth") ||
     userWithAddress?.address !== undefined;
 
-  const fetchAssets = async (input: string) => {
+  const fetchAssets = async () => {
     try {
       const response = await fetch(
         `${
           process.env.NEXT_PUBLIC_API_ENDPOINT
-        }/api/1/search?input=${input.toLowerCase()}`,
+        }/api/1/search?input=${token.toLowerCase()}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -99,11 +99,6 @@ export const CoreSearchBar = ({
           },
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
       const data = await response.json();
 
       if (data.data) {
@@ -120,7 +115,6 @@ export const CoreSearchBar = ({
           else if (liquidityA > liquidityB) return -1;
           else return 0;
         });
-
         const pairAddressResult = data.data.filter(
           (entry) => entry?.reserve0 || entry?.reserve1
         );
@@ -131,6 +125,12 @@ export const CoreSearchBar = ({
       console.error("Error fetching assets:", error);
     }
   };
+
+  useEffect(() => {
+    if (token !== "") {
+      fetchAssets();
+    }
+  }, [token]);
 
   useEffect(() => {
     if (isAddress(token))
@@ -368,7 +368,6 @@ export const CoreSearchBar = ({
         <input
           className="text-light-font-100 dark:text-dark-font-100 border-none bg-light-bg-secondary dark:bg-dark-bg-secondary w-full "
           onChange={(e) => {
-            fetchAssets(e.target.value);
             setToken(e.target.value.split("/").join(""));
             getPagesFromInputValue(setPages, e.target.value);
             getEns(e.target.value);
