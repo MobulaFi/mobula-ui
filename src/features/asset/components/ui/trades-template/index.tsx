@@ -1,6 +1,6 @@
 import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
@@ -33,6 +33,7 @@ export const TradesTemplate = ({
   changeToDate = false,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
+  const [count, setCount] = useState(0);
   const calculateQuoteTokenAmount = (
     baseAmount: number,
     basePrice: number,
@@ -45,6 +46,52 @@ export const TradesTemplate = ({
     trade.token_price,
     trade.token_price_vs
   );
+
+  const [timeAgo, setTimeAgo] = useState("");
+
+  useEffect(() => {
+    const updateTimeAgo = () => {
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+
+      let interval = Math.floor(seconds / 31536000);
+
+      if (interval > 1) {
+        setTimeAgo(interval + "y ago");
+        return;
+      }
+      interval = Math.floor(seconds / 2592000);
+      if (interval > 1) {
+        setTimeAgo(interval + "m ago");
+        return;
+      }
+      interval = Math.floor(seconds / 86400);
+      if (interval > 1) {
+        setTimeAgo(interval + "d ago");
+        return;
+      }
+      interval = Math.floor(seconds / 3600);
+      if (interval >= 1) {
+        setTimeAgo(interval + "h ago");
+        return;
+      }
+      interval = Math.floor(seconds / 60);
+      if (interval >= 1) {
+        setTimeAgo(interval + "min ago");
+        return;
+      }
+      if (Math.floor(seconds) === 0) {
+        setTimeAgo("Just now");
+        return;
+      }
+      setTimeAgo(Math.floor(seconds) + "s ago");
+    };
+
+    updateTimeAgo();
+
+    const intervalId = setInterval(updateTimeAgo, 1000);
+    return () => clearInterval(intervalId);
+  }, [date]);
 
   return (
     <tr>
@@ -227,23 +274,7 @@ export const TradesTemplate = ({
           ) : (
             <>
               <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal whitespace-nowrap">
-                {changeToDate ? (
-                  getFormattedDate(date)
-                ) : (
-                  <>
-                    {new Date(date).getHours() > 9
-                      ? new Date(date).getHours()
-                      : `0${new Date(date).getHours()}`}
-                    :
-                    {new Date(date).getMinutes() > 9
-                      ? new Date(date).getMinutes()
-                      : `0${new Date(date).getMinutes()}`}
-                    :
-                    {new Date(date).getSeconds() > 9
-                      ? new Date(date).getSeconds()
-                      : `0${new Date(date).getSeconds()}`}
-                  </>
-                )}
+                {changeToDate ? getFormattedDate(date) : timeAgo}
               </SmallFont>
             </>
           )}
