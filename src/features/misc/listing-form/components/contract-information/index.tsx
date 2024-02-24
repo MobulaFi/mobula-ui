@@ -40,7 +40,7 @@ export const ContractInformation = ({ dispatch, state }) => {
                 }`}
                 onClick={() => {
                   dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
-                  dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
+                  dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
                 }}
               >
                 Total supply is a sum of all contracts
@@ -57,7 +57,7 @@ export const ContractInformation = ({ dispatch, state }) => {
                 }`}
                 onClick={() => {
                   dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
-                  dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
+                  dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
                 }}
               >
                 Total supply is the supply of the first contract

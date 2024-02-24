@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaArrowDownLong } from "react-icons/fa6";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { TitleContainer } from "../../../../../../../components/title";
@@ -13,7 +13,11 @@ export const ChangeTemplate = ({
   type,
 }: EditingTemplate) => {
   const [hasCopied, setHasCopied] = useState(false);
-  const isContract = type === "Contract" || type === "contracts";
+  const isContract =
+    type === "Contract" ||
+    type === "contracts" ||
+    type === "excludedFromCirculationAddresses" ||
+    type === "totalSupplyContracts";
   const isLinks = type === "links";
   const onCopy = () => {
     navigator.clipboard.writeText(newValue);
@@ -21,7 +25,11 @@ export const ChangeTemplate = ({
     setTimeout(() => setHasCopied(false), 2000);
   };
 
-  if (type === "contracts") {
+  if (
+    type === "contracts" ||
+    type === "excludedFromCirculationAddresses" ||
+    type === "totalSupplyContracts"
+  ) {
     oldValue = oldValue.map(
       (contract: { address: string }) => contract.address
     );
@@ -30,20 +38,19 @@ export const ChangeTemplate = ({
     );
   }
 
-  const oldData = [];
-  const newData = [];
-
   if (type === "links") {
+    const oldData = [];
+    const newData = [];
     Object.keys(newValue).forEach((key) => {
       if (newValue?.[key] !== oldValue?.[key]) {
         oldData.push(oldValue[key] as never);
         newData.push(newValue[key] as never);
       }
     });
-  }
 
-  oldValue = oldData;
-  newValue = newData;
+    oldValue = oldData;
+    newValue = newData;
+  }
 
   if (type === "image") {
     oldValue = oldValue.logo;
@@ -67,12 +74,14 @@ export const ChangeTemplate = ({
             />
             <SmallFont extraCss="text-start md:flex flex-col">
               {isContract
-                ? oldValue.map((contract) => (
+                ? oldValue?.map?.((contract) => (
                     <div key={contract}>{`${contract}`}</div>
                   ))
                 : null}
               {isLinks
-                ? oldValue.map((links) => <div key={links}>{`${links}`}</div>)
+                ? oldValue?.map?.((links) => (
+                    <div key={links}>{`${links}`}</div>
+                  ))
                 : null}
 
               {!isContract && !isLinks ? oldValue : null}

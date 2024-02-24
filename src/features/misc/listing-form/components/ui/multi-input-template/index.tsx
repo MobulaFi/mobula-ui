@@ -125,7 +125,7 @@ export const MultiInputTemplate = ({
                         <input
                           className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
                           placeholder={placeholder}
-                          value={temporateValue?.[i]?.address}
+                          value={temporateValue?.[i]?.address || ""}
                           onChange={(e) => {
                             handleNewContract(e, i, name);
                             if (title === "Contracts") {
@@ -183,7 +183,7 @@ export const MultiInputTemplate = ({
                     <input
                       className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
                       placeholder={placeholder}
-                      value={temporateValue?.[i]?.address}
+                      value={temporateValue?.[i]?.address || ""}
                       onChange={(e) => {
                         handleNewContract(e, i, name);
                         if (title === "Contracts") {
