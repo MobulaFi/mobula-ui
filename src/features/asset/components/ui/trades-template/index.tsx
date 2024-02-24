@@ -50,7 +50,7 @@ export const TradesTemplate = ({
   useEffect(() => {
     const updateTimeAgo = () => {
       const now = new Date();
-      const seconds = Math.floor((now - date) / 1000);
+      const seconds = Math.floor(((now as unknown as number) - date) / 1000);
 
       let interval = Math.floor(seconds / 31536000);
 
