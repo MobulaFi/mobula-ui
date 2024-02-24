@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FaArrowLeftLong } from "react-icons/fa6";

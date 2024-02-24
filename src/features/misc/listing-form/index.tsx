@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useContext, useReducer } from "react";
+import React, { useContext, useReducer } from "react";
 import { API_ENDPOINT } from "../../../../src/constants/index";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
@@ -13,7 +13,6 @@ import { FeesInformation } from "./components/fees-information";
 import { Nav } from "./components/nav";
 import { SocialInformation } from "./components/social-information";
 import { Submit } from "./components/submit";
-import { VestingInformation } from "./components/vesting-information";
 import { ListingContext } from "./context-manager";
 import { INITIAL_STATE, reducer } from "./reducer";
 import { cleanFee, cleanVesting, formatDate } from "./utils";
@@ -168,17 +167,18 @@ export const Listing = () => {
           ) : null}
           {state.type === "nft" ? null : (
             <>
-              {actualPage === 3 ? (
+              {/* REMOVED TEMPORARILY */}
+              {/* {actualPage === 3 ? (
                 <VestingInformation state={state} dispatch={dispatch} />
-              ) : null}
-              {actualPage === 4 ? (
+              ) : null} */}
+              {actualPage === 3 ? (
                 <FeesInformation state={state} dispatch={dispatch} />
               ) : null}
             </>
           )}
-          {actualPage === 5 ? <Submit state={state} /> : null}
+          {actualPage === 4 ? <Submit state={state} /> : null}
           <div className="flex">
-            {actualPage !== 5 ? (
+            {actualPage !== 4 ? (
               <Button
                 extraCss="w-[160px]"
                 onClick={() => {
@@ -191,14 +191,14 @@ export const Listing = () => {
                       ? pushData(`List now Clicked`)
                       : pushData(`Edit now Clicked`);
 
-                    setActualPage(5);
+                    setActualPage(4);
                   }
                 }}
               >
                 {!editAssetReducer ? "List now" : "Edit now"}
               </Button>
             ) : null}
-            {actualPage === 5 || actualPage === 4 ? null : (
+            {actualPage === 4 || actualPage === 3 ? null : (
               <Button
                 extraCss="w-[180px] ml-[20px]"
                 onClick={() => {

@@ -30,14 +30,14 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
   }
 
   const formatVesting = () => {
-    const vesting: [number, number][] = token?.tokenomics.vestingSchedule?.map(
+    const vesting: [number, number][] = token?.tokenomics?.vestingSchedule?.map(
       (v) => [v[0], v[1]]
     );
     return vesting;
   };
 
   const getDisplay = () => {
-    const vesting = token?.tokenomics.vestingSchedule;
+    const vesting = token?.tokenomics?.vestingSchedule;
     if (vesting?.length > 0) return "flex";
     return "hidden";
   };
@@ -66,14 +66,14 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
             {token?.tokenomics?.vestingSchedule?.map((vesting) => (
               <tr key={vesting[1]}>
                 <Tds extraCss="px-2.5 py-[15px]">
-                  {getFormattedAmount(vesting[1])} {token?.symbol}
+                  {getFormattedAmount(vesting?.[1])} {token?.symbol}
                 </Tds>
                 <Tds extraCss="px-2.5 py-[15px] text-end">
-                  {formatDate(vesting[0])}
+                  {formatDate(vesting?.[0])}
                 </Tds>
                 <Tds extraCss="px-2.5 py-[15px] text-end">
                   {vesting[2]?.length
-                    ? vesting[2]?.map((entry) => (
+                    ? vesting[2]?.map?.((entry) => (
                         <SmallFont key={entry.name}>
                           {entry.name}: {getFormattedAmount(entry.amount)}
                           {token?.symbol}
@@ -88,8 +88,8 @@ export const VestingInformation = ({ token }: VestingInformationProps) => {
       </div>
       <div className="flex w-full mt-5 relative">
         {vestingFormatted?.length >= 2 &&
-        vestingFormatted?.[1][0] &&
-        vestingFormatted?.[1][1] ? (
+        vestingFormatted?.[1]?.[0] &&
+        vestingFormatted?.[1]?.[1] ? (
           <>
             <SmallFont extraCss="absolute font-normal left-0 top-0 z-[1]">
               Vesting schedule chart

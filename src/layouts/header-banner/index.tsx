@@ -60,7 +60,7 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           onMouseEnter={() => setIsAnimationPlaying(false)}
           onMouseLeave={() => setIsAnimationPlaying(true)}
         >
-          {assetsUpdated?.map((asset, index) => {
+          {assetsUpdated?.map?.((asset, index) => {
             const isUp: boolean =
               Number(getTokenPercentage(asset?.price_change_24h)) > 0;
             return (

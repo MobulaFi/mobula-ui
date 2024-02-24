@@ -51,11 +51,17 @@ export const VestingInformation = ({ dispatch, state }) => {
   };
 
   const formatVesting = () => {
-    const vesting: [number, number][] = state.tokenomics.vestingSchedule.map(
-      (v: [number, number]) => [v[0], v[1]]
-    );
+    if (!state?.tokenomics?.vestingSchedule?.length) {
+      return [];
+    }
 
-    vesting.reduce((acc, curr) => {
+    const vesting: [number, number][] =
+      state?.tokenomics?.vestingSchedule?.map?.((v: [number, number]) => [
+        v[0],
+        v[1],
+      ]);
+
+    vesting?.reduce?.((acc, curr) => {
       curr[0] += acc[0];
       curr[1] += acc[1];
       return curr;
@@ -103,7 +109,7 @@ export const VestingInformation = ({ dispatch, state }) => {
             }`}
             ref={dateRef}
             type="text"
-            value={new Date(d[0]).toLocaleDateString()}
+            value={d[0] ? new Date(d[0]).toLocaleDateString() : 0}
             placeholder="DD/MM/YYYY"
             onChange={(e) => isoToTimestamp(e.target.value, i)}
           />
@@ -117,7 +123,7 @@ export const VestingInformation = ({ dispatch, state }) => {
             className={`${inputStyle} mb-5 w-full min-h-[35px] border border-light-border-primary dark:border-dark-border-primary`}
             type="number"
             placeholder="10000.00"
-            value={d[1].toFixed(2)}
+            value={typeof d[1] === "number" ? d[1].toFixed(2) : "0.00"}
             onChange={(e) =>
               updateItem(i, { value: parseFloat(e.target.value) })
             }
