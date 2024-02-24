@@ -1,4 +1,3 @@
-import { getFormattedAmount } from "@utils/formaters";
 import { AddressAvatar } from "components/avatar";
 import { Skeleton } from "components/skeleton";
 import { TagPercentage } from "components/tag-percentage";
@@ -6,9 +5,8 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { Font, MediumFont } from "../../../../../components/fonts";
 import { EntryContext } from "../../../../../layouts/new-tables/context-manager";
-import { Segment } from "../../../../../layouts/new-tables/segments/index";
-import { cn } from "../../../../../lib/shadcn/lib/utils";
 import { GET } from "../../../../../utils/fetch";
+import { getFormattedAmount } from "../../../../../utils/formaters";
 import { PairsProps } from "../../../chains/models";
 
 const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
@@ -67,17 +65,15 @@ export const ChainBox = ({ blockchain }) => {
     fetchPairs();
   }, []);
 
-  console.log("pairsData", blockchain);
-
   return (
     <div
       className="flex flex-col w-[49%] md:w-full bg-light-bg-secondary dark:bg-dark-bg-secondary 
-    rounded-lg border border-light-border-primary dark:border-dark-border-primary mb-5 md:mb-2.5 sm:rounded-none"
+    rounded-lg border border-light-border-primary dark:border-dark-border-primary mb-5 md:mb-2.5 sm:rounded-none overflow-hidden"
     >
       <div
         className={`flex items-center justify-between w-full p-5 relative`}
         style={{
-          backgroundImage: `linear-gradient(122deg, rgba(21, 16, 1, 0.6), rgba(28, 28, 33) 70%) padding-box padding-box, linear-gradient(145deg, rgba(240, 185, 11, 0.4), rgba(148, 154, 191, 0.3) 70%) border-box border-box`,
+          backgroundImage: `linear-gradient(122deg, ${blockchain.color}, #151927 55%), linear-gradient(145deg, rgba(240, 185, 11, 0.4), rgba(148, 154, 191, 0.3) 70%)`,
         }}
       >
         <div className="flex items-center">
@@ -114,7 +110,7 @@ export const ChainBox = ({ blockchain }) => {
           (data: PairsProps, i: number) => {
             const baseToken = data?.pair?.[data.pair.baseToken];
             const quoteToken = data?.pair?.[data.pair.quoteToken];
-            const segmentStyle = `py-2 border-light-border-secondary dark:border-dark-border-secondary px-2.5 ${
+            const segmentStyle = `py-2 border-light-border-secondary dark:border-dark-border-secondary px-2.5 border-b ${
               i === 5 ? "border-0" : ""
             } ${i === 0 ? "border-t" : ""}`;
             return (
@@ -130,7 +126,7 @@ export const ChainBox = ({ blockchain }) => {
                     className="hover:bg-light-bg-terciary hover:dark:bg-dark-bg-terciary cursor-pointer transition-all duration-200 ease-in-out"
                   >
                     <tr>
-                      <Segment extraCss={cn("text-start", segmentStyle)}>
+                      <td className={segmentStyle}>
                         <div className="flex w-full items-center">
                           {isLoading ? (
                             <Skeleton extraCss="h-[35px] w-[35px] rounded-full mr-2.5" />
@@ -169,8 +165,8 @@ export const ChainBox = ({ blockchain }) => {
                             </div>
                           )}
                         </div>
-                      </Segment>
-                      <Segment extraCss={segmentStyle}>
+                      </td>
+                      <td className={segmentStyle}>
                         {isLoading ? (
                           <Skeleton extraCss="h-3.5 w-[100px]" />
                         ) : (
@@ -181,8 +177,8 @@ export const ChainBox = ({ blockchain }) => {
                             })}
                           </Font>
                         )}
-                      </Segment>
-                      <Segment extraCss={segmentStyle}>
+                      </td>
+                      <td className={segmentStyle}>
                         <div className="flex justify-end w-full">
                           <TagPercentage
                             percentage={data?.price_change_24h}
@@ -191,7 +187,7 @@ export const ChainBox = ({ blockchain }) => {
                             isLoading={isLoading}
                           />
                         </div>
-                      </Segment>
+                      </td>
                     </tr>
                   </tbody>
                 </EntryContext.Provider>

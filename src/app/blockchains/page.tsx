@@ -4,28 +4,6 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 export const dynamicParams = true;
 
-async function getChains() {
-  const fetchChain = fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/blockchain/stats`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
-      },
-    }
-  );
-
-  const [chain] = await Promise.all([fetchChain]).then((r) => {
-    return Promise.all(r.map((res) => res.json()));
-  });
-
-  console.log("here are the chain", chain);
-
-  return {
-    blockchains: chain.data,
-  };
-}
-
 type Props = {
   params: { chain: string };
 };
@@ -42,11 +20,6 @@ type Props = {
 // }
 
 async function BlockchainsPage({ params }: Props) {
-  const { blockchain } = await getChains();
-  const { chain } = params;
-
-  console.log("blockchain", blockchain);
-
   //   const title = `${formatName} DeFi Dashboard | Track DEX pairs - Mobula`;
   //   const description = `${formatName} DEX pairs real time dashboard, price updates, trending low cap tokens & DeFi stats.`;
   return (
