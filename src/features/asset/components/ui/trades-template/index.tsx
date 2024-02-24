@@ -33,7 +33,7 @@ export const TradesTemplate = ({
   changeToDate = false,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
-  const [count, setCount] = useState(0);
+  const [timeAgo, setTimeAgo] = useState("");
   const calculateQuoteTokenAmount = (
     baseAmount: number,
     basePrice: number,
@@ -46,8 +46,6 @@ export const TradesTemplate = ({
     trade.token_price,
     trade.token_price_vs
   );
-
-  const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
     const updateTimeAgo = () => {
