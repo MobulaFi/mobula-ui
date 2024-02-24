@@ -454,6 +454,8 @@ export const getFormattedDate = (date: number) => {
     year: "2-digit",
     month: "2-digit",
     day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
   };
 
   const formattedDate = new Date(date).toLocaleDateString(undefined, options);

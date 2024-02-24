@@ -155,10 +155,13 @@ export const TradesTemplate = ({
             >
               $
               {isMyTrades
-                ? getFormattedAmount(trade.amount_usd as number, 2)
+                ? getFormattedAmount(trade.amount_usd as number, 2, {
+                    canUseHTML: true,
+                  })
                 : getFormattedAmount(
                     (trade?.value_usd || trade?.token_amount_usd) as number,
-                    2
+                    2,
+                    { canUseHTML: true }
                   )}
             </SmallFont>
           )}
@@ -233,7 +236,9 @@ export const TradesTemplate = ({
                   getClosest(
                     baseAsset?.price_history?.price || [],
                     trade?.timestamp as number
-                  )
+                  ),
+                  0,
+                  { canUseHTML: true }
                 )
               ) : (
                 <>
