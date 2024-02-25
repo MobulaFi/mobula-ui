@@ -12,6 +12,7 @@ import {
   MediumFont,
   SmallFont,
 } from "../../../../../components/fonts";
+import { API_ENDPOINT } from "../../../../../constants";
 import { useGeneralContext } from "../../../../../contexts/general";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import { ChangeTemplate } from "../../../../dao/protocol/components/ui/sorts/change-template";
@@ -38,15 +39,15 @@ export const Submit = ({ state }) => {
   };
 
   async function editListing(state: any, baseEditAssetReducer: any) {
+    delete state.edits;
     try {
-      const editRequest = await axios.post(
-        `http://0.0.0.0:80/asset/edit-token`,
-        {
-          oldAssetFormattedData: baseEditAssetReducer,
-          newAssetFormattedData: state,
-          protocolId: state.protocol_id,
-        }
-      );
+      const editRequest = await axios.post(`${API_ENDPOINT}/asset/edit-token`, {
+        oldAssetFormattedData: baseEditAssetReducer,
+        newAssetFormattedData: state,
+        protocolId: state.protocol_id,
+      });
+
+      console.log("Edit request:", editRequest);
     } catch (error) {
       console.error(
         "Error editing token:",
