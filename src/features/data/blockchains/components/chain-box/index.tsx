@@ -94,7 +94,7 @@ export const ChainBox = ({ blockchain }) => {
             </MediumFont>
           </div>
         </div>
-        <div className="flex w-[200px] h-full">
+        <div className="flex w-[200px] md:w-[180px] h-full">
           <div className="h-full md:h-fit md:-mt-3">
             <Popover
               isOpen={showInfo}
@@ -102,7 +102,7 @@ export const ChainBox = ({ blockchain }) => {
               toggleOnHover={() => setShowInfo((prev) => !prev)}
               visibleContent={
                 <div className="p-2 pb-0 md:pr-5 flex justify-center items-center md:items-start">
-                  <IoInformationCircleOutline className="text-lg text-light-font-100 dark:text-dark-font-100 -mt-6 md:-ml-2.5" />
+                  <IoInformationCircleOutline className="text-lg text-light-font-100 dark:text-dark-font-100 -mt-6 -ml-2.5" />
                 </div>
               }
               hiddenContent={
@@ -123,7 +123,7 @@ export const ChainBox = ({ blockchain }) => {
               }
             />
           </div>
-          <div className="w-[180px] absolute -top-9 right-5 md:right-2.5">
+          <div className="w-[180px] md:w-[160px] absolute -top-9 right-5 md:right-2.5">
             <EChart
               data={history || []}
               timeframe="24H"
