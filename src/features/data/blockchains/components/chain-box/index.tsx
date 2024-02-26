@@ -3,7 +3,9 @@ import { Skeleton } from "components/skeleton";
 import { TagPercentage } from "components/tag-percentage";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { Font, MediumFont } from "../../../../../components/fonts";
+import { IoInformationCircleOutline } from "react-icons/io5";
+import { Font, MediumFont, SmallFont } from "../../../../../components/fonts";
+import { Popover } from "../../../../../components/popover";
 import { EntryContext } from "../../../../../layouts/new-tables/context-manager";
 import { GET } from "../../../../../utils/fetch";
 import { getFormattedAmount } from "../../../../../utils/formaters";
@@ -17,6 +19,7 @@ export const ChainBox = ({ blockchain }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [pairsData, setPairsData] = useState<PairsProps[]>([]);
   const [history, setHistory] = useState<[number, number][]>([]);
+  const [showInfo, setShowInfo] = useState(false);
 
   const header = {
     headers: {
@@ -71,7 +74,7 @@ export const ChainBox = ({ blockchain }) => {
     rounded-lg border border-light-border-primary dark:border-dark-border-primary mb-5 md:mb-2.5 sm:rounded-none overflow-hidden"
     >
       <div
-        className={`flex items-center justify-between w-full p-5 relative`}
+        className={`flex items-center justify-between w-full p-5 relative md:px-2.5`}
         style={{
           backgroundImage: `linear-gradient(122deg, ${blockchain.color}, #151927 55%), linear-gradient(145deg, rgba(240, 185, 11, 0.4), rgba(148, 154, 191, 0.3) 70%)`,
         }}
@@ -91,18 +94,48 @@ export const ChainBox = ({ blockchain }) => {
             </MediumFont>
           </div>
         </div>
-        <div className="w-[180px] absolute -top-9 right-5">
-          <EChart
-            data={history || []}
-            timeframe="24H"
-            leftMargin={["0%", "0%"]}
-            height="120px"
-            bg="transparent"
-            type="Volume"
-            noDataZoom
-            noAxis
-            width="100%"
-          />{" "}
+        <div className="flex w-[200px] h-full">
+          <div className="h-full md:h-fit md:-mt-3">
+            <Popover
+              isOpen={showInfo}
+              onToggle={() => setShowInfo((prev) => !prev)}
+              toggleOnHover={() => setShowInfo((prev) => !prev)}
+              visibleContent={
+                <div className="p-2 pb-0 md:pr-5 flex justify-center items-center md:items-start">
+                  <IoInformationCircleOutline className="text-lg text-light-font-100 dark:text-dark-font-100 -mt-6 md:-ml-2.5" />
+                </div>
+              }
+              hiddenContent={
+                <>
+                  <SmallFont>
+                    {blockchain?.shortName || blockchain.name} Volume (24H)
+                  </SmallFont>
+                  <div className="my-2 w-full h-[1px] bg-light-border-secondary dark:bg-dark-border-secondary" />
+                  <div className="flex justify-between items-center">
+                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                      Value:
+                    </SmallFont>
+                    <SmallFont>
+                      {getFormattedAmount(history?.[history?.length - 1]?.[1])}
+                    </SmallFont>
+                  </div>
+                </>
+              }
+            />
+          </div>
+          <div className="w-[180px] absolute -top-9 right-5 md:right-2.5">
+            <EChart
+              data={history || []}
+              timeframe="24H"
+              leftMargin={["0%", "0%"]}
+              height="120px"
+              bg="transparent"
+              type="Volume"
+              noDataZoom
+              noAxis
+              width="100%"
+            />{" "}
+          </div>
         </div>
       </div>
       <table>
