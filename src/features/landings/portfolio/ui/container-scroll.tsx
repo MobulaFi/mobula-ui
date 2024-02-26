@@ -1,10 +1,16 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import React, { useRef } from "react";
-
 export const ContainerScroll = ({
+  users,
   titleComponent,
 }: {
+  users: {
+    name: string;
+    designation: string;
+    image: string;
+    badge?: string;
+  }[];
   titleComponent: string | React.ReactNode;
 }) => {
   const containerRef = useRef<any>(null);
@@ -24,23 +30,17 @@ export const ContainerScroll = ({
     };
   }, []);
 
-  const scaleDimensions = (isContainer: boolean) => {
-    return isMobile ? [0.7, 0.9] : [isContainer ? 1.05 : 1.4, 1];
+  const scaleDimensions = () => {
+    return isMobile ? [0.7, 0.9] : [1.05, 1];
   };
 
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 25]);
-  const scale = useTransform(scrollYProgress, [0, 1.2], scaleDimensions(true));
-  const scaleText = useTransform(
-    scrollYProgress,
-    [0, 1.2],
-    scaleDimensions(false)
-  );
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 0]);
-  const translateText = useTransform(scrollYProgress, [0, 1], [140, 0]);
-
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 20]);
+  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  const translate = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const translateText = useTransform(scrollYProgress, [0, 1], [0, -200]);
   return (
     <div
-      className="h-[80rem] flex items-center justify-center relative p-20"
+      className="h-[80rem] flex items-center justify-center relative p-20 pt-[200px]"
       ref={containerRef}
     >
       <div
@@ -49,23 +49,23 @@ export const ContainerScroll = ({
           perspective: "1000px",
         }}
       >
-        <Header
-          translate={translateText}
-          titleComponent={titleComponent}
-          scale={scaleText}
+        <Header translate={translateText} titleComponent={titleComponent} />
+        <Card
+          rotate={rotate}
+          translate={translate}
+          scale={scale}
+          users={users}
         />
-        <Card rotate={rotate} translate={translate} scale={scale} />
       </div>
     </div>
   );
 };
 
-export const Header = ({ translate, titleComponent, scale }: any) => {
+export const Header = ({ translate, titleComponent }: any) => {
   return (
     <motion.div
       style={{
         translateY: translate,
-        scale,
       }}
       className="div max-w-5xl text-[96px] md:text-[56px] md:leading-[50px] font-bold leading-[90px] font-poppins w-fit mx-auto text-transparent 
       text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,1)]
@@ -81,35 +81,46 @@ export const Card = ({
   rotate,
   scale,
   translate,
+  users,
 }: {
   rotate: any;
   scale: any;
   translate: any;
+  users: {
+    name: string;
+    designation: string;
+    image: string;
+    badge?: string;
+  }[];
 }) => {
   return (
     <motion.div
       style={{
         rotateX: rotate, // rotate in X-axis
         scale,
+        translateY: translate,
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-5xl -mt-12 mx-auto h-fit md:h-[40rem] w-full border-4 border-[#6C6C6C] p-6 bg-[#222222] rounded-[30px] shadow-2xl"
+      className="max-w-5xl w-full -mt-12 mx-auto h-[40rem] md:h-[40rem]  p-6 bg-[rgba(23, 27, 43, 0.22)]
+      backdrop-blur-md  rounded-[30px] shadow-2xl border-[4px] border-light-border-primary dark:border-dark-border-primary"
     >
-      <motion.div
-        className="bg-white cursor-pointer relative rounded-lg"
-        style={{ translateY: translate }}
-        whileHover={{
-          boxShadow:
-            "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
-        }}
-      >
-        <img
-          src={"/landing/portfolio-example.png"}
-          className="rounded-tr-md rounded-tl-md text-sm  rounded-xl"
-          alt="portfolio image"
-        />
-      </motion.div>
+      <div className="bg-gray-100 h-full w-full rounded-2xl overflow-hidden p-4">
+        <motion.div
+          className="bg-white rounded-xl cursor-pointer relative"
+          style={{
+            translateY: translate,
+            boxShadow:
+              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+          }}
+        >
+          <img
+            src={"/landing/portfolio-example.png"}
+            className="text-sm rounded-xl"
+            alt="thumbnail"
+          />
+        </motion.div>
+      </div>
     </motion.div>
   );
 };
