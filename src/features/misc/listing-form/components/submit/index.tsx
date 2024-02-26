@@ -24,6 +24,7 @@ export const Submit = ({ state }) => {
   const { actualPage, setActualPage, isLaunched, wallet, isListed } =
     useContext(ListingContext);
   const [isCopied, setIsCopied] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const { editAssetReducer, baseEditAssetReducer } = useGeneralContext();
 
   const router = useRouter();
@@ -39,15 +40,16 @@ export const Submit = ({ state }) => {
   };
 
   async function editListing(state: any, baseEditAssetReducer: any) {
-    delete state.edits;
+    const { edits, ...stateWithoutEdits } = state;
     try {
       const editRequest = await axios.post(`${API_ENDPOINT}/asset/edit-token`, {
         oldAssetFormattedData: baseEditAssetReducer,
-        newAssetFormattedData: state,
+        newAssetFormattedData: stateWithoutEdits,
         protocolId: state.protocol_id,
       });
 
-      console.log("Edit request:", editRequest);
+      console.log("Edit request:", stateWithoutEdits);
+      if (editRequest.status == 200) setIsEdit(true);
     } catch (error) {
       console.error(
         "Error editing token:",
@@ -296,22 +298,33 @@ export const Submit = ({ state }) => {
               />
             ))}
           </div>
-          <div className="flex justify-start gap-4 mt-2">
-            <Button
-              onClick={() => editListing(state, baseEditAssetReducer)}
-              extraCss="dark:text-dark-font-60 hover:underline  px-4 py-2"
-            >
-              Valid Edits
-            </Button>
-            <Button
-              onClick={() =>
-                router.push("/asset/" + baseEditAssetReducer?.name)
-              }
-              extraCss="dark:text-dark-font-60 hover:underline  px-4 py-2"
-            >
-              Cancel Edits
-            </Button>
-          </div>
+          {!isEdit ? (
+            <div className="flex justify-start gap-4 mt-2">
+              <Button
+                onClick={() => editListing(state, baseEditAssetReducer)}
+                extraCss="dark:text-dark-font-60 hover:underline  px-4 py-2"
+              >
+                Valid Edits
+              </Button>
+              <Button
+                onClick={() =>
+                  router.push("/asset/" + baseEditAssetReducer?.name)
+                }
+                extraCss="dark:text-dark-font-60 hover:underline  px-4 py-2"
+              >
+                Cancel Edits
+              </Button>
+            </div>
+          ) : (
+            <div className="flex justify-start gap-4 mt-2">
+              <Button
+                onClick={() => editListing(state, baseEditAssetReducer)}
+                extraCss="dark:text-dark-font-60 hover:underline  px-4 py-2"
+              >
+                Successfully Edited!
+              </Button>
+            </div>
+          )}
         </>
       )}
     </div>

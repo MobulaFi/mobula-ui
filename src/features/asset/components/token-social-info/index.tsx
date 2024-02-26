@@ -2,7 +2,7 @@ import { Button } from "components/button";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import {
   BsDiscord,
   BsGlobe,
@@ -183,13 +183,13 @@ export const TokenSocialsInfo = () => {
   return (
     <div className="flex flex-col w-[40%] lg:w-full">
       <div className="flex items-start lg:items-center justify-between flex-col lg:flex-row">
-        <div className="flex flex-col w-full">
-          {baseAsset?.tags?.length > 0 ? (
-            <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 flex lg:hidden font-medium">
-              Tags
-            </SmallFont>
-          ) : null}
-          <div className="h-[26px] px-2.5 ml-[80%]">
+        <div className="flex flex-col justify-between w-full">
+          <div className="flex justify-between items-center w-full">
+            {baseAsset?.tags?.length > 0 ? (
+              <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40 flex lg:hidden font-medium">
+                Tags
+              </SmallFont>
+            ) : null}
             <Button
               onClick={editPage}
               extraCss="text-light-font-60 dark:text-dark-font-60 hover:underline"
