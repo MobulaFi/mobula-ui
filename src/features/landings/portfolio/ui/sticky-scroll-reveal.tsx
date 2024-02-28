@@ -34,7 +34,6 @@ export const StickyScroll = ({
     "var(--neutral-900)",
   ];
 
-  console.log("", content[activeCard % content.length]?.logo);
   return (
     <motion.div
       animate={{
