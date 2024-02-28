@@ -65,7 +65,6 @@ export const useSort = () => {
                 fetch(getIPFSUrl(listing.token.ipfsHash)),
                 fetchOldData(listing.token.id),
               ]);
-
             if (response.status !== "fulfilled") {
               setIsLoading(false);
               fails += 1;
@@ -83,6 +82,7 @@ export const useSort = () => {
 
             try {
               const JSONrep: TokenDivs = await response.value.json();
+              console.log("JSONrepJSONrep", JSONrep);
               const oldJSONrep: TokenDivs = oldResponse
                 ? await oldResponse.json()
                 : undefined;
@@ -117,6 +117,7 @@ export const useSort = () => {
               JSONrep.voteId = index;
               JSONrep.lastUpdate = Number(listing.token.lastUpdated);
               if (JSONrep.contracts) {
+                console.log("JSONrep", JSONrep);
                 setTokenDivs((tokenDivs) => [...tokenDivs, JSONrep]);
                 setIsLoading(false);
               } else {

@@ -42,7 +42,7 @@ export const Sort = () => {
   const pathname = usePathname();
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";
-
+  console.log("tokenDivs", tokenDivs);
   const {
     reasonUtility,
     setReasonUtility,
