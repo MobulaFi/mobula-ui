@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -364,7 +364,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
 
   return (
     <>
-      <div
+      {/* <div
         className="flex py-2 items-center justify-center w-full bg-light-bg-secondary dark:bg-dark-bg-secondary 
       border-b border-light-border-primary dark:border-dark-border-primary"
       >
@@ -372,7 +372,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           This asset isn't listed on Mobula.{" "}
           <NextChakraLink href="/list">List it now!</NextChakraLink>
         </SmallFont>
-      </div>
+      </div> */}
       <div className="flex flex-col mt-5 md:mt-0" {...handlers}>
         {isAssetPage ? (
           <TopNav
