@@ -375,7 +375,6 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           </SmallFont>
         </div>
       ) : null}
-
       <div className="flex flex-col mt-5 md:mt-0" {...handlers}>
         {isAssetPage ? (
           <TopNav
