@@ -68,10 +68,6 @@ export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
       publicClient: client as any,
     });
 
-    console.log("fetchOldData", contract);
-
-    console.log("fetchOldData", tokenId);
-
     contract.read
       .getTokenListingsWithStatus([5])
       .catch((e) => {

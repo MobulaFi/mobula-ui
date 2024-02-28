@@ -65,7 +65,6 @@ export const useSort = () => {
                 fetch(getIPFSUrl(listing.token.ipfsHash)),
                 fetchOldData(listing.token.id),
               ]);
-
             if (response.status !== "fulfilled") {
               setIsLoading(false);
               fails += 1;
