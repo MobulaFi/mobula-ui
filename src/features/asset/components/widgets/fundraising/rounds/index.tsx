@@ -53,7 +53,7 @@ export const Rounds = () => {
   const getPercentageFromVestingType = (vestingType: any): string | number => {
     if (vestingType?.includes("/")) {
       const [unlockedStr, totalStr] = vestingType.split("/");
-      const extractNumber = (str) => parseInt(str.match(/\d+/)[0], 10);
+      const extractNumber = (str) => parseInt(str?.match?.(/\d+/)?.[0], 10);
       const unlocked = extractNumber(unlockedStr);
       const total = extractNumber(totalStr);
       return (unlocked / total) * 100;
