@@ -1,5 +1,6 @@
 import { defaultFilter, defaultTop100 } from "features/data/top100/constants";
 import { cookies, headers } from "next/headers";
+import { Metadata } from "next/types";
 import React from "react";
 import { Top100 } from "../../features/data/top100";
 import { Top100Provider } from "../../features/data/top100/context-manager";
@@ -90,6 +91,12 @@ const fetchAssetsAndViews = async ({ searchParams }) => {
   };
 
   return props;
+};
+
+export const metadata: Metadata = {
+  title: "Crypto Live Prices, Market caps, Charts and Volumes | Mobula",
+  description:
+    "Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more.",
 };
 
 const HomePage = async ({ searchParams }) => {
