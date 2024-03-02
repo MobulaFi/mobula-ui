@@ -21,19 +21,30 @@ export const Vesting = () => {
     const seen = new Set();
     const types = [];
 
-    vesting?.forEach(([, , type]) => {
-      Object.keys(type).forEach((key) => {
+    console.log("vesting", vesting);
+
+    vesting?.forEach((event) => {
+      const { allocation_details: type } = event;
+      if (!type) return;
+      Object.keys?.(type).forEach((key) => {
         if (!seen.has(key)) {
-          types.push(key);
+          types.push(key as never);
           seen.add(key);
         }
       });
     });
 
-    const newVesting = vesting?.slice(1).map(([timestamp, amount, rounds]) => {
+    const newVesting = vesting?.map((event) => {
+      const {
+        unlock_date: timestamp,
+        token_to_unlock: amount,
+        allocation_details: rounds,
+      } = event;
       const roundsArr = types.map((type) => [type, rounds[type] || 0]);
       return [timestamp, amount, roundsArr];
     });
+
+    console.log("newVesting", newVesting);
 
     return newVesting;
   };
