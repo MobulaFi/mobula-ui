@@ -256,7 +256,7 @@ export const BaseAssetProvider = ({
         noCacheSupabase
           .from("assets")
           .select(
-            "price_history,price,release_schedule,distribution,sales,listed_at,market_cap_change_24h,investors,market_cap_history,cexs,team,total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,assets_social(*),rank,listing_amount,listing_hash,created_at,launch"
+            "price_history,price,release_schedule(*),distribution(*),sales(*),listed_at,market_cap_change_24h,investors(*),market_cap_history,cexs,team(*),total_supply_contracts,circulating_supply_addresses,price_change_24h,volume_change_24h,volume,off_chain_volume,market_cap,market_cap_diluted,liquidity,total_supply,assets_social(*),rank,listing_amount,listing_hash,created_at,launch(*)"
           )
           .match({ id: token.id })
       );
