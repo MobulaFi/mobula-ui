@@ -449,10 +449,30 @@ const months = [
 
 export const getFormattedDate = (date: number) => {
   if (!date) return null;
-  const month: string = months[new Date(date).getMonth()];
-  const day: number = new Date(date).getDate();
-  const year: number = new Date(date).getFullYear();
-  return `${month} ${day}, ${year}`;
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  const formattedDate = new Date(date).toLocaleDateString(undefined, options);
+  return formattedDate;
+};
+
+export const getFormattedTime = (date: number) => {
+  const options: Intl.DateTimeFormatOptions = {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+
+  const formattedTime = new Date(date).toLocaleTimeString(undefined, options);
+
+  return formattedTime;
 };
 
 export const getFormattedHours = (date: number) => {

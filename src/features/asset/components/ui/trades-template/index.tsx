@@ -1,10 +1,15 @@
+import { explorerTransformer } from "@utils/chains";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
 import { Skeleton } from "../../../../../components/skeleton";
-import { getClosest, getFormattedAmount } from "../../../../../utils/formaters";
+import {
+  getClosest,
+  getFormattedAmount,
+  getFormattedDate,
+} from "../../../../../utils/formaters";
 import { BaseAssetContext } from "../../../context-manager";
 import { Trade } from "../../../models";
 
@@ -12,8 +17,10 @@ interface TradesTemplateProps {
   trade: Trade;
   isSell?: boolean;
   isMyTrades?: boolean;
-  date: string | number | undefined;
+  date: number;
   isLoading?: boolean;
+  isUsd?: boolean;
+  changeToDate?: boolean;
 }
 
 export const TradesTemplate = ({
@@ -22,8 +29,11 @@ export const TradesTemplate = ({
   isMyTrades,
   date,
   isLoading = false,
+  isUsd = true,
+  changeToDate = false,
 }: TradesTemplateProps) => {
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
+  const [timeAgo, setTimeAgo] = useState("");
   const calculateQuoteTokenAmount = (
     baseAmount: number,
     basePrice: number,
@@ -36,6 +46,50 @@ export const TradesTemplate = ({
     trade.token_price,
     trade.token_price_vs
   );
+
+  useEffect(() => {
+    const updateTimeAgo = () => {
+      const now = new Date();
+      const seconds = Math.floor(((now as unknown as number) - date) / 1000);
+
+      let interval = Math.floor(seconds / 31536000);
+
+      if (interval > 1) {
+        setTimeAgo(interval + "y ago");
+        return;
+      }
+      interval = Math.floor(seconds / 2592000);
+      if (interval > 1) {
+        setTimeAgo(interval + "m ago");
+        return;
+      }
+      interval = Math.floor(seconds / 86400);
+      if (interval > 1) {
+        setTimeAgo(interval + "d ago");
+        return;
+      }
+      interval = Math.floor(seconds / 3600);
+      if (interval >= 1) {
+        setTimeAgo(interval + "h ago");
+        return;
+      }
+      interval = Math.floor(seconds / 60);
+      if (interval >= 1) {
+        setTimeAgo(interval + "min ago");
+        return;
+      }
+      if (Math.floor(seconds) === 0) {
+        setTimeAgo("Just now");
+        return;
+      }
+      setTimeAgo(Math.floor(seconds) + "s ago");
+    };
+
+    updateTimeAgo();
+
+    const intervalId = setInterval(updateTimeAgo, 1000);
+    return () => clearInterval(intervalId);
+  }, [date]);
 
   return (
     <tr>
@@ -72,10 +126,11 @@ export const TradesTemplate = ({
                 <NextChakraLink
                   href={
                     "blockchain" in trade && "hash" in trade
-                      ? `${
-                          blockchainsContentWithNonEVM[trade.blockchain]
-                            ?.explorer
-                        }/tx/${trade.hash}`
+                      ? `${explorerTransformer(
+                          trade.blockchain,
+                          trade.hash,
+                          "tx"
+                        )}`
                       : ""
                   }
                   key={trade.hash}
@@ -100,10 +155,13 @@ export const TradesTemplate = ({
             >
               $
               {isMyTrades
-                ? getFormattedAmount(trade.amount_usd as number, 2)
+                ? getFormattedAmount(trade.amount_usd as number, 2, {
+                    canUseHTML: true,
+                  })
                 : getFormattedAmount(
                     (trade?.value_usd || trade?.token_amount_usd) as number,
-                    2
+                    2,
+                    { canUseHTML: true }
                   )}
             </SmallFont>
           )}
@@ -178,14 +236,31 @@ export const TradesTemplate = ({
                   getClosest(
                     baseAsset?.price_history?.price || [],
                     trade?.timestamp as number
-                  )
+                  ),
+                  0,
+                  { canUseHTML: true }
                 )
               ) : (
                 <>
-                  $
-                  {getFormattedAmount(trade.token_price, 0, {
-                    canUseHTML: true,
-                  })}
+                  {isUsd ? (
+                    <>
+                      $
+                      {getFormattedAmount(trade.token_price, 0, {
+                        canUseHTML: true,
+                      })}
+                    </>
+                  ) : (
+                    <>
+                      {getFormattedAmount(
+                        trade.token_amount_vs / trade.token_amount,
+                        0,
+                        {
+                          canUseHTML: true,
+                        }
+                      )}{" "}
+                      {baseAsset?.[baseAsset?.quoteToken]?.symbol}
+                    </>
+                  )}
                 </>
               )}
             </SmallFont>
@@ -201,24 +276,9 @@ export const TradesTemplate = ({
             <Skeleton extraCss="h-[13px] md:h-[11px] w-[100px]" />
           ) : (
             <>
-              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                {new Date(date).getHours() > 9
-                  ? new Date(date).getHours()
-                  : `0${new Date(date).getHours()}`}
-                :
-                {new Date(date).getMinutes() > 9
-                  ? new Date(date).getMinutes()
-                  : `0${new Date(date).getMinutes()}`}
-                :
-                {new Date(date).getSeconds() > 9
-                  ? new Date(date).getSeconds()
-                  : `0${new Date(date).getSeconds()}`}
+              <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60 font-normal whitespace-nowrap">
+                {changeToDate ? getFormattedDate(date) : timeAgo}
               </SmallFont>
-              {isMyTrades ? (
-                <SmallFont extraCss="text-xs  text-light-font-60 dark:text-dark-font-60">
-                  {trade.date}
-                </SmallFont>
-              ) : null}{" "}
             </>
           )}
         </div>
@@ -240,10 +300,11 @@ export const TradesTemplate = ({
                   <NextChakraLink
                     href={
                       "blockchain" in trade && "hash" in trade
-                        ? `${
-                            blockchainsContentWithNonEVM[trade.blockchain]
-                              ?.explorer
-                          }/tx/${trade.hash}`
+                        ? explorerTransformer(
+                            trade.blockchain,
+                            trade.hash,
+                            "tx"
+                          )
                         : ""
                     }
                     key={trade.hash}

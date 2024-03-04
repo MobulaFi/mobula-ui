@@ -2,7 +2,8 @@ import levenshtein from "js-levenshtein";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { createPublicClient, getContract, http } from "viem";
 import { polygon } from "viem/chains";
-import { API_ABI } from "../../../utils/abi";
+import { PROTOCOL_ADDRESS } from "../../../constants";
+import { PROTOCOL_ABI } from "./constants/abi";
 
 export const getTimer = (
   format: { timeframe: string; time: number },
@@ -56,25 +57,28 @@ export const getPricing = (coeff) => {
 
 export const fetchOldData = (tokenId: bigint): Promise<string | undefined> =>
   new Promise((r) => {
-    const API_ADDRESS = "0x006405852388f9d195d7d2a1ba4f5353d6f5d5e4";
     const client = createPublicClient({
       chain: polygon,
       transport: http(blockchainsContentWithNonEVM["Polygon"].rpcs[0]),
     });
 
     const contract: any = getContract({
-      abi: API_ABI,
-      address: API_ADDRESS as never,
+      abi: PROTOCOL_ABI,
+      address: PROTOCOL_ADDRESS as never,
       publicClient: client as any,
     });
 
     contract.read
-      .assetById([tokenId])
+      .getTokenListingsWithStatus([5])
       .catch((e) => {
         // console.log(e, "e");
       })
       .then((res) => {
-        r(res);
+        const tokenData = res.find((token) => {
+          const tokenIDValue = token.token.id;
+          if (tokenIDValue === tokenId) return token;
+        });
+        r(tokenData?.token.ipfsHash);
       });
   });
 

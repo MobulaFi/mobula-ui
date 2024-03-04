@@ -89,10 +89,16 @@ export interface IBasetAssetContext {
   assetPairs: MultiPairDataProps;
   setAssetPairs: Dispatch<SetStateAction<MultiPairDataProps>>;
   isAssetPage: boolean;
-  pairTrades: Trade[];
-  setPairTrades: Dispatch<SetStateAction<Trade[]>>;
+  globalPairs: Trade[];
+  setGlobalPairs: Dispatch<SetStateAction<Trade[]>>;
   fadeIn: string[];
   setFadeIn: Dispatch<SetStateAction<string[]>>;
+  switchedToNative: boolean;
+  setSwitchedToNative: Dispatch<SetStateAction<boolean>>;
+  orderBy: "asc" | "desc";
+  setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
+  changeToDate: boolean;
+  setChangeToDate: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface TimeRemaining {
@@ -246,7 +252,7 @@ export interface Trade {
   value_usd: number;
   token_amount: number;
   type: "sell" | "buy";
-  blockchain: string;
+  blockchain: BlockchainNameWithNonEVM;
   date: number;
   token_price: number;
   timestamp?: number;
@@ -256,6 +262,7 @@ export interface Trade {
   amount_usd?: number;
   token_amount_usd?: number;
   token_price_vs: number;
+  token_amount_vs: number;
 }
 
 export interface Metrics {

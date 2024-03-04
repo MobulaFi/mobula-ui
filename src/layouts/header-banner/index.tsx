@@ -1,6 +1,6 @@
 "use client";
 import { GET } from "@utils/fetch";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NextChakraLink } from "../../components/link";
 import { Asset } from "../../interfaces/assets";
 import {
@@ -10,24 +10,26 @@ import {
 } from "../../utils/formaters";
 
 export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
-  const animationRef = React.useRef(null);
-  const [isAnimationPlaying, setIsAnimationPlaying] = React.useState(true);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [assetsUpdated, setAssetsUpdated] = React.useState<Asset[]>(assets);
+  const animationRef = useRef(null);
+  const [isAnimationPlaying, setIsAnimationPlaying] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [assetsUpdated, setAssetsUpdated] = useState<Asset[]>(assets || []);
 
   useEffect(() => {
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const scroller = animationRef.current;
-      const scrollerInner: any = scroller.querySelector(
-        ".scrollerAnimated-inner"
-      );
-      const scrollerContent: any = Array.from(scrollerInner.children);
+      const scroller = animationRef?.current;
+      if (scroller) {
+        const scrollerInner: any = scroller?.querySelector(
+          ".scrollerAnimated-inner"
+        );
+        const scrollerContent: any = Array?.from(scrollerInner.children);
 
-      scrollerContent.forEach((item) => {
-        const duplicated: any = item?.cloneNode(true);
-        duplicated.setAttribute("aria-hidden", "true");
-        scrollerInner.appendChild(duplicated);
-      });
+        scrollerContent?.forEach((item) => {
+          const duplicated: any = item?.cloneNode(true);
+          duplicated?.setAttribute("aria-hidden", "true");
+          scrollerInner?.appendChild(duplicated);
+        });
+      }
     }
   }, []);
 
@@ -60,44 +62,42 @@ export const HeaderBanner = ({ assets }: { assets: Asset[] }) => {
           onMouseEnter={() => setIsAnimationPlaying(false)}
           onMouseLeave={() => setIsAnimationPlaying(true)}
         >
-          {assetsUpdated
-            ?.filter((entry) => entry.price_change_24h < 1000)
-            .map((asset, index) => {
-              const isUp: boolean =
-                Number(getTokenPercentage(asset?.price_change_24h)) > 0;
-              return (
-                <NextChakraLink
-                  key={asset?.id + "-" + index}
-                  href={`/asset/${getUrlFromName(asset?.name || "")}`}
+          {assetsUpdated?.map?.((asset, index) => {
+            const isUp: boolean =
+              Number(getTokenPercentage(asset?.price_change_24h)) > 0;
+            return (
+              <NextChakraLink
+                key={asset?.id + "-" + index}
+                href={`/asset/${getUrlFromName(asset?.name || "")}`}
+              >
+                <div
+                  className={`flex items-center justify-center h-full w-full mx-1`}
                 >
-                  <div
-                    className={`flex items-center justify-center h-full w-full mx-1`}
+                  <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] ml-[5px] font-['Poppins']">
+                    {asset?.symbol}
+                  </p>
+                  <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] ml-1.5 font-['Poppins']">
+                    $
+                    {getFormattedAmount(asset?.price, 0, {
+                      canUseHTML: true,
+                    })}
+                  </p>
+                  <p
+                    className={`${
+                      isUp
+                        ? "text-green dark:text-green"
+                        : "text-red dark:text-red"
+                    } text-[13px] ml-1.5 font-['Poppins']`}
                   >
-                    <p className="text-light-font-100 dark:text-dark-font-100 text-[13px] ml-[5px] font-['Poppins']">
-                      {asset?.symbol}
-                    </p>
-                    <p className="text-light-font-60 dark:text-dark-font-60 text-[13px] ml-1.5 font-['Poppins']">
-                      $
-                      {getFormattedAmount(asset?.price, 0, {
-                        canUseHTML: true,
-                      })}
-                    </p>
-                    <p
-                      className={`${
-                        isUp
-                          ? "text-green dark:text-green"
-                          : "text-red dark:text-red"
-                      } text-[13px] ml-1.5 font-['Poppins']`}
-                    >
-                      {isUp
-                        ? `+${getTokenPercentage(asset?.price_change_24h)}`
-                        : getTokenPercentage(asset?.price_change_24h)}
-                      %
-                    </p>{" "}
-                  </div>{" "}
-                </NextChakraLink>
-              );
-            })}
+                    {isUp
+                      ? `+${getTokenPercentage(asset?.price_change_24h)}`
+                      : getTokenPercentage(asset?.price_change_24h)}
+                    %
+                  </p>{" "}
+                </div>{" "}
+              </NextChakraLink>
+            );
+          })}
         </div>
       </div>
     </div>

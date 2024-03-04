@@ -6,12 +6,14 @@ import { AiFillSetting, AiOutlineSwap } from "react-icons/ai";
 import { BsThreeDotsVertical, BsTrash3 } from "react-icons/bs";
 import { FiExternalLink } from "react-icons/fi";
 import { VscAdd, VscArrowUp } from "react-icons/vsc";
+import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { MediumFont, SmallFont } from "../../../../../../components/fonts";
 import { Menu } from "../../../../../../components/menu";
 import { Spinner } from "../../../../../../components/spinner";
 import { Tooltip } from "../../../../../../components/tooltip";
 import { UserContext } from "../../../../../../contexts/user";
+import { explorerTransformer } from "../../../../../../utils/chains";
 import { GET } from "../../../../../../utils/fetch";
 import {
   addressSlicer,
@@ -90,9 +92,11 @@ export const Activity = ({
     ? [explorerAddress]
     : [...(activePortfolio?.wallets || [])] || [];
 
-  const lowerCaseWallets = wallets.map((newWallet) =>
-    (newWallet as string)?.toLowerCase()
-  );
+  const lowerCaseWallets = wallets.map((newWallet) => {
+    if (isAddress(newWallet as string))
+      return (newWallet as string)?.toLowerCase();
+    return newWallet;
+  });
 
   const fetchTransactions = (refresh = false) => {
     if (actualTxAmount > 25) setIsTxLoading(true);
@@ -713,11 +717,13 @@ export const Activity = ({
                                       className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary"
                                       onClick={() =>
                                         window.open(
-                                          `${
+                                          explorerTransformer(
                                             blockchainsIdContentWithNonEVM[
                                               String(transaction.chain_id)
-                                            ]?.explorer
-                                          }/tx/${transaction.hash}`
+                                            ]?.name,
+                                            transaction.hash,
+                                            "tx"
+                                          )
                                         )
                                       }
                                     >
@@ -807,11 +813,13 @@ export const Activity = ({
                                     className="text-light-font-40 dark:text-dark-font-40 ml-[5px]"
                                     onClick={() =>
                                       window.open(
-                                        `${
+                                        explorerTransformer(
                                           blockchainsIdContentWithNonEVM[
                                             String(transaction.chain_id)
-                                          ]?.explorer
-                                        }/tx/${transaction.hash}`
+                                          ]?.name,
+                                          transaction.hash,
+                                          "tx"
+                                        )
                                       )
                                     }
                                   />
@@ -852,11 +860,13 @@ export const Activity = ({
                                   className="text-light-font-40 dark:text-dark-font-40 ml-[5px] text-xl"
                                   onClick={() =>
                                     window.open(
-                                      `${
+                                      explorerTransformer(
                                         blockchainsIdContentWithNonEVM[
                                           String(transaction.chain_id)
-                                        ]?.explorer
-                                      }/tx/${transaction.hash}`
+                                        ]?.name,
+                                        transaction.hash,
+                                        "tx"
+                                      ) || ""
                                     )
                                   }
                                 />

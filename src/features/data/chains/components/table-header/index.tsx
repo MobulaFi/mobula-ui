@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
+import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { Ths } from "../../../../../components/table";
 import { OrderBy } from "../../../../../interfaces/assets";
 import { TableContext } from "../../../../../layouts/new-tables/context-manager";
 import { BasicThead } from "../../../../../layouts/new-tables/ui/basic-thead";
+import { useChains } from "../../context-manager";
 
 interface TableHeaderProps {
   children: React.ReactNode;
@@ -13,6 +15,7 @@ export const TableHeader = ({
   children,
   isLoading = false,
 }: TableHeaderProps) => {
+  const { switchedToNative, setSwitchedToNative } = useChains();
   const [orderBy, setOrderBy] = useState<OrderBy>({
     type: "last_trade",
     ascending: false,
@@ -44,10 +47,21 @@ export const TableHeader = ({
                     extraCss="text-start sticky left-0 z-[1] bg-light-bg-primary dark:bg-dark-bg-primary"
                     titleCssPosition="justify-start"
                   />
-                  <BasicThead extraCss="static" title="Price" canOrder />
+                  <BasicThead
+                    extraCss="static"
+                    title={
+                      <>
+                        <HiOutlineSwitchHorizontal className="mr-1 text-sm" />
+                        {!switchedToNative ? "Price USD" : "Price Native"}
+                      </>
+                    }
+                    canOrder
+                    callback={() => setSwitchedToNative((prev) => !prev)}
+                  />
                   {/* <BasicThead extraCss="static" title="Txns" canOrder /> */}
                   <BasicThead extraCss="static" title="Volume" canOrder />
                   <BasicThead extraCss="static" title="Liquidity" canOrder />
+                  <BasicThead extraCss="static" title="Market Cap" canOrder />
                   <BasicThead extraCss="static" title="5m" canOrder />
                   <BasicThead extraCss="static" title="1h" canOrder />
                   <BasicThead extraCss="static" title="4h" canOrder />

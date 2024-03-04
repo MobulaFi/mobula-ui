@@ -63,9 +63,8 @@ export const useSort = () => {
                   isFirstSort ? "sortingVotesPhase" : "validationVotesPhase"
                 ]([index, account]),
                 fetch(getIPFSUrl(listing.token.ipfsHash)),
-                fetchOldData(BigInt(index)),
+                fetchOldData(listing.token.id),
               ]);
-
             if (response.status !== "fulfilled") {
               setIsLoading(false);
               fails += 1;
@@ -73,9 +72,9 @@ export const useSort = () => {
             }
 
             let oldResponse: Response | undefined;
-            if (hashResult.status === "fulfilled" && hashResult?.value?.[0]) {
+            if (hashResult.status === "fulfilled" && hashResult?.value) {
               try {
-                oldResponse = await fetch(getIPFSUrl(hashResult.value[0]));
+                oldResponse = await fetch(getIPFSUrl(hashResult.value));
               } catch (e) {
                 console.error(e);
               }

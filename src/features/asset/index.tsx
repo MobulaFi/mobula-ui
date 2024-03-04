@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsTelegram } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { Button } from "../../components/button";
@@ -14,8 +14,8 @@ import { BasicSwap } from "../../layouts/swap/swap-variant/basic-swap";
 import { pushData } from "../../lib/mixpanel";
 import { PriceAlertPopup } from "../../popup/price-alert";
 import {
+  convertScientificNotation,
   getFormattedAmount,
-  getTokenPercentage,
   getUrlFromName,
 } from "../../utils/formaters";
 import { useLiteStreamMarketDataModule } from "../../utils/stream-chains";
@@ -364,6 +364,17 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
 
   return (
     <>
+      {!isAssetPage && !baseAsset?.[baseAsset?.baseToken]?.logo ? (
+        <div
+          className="flex py-2 items-center justify-center w-full bg-light-bg-secondary dark:bg-dark-bg-secondary 
+          border-b border-light-border-primary dark:border-dark-border-primary"
+        >
+          <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+            This asset isn't listed on Mobula.{" "}
+            <NextChakraLink href="/list">List it now!</NextChakraLink>
+          </SmallFont>
+        </div>
+      ) : null}
       <div className="flex flex-col mt-5 md:mt-0" {...handlers}>
         {isAssetPage ? (
           <TopNav
@@ -406,7 +417,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
           ) : (
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between w-full flex-wrap md:mt-2.5">
-                <div className="max-w-[500px] w-fit lg:min-w-[340px] md:max-w-full md:w-full mb-2.5 ">
+                <div className="max-w-[600px] w-fit lg:min-w-[340px] md:max-w-full md:w-full mb-2.5 ">
                   <TokenMainInfo />
                 </div>
                 <PairsSocialInfo />
@@ -433,10 +444,11 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
                       </SmallFont>
                       {pair?.isPercentage ? (
                         <TagPercentage
-                          percentage={getTokenPercentage(pair?.value)}
+                          percentage={convertScientificNotation(pair?.value)}
                           isUp={pair?.value > 0}
                           inhert={pair?.value === 0}
                           isLoading={!pair?.value && pair?.value !== 0}
+                          extraCss="ml-0"
                         />
                       ) : (
                         <SmallFont extraCss={`mt-1 text-center`}>

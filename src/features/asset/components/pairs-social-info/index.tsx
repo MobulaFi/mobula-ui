@@ -2,6 +2,7 @@ import { Button } from "components/button";
 import { NextChakraLink } from "components/link";
 import { PopOverLinesStyle, mainButtonStyle } from "features/asset/style";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import Link from "next/link";
 import React, { useContext } from "react";
 import {
@@ -13,6 +14,7 @@ import {
 } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
+import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { LuLink } from "react-icons/lu";
 import { SmallFont } from "../../../../components/fonts";
 import { cn } from "../../../../lib/shadcn/lib/utils";
@@ -21,7 +23,12 @@ import { Contracts } from "../contracts";
 import { CustomPopOver } from "../ui/popover";
 
 export const PairsSocialInfo = () => {
-  const { baseAsset, setShowPopupSocialMobile } = useContext(BaseAssetContext);
+  const {
+    baseAsset,
+    setShowPopupSocialMobile,
+    switchedToNative,
+    setSwitchedToNative,
+  } = useContext(BaseAssetContext);
   const [isHoverStar, setIsHoverStar] = React.useState(false);
   const pairsContract = [
     {
@@ -105,7 +112,7 @@ export const PairsSocialInfo = () => {
                 <Contracts
                   contract={pair?.address}
                   title={pair?.title || ""}
-                  blockchain={baseAsset?.blockchain}
+                  blockchain={baseAsset?.blockchain as BlockchainNameWithNonEVM}
                 />
               </div>
             ) : (
@@ -251,6 +258,14 @@ export const PairsSocialInfo = () => {
         </Button>
       </div>
       <Button
+        extraCss="mb-0 h-[30px] lg:mt-2.5 flex"
+        onClick={() => setSwitchedToNative((prev) => !prev)}
+      >
+        <HiOutlineSwitchHorizontal className="mr-1.5 text-sm md:text-sm" />
+        {switchedToNative ? "USD" : baseAsset?.[baseAsset?.quoteToken]?.symbol}
+      </Button>
+
+      {/* <Button
         extraCss={cn(
           `hidden lg:flex mb-0 mt-2.5 cursor-not-allowed px-2 relative`,
           mainButtonStyle
@@ -267,7 +282,7 @@ export const PairsSocialInfo = () => {
         >
           <SmallFont>Coming soon! </SmallFont>
         </div>
-      </Button>
+      </Button> */}
     </div>
   );
 };

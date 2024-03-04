@@ -21,8 +21,10 @@ const sockets = new Map();
 export const Datafeed = (
   baseAsset: Asset,
   isPair: boolean,
-  setPairTrades?: Dispatch<SetStateAction<Trade[] | null | undefined>>,
-  setFadeIn?: Dispatch<SetStateAction<string[]>>
+  shouldLoadMoreTrade: boolean,
+  setPairTrades: Dispatch<SetStateAction<Trade[]>>,
+  setFadeIn?: Dispatch<SetStateAction<string[]>>,
+  isUsd?: boolean
 ) => ({
   onReady: (callback: Function) => {
     callback({ supported_resolutions: supportedResolutions });
@@ -62,7 +64,7 @@ export const Datafeed = (
         from: periodParams.from * 1000,
         to: periodParams.to * 1000,
         amount: periodParams.countBack,
-        usd: true,
+        usd: isUsd,
         period: resolution,
       },
     };
@@ -122,7 +124,7 @@ export const Datafeed = (
     socket.addEventListener("message", (event) => {
       const eventData = JSON.parse(event.data);
       try {
-        if (eventData?.blockchain && setPairTrades)
+        if (eventData?.blockchain && setPairTrades && shouldLoadMoreTrade)
           setPairTrades((prev) => [
             eventData,
             ...prev.slice(0, prev.length - 1),

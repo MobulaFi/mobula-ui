@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SwapProvider } from "../../../../../layouts/swap/";
 import { SmallSwap } from "../../../../../layouts/swap/swap-variant/small-swap";
 import TradingViewChart from "../../../../../lib/trading-view/index";
@@ -20,10 +20,12 @@ export const Essentials = () => {
   const {
     baseAsset,
     setShowMobileMetric,
-    setPairTrades,
+    setGlobalPairs,
     isAssetPage,
     setActiveMetric,
     setFadeIn,
+    switchedToNative,
+    orderBy,
   } = useContext(BaseAssetContext);
   const [chartPreference, setChartPreference] = useState("");
   const isDesktop = typeof window !== "undefined" && window.innerWidth > 768;
@@ -67,17 +69,18 @@ export const Essentials = () => {
               baseAsset={baseAsset}
               isPair={!isAssetPage}
               setFadeIn={setFadeIn}
-              setPairTrades={isAssetPage ? null : setPairTrades}
+              isUsd={isAssetPage ? undefined : !switchedToNative}
+              setPairTrades={setGlobalPairs}
+              shouldLoadMoreTrade={orderBy === "desc"}
               extraCss="min-h-[500px] lg:min-h-[370px] md:min-h-[320px] w-full md:w-full mx-auto h-[520px] lg:h-[420px] md:h-[370px] mt-2.5 md:mt-0"
             />
           ) : (
             <ChartLite extraCss="min-h-[480px] lg:min-h-[350px] md:min-h-[300px] sm:min-h-[250px] w-full md:w-[95%] mx-auto h-[480px] lg:h-[400px] md:h-[350px]" />
           )}
-          {isOffChain ||
-          (isAssetPage && chartPreference !== "Trading view") ? null : (
+          {(!isOffChain && chartPreference === "Trading view") ||
+          !isAssetPage ? (
             <TokenTrades />
-          )}
-          {!isAssetPage ? <TokenTrades /> : null}
+          ) : null}
           <TokenMetrics isMobile extraCss="hidden lg:flex mt-[15px] w-full" />
           {isAssetPage ? (
             <>
