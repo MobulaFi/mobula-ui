@@ -8,6 +8,7 @@ import { getFormattedAmount } from "../../../../../utils/formaters";
 export const TableRow = ({ pair: asset, router, isHover, setIsHover }) => {
   const pair = asset?.pairs?.[0];
   const timeAgo = useTimeAgo(asset?.listed_at);
+  console.log("asset", asset);
   return (
     <tbody
       onClick={() => router.push(`/pair/${asset?.address}`)}
@@ -64,7 +65,7 @@ export const TableRow = ({ pair: asset, router, isHover, setIsHover }) => {
               extraCss={`w-fit whitespace-nowrap text-end transition-all duration-100 ease-in-out`}
             >
               $
-              {getFormattedAmount(asset?.price, 0, {
+              {getFormattedAmount(pair?.[pair?.baseToken]?.priceToken, 0, {
                 canUseHTML: true,
               })}
             </SmallFont>

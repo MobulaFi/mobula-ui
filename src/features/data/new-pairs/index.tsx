@@ -9,7 +9,6 @@ import { TableRow } from "./components/table-row";
 export const NewPairs = ({ pairs }) => {
   const [isHover, setIsHover] = useState("");
   const router = useRouter();
-  console.log("pairs", pairs);
   return (
     <Container>
       <Title
@@ -26,15 +25,14 @@ export const NewPairs = ({ pairs }) => {
               titleCssPosition="justify-start"
             />
             <BasicThead extraCss="static" title="Price" canOrder />
-            {/* <BasicThead extraCss="static" title="Txns" canOrder /> */}
             <BasicThead extraCss="static" title="Volume" canOrder />
             <BasicThead extraCss="static" title="Liquidity" canOrder />
             <BasicThead extraCss="static" title="Market Cap" canOrder />
-            <BasicThead extraCss="static" title="5m" canOrder />
+            {/* <BasicThead extraCss="static" title="5m" canOrder />
             <BasicThead extraCss="static" title="1h" canOrder />
             <BasicThead extraCss="static" title="4h" canOrder />
-            <BasicThead extraCss="static" title="24h" canOrder />
-            <BasicThead extraCss="static" title="Last Tx" canOrder />
+            <BasicThead extraCss="static" title="24h" canOrder /> */}
+            <BasicThead extraCss="static" title="Created at" canOrder />
           </tr>
         </thead>
         {pairs?.map((pair, i) => (

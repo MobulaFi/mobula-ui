@@ -4,7 +4,11 @@ import { NewPairs } from "../../features/data/new-pairs";
 
 async function fetchNewPairs() {
   const fetchNewPairs = fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/query/token?listed_at=listed_at`
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/query/token?sortBy=listed_at&sortOrder=desc`
+  );
+
+  console.log(
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/market/query/token?sortBy=listed_at&sortOrder=desc`
   );
 
   const [newPairs] = await Promise.all([fetchNewPairs]).then((r) => {
