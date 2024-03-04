@@ -282,20 +282,3 @@ export const unformatFilters = (cookieStr) => {
   });
   return newFilters;
 };
-
-export const calculateDaysRemaining = (releaseSchedule) => {
-  const currentDate = new Date().getTime();
-
-  if (typeof releaseSchedule === "number") {
-    const remainingTime = releaseSchedule - currentDate;
-    const daysRemaining = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
-    return daysRemaining;
-  }
-
-  const daysRemainingArray = releaseSchedule?.map(([timestamp, value]) => {
-    const remainingTime = timestamp - currentDate;
-    const daysRemaining = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
-    return [daysRemaining, value];
-  });
-  return daysRemainingArray[daysRemainingArray.length - 1];
-};

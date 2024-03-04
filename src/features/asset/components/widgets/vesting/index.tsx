@@ -1,6 +1,6 @@
 import { LargeFont } from "components/fonts";
 import dynamic from "next/dynamic";
-import React, { useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { Spinner } from "../../../../../components/spinner";
 import { BaseAssetContext } from "../../../context-manager";
 import { CategoriesProps } from "../../../models";
@@ -21,30 +21,26 @@ export const Vesting = () => {
     const seen = new Set();
     const types = [];
 
-    console.log("vesting", vesting);
+    vesting?.forEach(
+      ({ unlock_date, tokens_to_unlock, allocation_details }) => {
+        Object.keys(allocation_details).forEach((key) => {
+          if (!seen.has(key)) {
+            types.push(key);
+            seen.add(key);
+          }
+        });
+      }
+    );
 
-    vesting?.forEach((event) => {
-      const { allocation_details: type } = event;
-      if (!type) return;
-      Object.keys?.(type).forEach((key) => {
-        if (!seen.has(key)) {
-          types.push(key as never);
-          seen.add(key);
-        }
+    const newVesting = vesting
+      ?.slice(1)
+      .map(({ unlock_date, tokens_to_unlock, allocation_details }) => {
+        const roundsArr = types.map((type) => [
+          type,
+          allocation_details[type] || 0,
+        ]);
+        return [unlock_date, tokens_to_unlock, roundsArr];
       });
-    });
-
-    const newVesting = vesting?.map((event) => {
-      const {
-        unlock_date: timestamp,
-        token_to_unlock: amount,
-        allocation_details: rounds,
-      } = event;
-      const roundsArr = types.map((type) => [type, rounds[type] || 0]);
-      return [timestamp, amount, roundsArr];
-    });
-
-    console.log("newVesting", newVesting);
 
     return newVesting;
   };
