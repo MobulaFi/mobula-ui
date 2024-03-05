@@ -1,7 +1,6 @@
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { ChangeEvent } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { isAddress } from "viem";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
 import { fetchContract } from "../../../../../../layouts/swap/utils";
@@ -37,52 +36,50 @@ export const MultiInputTemplate = ({
     i: string,
     object: string
   ) => {
-    if (isAddress(e.target.value)) {
+    dispatch({
+      type: ACTIONS.SET_ELEMENT,
+      payload: {
+        i,
+        name: "address",
+        value: e.target.value,
+        object,
+      },
+    });
+    const getBlockchain = async (address: string) => {
+      const fetchResults = await Promise.all(fetchContract(address));
+      const { blockchain: blockchainBuffer } =
+        fetchResults.filter((entry) => entry)[0] || {};
       dispatch({
         type: ACTIONS.SET_ELEMENT,
         payload: {
           i,
-          name: "address",
-          value: e.target.value,
+          name: "blockchain",
+          value: blockchainBuffer,
           object,
         },
       });
-      const getBlockchain = async (address: string) => {
-        const fetchResults = await Promise.all(fetchContract(address));
-        const { blockchain: blockchainBuffer } =
-          fetchResults.filter((entry) => entry)[0] || {};
-        dispatch({
-          type: ACTIONS.SET_ELEMENT,
-          payload: {
-            i,
-            name: "blockchain",
-            value: blockchainBuffer,
-            object,
-          },
-        });
-        const { evmChainId } = blockchainsContentWithNonEVM[blockchainBuffer];
-        dispatch({
-          type: ACTIONS.SET_ELEMENT,
-          payload: {
-            i,
-            name: "blockchain_id",
-            value: evmChainId,
-            object,
-          },
-        });
-        if (title === "Contracts")
-          if (state.totalSupplyContracts.length === 0)
-            dispatch({
-              type: ACTIONS.INITIAL_CONTRACT,
-              payload: {
-                address: e.target.value,
-                blockchain: blockchainBuffer,
-                blockchain_id: evmChainId,
-              },
-            });
-      };
-      getBlockchain(e.target.value);
-    }
+      const { evmChainId } = blockchainsContentWithNonEVM[blockchainBuffer];
+      dispatch({
+        type: ACTIONS.SET_ELEMENT,
+        payload: {
+          i,
+          name: "blockchain_id",
+          value: evmChainId,
+          object,
+        },
+      });
+      if (title === "Contracts")
+        if (state.totalSupplyContracts.length === 0)
+          dispatch({
+            type: ACTIONS.INITIAL_CONTRACT,
+            payload: {
+              address: e.target.value,
+              blockchain: blockchainBuffer,
+              blockchain_id: evmChainId,
+            },
+          });
+    };
+    getBlockchain(e.target.value);
   };
 
   return (
