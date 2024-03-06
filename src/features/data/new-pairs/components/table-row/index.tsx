@@ -29,7 +29,7 @@ export const TableRow = ({ pair: asset, router, isHover, setIsHover }) => {
             isHover === asset?.address
               ? "bg-light-bg-terciary dark:bg-dark-bg-terciary"
               : "bg-light-bg-primary dark:bg-dark-bg-primary"
-          } z-[1] transition-all duration-100 ease-linear`}
+          } z-[1] transition-all duration-100 ease-linear md:pl-2.5`}
         >
           <div className="flex items-center">
             <div className="flex items-center md:flex-col md:items-start">

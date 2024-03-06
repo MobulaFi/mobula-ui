@@ -16,35 +16,37 @@ export const NewPairs = ({ pairs }) => {
         subtitle="Discover the latest cryptocurrencies listed on Mobula, their price, volume, chart, liquidity, and more."
         extraCss="mb-5"
       />
-      <table>
-        <thead>
-          <tr className="text-left">
-            <BasicThead
-              title="Token"
-              extraCss="text-start sticky left-0 z-[1] bg-light-bg-primary dark:bg-dark-bg-primary"
-              titleCssPosition="justify-start"
+      <div className="overflow-x-scroll">
+        <table>
+          <thead>
+            <tr className="text-left">
+              <BasicThead
+                title="Token"
+                extraCss="text-start sticky left-[0px] z-[1] bg-light-bg-primary dark:bg-dark-bg-primary md:pl-2.5"
+                titleCssPosition="justify-start"
+              />
+              <BasicThead extraCss="static" title="Price" />
+              <BasicThead extraCss="static" title="Volume" />
+              <BasicThead extraCss="static" title="Liquidity" />
+              <BasicThead extraCss="static" title="Market Cap" />
+              <BasicThead extraCss="static" title="5m" />
+              <BasicThead extraCss="static" title="1h" />
+              <BasicThead extraCss="static" title="4h" />
+              <BasicThead extraCss="static" title="24h" />
+              <BasicThead extraCss="static" title="Created at" />
+            </tr>
+          </thead>
+          {pairs?.map((pair, i) => (
+            <TableRow
+              key={i}
+              isHover={isHover}
+              setIsHover={setIsHover}
+              router={router}
+              pair={pair}
             />
-            <BasicThead extraCss="static" title="Price" canOrder />
-            <BasicThead extraCss="static" title="Volume" canOrder />
-            <BasicThead extraCss="static" title="Liquidity" canOrder />
-            <BasicThead extraCss="static" title="Market Cap" canOrder />
-            <BasicThead extraCss="static" title="5m" canOrder />
-            <BasicThead extraCss="static" title="1h" canOrder />
-            <BasicThead extraCss="static" title="4h" canOrder />
-            <BasicThead extraCss="static" title="24h" canOrder />
-            <BasicThead extraCss="static" title="Created at" canOrder />
-          </tr>
-        </thead>
-        {pairs?.map((pair, i) => (
-          <TableRow
-            key={i}
-            isHover={isHover}
-            setIsHover={setIsHover}
-            router={router}
-            pair={pair}
-          />
-        ))}{" "}
-      </table>
+          ))}{" "}
+        </table>
+      </div>
     </Container>
   );
 };
