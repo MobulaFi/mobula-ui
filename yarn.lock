@@ -918,7 +918,7 @@
   dependencies:
     "buffer" "~6.0.3"
 
-"@solana/web3.js@^1.70.1", "@solana/web3.js@^1.90.1":
+"@solana/web3.js@^1.70.1":
   "integrity" "sha512-BaopDf3TN54N9/T1iILu+Fz2gthIZzi+6X2A7bb0FWvGlwI/78iKRb2WjSnCfrHmMbWVLJR5n/pmXteezMXgVw=="
   "resolved" "https://registry.npmjs.org/@solana/web3.js/-/web3.js-1.90.1.tgz"
   "version" "1.90.1"
