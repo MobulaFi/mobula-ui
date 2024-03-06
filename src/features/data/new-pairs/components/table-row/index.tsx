@@ -1,14 +1,17 @@
-import React from "react";
+import { TagPercentage } from "components/tag-percentage";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { useTimeAgo } from "../../../../../hooks/time-ago";
 import { Segment } from "../../../../../layouts/new-tables/segments";
-import { getFormattedAmount } from "../../../../../utils/formaters";
+import {
+  convertScientificNotation,
+  getFormattedAmount,
+} from "../../../../../utils/formaters";
 
 export const TableRow = ({ pair: asset, router, isHover, setIsHover }) => {
   const pair = asset?.pairs?.[0];
   const timeAgo = useTimeAgo(asset?.listed_at);
-  console.log("asset", asset);
+  console.log("asset", asset, pair);
   return (
     <tbody
       onClick={() => router.push(`/pair/${asset?.address}`)}
@@ -107,42 +110,42 @@ export const TableRow = ({ pair: asset, router, isHover, setIsHover }) => {
             </SmallFont>
           </div>
         </Segment>
-        {/* <Segment>
+        <Segment>
           <div className="w-full flex justify-end">
             <TagPercentage
-              isUp={asset?.price_change_5min > 0 || false}
-              percentage={convertScientificNotation(item?.price_change_5min)}
-              inhert={item?.price_change_5min === 0 || !item?.price_change_5min}
+              isUp={pair?.price_change_5min > 0 || false}
+              percentage={convertScientificNotation(pair?.price_change_5min)}
+              inhert={pair?.price_change_5min === 0 || !pair?.price_change_5min}
             />
           </div>
         </Segment>
         <Segment>
           <div className="w-full flex justify-end">
             <TagPercentage
-              isUp={item?.price_change_1h > 0 || false}
-              percentage={convertScientificNotation(item?.price_change_1h)}
-              inhert={item?.price_change_1h === 0 || !item?.price_change_1h}
+              isUp={pair?.price_change_1h > 0 || false}
+              percentage={convertScientificNotation(pair?.price_change_1h)}
+              inhert={pair?.price_change_1h === 0 || !pair?.price_change_1h}
             />
           </div>
         </Segment>
         <Segment>
           <div className="w-full flex justify-end">
             <TagPercentage
-              isUp={item?.price_change_4h > 0 || false}
-              percentage={convertScientificNotation(item?.price_change_4h)}
-              inhert={item?.price_change_4h === 0 || !item?.price_change_4h}
+              isUp={pair?.price_change_4h > 0 || false}
+              percentage={convertScientificNotation(pair?.price_change_4h)}
+              inhert={pair?.price_change_4h === 0 || !pair?.price_change_4h}
             />
           </div>
         </Segment>
         <Segment>
           <div className="w-full flex justify-end">
             <TagPercentage
-              isUp={item?.price_change_24h > 0 || false}
-              percentage={convertScientificNotation(item?.price_change_24h)}
-              inhert={item?.price_change_24h === 0 || !item?.price_change_24h}
+              isUp={pair?.price_change_24h > 0 || false}
+              percentage={convertScientificNotation(pair?.price_change_24h)}
+              inhert={pair?.price_change_24h === 0 || !pair?.price_change_24h}
             />
           </div>
-        </Segment> */}
+        </Segment>
         <Segment>
           <div className="w-full flex justify-end">
             <SmallFont extraCss="w-fit whitespace-nowrap text-end">
