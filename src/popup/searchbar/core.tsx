@@ -1,3 +1,4 @@
+import { validateSolAddress } from "@utils/general";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { MutableRefObject, useContext, useEffect, useRef } from "react";
@@ -71,7 +72,7 @@ export const CoreSearchBar = ({
   } = useContext(SearchbarContext);
   const isUserRegistered: boolean = userWithAddress?.address !== undefined;
   const isUnknownUser: boolean =
-    isAddress(token) &&
+    token &&
     !isUserRegistered &&
     (results?.length || 0) === 0 &&
     !pairs?.length;
@@ -131,35 +132,40 @@ export const CoreSearchBar = ({
   }, [token]);
 
   useEffect(() => {
-    if (isAddress(token))
-      Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
-        const getContract = async () => {
-          const abi = [
-            {
-              inputs: [],
-              name: "name",
-              outputs: [
-                {
-                  internalType: "string",
-                  name: "",
-                  type: "string",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-          ];
+    if (isAddress(token) || validateSolAddress(token)) {
+      try {
+        Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
+          const getContract = async () => {
+            const abi = [
+              {
+                inputs: [],
+                name: "name",
+                outputs: [
+                  {
+                    internalType: "string",
+                    name: "",
+                    type: "string",
+                  },
+                ],
+                stateMutability: "view",
+                type: "function",
+              },
+            ];
 
-          readContract({
-            address: token as `0x${string}`,
-            abi,
-            functionName: "name",
-          }).then((name) => {
-            setIsSmartContract({ name, blockchain });
-          });
-        };
-        getContract();
-      });
+            readContract({
+              address: token as `0x${string}`,
+              abi,
+              functionName: "name",
+            }).then((name) => {
+              setIsSmartContract({ name, blockchain });
+            });
+          };
+          getContract();
+        });
+      } catch (error) {
+        console.error("Error fetching smart contract:", error);
+      }
+    }
   }, [token]);
 
   useEffect(() => {
@@ -269,7 +275,12 @@ export const CoreSearchBar = ({
           ) : null}
         </>
       );
-    } else if (isUnknownUser && isSmartContract === null && !pairs?.length) {
+    } else if (
+      isUnknownUser &&
+      isSmartContract === null &&
+      !pairs?.length &&
+      (isAddress(token) || validateSolAddress(token))
+    ) {
       fullResults = (
         <UnknownResult
           setTrigger={setTrigger}
@@ -277,7 +288,10 @@ export const CoreSearchBar = ({
           callback={callback}
         />
       );
-    } else if (isSmartContract !== null && isAddress(token)) {
+    } else if (
+      isSmartContract !== null &&
+      (isAddress(token) || validateSolAddress(token))
+    ) {
       fullResults = (
         <NotListed
           setTrigger={setTrigger}
@@ -322,6 +336,8 @@ export const CoreSearchBar = ({
     handleMixpanel(timerRef as any, token, results);
   }, [token, results]);
 
+  console.log("isSolAddress", validateSolAddress(token));
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (callback) {
@@ -331,10 +347,14 @@ export const CoreSearchBar = ({
           .join(" ");
         callback({
           content,
-          type: isAddress(content) ? "wallet" : "asset",
-          label: isAddress(content)
-            ? addressSlicer(content)
-            : content.split("-").join(" "),
+          type:
+            isAddress(content) || validateSolAddress(content)
+              ? "wallet"
+              : "asset",
+          label:
+            isAddress(content) || validateSolAddress(content)
+              ? addressSlicer(content)
+              : content.split("-").join(" "),
         });
       } else {
         setTrigger(false);
