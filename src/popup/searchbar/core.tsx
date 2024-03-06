@@ -86,12 +86,10 @@ export const CoreSearchBar = ({
     token?.includes(".eth") ||
     userWithAddress?.address !== undefined;
 
-  const fetchAssets = async () => {
+  const fetchAssets = async (token: string) => {
     try {
       const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_API_ENDPOINT
-        }/api/1/search?input=${token.toLowerCase()}`,
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/search?input=${token}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +99,7 @@ export const CoreSearchBar = ({
       );
       const data = await response.json();
 
-      if (data.data) {
+      if (data.data && inputRef.current?.value === token) {
         const globalResult = data.data?.filter(
           (entry, i) => !entry?.reserve0 && !entry?.reserve1
         );
@@ -128,7 +126,7 @@ export const CoreSearchBar = ({
 
   useEffect(() => {
     if (token !== "") {
-      fetchAssets();
+      fetchAssets(token);
     }
   }, [token]);
 
