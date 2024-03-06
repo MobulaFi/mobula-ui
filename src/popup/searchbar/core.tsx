@@ -1,10 +1,10 @@
-import { validateSolAddress } from "@utils/general";
+import { isValidAddress } from "@utils/general";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { MutableRefObject, useContext, useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
-import { createPublicClient, http, isAddress } from "viem";
+import { createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { readContract } from "wagmi/actions";
@@ -132,7 +132,7 @@ export const CoreSearchBar = ({
   }, [token]);
 
   useEffect(() => {
-    if (isAddress(token) || validateSolAddress(token)) {
+    if (isValidAddress(token)) {
       try {
         Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
           const getContract = async () => {
@@ -279,7 +279,7 @@ export const CoreSearchBar = ({
       isUnknownUser &&
       isSmartContract === null &&
       !pairs?.length &&
-      (isAddress(token) || validateSolAddress(token))
+      isValidAddress(token)
     ) {
       fullResults = (
         <UnknownResult
@@ -288,10 +288,7 @@ export const CoreSearchBar = ({
           callback={callback}
         />
       );
-    } else if (
-      isSmartContract !== null &&
-      (isAddress(token) || validateSolAddress(token))
-    ) {
+    } else if (isSmartContract !== null && isValidAddress(token)) {
       fullResults = (
         <NotListed
           setTrigger={setTrigger}
@@ -336,8 +333,6 @@ export const CoreSearchBar = ({
     handleMixpanel(timerRef as any, token, results);
   }, [token, results]);
 
-  console.log("isSolAddress", validateSolAddress(token));
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (callback) {
@@ -347,14 +342,10 @@ export const CoreSearchBar = ({
           .join(" ");
         callback({
           content,
-          type:
-            isAddress(content) || validateSolAddress(content)
-              ? "wallet"
-              : "asset",
-          label:
-            isAddress(content) || validateSolAddress(content)
-              ? addressSlicer(content)
-              : content.split("-").join(" "),
+          type: isValidAddress(content) ? "wallet" : "asset",
+          label: isValidAddress(content)
+            ? addressSlicer(content)
+            : content.split("-").join(" "),
         });
       } else {
         setTrigger(false);

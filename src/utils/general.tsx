@@ -1,10 +1,7 @@
-import { PublicKey } from "@solana/web3.js";
-
-export function validateSolAddress(address: string) {
+export function isValidAddress(address: string) {
   try {
-    let pubkey = new PublicKey(address);
-    let isSolana = PublicKey.isOnCurve(pubkey.toBuffer());
-    return isSolana;
+    const isAddress = address.length > 31 && address.length < 45;
+    return isAddress;
   } catch (error) {
     return false;
   }
