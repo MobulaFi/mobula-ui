@@ -110,7 +110,7 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
       title: "Market Cap",
       value:
         baseAsset?.[baseAsset.baseToken]?.circulatingSupply *
-        baseAsset?.[baseAsset.baseToken]?.priceUSD,
+        baseAsset?.[baseAsset.baseToken]?.price,
     },
     // {
     //   title: "Pair created at",
