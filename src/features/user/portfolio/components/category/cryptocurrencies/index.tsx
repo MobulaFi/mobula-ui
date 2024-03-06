@@ -58,7 +58,9 @@ export const Cryptocurrencies = () => {
   const [isLoadingFetch, setIsLoadingFetch] = useState(
     showTokenInfo ? true : false
   );
-  const { handleAddWatchlist, inWatchlist } = useWatchlist(asset?.id);
+  const { handleAddWatchlist, inWatchlist } = useWatchlist(
+    asset?.id ? parseInt(asset?.id) : undefined
+  );
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [isHover, setIsHover] = useState<number | null>(null);
   const [tokenTimeframe, setTokenTimeframe] = useState("24H");

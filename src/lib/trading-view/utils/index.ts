@@ -122,45 +122,43 @@ export const Datafeed = (
     });
 
     socket.addEventListener("message", (event) => {
-      const eventData = JSON.parse(event.data);
+      const trade = JSON.parse(event.data) as Trade;
       try {
-        if (eventData?.blockchain && setPairTrades && shouldLoadMoreTrade)
-          setPairTrades((prev) => [
-            eventData,
-            ...prev.slice(0, prev.length - 1),
-          ]);
+        if (trade?.blockchain && setPairTrades && shouldLoadMoreTrade)
+          setPairTrades((prev) => [trade, ...prev.slice(0, prev.length - 1)]);
 
-        setFadeIn((prev) => [...prev, eventData?.hash]);
+        setFadeIn((prev) => [...prev, trade?.hash]);
         const timeout = setTimeout(() => setFadeIn([]), 2000);
+
+        const price = trade.token_amount_usd / trade.token_amount;
+
+        const lastDailyBar = lastBarsCache.get(baseAsset.name);
+        const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
+        let bar: Bar;
+
+        if (trade.date >= nextDailyBarTime) {
+          bar = {
+            time: nextDailyBarTime,
+            open: lastDailyBar.close,
+            high: price,
+            low: price,
+            close: price,
+          };
+        } else {
+          bar = {
+            ...lastDailyBar,
+            high: Math.max(lastDailyBar.high, price),
+            low: Math.min(lastDailyBar.low, price),
+            close: price,
+          };
+        }
+
+        onRealtimeCallback(bar);
+
         return () => clearTimeout(timeout);
       } catch (e) {
         // console.log(e);
       }
-      const { data } = eventData;
-      const { priceUSD: price, date: timestamp } = data;
-
-      const lastDailyBar = lastBarsCache.get(baseAsset.name);
-      const nextDailyBarTime = getNextBarTime(resolution, lastDailyBar.time);
-      let bar: Bar;
-
-      if (timestamp >= nextDailyBarTime) {
-        bar = {
-          time: nextDailyBarTime,
-          open: lastDailyBar.close,
-          high: price,
-          low: price,
-          close: price,
-        };
-      } else {
-        bar = {
-          ...lastDailyBar,
-          high: Math.max(lastDailyBar.high, price),
-          low: Math.min(lastDailyBar.low, price),
-          close: price,
-        };
-      }
-
-      onRealtimeCallback(bar);
     });
 
     console.log("Subscribe", baseAsset.name + "-" + subscriberUID);
