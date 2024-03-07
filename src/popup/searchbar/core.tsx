@@ -1,9 +1,10 @@
+import { isValidAddress } from "@utils/general";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { MutableRefObject, useContext, useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
-import { createPublicClient, http, isAddress } from "viem";
+import { createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
 import { normalize } from "viem/ens";
 import { readContract } from "wagmi/actions";
@@ -71,7 +72,7 @@ export const CoreSearchBar = ({
   } = useContext(SearchbarContext);
   const isUserRegistered: boolean = userWithAddress?.address !== undefined;
   const isUnknownUser: boolean =
-    isAddress(token) &&
+    token &&
     !isUserRegistered &&
     (results?.length || 0) === 0 &&
     !pairs?.length;
@@ -86,12 +87,10 @@ export const CoreSearchBar = ({
     token?.includes(".eth") ||
     userWithAddress?.address !== undefined;
 
-  const fetchAssets = async (input: string) => {
+  const fetchAssets = async (token: string) => {
     try {
       const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_API_ENDPOINT
-        }/api/1/search?input=${input.toLowerCase()}`,
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/1/search?input=${token}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -99,14 +98,9 @@ export const CoreSearchBar = ({
           },
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
       const data = await response.json();
 
-      if (data.data) {
+      if (data.data && inputRef.current?.value === token) {
         const globalResult = data.data?.filter(
           (entry, i) => !entry?.reserve0 && !entry?.reserve1
         );
@@ -120,7 +114,6 @@ export const CoreSearchBar = ({
           else if (liquidityA > liquidityB) return -1;
           else return 0;
         });
-
         const pairAddressResult = data.data.filter(
           (entry) => entry?.reserve0 || entry?.reserve1
         );
@@ -133,35 +126,46 @@ export const CoreSearchBar = ({
   };
 
   useEffect(() => {
-    if (isAddress(token))
-      Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
-        const getContract = async () => {
-          const abi = [
-            {
-              inputs: [],
-              name: "name",
-              outputs: [
-                {
-                  internalType: "string",
-                  name: "",
-                  type: "string",
-                },
-              ],
-              stateMutability: "view",
-              type: "function",
-            },
-          ];
+    if (token !== "") {
+      fetchAssets(token);
+    }
+  }, [token]);
 
-          readContract({
-            address: token as `0x${string}`,
-            abi,
-            functionName: "name",
-          }).then((name) => {
-            setIsSmartContract({ name, blockchain });
-          });
-        };
-        getContract();
-      });
+  useEffect(() => {
+    if (isValidAddress(token)) {
+      try {
+        Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
+          const getContract = async () => {
+            const abi = [
+              {
+                inputs: [],
+                name: "name",
+                outputs: [
+                  {
+                    internalType: "string",
+                    name: "",
+                    type: "string",
+                  },
+                ],
+                stateMutability: "view",
+                type: "function",
+              },
+            ];
+
+            readContract({
+              address: token as `0x${string}`,
+              abi,
+              functionName: "name",
+            }).then((name) => {
+              setIsSmartContract({ name, blockchain });
+            });
+          };
+          getContract();
+        });
+      } catch (error) {
+        console.error("Error fetching smart contract:", error);
+      }
+    }
   }, [token]);
 
   useEffect(() => {
@@ -271,7 +275,12 @@ export const CoreSearchBar = ({
           ) : null}
         </>
       );
-    } else if (isUnknownUser && isSmartContract === null && !pairs?.length) {
+    } else if (
+      isUnknownUser &&
+      isSmartContract === null &&
+      !pairs?.length &&
+      isValidAddress(token)
+    ) {
       fullResults = (
         <UnknownResult
           setTrigger={setTrigger}
@@ -279,7 +288,7 @@ export const CoreSearchBar = ({
           callback={callback}
         />
       );
-    } else if (isSmartContract !== null && isAddress(token)) {
+    } else if (isSmartContract !== null && isValidAddress(token)) {
       fullResults = (
         <NotListed
           setTrigger={setTrigger}
@@ -333,8 +342,8 @@ export const CoreSearchBar = ({
           .join(" ");
         callback({
           content,
-          type: isAddress(content) ? "wallet" : "asset",
-          label: isAddress(content)
+          type: isValidAddress(content) ? "wallet" : "asset",
+          label: isValidAddress(content)
             ? addressSlicer(content)
             : content.split("-").join(" "),
         });
@@ -368,7 +377,6 @@ export const CoreSearchBar = ({
         <input
           className="text-light-font-100 dark:text-dark-font-100 border-none bg-light-bg-secondary dark:bg-dark-bg-secondary w-full "
           onChange={(e) => {
-            fetchAssets(e.target.value);
             setToken(e.target.value.split("/").join(""));
             getPagesFromInputValue(setPages, e.target.value);
             getEns(e.target.value);

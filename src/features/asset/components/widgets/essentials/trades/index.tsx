@@ -28,6 +28,8 @@ export const TokenTrades = () => {
     switchedToNative,
     orderBy,
     setOrderBy,
+    changeToDate,
+    setChangeToDate,
   } = useContext(BaseAssetContext);
   const { address } = useAccount();
   const [userTrades, setUserTrades] = useState<UserTrades[] | null>(null);
@@ -40,7 +42,7 @@ export const TokenTrades = () => {
   const [offset, setOffset] = useState(0);
   const [isLoadingMoreTrade, setIsLoadingMoreTrade] = useState(false);
   const isUsd = !switchedToNative || isAssetPage;
-  const [changeToDate, setChangeToDate] = useState(false);
+
   const titles: string[] = [
     "Type",
     isAssetPage ? "Tokens" : baseSymbol,
@@ -111,6 +113,8 @@ export const TokenTrades = () => {
               });
               setGlobalPairs((prev) => [...prev, ...removeDoublePairs]);
             } else setGlobalPairs(r.data);
+            if (orderBy === "desc") setChangeToDate(false);
+            else setChangeToDate(true);
             setIsTradeLoading(false);
             setIsLoadingMoreTrade(false);
           }

@@ -214,7 +214,7 @@ export interface UserHoldingsAsset {
   };
 
   logo: string;
-  id: number;
+  id: string;
   // Used for useEffects, front-end only
   uniqueIdentifier: string;
   name: string;

@@ -1,7 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef } from "react";
-import { getAddress } from "viem";
 import { UserContext } from "../../../contexts/user";
 import { Asset } from "../../../interfaces/assets";
 import { createSupabaseDOClient } from "../../../lib/supabase";
@@ -153,10 +152,10 @@ export const Portfolio = ({
     ) {
       if (
         typeof isWalletExplorer === "string"
-          ? isWalletExplorer !== getAddress(address)
+          ? (isWalletExplorer as string).toLowerCase() !== address.toLowerCase()
           : true
       )
-        setIsWalletExplorer(getAddress(address));
+        setIsWalletExplorer(address);
       setIsLoading(true);
 
       const socket = new WebSocket(
@@ -300,7 +299,7 @@ export const Portfolio = ({
 
             newWallet.portfolio = newWallet?.portfolio?.map((entry) => {
               const newEntry = { ...entry };
-              const asset = r.data.find((e) => e.id === entry.id);
+              const asset = r.data.find((e) => String(e.id) === entry.id);
               newEntry.price = asset?.price as number;
               newEntry.change_24h = asset?.price_change_24h as number;
               newEntry.estimated_balance =
@@ -338,6 +337,8 @@ export const Portfolio = ({
 
             if (!(newWallet.estimated_balance - wallet.estimated_balance))
               newWallet.estimated_balance_change = undefined;
+
+            console.log("thats it", newWallet, r);
             setWallet(newWallet);
 
             if (showPortfolioSelector) {

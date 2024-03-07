@@ -97,6 +97,8 @@ export interface IBasetAssetContext {
   setSwitchedToNative: Dispatch<SetStateAction<boolean>>;
   orderBy: "asc" | "desc";
   setOrderBy: Dispatch<SetStateAction<"asc" | "desc">>;
+  changeToDate: boolean;
+  setChangeToDate: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface TimeRemaining {
@@ -252,13 +254,13 @@ export interface Trade {
   type: "sell" | "buy";
   blockchain: BlockchainNameWithNonEVM;
   date: number;
-  token_price: number;
-  timestamp?: number;
+  timestamp: number;
   amount?: string;
   unique_discriminator?: string;
   id?: number;
   amount_usd?: number;
-  token_amount_usd?: number;
+  token_amount_usd: number;
+  token_price: number;
   token_price_vs: number;
   token_amount_vs: number;
 }

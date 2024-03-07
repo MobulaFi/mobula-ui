@@ -154,9 +154,14 @@ export const TableRow = ({
               extraCss={`w-fit whitespace-nowrap text-end transition-all duration-100 ease-in-out`}
             >
               $
-              {getFormattedAmount(pair?.[pair?.baseToken]?.market_cap, 0, {
-                canUseHTML: true,
-              })}
+              {getFormattedAmount(
+                pair?.[pair?.baseToken]?.circulatingSupply *
+                  pair?.[pair?.baseToken]?.price,
+                0,
+                {
+                  canUseHTML: true,
+                }
+              )}
             </SmallFont>
           </div>
         </Segment>
