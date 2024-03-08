@@ -1,9 +1,10 @@
+import axios from "axios";
 import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
 import React, { ChangeEvent } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
-import { fetchContract } from "../../../../../../layouts/swap/utils";
+import { API_ENDPOINT } from "../../../../../../constants";
 import { ACTIONS } from "../../../reducer";
 import { inputStyle } from "../../../styles";
 
@@ -46,25 +47,28 @@ export const MultiInputTemplate = ({
       },
     });
     const getBlockchain = async (address: string) => {
-      const fetchResults = await Promise.all(fetchContract(address));
-      const { blockchain: blockchainBuffer } =
-        fetchResults.filter((entry) => entry)[0] || {};
+      const response: any = await axios.get(
+        `${API_ENDPOINT}/api/1/metadata?asset=${address}`
+      );
+      const blockchainName = response.data.data.blockchains[0];
+
+      const { chainId } = blockchainsContentWithNonEVM[blockchainName];
+
       dispatch({
         type: ACTIONS.SET_ELEMENT,
         payload: {
           i,
           name: "blockchain",
-          value: blockchainBuffer,
+          value: blockchainName,
           object,
         },
       });
-      const { evmChainId } = blockchainsContentWithNonEVM[blockchainBuffer];
       dispatch({
         type: ACTIONS.SET_ELEMENT,
         payload: {
           i,
           name: "blockchain_id",
-          value: evmChainId,
+          value: chainId,
           object,
         },
       });
@@ -74,8 +78,8 @@ export const MultiInputTemplate = ({
             type: ACTIONS.INITIAL_CONTRACT,
             payload: {
               address: e.target.value,
-              blockchain: blockchainBuffer,
-              blockchain_id: evmChainId,
+              blockchain: blockchainName,
+              blockchain_id: chainId,
             },
           });
     };
