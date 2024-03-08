@@ -169,7 +169,7 @@ export const BasicInformation = ({ state, dispatch }) => {
             <img
               className="object-contain h-full w-full rounded-full"
               alt="Token Logo"
-              src={state.image.uploaded_logo || state.image.logo}
+              src={state.image.logo}
             />
           ) : null}
         </div>

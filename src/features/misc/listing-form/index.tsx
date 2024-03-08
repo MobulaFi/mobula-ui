@@ -4,6 +4,7 @@ import React, { useContext, useReducer } from "react";
 import { API_ENDPOINT } from "../../../../src/constants/index";
 import { Button } from "../../../components/button";
 import { Container } from "../../../components/container";
+import { useGeneralContext } from "../../../contexts/general";
 import { pushData } from "../../../lib/mixpanel";
 import { triggerAlert } from "../../../lib/toastify";
 import { BasicInformation } from "./components/basic-information";
@@ -12,13 +13,16 @@ import { FeesInformation } from "./components/fees-information";
 import { Nav } from "./components/nav";
 import { SocialInformation } from "./components/social-information";
 import { Submit } from "./components/submit";
-import { VestingInformation } from "./components/vesting-information";
 import { ListingContext } from "./context-manager";
 import { INITIAL_STATE, reducer } from "./reducer";
 import { cleanFee, cleanVesting, formatDate } from "./utils";
 
 export const Listing = () => {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const { editAssetReducer, baseEditAssetReducer } = useGeneralContext();
+  const [state, dispatch] = useReducer(
+    reducer,
+    editAssetReducer || INITIAL_STATE
+  );
   const { actualPage, setActualPage, setWallet, setIsListed, isListed } =
     useContext(ListingContext);
 
@@ -120,6 +124,33 @@ export const Listing = () => {
     }
   }
 
+  async function formatEdit(state: any, baseEditAssetReducer: any) {
+    try {
+      const edits: string[] = [];
+
+      Object.keys(state).forEach((key) => {
+        if (
+          state &&
+          baseEditAssetReducer[key] !== state[key] &&
+          (typeof baseEditAssetReducer[key] !== typeof state[key] ||
+            JSON.stringify(baseEditAssetReducer[key]) !==
+              JSON.stringify(state[key])) &&
+          key !== "activeCoinType" &&
+          key !== "own_blockchain"
+        ) {
+          edits.push(key);
+        }
+      });
+
+      state.edits = edits;
+    } catch (error) {
+      console.error(
+        "Error editing token:",
+        error.response?.data || error.message
+      );
+    }
+  }
+
   return (
     <Container>
       <div className="flex mb-[50px]">
@@ -136,31 +167,38 @@ export const Listing = () => {
           ) : null}
           {state.type === "nft" ? null : (
             <>
-              {actualPage === 3 ? (
+              {/* REMOVED TEMPORARILY */}
+              {/* {actualPage === 3 ? (
                 <VestingInformation state={state} dispatch={dispatch} />
-              ) : null}
-              {actualPage === 4 ? (
+              ) : null} */}
+              {actualPage === 3 ? (
                 <FeesInformation state={state} dispatch={dispatch} />
               ) : null}
             </>
           )}
-          {actualPage === 5 ? <Submit state={state} /> : null}
+          {actualPage === 4 ? <Submit state={state} /> : null}
           <div className="flex">
-            {actualPage !== 5 ? (
+            {actualPage !== 4 ? (
               <Button
                 extraCss="w-[160px]"
                 onClick={() => {
                   if (getAccessToNextPage()) {
-                    submitListing(state);
-                    pushData(`List now Clicked`);
-                    setActualPage(5);
+                    !editAssetReducer
+                      ? submitListing(state)
+                      : formatEdit(state, baseEditAssetReducer);
+
+                    !editAssetReducer
+                      ? pushData(`List now Clicked`)
+                      : pushData(`Edit now Clicked`);
+
+                    setActualPage(4);
                   }
                 }}
               >
-                List now
+                {!editAssetReducer ? "List now" : "Edit now"}
               </Button>
             ) : null}
-            {actualPage === 5 || actualPage === 4 ? null : (
+            {actualPage === 4 || actualPage === 3 ? null : (
               <Button
                 extraCss="w-[180px] ml-[20px]"
                 onClick={() => {
