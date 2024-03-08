@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NextChakraLink } from "../../../components/link";
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
@@ -152,18 +152,18 @@ export const HomeLanding = () => {
                 </div>
               </div>
               <div className="grid grid-cols-5 sm:col-end-2 gap-10 md:grid-cols-3 md:gap-3 mt-[50px] md:mt-7 place-items-center sm:justify-items-center">
-                <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
-                <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
-                <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
                 <img
                   src="/landing/partner/embr.svg"
                   alt="embr logo"
                   className="mx-auto md:hidden"
                 />
+                <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
+                <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
+                <img src="/landing/partner/op.svg" alt="optimism logo" />
                 <img
-                  src="/landing/partner/etherspot.svg"
-                  alt="etherspot logo"
-                  className="md:hidden"
+                  src="/landing/partner/stripe.svg"
+                  alt="stripe logo"
+                  className="md:hidden h-[42px]"
                 />
               </div>
             </div>
