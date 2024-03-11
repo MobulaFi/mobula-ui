@@ -37,15 +37,20 @@ export const NewPairs = ({ pairs }) => {
               <BasicThead extraCss="static" title="Created at" />
             </tr>
           </thead>
-          {pairs?.map((pair, i) => (
-            <TableRow
-              key={i}
-              isHover={isHover}
-              setIsHover={setIsHover}
-              router={router}
-              pair={pair}
-            />
-          ))}{" "}
+          {pairs
+            ?.filter(
+              (entry) =>
+                entry?.pairs?.[0]?.[entry?.pairs?.[0]?.baseToken]?.price > 0
+            )
+            ?.map((pair, i) => (
+              <TableRow
+                key={i}
+                isHover={isHover}
+                setIsHover={setIsHover}
+                router={router}
+                pair={pair}
+              />
+            ))}{" "}
         </table>
       </div>
     </Container>
