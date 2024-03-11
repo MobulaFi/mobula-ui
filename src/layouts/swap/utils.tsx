@@ -53,7 +53,7 @@ export const fetchContract = (search: string) => {
     supabase
       .from("assets")
       .select("logo,contracts,blockchains,price,price_change_24h")
-      .contains("contracts", [search.toLowerCase()])
+      .contains("contracts", [search])
   );
 
   return fetchPromises;

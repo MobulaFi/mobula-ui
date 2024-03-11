@@ -64,15 +64,15 @@ export const Sort = () => {
   }, []);
 
   const renderNonListingToken = (token: TokenDivs) => (
-    <div className={token.alreadyVoted ? "opacity-50" : "opacity-100"}>
-      {token.edits?.map((edit) => (
+    <div className={token?.alreadyVoted ? "opacity-50" : "opacity-100"}>
+      {token?.edits?.map?.((edit) => (
         <ChangeTemplate
           key={edit}
-          oldImage={token.oldToken.logo || "/empty/unknown.png"}
-          newImage={token.logo || "/empty/unknown.png"}
+          oldImage={token?.oldToken?.logo || "/empty/unknown.png"}
+          newImage={token?.logo || "/empty/unknown.png"}
           type={edit}
-          oldValue={token.oldToken[edit]}
-          newValue={token[edit]}
+          oldValue={token?.oldToken?.[edit]}
+          newValue={token?.[edit]}
         />
       ))}
       <Countdown extraCss="mt-5" token={token} />
@@ -85,7 +85,7 @@ export const Sort = () => {
   const renderToken = (token: TokenDivs) => (
     <>
       <BoxPreVote token={token} />
-      {token.isListing ? (
+      {token?.isListing ? (
         <>
           <SimiliratyCheck token={token} />
           <TeamMembers token={token} />
@@ -142,7 +142,7 @@ export const Sort = () => {
         </BoxContainer>
       );
     }
-    if (!isLoading && !tokenDivs.length)
+    if (!isLoading && !tokenDivs?.length)
       return (
         <BoxPreVote
           token={

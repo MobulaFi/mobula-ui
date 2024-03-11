@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import React from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsLinkedin, BsTelegram, BsTwitter } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
@@ -27,23 +26,29 @@ export const getInfoFromIndex = (index: number) => {
   switch (index) {
     case 0:
       return {
+        placeholder: "29/06/2023",
+        title: "Start Date",
+        type: "number",
+      };
+    case 1:
+      return {
         placeholder: "Seed, Public, Private",
         title: "Round Name",
         type: "text",
       };
-    case 1:
+    case 5:
       return {
-        placeholder: "29/06/2023",
-        title: "Round Date",
-        type: "text",
+        placeholder: "20/09/2023",
+        title: "End Date",
+        type: "number",
       };
-    case 2:
+    case 3:
       return {
         placeholder: "0.02",
         title: "Fully dilluted valuation",
         type: "number",
       };
-    case 3:
+    case 2:
       return {
         placeholder: "--.--",
         title: "Token Price (empty if unknown)",
@@ -55,18 +60,8 @@ export const getInfoFromIndex = (index: number) => {
         title: "Tokens Sold",
         type: "number",
       };
-    case 5:
-      return {
-        placeholder: "Exchange",
-        title: "Platform",
-        type: "text",
-      };
     default:
-      return {
-        placeholder: "Seed, Public, Private",
-        title: "Round Name",
-        type: "text",
-      };
+      return;
   }
 };
 
