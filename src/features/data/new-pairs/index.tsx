@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container } from "../../../components/container";
 import { Title } from "../../../components/fonts";
 import { BasicThead } from "../../../layouts/new-tables/ui/basic-thead";
@@ -31,7 +31,8 @@ export const NewPairs = ({ pairs }) => {
               <BasicThead extraCss="static" title="Market Cap" />
               <BasicThead extraCss="static" title="5m" />
               <BasicThead extraCss="static" title="1h" />
-              <BasicThead extraCss="static" title="4h" />
+              <BasicThead extraCss="static" title="4h" />{" "}
+              <BasicThead extraCss="static" title="12h" />
               <BasicThead extraCss="static" title="24h" />
               <BasicThead extraCss="static" title="Created at" />
             </tr>

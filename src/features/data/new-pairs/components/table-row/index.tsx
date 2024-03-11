@@ -140,12 +140,22 @@ export const TableRow = ({ pair: asset, router, isHover, setIsHover }) => {
         <Segment>
           <div className="w-full flex justify-end">
             <TagPercentage
+              isUp={pair?.price_change_12h > 0 || false}
+              percentage={convertScientificNotation(pair?.price_change_12h)}
+              inhert={pair?.price_change_12h === 0 || !pair?.price_change_12h}
+            />
+          </div>
+        </Segment>
+        <Segment>
+          <div className="w-full flex justify-end">
+            <TagPercentage
               isUp={pair?.price_change_24h > 0 || false}
               percentage={convertScientificNotation(pair?.price_change_24h)}
               inhert={pair?.price_change_24h === 0 || !pair?.price_change_24h}
             />
           </div>
         </Segment>
+
         <Segment>
           <div className="w-full flex justify-end">
             <SmallFont extraCss="w-fit whitespace-nowrap text-end">
