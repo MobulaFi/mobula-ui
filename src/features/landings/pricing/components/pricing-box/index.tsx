@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import React from "react";
 import { SmallFont } from "../../../../../components/fonts";
 import { pricings } from "../../constants";
 
@@ -14,16 +15,16 @@ export const PricingBox = ({ id }: { id: number }) => {
       </SmallFont>
       <h2
         className="text-light-font-100 dark:text-dark-font-100 tracking-tight 
-                  font-poppins text-6xl md:text-5xl font-bold text-center mt-5 md:mt-4"
+                  font-poppins text-6xl md:text-5xl font-bold text-center mt-5 md:mt-4 mb-[25px]"
       >
         {pricings[id].price}
         <span className="text-base font-normal">
           {pricings[id].pricePerMonth}
         </span>
       </h2>
-      <SmallFont extraCss="font-poppins mb-5 mt-2.5 text-light-font-60 dark:text-dark-font-60 text-center text-base font-normal md:text-sm">
+      {/* <SmallFont extraCss="font-poppins mb-5 mt-2.5 text-light-font-60 dark:text-dark-font-60 text-center text-base font-normal md:text-sm">
         Billed annually or {pricings[id].pricePerMonthAlt}
-      </SmallFont>
+      </SmallFont> */}
       <button
         className="w-full h-[50px] rounded-lg bg-light-font-5 dark:bg-dark-font-5 shadow-xl 
       backdrop-blur-md border border-light-border-primary dark:border-dark-border-primary
@@ -41,6 +42,11 @@ export const PricingBox = ({ id }: { id: number }) => {
           </li>
         ))}
       </ul>
+      {/* <img
+        src={pricings[id].logo}
+        alt="pricing logo"
+        className="w-full mt-10"
+      /> */}
     </div>
   );
 };
