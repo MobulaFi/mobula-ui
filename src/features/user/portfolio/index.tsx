@@ -299,7 +299,7 @@ export const Portfolio = ({
 
             newWallet.portfolio = newWallet?.portfolio?.map((entry) => {
               const newEntry = { ...entry };
-              const asset = r.data.find((e) => e.id === entry.id);
+              const asset = r.data.find((e) => String(e.id) === entry.id);
               newEntry.price = asset?.price as number;
               newEntry.change_24h = asset?.price_change_24h as number;
               newEntry.estimated_balance =
@@ -337,6 +337,8 @@ export const Portfolio = ({
 
             if (!(newWallet.estimated_balance - wallet.estimated_balance))
               newWallet.estimated_balance_change = undefined;
+
+            console.log("thats it", newWallet, r);
             setWallet(newWallet);
 
             if (showPortfolioSelector) {

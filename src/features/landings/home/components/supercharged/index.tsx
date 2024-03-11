@@ -23,10 +23,10 @@ export const IndexingSupercharged = () => {
     >
       <div className={containerStyle}>
         <div>
-          <Title title="Indexing Supercharged" />
+          <Title title="Analytics Supercharged" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-6 text-xl md:text-base text-center">
-            Faster indexers, multi-chain, data-enabled - consumed via REST or
-            livestreamed to your DB.
+            Data wharehousing, BI dashboards - consumed via REST or livestreamed
+            to your DB.
           </p>
           <div
             className="p-8 md:p-4 flex items-center shadow-xl bg-[rgba(23, 27, 43, 0.22)] rounded-2xl backdrop-blur-md border mt-[50px] 
@@ -95,13 +95,11 @@ export const IndexingSupercharged = () => {
                 </div>
                 <div className="mt-8 md:mt-4 p-3 px-8 md:p-5 pb-0">
                   <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium ">
-                    Multi-chain Indexing
+                    Multi-chain Data Analytics
                   </h2>
                   <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:mb-5 md:text-sm max-w-[500px]">
-                    Enter the chain-agnostic, multi-chain future. Index data
-                    from **any** blockchain, including non-EVM realm thanks to
-                    our chain-agnostic modular architecture. Combine multiple
-                    chains into a single subgraph.
+                    Build data dashboards from any event, transaction, off-chain
+                    dataset, on any blockchain.
                   </p>{" "}
                 </div>
               </div>
@@ -117,12 +115,11 @@ export const IndexingSupercharged = () => {
               <div className="w-full flex flex-col mt-3 md:mt-0 mb-auto">
                 <div className="p-3 pb-0 md:p-0 pt-0">
                   <h2 className="text-light-font-100 dark:text-dark-font-100 tracking-tight font-poppins text-4xl md:text-2xl font-medium mt-4 md:mt-0">
-                    Access curated datasets, in real time.
+                    Open-source Business Intelligence
                   </h2>
                   <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-7 md:mt-4 text-lg mb-9 md:text-sm max-w-[500px]">
-                    Consume Octopus, Metacore & community curated datasets
-                    directly in your subgraph, without slowing down indexing
-                    time - built for real time.
+                    No more vendor lock-in, own your dashboards & data - extend
+                    to any chain, any data source.
                   </p>{" "}
                 </div>
                 <div className="rounded-lg w-fit md:h-[170px] mx-auto">

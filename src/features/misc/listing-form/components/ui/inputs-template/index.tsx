@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
 import { cn } from "../../../../../../lib/shadcn/lib/utils";
 import { inputStyle } from "../../../styles";
@@ -21,6 +21,7 @@ interface InputTemplateProps {
   icon?: JSX.Element;
   extraCss?: string;
   state?: any;
+  isLink?: boolean;
 }
 
 export const InputTemplate = ({
@@ -33,6 +34,7 @@ export const InputTemplate = ({
   state,
   placeholder,
   extraCss,
+  isLink,
 }: InputTemplateProps) => {
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [borderStyle, setBorderStyle] = useState(BORDER_STYLE_NORMAL);
@@ -75,7 +77,7 @@ export const InputTemplate = ({
           name={name}
           placeholder={placeholder}
           id={name}
-          value={state?.[name]}
+          value={!isLink ? state?.[name] : state?.links[name]}
           onChange={(e) => {
             handleWebsiteError(e);
             handleChange(e);
