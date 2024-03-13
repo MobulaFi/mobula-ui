@@ -6,17 +6,17 @@ export const dynamic = "force-static";
 export const dynamicParams = true;
 
 export const metadata: Metadata = {
-  title: "Trending DeFi Tokens by network | Mobula",
+  title: "Multichain DeFI Dashboard | Mobula",
   description:
-    "Track trending tokens on each blockchain with our real-time dashboard. Get price updates and DeFi stats tailored to each network.",
+    "Track multichain tokens and discover trendy blockchains for Defi",
   robots: "index, follow",
   keywords:
-    "Mobula, Mobula crypto, Mobula Crypto Data Aggregator, crypto movers, crypto gainers, crypto losers",
+    "Mobula, Mobula crypto, Mobula Crypto Data Aggregator, crypto movers, crypto gainers, crypto losers, multichain, defi, trendy blockchains",
 };
 
 async function BlockchainsPage() {
-  const title = `Trending DeFi Tokens by network | Mobula`;
-  const description = `Track trending tokens on each blockchain with our real-time dashboard. Get price updates and DeFi stats tailored to each network.`;
+  const title = `Multichain DeFI Dashboard | Mobula`;
+  const description = `Track multichain tokens and discover trendy blockchains for Defi`;
   return (
     <>
       <head>
