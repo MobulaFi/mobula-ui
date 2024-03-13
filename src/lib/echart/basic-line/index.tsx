@@ -133,6 +133,7 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
     series: {
       name: "Profit",
       type: "line",
+      showSymbol: false,
       itemStyle: {
         color: (params) => {
           const value = params.value[1];
