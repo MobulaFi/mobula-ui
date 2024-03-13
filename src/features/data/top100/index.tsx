@@ -92,9 +92,13 @@ export const Top100 = ({
 
     if (result.error) setIsPageLoading(false);
     else {
+      const existingNames = new Set(resultsData.data.map((item) => item.name));
+      const newData = result.data.filter(
+        (item) => !existingNames.has(item.name)
+      );
       setResultsData((prev) => ({
         ...prev,
-        data: [...prev.data, ...result.data],
+        data: [...prev.data, ...newData],
         count: result.count,
       }));
 
