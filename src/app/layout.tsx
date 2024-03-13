@@ -43,7 +43,7 @@ async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <head>
-        <title>Mobula | The Web3-native crypto data aggregator</title>
+        <title>Mobula | The onchain-native crypto data aggregator</title>
         <meta
           name="description"
           content="Price, volume, liquidity, and market cap of any crypto, in real-time. Track crypto information & insights, buy at best price, analyse your wallets and more."
