@@ -75,12 +75,12 @@ export const ChartLite = ({
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
         if (r) {
-          if (!refresh)
+          if (!refresh && r.data?.transactions?.length)
             setTransactions((oldTsx) => [
               ...(oldTsx || []),
               ...r.data.transactions,
             ]);
-          else setTransactions(r.data.transactions);
+          else setTransactions(r.data?.transactions || []);
         }
       });
   };
