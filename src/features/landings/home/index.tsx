@@ -103,7 +103,7 @@ export const HomeLanding = () => {
                 to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
                  dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text text-center"
               >
-                The last web3 data provider
+                The last onchain data provider
                 <br />
                 You&apos;ll ever need
               </h1>
