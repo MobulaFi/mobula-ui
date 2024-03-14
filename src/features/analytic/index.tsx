@@ -1,16 +1,110 @@
 "use client";
 
-import { CodeiumEditor, Document, Language } from "@codeium/react-code-editor";
-import React, { useState } from "react";
+import Editor, { useMonaco } from "@monaco-editor/react";
+import React, { useEffect, useState } from "react";
 import { default as ChartAnalytic } from "./components/chart";
 import { fakeData } from "./constants";
 
 export const Analytic = () => {
-  const [activeLanguage, setActiveLanguage] = useState("javascript");
+  const [activeLanguage, setActiveLanguage] = useState("sql");
+  const [userType, setUserType] = useState("");
+  const monaco = useMonaco();
+
+  function handleEditorChange(value, event) {
+    console.log("here is the current model value:", value);
+    setUserType(value);
+
+    // monaco.languages.registerCompletionItemProvider("javascript", {
+    //   provideCompletionItems: function (model, position) {
+    //     const regex = /\w+\.$/;
+    //     const lastChar = value[value.length - 1];
+    //     const match = lastChar === "/" || lastChar === ".";
+
+    //     console.log("splitTextsplitText=", match, lastChar);
+    //     if (match) {
+    //       // Renvoyez les suggestions de complétion appropriées pour JavaScript
+    //       return {
+    //         suggestions: [
+    //           {
+    //             label: "function1",
+    //             kind: monaco.languages.CompletionItemKind.Function,
+    //             insertText: "function1",
+    //           },
+    //           {
+    //             label: "function2",
+    //             kind: monaco.languages.CompletionItemKind.Function,
+    //             insertText: "function2",
+    //           },
+    //           // Ajoutez d'autres suggestions de complétion ici
+    //         ],
+    //       };
+    //     }
+    //     // Si le dernier caractère n'est pas un ".", renvoyez null
+    //     return null;
+    //   },
+    // });
+  }
+
+  useEffect(() => {
+    if (monaco) {
+      console.log("here is the monaco instance:", monaco);
+    }
+  }, [monaco, userType]);
+  useEffect(() => {}, [monaco]);
 
   const changeLanguage = (language: string) => {
     setActiveLanguage(language);
   };
+
+  const [completionProvider, setCompletionProvider] = useState(null);
+  const [editorInstance, setEditorInstance] = useState(null);
+
+  useEffect(() => {
+    if (editorInstance) {
+      // Enregistrer le fournisseur d'éléments de complétion une seule fois
+      const provider = monaco.languages.registerCompletionItemProvider(
+        "javascript",
+        {
+          provideCompletionItems: function (model, position) {
+            const suggestions = [];
+            const value = userType;
+            console.log("value=", value);
+            const newWord = value.match(/\b\w+\b|\W+/g);
+            const lastCharacter = value.charAt(value.length - 1);
+            const isLastCharacterDot = value.endsWith(".");
+
+            if (isLastCharacterDot) {
+              console.log("ITS A .", true);
+            } else {
+              console.log("ITS NOT A .", false);
+            }
+
+            const words = value.match(/\b\w+\b/g);
+            console.log("words=", words);
+
+            if (value.includes("se")) {
+              console.log("IM HERE");
+              suggestions.push({
+                label: "select version 23342",
+                kind: monaco.languages.CompletionItemKind.Property,
+                insertText: "select @@version",
+              });
+            }
+            return { suggestions };
+          },
+        }
+      );
+
+      setCompletionProvider(provider);
+
+      return () => {
+        // Nettoyer le fournisseur d'éléments de complétion lorsque le composant est démonté
+        if (completionProvider) {
+          completionProvider.dispose();
+        }
+      };
+    }
+  }, [editorInstance, userType]);
 
   const html = `<html>
     <body>
@@ -46,24 +140,20 @@ export const Analytic = () => {
           </button>
           <button
             className="px-2.5 mx-1.5 py-1 rounded bg-dark-font-40"
-            onClick={() => changeLanguage("html")}
+            onClick={() => changeLanguage("sql")}
           >
-            HTML
+            SQL
           </button>
         </div>
         <div className="flex w-[800px] mt-5">
-          <CodeiumEditor
-            language={activeLanguage}
-            theme="vs-dark"
-            otherDocuments={[
-              new Document({
-                absolutePath: "/app/index.html",
-                relativePath: "index.html",
-                text: html,
-                editorLanguage: "html",
-                language: Language.HTML,
-              }),
-            ]}
+          <Editor
+            height="500px"
+            defaultLanguage="javascript"
+            defaultValue="// some comment"
+            onMount={(editor, monaco) => {
+              setEditorInstance(editor);
+            }}
+            onChange={handleEditorChange}
           />
         </div>
       </div>
