@@ -60,47 +60,31 @@ export const Analytic = () => {
   const [editorInstance, setEditorInstance] = useState(null);
 
   useEffect(() => {
-    if (editorInstance) {
-      // Enregistrer le fournisseur d'éléments de complétion une seule fois
+    if (editorInstance && monaco) {
       const provider = monaco.languages.registerCompletionItemProvider(
         "javascript",
         {
           provideCompletionItems: function (model, position) {
             const suggestions = [];
             const value = userType;
-            console.log("value=", value);
-            const newWord = value.match(/\b\w+\b|\W+/g);
-            const lastCharacter = value.charAt(value.length - 1);
             const isLastCharacterDot = value.endsWith(".");
 
             if (isLastCharacterDot) {
-              console.log("ITS A .", true);
-            } else {
-              console.log("ITS NOT A .", false);
-            }
-
-            const words = value.match(/\b\w+\b/g);
-            console.log("words=", words);
-
-            if (value.includes("se")) {
-              console.log("IM HERE");
               suggestions.push({
                 label: "select version 23342",
                 kind: monaco.languages.CompletionItemKind.Property,
                 insertText: "select @@version",
-              });
+              } as never);
             }
             return { suggestions };
           },
         }
       );
-
-      setCompletionProvider(provider);
+      setCompletionProvider(provider as never);
 
       return () => {
-        // Nettoyer le fournisseur d'éléments de complétion lorsque le composant est démonté
         if (completionProvider) {
-          completionProvider.dispose();
+          (completionProvider as any).dispose();
         }
       };
     }
