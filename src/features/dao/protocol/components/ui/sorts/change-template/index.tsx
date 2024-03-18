@@ -25,6 +25,9 @@ export const ChangeTemplate = ({
     setTimeout(() => setHasCopied(false), 2000);
   };
 
+  console.log("oldValue", oldValue, type);
+  console.log("newValue", newValue, type);
+
   if (
     type === "contracts" ||
     type === "excludedFromCirculationAddresses" ||
@@ -53,8 +56,16 @@ export const ChangeTemplate = ({
   }
 
   if (type === "image") {
-    oldValue = oldValue.logo;
-    newValue = newValue.logo;
+    oldValue = oldValue?.logo;
+    newValue = newValue?.logo;
+  }
+
+  if (type === "team") {
+    return;
+  }
+
+  if (type === "tokenomics") {
+    return;
   }
 
   return (
