@@ -46,6 +46,8 @@ export const Submit = ({ state }) => {
         oldAssetFormattedData: baseEditAssetReducer,
         newAssetFormattedData: stateWithoutEdits,
         protocolId: state.protocol_id,
+        name: state.name,
+        symbol: state.symbol,
       });
 
       console.log("Edit request:", stateWithoutEdits);
