@@ -195,7 +195,7 @@ export interface VoteToken {
 // [{…}]
 // description
 // :
-// "The first fully privatized on-chain Auction House introducing new ways to generate liquidity for web3 assets | Backed by Kucoin and Republic Capital\n"
+// "The first fully privatized on-chain Auction House introducing new ways to generate liquidity for onchain assets | Backed by Kucoin and Republic Capital\n"
 // excludedFromCirculationAddresses
 // :
 // [{…}]
