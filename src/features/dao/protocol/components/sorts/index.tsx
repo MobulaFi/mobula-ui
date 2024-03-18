@@ -65,16 +65,19 @@ export const Sort = () => {
 
   const renderNonListingToken = (token: TokenDivs) => (
     <div className={token?.alreadyVoted ? "opacity-50" : "opacity-100"}>
-      {token?.edits?.map?.((edit) => (
-        <ChangeTemplate
-          key={edit}
-          oldImage={token?.oldToken?.logo || "/empty/unknown.png"}
-          newImage={token?.logo || "/empty/unknown.png"}
-          type={edit}
-          oldValue={token?.oldToken?.[edit]}
-          newValue={token?.[edit]}
-        />
-      ))}
+      {token?.edits
+        ?.filter((edit) => edit !== "edits")
+        ?.filter((edit) => edit !== "protocol_id")
+        ?.map((edit) => (
+          <ChangeTemplate
+            key={edit}
+            oldImage={token?.oldToken?.logo || "/empty/unknown.png"}
+            newImage={token?.logo || "/empty/unknown.png"}
+            type={edit}
+            oldValue={token?.oldToken?.[edit]}
+            newValue={token?.[edit]}
+          />
+        ))}
       <Countdown extraCss="mt-5" token={token} />
       <div className="p-5 flex flex-col bg-light-bg-secondary dark:bg-dark-bg-secondary border border-light-border-primary dark:border-dark-borde-primary">
         <ButtonVote token={token} />
