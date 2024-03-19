@@ -122,16 +122,22 @@ export const getFakeData = () => {
 
 export const initialOptions = {
   data: fakeData,
-  type: "bar",
+  type: "title",
   name: "Default Bar Chart",
   width: "50%",
   colors: {
     up: "#00C087",
     down: "#FF3B30",
   },
+  title: "Type your title here",
+  description: "Type your description here",
 };
 
 export const options = [
+  {
+    type: "title",
+    name: "Title",
+  },
   {
     type: "bar",
     name: "Bar Chart",
@@ -151,5 +157,32 @@ export const options = [
   {
     type: "large-area",
     name: "Area Chart",
+  },
+];
+
+export const getPercentages = (width: string) => [
+  {
+    value: "25%",
+    selected: width === "25%",
+  },
+  {
+    value: "33.33%",
+    selected: width === "33.33%",
+  },
+  {
+    value: "50%",
+    selected: width === "50%",
+  },
+  {
+    value: "66.66%",
+    selected: width === "66.66%",
+  },
+  {
+    value: "75%",
+    selected: width === "75%",
+  },
+  {
+    value: "100%",
+    selected: width === "100%",
   },
 ];

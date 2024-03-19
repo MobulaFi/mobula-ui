@@ -3,17 +3,15 @@
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
-import { MediumFont } from "../../components/fonts";
-import ChartAnalytic from "./components/chart";
+import { PreviewOptions } from "./components/popup/preview-options";
 import { SelectorPopup } from "./components/popup/selector";
-import { Table } from "./components/table";
 import { getFakeData } from "./constants";
 import { useAnalytics } from "./context-manager";
 
 export const Analytic = () => {
   const [activeLanguage, setActiveLanguage] = useState("sql");
   const [userType, setUserType] = useState("");
-  const { views } = useAnalytics();
+  const { views, selectedOption } = useAnalytics();
   const { resolvedTheme } = useTheme();
   const monaco = useMonaco();
 
@@ -82,6 +80,7 @@ export const Analytic = () => {
       };
     }
   }, [editorInstance, userType]);
+  console.log("view test", views);
 
   return (
     <div className="flex flex-col items-center justify-center mt-10 max-w-[1200px] mx-auto">
@@ -137,12 +136,7 @@ export const Analytic = () => {
              border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5`}
             style={{ width: `calc(${view.width} - 5px)` }}
           >
-            <MediumFont extraCss="font-medium mb-5">{view.name}</MediumFont>
-            {view.type === "table" ? (
-              <Table />
-            ) : (
-              <ChartAnalytic chartOptions={view} />
-            )}
+            <PreviewOptions selectedOption={view} isPreview={false} />
           </div>
         ))}
       </div>

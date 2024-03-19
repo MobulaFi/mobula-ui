@@ -4,7 +4,7 @@ import { tdStyle, thStyle } from "../../style";
 export const Table = () => {
   return (
     <div className="w-full overflow-x-scroll">
-      <table className="w-full">
+      <table className="w-full overflow-x-scroll">
         <thead>
           <th className={cn(thStyle, "text-start")}>Company</th>
           <th className={cn(thStyle, "text-end")}>Contact</th>

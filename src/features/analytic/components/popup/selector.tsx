@@ -1,12 +1,11 @@
 import { Button } from "components/button";
-import { MediumFont } from "components/fonts";
 import { getFakeData, options } from "features/analytic/constants";
 import { useAnalytics } from "features/analytic/context-manager";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "../../../../components/modal-container";
-import ChartAnalytic from "../chart";
-import { Table } from "../table";
-import { SelectorContent } from "../ui/selector-content";
+import { initialOptions } from "../../constants";
+import { PreviewOptions } from "./preview-options";
+import { ViewOptions } from "./view-options";
 
 export const SelectorPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,12 +25,15 @@ export const SelectorPopup = () => {
       setSelectedOption((prev) => ({ ...prev, type: option, data: fakeData }));
   };
 
-  useEffect(() => {
-    console.log("selectedOption", selectedOption);
-  }, [selectedOption.type]);
-
   const submitView = () => {
-    setViews((prev) => [...(prev || []), selectedOption]);
+    if (selectedOption.type === "title") {
+      const newView = {
+        ...selectedOption,
+        width: "100%",
+      };
+      setViews((prev) => [...(prev || []), newView]);
+    } else setViews((prev) => [...(prev || []), selectedOption]);
+    setSelectedOption(initialOptions);
     setIsOpen(false);
   };
 
@@ -46,7 +48,7 @@ export const SelectorPopup = () => {
             <div className="flex flex-wrap">
               {options.map((option) => (
                 <Button
-                  extraCss={`mr-2.5 ${
+                  extraCss={`mr-2.5 mb-2.5 ${
                     option.type === selectedOption.type
                       ? "bg-light-bg-hover dark:bg-dark-bg-hover"
                       : ""
@@ -58,18 +60,11 @@ export const SelectorPopup = () => {
               ))}
             </div>
             <div className="flex flex-col h-full justify-between w-full pt-5">
-              <SelectorContent />
+              <ViewOptions />
               <Button onClick={submitView}>Submit</Button>
             </div>
           </div>
-          <div className="w-2/4">
-            <MediumFont extraCss="mb-2.5">{selectedOption.name}</MediumFont>
-            {selectedOption.type === "table" ? (
-              <Table />
-            ) : (
-              <ChartAnalytic chartOptions={selectedOption} />
-            )}
-          </div>
+          <PreviewOptions selectedOption={selectedOption} />
         </div>
       </Modal>
     </>

@@ -8,6 +8,8 @@ export interface OptionsProps {
     type: string;
     name: string;
     width: string;
+    title: string;
+    description: string;
   };
 }
 
@@ -20,6 +22,8 @@ export interface selectedOptionProps {
   type: string;
   name: string;
   width: string;
+  title: string;
+  description: string;
 }
 
 export interface AnalyticsContextProps {
