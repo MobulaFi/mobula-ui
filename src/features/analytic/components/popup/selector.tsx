@@ -4,6 +4,7 @@ import { useAnalytics } from "features/analytic/context-manager";
 import React, { useState } from "react";
 import { Modal } from "../../../../components/modal-container";
 import { initialOptions } from "../../constants";
+import { selectedOptionProps } from "../../models";
 import { PreviewOptions } from "./preview-options";
 import { ViewOptions } from "./view-options";
 
@@ -20,14 +21,22 @@ export const SelectorPopup = () => {
         ["Testing 3", 20],
         ["Testing 4", 80],
       ];
-      setSelectedOption((prev) => ({ ...prev, type: option, data }));
+      setSelectedOption((prev) => ({
+        ...prev,
+        type: option,
+        data: data,
+      }));
     } else
-      setSelectedOption((prev) => ({ ...prev, type: option, data: fakeData }));
+      setSelectedOption((prev) => ({
+        ...prev,
+        type: option,
+        data: fakeData,
+      }));
   };
 
   const submitView = () => {
     if (selectedOption.type === "title") {
-      const newView = {
+      const newView: selectedOptionProps = {
         ...selectedOption,
         width: "100%",
       };

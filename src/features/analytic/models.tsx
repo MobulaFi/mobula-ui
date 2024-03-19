@@ -1,6 +1,6 @@
 export interface OptionsProps {
   chartOptions: {
-    data: number[][] | [string, number][];
+    data: (string | number)[][];
     colors?: {
       up: string;
       down: string;
@@ -14,7 +14,7 @@ export interface OptionsProps {
 }
 
 export interface selectedOptionProps {
-  data: number[][] | [string, number][];
+  data: (string | number)[][];
   colors?: {
     up: string;
     down: string;
