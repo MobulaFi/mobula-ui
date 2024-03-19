@@ -14,27 +14,21 @@ export const SelectorPopup = () => {
   const { selectedOption, setSelectedOption, setViews, views } = useAnalytics();
 
   const handleOptionClick = (option: string) => {
-    if (option === "pie") {
-      const data = [
-        ["Testing", 40],
-        ["Testing 2", 60],
-        ["Testing 3", 20],
-        ["Testing 4", 80],
-      ];
-      setSelectedOption((prev) => ({
-        ...prev,
-        type: option,
-        data: data,
-      }));
-    } else
-      setSelectedOption((prev) => ({
-        ...prev,
-        type: option,
-        data: fakeData,
-      }));
+    const data = [
+      ["Testing", 40],
+      ["Testing 2", 60],
+      ["Testing 3", 20],
+      ["Testing 4", 80],
+    ];
+    setSelectedOption((prev) => ({
+      ...prev,
+      type: option,
+      data: option === "pie" ? data : fakeData,
+    }));
   };
 
   const submitView = () => {
+    // If the selected option is a title, we need to set the width to 100%
     if (selectedOption.type === "title") {
       const newView: selectedOptionProps = {
         ...selectedOption,
@@ -42,7 +36,9 @@ export const SelectorPopup = () => {
       };
       setViews((prev) => [...(prev || []), newView]);
     } else setViews((prev) => [...(prev || []), selectedOption]);
+    // Reset the selected option to the initial state
     setSelectedOption(initialOptions);
+    // Close the modal
     setIsOpen(false);
   };
 

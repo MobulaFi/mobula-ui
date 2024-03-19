@@ -80,7 +80,6 @@ export const Analytic = () => {
       };
     }
   }, [editorInstance, userType]);
-  console.log("view test", views);
 
   return (
     <div className="flex flex-col items-center justify-center mt-10 max-w-[1200px] mx-auto">
