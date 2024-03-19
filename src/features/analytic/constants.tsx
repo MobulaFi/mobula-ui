@@ -113,3 +113,43 @@ export const fakeData: number[][] = [
   [1650789970000, 47.7],
   [1650789985000, 43.1],
 ];
+
+export const getFakeData = () => {
+  const newData = fakeData;
+  newData.forEach((item) => (item[1] = Math.random() * (90 - 20) + 20));
+  return newData;
+};
+
+export const initialOptions = {
+  data: fakeData,
+  type: "bar",
+  name: "Default Bar Chart",
+  width: "50%",
+  colors: {
+    up: "#00C087",
+    down: "#FF3B30",
+  },
+};
+
+export const options = [
+  {
+    type: "bar",
+    name: "Bar Chart",
+  },
+  {
+    type: "line",
+    name: "Line Chart",
+  },
+  {
+    type: "pie",
+    name: "Pie Chart",
+  },
+  {
+    type: "table",
+    name: "Table",
+  },
+  {
+    type: "large-area",
+    name: "Area Chart",
+  },
+];

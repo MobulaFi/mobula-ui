@@ -125,8 +125,22 @@ export const getSeries = (
     default:
       return {
         type: "line",
-        areaStyle: {},
         showSymbol: false,
+        itemStyle: {
+          color: (params) => {
+            const value = params.value[1];
+            if (value > 0) return colors?.up;
+            return colors?.down;
+          },
+        },
+        lineStyle: {
+          normal: {
+            color:
+              data[data?.length - 1][1] > data[0][1]
+                ? colors?.up
+                : colors?.down,
+          },
+        },
       };
   }
 };

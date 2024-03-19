@@ -1,5 +1,5 @@
-import React from "react";
 import { Analytic } from "../../features/analytic";
+import { AnalyticsProvider } from "../../features/analytic/context-manager";
 
 export default function AnalyticPage() {
   return (
@@ -32,7 +32,9 @@ export default function AnalyticPage() {
         <meta name="copyright" content="Mobula" />
         <meta name="robots" content="index, follow" />
       </head>
-      <Analytic />
+      <AnalyticsProvider>
+        <Analytic />
+      </AnalyticsProvider>
     </>
   );
 }

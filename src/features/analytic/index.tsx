@@ -1,56 +1,49 @@
 "use client";
 
 import Editor, { useMonaco } from "@monaco-editor/react";
+import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
-import { default as ChartAnalytic } from "./components/chart";
-import { fakeData } from "./constants";
+import { MediumFont } from "../../components/fonts";
+import ChartAnalytic from "./components/chart";
+import { SelectorPopup } from "./components/popup/selector";
+import { Table } from "./components/table";
+import { getFakeData } from "./constants";
+import { useAnalytics } from "./context-manager";
 
 export const Analytic = () => {
   const [activeLanguage, setActiveLanguage] = useState("sql");
   const [userType, setUserType] = useState("");
+  const { views } = useAnalytics();
+  const { resolvedTheme } = useTheme();
   const monaco = useMonaco();
 
-  function handleEditorChange(value, event) {
-    console.log("here is the current model value:", value);
-    setUserType(value);
-
-    // monaco.languages.registerCompletionItemProvider("javascript", {
-    //   provideCompletionItems: function (model, position) {
-    //     const regex = /\w+\.$/;
-    //     const lastChar = value[value.length - 1];
-    //     const match = lastChar === "/" || lastChar === ".";
-
-    //     console.log("splitTextsplitText=", match, lastChar);
-    //     if (match) {
-    //       // Renvoyez les suggestions de complétion appropriées pour JavaScript
-    //       return {
-    //         suggestions: [
-    //           {
-    //             label: "function1",
-    //             kind: monaco.languages.CompletionItemKind.Function,
-    //             insertText: "function1",
-    //           },
-    //           {
-    //             label: "function2",
-    //             kind: monaco.languages.CompletionItemKind.Function,
-    //             insertText: "function2",
-    //           },
-    //           // Ajoutez d'autres suggestions de complétion ici
-    //         ],
-    //       };
-    //     }
-    //     // Si le dernier caractère n'est pas un ".", renvoyez null
-    //     return null;
-    //   },
-    // });
-  }
+  const fakeData = getFakeData();
 
   useEffect(() => {
-    if (monaco) {
-      console.log("here is the monaco instance:", monaco);
+    if (monaco && resolvedTheme) {
+      const isDark = resolvedTheme === "dark";
+      monaco.editor.defineTheme("onedark", {
+        base: isDark ? "vs-dark" : "vs",
+        inherit: true,
+        rules: [
+          {
+            token: "comment",
+            foreground: "#5d7988",
+            fontStyle: "italic",
+          },
+          { token: "constant", foreground: "#e06c75" },
+        ],
+        colors: {
+          "editor.background": resolvedTheme === "dark" ? "#171B2B" : "#F7F7F7",
+        },
+      });
+      monaco.editor.setTheme("onedark");
     }
   }, [monaco, userType]);
-  useEffect(() => {}, [monaco]);
+
+  function handleEditorChange(value, event) {
+    setUserType(value);
+  }
 
   const changeLanguage = (language: string) => {
     setActiveLanguage(language);
@@ -71,7 +64,7 @@ export const Analytic = () => {
 
             if (isLastCharacterDot) {
               suggestions.push({
-                label: "select version 23342",
+                label: "Ceci est un test",
                 kind: monaco.languages.CompletionItemKind.Property,
                 insertText: "select @@version",
               } as never);
@@ -90,20 +83,8 @@ export const Analytic = () => {
     }
   }, [editorInstance, userType]);
 
-  const html = `<html>
-    <body>
-      <h1>Contact Us</h1>
-      <form>
-        <label>Name:</label>
-        <input id="name" type="text" />
-        <label>Email:</label>
-        <input id="email" type="text" />
-      </form>
-    </body>
-  </html>`;
-
   return (
-    <div className="flex flex-col items-center justify-center mt-10">
+    <div className="flex flex-col items-center justify-center mt-10 max-w-[1200px] mx-auto">
       <h1 className="text-4xl">Analytics</h1>
       <div>
         <p className="text-center mt-5">
@@ -129,7 +110,7 @@ export const Analytic = () => {
             SQL
           </button>
         </div>
-        <div className="flex w-[800px] mt-5">
+        <div className="hidden w-[800px] mt-5 p-2.5 rounded-lg bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary">
           <Editor
             height="500px"
             defaultLanguage="javascript"
@@ -137,56 +118,35 @@ export const Analytic = () => {
             onMount={(editor, monaco) => {
               setEditorInstance(editor);
             }}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              fontSize: 14,
+              cursorStyle: "block",
+              wordWrap: "on",
+            }}
             onChange={handleEditorChange}
           />
         </div>
       </div>
-      <div className="max-w-[800px] w-full mx-auto mt-10">
-        <ChartAnalytic
-          chartOptions={{
-            data: fakeData,
-            type: "line",
-            name: "Profit",
-            colors: {
-              up: "#00C087",
-              down: "#FF3B30",
-            },
-          }}
-        />
-        <div className="my-5 h-[20px]" />
-        <ChartAnalytic
-          chartOptions={{
-            data: fakeData,
-            type: "area-large",
-            name: "Profit",
-          }}
-        />
-        <div className="my-5 h-[20px]" />
-        <ChartAnalytic
-          chartOptions={{
-            data: fakeData,
-            type: "bar",
-            name: "Profit",
-            colors: {
-              up: "orange",
-              down: "orange",
-            },
-          }}
-        />
-        <div className="my-5 h-[20px]" />
-        <ChartAnalytic
-          chartOptions={{
-            data: [
-              ["Testing", 40],
-              ["Testing 2", 60],
-              ["Testing 3", 20],
-              ["Testing 4", 80],
-            ],
-            type: "pie",
-            name: "Profit",
-          }}
-        />
+      <div className="flex flex-wrap w-full mt-10 justify-between">
+        {views?.map((view, i) => (
+          <div
+            className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
+             border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5`}
+            style={{ width: `calc(${view.width} - 5px)` }}
+          >
+            <MediumFont extraCss="font-medium mb-5">{view.name}</MediumFont>
+            {view.type === "table" ? (
+              <Table />
+            ) : (
+              <ChartAnalytic chartOptions={view} />
+            )}
+          </div>
+        ))}
       </div>
+      <SelectorPopup />
     </div>
   );
 };

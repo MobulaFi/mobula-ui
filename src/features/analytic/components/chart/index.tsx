@@ -11,6 +11,7 @@ import {
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
+import { useAnalytics } from "features/analytic/context-manager";
 import { useTheme } from "next-themes";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { v4 as uuid } from "uuid";
@@ -34,7 +35,11 @@ echarts.use([
 
 const ChartAnalytic: React.FC<OptionsProps> = ({
   chartOptions,
-}: OptionsProps) => {
+}: {
+  chartOptions: any;
+}) => {
+  // selectedOption: chartOptions,
+  const { setSelectedOption } = useAnalytics();
   const parentRef = useRef<HTMLDivElement>(null);
   const id = useMemo(() => uuid(), []);
   const { resolvedTheme } = useTheme();
