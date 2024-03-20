@@ -1,29 +1,23 @@
 export interface OptionsProps {
-  chartOptions: {
-    data: (string | number)[][];
-    colors?: {
-      up: string;
-      down: string;
-    };
-    type: string;
-    name: string;
-    width: string;
-    title: string;
-    description: string;
-  };
+  chartOptions: selectedOptionProps;
 }
 
 export interface selectedOptionProps {
   data: (string | number)[][];
+  type: string;
+  width: string;
   colors?: {
     up: string;
     down: string;
   };
-  type: string;
-  name: string;
-  width: string;
-  title: string;
-  description: string;
+  infos: {
+    title: string;
+    subtitle: string;
+    description: string;
+    text: string;
+    amount: number;
+    symbol: string;
+  };
 }
 
 export interface AnalyticsContextProps {
@@ -31,4 +25,6 @@ export interface AnalyticsContextProps {
   setSelectedOption: React.Dispatch<React.SetStateAction<selectedOptionProps>>;
   views: selectedOptionProps[];
   setViews: React.Dispatch<React.SetStateAction<selectedOptionProps[]>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

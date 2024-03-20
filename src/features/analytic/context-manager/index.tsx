@@ -12,14 +12,17 @@ export const useAnalytics = () => useContext(AnalyticsContext);
 export const AnalyticsProvider = ({ children }) => {
   const [selectedOption, setSelectedOption] = useState(initialOptions);
   const [views, setViews] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const contextValue = React.useMemo(
     () => ({
       selectedOption,
       setSelectedOption,
       views,
       setViews,
+      setIsOpen,
+      isOpen,
     }),
-    [selectedOption, views]
+    [selectedOption, views, isOpen]
   );
 
   return (

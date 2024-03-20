@@ -3,6 +3,9 @@
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
+import { BiTrash } from "react-icons/bi";
+import { FiEdit } from "react-icons/fi";
+import { Button } from "../../components/button";
 import { PreviewOptions } from "./components/popup/preview-options";
 import { SelectorPopup } from "./components/popup/selector";
 import { getFakeData } from "./constants";
@@ -11,8 +14,10 @@ import { useAnalytics } from "./context-manager";
 export const Analytic = () => {
   const [activeLanguage, setActiveLanguage] = useState("sql");
   const [userType, setUserType] = useState("");
-  const { views, selectedOption } = useAnalytics();
+  const { views, setSelectedOption, setViews, setIsOpen, isOpen } =
+    useAnalytics();
   const { resolvedTheme } = useTheme();
+  const [isHovering, setIsHovering] = useState(0);
   const monaco = useMonaco();
 
   const fakeData = getFakeData();
@@ -81,6 +86,16 @@ export const Analytic = () => {
     }
   }, [editorInstance, userType]);
 
+  const removeView = () => {
+    const newViews = views.filter((view, i) => i !== isHovering - 1);
+    setViews(newViews);
+  };
+  const editView = (view) => {
+    setSelectedOption(view);
+    setViews(views.filter((v) => v !== view));
+    setIsOpen(true);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center mt-10 max-w-[1200px] mx-auto">
       <h1 className="text-4xl">Analytics</h1>
@@ -132,13 +147,34 @@ export const Analytic = () => {
         {views?.map((view, i) => (
           <div
             className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
-             border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5`}
+             border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5 relative`}
             style={{ width: `calc(${view.width} - 5px)` }}
+            onMouseEnter={() => setIsHovering(i + 1)}
+            onMouseLeave={() => setIsHovering(0)}
           >
+            <Button
+              extraCss={`rounded-full absolute top-2.5 right-2.5 text-base transition-all duration-300 ease-in-out ${
+                isHovering === i + 1 ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={removeView}
+            >
+              <BiTrash />
+            </Button>
+            <Button
+              extraCss={`rounded-full absolute top-2.5 right-[50px] text-base transition-all duration-300 ease-in-out ${
+                isHovering === i + 1 ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={() => editView(view)}
+            >
+              <FiEdit />
+            </Button>
             <PreviewOptions selectedOption={view} isPreview={false} />
           </div>
         ))}
       </div>
+      <Button extraCss="my-10" onClick={() => setIsOpen(true)}>
+        Open
+      </Button>
       <SelectorPopup />
     </div>
   );

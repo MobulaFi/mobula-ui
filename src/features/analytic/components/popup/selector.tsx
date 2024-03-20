@@ -1,17 +1,16 @@
 import { Button } from "components/button";
-import { getFakeData, options } from "features/analytic/constants";
 import { useAnalytics } from "features/analytic/context-manager";
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "../../../../components/modal-container";
-import { initialOptions } from "../../constants";
+import { getFakeData, initialOptions, options } from "../../constants";
 import { selectedOptionProps } from "../../models";
 import { PreviewOptions } from "./preview-options";
 import { ViewOptions } from "./view-options";
 
 export const SelectorPopup = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const fakeData = getFakeData();
-  const { selectedOption, setSelectedOption, setViews, views } = useAnalytics();
+  const { selectedOption, setSelectedOption, setViews, isOpen, setIsOpen } =
+    useAnalytics();
 
   const handleOptionClick = (option: string) => {
     const data = [
@@ -44,9 +43,6 @@ export const SelectorPopup = () => {
 
   return (
     <>
-      <Button extraCss="my-10" onClick={() => setIsOpen(true)}>
-        Open
-      </Button>
       <Modal title="Create view" isOpen={isOpen} extraCss="max-w-[1000px]">
         <div className="flex w-full">
           <div className="w-2/4 pr-2.5 flex flex-col">

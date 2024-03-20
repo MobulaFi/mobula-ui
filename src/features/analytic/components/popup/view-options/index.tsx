@@ -12,7 +12,10 @@ export const ViewOptions = () => {
   const { resolvedTheme } = useTheme();
 
   const handleChange = (name: string, value: string) => {
-    setSelectedOption((prev) => ({ ...prev, [name]: value }));
+    setSelectedOption((prev) => ({
+      ...prev,
+      infos: { ...prev.infos, [name]: value },
+    }));
   };
 
   const renderContent = () => {
@@ -23,7 +26,7 @@ export const ViewOptions = () => {
             <SmallFont extraCss="mb-2  font-medium">Title</SmallFont>
             <Input
               extraCss="w-full"
-              placeholder={selectedOption.title}
+              placeholder={selectedOption.infos.title}
               name="title"
               onChange={(e) => handleChange(e.target.name, e.target.value)}
             />
@@ -39,7 +42,7 @@ export const ViewOptions = () => {
                     ? "1px solid rgba(255,255,255,0.03)"
                     : "1px solid rgba(0,0,0,0.03)",
               }}
-              placeholder={selectedOption.title}
+              placeholder={selectedOption.infos.description}
               name="description"
               onChange={(e) => handleChange(e.target.name, e.target.value)}
             />
@@ -68,6 +71,61 @@ export const ViewOptions = () => {
           </div>
         </>
       );
+    if (selectedOption.type === "value") {
+      return (
+        <>
+          <div className="flex flex-col w-[45%] mr-2.5 mb-2.5">
+            <SmallFont extraCss="mb-2 font-medium">Amount</SmallFont>
+            <Input
+              extraCss="w-full"
+              type="number"
+              placeholder={selectedOption.infos.amount}
+              onChange={(e) => {
+                setSelectedOption((prev) => ({
+                  ...prev,
+                  infos: { ...prev.infos, amount: e.target.value },
+                }));
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-[45%] mr-2.5 mb-2.5">
+            <SmallFont extraCss="mb-2 font-medium">Text</SmallFont>
+            <Input
+              extraCss="w-full"
+              placeholder={selectedOption.infos.text}
+              onChange={(e) => {
+                setSelectedOption((prev) => ({
+                  ...prev,
+                  infos: { ...prev.infos, text: e.target.value },
+                }));
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-[45%] mr-2.5 mb-2.5">
+            <SmallFont extraCss="mb-2 font-medium">Symbol</SmallFont>
+            <Input
+              extraCss="w-full"
+              placeholder={selectedOption.infos.symbol}
+              onChange={(e) => {
+                setSelectedOption((prev) => ({
+                  ...prev,
+                  infos: { ...prev.infos, symbol: e.target.value },
+                }));
+              }}
+            />
+          </div>
+          <div className="flex flex-col w-[45%] mr-2.5 mb-2.5">
+            <SmallFont extraCss="mb-2 font-medium">Subtitle</SmallFont>
+            <Input
+              extraCss="w-full"
+              placeholder={selectedOption.infos.subtitle}
+              name="subtitle"
+              onChange={(e) => handleChange(e.target.name, e.target.value)}
+            />
+          </div>
+        </>
+      );
+    }
     return <></>;
   };
   const content = renderContent();
@@ -79,12 +137,12 @@ export const ViewOptions = () => {
       {selectedOption.type !== "title" ? (
         <>
           <div className="flex flex-col w-[45%] mr-2.5 mb-2.5">
-            <SmallFont extraCss="mb-2">Name</SmallFont>
+            <SmallFont extraCss="mb-2">Title</SmallFont>
             <Input
               extraCss="w-full border-l-0 rounded-r rounded-l-none"
               placeholder="Chart Title"
-              name="name"
-              value={selectedOption.name}
+              name="title"
+              value={selectedOption.infos.title}
               onChange={(e) => handleChange(e.target.name, e.target.value)}
             />
           </div>
@@ -94,7 +152,12 @@ export const ViewOptions = () => {
               {percentages.map((percent) => (
                 <button
                   className="flex items-center"
-                  onClick={() => handleChange("width", percent.value)}
+                  onClick={() => {
+                    setSelectedOption((prev) => ({
+                      ...prev,
+                      width: percent.value,
+                    }));
+                  }}
                 >
                   <div className="w-4 h-4 rounded bg-light-bg-hover dark:bg-dark-bg-hover mr-2 flex items-center justify-center">
                     {percent.selected && (

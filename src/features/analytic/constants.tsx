@@ -123,20 +123,33 @@ export const getFakeData = () => {
 export const initialOptions = {
   data: fakeData,
   type: "title",
-  name: "Default Bar Chart",
   width: "50%",
   colors: {
     up: "#00C087",
     down: "#FF3B30",
   },
-  title: "Type your title here",
-  description: "Type your description here",
+  infos: {
+    title: "Type your title here",
+    description: "Type your description here",
+    subtitle: "Type your subtitle here",
+    text: "Your description here",
+    amount: 0,
+    symbol: "$",
+  },
 };
 
 export const options = [
   {
     type: "title",
     name: "Title",
+  },
+  {
+    type: "value",
+    name: "Value",
+  },
+  {
+    type: "table",
+    name: "Table",
   },
   {
     type: "bar",
@@ -149,10 +162,6 @@ export const options = [
   {
     type: "pie",
     name: "Pie Chart",
-  },
-  {
-    type: "table",
-    name: "Table",
   },
   {
     type: "large-area",
