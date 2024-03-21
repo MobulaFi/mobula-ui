@@ -137,9 +137,11 @@ export const MultiInputTemplate = ({
                               if (state.totalSupplyContracts.length === 0)
                                 dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
 
-                              setEditAssetReducer(
-                                (prevState: { contracts: any }) => {
-                                  const newContracts = [...prevState.contracts];
+                              if (editAssetReducer) {
+                                setEditAssetReducer((prevState: any) => {
+                                  const newContracts: any = [
+                                    ...prevState?.contracts,
+                                  ];
                                   newContracts[i] = {
                                     ...newContracts[i],
                                     address: e.target.value,
@@ -148,32 +150,35 @@ export const MultiInputTemplate = ({
                                     ...prevState,
                                     contracts: newContracts,
                                   };
-                                }
-                              );
+                                });
+                              }
                             } else if (title === "Excluded addresses") {
                               setTemporateValue((prev: any) => {
                                 const buffer = [...prev];
                                 buffer[i] = { address: e.target.value };
                                 return buffer;
                               });
-                              setEditAssetReducer(
-                                (prevState: {
-                                  excludedFromCirculationAddresses: any;
-                                }) => {
-                                  const newExcluded = [
-                                    ...prevState.excludedFromCirculationAddresses,
-                                  ];
-                                  newExcluded[i] = {
-                                    ...newExcluded[i],
-                                    address: e.target.value,
-                                  };
-                                  return {
-                                    ...prevState,
-                                    excludedFromCirculationAddresses:
-                                      newExcluded,
-                                  };
-                                }
-                              );
+
+                              if (editAssetReducer) {
+                                setEditAssetReducer(
+                                  (prevState: {
+                                    excludedFromCirculationAddresses: any;
+                                  }) => {
+                                    const newExcluded = [
+                                      ...prevState.excludedFromCirculationAddresses,
+                                    ];
+                                    newExcluded[i] = {
+                                      ...newExcluded[i],
+                                      address: e.target.value,
+                                    };
+                                    return {
+                                      ...prevState,
+                                      excludedFromCirculationAddresses:
+                                        newExcluded,
+                                    };
+                                  }
+                                );
+                              }
                             }
                           }}
                         />
@@ -195,42 +200,46 @@ export const MultiInputTemplate = ({
                           if (state.totalSupplyContracts.length === 0)
                             dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
 
-                          setEditAssetReducer(
-                            (prevState: { contracts: any }) => {
-                              const newContracts = [...prevState.contracts];
-                              newContracts[i] = {
-                                ...newContracts[i],
-                                address: e.target.value,
-                              };
-                              return {
-                                ...prevState,
-                                contracts: newContracts,
-                              };
-                            }
-                          );
+                          if (editAssetReducer) {
+                            setEditAssetReducer(
+                              (prevState: { contracts: any }) => {
+                                const newContracts = [...prevState?.contracts];
+                                newContracts[i] = {
+                                  ...newContracts[i],
+                                  address: e.target.value,
+                                };
+                                return {
+                                  ...prevState,
+                                  contracts: newContracts,
+                                };
+                              }
+                            );
+                          }
                         } else if (title === "Excluded addresses") {
                           setTemporateValue((prev: any) => {
                             const buffer = [...prev];
                             buffer[i] = { address: e.target.value };
                             return buffer;
                           });
-                          setEditAssetReducer(
-                            (prevState: {
-                              excludedFromCirculationAddresses: any;
-                            }) => {
-                              const newExcluded = [
-                                ...prevState.excludedFromCirculationAddresses,
-                              ];
-                              newExcluded[i] = {
-                                ...newExcluded[i],
-                                address: e.target.value,
-                              };
-                              return {
-                                ...prevState,
-                                excludedFromCirculationAddresses: newExcluded,
-                              };
-                            }
-                          );
+                          if (editAssetReducer) {
+                            setEditAssetReducer(
+                              (prevState: {
+                                excludedFromCirculationAddresses: any;
+                              }) => {
+                                const newExcluded = [
+                                  ...prevState.excludedFromCirculationAddresses,
+                                ];
+                                newExcluded[i] = {
+                                  ...newExcluded[i],
+                                  address: e.target.value,
+                                };
+                                return {
+                                  ...prevState,
+                                  excludedFromCirculationAddresses: newExcluded,
+                                };
+                              }
+                            );
+                          }
                         }
                       }}
                     />
@@ -251,13 +260,15 @@ export const MultiInputTemplate = ({
                         dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
                       }
 
-                      setEditAssetReducer((prevState) => ({
-                        ...prevState,
-                        contracts: [
-                          ...prevState.contracts.slice(0, i),
-                          ...prevState.contracts.slice(i + 1),
-                        ],
-                      }));
+                      if (editAssetReducer) {
+                        setEditAssetReducer((prevState) => ({
+                          ...prevState,
+                          contracts: [
+                            ...prevState?.contracts?.slice(0, i),
+                            ...prevState?.contracts?.slice(i + 1),
+                          ],
+                        }));
+                      }
 
                       setTemporateValue((prev: string[]) => [
                         ...prev.slice(0, i),
