@@ -245,6 +245,12 @@ export const TokenMainInfo = ({ pairs = null }) => {
                 <LargeFont extraCss="mb-0 lg:mb-0.5 mt-1.5 lg:mt-0.5 text-light-font-60 dark:text-dark-font-60 leading-[16px]">
                   {baseAsset?.symbol}
                 </LargeFont>
+                <p
+                  className="text-base font-medium text-light-font-60 dark:text-dark-font-60 
+              ml-[5px] hidden mr-2.5 lg:flex"
+                >
+                  #{baseAsset?.rank}
+                </p>
               </div>
             </div>
             <div className="flex items-center ml-2.5  mb-1">
@@ -257,6 +263,12 @@ export const TokenMainInfo = ({ pairs = null }) => {
               >
                 {watchlistIcon}
               </Button>
+              <p
+                className="text-lg leading-[26px] font-medium text-light-font-60 dark:text-dark-font-60 
+              mr-[5px] flex ml-2.5 mt-[5px] lg:hidden"
+              >
+                #{baseAsset?.rank}
+              </p>
               {/* <Button
             extraCss="text-light-font-40 dark:text-dark-font-40 text-xl ml-[7.5px]
              mt-[5px] mr-0 lg:text-xl md:text-xl hover:text-light-font-100 
