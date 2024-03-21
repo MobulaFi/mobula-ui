@@ -9,8 +9,14 @@ import { ViewOptions } from "./view-options";
 
 export const SelectorPopup = () => {
   const fakeData = getFakeData();
-  const { selectedOption, setSelectedOption, setViews, isOpen, setIsOpen } =
-    useAnalytics();
+  const {
+    selectedOption,
+    views,
+    setSelectedOption,
+    setViews,
+    isOpen,
+    setIsOpen,
+  } = useAnalytics();
 
   const handleOptionClick = (option: string) => {
     const data = [
@@ -31,15 +37,24 @@ export const SelectorPopup = () => {
     if (selectedOption.type === "title") {
       const newView: selectedOptionProps = {
         ...selectedOption,
+        id: Math.random(),
         width: "100%",
       };
       setViews((prev) => [...(prev || []), newView]);
-    } else setViews((prev) => [...(prev || []), selectedOption]);
+    } else {
+      const newView: selectedOptionProps = {
+        ...selectedOption,
+        id: Math.random(),
+      };
+      setViews((prev) => [...(prev || []), newView]);
+    }
     // Reset the selected option to the initial state
     setSelectedOption(initialOptions);
     // Close the modal
     setIsOpen(false);
   };
+
+  console.log("views", views);
 
   return (
     <>

@@ -124,6 +124,7 @@ export const initialOptions = {
   data: fakeData,
   type: "title",
   width: "50%",
+  id: 0,
   colors: {
     up: "#00C087",
     down: "#FF3B30",

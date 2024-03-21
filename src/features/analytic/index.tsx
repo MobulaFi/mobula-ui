@@ -2,14 +2,30 @@
 
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { BiTrash } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
+import { ReactSortable } from "react-sortablejs";
 import { Button } from "../../components/button";
 import { PreviewOptions } from "./components/popup/preview-options";
 import { SelectorPopup } from "./components/popup/selector";
 import { getFakeData } from "./constants";
 import { useAnalytics } from "./context-manager";
+
+const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => (
+  <div
+    ref={ref}
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      width: "100%",
+      maxWidth: "1200px",
+      justifyContent: "space-between",
+    }}
+  >
+    {props.children}
+  </div>
+));
 
 export const Analytic = () => {
   const [activeLanguage, setActiveLanguage] = useState("sql");
@@ -143,7 +159,44 @@ export const Analytic = () => {
           />
         </div>
       </div>
-      <div className="flex flex-wrap w-full mt-10 justify-between">
+
+      <ReactSortable
+        list={views}
+        setList={setViews}
+        tag={CustomComponent}
+        animation={200}
+        delay={0}
+      >
+        {views?.map((view, i) => (
+          <div
+            className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
+          border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5 relative`}
+            style={{ width: `calc(${view.width} - 5px)` }}
+            onMouseEnter={() => setIsHovering(i + 1)}
+            onMouseLeave={() => setIsHovering(0)}
+            key={view.id}
+          >
+            <Button
+              extraCss={`rounded-full absolute top-2.5 right-2.5 text-base transition-all duration-300 ease-in-out ${
+                isHovering === i + 1 ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={removeView}
+            >
+              <BiTrash />
+            </Button>
+            <Button
+              extraCss={`rounded-full absolute top-2.5 right-[50px] text-base transition-all duration-300 ease-in-out ${
+                isHovering === i + 1 ? "opacity-100" : "opacity-0"
+              }`}
+              onClick={() => editView(view)}
+            >
+              <FiEdit />
+            </Button>
+            <PreviewOptions selectedOption={view} isPreview={false} />
+          </div>
+        ))}
+      </ReactSortable>
+      {/* <div className="flex flex-wrap w-full mt-10 justify-between">
         {views?.map((view, i) => (
           <div
             className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
@@ -170,8 +223,8 @@ export const Analytic = () => {
             </Button>
             <PreviewOptions selectedOption={view} isPreview={false} />
           </div>
-        ))}
-      </div>
+        ))}{" "}
+      </div> */}
       <Button extraCss="my-10" onClick={() => setIsOpen(true)}>
         Open
       </Button>

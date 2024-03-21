@@ -6,6 +6,7 @@ export interface selectedOptionProps {
   data: (string | number)[][];
   type: string;
   width: string;
+  id: number;
   colors?: {
     up: string;
     down: string;
