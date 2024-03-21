@@ -120,11 +120,11 @@ export const Activity = ({
     )
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
-        if (r) {
+        if (r && r.data?.transactions) {
           if (setIsLoadingFetch) setIsLoadingFetch(false);
           if (!refresh)
             setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
-          else setTransactions(r.data.transactions);
+          else setTransactions(r.data?.transactions || []);
         }
         setIsTxLoading(false);
       });
