@@ -124,7 +124,6 @@ export const Activity = ({
         if (r && r.data?.transactions) {
           if (setIsLoadingFetch) setIsLoadingFetch(false);
           if (!refresh) {
-            console.log("I COMZE GERE");
             try {
               setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
             } catch (e) {
@@ -393,7 +392,6 @@ export const Activity = ({
     [transactions]
   );
 
-  console.log("TTTRRRR", transactions);
   return (
     <>
       <table className="relative pb-[100px] md:pb-5 overflow-x-scroll scroll w-full caption-bottom">

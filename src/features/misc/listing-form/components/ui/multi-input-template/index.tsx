@@ -39,8 +39,6 @@ export const MultiInputTemplate = ({
   const [temporateValue, setTemporateValue] = useState<any>(state[name]);
   const { editAssetReducer, setEditAssetReducer } = useGeneralContext();
 
-  console.log("temporateValue", temporateValue);
-
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
     i: string,
@@ -99,94 +97,28 @@ export const MultiInputTemplate = ({
     <div className="flex flex-col w-full mt-5">
       <LargeFont>{title}</LargeFont>{" "}
       {text && <MediumFont extraCss="mb-[15px]">{text}</MediumFont>}
-      {state[name].map(
-        (contract: any, i: any) => (
-          console.log("contract", temporateValue?.[i]?.address),
-          (
-            <div className="flex flex-col w-full" key={contract.name + i}>
-              <div className="flex items-center mb-2.5">
-                <div
-                  className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary w-full h-[35px]`}
-                >
-                  {hasLogo ? (
-                    <>
-                      <div className="flex items-center justify-center h-full">
-                        <NextImageFallback
-                          height={20}
-                          width={20}
-                          fallbackSrc="/empty/unknown.png"
-                          src={
-                            blockchainsContent[temporateValue?.[i]?.blockchain]
-                              ?.logo
-                          }
-                          alt={`${temporateValue?.[i]?.blockchain} logo`}
-                          key={`logo-${temporateValue?.[i]?.blockchain}-${i}`}
-                        />
-                        <input
-                          className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                          placeholder={placeholder}
-                          value={temporateValue?.[i]?.address || ""}
-                          onChange={(e) => {
-                            handleNewContract(e, i, name);
-                            if (title === "Contracts") {
-                              setTemporateValue((prev: any) => {
-                                const buffer = [...prev];
-                                buffer[i] = { address: e.target.value };
-                                return buffer;
-                              });
-                              if (state.totalSupplyContracts.length === 0)
-                                dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
-
-                              if (editAssetReducer) {
-                                setEditAssetReducer((prevState: any) => {
-                                  const newContracts: any = [
-                                    ...prevState?.contracts,
-                                  ];
-                                  newContracts[i] = {
-                                    ...newContracts[i],
-                                    address: e.target.value,
-                                  };
-                                  return {
-                                    ...prevState,
-                                    contracts: newContracts,
-                                  };
-                                });
-                              }
-                            } else if (title === "Excluded addresses") {
-                              setTemporateValue((prev: any) => {
-                                const buffer = [...prev];
-                                buffer[i] = { address: e.target.value };
-                                return buffer;
-                              });
-
-                              if (editAssetReducer) {
-                                setEditAssetReducer(
-                                  (prevState: {
-                                    excludedFromCirculationAddresses: any;
-                                  }) => {
-                                    const newExcluded = [
-                                      ...prevState.excludedFromCirculationAddresses,
-                                    ];
-                                    newExcluded[i] = {
-                                      ...newExcluded[i],
-                                      address: e.target.value,
-                                    };
-                                    return {
-                                      ...prevState,
-                                      excludedFromCirculationAddresses:
-                                        newExcluded,
-                                    };
-                                  }
-                                );
-                              }
-                            }
-                          }}
-                        />
-                      </div>
-                    </>
-                  ) : (
+      {state[name].map((contract: any, i: any) => (
+        <div className="flex flex-col w-full" key={contract.name + i}>
+          <div className="flex items-center mb-2.5">
+            <div
+              className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary w-full h-[35px]`}
+            >
+              {hasLogo ? (
+                <>
+                  <div className="flex items-center justify-center h-full">
+                    <NextImageFallback
+                      height={20}
+                      width={20}
+                      fallbackSrc="/empty/unknown.png"
+                      src={
+                        blockchainsContent[temporateValue?.[i]?.blockchain]
+                          ?.logo
+                      }
+                      alt={`${temporateValue?.[i]?.blockchain} logo`}
+                      key={`logo-${temporateValue?.[i]?.blockchain}-${i}`}
+                    />
                     <input
-                      className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                      className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
                       placeholder={placeholder}
                       value={temporateValue?.[i]?.address || ""}
                       onChange={(e) => {
@@ -201,19 +133,19 @@ export const MultiInputTemplate = ({
                             dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
 
                           if (editAssetReducer) {
-                            setEditAssetReducer(
-                              (prevState: { contracts: any }) => {
-                                const newContracts = [...prevState?.contracts];
-                                newContracts[i] = {
-                                  ...newContracts[i],
-                                  address: e.target.value,
-                                };
-                                return {
-                                  ...prevState,
-                                  contracts: newContracts,
-                                };
-                              }
-                            );
+                            setEditAssetReducer((prevState: any) => {
+                              const newContracts: any = [
+                                ...prevState?.contracts,
+                              ];
+                              newContracts[i] = {
+                                ...newContracts[i],
+                                address: e.target.value,
+                              };
+                              return {
+                                ...prevState,
+                                contracts: newContracts,
+                              };
+                            });
                           }
                         } else if (title === "Excluded addresses") {
                           setTemporateValue((prev: any) => {
@@ -221,6 +153,7 @@ export const MultiInputTemplate = ({
                             buffer[i] = { address: e.target.value };
                             return buffer;
                           });
+
                           if (editAssetReducer) {
                             setEditAssetReducer(
                               (prevState: {
@@ -243,47 +176,104 @@ export const MultiInputTemplate = ({
                         }
                       }}
                     />
-                  )}
-                </div>
-                {i > 0 ? (
-                  <button
-                    className={`${deleteButtonStyle} mt-0 ml-2.5`}
-                    onClick={() => {
-                      dispatch({
-                        type: ACTIONS.REMOVE_ELEMENT,
-                        payload: { i, object: name },
+                  </div>
+                </>
+              ) : (
+                <input
+                  className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                  placeholder={placeholder}
+                  value={temporateValue?.[i]?.address || ""}
+                  onChange={(e) => {
+                    handleNewContract(e, i, name);
+                    if (title === "Contracts") {
+                      setTemporateValue((prev: any) => {
+                        const buffer = [...prev];
+                        buffer[i] = { address: e.target.value };
+                        return buffer;
                       });
-                      dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
-                      if (state.totalSupplyContracts.length === 1) {
+                      if (state.totalSupplyContracts.length === 0)
                         dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
-                      } else {
-                        dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
-                      }
 
                       if (editAssetReducer) {
-                        setEditAssetReducer((prevState) => ({
-                          ...prevState,
-                          contracts: [
-                            ...prevState?.contracts?.slice(0, i),
-                            ...prevState?.contracts?.slice(i + 1),
-                          ],
-                        }));
+                        setEditAssetReducer((prevState: { contracts: any }) => {
+                          const newContracts = [...prevState?.contracts];
+                          newContracts[i] = {
+                            ...newContracts[i],
+                            address: e.target.value,
+                          };
+                          return {
+                            ...prevState,
+                            contracts: newContracts,
+                          };
+                        });
                       }
-
-                      setTemporateValue((prev: string[]) => [
-                        ...prev.slice(0, i),
-                        ...prev.slice(i + 1),
-                      ]);
-                    }}
-                  >
-                    <AiOutlineClose className="text-xs" />
-                  </button>
-                ) : null}
-              </div>
+                    } else if (title === "Excluded addresses") {
+                      setTemporateValue((prev: any) => {
+                        const buffer = [...prev];
+                        buffer[i] = { address: e.target.value };
+                        return buffer;
+                      });
+                      if (editAssetReducer) {
+                        setEditAssetReducer(
+                          (prevState: {
+                            excludedFromCirculationAddresses: any;
+                          }) => {
+                            const newExcluded = [
+                              ...prevState.excludedFromCirculationAddresses,
+                            ];
+                            newExcluded[i] = {
+                              ...newExcluded[i],
+                              address: e.target.value,
+                            };
+                            return {
+                              ...prevState,
+                              excludedFromCirculationAddresses: newExcluded,
+                            };
+                          }
+                        );
+                      }
+                    }
+                  }}
+                />
+              )}
             </div>
-          )
-        )
-      )}
+            {i > 0 ? (
+              <button
+                className={`${deleteButtonStyle} mt-0 ml-2.5`}
+                onClick={() => {
+                  dispatch({
+                    type: ACTIONS.REMOVE_ELEMENT,
+                    payload: { i, object: name },
+                  });
+                  dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
+                  if (state.totalSupplyContracts.length === 1) {
+                    dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
+                  } else {
+                    dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
+                  }
+
+                  if (editAssetReducer) {
+                    setEditAssetReducer((prevState) => ({
+                      ...prevState,
+                      contracts: [
+                        ...prevState?.contracts?.slice(0, i),
+                        ...prevState?.contracts?.slice(i + 1),
+                      ],
+                    }));
+                  }
+
+                  setTemporateValue((prev: string[]) => [
+                    ...prev.slice(0, i),
+                    ...prev.slice(i + 1),
+                  ]);
+                }}
+              >
+                <AiOutlineClose className="text-xs" />
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ))}
       <button
         className={`${deleteButtonStyle} w-[170px] ml-0 mt-0`}
         onClick={() =>
