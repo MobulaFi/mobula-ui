@@ -100,7 +100,6 @@ export const Activity = ({
   });
 
   const fetchTransactions = (refresh = false) => {
-    console.log("IVE BEEN CALLED");
     if (actualTxAmount > 25) setIsTxLoading(true);
     const txsLimit = assetQuery ? 200 : actualTxAmount;
     const txRequest: any = {
@@ -122,7 +121,6 @@ export const Activity = ({
     )
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
-        console.log("r", r);
         if (r && r.data?.transactions) {
           if (setIsLoadingFetch) setIsLoadingFetch(false);
           if (!refresh) {
@@ -140,14 +138,11 @@ export const Activity = ({
       });
   };
 
-  console.log("AM I LOADING?", isLoading, isTxLoading);
-
   useEffect(() => {
     setPrevPath(pathname);
     if (isMounted.current || !transactions?.length) {
       if (assetQuery && !asset) return;
       if (pathname === prevPath) return;
-      console.log("I CAME HERE FINAL");
       setTransactions([]);
       fetchTransactions(true);
     } else isMounted.current = true;

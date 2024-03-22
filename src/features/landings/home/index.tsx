@@ -97,15 +97,15 @@ export const HomeLanding = () => {
                 id="text"
                 style={{
                   WebkitTextFillColor: "transparent",
+                  // @ts-ignore
+                  "text-wrap": "balance",
                 }}
-                className="text-[96px] md:text-[56px] md:leading-[50px] font-bold leading-[90px] font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,1)]
+                className="text-[85px] md:text-[65px] md:leading-[70px] font-bold leading-[95px] font-poppins w-fit mx-auto text-transparent 
+                text-fill-color tracking-tighter bg-gradient-to-br from-[rgba(0,0,0,1)]
                 to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
                  dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text text-center"
               >
-                The last onchain data provider
-                <br />
-                You&apos;ll ever need
+                The last onchain data provider You&apos;ll ever need
               </h1>
             </div>
 

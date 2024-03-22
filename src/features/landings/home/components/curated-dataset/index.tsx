@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { curatedDatasets } from "../../constant";
 import { useHomeLanding } from "../../context-manager";
 import { containerStyle } from "../../style";
@@ -75,7 +75,7 @@ export const CuratedDataset = () => {
           <div className="flex w-full lg:flex-col justify-between mt-[100px] lg:mt-10 items-center">
             <div className="flex flex-col max-w-[650px] lg:max-w-full">
               <h2
-                className="text-[58px] font-bold leading-[59px] lg:text-[32px] lg:leading-[36px] font-poppins w-fit  
+                className="text-[58px] font-bold leading-[70px] lg:text-[32px] lg:leading-[44px] font-poppins w-fit  
               dark:text-transparent tracking-tighter bg-clip-text text-transparent text-fill-color 
               bg-gradient-to-br from-[rgba(255,255,255,0.95)] to-[rgba(255,255,255,0.35)] pointer-events-none lg:ml-2.5"
                 style={{

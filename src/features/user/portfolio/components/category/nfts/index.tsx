@@ -1,7 +1,6 @@
 import { useContext } from "react";
 // eslint-disable-next-line import/no-cycle
 import { useParams } from "next/navigation";
-import React from "react";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { Spinner } from "../../../../../../components/spinner";
 import { useMultiWalletNftHoldings } from "../../../../../../hooks/holdings";
