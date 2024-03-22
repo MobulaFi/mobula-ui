@@ -51,13 +51,15 @@ export const Activity = ({
     transactions,
     asset,
     setTransactions,
+    prevPath,
+    setPrevPath,
   } = useContext(PortfolioV2Context);
   const [activeTransaction, setActiveTransaction] = useState<string>();
   const { user } = useContext(UserContext);
   const refreshPortfolio = useWebSocketResp();
   const { address } = useAccount();
   const [actualTxAmount, setActualTxAmount] = useState(25);
-  const [isTxLoading, setIsTxLoading] = useState(false);
+  const [isTxLoading, setIsTxLoading] = useState(true);
   const isMounted = useRef(false);
   const params = useParams();
   const explorerAddress = params.address;
@@ -65,7 +67,6 @@ export const Activity = ({
   const pathname = usePathname();
   const { theme } = useTheme();
   const isWhiteMode = theme === "light";
-
   const handleRemoveTransaction = (id: number) => {
     GET("/portfolio/removetx", {
       portfolio_id: activePortfolio?.id,
@@ -99,6 +100,7 @@ export const Activity = ({
   });
 
   const fetchTransactions = (refresh = false) => {
+    console.log("IVE BEEN CALLED");
     if (actualTxAmount > 25) setIsTxLoading(true);
     const txsLimit = assetQuery ? 200 : actualTxAmount;
     const txRequest: any = {
@@ -120,31 +122,43 @@ export const Activity = ({
     )
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
+        console.log("r", r);
         if (r && r.data?.transactions) {
           if (setIsLoadingFetch) setIsLoadingFetch(false);
-          if (!refresh)
-            setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
-          else setTransactions(r.data?.transactions || []);
+          if (!refresh) {
+            console.log("I COMZE GERE");
+            try {
+              setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
+            } catch (e) {
+              console.log(e);
+            }
+          } else setTransactions(r.data?.transactions || []);
+          setIsTxLoading(false);
         }
+        if (setIsLoadingFetch) setIsLoadingFetch(false);
         setIsTxLoading(false);
       });
   };
 
+  console.log("AM I LOADING?", isLoading, isTxLoading);
+
   useEffect(() => {
+    setPrevPath(pathname);
     if (isMounted.current || !transactions?.length) {
       if (assetQuery && !asset) return;
-      if (transactions.length !== 0) return;
+      if (pathname === prevPath) return;
+      console.log("I CAME HERE FINAL");
       setTransactions([]);
       fetchTransactions(true);
     } else isMounted.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [asset?.id, wallet?.id, actualTxAmount]);
+  }, [asset?.id, wallet?.id, actualTxAmount, pathname]);
 
   useEffect(() => {
     if (assetQuery && !asset) return;
     if (transactions.length !== actualTxAmount && actualTxAmount !== 25)
       fetchTransactions(true);
-  }, [actualTxAmount]);
+  }, [actualTxAmount, pathname]);
 
   // We want to make sure we set the "light" token to be:
   // ETH is ETH vs Stable
@@ -383,6 +397,8 @@ export const Activity = ({
     () => groupTransactionsByDate(transactions),
     [transactions]
   );
+
+  console.log("TTTRRRR", transactions);
   return (
     <>
       <table className="relative pb-[100px] md:pb-5 overflow-x-scroll scroll w-full caption-bottom">
@@ -896,7 +912,7 @@ export const Activity = ({
             )}
           </tbody>
         ) : null}
-        {transactions?.length === 0 ? (
+        {isTxLoading && !transactions?.length ? (
           <tbody>
             {" "}
             {Array.from(Array(10).keys()).map((_, i) => (
@@ -906,7 +922,7 @@ export const Activity = ({
         ) : null}
         {transactions.length !== 0 &&
         Object.keys(transactionsByDate).length === 0 ? (
-          <div className="flex h-[300px] w-full items-center justify-center flex-col mx-auto">
+          <div className="flex h-[300px] items-center justify-center flex-col mx-auto w-full">
             <img
               className="h-[100px] -mb-5 mt-[25px]"
               src={
@@ -926,10 +942,10 @@ export const Activity = ({
             </div>
           </div>
         ) : null}
-        {!wallet && !isLoading ? (
-          <div className="flex h-[300px] w-full items-center justify-center flex-col rounded-r border border-light-border-primary dark:border-dark-border-primary bg-light-bg-terciary dark:bg-dark-bg-terciary">
+        {!wallet && !isLoading && !isTxLoading ? (
+          <caption className="h-[300px] w-full rounded-r">
             <img
-              className="h-[160px] -mb-[50px] mt-[25px]"
+              className="h-[160px] -mb-[50px] mt-[25px] mx-auto"
               src={isWhiteMode ? "/asset/empty-light.png" : "/asset/empty.png"}
               alt="empty state image"
             />
@@ -938,10 +954,12 @@ export const Activity = ({
                 No transactions found{" "}
               </MediumFont>
             </div>
-          </div>
+          </caption>
         ) : null}
       </table>
-      {transactions?.length + 26 > actualTxAmount ? (
+      {transactions?.length + 26 > actualTxAmount &&
+      transactions?.length > 0 &&
+      !isTxLoading ? (
         <div className="flex justify-center mt-4 items-center">
           <div
             className="flex justify-center items-center"
