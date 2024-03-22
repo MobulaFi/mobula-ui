@@ -32,9 +32,7 @@ export const LoadMore = ({
           onClick={callback}
         >
           Load more
-          {isLoading ? (
-            <Spinner extraCss="ml-[7.5px] top-[1px] text-light-font-100 dark:text-dark-font-100 relative" />
-          ) : null}
+          {isLoading ? <Spinner extraCss="ml-[7.5px]" /> : null}
         </button>
         {totalCount && totalCount !== 0 ? (
           <SmallFont extraCss="font-medium ">

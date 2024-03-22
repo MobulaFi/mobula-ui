@@ -4,6 +4,8 @@ import React from "react";
 import { RecentlyAdded } from "../../features/data/recently-added";
 import { createSupabaseDOClient } from "../../lib/supabase";
 
+export const fetchCache = "force-no-store";
+
 async function fetchNewAssets() {
   const supabase = createSupabaseDOClient();
   const userAgent: string = headers().get("user-agent") || "";

@@ -1,5 +1,6 @@
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AddressAvatar } from "../../../../components/avatar";
 import { pushData } from "../../../../lib/mixpanel";
 import { getFormattedAmount } from "../../../../utils/formaters";
@@ -80,53 +81,40 @@ export const PairResult = ({ setTrigger, firstIndex }) => {
               onClick={() => clickEvent(pair)}
             >
               <div className="flex items-center">
-                {(
-                  isSearchedPair
-                    ? result?.[result?.baseToken]?.logo
-                    : pair?.[pair?.baseToken]?.logo
-                ) ? (
+                <div className="flex items-center relative">
+                  {(
+                    isSearchedPair
+                      ? result?.[result?.baseToken]?.logo
+                      : pair?.[pair?.baseToken]?.logo
+                  ) ? (
+                    <img
+                      src={
+                        isSearchedPair
+                          ? result?.[result?.baseToken]?.logo
+                          : pair?.[pair?.baseToken]?.logo
+                      }
+                      className="w-[20px] h-[20px] rounded-full mr-[7.5px]"
+                    />
+                  ) : (
+                    <AddressAvatar
+                      address={
+                        isSearchedPair
+                          ? result?.[result?.baseToken]?.addres
+                          : (pair?.address as string)
+                      }
+                      extraCss="w-[20px] h-[20px] rounded-full mr-[7.5px]"
+                    />
+                  )}
                   <img
                     src={
                       isSearchedPair
-                        ? result?.[result?.baseToken]?.logo
-                        : pair?.[pair?.baseToken]?.logo
+                        ? blockchainsContent[result?.blockchain]?.logo
+                        : blockchainsContent[pair?.blockchain]?.logo
                     }
-                    className="w-[20px] h-[20px] rounded-full mr-[7.5px]"
+                    className="w-[16px] h-[16px] rounded-full mr-[7.5px] absolute -bottom-1 -right-2.5 bg-light-bg-hover dark:bg-dark-bg-hover"
                   />
-                ) : (
-                  <AddressAvatar
-                    address={
-                      isSearchedPair
-                        ? result?.[result?.baseToken]?.addres
-                        : (pair?.address as string)
-                    }
-                    extraCss="w-[20px] h-[20px] rounded-full mr-[7.5px]"
-                  />
-                )}
-                {(
-                  isSearchedPair
-                    ? result?.[result?.quoteToken]?.logo
-                    : pair?.[pair?.quoteToken]?.logo
-                ) ? (
-                  <img
-                    src={
-                      isSearchedPair
-                        ? result?.[result?.quoteToken]?.logo
-                        : pair?.[pair?.quoteToken]?.logo
-                    }
-                    className="w-[20px] h-[20px] rounded-full mr-[7.5px]"
-                  />
-                ) : (
-                  <AddressAvatar
-                    address={
-                      isSearchedPair
-                        ? result?.[result?.quoteToken]?.addres
-                        : (pair?.address as string)
-                    }
-                    extraCss="w-[20px] h-[20px] rounded-full mr-[7.5px]"
-                  />
-                )}
-                <p className="text-sm font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
+                </div>
+                <p className="text-sm ml-2.5 font-medium md:font-normal max-w-[340px] truncate text-light-font-100 dark:text-dark-font-100 mr-2.5">
                   {isSearchedPair
                     ? result?.[result?.baseToken]?.symbol
                     : pair?.[pair?.baseToken]?.symbol}{" "}

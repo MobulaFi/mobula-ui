@@ -11,14 +11,16 @@ interface EnsResultsProps {
   firstIndex: number;
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   callback?: (value: { content: string; type: string; label: string }) => void;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const EnsResults = ({
   firstIndex,
   setTrigger,
   callback,
+  setToken,
 }: EnsResultsProps) => {
-  const { active, setActive, ens } = useContext(SearchbarContext);
+  const { active, setActive, ens, setEns } = useContext(SearchbarContext);
   const router = useRouter();
   const ensName = {
     name: ens.name,
@@ -39,6 +41,8 @@ export const EnsResults = ({
       router.push(ensName.url);
       setTrigger(false);
     }
+    setToken("");
+    setEns({ name: "", address: "" || null });
   };
 
   return ens.address ? (

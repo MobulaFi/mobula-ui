@@ -250,6 +250,7 @@ export const CoreSearchBar = ({
               firstIndex={0}
               setTrigger={setTrigger}
               callback={callback}
+              setToken={setToken}
             />
           )}
           {showPagesAndArticles ? (
