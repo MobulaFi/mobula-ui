@@ -23,7 +23,6 @@ interface TokenMetricsProps {
 export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const [showMore, setShowMore] = useState(false);
   const { baseAsset, isAssetPage } = useContext(BaseAssetContext);
-  console.log("baseee", baseAsset);
   const metrics: Metrics[] = [
     {
       title: "Total Volume (24h)",

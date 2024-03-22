@@ -6,6 +6,7 @@ import { Button } from "../../../../components/button";
 import { LargeFont, MediumFont, SmallFont } from "../../../../components/fonts";
 import { Menu } from "../../../../components/menu";
 import { Popover } from "../../../../components/popover";
+import { Skeleton } from "../../../../components/skeleton";
 import { Spinner } from "../../../../components/spinner";
 import { UserContext } from "../../../../contexts/user";
 import { IWatchlist } from "../../../../interfaces/pages/watchlist";
@@ -286,14 +287,18 @@ export const TokenMainInfo = ({ pairs = null }) => {
           <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-start lg:justify-between mt-[5px] lg:mt-0 md:mt-0 mb-[7.5px]">
-                <LargeFont
-                  extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
-                >
-                  $
-                  {getFormattedAmount(marketMetrics.price, 0, {
-                    canUseHTML: true,
-                  })}
-                </LargeFont>
+                {marketMetrics?.price ? (
+                  <LargeFont
+                    extraCss={`${marketChangeColor} cursor-default text-light-font-100 dark:text-dark-font-100 mr-2.5 flex font-medium text-3xl lg:text-xl md:text-xl`}
+                  >
+                    $
+                    {getFormattedAmount(marketMetrics.price, 0, {
+                      canUseHTML: true,
+                    })}
+                  </LargeFont>
+                ) : (
+                  <Skeleton extraCss="w-[100px] h-[30px] md:h-[28px]" />
+                )}
                 <div className="flex items-center">
                   <div
                     className={`flex mr-2.5 md:mr-1 ${percentageTags(isUp)}`}
