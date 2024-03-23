@@ -52,6 +52,7 @@ export const TradingPairs = () => {
       asset: baseAsset?.name,
       offset: page,
       hideBrokenPairs: true,
+      limit: page + 25,
     })
       .then((r) => r.json())
       .then(({ data }) => {
@@ -59,7 +60,7 @@ export const TradingPairs = () => {
           filterPairs(data.pairs);
           setTotalPairs(data.total_count);
           // setPairs((prev) => [...(prev || []), ...data.pairs]);
-          setPage((prevPage) => prevPage + 1);
+          setPage((prevPage) => prevPage + data.pairs?.length);
           setIsLoading(false);
           if ((pairs?.length || 0) > 0)
             containerRef.current?.scrollTo({
@@ -313,7 +314,7 @@ export const TradingPairs = () => {
                   );
                 })}
               </tbody>
-              {hasMoreData && totalPairs !== pairs?.length ? (
+              {totalPairs > (pairs?.length || 0) ? (
                 <LoadMore
                   extraCss="sticky w-full bottom-0 z-[1] pt-2.5"
                   callback={fetchTrades}
