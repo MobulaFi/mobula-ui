@@ -39,6 +39,8 @@ export const MultiInputTemplate = ({
   const [temporateValue, setTemporateValue] = useState<any>(state[name]);
   const { editAssetReducer, setEditAssetReducer } = useGeneralContext();
 
+  console.log("temporateValue", temporateValue);
+
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
     i: string,
@@ -136,19 +138,21 @@ export const MultiInputTemplate = ({
                                 dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
 
                               if (editAssetReducer) {
-                                setEditAssetReducer((prevState: any) => {
-                                  const newContracts: any = [
-                                    ...prevState?.contracts,
-                                  ];
-                                  newContracts[i] = {
-                                    ...newContracts[i],
-                                    address: e.target.value,
-                                  };
-                                  return {
-                                    ...prevState,
-                                    contracts: newContracts,
-                                  };
-                                });
+                                setEditAssetReducer(
+                                  (prevState: { contracts: any }) => {
+                                    const newContracts = [
+                                      ...prevState.contracts,
+                                    ];
+                                    newContracts[i] = {
+                                      ...newContracts[i],
+                                      address: e.target.value,
+                                    };
+                                    return {
+                                      ...prevState,
+                                      contracts: newContracts,
+                                    };
+                                  }
+                                );
                               }
                             } else if (title === "Excluded addresses") {
                               setTemporateValue((prev: any) => {
@@ -184,7 +188,7 @@ export const MultiInputTemplate = ({
                     </>
                   ) : (
                     <input
-                      className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                      className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
                       placeholder={placeholder}
                       value={temporateValue?.[i]?.address || ""}
                       onChange={(e) => {
@@ -200,9 +204,7 @@ export const MultiInputTemplate = ({
 
                           if (editAssetReducer) {
                             setEditAssetReducer((prevState: any) => {
-                              const newContracts: any = [
-                                ...prevState?.contracts,
-                              ];
+                              const newContracts = [...prevState?.contracts];
                               newContracts[i] = {
                                 ...newContracts[i],
                                 address: e.target.value,
@@ -241,105 +243,46 @@ export const MultiInputTemplate = ({
                         }
                       }}
                     />
-                  </div>
-                </>
-              ) : (
-                <input
-                  className="pl-[5px] w-full pr-2.5 h-full overflow-scroll text-ellipsis text-light-font-100 dark:text-dark-font-100 bg-light-bg-terciary dark:bg-dark-bg-terciary"
-                  placeholder={placeholder}
-                  value={temporateValue?.[i]?.address || ""}
-                  onChange={(e) => {
-                    handleNewContract(e, i, name);
-                    if (title === "Contracts") {
-                      setTemporateValue((prev: any) => {
-                        const buffer = [...prev];
-                        buffer[i] = { address: e.target.value };
-                        return buffer;
+                  )}
+                </div>
+                {i > 0 ? (
+                  <button
+                    className={`${deleteButtonStyle} mt-0 ml-2.5`}
+                    onClick={() => {
+                      dispatch({
+                        type: ACTIONS.REMOVE_ELEMENT,
+                        payload: { i, object: name },
                       });
-                      if (state.totalSupplyContracts.length === 0)
+                      dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
+                      if (state.totalSupplyContracts.length === 1) {
                         dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
+                      } else {
+                        dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
+                      }
+                      if (editAssetReducer) {
+                        setEditAssetReducer((prevState) => ({
+                          ...prevState,
+                          contracts: [
+                            ...prevState.contracts.slice(0, i),
+                            ...prevState.contracts.slice(i + 1),
+                          ],
+                        }));
+                      }
 
-                      if (editAssetReducer) {
-                        setEditAssetReducer((prevState: { contracts: any }) => {
-                          const newContracts = [...prevState?.contracts];
-                          newContracts[i] = {
-                            ...newContracts[i],
-                            address: e.target.value,
-                          };
-                          return {
-                            ...prevState,
-                            contracts: newContracts,
-                          };
-                        });
-                      }
-                    } else if (title === "Excluded addresses") {
-                      setTemporateValue((prev: any) => {
-                        const buffer = [...prev];
-                        buffer[i] = { address: e.target.value };
-                        return buffer;
-                      });
-                      if (editAssetReducer) {
-                        setEditAssetReducer(
-                          (prevState: {
-                            excludedFromCirculationAddresses: any;
-                          }) => {
-                            const newExcluded = [
-                              ...prevState.excludedFromCirculationAddresses,
-                            ];
-                            newExcluded[i] = {
-                              ...newExcluded[i],
-                              address: e.target.value,
-                            };
-                            return {
-                              ...prevState,
-                              excludedFromCirculationAddresses: newExcluded,
-                            };
-                          }
-                        );
-                      }
-                    }
-                  }}
-                />
-              )}
+                      setTemporateValue((prev: string[]) => [
+                        ...prev.slice(0, i),
+                        ...prev.slice(i + 1),
+                      ]);
+                    }}
+                  >
+                    <AiOutlineClose className="text-xs" />
+                  </button>
+                ) : null}
+              </div>
             </div>
-            {i > 0 ? (
-              <button
-                className={`${deleteButtonStyle} mt-0 ml-2.5`}
-                onClick={() => {
-                  dispatch({
-                    type: ACTIONS.REMOVE_ELEMENT,
-                    payload: { i, object: name },
-                  });
-                  dispatch({ type: ACTIONS.CLEAR_TOTAL_SUPPLY_CONTRACTS });
-                  if (state.totalSupplyContracts.length === 1) {
-                    dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
-                  } else {
-                    dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
-                  }
-
-
-                  if (editAssetReducer) {
-                    setEditAssetReducer((prevState) => ({
-                      ...prevState,
-                      contracts: [
-                        ...prevState?.contracts?.slice(0, i),
-                        ...prevState?.contracts?.slice(i + 1),
-                      ],
-                    }));
-                  }
-
-                  setTemporateValue((prev: string[]) => [
-                    ...prev.slice(0, i),
-                    ...prev.slice(i + 1),
-                  ]);
-                }}
-              >
-                <AiOutlineClose className="text-xs" />
-              </button>
-            ) : null}
-          </div>
-        </div>
-      ))}
+          )
+        )
+      )}
       <button
         className={`${deleteButtonStyle} w-[170px] ml-0 mt-0`}
         onClick={() =>
