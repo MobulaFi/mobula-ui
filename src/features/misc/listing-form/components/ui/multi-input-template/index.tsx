@@ -97,26 +97,92 @@ export const MultiInputTemplate = ({
     <div className="flex flex-col w-full mt-5">
       <LargeFont>{title}</LargeFont>{" "}
       {text && <MediumFont extraCss="mb-[15px]">{text}</MediumFont>}
-      {state[name].map((contract: any, i: any) => (
-        <div className="flex flex-col w-full" key={contract.name + i}>
-          <div className="flex items-center mb-2.5">
-            <div
-              className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary w-full h-[35px]`}
-            >
-              {hasLogo ? (
-                <>
-                  <div className="flex items-center justify-center h-full">
-                    <NextImageFallback
-                      height={20}
-                      width={20}
-                      fallbackSrc="/empty/unknown.png"
-                      src={
-                        blockchainsContent[temporateValue?.[i]?.blockchain]
-                          ?.logo
-                      }
-                      alt={`${temporateValue?.[i]?.blockchain} logo`}
-                      key={`logo-${temporateValue?.[i]?.blockchain}-${i}`}
-                    />
+      {state[name].map(
+        (contract: any, i: any) => (
+          console.log("contract", temporateValue?.[i]?.address),
+          (
+            <div className="flex flex-col w-full" key={contract.name + i}>
+              <div className="flex items-center mb-2.5">
+                <div
+                  className={`${inputStyle} border border-light-border-primary dark:border-dark-border-primary w-full h-[35px]`}
+                >
+                  {hasLogo ? (
+                    <>
+                      <div className="flex items-center justify-center h-full">
+                        <NextImageFallback
+                          height={20}
+                          width={20}
+                          fallbackSrc="/empty/unknown.png"
+                          src={
+                            blockchainsContent[temporateValue?.[i]?.blockchain]
+                              ?.logo
+                          }
+                          alt={`${temporateValue?.[i]?.blockchain} logo`}
+                          key={`logo-${temporateValue?.[i]?.blockchain}-${i}`}
+                        />
+                        <input
+                          className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
+                          placeholder={placeholder}
+                          value={temporateValue?.[i]?.address || ""}
+                          onChange={(e) => {
+                            handleNewContract(e, i, name);
+                            if (title === "Contracts") {
+                              setTemporateValue((prev: any) => {
+                                const buffer = [...prev];
+                                buffer[i] = { address: e.target.value };
+                                return buffer;
+                              });
+                              if (state.totalSupplyContracts.length === 0)
+                                dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
+
+                              if (editAssetReducer) {
+                                setEditAssetReducer((prevState: any) => {
+                                  const newContracts: any = [
+                                    ...prevState?.contracts,
+                                  ];
+                                  newContracts[i] = {
+                                    ...newContracts[i],
+                                    address: e.target.value,
+                                  };
+                                  return {
+                                    ...prevState,
+                                    contracts: newContracts,
+                                  };
+                                });
+                              }
+                            } else if (title === "Excluded addresses") {
+                              setTemporateValue((prev: any) => {
+                                const buffer = [...prev];
+                                buffer[i] = { address: e.target.value };
+                                return buffer;
+                              });
+
+                              if (editAssetReducer) {
+                                setEditAssetReducer(
+                                  (prevState: {
+                                    excludedFromCirculationAddresses: any;
+                                  }) => {
+                                    const newExcluded = [
+                                      ...prevState.excludedFromCirculationAddresses,
+                                    ];
+                                    newExcluded[i] = {
+                                      ...newExcluded[i],
+                                      address: e.target.value,
+                                    };
+                                    return {
+                                      ...prevState,
+                                      excludedFromCirculationAddresses:
+                                        newExcluded,
+                                    };
+                                  }
+                                );
+                              }
+                            }
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
                     <input
                       className="pl-2.5 w-full h-full pr-2.5 ovrflow-scroll text-ellipsis bg-light-bg-terciary dark:bg-dark-bg-terciary"
                       placeholder={placeholder}
@@ -153,7 +219,6 @@ export const MultiInputTemplate = ({
                             buffer[i] = { address: e.target.value };
                             return buffer;
                           });
-
                           if (editAssetReducer) {
                             setEditAssetReducer(
                               (prevState: {
@@ -251,6 +316,7 @@ export const MultiInputTemplate = ({
                   } else {
                     dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
                   }
+
 
                   if (editAssetReducer) {
                     setEditAssetReducer((prevState) => ({
