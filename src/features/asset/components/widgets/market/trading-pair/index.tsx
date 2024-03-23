@@ -31,6 +31,20 @@ export const TradingPairs = () => {
   const [totalPairs, setTotalPairs] = useState(0);
   const titles = ["DEX", "Trading Pair", "Liquidity", "Price", "Pairs Address"];
 
+  const filterPairs = (data) => {
+    const newPairs = [...(pairs || []), ...data];
+
+    let seenAddresses = new Set();
+    const filteredPairs = newPairs?.filter((entry) => {
+      if (entry.address && !seenAddresses.has(entry.address)) {
+        seenAddresses.add(entry.address);
+        return true;
+      }
+      return false;
+    });
+    setPairs(filteredPairs);
+  };
+
   const fetchTrades = () => {
     if (!isAssetPage) return;
     setIsTradeScrollLoading(true);
@@ -38,22 +52,25 @@ export const TradingPairs = () => {
       asset: baseAsset?.name,
       offset: page,
       hideBrokenPairs: true,
+      limit: page + 25,
     })
       .then((r) => r.json())
       .then(({ data }) => {
         if (data && data.pairs.length > 0) {
-          setPairs((prevTrades) => [...(prevTrades || []), ...data.pairs]);
+          filterPairs(data.pairs);
           setTotalPairs(data.total_count);
-          setPage((prevPage) => prevPage + 1);
-          setIsTradeScrollLoading(false);
+          // setPairs((prev) => [...(prev || []), ...data.pairs]);
+          setPage((prevPage) => prevPage + data.pairs?.length);
           setIsLoading(false);
           if ((pairs?.length || 0) > 0)
             containerRef.current?.scrollTo({
               top: containerRef.current?.scrollHeight * data.pairs.length + 51,
               behavior: "smooth",
             });
+          setIsTradeScrollLoading(false);
         }
         setIsLoading(false);
+        setIsTradeScrollLoading(false);
       });
   };
 
@@ -82,15 +99,6 @@ export const TradingPairs = () => {
     if (pair.token1.symbol === baseAsset?.symbol) return pair.token0.symbol;
     return pair.token1.symbol;
   };
-
-  let seenAddresses = new Set();
-  let filteredArray = pairs?.filter((entry) => {
-    if (entry.address && !seenAddresses.has(entry.address)) {
-      seenAddresses.add(entry.address);
-      return true;
-    }
-    return false;
-  });
 
   return (
     <div
@@ -176,7 +184,7 @@ export const TradingPairs = () => {
                         ? "text-start"
                         : "text-end"
                     } table-cell`}
-                    key={entry}
+                    key={i}
                   >
                     {entry === "Pairs Address" ? (
                       <div className="flex items-center justify-end">
@@ -196,14 +204,12 @@ export const TradingPairs = () => {
             <>
               <tbody>
                 {((pairs?.length || 0) > 0
-                  ? filteredArray
+                  ? pairs
                   : Array.from({ length: 8 })
                 )?.map((pair: IPairs | any, i: number) => {
                   return (
                     <tr
-                      key={
-                        pair?.exchange + pair?.address + pair?.volume24h || i
-                      }
+                      key={i}
                       className="cursor-pointer hover:bg-light-bg-terciary dark:hover:bg-dark-bg-terciary"
                     >
                       <td
@@ -239,7 +245,7 @@ export const TradingPairs = () => {
                       >
                         <div className="flex w-full">
                           {isLoading ? (
-                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px]" />
+                            <Skeleton extraCss="h-[13px] md:h-[11px] w-[80px] ml-2" />
                           ) : (
                             <SmallFont extraCss="-mb-0.5 md:mb-[-5px] text-blue dark:text-blue">
                               {`${baseAsset?.symbol}/`}
@@ -261,7 +267,9 @@ export const TradingPairs = () => {
                               $
                               {getFormattedAmount(
                                 (pair.token0?.approximateReserveUSD || 0) +
-                                  (pair.token1?.approximateReserveUSD || 0)
+                                  (pair.token1?.approximateReserveUSD || 0),
+                                0,
+                                { canUseHTML: true }
                               )}
                             </SmallFont>
                           )}
@@ -306,7 +314,7 @@ export const TradingPairs = () => {
                   );
                 })}
               </tbody>
-              {hasMoreData && totalPairs !== pairs?.length ? (
+              {totalPairs > (pairs?.length || 0) ? (
                 <LoadMore
                   extraCss="sticky w-full bottom-0 z-[1] pt-2.5"
                   callback={fetchTrades}

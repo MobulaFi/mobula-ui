@@ -48,6 +48,7 @@ export const PortfolioV2Provider = ({
   const [showCreatePortfolio, setShowCreatePortfolio] = useState(false);
   const [showHiddenTokensPopup, setShowHiddenTokensPopup] = useState(false);
   const [showPortfolioSelector, setShowPortfolioSelector] = useState(false);
+  const [prevPath, setPrevPath] = useState<string>("");
 
   const [activeStep, setActiveStep] = useState({} as ActiveStep);
 
@@ -186,6 +187,8 @@ export const PortfolioV2Provider = ({
       setShowHiddenTokensPopup,
       showHiddenNfts,
       setShowHiddenNfts,
+      setPrevPath,
+      prevPath,
 
       /** DATA DISPLAY STATES */
       activeNetworks,
@@ -280,6 +283,7 @@ export const PortfolioV2Provider = ({
       activeStep,
       setActiveStep,
       showHiddenNfts,
+      prevPath,
 
       /** DATA DISPLAY STATES */
       activeNetworks,

@@ -10,10 +10,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {
@@ -31,10 +28,6 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
           value: [
             'liquidity.gte.0,volume.gte.0,market_cap.gte.0,off_chain_volume.gte.0,contracts.eq."{}",coin.eq.true',
           ],
-        },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
         },
 
         ...(isRecent
@@ -64,10 +57,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {
@@ -94,10 +84,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {
@@ -124,10 +111,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {
@@ -154,10 +138,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {
@@ -184,10 +165,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {
@@ -214,10 +192,7 @@ export const generateFilters = (entry: string, isRecent?: boolean): Query[] => {
             'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
           ],
         },
-        {
-          action: "or",
-          value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-        },
+
         ...(isRecent
           ? [
               {

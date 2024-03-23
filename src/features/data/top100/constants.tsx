@@ -404,10 +404,6 @@ export const defaultFilter = [
       'volume.gte.100000,off_chain_volume.gte.100000,contracts.eq."{}",liquidity_market_cap_ratio.gte.0.01,coin.eq.true',
     ],
   },
-  {
-    action: "or",
-    value: ["liquidity.gte.1000,contracts.eq.{},coin.eq.true"],
-  },
 ];
 
 export const formatName = (str: string) => {

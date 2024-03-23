@@ -10,8 +10,8 @@ export const Title = ({ title, extraCss }: TitleProps) => {
         style={{
           WebkitTextFillColor: "transparent",
         }}
-        className={`text-[72px] md:text-[56px] md:leading-[56px] font-bold font-poppins w-fit mx-auto text-transparent 
-          text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,1)]
+        className={`text-[72px] md:text-[56px] md:leading-[70px] leading-[90px] font-bold font-poppins w-fit mx-auto text-transparent 
+          text-fill-color tracking-tighter bg-gradient-to-br from-[rgba(0,0,0,1)]
           to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
            dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text md:text-center`}
       >

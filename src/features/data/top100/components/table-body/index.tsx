@@ -157,7 +157,6 @@ export const Top100TBody = ({
         else if (token[key] !== undefined) updatedValue = false;
         return { ...prev, [key]: updatedValue };
       });
-
       setTimeout(() => {
         setMetricsChanges((prev) => ({ ...prev, [key]: null }));
       }, 800);

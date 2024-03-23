@@ -338,7 +338,6 @@ export const Portfolio = ({
             if (!(newWallet.estimated_balance - wallet.estimated_balance))
               newWallet.estimated_balance_change = undefined;
 
-            console.log("thats it", newWallet, r);
             setWallet(newWallet);
 
             if (showPortfolioSelector) {

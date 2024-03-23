@@ -115,7 +115,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     setMarketMetrics,
     filters,
     setIsMarketMetricsLoading,
-    shouldInstantLoad
+    true
   );
 
   useEffect(() => {
