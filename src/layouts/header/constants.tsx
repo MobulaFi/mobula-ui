@@ -91,7 +91,7 @@ export const navigation = [
         icon: (
           <BiCodeAlt className="text-light-font-100 dark:text-dark-font-100 text-[21px] md:text-sm" />
         ),
-        description: "Institutional-grade crypto & web3 data API.",
+        description: "Institutional-grade crypto & onchain data API.",
       },
 
       // {

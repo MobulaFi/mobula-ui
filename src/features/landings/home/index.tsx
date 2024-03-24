@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NextChakraLink } from "../../../components/link";
 import { CuratedDataset } from "./components/curated-dataset";
 import { GetInTouch } from "./components/get-in-touch";
@@ -97,15 +97,15 @@ export const HomeLanding = () => {
                 id="text"
                 style={{
                   WebkitTextFillColor: "transparent",
+                  // @ts-ignore
+                  "text-wrap": "balance",
                 }}
-                className="text-[96px] md:text-[56px] md:leading-[50px] font-bold leading-[90px] font-poppins w-fit mx-auto text-transparent 
-                text-fill-color tracking-[-0.08em] bg-gradient-to-br from-[rgba(0,0,0,1)]
+                className="text-[85px] md:text-[65px] md:leading-[70px] font-bold leading-[95px] font-poppins w-fit mx-auto text-transparent 
+                text-fill-color tracking-tighter bg-gradient-to-br from-[rgba(0,0,0,1)]
                 to-[rgba(0,0,0,0.40)] dark:from-[rgba(255,255,255,1)]
                  dark:to-[rgba(255,255,255,0.40)] dark:text-transparent bg-clip-text text-center"
               >
-                The last web3 data provider
-                <br />
-                You&apos;ll ever need
+                The last onchain data provider You&apos;ll ever need
               </h1>
             </div>
 
@@ -152,18 +152,18 @@ export const HomeLanding = () => {
                 </div>
               </div>
               <div className="grid grid-cols-5 sm:col-end-2 gap-10 md:grid-cols-3 md:gap-3 mt-[50px] md:mt-7 place-items-center sm:justify-items-center">
-                <img src="/landing/partner/nimbus.svg" alt="nimbus logo" />
-                <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
-                <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
                 <img
                   src="/landing/partner/embr.svg"
                   alt="embr logo"
                   className="mx-auto md:hidden"
                 />
+                <img src="/landing/partner/supra.svg" alt="supra oracle logo" />
+                <img src="/landing/partner/alchemy.png" alt="alchemy logo" />
+                <img src="/landing/partner/op.svg" alt="optimism logo" />
                 <img
-                  src="/landing/partner/etherspot.svg"
-                  alt="etherspot logo"
-                  className="md:hidden"
+                  src="/landing/partner/stripe.svg"
+                  alt="stripe logo"
+                  className="md:hidden h-[42px]"
                 />
               </div>
             </div>

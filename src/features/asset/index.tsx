@@ -115,7 +115,7 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     setMarketMetrics,
     filters,
     setIsMarketMetricsLoading,
-    shouldInstantLoad
+    true
   );
 
   useEffect(() => {
@@ -321,7 +321,9 @@ export const Assets = ({ asset, isAssetPage }: AssetProps) => {
     },
     {
       key: "M.Cap",
-      value: baseAsset?.[baseAsset?.baseToken]?.market_cap,
+      value:
+        baseAsset?.[baseAsset?.baseToken]?.circulatingSupply *
+        baseAsset?.[baseAsset?.baseToken]?.price,
       isAmount: true,
     },
 

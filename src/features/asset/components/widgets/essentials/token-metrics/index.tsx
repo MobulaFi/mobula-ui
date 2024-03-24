@@ -78,15 +78,18 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const isLargerThan991 =
     typeof window !== "undefined" && window.innerWidth > 991;
 
-  const pairsMetrics = [
-    // {
-    //   title: "ROI",
-    //   value: baseAsset?.[baseAsset.baseToken]?.total_supply || "-",
-    //   dollar: false,
-    // },
+  type pairMetricsType = {
+    title: string;
+    value: number | string;
+    extra?: string;
+    dollar?: boolean;
+  };
+
+  const pairsMetrics: pairMetricsType[] = [
     {
       title: "Total Supply",
-      value: baseAsset?.[baseAsset.baseToken]?.total_supply || "-",
+      value: baseAsset?.[baseAsset.baseToken]?.totalSupply || "-",
+      extra: " " + baseAsset?.[baseAsset.baseToken]?.symbol,
       dollar: false,
     },
     {
@@ -113,7 +116,9 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
     },
     {
       title: "Market Cap",
-      value: baseAsset?.[baseAsset.baseToken]?.market_cap,
+      value:
+        baseAsset?.[baseAsset.baseToken]?.circulatingSupply *
+        baseAsset?.[baseAsset.baseToken]?.price,
     },
     // {
     //   title: "Pair created at",

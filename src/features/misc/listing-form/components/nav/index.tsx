@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { LargeFont, MediumFont } from "../../../../../components/fonts";
 import { NextChakraLink } from "../../../../../components/link";
@@ -22,9 +22,10 @@ export const Nav = ({ state }) => {
     ...(state.type === "nft"
       ? []
       : [
-          {
-            name: "Vesting",
-          },
+          // REMOVED TEMPORARILY
+          // {
+          //   name: "Vesting",
+          // },
           {
             name: "Fees",
           },

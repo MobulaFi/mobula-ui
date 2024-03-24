@@ -35,7 +35,7 @@ interface DataProps {
   width?: string;
 }
 
-const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
+const BasicLineChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const id = useMemo(() => uuid(), []);
   const { resolvedTheme } = useTheme();
@@ -62,13 +62,13 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
       containLabel: true,
     },
     tooltip: {
-      trigger: "item",
+      trigger: "axis",
       confine: true,
       padding: 0,
       backgroundColor: "transparent",
       borderColor: "transparent",
       formatter: (params: any) => {
-        const value = params.value[1];
+        const value = params?.[0]?.value[1];
         return `
           <div class="flex items-center p-2.5 rounded-lg bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary
            dark:border-dark-border-primary">
@@ -133,9 +133,10 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
     series: {
       name: "Profit",
       type: "line",
+      showSymbol: false,
       itemStyle: {
         color: (params) => {
-          const value = params.value[1];
+          const value = params?.value?.[1];
           if (value > 0) return "#0ECB81";
           return "#ea3943";
         },
@@ -180,4 +181,4 @@ const BarChartComponent: React.FC<DataProps> = ({ data }: DataProps) => {
   );
 };
 
-export default BarChartComponent;
+export default BasicLineChartComponent;

@@ -54,6 +54,7 @@ export const Top100 = ({
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [initialTableHeight, setInitialTableHeight] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
   const [filters, setFilters] = useState<Query[] | null>(
     defaultFilter || [{ action: "", value: [], isFirst: true }]
   );
@@ -72,15 +73,20 @@ export const Top100 = ({
   }, []);
 
   const fetchAssets = async () => {
-    if (activePage === 1) return;
+    if (activePage === 1) {
+      setIsFetching(false);
+      return;
+    }
     setIsPageLoading(true);
+    const start = (activePage - 1) * 25;
+    const end = activePage * 25 - 1;
     const query = supabase
       .from("assets")
       .select(TABLE_ASSETS_QUERY, {
         count: "exact",
       })
       .order("market_cap", { ascending: false })
-      .range(activePage * 25 - 25, activePage * 25 - 1);
+      .range(start, end);
     if (filters) {
       filters
         .filter((entry) => entry.action)
@@ -90,20 +96,31 @@ export const Top100 = ({
     }
     const result = await query.limit(25);
 
-    if (result.error) setIsPageLoading(false);
-    else {
-      setResultsData((prev) => ({
-        ...prev,
-        data: [...prev.data, ...result.data],
-        count: result.count,
-      }));
-
+    if (result.error) {
+      setIsPageLoading(false);
+      setIsFetching(false);
+    } else {
+      const newData = result.data;
+      setResultsData((prev) => {
+        const existingNames = new Set(prev.data.map((item) => item.name));
+        const uniqueNewData = newData.filter(
+          (item) => !existingNames.has(item.name)
+        );
+        return {
+          ...prev,
+          data: [...prev.data, ...uniqueNewData],
+          count: result.count,
+        };
+      });
+      setIsFetching(false);
       setIsPageLoading(false);
     }
   };
 
   useEffect(() => {
-    if (tableRef?.current) fetchAssets();
+    if ((isFetching && tableRef?.current) || !tableRef?.current) return;
+    setIsFetching(true);
+    fetchAssets();
   }, [activePage]);
 
   useEffect(() => {
@@ -112,15 +129,18 @@ export const Top100 = ({
 
       const windowHeight = window.innerHeight;
       const scrollPosition = window.scrollY + windowHeight;
-      const triggerHeight = initialTableHeight * 0.1;
 
       setIsButtonVisible(scrollPosition > windowHeight * 1.5);
 
       const tableBottomPosition =
         tableRef.current.offsetTop + tableRef.current.offsetHeight;
 
-      if (scrollPosition >= tableBottomPosition * 0.6 && !isPageLoading) {
-        setActivePage((prev) => prev + 1);
+      if (
+        scrollPosition >= tableBottomPosition * 0.6 &&
+        !isPageLoading &&
+        !isFetching
+      ) {
+        setActivePage(activePage + 1);
       }
     };
 
@@ -139,7 +159,7 @@ export const Top100 = ({
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateTableHeight);
     };
-  }, [isPageLoading, isButtonVisible]);
+  }, [isPageLoading, isButtonVisible, isFetching]);
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
