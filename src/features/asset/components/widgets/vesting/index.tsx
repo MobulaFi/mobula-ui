@@ -52,28 +52,31 @@ export const Vesting = () => {
 
   const getVestingChartData = () => {
     if (!baseAsset?.release_schedule) return;
-    const categories: CategoriesProps = {} as CategoriesProps;
+    const categories = {};
     const seen = new Set();
-    newVesting?.forEach(([timestamp, , types], idx) => {
-      if (idx === 0) {
+
+    newVesting
+      ?.sort((a, b) => a[0] - b[0])
+      .forEach(([timestamp, , types], idx) => {
         types?.forEach(([type, value]) => {
-          categories[type] = [[timestamp, value]];
+          if (!categories[type]) {
+            categories[type] = [];
+          }
+          categories[type].push([
+            timestamp,
+            idx === 0
+              ? value
+              : value + categories[type][categories[type].length - 1][1],
+          ]);
           seen.add(type);
         });
-      } else {
-        types?.forEach(([type, value]) => {
-          if (!seen.has(type)) {
-            categories[type] = [[timestamp, value]];
-            seen.add(type);
-          } else {
-            categories[type].push([
-              timestamp,
-              value + categories[type][categories[type].length - 1][1],
-            ]);
-          }
-        });
-      }
-    });
+      });
+
+    // Now we need to sort the timestamps within each category
+    for (const type in categories) {
+      categories[type] = categories[type].sort((a, b) => a[0] - b[0]);
+    }
+
     return categories;
   };
 
