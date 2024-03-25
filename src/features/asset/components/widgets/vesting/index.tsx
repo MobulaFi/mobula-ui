@@ -1,6 +1,6 @@
 import { LargeFont } from "components/fonts";
 import dynamic from "next/dynamic";
-import React, { useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { Spinner } from "../../../../../components/spinner";
 import { BaseAssetContext } from "../../../context-manager";
 import { CategoriesProps } from "../../../models";
@@ -21,19 +21,26 @@ export const Vesting = () => {
     const seen = new Set();
     const types = [];
 
-    vesting?.forEach(([, , type]) => {
-      Object.keys(type).forEach((key) => {
-        if (!seen.has(key)) {
-          types.push(key);
-          seen.add(key);
-        }
-      });
-    });
+    vesting?.forEach(
+      ({ unlock_date, tokens_to_unlock, allocation_details }) => {
+        Object.keys(allocation_details).forEach((key) => {
+          if (!seen.has(key)) {
+            types.push(key);
+            seen.add(key);
+          }
+        });
+      }
+    );
 
-    const newVesting = vesting?.slice(1).map(([timestamp, amount, rounds]) => {
-      const roundsArr = types.map((type) => [type, rounds[type] || 0]);
-      return [timestamp, amount, roundsArr];
-    });
+    const newVesting = vesting
+      ?.slice(1)
+      .map(({ unlock_date, tokens_to_unlock, allocation_details }) => {
+        const roundsArr = types.map((type) => [
+          type,
+          allocation_details[type] || 0,
+        ]);
+        return [unlock_date, tokens_to_unlock, roundsArr];
+      });
 
     return newVesting;
   };
@@ -45,28 +52,31 @@ export const Vesting = () => {
 
   const getVestingChartData = () => {
     if (!baseAsset?.release_schedule) return;
-    const categories: CategoriesProps = {} as CategoriesProps;
+    const categories = {};
     const seen = new Set();
-    newVesting?.forEach(([timestamp, , types], idx) => {
-      if (idx === 0) {
+
+    newVesting
+      ?.sort((a, b) => a[0] - b[0])
+      .forEach(([timestamp, , types], idx) => {
         types?.forEach(([type, value]) => {
-          categories[type] = [[timestamp, value]];
+          if (!categories[type]) {
+            categories[type] = [];
+          }
+          categories[type].push([
+            timestamp,
+            idx === 0
+              ? value
+              : value + categories[type][categories[type].length - 1][1],
+          ]);
           seen.add(type);
         });
-      } else {
-        types?.forEach(([type, value]) => {
-          if (!seen.has(type)) {
-            categories[type] = [[timestamp, value]];
-            seen.add(type);
-          } else {
-            categories[type].push([
-              timestamp,
-              value + categories[type][categories[type].length - 1][1],
-            ]);
-          }
-        });
-      }
-    });
+      });
+
+    // Now we need to sort the timestamps within each category
+    for (const type in categories) {
+      categories[type] = categories[type].sort((a, b) => a[0] - b[0]);
+    }
+
     return categories;
   };
 

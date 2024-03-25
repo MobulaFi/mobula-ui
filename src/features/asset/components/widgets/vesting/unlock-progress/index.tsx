@@ -23,9 +23,9 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
     let totalLock = 0;
     const now = new Date().getTime();
     baseAsset?.release_schedule?.forEach((entry) => {
-      if (entry[0] <= now) totalUnlock += entry[1];
-      if (entry[0] > now) totalLock += entry[1];
-      total += entry[1];
+      if (entry.unlock_date <= now) totalUnlock += entry.tokens_to_unlock;
+      if (entry.unlock_date > now) totalLock += entry.tokens_to_unlock;
+      total += entry.tokens_to_unlock;
     });
     return { totalUnlock, totalLock, total };
   };
@@ -41,8 +41,8 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
     const typeLock = {};
     const now = new Date().getTime();
     baseAsset?.release_schedule?.forEach((entry) => {
-      if (entry[0] <= now) {
-        const entries = Object.entries(entry[2]);
+      if (entry.unlock_date <= now) {
+        const entries = Object.entries(entry.allocation_details);
         entries.forEach(([key, value]) => {
           if (!seen.has(key)) {
             seen.add(key);
@@ -52,8 +52,8 @@ export const UnlockProgress = ({ extraCss }: UnlockProgressProps) => {
           }
         });
       }
-      if (entry[0] > now) {
-        const entries = Object.entries(entry[2]);
+      if (entry.unlock_date > now) {
+        const entries = Object.entries(entry.allocation_details);
         entries.forEach(([key, value]) => {
           if (!seenLock.has(key)) {
             seenLock.add(key);
