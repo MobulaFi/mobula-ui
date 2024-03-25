@@ -54,26 +54,23 @@ export const Allocation = ({ extraCss }: AllocationProps) => {
       baseAsset?.release_schedule?.length > 0
         ? baseAsset?.release_schedule
         : [];
-    const types = [];
-    const seen = new Set();
-    vestings?.forEach(([, , type], idx) => {
-      if (idx === 0) {
-        Object.keys(type)?.forEach((key) => {
-          types.push(key);
-          seen.add(key);
-        });
-      } else {
-        Object.keys(type)?.forEach((key) => {
-          if (!seen.has(key)) {
-            seen.add(key);
-            types.push(key);
-          }
+
+    const uniqueNames = new Set();
+
+    vestings.forEach((vesting) => {
+      const details = vesting.allocation_details;
+      if (details) {
+        Object.keys(details).forEach((key) => {
+          uniqueNames.add(key);
         });
       }
     });
+
+    const uniqueKeysArray = Array.from(uniqueNames);
+
     const typeWithColor = [];
-    types.forEach((type, i) => {
-      typeWithColor.push({ name: type, color: colors[i] });
+    uniqueKeysArray.forEach((name, i) => {
+      typeWithColor.push({ name: name, color: colors[i] } as never);
     });
 
     return typeWithColor;

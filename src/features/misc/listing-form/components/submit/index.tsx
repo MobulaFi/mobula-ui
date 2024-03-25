@@ -12,7 +12,6 @@ import {
   MediumFont,
   SmallFont,
 } from "../../../../../components/fonts";
-import { API_ENDPOINT } from "../../../../../constants";
 import { useGeneralContext } from "../../../../../contexts/general";
 import { getUrlFromName } from "../../../../../utils/formaters";
 import { ChangeTemplate } from "../../../../dao/protocol/components/ui/sorts/change-template";
@@ -25,6 +24,7 @@ export const Submit = ({ state }) => {
     useContext(ListingContext);
   const [isCopied, setIsCopied] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [coolDownInMinutes, setCooldownInMinutes] = useState(0);
   const { editAssetReducer, baseEditAssetReducer } = useGeneralContext();
 
   const router = useRouter();
@@ -42,11 +42,16 @@ export const Submit = ({ state }) => {
   async function editListing(state: any, baseEditAssetReducer: any) {
     const { edits, ...stateWithoutEdits } = state;
     try {
-      const editRequest = await axios.post(`${API_ENDPOINT}/asset/edit-token`, {
-        oldAssetFormattedData: baseEditAssetReducer,
-        newAssetFormattedData: stateWithoutEdits,
-        protocolId: state.protocol_id,
-      });
+      const editRequest = await axios.post(
+        `http://0.0.0.0:3002/asset/edit-token`,
+        {
+          oldAssetFormattedData: baseEditAssetReducer,
+          newAssetFormattedData: stateWithoutEdits,
+          protocolId: state.protocol_id,
+          name: state.name,
+          symbol: state.symbol,
+        }
+      );
 
       if (editRequest.status == 200) setIsEdit(true);
     } catch (error) {
@@ -54,6 +59,9 @@ export const Submit = ({ state }) => {
         "Error editing token:",
         error.response?.data || error.message
       );
+      if (error.response?.data.remainingTimeInMinutes > 0) {
+        setCooldownInMinutes(error.response?.data.remainingTimeInMinutes);
+      }
     }
   }
 
@@ -297,7 +305,13 @@ export const Submit = ({ state }) => {
               />
             ))}
           </div>
-          {!isEdit ? (
+          {coolDownInMinutes > 0 ? (
+            <div className="flex justify-start gap-4 mt-2">
+              <div>
+                There is a cooldown of {coolDownInMinutes} minutes. Please wait.
+              </div>
+            </div>
+          ) : !isEdit ? (
             <div className="flex justify-start gap-4 mt-2">
               <Button
                 onClick={() => editListing(state, baseEditAssetReducer)}
