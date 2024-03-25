@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { FaArrowDownLong } from "react-icons/fa6";
 import { MediumFont, SmallFont } from "../../../../../../../components/fonts";
 import { TitleContainer } from "../../../../../../../components/title";
@@ -12,18 +11,13 @@ export const ChangeTemplate = ({
   newValue,
   type,
 }: EditingTemplate) => {
-  const [hasCopied, setHasCopied] = useState(false);
   const isContract =
     type === "Contract" ||
     type === "contracts" ||
     type === "excludedFromCirculationAddresses" ||
     type === "totalSupplyContracts";
   const isLinks = type === "links";
-  const onCopy = () => {
-    navigator.clipboard.writeText(newValue);
-    setHasCopied(true);
-    setTimeout(() => setHasCopied(false), 2000);
-  };
+  const isTeam = type === "team";
 
   if (
     type === "contracts" ||
@@ -39,12 +33,30 @@ export const ChangeTemplate = ({
   }
 
   if (type === "links") {
-    const oldData = [];
-    const newData = [];
+    const oldData = {};
+    const newData = {};
+
+    const determineType = (url) => {
+      if (!url) return null;
+      if (url.includes("t.me")) return "telegram";
+      if (url.includes("discord.com") || url.includes("discord.gg"))
+        return "discord";
+      if (url.includes("twitter.com")) return "twitter";
+      if (url.includes("github.com")) return "github";
+      return "website";
+    };
+
     Object.keys(newValue).forEach((key) => {
-      if (newValue?.[key] !== oldValue?.[key]) {
-        oldData.push(oldValue[key] as never);
-        newData.push(newValue[key] as never);
+      const oldLink = oldValue[key];
+      const newLink = newValue[key];
+      const oldLinkType = determineType(oldLink);
+      const newLinkType = determineType(newLink);
+
+      if (newLinkType && newLink !== undefined && newLink !== null) {
+        newData[newLinkType] = newLink;
+      }
+      if (oldLinkType && oldLink !== undefined && oldLink !== null) {
+        oldData[oldLinkType] = oldLink;
       }
     });
 
@@ -53,8 +65,12 @@ export const ChangeTemplate = ({
   }
 
   if (type === "image") {
-    oldValue = oldValue.logo;
-    newValue = newValue.logo;
+    oldValue = oldValue?.logo;
+    newValue = newValue?.logo;
+  }
+
+  if (type === "tokenomics") {
+    return;
   }
 
   return (
@@ -78,13 +94,27 @@ export const ChangeTemplate = ({
                     <div key={contract}>{`${contract}`}</div>
                   ))
                 : null}
-              {isLinks
-                ? oldValue?.map?.((links) => (
-                    <div key={links}>{`${links}`}</div>
+              {isLinks && oldValue
+                ? Object.entries(oldValue).map(([type, link]) => (
+                    <div key={type}>
+                      {type}: {link as string}
+                    </div>
                   ))
                 : null}
 
-              {!isContract && !isLinks ? oldValue : null}
+              {isTeam && Array.isArray(oldValue)
+                ? oldValue.map((member, index) => (
+                    <div key={index}>
+                      {Object.entries(member).map(([type, link]) => (
+                        <div key={type}>
+                          {type}: {link.toString()}
+                        </div>
+                      ))}
+                    </div>
+                  ))
+                : null}
+
+              {!isContract && !isLinks && !isTeam ? oldValue : null}
             </SmallFont>
           </div>
         </BoxContainer>
@@ -104,11 +134,27 @@ export const ChangeTemplate = ({
                     <div key={contract}>{`${contract}`}</div>
                   ))
                 : null}
-              {isLinks
-                ? newValue.map((links) => <div key={links}>{`${links}`}</div>)
+              {isLinks && newValue
+                ? Object.entries(newValue).map(([type, link]) => (
+                    <div key={type}>
+                      {type}: {link as string}
+                    </div>
+                  ))
                 : null}
 
-              {!isContract && !isLinks ? newValue : null}
+              {isTeam && Array.isArray(newValue)
+                ? newValue.map((member, index) => (
+                    <div key={index}>
+                      {Object.entries(member).map(([type, link]) => (
+                        <div key={type}>
+                          {type}: {link.toString()}
+                        </div>
+                      ))}
+                    </div>
+                  ))
+                : null}
+
+              {!isContract && !isLinks && !isTeam ? newValue : null}
             </SmallFont>
           </div>
         </BoxContainer>
