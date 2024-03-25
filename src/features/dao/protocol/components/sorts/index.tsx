@@ -66,8 +66,7 @@ export const Sort = () => {
   const renderNonListingToken = (token: TokenDivs) => (
     <div className={token?.alreadyVoted ? "opacity-50" : "opacity-100"}>
       {token?.edits
-        ?.filter((edit) => edit !== "edits")
-        ?.filter((edit) => edit !== "protocol_id")
+        ?.filter((edit) => edit !== "edits" && edit !== "protocol_id")
         ?.map((edit) => (
           <ChangeTemplate
             key={edit}
