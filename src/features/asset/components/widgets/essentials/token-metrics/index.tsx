@@ -78,10 +78,18 @@ export const TokenMetrics = ({ isMobile, extraCss }: TokenMetricsProps) => {
   const isLargerThan991 =
     typeof window !== "undefined" && window.innerWidth > 991;
 
-  const pairsMetrics = [
+  type pairMetricsType = {
+    title: string;
+    value: number | string;
+    extra?: string;
+    dollar?: boolean;
+  };
+
+  const pairsMetrics: pairMetricsType[] = [
     {
       title: "Total Supply",
       value: baseAsset?.[baseAsset.baseToken]?.totalSupply || "-",
+      extra: " " + baseAsset?.[baseAsset.baseToken]?.symbol,
       dollar: false,
     },
     {

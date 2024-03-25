@@ -48,7 +48,6 @@ export const Submit = ({ state }) => {
         protocolId: state.protocol_id,
       });
 
-      console.log("Edit request:", stateWithoutEdits);
       if (editRequest.status == 200) setIsEdit(true);
     } catch (error) {
       console.error(

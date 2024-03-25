@@ -129,8 +129,9 @@ export const useMultiWalletNftHoldings = (addresses?: string[]) => {
   useEffect(() => {
     if (
       (addresses?.length > 0 && !nfts?.length) ||
-      nfts?.[0]?.minter_address !== params?.address
+      (nfts?.[0]?.minter_address !== params?.address && !nfts?.length)
     ) {
+      // TODO: MINTER ADDRESS UNDEFINED => CHECK ON BACKEND
       const promises = addresses?.map((address) =>
         GET(
           "/api/1/wallet/nfts",

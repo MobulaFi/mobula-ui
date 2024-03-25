@@ -341,7 +341,7 @@ export const getBotContents = () => {
       subtitle: " Incentivize your community.",
       description:
         "Your first members will be encouraged to invite new members to earn on-chain rewards. Members will be pushed to engage with an auto-reward engagement leaderboard system. Send personalized notifications to your members based on their activity in the group, or external announcement.",
-      url: "https://builders.mobula.fi/introducing-mobula-bot",
+      url: "https://t.me/MobulaBot",
       // TODO: URL to the bot && image
       button_name: "Configure Incentives",
       image: "/landings/mobulabot/1.png",
@@ -351,7 +351,7 @@ export const getBotContents = () => {
       subtitle: "Read the crypto market.",
       description:
         "Give your community the ability to get multi-chain data on the cryptocurrencies of their choice. Your group members will be able to analyze price, volume, liquidity or rank charts of a majority of the crypto-currencies on the market, without leaving your group.",
-      url: "https://builders.mobula.fi/introducing-mobula-bot",
+      url: "https://t.me/MobulaBot",
       // TODO: URL to the bot && image
       button_name: "Create your data feed",
       image: "/landings/mobulabot/2.png",
@@ -362,7 +362,7 @@ export const getBotContents = () => {
       description:
         "Nothing gets a community more excited than buying pressure and green candles. The Mobula Bot allows the entire community to participate in the excitement and watch the buying execute in real time.",
       // TODO: URL to the bot && image
-      url: "https://builders.mobula.fi/introducing-mobula-bot",
+      url: "https://t.me/LamborghiniBuyBot",
       button_name: "Configure Buying Presure",
       image: "/landings/mobulabot/3.png",
     },
@@ -372,7 +372,7 @@ export const getBotContents = () => {
       description:
         " Whether it's anti-bot systems, group portals or automated help messages, don't bother doing everything manually. The Mobula bot allows you to manage 100% of the moderation of your group.",
       // TODO: URL to the bot && image
-      url: "https://builders.mobula.fi/introducing-mobula-bot",
+      url: "https://t.me/MobulaBot",
       button_name: "Setup the auto-pilot",
       image: "/landings/mobulabot/4.png",
     },

@@ -138,19 +138,21 @@ export const MultiInputTemplate = ({
                                 dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
 
                               if (editAssetReducer) {
-                                setEditAssetReducer((prevState: any) => {
-                                  const newContracts: any = [
-                                    ...prevState?.contracts,
-                                  ];
-                                  newContracts[i] = {
-                                    ...newContracts[i],
-                                    address: e.target.value,
-                                  };
-                                  return {
-                                    ...prevState,
-                                    contracts: newContracts,
-                                  };
-                                });
+                                setEditAssetReducer(
+                                  (prevState: { contracts: any }) => {
+                                    const newContracts = [
+                                      ...prevState.contracts,
+                                    ];
+                                    newContracts[i] = {
+                                      ...newContracts[i],
+                                      address: e.target.value,
+                                    };
+                                    return {
+                                      ...prevState,
+                                      contracts: newContracts,
+                                    };
+                                  }
+                                );
                               }
                             } else if (title === "Excluded addresses") {
                               setTemporateValue((prev: any) => {
@@ -201,19 +203,17 @@ export const MultiInputTemplate = ({
                             dispatch({ type: ACTIONS.ADD_FIRST_CONTRACT });
 
                           if (editAssetReducer) {
-                            setEditAssetReducer(
-                              (prevState: { contracts: any }) => {
-                                const newContracts = [...prevState?.contracts];
-                                newContracts[i] = {
-                                  ...newContracts[i],
-                                  address: e.target.value,
-                                };
-                                return {
-                                  ...prevState,
-                                  contracts: newContracts,
-                                };
-                              }
-                            );
+                            setEditAssetReducer((prevState: any) => {
+                              const newContracts = [...prevState?.contracts];
+                              newContracts[i] = {
+                                ...newContracts[i],
+                                address: e.target.value,
+                              };
+                              return {
+                                ...prevState,
+                                contracts: newContracts,
+                              };
+                            });
                           }
                         } else if (title === "Excluded addresses") {
                           setTemporateValue((prev: any) => {
@@ -259,13 +259,12 @@ export const MultiInputTemplate = ({
                       } else {
                         dispatch({ type: ACTIONS.ADD_ALL_CONTRACTS });
                       }
-
                       if (editAssetReducer) {
                         setEditAssetReducer((prevState) => ({
                           ...prevState,
                           contracts: [
-                            ...prevState?.contracts?.slice(0, i),
-                            ...prevState?.contracts?.slice(i + 1),
+                            ...prevState.contracts.slice(0, i),
+                            ...prevState.contracts.slice(i + 1),
                           ],
                         }));
                       }

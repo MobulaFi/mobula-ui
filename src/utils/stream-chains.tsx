@@ -137,6 +137,7 @@ export const useLiteStreamMarketDataModule = (
             request[filter.action](...filter.value);
           });
         const { data } = await request.single();
+        // console.log("I got data on:", new Date(Date.now()));
         if (marketMetrics?.trade_history?.length > 0) setIsLoading?.(false);
         if (threadIdCurrent !== threadId.current) return;
         if (data && data.trade_history) {
@@ -169,11 +170,15 @@ export const useLiteStreamMarketDataModule = (
                   : null,
             };
           });
+          // console.log("My data has change", new Date(Date.now()));
         }
         if (marketMetrics?.trade_history?.length > 0 && setIsLoading)
           setIsLoading(false);
       };
-      if (shouldInstantLoad) changeMarketMetrics();
+      if (shouldInstantLoad) {
+        // console.log("I fetch changeMarketMetrics", new Date(Date.now()));
+        changeMarketMetrics();
+      }
       const stream = setInterval(async () => {
         changeMarketMetrics();
       }, 5 * 1000);
