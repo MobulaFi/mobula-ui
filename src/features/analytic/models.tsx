@@ -1,12 +1,13 @@
 export interface OptionsProps {
-  chartOptions: selectedOptionProps;
+  chartOptions: selectedQueryProps;
 }
 
-export interface selectedOptionProps {
+export interface selectedQueryProps {
   data: (string | number)[][];
   type: string;
-  width: string;
+  width: number;
   id: number;
+  query: string;
   colors?: {
     up: string;
     down: string;
@@ -22,10 +23,10 @@ export interface selectedOptionProps {
 }
 
 export interface AnalyticsContextProps {
-  selectedOption: selectedOptionProps;
-  setSelectedOption: React.Dispatch<React.SetStateAction<selectedOptionProps>>;
-  views: selectedOptionProps[];
-  setViews: React.Dispatch<React.SetStateAction<selectedOptionProps[]>>;
+  selectedQuery: selectedQueryProps;
+  setSelectedQuery: React.Dispatch<React.SetStateAction<selectedQueryProps>>;
+  views: selectedQueryProps[];
+  setViews: React.Dispatch<React.SetStateAction<selectedQueryProps[]>>;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

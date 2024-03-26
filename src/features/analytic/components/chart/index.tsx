@@ -38,8 +38,8 @@ const ChartAnalytic: React.FC<OptionsProps> = ({
 }: {
   chartOptions: any;
 }) => {
-  // selectedOption: chartOptions,
-  const { setSelectedOption } = useAnalytics();
+  // selectedQuery: chartOptions,
+  const { setSelectedQuery } = useAnalytics();
   const parentRef = useRef<HTMLDivElement>(null);
   const id = useMemo(() => uuid(), []);
   const { resolvedTheme } = useTheme();

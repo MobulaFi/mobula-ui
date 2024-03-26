@@ -2,7 +2,7 @@
 
 import Editor, { useMonaco } from "@monaco-editor/react";
 import { useTheme } from "next-themes";
-import React, { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { BiTrash } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import { ReactSortable } from "react-sortablejs";
@@ -29,9 +29,14 @@ const CustomComponent = forwardRef<HTMLDivElement, any>((props, ref) => (
 
 export const Analytic = () => {
   const [activeLanguage, setActiveLanguage] = useState("sql");
-  const [userType, setUserType] = useState("");
-  const { views, setSelectedOption, setViews, setIsOpen, isOpen } =
-    useAnalytics();
+  const {
+    views,
+    setSelectedQuery,
+    selectedQuery,
+    setViews,
+    setIsOpen,
+    isOpen,
+  } = useAnalytics();
   const { resolvedTheme } = useTheme();
   const [isHovering, setIsHovering] = useState(0);
   const monaco = useMonaco();
@@ -58,10 +63,10 @@ export const Analytic = () => {
       });
       monaco.editor.setTheme("onedark");
     }
-  }, [monaco, userType]);
+  }, [monaco, selectedQuery]);
 
   function handleEditorChange(value, event) {
-    setUserType(value);
+    setSelectedQuery((prev) => ({ ...prev, query: value }));
   }
 
   const changeLanguage = (language: string) => {
@@ -73,25 +78,22 @@ export const Analytic = () => {
 
   useEffect(() => {
     if (editorInstance && monaco) {
-      const provider = monaco.languages.registerCompletionItemProvider(
-        "javascript",
-        {
-          provideCompletionItems: function (model, position) {
-            const suggestions = [];
-            const value = userType;
-            const isLastCharacterDot = value.endsWith(".");
+      const provider = monaco.languages.registerCompletionItemProvider("sql", {
+        provideCompletionItems: function (model, position) {
+          const suggestions = [];
+          const value = selectedQuery.query;
+          const isLastCharacterDot = value.endsWith(".");
 
-            if (isLastCharacterDot) {
-              suggestions.push({
-                label: "Ceci est un test",
-                kind: monaco.languages.CompletionItemKind.Property,
-                insertText: "select @@version",
-              } as never);
-            }
-            return { suggestions };
-          },
-        }
-      );
+          if (isLastCharacterDot) {
+            suggestions.push({
+              label: "Ceci est un test",
+              kind: monaco.languages.CompletionItemKind.Property,
+              insertText: "select @@version",
+            } as never);
+          }
+          return { suggestions };
+        },
+      });
       setCompletionProvider(provider as never);
 
       return () => {
@@ -100,17 +102,18 @@ export const Analytic = () => {
         }
       };
     }
-  }, [editorInstance, userType]);
+  }, [editorInstance, selectedQuery.query]);
 
   const removeView = () => {
     const newViews = views.filter((view, i) => i !== isHovering - 1);
     setViews(newViews);
   };
   const editView = (view) => {
-    setSelectedOption(view);
+    setSelectedQuery(view);
     setViews(views.filter((v) => v !== view));
     setIsOpen(true);
   };
+  console.log("views", views);
 
   return (
     <div className="flex flex-col items-center justify-center mt-10 max-w-[1200px] mx-auto">
@@ -122,7 +125,7 @@ export const Analytic = () => {
         <div className="flex items-center justify-center mt-5">
           <button
             className="px-2.5 mx-1.5 py-1 rounded bg-dark-font-40"
-            onClick={() => changeLanguage("javascript")}
+            onClick={() => changeLanguage("sql")}
           >
             JavaScript
           </button>
@@ -139,11 +142,11 @@ export const Analytic = () => {
             SQL
           </button>
         </div>
-        <div className="hidden w-[800px] mt-5 p-2.5 rounded-lg bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary">
+        <div className="w-[800px] mt-5 p-2.5 rounded-lg bg-light-bg-terciary dark:bg-dark-bg-terciary border border-light-border-primary dark:border-dark-border-primary">
           <Editor
             height="500px"
-            defaultLanguage="javascript"
-            defaultValue="// some comment"
+            defaultLanguage="sql"
+            defaultValue=""
             onMount={(editor, monaco) => {
               setEditorInstance(editor);
             }}
@@ -167,64 +170,43 @@ export const Analytic = () => {
         animation={200}
         delay={0}
       >
-        {views?.map((view, i) => (
-          <div
-            className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
+        {views?.map((view, i) => {
+          console.log(
+            "calc(${view.width}% - 5px)",
+            `calc(${view.width}% - 5px)`,
+            view.width
+          );
+          return (
+            <div
+              className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
           border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5 relative`}
-            style={{ width: `calc(${view.width} - 5px)` }}
-            onMouseEnter={() => setIsHovering(i + 1)}
-            onMouseLeave={() => setIsHovering(0)}
-            key={view.id}
-          >
-            <Button
-              extraCss={`rounded-full absolute top-2.5 right-2.5 text-base transition-all duration-300 ease-in-out ${
-                isHovering === i + 1 ? "opacity-100" : "opacity-0"
-              }`}
-              onClick={removeView}
+              style={{ width: `calc(${view.width}% - 5px)` }}
+              onMouseEnter={() => setIsHovering(i + 1)}
+              onMouseLeave={() => setIsHovering(0)}
+              key={view.id}
             >
-              <BiTrash />
-            </Button>
-            <Button
-              extraCss={`rounded-full absolute top-2.5 right-[50px] text-base transition-all duration-300 ease-in-out ${
-                isHovering === i + 1 ? "opacity-100" : "opacity-0"
-              }`}
-              onClick={() => editView(view)}
-            >
-              <FiEdit />
-            </Button>
-            <PreviewOptions selectedOption={view} isPreview={false} />
-          </div>
-        ))}
+              <Button
+                extraCss={`rounded-full absolute top-2.5 right-2.5 text-base transition-all duration-300 ease-in-out ${
+                  isHovering === i + 1 ? "opacity-100" : "opacity-0"
+                }`}
+                onClick={removeView}
+              >
+                <BiTrash />
+              </Button>
+              <Button
+                extraCss={`rounded-full absolute top-2.5 right-[50px] text-base transition-all duration-300 ease-in-out ${
+                  isHovering === i + 1 ? "opacity-100" : "opacity-0"
+                }`}
+                onClick={() => editView(view)}
+              >
+                <FiEdit />
+              </Button>
+              <PreviewOptions selectedQuery={view} isPreview={false} />
+            </div>
+          );
+        })}
       </ReactSortable>
-      {/* <div className="flex flex-wrap w-full mt-10 justify-between">
-        {views?.map((view, i) => (
-          <div
-            className={` bg-light-bg-secondary dark:bg-dark-bg-secondary rounded-lg border
-             border-light-border-primary dark:border-dark-border-primary p-5 mb-2.5 relative`}
-            style={{ width: `calc(${view.width} - 5px)` }}
-            onMouseEnter={() => setIsHovering(i + 1)}
-            onMouseLeave={() => setIsHovering(0)}
-          >
-            <Button
-              extraCss={`rounded-full absolute top-2.5 right-2.5 text-base transition-all duration-300 ease-in-out ${
-                isHovering === i + 1 ? "opacity-100" : "opacity-0"
-              }`}
-              onClick={removeView}
-            >
-              <BiTrash />
-            </Button>
-            <Button
-              extraCss={`rounded-full absolute top-2.5 right-[50px] text-base transition-all duration-300 ease-in-out ${
-                isHovering === i + 1 ? "opacity-100" : "opacity-0"
-              }`}
-              onClick={() => editView(view)}
-            >
-              <FiEdit />
-            </Button>
-            <PreviewOptions selectedOption={view} isPreview={false} />
-          </div>
-        ))}{" "}
-      </div> */}
+
       <Button extraCss="my-10" onClick={() => setIsOpen(true)}>
         Open
       </Button>

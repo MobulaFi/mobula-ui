@@ -1,18 +1,21 @@
 import { Button } from "components/button";
 import { useAnalytics } from "features/analytic/context-manager";
-import React from "react";
+import { useContext } from "react";
 import { Modal } from "../../../../components/modal-container";
+import { UserContext } from "../../../../contexts/user";
+import { createView, editView } from "../../api";
 import { getFakeData, initialOptions, options } from "../../constants";
-import { selectedOptionProps } from "../../models";
+import { selectedQueryProps } from "../../models";
 import { PreviewOptions } from "./preview-options";
 import { ViewOptions } from "./view-options";
 
 export const SelectorPopup = () => {
   const fakeData = getFakeData();
+  const { user } = useContext(UserContext);
   const {
-    selectedOption,
+    selectedQuery,
     views,
-    setSelectedOption,
+    setSelectedQuery,
     setViews,
     isOpen,
     setIsOpen,
@@ -25,7 +28,7 @@ export const SelectorPopup = () => {
       ["Testing 3", 20],
       ["Testing 4", 80],
     ];
-    setSelectedOption((prev) => ({
+    setSelectedQuery((prev) => ({
       ...prev,
       type: option,
       data: option === "pie" ? data : fakeData,
@@ -33,28 +36,20 @@ export const SelectorPopup = () => {
   };
 
   const submitView = () => {
-    // If the selected option is a title, we need to set the width to 100%
-    if (selectedOption.type === "title") {
-      const newView: selectedOptionProps = {
-        ...selectedOption,
-        id: Math.random(),
-        width: "100%",
-      };
-      setViews((prev) => [...(prev || []), newView]);
-    } else {
-      const newView: selectedOptionProps = {
-        ...selectedOption,
-        id: Math.random(),
-      };
-      setViews((prev) => [...(prev || []), newView]);
+    const newView: selectedQueryProps = {
+      ...selectedQuery,
+      id: Math.random(),
+    };
+    setViews((prev) => [...(prev || []), newView]);
+    if (selectedQuery.id === 1000) {
+      createView(selectedQuery, user.id);
+      editView(selectedQuery);
     }
     // Reset the selected option to the initial state
-    setSelectedOption(initialOptions);
+    setSelectedQuery(initialOptions);
     // Close the modal
     setIsOpen(false);
   };
-
-  console.log("views", views);
 
   return (
     <>
@@ -65,7 +60,7 @@ export const SelectorPopup = () => {
               {options.map((option) => (
                 <Button
                   extraCss={`mr-2.5 mb-2.5 ${
-                    option.type === selectedOption.type
+                    option.type === selectedQuery.type
                       ? "bg-light-bg-hover dark:bg-dark-bg-hover"
                       : ""
                   }`}
@@ -80,7 +75,7 @@ export const SelectorPopup = () => {
               <Button onClick={submitView}>Submit</Button>
             </div>
           </div>
-          <PreviewOptions selectedOption={selectedOption} />
+          <PreviewOptions selectedQuery={selectedQuery} />
         </div>
       </Modal>
     </>

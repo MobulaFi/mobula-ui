@@ -26,6 +26,7 @@ module.exports = {
         "95per": "95%",
         "calc-full-40": "calc(100% - 40px)",
         "calc-full-56": "calc(90vh - 56px)",
+        "calc-full-360": "calc(100% - 360px)",
         "calc-full-340": "calc(100% - 340px)",
         "calc-full-320": "calc(100% - 320px)",
         "calc-half-2": "calc(50% - 2px)",
@@ -132,7 +133,7 @@ module.exports = {
       light: {
         bg: {
           primary: "rgba(255,255,255,1)",
-          secondary: "rgba(252.5, 252.5, 252.5, 1)",
+          secondary: "#fcfcfc",
           terciary: "rgba(250, 250, 250, 1)",
           table: "rgba(255,255,255,1)",
           hover: "rgba(245, 245, 245, 1)",

@@ -2,29 +2,29 @@ import React from "react";
 import { ExtraLargeFont, LargeFont, MediumFont } from "../../components/fonts";
 import ChartAnalytic from "./components/chart";
 import { Table } from "./components/table";
-import { selectedOptionProps } from "./models";
+import { selectedQueryProps } from "./models";
 
-export const contentFromType = (selectedOption: selectedOptionProps) => {
-  if (selectedOption.type === "table") return <Table />;
-  else if (selectedOption.type === "value")
+export const contentFromType = (selectedQuery: selectedQueryProps) => {
+  if (selectedQuery.type === "table") return <Table />;
+  else if (selectedQuery.type === "value")
     return (
       <div className="w-full h-[80%] flex flex-col justify-center items-center">
         <ExtraLargeFont extraCss="mb-2.5 text-5xl">
-          {selectedOption.infos.amount}
+          {selectedQuery.infos.amount}
         </ExtraLargeFont>
-        <LargeFont extraCss="mb-2.5">{selectedOption.infos.text}</LargeFont>
+        <LargeFont extraCss="mb-2.5">{selectedQuery.infos.text}</LargeFont>
       </div>
     );
-  else if (selectedOption.type === "title")
+  else if (selectedQuery.type === "title")
     return (
       <div className="w-full flex flex-col">
         <ExtraLargeFont extraCss="mb-2.5">
-          {selectedOption.infos.title}
+          {selectedQuery.infos.title}
         </ExtraLargeFont>
         <MediumFont extraCss="mb-2.5 text-light-font-80 dark:text-dark-font-80">
-          {selectedOption.infos.description}
+          {selectedQuery.infos.description}
         </MediumFont>
       </div>
     );
-  else return <ChartAnalytic chartOptions={selectedOption} />;
+  else return <ChartAnalytic chartOptions={selectedQuery} />;
 };

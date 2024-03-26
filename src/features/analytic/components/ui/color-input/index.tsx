@@ -2,15 +2,15 @@ import { Input } from "components/input";
 import { useAnalytics } from "../../../context-manager";
 
 export const ColorInput = ({ type }: { type: "up" | "down" }) => {
-  const { selectedOption, setSelectedOption } = useAnalytics();
+  const { selectedQuery, setSelectedQuery } = useAnalytics();
   const handleColorChange = (color: string, type: "up" | "down") => {
-    if (selectedOption.type === "large-area") {
-      setSelectedOption((prev) => ({
+    if (selectedQuery.type === "large-area") {
+      setSelectedQuery((prev) => ({
         ...prev,
         colors: { up: color, down: color },
       }));
     } else
-      setSelectedOption((prev) => ({
+      setSelectedQuery((prev) => ({
         ...prev,
         colors: { ...prev.colors, [type]: color },
       }));
@@ -25,14 +25,14 @@ export const ColorInput = ({ type }: { type: "up" | "down" }) => {
         <div
           className="h-full w-full rounded"
           style={{
-            backgroundColor: selectedOption.colors[type],
+            backgroundColor: selectedQuery.colors[type],
           }}
         />
       </div>
       <Input
         extraCss="w-full border-l-0 rounded-r rounded-l-none"
         placeholder={`Color ${type}`}
-        value={selectedOption.colors[type]}
+        value={selectedQuery.colors[type]}
         onChange={(e) => handleColorChange(e.target.value, type)}
       />
     </div>

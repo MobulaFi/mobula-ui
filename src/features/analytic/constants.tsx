@@ -122,8 +122,8 @@ export const getFakeData = () => {
 
 export const initialOptions = {
   data: fakeData,
-  type: "title",
-  width: "50%",
+  type: "bar",
+  width: 50,
   id: 0,
   colors: {
     up: "#00C087",
@@ -140,10 +140,6 @@ export const initialOptions = {
 };
 
 export const options = [
-  {
-    type: "title",
-    name: "Title",
-  },
   {
     type: "value",
     name: "Value",
@@ -170,29 +166,29 @@ export const options = [
   },
 ];
 
-export const getPercentages = (width: string) => [
+export const getPercentages = (width: number) => [
   {
-    value: "25%",
-    selected: width === "25%",
+    value: 25,
+    selected: width === 25,
   },
   {
-    value: "33.33%",
-    selected: width === "33.33%",
+    value: 33.33,
+    selected: width === 33.33,
   },
   {
-    value: "50%",
-    selected: width === "50%",
+    value: 50,
+    selected: width === 50,
   },
   {
-    value: "66.66%",
-    selected: width === "66.66%",
+    value: 66.66,
+    selected: width === 66.66,
   },
   {
-    value: "75%",
-    selected: width === "75%",
+    value: 75,
+    selected: width === 75,
   },
   {
-    value: "100%",
-    selected: width === "100%",
+    value: 100,
+    selected: width === 100,
   },
 ];
