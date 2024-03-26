@@ -1,3 +1,4 @@
+import { API_ENDPOINT } from "@constants/index";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
@@ -42,16 +43,13 @@ export const Submit = ({ state }) => {
   async function editListing(state: any, baseEditAssetReducer: any) {
     const { edits, ...stateWithoutEdits } = state;
     try {
-      const editRequest = await axios.post(
-        `http://0.0.0.0:3002/asset/edit-token`,
-        {
-          oldAssetFormattedData: baseEditAssetReducer,
-          newAssetFormattedData: stateWithoutEdits,
-          protocolId: state.protocol_id,
-          name: state.name,
-          symbol: state.symbol,
-        }
-      );
+      const editRequest = await axios.post(`${API_ENDPOINT}/asset/edit-token`, {
+        oldAssetFormattedData: baseEditAssetReducer,
+        newAssetFormattedData: stateWithoutEdits,
+        protocolId: state.protocol_id,
+        name: state.name,
+        symbol: state.symbol,
+      });
 
       if (editRequest.status == 200) setIsEdit(true);
     } catch (error) {
