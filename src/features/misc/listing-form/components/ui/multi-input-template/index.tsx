@@ -1,13 +1,13 @@
+import { API_ENDPOINT } from "@constants/index";
 import axios from "axios";
 import {
   blockchainsContent,
   blockchainsContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
-import { API_ENDPOINT } from "../../../../../../constants";
 import { useGeneralContext } from "../../../../../../contexts/general";
 import { ACTIONS } from "../../../reducer";
 import { inputStyle } from "../../../styles";
@@ -57,7 +57,12 @@ export const MultiInputTemplate = ({
     });
     const getBlockchain = async (address: string) => {
       const response: any = await axios.get(
-        `${API_ENDPOINT}/api/1/metadata?asset=${address}`
+        `${API_ENDPOINT}/api/1/metadata?asset=${address}`,
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
       );
       const blockchainName = response.data.data.blockchains[0];
 
