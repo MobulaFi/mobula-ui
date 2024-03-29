@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import {
   LargeFont,
   MediumFont,
@@ -22,12 +22,12 @@ export const CalendarEvent = () => {
   const getNextEvents = () => {
     const now = new Date().getTime();
     const nextEvent = baseAsset?.release_schedule?.filter(
-      (entry) => entry[0] >= now
+      (entry) => entry.unlock_date >= now
     );
     const newEvents = nextEvent?.filter((_, i) => i < 7);
     if (newEvents?.length > 0) return newEvents;
     const prevEvents = baseAsset?.release_schedule?.filter(
-      (entry) => entry[0] <= now
+      (entry) => entry.unlock_date <= now
     );
     return prevEvents;
   };
@@ -55,74 +55,80 @@ export const CalendarEvent = () => {
 
       {baseAsset?.release_schedule?.length > 0 ? (
         <>
-          {sevenNextEvents?.map(([timestamp, value, type]) => {
-            const { day, month, year } = getDate(timestamp);
-            const daysRemaining = calculateDaysRemaining(timestamp);
-            const key = type ? Object.keys(type)[0] : null;
-            const typeValue = type ? Object.values(type)[0] : null;
-            const percentageOfSupply =
-              ((typeValue as number) * 100) / (baseAsset.total_supply || 0);
-            const formattedPercentage = (percentage) =>
-              percentage.toString().includes("00")
-                ? percentage.toFixed(3)
-                : percentage.toFixed(2);
-            const percentageOfSupplyFormatted =
-              formattedPercentage(percentageOfSupply);
-            const amountInPrice = value * (baseAsset?.price || 0);
-            const percentageOfMC = formattedPercentage(
-              (amountInPrice * 100) / (baseAsset?.market_cap || 0)
-            );
-            const dayLeftText = getTextFromDayLeft(daysRemaining);
+          {sevenNextEvents?.map(
+            ({ unlock_date, tokens_to_unlock, allocation_details }) => {
+              const { day, month, year } = getDate(unlock_date);
+              const daysRemaining = calculateDaysRemaining(unlock_date);
+              const name = allocation_details
+                ? Object.keys(allocation_details)[0]
+                : null;
+              const percentage = allocation_details
+                ? Object.values(allocation_details)[0]
+                : null;
+              const percentageOfSupply =
+                ((percentage as number) * 100) / (baseAsset.total_supply || 0);
+              const formattedPercentage = (percentage) =>
+                percentage.toString().includes("00")
+                  ? percentage.toFixed(3)
+                  : percentage.toFixed(2);
+              const percentageOfSupplyFormatted =
+                formattedPercentage(percentageOfSupply);
+              const amountInPrice = tokens_to_unlock * (baseAsset?.price || 0);
+              const percentageOfMC = formattedPercentage(
+                (amountInPrice * 100) / (baseAsset?.market_cap || 0)
+              );
+              const dayLeftText = getTextFromDayLeft(daysRemaining);
 
-            return (
-              <div
-                key={timestamp}
-                className="flex flex-col py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary"
-              >
-                <div className="flex items-center">
-                  <div
-                    className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-md flex-col 
+              return (
+                <div
+                  key={unlock_date}
+                  className="flex flex-col py-2.5 border-t border-b border-light-border-primary dark:border-dark-border-primary"
+                >
+                  <div className="flex items-center">
+                    <div
+                      className="flex bg-light-bg-hover dark:bg-dark-bg-hover rounded-md flex-col 
             justify-center items-center py-2.5 min-w-[80px] md:min-w-[60px] min-h-[80px] md:min-h-[60px]"
-                  >
-                    <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                      {month}
-                    </SmallFont>
-
-                    <MediumFont extraCss="font-bold">{day}</MediumFont>
-                    <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
-                      {year}
-                    </SmallFont>
-                  </div>
-
-                  <div className="flex ml-5 md:ml-2.5 justify-between h-full w-full items-center">
-                    <div className="flex flex-col">
-                      <MediumFont>
-                        Unlock of {getFormattedAmount(typeValue as number)}{" "}
-                        {baseAsset?.symbol} - {percentageOfSupplyFormatted}% of
-                        Total Supply
-                      </MediumFont>
+                    >
                       <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
-                        {" "}
-                        ${getFormattedAmount(amountInPrice)} ({percentageOfMC}%
-                        of M.Cap)
+                        {month}
                       </SmallFont>
 
-                      <div
-                        className="flex items-center h-[26px] md:h-[22px] bg-light-bg-hover dark:bg-dark-bg-hover 
-                      px-2 rounded-full w-fit text-xs font-medium mt-2.5 text-light-font-100 dark:text-dark-font-100"
-                      >
-                        {key}
-                      </div>
+                      <MediumFont extraCss="font-bold">{day}</MediumFont>
+                      <SmallFont extraCss="text-light-font-40 dark:text-dark-font-40">
+                        {year}
+                      </SmallFont>
                     </div>
 
-                    <MediumFont extraCss="text-end mr-2.5 font-medium">
-                      {dayLeftText}
-                    </MediumFont>
+                    <div className="flex ml-5 md:ml-2.5 justify-between h-full w-full items-center">
+                      <div className="flex flex-col">
+                        <MediumFont>
+                          Unlock of {getFormattedAmount(percentage as number)}{" "}
+                          {baseAsset?.symbol} - {percentageOfSupplyFormatted}%
+                          of Total Supply
+                        </MediumFont>
+                        <SmallFont extraCss="text-light-font-60 dark:text-dark-font-60">
+                          {" "}
+                          ${getFormattedAmount(amountInPrice)} ({percentageOfMC}
+                          % of M.Cap)
+                        </SmallFont>
+
+                        <div
+                          className="flex items-center h-[26px] md:h-[22px] bg-light-bg-hover dark:bg-dark-bg-hover 
+                      px-2 rounded-full w-fit text-xs font-medium mt-2.5 text-light-font-100 dark:text-dark-font-100"
+                        >
+                          {name}
+                        </div>
+                      </div>
+
+                      <MediumFont extraCss="text-end mr-2.5 font-medium">
+                        {dayLeftText}
+                      </MediumFont>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </>
       ) : (
         <>

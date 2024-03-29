@@ -39,8 +39,6 @@ export const MultiInputTemplate = ({
   const [temporateValue, setTemporateValue] = useState<any>(state[name]);
   const { editAssetReducer, setEditAssetReducer } = useGeneralContext();
 
-  console.log("temporateValue", temporateValue);
-
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
     i: string,
@@ -57,9 +55,24 @@ export const MultiInputTemplate = ({
     });
     const getBlockchain = async (address: string) => {
       const response: any = await axios.get(
-        `${API_ENDPOINT}/api/1/metadata?asset=${address}`
+        `${API_ENDPOINT}/api/1/metadata?asset=${address}`,
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_PRICE_KEY as string,
+          },
+        }
       );
-      const blockchainName = response.data.data.blockchains[0];
+
+      console.log("response", response, address);
+
+      let blockchainName;
+      if (Array.isArray(response.data.data.blockchains)) {
+        blockchainName = response.data.data.blockchains[0];
+      } else {
+        blockchainName = response.data.data.blockchain;
+      }
+
+      console.log("blockchainName", blockchainName);
 
       const { chainId } = blockchainsContent[blockchainName];
 
@@ -81,8 +94,8 @@ export const MultiInputTemplate = ({
           object,
         },
       });
-      if (title === "Contracts")
-        if (state.totalSupplyContracts.length === 0)
+      if (title === "Contracts") {
+        if (state.totalSupplyContracts.length === 0) {
           dispatch({
             type: ACTIONS.INITIAL_CONTRACT,
             payload: {
@@ -91,6 +104,8 @@ export const MultiInputTemplate = ({
               blockchain_id: chainId,
             },
           });
+        }
+      }
     };
     getBlockchain(e.target.value);
   };

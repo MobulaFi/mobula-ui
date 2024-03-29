@@ -225,10 +225,13 @@ export const calculateDaysRemaining = (releaseSchedule) => {
     return daysRemaining;
   }
 
-  const daysRemainingArray = releaseSchedule?.map(([timestamp, value]) => {
-    const remainingTime = timestamp - currentDate;
-    const daysRemaining = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
-    return [daysRemaining, value];
-  });
+  const daysRemainingArray = releaseSchedule?.map(
+    (event: { unlock_date; tokens_to_unlock }) => {
+      const remainingTime = event.unlock_date - currentDate;
+      const daysRemaining = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
+      return [daysRemaining, event.tokens_to_unlock];
+    }
+  );
+
   return daysRemainingArray?.[(daysRemainingArray?.length || 1) - 1];
 };

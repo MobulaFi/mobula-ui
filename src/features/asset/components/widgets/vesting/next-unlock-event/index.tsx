@@ -1,6 +1,6 @@
 import { getFormattedAmount } from "@utils/formaters";
 import { LargeFont, MediumFont, SmallFont } from "components/fonts";
-import React, { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { BaseAssetContext } from "../../../../context-manager";
 
 export const NextUnlockEvent = () => {
@@ -10,14 +10,15 @@ export const NextUnlockEvent = () => {
   const getNextUnlock = useCallback(() => {
     const now = new Date().getTime();
     const nextEvent = baseAsset?.release_schedule?.find(
-      (entry) => entry[0] > now
+      (entry) => entry.unlock_date > now
     );
+
     if (nextEvent) {
       return {
-        totalAmount: nextEvent[1],
-        date: nextEvent[0],
+        totalAmount: nextEvent.tokens_to_unlock,
+        date: nextEvent.unlock_date,
         percentageOfSupply: (
-          (nextEvent[1] / (baseAsset?.total_supply || 1)) *
+          (nextEvent.tokens_to_unlock / (baseAsset?.total_supply || 1)) *
           100
         ).toFixed(3),
       };

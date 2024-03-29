@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FiSearch, FiUpload } from "react-icons/fi";
 import {
   ExtraLargeFont,
   LargeFont,
   MediumFont,
+  SmallFont,
 } from "../../../../../components/fonts";
 import { API_ENDPOINT } from "../../../../../constants";
 import { createSupabaseDOClient } from "../../../../../lib/supabase";
@@ -136,7 +137,8 @@ export const BasicInformation = ({ state, dispatch }) => {
         }}
       />
       <div className="flex flex-col mb-5 mt-5">
-        <LargeFont extraCss="mb-2.5">Upload a logo</LargeFont>
+        <LargeFont extraCss="mb-1.5">Upload a logo</LargeFont>
+        <SmallFont extraCss="mb-1.5">(only png files)</SmallFont>
         <div
           className="flex w-[100px] h-[100px] rounded-full bg-light-bg-terciary dark:bg-dark-bg-terciary 
         relative border border-light-border-primary dark:border-dark-border-primary"
