@@ -1,4 +1,4 @@
-import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance, useFeeData, useNetwork } from "wagmi";
 import { getFormattedAmount } from "../../../utils/formaters";
@@ -46,10 +46,8 @@ export const useButtonStatus = () => {
 
     if (chainNeeded && chain?.id !== Number(chainNeeded) && tokenOut) {
       setButtonStatus(
-        blockchainsIdContentWithNonEVM[String(chainNeeded)]?.name
-          ? `Switch to ${
-              blockchainsIdContentWithNonEVM[String(chainNeeded)]?.name
-            }`
+        blockchainsIdContent[String(chainNeeded)]?.name
+          ? `Switch to ${blockchainsIdContent[String(chainNeeded)]?.name}`
           : "Unsupported chain"
       );
       return;
@@ -68,7 +66,7 @@ export const useButtonStatus = () => {
     if (gasBalance !== null && gasBalance - gasSpent < 0) {
       setButtonStatus(
         `Not enough ${
-          blockchainsIdContentWithNonEVM[String(chain?.id as number)].eth.symbol
+          blockchainsIdContent[String(chain?.id as number)].eth.symbol
         } (${getFormattedAmount(gasSpent)} needed total)`
       );
       return;

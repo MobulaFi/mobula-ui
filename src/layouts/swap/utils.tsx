@@ -1,5 +1,5 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { BlockchainName } from "mobula-lite/lib/model";
 import {
   TransactionReceipt,
   createPublicClient,
@@ -21,7 +21,7 @@ export const fetchContract = (search: string) => {
     new Promise((r) => {
       let fails = 0;
 
-      Object.values(blockchainsContentWithNonEVM)
+      Object.values(blockchainsContent)
         .filter((entry) => entry.evmChainId)
         .forEach(async (blockchain) => {
           try {
@@ -41,7 +41,7 @@ export const fetchContract = (search: string) => {
             r({ symbol, blockchain: blockchain.name });
           } catch (e) {
             fails += 1;
-            if (fails === Object.keys(blockchainsContentWithNonEVM).length) {
+            if (fails === Object.keys(blockchainsContent).length) {
               r(null);
             }
           }
@@ -71,7 +71,7 @@ export const cleanNumber = (
 
 export const formatAsset = (
   asset: SearchTokenProps,
-  chainName: BlockchainNameWithNonEVM
+  chainName: BlockchainName
 ) => {
   if ("coin" in asset) return asset;
   try {
@@ -83,9 +83,9 @@ export const formatAsset = (
         asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
         asset.contracts[0],
       blockchain:
-        (asset.blockchain as BlockchainNameWithNonEVM) ||
+        (asset.blockchain as BlockchainName) ||
         chainName ||
-        ((asset.blockchain || "")[0] as BlockchainNameWithNonEVM),
+        ((asset.blockchain || "")[0] as BlockchainName),
     };
   } catch (e) {
     // console.log("ERROR", e);

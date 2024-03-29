@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
@@ -37,13 +37,13 @@ export const Header = ({ isExplorer }: HeaderProps) => {
   const { setConnect } = useContext(PopupUpdateContext);
   const pathname = usePathname();
 
-  const supportedChainsName = Object.keys(blockchainsContentWithNonEVM).filter(
-    (entry) => blockchainsContentWithNonEVM[entry].apiType === "etherscan-like"
+  const supportedChainsName = Object.keys(blockchainsContent).filter(
+    (entry) => blockchainsContent[entry].apiType === "etherscan-like"
   );
 
   const getSupportedChains = () => {
     let chains = [];
-    const entries = Object.entries(blockchainsContentWithNonEVM);
+    const entries = Object.entries(blockchainsContent);
     supportedChainsName.forEach((chain) => {
       entries.forEach((entry, i) => {
         if (entry[0] === chain) chains.push(entry[1]);

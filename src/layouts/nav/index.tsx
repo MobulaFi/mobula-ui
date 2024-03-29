@@ -1,5 +1,5 @@
 "use client";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
@@ -29,11 +29,9 @@ export const Nav = () => {
   const { setConnect } = useContext(PopupUpdateContext);
   const { isDisconnected } = useAccount();
 
-  const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
-    (x) => {
-      return x[1]?.FETCH_BLOCKS;
-    }
-  );
+  const blockchains = Object.entries(blockchainsContent)?.filter((x) => {
+    return x[1]?.FETCH_BLOCKS;
+  });
 
   const image =
     theme === "dark"

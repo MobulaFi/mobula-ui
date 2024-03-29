@@ -1,4 +1,4 @@
-import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useEffect } from "react";
 import { createPublicClient, formatEther, getContract, http } from "viem";
 import { erc20ABI, useAccount, useNetwork } from "wagmi";
@@ -18,9 +18,7 @@ export const useUpdateBalance = () => {
 
     const client = createPublicClient({
       chain: idToWagmiChain[evmChainId],
-      transport: http(
-        blockchainsIdContentWithNonEVM[String(evmChainId)].rpcs[0]
-      ),
+      transport: http(blockchainsIdContent[String(evmChainId)].rpcs[0]),
     });
 
     if (tokenIn && "coin" in tokenIn) {
@@ -46,7 +44,7 @@ export const useUpdateBalance = () => {
   };
 
   useEffect(() => {
-    if (blockchainsIdContentWithNonEVM[String(evmChainId)]) updateBalance();
+    if (blockchainsIdContent[String(evmChainId)]) updateBalance();
   }, [address]);
 
   useEffect(() => {

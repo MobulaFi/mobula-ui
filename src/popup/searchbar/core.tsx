@@ -1,5 +1,5 @@
 import { isValidAddress } from "@utils/general";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { MutableRefObject, useContext, useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -134,7 +134,7 @@ export const CoreSearchBar = ({
   useEffect(() => {
     if (isValidAddress(token)) {
       try {
-        Object.values(blockchainsContentWithNonEVM).forEach((blockchain) => {
+        Object.values(blockchainsContent).forEach((blockchain) => {
           const getContract = async () => {
             const abi = [
               {

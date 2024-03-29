@@ -1,5 +1,5 @@
-import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import React, { useContext, useEffect, useState } from "react";
+import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import { useContext, useEffect, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -56,7 +56,7 @@ export const MainSwap = ({
 
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id || 1;
-  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
+  const chainData = blockchainsIdContent[String(currentChain)];
   const supportedProtocols =
     chainData?.supportedProtocols.filter(
       (entry) =>

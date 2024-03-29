@@ -1,5 +1,5 @@
 import { RawPairs, Socials } from "interfaces/assets";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { Trade } from "../../../../public/static/charting_library/charting_library";
 
 export interface MoversType {
@@ -38,7 +38,7 @@ export type Asset = {
   trust_score: number;
   social_score: number;
   decimals: number;
-  blockchains: BlockchainNameWithNonEVM[];
+  blockchains: BlockchainName[];
   contracts: string[];
   trade_history: Trade[];
   created_at: string;

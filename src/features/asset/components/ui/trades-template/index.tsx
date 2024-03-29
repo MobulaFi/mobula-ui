@@ -1,5 +1,5 @@
 import { explorerTransformer } from "@utils/chains";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SmallFont } from "../../../../../components/fonts";
@@ -316,7 +316,7 @@ export const TradesTemplate = ({
                   <img
                     className="w-[18px] h-[18px] min-w-[18px] mb-0.5 rounded-full"
                     src={
-                      blockchainsContentWithNonEVM[trade.blockchain]?.logo ||
+                      blockchainsContent[trade.blockchain]?.logo ||
                       `/logo/${
                         trade.blockchain.toLowerCase().split(" ")[0]
                       }.png`

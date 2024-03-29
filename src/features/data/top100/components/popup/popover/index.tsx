@@ -3,7 +3,7 @@ import { Button } from "components/button";
 import { SmallFont } from "components/fonts";
 import { Input } from "components/input";
 import { Cookies } from "js-cookie";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { Key, useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
@@ -134,52 +134,48 @@ export const PopoverTrade = ({
             {name === "blockchains" ? (
               <div className="flex flex-col">
                 <div className="flex flex-col w-full max-h-[390px] overflow-y-scroll">
-                  {Object.keys(blockchainsContentWithNonEVM)?.map(
-                    (chain, i) => {
-                      if (!chain) return null;
-                      return (
-                        <div
-                          className={`flex items-center ${
-                            i !== 0 ? "mt-[7.5px]" : "mt-0"
-                          } ${
-                            i ===
-                            (Object.keys(blockchainsContentWithNonEVM).length ||
-                              0) -
-                              1
-                              ? "mb-0"
-                              : "mb-[7.5px]"
-                          }`}
-                          key={chain}
+                  {Object.keys(blockchainsContent)?.map((chain, i) => {
+                    if (!chain) return null;
+                    return (
+                      <div
+                        className={`flex items-center ${
+                          i !== 0 ? "mt-[7.5px]" : "mt-0"
+                        } ${
+                          i ===
+                          (Object.keys(blockchainsContent).length || 0) - 1
+                            ? "mb-0"
+                            : "mb-[7.5px]"
+                        }`}
+                        key={chain}
+                      >
+                        <Button
+                          className="w-[16px] h-[16px] border-blue max-w-[16px] max-h-[16px] flex items-center justify-center rounded-md border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover"
+                          onClick={() => {
+                            handleBlockchainsChange(chain);
+                          }}
                         >
-                          <Button
-                            className="w-[16px] h-[16px] border-blue max-w-[16px] max-h-[16px] flex items-center justify-center rounded-md border border-light-border-secondary dark:border-dark-border-secondary bg-light-bg-terciary dark:bg-dark-bg-terciary hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover"
-                            onClick={() => {
-                              handleBlockchainsChange(chain);
-                            }}
-                          >
-                            <BsCheckLg
-                              className={`text-xs text-light-font-100 dark:text-dark-font-100 ${
-                                state?.filters?.blockchains?.includes(chain)
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              }`}
-                            />
-                          </Button>
-                          <img
-                            className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] min-h-[25px] mr-2.5"
-                            src={
-                              blockchainsContentWithNonEVM[chain]?.logo ||
-                              `/logo/${chain.toLowerCase().split(" ")[0]}.png`
-                            }
-                            alt={`${chain} logo`}
+                          <BsCheckLg
+                            className={`text-xs text-light-font-100 dark:text-dark-font-100 ${
+                              state?.filters?.blockchains?.includes(chain)
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
                           />
-                          <SmallFont extraCss="mr-2.5 whitespace-nowrap">
-                            {chain}
-                          </SmallFont>
-                        </div>
-                      );
-                    }
-                  )}
+                        </Button>
+                        <img
+                          className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] min-h-[25px] mr-2.5"
+                          src={
+                            blockchainsContent[chain]?.logo ||
+                            `/logo/${chain.toLowerCase().split(" ")[0]}.png`
+                          }
+                          alt={`${chain} logo`}
+                        />
+                        <SmallFont extraCss="mr-2.5 whitespace-nowrap">
+                          {chain}
+                        </SmallFont>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ) : null}
@@ -245,7 +241,7 @@ export const PopoverTrade = ({
                       dispatch({ type: ACTIONS.RESET_BLOCKCHAINS });
                       newFilters = {
                         ...commonFilters,
-                        [name]: Object.keys(blockchainsContentWithNonEVM),
+                        [name]: Object.keys(blockchainsContent),
                       };
                       edit = true;
                       break;

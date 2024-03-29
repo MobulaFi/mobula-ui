@@ -23,8 +23,8 @@ import { PROTOCOL_ABI } from "../../../../constants/abi";
 import { SortContext } from "../../../../context-manager";
 import { getPricing } from "../../../../utils";
 // @ts-ignore
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { TokenDivs } from "../../../../models";
 import styles from "../box-prevote/Prevote.module.scss";
 import { CommunityPopup } from "../popup-community";
@@ -91,7 +91,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
   const getMOBLForVote = async () => {
     const client = createPublicClient({
       chain: polygon,
-      transport: http(blockchainsContentWithNonEVM["Polygon"].rpcs[0]),
+      transport: http(blockchainsContent["Polygon"].rpcs[0]),
     });
 
     const contract: any = getContract({
@@ -303,9 +303,7 @@ export const BoxPreVote = ({ token, isFakeToken }: BoxPreVoteProps) => {
                     >
                       <Contracts
                         contract={contract.address}
-                        blockchain={
-                          contract.blockchain as BlockchainNameWithNonEVM
-                        }
+                        blockchain={contract.blockchain as BlockchainName}
                       />
                     </div>
                   )

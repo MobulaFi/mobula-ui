@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import {
@@ -23,15 +23,13 @@ export const Launch = ({ dispatch, state }) => {
   const selectors = [
     {
       name: "exchange",
-      select:
-        blockchainsContentWithNonEVM[state.contracts[0].blockchain]?.routers,
+      select: blockchainsContent[state.contracts[0].blockchain]?.routers,
       title: "Exchange",
       button_name: "Add Exchange",
     },
     {
       name: "vsToken",
-      select:
-        blockchainsContentWithNonEVM[state.contracts[0]?.blockchain]?.tokens,
+      select: blockchainsContent[state.contracts[0]?.blockchain]?.tokens,
       title: "Initial Pair",
       button_name: "Add Pair",
     },

@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useContext } from "react";
 import { createPublicClient, formatEther, getContract, http } from "viem";
 import { polygon } from "viem/chains";
@@ -18,7 +18,7 @@ export const useInitValues = () => {
       const supabase = createSupabaseDOClient();
       const client = createPublicClient({
         chain: polygon,
-        transport: http(blockchainsContentWithNonEVM["Polygon"].rpcs[0]),
+        transport: http(blockchainsContent["Polygon"].rpcs[0]),
       });
 
       const contract: any = getContract({

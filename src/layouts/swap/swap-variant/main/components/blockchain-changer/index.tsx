@@ -1,8 +1,8 @@
 import {
-  blockchainsContentWithNonEVM,
-  blockchainsIdContentWithNonEVM,
+  blockchainsContent,
+  blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { useNetwork } from "wagmi";
 import { SwapContext } from "../../../..";
@@ -24,15 +24,14 @@ export const BlockchainChanger = ({
     const blockchain =
       "blockchain" in tokenOut
         ? tokenOut.blockchain
-        : blockchainsIdContentWithNonEVM[String(chainNeeded || chain?.id || 1)]
-            ?.name;
+        : blockchainsIdContent[String(chainNeeded || chain?.id || 1)]?.name;
     const isBnbChain: boolean = blockchain === "BNB Smart Chain (BEP20)";
     return (
       <button onClick={() => setShowBlockchainSelector((prev) => !prev)}>
         <div className="flex items-center mb-[1px]">
           <img
             className="rounded-full w-[15px] h-[15px] md:w-[13px] md:h-[13px]"
-            src={blockchainsContentWithNonEVM[blockchain].logo}
+            src={blockchainsContent[blockchain].logo}
             alt={`${blockchain} logo`}
           />
           <SmallFont extraCss="mx-[5px]">

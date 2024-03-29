@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { BiCopy } from "react-icons/bi";
@@ -132,10 +132,7 @@ export const Tokenomic = () => {
                     width={25}
                     height={25}
                     className="mr-2.5 rounded-full"
-                    src={
-                      blockchainsContentWithNonEVM[entry]?.logo ||
-                      "/icon/unknown.png"
-                    }
+                    src={blockchainsContent[entry]?.logo || "/icon/unknown.png"}
                     alt={`${entry} logo`}
                     fallbackSrc={""}
                   />

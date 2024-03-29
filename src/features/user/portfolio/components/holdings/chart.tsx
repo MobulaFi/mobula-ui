@@ -1,5 +1,5 @@
 import * as echarts from "echarts";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
@@ -79,7 +79,7 @@ export const HoldingChart = ({ ...props }) => {
       return {
         name: chain[0],
         value: getTokenPercentage(Number(percentage)),
-        logo: blockchainsContentWithNonEVM[chain[0]]?.logo,
+        logo: blockchainsContent[chain[0]]?.logo,
         amount: chain[1],
       };
     });

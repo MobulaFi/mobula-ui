@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 "use client";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams, useRouter } from "next/navigation";
 import {
   useCallback,
@@ -154,8 +154,7 @@ export const Views = ({ setResultsData }) => {
               key !== "categories" &&
               (filter?.from !== 0 || filter?.to !== 100_000_000_000_000_000)) ||
             (key === "blockchains" &&
-              filter.length !==
-                Object.keys(blockchainsContentWithNonEVM).length) ||
+              filter.length !== Object.keys(blockchainsContent).length) ||
             (key === "categories" &&
               filter.length !== defaultCategories?.length)
         )

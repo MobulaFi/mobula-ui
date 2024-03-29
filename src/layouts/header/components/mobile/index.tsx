@@ -1,5 +1,5 @@
 import { Collapse } from "components/collapse";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
@@ -22,7 +22,7 @@ export const Mobile = ({ isFooter, navigation }: MobileProps) => {
     useContext(CommonPageContext);
   const router = useRouter();
   const [showChains, setShowChains] = useState(false);
-  const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
+  const blockchains = Object.entries(blockchainsContent)?.filter(
     (x) => x[1]?.FETCH_BLOCKS
   );
   return (

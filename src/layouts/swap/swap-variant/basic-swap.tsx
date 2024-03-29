@@ -1,4 +1,4 @@
-import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useFeeData, useNetwork } from "wagmi";
 // import {InfoPopup} from "../../../../components/popup-hover";
@@ -78,7 +78,7 @@ export const BasicSwap = ({ activeStep }: BasicSwapProps) => {
       settings.gasPriceRatio
     : 0;
   const currentChain = chainNeeded || chain?.id || 1;
-  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
+  const chainData = blockchainsIdContent[String(currentChain)];
   const supportedProtocols =
     chainData?.supportedProtocols.filter(
       (entry) =>

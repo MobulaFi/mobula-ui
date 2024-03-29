@@ -1,4 +1,4 @@
-import { BlockchainNameWithNonEVM, Token } from "mobula-lite/lib/model";
+import { BlockchainName, Token } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { Asset } from "../assets";
 import { HoldingNFT } from "../holdings";
@@ -199,7 +199,7 @@ export interface UserHoldingsAsset {
   estimated_balance: number;
   estimated_balance_change?: boolean;
   token_balance: number;
-  cross_chain_balances: Record<BlockchainNameWithNonEVM, number>;
+  cross_chain_balances: Record<BlockchainName, number>;
 
   logo: string;
   id: number;
@@ -211,7 +211,7 @@ export interface UserHoldingsAsset {
   change_24h: number;
   image: string;
   contracts: string[];
-  blockchains: BlockchainNameWithNonEVM[];
+  blockchains: BlockchainName[];
 }
 
 export interface PopupToken {

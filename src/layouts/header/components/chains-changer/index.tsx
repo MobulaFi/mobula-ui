@@ -1,6 +1,6 @@
 import {
-  blockchainsContentWithNonEVM,
-  blockchainsIdContentWithNonEVM,
+  blockchainsContent,
+  blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useState } from "react";
 import {
@@ -41,7 +41,7 @@ export const ChainsChanger = ({
 
   const orderBlockchainsByNewest = () => {
     const newArray = [
-      ...Object.entries(blockchainsContentWithNonEVM).filter(
+      ...Object.entries(blockchainsContent).filter(
         (entry) => entry[1].evmChainId
       ),
     ];
@@ -81,11 +81,11 @@ export const ChainsChanger = ({
 
   const reorderedBlockchainsContent = moveSelectedToIndexZero(
     Object.values(newChainsOrder),
-    blockchainsIdContentWithNonEVM[String(chain?.id || 1)]?.name
+    blockchainsIdContent[String(chain?.id || 1)]?.name
   );
 
   const showNextButton =
-    showXBlockchains[1] <= Object.values(blockchainsContentWithNonEVM).length;
+    showXBlockchains[1] <= Object.values(blockchainsContent).length;
   return (
     <div className={`flex ${isMobileVersion ? "" : "lg:hidden"}`}>
       <div className="flex relative w-fit">
@@ -98,12 +98,12 @@ export const ChainsChanger = ({
               {reorderedBlockchainsContent.map((entry, i) => {
                 const isOdds = i % 2 === 0;
                 const isLasts =
-                  Object.values(blockchainsContentWithNonEVM).length - 1 ===
-                    i || i === showXBlockchains[1] - 1;
+                  Object.values(blockchainsContent).length - 1 === i ||
+                  i === showXBlockchains[1] - 1;
                 let isSelected = false;
                 if (chain)
                   isSelected =
-                    blockchainsIdContentWithNonEVM[String(chain?.id)]?.name ===
+                    blockchainsIdContent[String(chain?.id)]?.name ===
                     entry.name;
                 if (
                   i + 1 <= showXBlockchains[1] &&
@@ -137,9 +137,7 @@ export const ChainsChanger = ({
                       <div className="flex items-center w-full h-full font-normal truncate">
                         <img
                           src={
-                            blockchainsContentWithNonEVM[
-                              entry.name || "Ethereum"
-                            ]?.logo
+                            blockchainsContent[entry.name || "Ethereum"]?.logo
                           }
                           className="mr-[7.5px] rounded-full w-[22px] h-[22px] min-w-[22px]"
                           alt={`${entry.name} logo`}
@@ -192,7 +190,7 @@ export const ChainsChanger = ({
                   Next
                   {showNextButton
                     ? ` (${
-                        Object.values(blockchainsContentWithNonEVM).length -
+                        Object.values(blockchainsContent).length -
                         showXBlockchains[1]
                       })`
                     : null}
@@ -215,8 +213,8 @@ export const ChainsChanger = ({
               <img
                 className="w-[19px] h-[19px] min-w-[19px] rounded-full"
                 src={
-                  blockchainsIdContentWithNonEVM[String(chain?.id || 1)]
-                    ?.logo || "/empty/unknown.png"
+                  blockchainsIdContent[String(chain?.id || 1)]?.logo ||
+                  "/empty/unknown.png"
                 }
                 alt={`${chain?.name} logo`}
               />
