@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import {
@@ -280,7 +280,7 @@ export const TokenSocialsInfo = () => {
                   >
                     <Contracts
                       contract={newContracts?.[index]}
-                      blockchain={blockchain as BlockchainNameWithNonEVM}
+                      blockchain={blockchain as BlockchainName}
                     />
                   </div>
                 ) : (
@@ -336,7 +336,7 @@ export const TokenSocialsInfo = () => {
                       >
                         <Contracts
                           contract={newContracts?.[index]}
-                          blockchain={blockchain as BlockchainNameWithNonEVM}
+                          blockchain={blockchain as BlockchainName}
                         />
                       </div>
                     );

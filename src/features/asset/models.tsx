@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { ILaunchpad } from "../../interfaces/launchpads";
 import { PublicTransaction } from "../../interfaces/transactions";
@@ -197,7 +197,7 @@ export type Asset = {
   trust_score: number;
   social_score: number;
   decimals: number;
-  blockchains: BlockchainNameWithNonEVM[];
+  blockchains: BlockchainName[];
   contracts: string[];
   trade_history: TradeHistory[] | null;
   created_at: string;
@@ -218,7 +218,7 @@ export type Asset = {
   coin: boolean;
   circulating_supply_addresses: string[];
   total_supply_contracts: string[];
-  blockchain: BlockchainNameWithNonEVM;
+  blockchain: BlockchainName;
   address: string;
 };
 
@@ -228,7 +228,7 @@ export interface CategoriesProps {
 
 export interface RawPairs {
   pairs_data?: Record<string, number>;
-  pairs_per_chain?: Record<BlockchainNameWithNonEVM, number>;
+  pairs_per_chain?: Record<BlockchainName, number>;
 }
 
 export interface Socials {
@@ -252,7 +252,7 @@ export interface Trade {
   value_usd: number;
   token_amount: number;
   type: "sell" | "buy";
-  blockchain: BlockchainNameWithNonEVM;
+  blockchain: BlockchainName;
   date: number;
   timestamp: number;
   amount?: string;

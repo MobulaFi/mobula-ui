@@ -1,6 +1,6 @@
 import { explorerTransformer } from "@utils/chains";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
 import { BsCheckLg } from "react-icons/bs";
@@ -14,7 +14,7 @@ import { BaseAssetContext } from "../../context-manager";
 
 interface ContractsProps {
   contract: string;
-  blockchain: BlockchainNameWithNonEVM;
+  blockchain: BlockchainName;
   title?: string;
 }
 
@@ -48,16 +48,12 @@ export function Contracts({ contract, blockchain, title }: ContractsProps) {
             options: {
               address:
                 baseAsset.contracts[
-                  baseAsset.blockchains.indexOf(
-                    chain?.name as BlockchainNameWithNonEVM
-                  )
+                  baseAsset.blockchains.indexOf(chain?.name as BlockchainName)
                 ],
               symbol: baseAsset.symbol,
               decimals:
                 baseAsset.decimals[
-                  baseAsset.blockchains.indexOf(
-                    chain?.name as BlockchainNameWithNonEVM
-                  )
+                  baseAsset.blockchains.indexOf(chain?.name as BlockchainName)
                 ],
               image: baseAsset.logo, // A string url of the token logo
             },

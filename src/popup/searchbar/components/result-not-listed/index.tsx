@@ -1,4 +1,4 @@
-import { BlockchainParamsWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainParams } from "mobula-lite/lib/model";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { BiArrowToRight } from "react-icons/bi";
@@ -11,11 +11,11 @@ import { Title } from "../ui/title";
 
 interface NotListedProps {
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-  unknownSC: { name: string; blockchain: BlockchainParamsWithNonEVM } | null;
+  unknownSC: { name: string; blockchain: BlockchainParams } | null;
   setUnknownSC: React.Dispatch<
     React.SetStateAction<{
       name: string;
-      blockchain: BlockchainParamsWithNonEVM;
+      blockchain: BlockchainParams;
     }>
   >;
 }

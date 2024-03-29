@@ -2,7 +2,7 @@ import { Button } from "components/button";
 import { NextChakraLink } from "components/link";
 import { PopOverLinesStyle, mainButtonStyle } from "features/asset/style";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import Link from "next/link";
 import React, { useContext } from "react";
 import {
@@ -112,7 +112,7 @@ export const PairsSocialInfo = () => {
                 <Contracts
                   contract={pair?.address}
                   title={pair?.title || ""}
-                  blockchain={baseAsset?.blockchain as BlockchainNameWithNonEVM}
+                  blockchain={baseAsset?.blockchain as BlockchainName}
                 />
               </div>
             ) : (

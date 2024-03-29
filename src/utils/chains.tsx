@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { Chain } from "wagmi";
 
 // TODO: resolve ts issue
@@ -590,17 +590,16 @@ export const idToWagmiChain: Record<number, Chain> = {
   8453: base,
 };
 
-const customExplorers: Partial<
-  Record<BlockchainNameWithNonEVM, Record<string, string>>
-> = {
-  Alephium: {
-    tx: "transactions",
-    address: "addresses",
-  },
-};
+const customExplorers: Partial<Record<BlockchainName, Record<string, string>>> =
+  {
+    Alephium: {
+      tx: "transactions",
+      address: "addresses",
+    },
+  };
 
 export const explorerTransformer = (
-  chainName: BlockchainNameWithNonEVM,
+  chainName: BlockchainName,
   value: string,
   type: "tx" | "address"
 ) => {

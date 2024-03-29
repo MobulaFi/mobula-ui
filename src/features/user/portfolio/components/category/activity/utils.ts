@@ -1,6 +1,6 @@
 import { EventProps, LogProps } from "layouts/swap/model";
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { createPublicClient, getContract, http } from "viem";
 import { erc20ABI } from "wagmi";
 import { MultichainAsset } from "../../../../../../interfaces/holdings";
@@ -151,7 +151,7 @@ export const cleanNumber = (
 
 export const formatAsset = (
   asset: (Asset | MultichainAsset | Coin) & Results,
-  chainName: BlockchainNameWithNonEVM
+  chainName: BlockchainName
 ) => {
   if ("coin" in asset) return asset;
   return {
@@ -162,9 +162,9 @@ export const formatAsset = (
       asset.contracts[asset?.blockchain?.indexOf(chainName) || 0] ||
       asset.contracts[0],
     blockchain:
-      (asset.blockchain as BlockchainNameWithNonEVM) ||
+      (asset.blockchain as BlockchainName) ||
       chainName ||
-      (asset?.blockchain?.[0] as BlockchainNameWithNonEVM),
+      (asset?.blockchain?.[0] as BlockchainName),
   };
 };
 

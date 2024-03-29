@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import {
   TransactionReceipt,
   createPublicClient,
@@ -71,7 +71,7 @@ export const cleanNumber = (
 
 export const formatAsset = (
   asset: SearchTokenProps,
-  chainName: BlockchainNameWithNonEVM
+  chainName: BlockchainName
 ) => {
   if ("coin" in asset) return asset;
   try {
@@ -83,9 +83,9 @@ export const formatAsset = (
         asset.contracts[(asset.blockchain || "").indexOf(chainName)] ||
         asset.contracts[0],
       blockchain:
-        (asset.blockchain as BlockchainNameWithNonEVM) ||
+        (asset.blockchain as BlockchainName) ||
         chainName ||
-        ((asset.blockchain || "")[0] as BlockchainNameWithNonEVM),
+        ((asset.blockchain || "")[0] as BlockchainName),
     };
   } catch (e) {
     // console.log("ERROR", e);

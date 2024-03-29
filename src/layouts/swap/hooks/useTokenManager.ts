@@ -2,7 +2,7 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import { BlockchainParamsWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainParams } from "mobula-lite/lib/model";
 import { useCallback } from "react";
 import { Chain, useNetwork } from "wagmi";
 import { Coin, Loaded, SyntaxicTokens } from "../model";
@@ -28,7 +28,7 @@ export const useTokenManager = () => {
   const currentChain = chainNeeded || chain?.id || 1;
   const chainData = blockchainsIdContent[String(currentChain)];
   const nativeEthereum = (
-    chainDataParam: BlockchainParamsWithNonEVM
+    chainDataParam: BlockchainParams
   ): Coin | undefined => {
     if (!chainData) return undefined;
     return {

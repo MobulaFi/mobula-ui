@@ -1,5 +1,5 @@
 import { blockchainsContent } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { useEffect, useRef } from "react";
 import { createWalletClient, custom } from "viem";
 import { Chain, mainnet, useNetwork, useSwitchNetwork } from "wagmi";
@@ -15,7 +15,7 @@ export const useSafeSwitchNetwork = () => {
     chainRef.current = chain;
   }, [chain]);
 
-  const handleSwitchNetwork = async (blockchain: BlockchainNameWithNonEVM) => {
+  const handleSwitchNetwork = async (blockchain: BlockchainName) => {
     let switched = false;
     if (switchNetworkAsync && blockchainsContent[blockchain]) {
       try {

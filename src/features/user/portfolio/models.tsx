@@ -1,4 +1,4 @@
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import { Dispatch, SetStateAction } from "react";
 import { Asset } from "../../../interfaces/assets";
 import { HoldingNFT } from "../../../interfaces/holdings";
@@ -225,7 +225,7 @@ export interface UserHoldingsAsset {
   change_24h: number;
   image: string;
   contracts: string[];
-  blockchains: BlockchainNameWithNonEVM[];
+  blockchains: BlockchainName[];
 }
 
 export interface PopupToken {

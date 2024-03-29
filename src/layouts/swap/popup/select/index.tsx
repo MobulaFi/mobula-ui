@@ -2,7 +2,7 @@ import {
   blockchainsContent,
   blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 import {
   Dispatch,
   SetStateAction,
@@ -98,9 +98,7 @@ export const Select = ({
               entry.price &&
               entry.price > 0 &&
               entry.name !== result.name &&
-              entry.blockchains.includes(
-                chain?.name as BlockchainNameWithNonEVM
-              )
+              entry.blockchains.includes(chain?.name as BlockchainName)
           )
         : results
     );

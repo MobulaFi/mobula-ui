@@ -1,4 +1,4 @@
-import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
+import { BlockchainName } from "mobula-lite/lib/model";
 
 export interface Results {
   price_change_24h: number;
@@ -8,7 +8,7 @@ export interface Results {
 
 export interface SearchTokenProps {
   address?: string;
-  blockchain: string | BlockchainNameWithNonEVM;
+  blockchain: string | BlockchainName;
   logo?: string;
   name?: string;
   price?: number;
