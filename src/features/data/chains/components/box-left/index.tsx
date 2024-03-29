@@ -1,6 +1,7 @@
-import { Spinner } from "components/spinner";
 import dynamic from "next/dynamic";
 import React from "react";
+import { BsDatabaseX } from "react-icons/bs";
+import { SmallFont } from "../../../../../components/fonts";
 import { useChains } from "../../context-manager";
 import { getChainName } from "../../utils";
 import { BoxTitle } from "../box-title";
@@ -12,9 +13,13 @@ const EChart = dynamic(() => import("../../../../../lib/echart/line"), {
 export const LeftBox = () => {
   const { chain, pairs } = useChains();
   const chainName = getChainName(pairs?.[0]?.pair?.blockchain);
+  const isValidData =
+    chain?.volume_history?.length &&
+    chain?.volume_history?.[chain?.volume_history?.length - 1 || 0]?.[1];
+
   const titleInfo = {
     value: chain?.volume_history?.[chain?.volume_history?.length - 1]?.[1],
-    dollar: true,
+    dollar: isValidData ? true : false,
     percentage: chain?.volume_change_24h,
     title: `${chainName} DeFi Volume`,
   };
@@ -25,7 +30,7 @@ export const LeftBox = () => {
         min-w-[407px] md:min-w-full w-[31.5%] mr-2.5 lg:w-full transition duration-500 md:overflow-visible py-2.5"
     >
       <BoxTitle data={titleInfo} />
-      {chain?.volume_history?.length > 0 ? (
+      {isValidData > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] lg:h-[190px] -mt-[40px]">
           <EChart
             data={chain?.volume_history || []}
@@ -36,8 +41,9 @@ export const LeftBox = () => {
           />
         </div>
       ) : (
-        <div className="h-[200px] w-full flex items-center justify-center">
-          <Spinner extraCss="w-[30px] h-[30px]" />
+        <div className="h-[200px] w-full flex items-center flex-col justify-center">
+          <BsDatabaseX className="text-light-font-100 dark:text-dark-font-100 text-2xl mb-2.5" />
+          <SmallFont>No data available</SmallFont>
         </div>
       )}
     </div>

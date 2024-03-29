@@ -158,7 +158,10 @@ export const Activity = ({
   // ETH is ETH vs Stable
   // Other is Other vs Stable or ETH
   const ethSymbols = useMemo(
-    () => Object.values(blockchainsIdContent).map((entry) => entry.eth.symbol),
+    () =>
+      Object.values(blockchainsIdContent)
+        .filter((entry) => entry.eth)
+        .map((entry) => entry.eth?.symbol),
     []
   );
 
