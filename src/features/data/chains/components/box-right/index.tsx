@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import React from "react";
 import { BsDatabaseX } from "react-icons/bs";
 import { SmallFont } from "../../../../../components/fonts";
 import { useChains } from "../../context-manager";
@@ -29,7 +30,9 @@ export const RightBox = () => {
     >
       <BoxTitle data={titleInfo} />
       {chain?.liquidity_history?.length > 0 &&
-      chain?.liquidity_history?.[0]?.[1] > 0 ? (
+      chain?.liquidity_history?.[
+        chain?.liquidity_history?.length - 1 || 0
+      ]?.[1] > 0 ? (
         <div className="w-[95%] mx-auto h-[210px] -mt-[40px]">
           <EChart
             data={chain?.liquidity_history || []}
