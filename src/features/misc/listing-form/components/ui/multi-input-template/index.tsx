@@ -4,7 +4,7 @@ import {
   blockchainsContent,
   blockchainsContentWithNonEVM,
 } from "mobula-lite/lib/chains/constants";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
@@ -39,8 +39,6 @@ export const MultiInputTemplate = ({
   const [temporateValue, setTemporateValue] = useState<any>(state[name]);
   const { editAssetReducer, setEditAssetReducer } = useGeneralContext();
 
-  console.log("temporateValue", temporateValue);
-
   const handleNewContract = (
     e: ChangeEvent<HTMLInputElement>,
     i: string,
@@ -56,6 +54,7 @@ export const MultiInputTemplate = ({
       },
     });
     const getBlockchain = async (address: string) => {
+      console.log("API_ENDPOINT", API_ENDPOINT, address);
       const response: any = await axios.get(
         `${API_ENDPOINT}/api/1/metadata?asset=${address}`,
         {
@@ -64,9 +63,15 @@ export const MultiInputTemplate = ({
           },
         }
       );
+
+      console.log("response", response, address);
       const blockchainName = response.data.data.blockchains[0];
 
+      console.log("blockchainName", blockchainName);
+
       const { chainId } = blockchainsContentWithNonEVM[blockchainName];
+
+      console.log("chainId", chainId);
 
       dispatch({
         type: ACTIONS.SET_ELEMENT,
