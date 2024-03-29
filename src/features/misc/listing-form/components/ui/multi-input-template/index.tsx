@@ -1,9 +1,6 @@
 import axios from "axios";
-import {
-  blockchainsContent,
-  blockchainsContent,
-} from "mobula-lite/lib/chains/constants";
-import React, { ChangeEvent, useState } from "react";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
+import { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
