@@ -73,6 +73,8 @@ export const MultiInputTemplate = ({
 
       console.log("chainId", chainId);
 
+      console.log("object", title, object, i);
+
       dispatch({
         type: ACTIONS.SET_ELEMENT,
         payload: {
@@ -91,8 +93,17 @@ export const MultiInputTemplate = ({
           object,
         },
       });
-      if (title === "Contracts")
-        if (state.totalSupplyContracts.length === 0)
+      if (title === "Contracts") {
+        console.log("state.totalSupplyContracts", state.totalSupplyContracts);
+        if (state.totalSupplyContracts.length === 0) {
+          console.log(
+            "ADD_FIRST_CONTRACT",
+            state.totalSupplyContracts,
+            i,
+            e.target.value,
+            blockchainName,
+            chainId
+          );
           dispatch({
             type: ACTIONS.INITIAL_CONTRACT,
             payload: {
@@ -101,6 +112,8 @@ export const MultiInputTemplate = ({
               blockchain_id: chainId,
             },
           });
+        }
+      }
     };
     getBlockchain(e.target.value);
   };
