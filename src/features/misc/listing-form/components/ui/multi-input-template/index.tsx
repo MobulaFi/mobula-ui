@@ -65,7 +65,13 @@ export const MultiInputTemplate = ({
       );
 
       console.log("response", response, address);
-      const blockchainName = response.data.data.blockchains[0];
+
+      let blockchainName;
+      if (Array.isArray(response.data.data.blockchains)) {
+        blockchainName = response.data.data.blockchains[0];
+      } else {
+        blockchainName = response.data.data.blockchain;
+      }
 
       console.log("blockchainName", blockchainName);
 
