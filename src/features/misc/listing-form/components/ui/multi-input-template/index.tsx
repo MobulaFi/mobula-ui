@@ -1,4 +1,3 @@
-import { API_ENDPOINT } from "@constants/index";
 import axios from "axios";
 import {
   blockchainsContent,
@@ -8,6 +7,7 @@ import React, { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { LargeFont, MediumFont } from "../../../../../../components/fonts";
 import { NextImageFallback } from "../../../../../../components/image";
+import { API_ENDPOINT } from "../../../../../../constants";
 import { useGeneralContext } from "../../../../../../contexts/general";
 import { ACTIONS } from "../../../reducer";
 import { inputStyle } from "../../../styles";
@@ -54,7 +54,6 @@ export const MultiInputTemplate = ({
       },
     });
     const getBlockchain = async (address: string) => {
-      console.log("API_ENDPOINT", API_ENDPOINT, address);
       const response: any = await axios.get(
         `${API_ENDPOINT}/api/1/metadata?asset=${address}`,
         {
@@ -77,10 +76,6 @@ export const MultiInputTemplate = ({
 
       const { chainId } = blockchainsContentWithNonEVM[blockchainName];
 
-      console.log("chainId", chainId);
-
-      console.log("object", title, object, i);
-
       dispatch({
         type: ACTIONS.SET_ELEMENT,
         payload: {
@@ -100,16 +95,7 @@ export const MultiInputTemplate = ({
         },
       });
       if (title === "Contracts") {
-        console.log("state.totalSupplyContracts", state.totalSupplyContracts);
         if (state.totalSupplyContracts.length === 0) {
-          console.log(
-            "ADD_FIRST_CONTRACT",
-            state.totalSupplyContracts,
-            i,
-            e.target.value,
-            blockchainName,
-            chainId
-          );
           dispatch({
             type: ACTIONS.INITIAL_CONTRACT,
             payload: {
