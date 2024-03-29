@@ -23,6 +23,9 @@ export const Listing = () => {
     reducer,
     editAssetReducer || INITIAL_STATE
   );
+
+  console.log("state", state);
+
   const { actualPage, setActualPage, setWallet, setIsListed, isListed } =
     useContext(ListingContext);
 
