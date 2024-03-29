@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext, useEffect } from "react";
 import { BsCheckLg } from "react-icons/bs";
 import { Button } from "../../../../../components/button";
@@ -122,7 +122,7 @@ export const TradeBlockchainPopup = ({
               <img
                 className="ml-[15px] rounded-full w-[25px] h-[25px] min-w-[25px] mr-2.5"
                 src={
-                  blockchainsContentWithNonEVM[entry]?.logo ||
+                  blockchainsContent[entry]?.logo ||
                   `/logo/${entry.toLowerCase().split(" ")[0]}.png`
                 }
                 alt={`${entry} logo`}

@@ -1,5 +1,5 @@
 "use client";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useParams } from "next/navigation";
 import { SetStateAction, useEffect } from "react";
 import { useAccount } from "wagmi";
@@ -87,7 +87,7 @@ export const useFilter = ({ setFilters, orderBy }: IUseFilter) => {
         }
         if (
           key === "blockchains" &&
-          value.length !== Object.keys(blockchainsContentWithNonEVM)?.length
+          value.length !== Object.keys(blockchainsContent)?.length
         ) {
           const filters = value.map((v: string) => `blockchains.cs.{${v}}`);
           const filterString = filters.join(",");

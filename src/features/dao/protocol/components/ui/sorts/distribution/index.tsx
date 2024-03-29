@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { SiConvertio } from "react-icons/si";
@@ -68,7 +68,7 @@ export const Distribution = ({ token }: DistributionProps) => {
                     <img
                       className="rounded-full w-4 h-4 mr-[7.5px]"
                       src={
-                        blockchainsContentWithNonEVM[
+                        blockchainsContent[
                           distribution.addresses?.[0]?.blockchain_id || 1
                         ]?.logo || "/empty/unkown.png"
                       }

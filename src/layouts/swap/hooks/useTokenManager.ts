@@ -1,6 +1,6 @@
 import {
-  blockchainsContentWithNonEVM,
-  blockchainsIdContentWithNonEVM,
+  blockchainsContent,
+  blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { BlockchainParamsWithNonEVM } from "mobula-lite/lib/model";
 import { useCallback } from "react";
@@ -26,7 +26,7 @@ export const useTokenManager = () => {
 
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id || 1;
-  const chainData = blockchainsIdContentWithNonEVM[String(currentChain)];
+  const chainData = blockchainsIdContent[String(currentChain)];
   const nativeEthereum = (
     chainDataParam: BlockchainParamsWithNonEVM
   ): Coin | undefined => {
@@ -47,7 +47,7 @@ export const useTokenManager = () => {
       const finalChain =
         (position === "in" ? tokens.out?.blockchain : tokens.in?.blockchain) ||
         chainData.name;
-      const finalChainData = blockchainsContentWithNonEVM[finalChain];
+      const finalChainData = blockchainsContent[finalChain];
 
       if (position === "in") {
         if (tokenOut && "coin" in tokenOut) {
@@ -146,7 +146,7 @@ export const useTokenManager = () => {
       } else {
         loadToken(position, tokenBuffer, {
           chainBuffer: {
-            id: blockchainsContentWithNonEVM[token.blockchain]?.evmChainId,
+            id: blockchainsContent[token.blockchain]?.evmChainId,
           } as Chain,
         });
       }

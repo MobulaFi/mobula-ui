@@ -1,7 +1,7 @@
 import { Button } from "components/button";
 import { NextChakraLink } from "components/link";
 import { PopOverLinesStyle, mainButtonStyle } from "features/asset/style";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -92,7 +92,7 @@ export const PairsSocialInfo = () => {
         <CustomPopOver
           title={"Contracts"}
           logo={
-            blockchainsContentWithNonEVM[baseAsset?.blockchain]?.logo ||
+            blockchainsContent[baseAsset?.blockchain]?.logo ||
             `/logo/${
               baseAsset?.blockchain?.[0]?.toLowerCase().split(" ")[0]
             }.png`

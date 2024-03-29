@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { Chain } from "wagmi";
 
@@ -604,7 +604,7 @@ export const explorerTransformer = (
   value: string,
   type: "tx" | "address"
 ) => {
-  const blockchain = blockchainsContentWithNonEVM[chainName];
+  const blockchain = blockchainsContent[chainName];
   if (!blockchain) return "";
 
   return `${blockchain.explorer}/${

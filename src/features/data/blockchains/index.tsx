@@ -1,5 +1,5 @@
 "use client";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "../../../components/container";
 import { ChainBox } from "../blockchains/components/chain-box";
@@ -7,11 +7,9 @@ import { ChainBox } from "../blockchains/components/chain-box";
 export const Blockchains = () => {
   const [chainNumber, setChainNumber] = useState(6);
   const containerRef = useRef<HTMLDivElement>(null);
-  const blockchains = Object.entries(blockchainsContentWithNonEVM)?.filter(
-    (x) => {
-      return x[1]?.FETCH_BLOCKS;
-    }
-  );
+  const blockchains = Object.entries(blockchainsContent)?.filter((x) => {
+    return x[1]?.FETCH_BLOCKS;
+  });
 
   const handleScroll = () => {
     const bottom =

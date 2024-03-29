@@ -1,9 +1,9 @@
 import {
-  blockchainsContentWithNonEVM,
-  blockchainsIdContentWithNonEVM,
+  blockchainsContent,
+  blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
-import React, {
+import {
   Dispatch,
   SetStateAction,
   useContext,
@@ -85,10 +85,9 @@ export const Select = ({
     position === "in" ? setTokenInBuffer : setTokenOutBuffer;
 
   const currentChain = chainNeeded || chain?.id || 1;
-  const currentChainName =
-    blockchainsIdContentWithNonEVM[String(currentChain)]?.name;
+  const currentChainName = blockchainsIdContent[String(currentChain)]?.name;
   const connectedChain =
-    blockchainsIdContentWithNonEVM[String(chain?.id as number)]?.name;
+    blockchainsIdContent[String(chain?.id as number)]?.name;
 
   const filterArrayIfTwoNameAreSame = () => {
     const filteredArray = results?.filter((result) =>
@@ -127,8 +126,7 @@ export const Select = ({
               symbol: selectedToken.symbol,
               blockchain: selectedToken.blockchain,
               evmChainId:
-                blockchainsContentWithNonEVM[selectedToken.blockchain]
-                  .evmChainId,
+                blockchainsContent[selectedToken.blockchain].evmChainId,
               coin: true,
               address: "",
               blockchains: [],
@@ -141,18 +139,16 @@ export const Select = ({
       setVisible(false);
 
       if (shouldSwitch) {
-        setChainNeeded(
-          blockchainsContentWithNonEVM[finalToken.blockchain].evmChainId
-        );
+        setChainNeeded(blockchainsContent[finalToken.blockchain].evmChainId);
         setShowSwitchNetwork(
-          blockchainsContentWithNonEVM[finalToken.blockchain].evmChainId
+          blockchainsContent[finalToken.blockchain].evmChainId
         );
       } else setChainNeeded(undefined);
 
       await loadToken(position, finalToken, {
         contextBuffer: {
           chainNeeded: shouldSwitch
-            ? blockchainsContentWithNonEVM[finalToken.blockchain].evmChainId
+            ? blockchainsContent[finalToken.blockchain].evmChainId
             : undefined,
         },
       });
@@ -325,8 +321,7 @@ export const Select = ({
                         <div className="flex items-center justify-end mt-[3px]">
                           {searchToken?.blockchains
                             ?.filter(
-                              (blockchain) =>
-                                blockchainsContentWithNonEVM[blockchain]
+                              (blockchain) => blockchainsContent[blockchain]
                             )
                             .map((blockchain, index) => {
                               if (index < 5)
@@ -334,10 +329,7 @@ export const Select = ({
                                   <img
                                     className="h-[15px] w-[15px] min-w-[15px] min-h-[15px] rounded-full -ml-1 bg-light-bg-hover dark:bg-dark-bg-hover object-cover"
                                     key={blockchain}
-                                    src={
-                                      blockchainsContentWithNonEVM[blockchain]
-                                        ?.logo
-                                    }
+                                    src={blockchainsContent[blockchain]?.logo}
                                     alt={`${blockchain} logo`}
                                   />
                                 );

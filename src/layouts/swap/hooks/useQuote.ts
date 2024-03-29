@@ -1,4 +1,4 @@
-import { blockchainsIdContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
 import { useContext, useEffect, useState } from "react";
 import { stringify } from "viem";
 import { useAccount, useNetwork } from "wagmi";
@@ -31,14 +31,10 @@ export const useQuote = () => {
   // Syntaxic sugar
   const currentChain = chainNeeded || chain?.id || 1;
   const protocols =
-    blockchainsIdContentWithNonEVM[String(currentChain)]?.supportedProtocols;
+    blockchainsIdContent[String(currentChain)]?.supportedProtocols;
 
   const computeTx = async (quote: Quote) => {
-    if (
-      !quote ||
-      !quote.tx ||
-      !blockchainsIdContentWithNonEVM[String(currentChain)]
-    )
+    if (!quote || !quote.tx || !blockchainsIdContent[String(currentChain)])
       return;
 
     setButtonLoading((button) => {
@@ -88,7 +84,7 @@ export const useQuote = () => {
   }, [manualQuote]);
 
   useEffect(() => {
-    if (!blockchainsIdContentWithNonEVM[String(currentChain)]) return () => {};
+    if (!blockchainsIdContent[String(currentChain)]) return () => {};
 
     let shouldStop = false;
     let freshQuotes: Quote[] = [];

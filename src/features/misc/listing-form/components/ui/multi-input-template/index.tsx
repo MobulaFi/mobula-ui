@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
   blockchainsContent,
-  blockchainsContentWithNonEVM,
+  blockchainsContent,
 } from "mobula-lite/lib/chains/constants";
 import React, { ChangeEvent, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -61,7 +61,7 @@ export const MultiInputTemplate = ({
       );
       const blockchainName = response.data.data.blockchains[0];
 
-      const { chainId } = blockchainsContentWithNonEVM[blockchainName];
+      const { chainId } = blockchainsContent[blockchainName];
 
       dispatch({
         type: ACTIONS.SET_ELEMENT,

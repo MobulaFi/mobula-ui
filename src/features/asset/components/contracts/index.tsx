@@ -1,5 +1,5 @@
 import { explorerTransformer } from "@utils/chains";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { useContext, useState } from "react";
 import { BiCopy } from "react-icons/bi";
@@ -92,7 +92,7 @@ export function Contracts({ contract, blockchain, title }: ContractsProps) {
             }}
             alt={`${blockchain} logo`}
             src={
-              blockchainsContentWithNonEVM[blockchain]?.logo ||
+              blockchainsContent[blockchain]?.logo ||
               `/logo/${blockchain.toLowerCase().split(" ")[0]}.png` ||
               "/empty/unknown.png"
             }

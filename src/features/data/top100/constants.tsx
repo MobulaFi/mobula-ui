@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BiCandles } from "react-icons/bi";
 import { BsWallet2 } from "react-icons/bs";
 import { VscArrowSwap } from "react-icons/vsc";
@@ -386,7 +386,7 @@ export const defaultTop100 = {
     { type: "chart", value: "24h Chart" },
   ],
   filters: {
-    blockchains: Object.keys(blockchainsContentWithNonEVM),
+    blockchains: Object.keys(blockchainsContent),
     rank: { from: 0, to: maxValue },
     price: { from: 0, to: maxValue },
     price_change: { from: 0, to: maxValue },
@@ -484,7 +484,7 @@ export const formatDataForFilters = (activeView, state) => {
   let activeViewStr = "";
   const newStr = [];
   const { blockchains } = activeView.filters;
-  const defaultBlockchains = Object.keys(blockchainsContentWithNonEVM);
+  const defaultBlockchains = Object.keys(blockchainsContent);
   const { categories } = activeView.filters;
 
   activeViewStr += activeView?.id ? `(${activeView?.id})` : "";

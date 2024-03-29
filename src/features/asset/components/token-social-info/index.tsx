@@ -1,5 +1,5 @@
 import { Button } from "components/button";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -264,7 +264,7 @@ export const TokenSocialsInfo = () => {
             <CustomPopOver
               title={addressSlicer(newContracts?.[0])}
               logo={
-                blockchainsContentWithNonEVM[newChains?.[0]]?.logo ||
+                blockchainsContent[newChains?.[0]]?.logo ||
                 `/logo/${newChains?.[0]?.toLowerCase().split(" ")[0]}.png`
               }
               position="left-1/2 -translate-x-1/2"

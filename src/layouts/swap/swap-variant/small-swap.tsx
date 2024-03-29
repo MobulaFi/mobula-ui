@@ -1,7 +1,7 @@
 import { BaseAssetContext } from "features/asset/context-manager";
 import {
-  blockchainsContentWithNonEVM,
-  blockchainsIdContentWithNonEVM,
+  blockchainsContent,
+  blockchainsIdContent,
 } from "mobula-lite/lib/chains/constants";
 import { Dispatch, SetStateAction, useContext, useRef, useState } from "react";
 import { AiOutlineSetting, AiOutlineThunderbolt } from "react-icons/ai";
@@ -49,14 +49,11 @@ export const SmallSwap = ({ asset, extraCss }: SmallSwapProps) => {
   } = useContext(SwapContext);
 
   const chainData =
-    blockchainsIdContentWithNonEVM[
-      String(chainNeeded || (chain?.id as number))
-    ];
+    blockchainsIdContent[String(chainNeeded || (chain?.id as number))];
   const checkValidity = () => {
     if (asset)
-      return !blockchainsContentWithNonEVM?.[
-        asset?.blockchains?.[0] || asset?.blockchain
-      ]?.supportedProtocols?.length;
+      return !blockchainsContent?.[asset?.blockchains?.[0] || asset?.blockchain]
+        ?.supportedProtocols?.length;
     return !chainData?.supportedProtocols?.length;
   };
 

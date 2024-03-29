@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import { BlockchainNameWithNonEVM } from "mobula-lite/lib/model";
 import {
   TransactionReceipt,
@@ -21,7 +21,7 @@ export const fetchContract = (search: string) => {
     new Promise((r) => {
       let fails = 0;
 
-      Object.values(blockchainsContentWithNonEVM)
+      Object.values(blockchainsContent)
         .filter((entry) => entry.evmChainId)
         .forEach(async (blockchain) => {
           try {
@@ -41,7 +41,7 @@ export const fetchContract = (search: string) => {
             r({ symbol, blockchain: blockchain.name });
           } catch (e) {
             fails += 1;
-            if (fails === Object.keys(blockchainsContentWithNonEVM).length) {
+            if (fails === Object.keys(blockchainsContent).length) {
               r(null);
             }
           }

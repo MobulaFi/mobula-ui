@@ -1,4 +1,4 @@
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import {
   BlockchainNameWithNonEVM,
   BlockchainParamsWithNonEVM,
@@ -40,7 +40,7 @@ export const BlockchainSelector = ({
         <div className="flex flex-wrap">
           {blockchains?.map((entry, i) => {
             const blockchain: BlockchainParamsWithNonEVM =
-              blockchainsContentWithNonEVM[entry as BlockchainNameWithNonEVM];
+              blockchainsContent[entry as BlockchainNameWithNonEVM];
             if (blockchain === undefined) return null;
             return (
               <div

@@ -1,6 +1,6 @@
 import { Button } from "components/button";
 import { Spinner } from "components/spinner";
-import { blockchainsContentWithNonEVM } from "mobula-lite/lib/chains/constants";
+import { blockchainsContent } from "mobula-lite/lib/chains/constants";
 import React, { useContext } from "react";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { LargeFont, SmallFont } from "../../../../../../components/fonts";
@@ -92,7 +92,7 @@ export const ManagePopup = () => {
                           <img
                             className="w-[16px] h-[16px] bg-light-bg-hover dark:bg-dark-bg-hover rounded-full"
                             alt={`${blockchain} logo`}
-                            src={blockchainsContentWithNonEVM[blockchain]?.logo}
+                            src={blockchainsContent[blockchain]?.logo}
                           />
                         );
                       return null;

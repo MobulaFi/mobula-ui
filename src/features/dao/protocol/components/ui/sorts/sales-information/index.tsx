@@ -97,7 +97,7 @@ export const SalesInformation = ({ token }: SalesInformationProps) => {
               >
                 <Image
                   src={
-                    blockchainsContentWithNonEVM[blockchain]?.logo || "/icon/unknown.png"
+                    blockchainsContent[blockchain]?.logo || "/icon/unknown.png"
                   }
                   boxSize="22px"
                   borderRadius="full"
@@ -133,7 +133,7 @@ export const SalesInformation = ({ token }: SalesInformationProps) => {
             >
               <Image
                 src={
-                  blockchainsContentWithNonEVM[blockchain]?.logo || "/icon/unknown.png"
+                  blockchainsContent[blockchain]?.logo || "/icon/unknown.png"
                 }
                 boxSize="22px"
                 borderRadius="full"
