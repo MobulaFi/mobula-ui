@@ -140,9 +140,9 @@ export const TransactionReceipt = () => {
                               tokenOut && "address" in tokenOut
                                 ? tokenOut.address ||
                                     blockchainsIdContent[String(chain?.id || 1)]
-                                      .eth.address
+                                      .eth?.address
                                 : blockchainsIdContent[String(chain?.id || 1)]
-                                    .eth.address,
+                                    .eth?.address,
                               tokenOut?.decimals
                             )
                           )
@@ -216,7 +216,7 @@ export const TransactionReceipt = () => {
           >
             <SmallFont>
               {`${getFormattedAmount(finalGasUsed)} ${
-                blockchainsIdContent[String(chain?.id || 1)].eth.symbol
+                blockchainsIdContent[String(chain?.id || 1)].eth?.symbol
               }`}
             </SmallFont>
           </Lines>

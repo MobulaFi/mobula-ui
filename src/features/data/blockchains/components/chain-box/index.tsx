@@ -89,7 +89,7 @@ export const ChainBox = ({ blockchain }) => {
               {blockchain?.shortName || blockchain.name}
             </MediumFont>
             <MediumFont extraCss="text-light-font-60 dark:text-dark-font-60 leading-tighter text-base">
-              {blockchain.eth.symbol}
+              {blockchain.eth?.symbol || '?'}
             </MediumFont>
           </div>
         </div>

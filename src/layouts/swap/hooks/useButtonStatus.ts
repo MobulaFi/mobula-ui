@@ -66,7 +66,7 @@ export const useButtonStatus = () => {
     if (gasBalance !== null && gasBalance - gasSpent < 0) {
       setButtonStatus(
         `Not enough ${
-          blockchainsIdContent[String(chain?.id as number)].eth.symbol
+          blockchainsIdContent[String(chain?.id as number)].eth?.symbol
         } (${getFormattedAmount(gasSpent)} needed total)`
       );
       return;
