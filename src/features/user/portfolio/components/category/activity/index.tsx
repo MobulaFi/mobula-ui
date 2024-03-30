@@ -374,7 +374,7 @@ export const Activity = ({
 
       groupedTxs[date] = groupedTxs[date].filter(
         (tx, i) =>
-          !indexesToRemove.includes(i) &&
+          !indexesToRemove?.includes(i) &&
           (tx.amount || manager.show_interaction) &&
           !activePortfolio?.removed_transactions?.includes(tx.id)
       );
