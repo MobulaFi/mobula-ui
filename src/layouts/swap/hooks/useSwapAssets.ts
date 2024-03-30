@@ -54,7 +54,7 @@ export const useSwapAssets = (position: string) => {
             ];
 
           const coin =
-            blockchainsContent[name.blockchains[0]].eth.symbol === name.symbol;
+            blockchainsContent[name.blockchains[0]].eth?.symbol === name.symbol;
 
           if (coin) {
             return {

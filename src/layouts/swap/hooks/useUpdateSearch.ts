@@ -88,7 +88,7 @@ export const useUpdateSearch = (position: string) => {
               ];
 
             const coin =
-              blockchainsContent[name.blockchains[0]].eth.symbol ===
+              blockchainsContent[name.blockchains[0]].eth?.symbol ===
               name.symbol;
 
             if (coin) {

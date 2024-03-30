@@ -65,7 +65,7 @@ export const useLoadToken = () => {
       let decimalsQuery: Promise<number> | null = null;
 
       const isCoin =
-        blockchainsContent[token.blockchain].eth.symbol === token.symbol;
+        blockchainsContent[token.blockchain].eth?.symbol === token.symbol;
 
       const newToken: SearchTokenProps = {
         ...token,
