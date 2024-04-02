@@ -1,4 +1,7 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import {
+  blockchainsContent,
+  blockchainsIdContent,
+} from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { useParams, usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -103,33 +106,32 @@ export const Activity = ({
     if (actualTxAmount > 25) setIsTxLoading(true);
     const txsLimit = assetQuery ? 200 : actualTxAmount;
     const txRequest: any = {
-      should_fetch: false,
       limit: txsLimit,
       offset: refresh ? 0 : transactions.length,
       wallets: lowerCaseWallets.join(","),
       portfolio_id: portfolioId,
       added_transactions: true,
+      cache: true,
+      order: "desc",
     };
 
     if (isSmallTable) txRequest.only_assets = asset?.id;
     if (explorerAddress) delete txRequest.portfolio_id;
 
-    GET(
-      `${process.env.NEXT_PUBLIC_PORTFOLIO_ENDPOINT}/portfolio/rawtxs`,
-      txRequest,
-      true
-    )
+    GET(`/api/1/wallet/transactions`, txRequest)
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
-        if (r && r.data?.transactions) {
+        if (r?.data) {
+          const transactions =
+            "transactions" in r.data ? r.data.transactions : r.data;
           if (setIsLoadingFetch) setIsLoadingFetch(false);
           if (!refresh) {
             try {
-              setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
+              setTransactions((oldTsx) => [...oldTsx, ...transactions]);
             } catch (e) {
               console.log(e);
             }
-          } else setTransactions(r.data?.transactions || []);
+          } else setTransactions(transactions || []);
           setIsTxLoading(false);
         }
         if (setIsLoadingFetch) setIsLoadingFetch(false);
@@ -374,7 +376,7 @@ export const Activity = ({
 
       groupedTxs[date] = groupedTxs[date].filter(
         (tx, i) =>
-          !indexesToRemove.includes(i) &&
+          !indexesToRemove?.includes(i) &&
           (tx.amount || manager.show_interaction) &&
           !activePortfolio?.removed_transactions?.includes(tx.id)
       );
@@ -701,18 +703,16 @@ export const Activity = ({
                                   className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] 
                             border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                   src={
-                                    blockchainsIdContent[
-                                      String(transaction.chain_id)
-                                    ]?.logo || "/empty/unknown.png"
+                                    blockchainsContent[transaction.blockchain]
+                                      ?.logo || "/empty/unknown.png"
                                   }
                                   alt={`${
-                                    blockchainsIdContent[
-                                      String(transaction.chain_id)
-                                    ]?.name
+                                    blockchainsContent[transaction.blockchain]
+                                      ?.name
                                   } logo`}
                                 />
                               </div>
-                              {(transaction.chain_id ||
+                              {(transaction.blockchain ||
                                 (!explorerAddress &&
                                   activePortfolio?.user === user?.id)) && (
                                 <Menu
@@ -721,14 +721,14 @@ export const Activity = ({
                                   }
                                   titleCss="ml-2"
                                 >
-                                  {transaction.chain_id ? (
+                                  {transaction.blockchain ? (
                                     <div
                                       className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary"
                                       onClick={() =>
                                         window.open(
                                           explorerTransformer(
-                                            blockchainsIdContent[
-                                              String(transaction.chain_id)
+                                            blockchainsContent[
+                                              transaction.blockchain
                                             ]?.name,
                                             transaction.hash,
                                             "tx"
@@ -742,13 +742,13 @@ export const Activity = ({
                                         <img
                                           className="w-[15px] h-[15px] min-w-[15px]"
                                           src={
-                                            blockchainsIdContent[
-                                              String(transaction.chain_id)
+                                            blockchainsContent[
+                                              transaction.blockchain
                                             ]?.logo
                                           }
                                           alt={`${
-                                            blockchainsIdContent[
-                                              String(transaction.chain_id)
+                                            blockchainsContent[
+                                              transaction.blockchain
                                             ]?.name
                                           } logo`}
                                         />
@@ -823,8 +823,8 @@ export const Activity = ({
                                     onClick={() =>
                                       window.open(
                                         explorerTransformer(
-                                          blockchainsIdContent[
-                                            String(transaction.chain_id)
+                                          blockchainsContent[
+                                            transaction.blockchain
                                           ]?.name,
                                           transaction.hash,
                                           "tx"
@@ -855,13 +855,13 @@ export const Activity = ({
                                 <img
                                   className="bg-light-bg-hover dark:bg-dark-bg-hover w-[24px] h-[24px] min-w-[24px] md:w-[20px] md:h-[20px] md:min-w-[20px] border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                   src={
-                                    blockchainsIdContent[
-                                      String(transaction.chain_id)
+                                    blockchainsContent[
+                                      String(transaction.blockchain)
                                     ]?.logo || "/icon/unknown.png"
                                   }
                                   alt={`$${
-                                    blockchainsIdContent[
-                                      String(transaction.chain_id)
+                                    blockchainsContent[
+                                      String(transaction.blockchain)
                                     ]?.name
                                   } logo`}
                                 />
@@ -870,8 +870,8 @@ export const Activity = ({
                                   onClick={() =>
                                     window.open(
                                       explorerTransformer(
-                                        blockchainsIdContent[
-                                          String(transaction.chain_id)
+                                        blockchainsContent[
+                                          String(transaction.blockchain)
                                         ]?.name,
                                         transaction.hash,
                                         "tx"

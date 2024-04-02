@@ -149,7 +149,7 @@ export interface Transaction {
   is_added: boolean;
   is_removed: boolean;
   tx_cost: number;
-  chain_id: number;
+  blockchain: BlockchainName;
 }
 
 export interface UserHoldings {

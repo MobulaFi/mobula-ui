@@ -147,7 +147,7 @@ export const PortfolioMain = ({ isExplorer }: PortfolioMainProps) => {
     const { data, error } = await supabase
       .from("assets")
       .select("symbol, logo, id")
-      .in("id", activePortfolio.removed_assets);
+      .in("id", activePortfolio.removed_assets || []);
 
     if (error) {
       console.error(error);

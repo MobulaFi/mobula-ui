@@ -39,9 +39,9 @@ export const useWebSocketResp = () => {
       let failed = true;
       socket.addEventListener("message", (event) => {
         try {
-          const portfolio = JSON.parse(event.data);
-          if (portfolio !== null) {
-            if (portfolio?.status === "error") {
+          const result = JSON.parse(event.data);
+          if (result.analysis !== null) {
+            if (result.analysis?.status === "error") {
               setIsLoading(false);
               setIsRefreshing(false);
               setError(
@@ -50,11 +50,11 @@ export const useWebSocketResp = () => {
               setWallet(null);
             } else {
               failed = false;
-              const filteredWallet = portfolio.portfolio.filter(
+              const filteredWallet = result.analysis.portfolio.filter(
                 (entry) => entry.price !== 0 && entry.name !== "Mobula"
               );
               const filteredPortfolio = {
-                ...portfolio,
+                ...result.analysis,
                 portfolio: filteredWallet,
               };
 

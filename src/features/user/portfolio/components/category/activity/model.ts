@@ -1,9 +1,11 @@
 import { BlockchainName } from "mobula-lite/lib/model";
 
 export interface TransactionResponse {
-  data: {
-    transactions: PublicTransaction[];
-  };
+  data:
+    | {
+        transactions: PublicTransaction[];
+      }
+    | PublicTransaction[];
 }
 
 export interface TransactionAsset {
@@ -34,8 +36,6 @@ export interface PublicTransaction {
 
   is_added: boolean;
   is_out: boolean | null;
-
-  chain_id: number;
 
   in?: TransactionAsset & { amount: number; amount_usd: number };
   out?: TransactionAsset & { amount: number; amount_usd: number };

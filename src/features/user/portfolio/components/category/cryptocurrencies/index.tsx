@@ -123,15 +123,6 @@ export const Cryptocurrencies = () => {
     });
   };
 
-  const numberOfAsset =
-    wallet?.portfolio?.reduce((count, entry) => {
-      const meetsBalanceCondition = showMore || entry.estimated_balance > 1;
-      return meetsBalanceCondition ? count : count + 1;
-    }, 0) ?? 0;
-  const isNormalBalance = wallet?.portfolio
-    ? wallet?.portfolio.some((entry) => entry.estimated_balance > 1)
-    : false;
-
   const getFilterFromBalance = () => {
     if (!wallet || !wallet?.portfolio) return [];
     if (showMore) return wallet.portfolio as unknown as TableAsset;

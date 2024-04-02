@@ -149,7 +149,7 @@ export const loadWalletPortfolio = async (address: string) => {
         if (result !== null) {
           if (result.status === "error") failed = true;
           else {
-            portfolio = result;
+            portfolio = result.analysis;
             failed = false;
           }
         }

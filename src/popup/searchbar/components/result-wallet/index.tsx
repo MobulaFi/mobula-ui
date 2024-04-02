@@ -57,7 +57,7 @@ export const WalletResult = ({
         };
         return (
           <Lines
-            key={wallet.name}
+            key={wallet.name + "-" + index}
             onClick={() =>
               clickEvent(newWallet as NewWalletProps, wallet as User)
             }
