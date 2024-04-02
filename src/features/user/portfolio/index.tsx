@@ -91,23 +91,23 @@ export const Portfolio = ({
 
       socket.addEventListener("message", (event) => {
         try {
-          portfolio = JSON.parse(event.data);
-          if (portfolio !== null) {
+          const result = JSON.parse(event.data);
+          if (result?.analysis && result.analysis !== null) {
             failed = false;
 
-            if (portfolio?.status === "error") {
+            if (result.analysis?.status === "error") {
               setError(
                 "Invalid address. Mobula Portfolio does not support smart-contracts."
               );
               setWallet(null);
               setIsLoading(false);
-            } else if (!("error" in portfolio)) {
+            } else if (!("error" in result.analysis)) {
               failed = false;
-              const filteredWallet = portfolio.portfolio?.filter(
+              const filteredWallet = result.analysis.portfolio?.filter(
                 (entry) => entry.price !== 0 && entry.name !== "Mobula"
               );
               const filteredPortfolio = {
-                ...portfolio,
+                ...result.analysis,
                 portfolio: filteredWallet,
               };
               setWallet({
@@ -115,6 +115,7 @@ export const Portfolio = ({
                 id: Number(id) || Number(activePortfolio?.id),
                 uniqueIdentifier: id || activePortfolio?.id,
               });
+              portfolio = result.analysis;
             }
           } else if (failed) setWallet(null);
           setIsLoading(false);
@@ -159,7 +160,7 @@ export const Portfolio = ({
       setIsLoading(true);
 
       const socket = new WebSocket(
-        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT
+        process.env.NEXT_PUBLIC_PORTFOLIO_WSS_ENDPOINT as string
       );
       socket.addEventListener("open", () => {
         socket.send(`{"explorer": {"wallet": "${address}"}, "force": true}`);
@@ -168,10 +169,10 @@ export const Portfolio = ({
       let failed = true;
       socket.addEventListener("message", (event) => {
         try {
-          const portfolio = JSON.parse(event.data);
+          const result = JSON.parse(event.data);
 
-          if (portfolio !== null) {
-            if (portfolio?.status === "error") {
+          if (result?.analysis !== null) {
+            if (result.analysis?.status === "error") {
               setError(
                 "Invalid address. Mobula Portfolio does not support smart-contracts."
               );
@@ -179,11 +180,11 @@ export const Portfolio = ({
               setIsLoading(false);
             } else {
               failed = false;
-              const filteredWallet = portfolio.portfolio.filter(
+              const filteredWallet = result.analysis.portfolio.filter(
                 (entry) => entry.price !== 0 && entry.name !== "Mobula"
               );
               const filteredPortfolio = {
-                ...portfolio,
+                ...result.analysis,
                 portfolio: filteredWallet,
               };
               setWallet({
@@ -299,7 +300,9 @@ export const Portfolio = ({
 
             newWallet.portfolio = newWallet?.portfolio?.map((entry) => {
               const newEntry = { ...entry };
-              const asset = r.data.find((e) => String(e.id) === entry.id);
+              const asset = r.data.find(
+                (e) => String(e.id) === String(entry.id)
+              );
               newEntry.price = asset?.price as number;
               newEntry.change_24h = asset?.price_change_24h as number;
               newEntry.estimated_balance =

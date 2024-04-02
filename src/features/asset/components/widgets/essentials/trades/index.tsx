@@ -11,6 +11,7 @@ import { Spinner } from "../../../../../../components/spinner";
 import { Ths } from "../../../../../../components/table";
 import { PopupUpdateContext } from "../../../../../../contexts/popup";
 import { UserTrade } from "../../../../../../interfaces/assets";
+import { TransactionResponse } from "../../../../../../interfaces/transactions";
 import { GET } from "../../../../../../utils/fetch";
 import { BaseAssetContext } from "../../../../context-manager";
 import { Trade, UserTrades } from "../../../../models";
@@ -67,9 +68,10 @@ export const TokenTrades = () => {
       order: "desc",
     })
       .then((r) => r.json())
-      .then((r) => {
+      .then((r: TransactionResponse) => {
         if (r.data) {
-          const newTransactions = r.data.transactions;
+          const newTransactions =
+            "transactions" in r.data ? r.data.transactions : r.data;
           const length = newTransactions.length;
           setUserTrades((prev) => {
             let existingTrades = [];

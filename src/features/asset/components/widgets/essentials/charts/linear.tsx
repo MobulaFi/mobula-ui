@@ -58,29 +58,26 @@ export const ChartLite = ({
     );
     const txsLimit = assetQuery ? 200 : 20;
     const txRequest: any = {
-      should_fetch: false,
       limit: txsLimit,
       offset: refresh ? 0 : transactions?.length,
       wallets: lowerCaseWallets.join(","),
       portfolio_id: user?.portfolios[0]?.id,
       added_transactions: true,
+      cache: true,
+      order: "desc",
     };
     if (baseAsset) txRequest.only_assets = baseAsset.id;
 
-    GET(
-      `${process.env.NEXT_PUBLIC_PORTFOLIO_ENDPOINT}/portfolio/rawtxs`,
-      txRequest,
-      true
-    )
+    GET(`/api/1/wallet/transactions`, txRequest)
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
-        if (r) {
-          if (!refresh && r.data?.transactions?.length)
-            setTransactions((oldTsx) => [
-              ...(oldTsx || []),
-              ...r.data.transactions,
-            ]);
-          else setTransactions(r.data?.transactions || []);
+        if (r?.data) {
+          const transactions =
+            "transactions" in r.data ? r.data.transactions : r.data;
+
+          if (!refresh && transactions?.length)
+            setTransactions((oldTsx) => [...(oldTsx || []), ...transactions]);
+          else setTransactions(transactions || []);
         }
       });
   };

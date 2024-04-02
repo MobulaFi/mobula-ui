@@ -1,4 +1,7 @@
-import { blockchainsIdContent } from "mobula-lite/lib/chains/constants";
+import {
+  blockchainsContent,
+  blockchainsIdContent,
+} from "mobula-lite/lib/chains/constants";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -46,7 +49,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
     isLoading,
     wallet,
   } = useContext(PortfolioV2Context);
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<PublicTransaction[]>([]);
   const [activeTransaction, setActiveTransaction] = useState<string>();
   const { user } = useContext(UserContext);
   const refreshPortfolio = useWebSocketResp();
@@ -91,29 +94,28 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
 
   const fetchTransactions = (refresh = false) => {
     const txRequest: any = {
-      should_fetch: false,
+      cache: true,
       limit: txsLimit,
       offset: refresh ? 0 : transactions.length,
       wallets: lowerCaseWallets.join(","),
       portfolio_id: portfolioId,
       added_transactions: true,
+      order: "desc",
     };
 
     if (isSmallTable) txRequest.only_assets = asset?.id;
     if (isWalletExplorer) delete txRequest.portfolio_id;
 
-    GET(
-      `${process.env.NEXT_PUBLIC_PORTFOLIO_ENDPOINT}/portfolio/rawtxs`,
-      txRequest,
-      true
-    )
+    GET(`/api/1/wallet/transactions`, txRequest)
       .then((r) => r.json())
       .then((r: TransactionResponse) => {
-        if (r) {
+        if (r?.data) {
+          const transactions =
+            "transactions" in r.data ? r.data.transactions : r.data;
           setIsLoadingFetch(false);
           if (!refresh)
-            setTransactions((oldTsx) => [...oldTsx, ...r.data.transactions]);
-          else setTransactions(r.data.transactions);
+            setTransactions((oldTsx) => [...oldTsx, ...transactions]);
+          else setTransactions(transactions);
         }
       });
   };
@@ -362,7 +364,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
     [transactions]
   );
 
-  const [showTxDetails, setShowTxDetails] = useState(null);
+  const [showTxDetails, setShowTxDetails] = useState<string | null>(null);
 
   if (isLoadingFetch)
     return (
@@ -573,18 +575,18 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                 className="bg-light-bg-hover dark:bg-dark-bg-hover w-[18px] h-[18px] min-w-[18px] 
                             border-2 border-light-border-primary dark:border-dark-border-primary rounded-full"
                                 src={
-                                  blockchainsIdContent[
-                                    String(transaction.chain_id)
+                                  blockchainsContent[
+                                    String(transaction.blockchain)
                                   ]?.logo || "/empty/unknown.png"
                                 }
                                 alt={`${
-                                  blockchainsIdContent[
-                                    String(transaction.chain_id)
+                                  blockchainsContent[
+                                    String(transaction.blockchain)
                                   ]?.name
                                 } logo`}
                               />
                             </div>
-                            {(transaction.chain_id ||
+                            {(transaction.blockchain ||
                               (!isWalletExplorer &&
                                 activePortfolio?.user === user?.id)) && (
                               <Menu
@@ -593,14 +595,14 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                 }
                                 titleCss="ml-2"
                               >
-                                {transaction.chain_id ? (
+                                {transaction.blockchain ? (
                                   <div
                                     className="flex items-center text-sm text-[13px] md:text-xs bg-light-bg-terciary dark:bg-dark-bg-terciary"
                                     onClick={() =>
                                       window.open(
                                         explorerTransformer(
-                                          blockchainsIdContent[
-                                            String(transaction.chain_id)
+                                          blockchainsContent[
+                                            String(transaction.blockchain)
                                           ]?.name,
                                           transaction.hash,
                                           "tx"
@@ -614,13 +616,13 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                       <img
                                         className="w-[15px] h-[15px] min-w-[15px]"
                                         src={
-                                          blockchainsIdContent[
-                                            String(transaction.chain_id)
+                                          blockchainsContent[
+                                            String(transaction.blockchain)
                                           ]?.logo
                                         }
                                         alt={`${
-                                          blockchainsIdContent[
-                                            String(transaction.chain_id)
+                                          blockchainsContent[
+                                            String(transaction.blockchain)
                                           ]?.name
                                         } logo`}
                                       />
@@ -638,7 +640,7 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                       className={`flex items-center text-sm text-[13px] md:text-xs
                                        bg-light-bg-terciary dark:bg-dark-bg-terciary whitespace-nowrap 
                                        ${
-                                         transaction.chain_id ? "mt-2.5" : ""
+                                         transaction.blockchain ? "mt-2.5" : ""
                                        } text-light-font-100 dark:text-dark-font-100`}
                                       onClick={() => {
                                         handleRemoveTransaction(transaction.id);
@@ -697,8 +699,8 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                       onClick={() =>
                                         window.open(
                                           explorerTransformer(
-                                            blockchainsIdContent[
-                                              String(transaction.chain_id)
+                                            blockchainsContent[
+                                              String(transaction.blockchain)
                                             ]?.name,
                                             transaction.hash,
                                             "tx"
@@ -731,8 +733,8 @@ export const Transaction = ({ isSmallTable = false, asset }: ActivityProps) => {
                                     onClick={() =>
                                       window.open(
                                         explorerTransformer(
-                                          blockchainsIdContent[
-                                            String(transaction.chain_id)
+                                          blockchainsContent[
+                                            String(transaction.blockchain)
                                           ]?.name,
                                           transaction.hash,
                                           "tx"
