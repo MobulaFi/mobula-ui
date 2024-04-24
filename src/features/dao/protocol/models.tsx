@@ -142,12 +142,13 @@ export interface TokenDivs {
       platform: string;
     }[];
     vestingSchedule: {
-      name: string;
-      date: string;
-      breakdown: {
-        name: string;
-        amount: number;
+      allocation_details: {
+        [key: string]: number;
       };
+      asset_id: number;
+      created_at: number;
+      tokens_to_unlock: number;
+      unlock_date: number;
     }[];
   };
   type: string;
