@@ -25,7 +25,7 @@ export const IndexingSupercharged = () => {
         <div>
           <Title title="Analytics Supercharged" />
           <p className="text-light-font-60 dark:text-dark-font-60 font-poppins mt-6 text-xl md:text-base text-center">
-            Data wharehousing, BI dashboards - consumed via REST or livestreamed
+            Data warehousing, BI dashboards - consumed via REST or livestreamed
             to your DB.
           </p>
           <div
