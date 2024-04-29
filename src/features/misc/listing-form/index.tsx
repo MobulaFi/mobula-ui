@@ -9,7 +9,6 @@ import { pushData } from "../../../lib/mixpanel";
 import { triggerAlert } from "../../../lib/toastify";
 import { BasicInformation } from "./components/basic-information";
 import { ContractInformation } from "./components/contract-information";
-import { FeesInformation } from "./components/fees-information";
 import { Nav } from "./components/nav";
 import { SocialInformation } from "./components/social-information";
 import { Submit } from "./components/submit";
@@ -174,14 +173,14 @@ export const Listing = () => {
               {/* {actualPage === 3 ? (
                 <VestingInformation state={state} dispatch={dispatch} />
               ) : null} */}
-              {actualPage === 3 ? (
+              {/* {actualPage === 3 ? (
                 <FeesInformation state={state} dispatch={dispatch} />
-              ) : null}
+              ) : null} */}
             </>
           )}
-          {actualPage === 4 ? <Submit state={state} /> : null}
+          {actualPage === 3 ? <Submit state={state} /> : null}
           <div className="flex">
-            {actualPage !== 4 ? (
+            {actualPage !== 3 ? (
               <Button
                 extraCss="w-[160px]"
                 onClick={() => {
@@ -194,14 +193,14 @@ export const Listing = () => {
                       ? pushData(`List now Clicked`)
                       : pushData(`Edit now Clicked`);
 
-                    setActualPage(4);
+                    setActualPage(3);
                   }
                 }}
               >
                 {!editAssetReducer ? "List now" : "Edit now"}
               </Button>
             ) : null}
-            {actualPage === 4 || actualPage === 3 ? null : (
+            {actualPage === 3 || actualPage === 2 ? null : (
               <Button
                 extraCss="w-[180px] ml-[20px]"
                 onClick={() => {
