@@ -26,9 +26,9 @@ export const Nav = ({ state }) => {
           // {
           //   name: "Vesting",
           // },
-          {
-            name: "Fees",
-          },
+          // {
+          //   name: "Fees",
+          // },
         ]),
 
     {
