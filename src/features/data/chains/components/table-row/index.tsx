@@ -1,4 +1,3 @@
-import React from "react";
 import { AddressAvatar } from "../../../../../components/avatar";
 import { SmallFont } from "../../../../../components/fonts";
 import { TagPercentage } from "../../../../../components/tag-percentage";
@@ -79,10 +78,12 @@ export const TableRow = ({
                 <div className="flex items-center md:flex-col md:items-start">
                   <SmallFont extraCss="w-fit mr-2.5 whitespace-nowrap text-start">
                     <span className="max-w-[120px] truncate">
-                      {pair?.[pair?.baseToken]?.symbol}
+                      {pair?.[pair?.baseToken]?.symbol?.length > 10
+                        ? pair?.[pair?.baseToken]?.symbol.slice(0, 10) + "..."
+                        : pair?.[pair?.baseToken]?.symbol}
                     </span>{" "}
                     /{" "}
-                    <span className="text-light-font-60 dark:text-dark-font-60">
+                    <span className="text-light-font-60 dark:text-dark-font-60 max-w-[100px] truncate">
                       {pair?.[pair?.quoteToken]?.symbol}
                     </span>
                   </SmallFont>
