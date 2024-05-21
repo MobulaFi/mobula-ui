@@ -52,25 +52,15 @@ export const useLiteStreamMarketData = (
       try {
         const { data } = await supabase
           .from("assets")
-          .select("trade_history(*),volume,price")
-          .limit(10, { foreignTable: "trade_history" })
-          .order("date", { foreignTable: "trade_history", ascending: false })
+          .select("volume,price")
           .match({ id: baseAsset.id })
           .single();
 
         if (!data) return;
         setMarketMetrics((marketMetrics: any) => {
-          const hashes = data.trade_history.map((entry) => entry.hash);
           return {
             ...marketMetrics,
-            trade_history: data.trade_history
-              .filter(
-                (entry, index) =>
-                  entry.date > (marketMetrics.trade_history[0]?.date || 0) &&
-                  index === hashes.indexOf(entry.hash)
-              )
-              .concat(marketMetrics.trade_history)
-              .slice(0, 100),
+            trade_history: [],
             volume: data.volume,
             volumeChange:
               data.volume - marketMetrics.volume > 0
@@ -85,13 +75,6 @@ export const useLiteStreamMarketData = (
                 : data.price - marketMetrics.price < 0
                 ? false
                 : undefined,
-            // liquidity: data.liquidity,
-            // liquidityChange:
-            //   data.liquidity - baseAsset.liquidity > 0
-            //     ? true
-            //     : data.liquidity - baseAsset.liquidity < 0
-            //     ? false
-            //     : undefined,
           };
         });
       } catch (error) {
@@ -126,9 +109,7 @@ export const useLiteStreamMarketDataModule = (
         const supabase = createSupabaseDOClient();
         const request = supabase
           .from("assets")
-          .select("trade_history(*),volume,price")
-          .limit(10, { foreignTable: "trade_history" })
-          .order("date", { foreignTable: "trade_history", ascending: false })
+          .select("volume,price")
           .match({ id: baseAsset.id });
 
         (filters || [])
@@ -138,22 +119,13 @@ export const useLiteStreamMarketDataModule = (
           });
         const { data } = await request.single();
         // console.log("I got data on:", new Date(Date.now()));
-        if (marketMetrics?.trade_history?.length > 0) setIsLoading?.(false);
         if (threadIdCurrent !== threadId.current) return;
-        if (data && data.trade_history) {
+        if (data && data.price) {
           setMarketMetrics((marketMetrics) => {
-            const hashes = data.trade_history.map((entry) => entry.hash);
             if (setIsLoading) setIsLoading(false);
             return {
               ...marketMetrics,
-              trade_history: data.trade_history
-                .filter(
-                  (entry, index) =>
-                    entry.date >
-                      (marketMetrics?.trade_history?.[0]?.date || 0) &&
-                    index === hashes.indexOf(entry.hash)
-                )
-                .concat(marketMetrics.trade_history),
+              trade_history: [],
               volume: data.volume,
               volumeChange:
                 data.volume - (marketMetrics.volume || 0) > 0
@@ -172,8 +144,7 @@ export const useLiteStreamMarketDataModule = (
           });
           // console.log("My data has change", new Date(Date.now()));
         }
-        if (marketMetrics?.trade_history?.length > 0 && setIsLoading)
-          setIsLoading(false);
+        if (marketMetrics?.price && setIsLoading) setIsLoading(false);
       };
       if (shouldInstantLoad) {
         // console.log("I fetch changeMarketMetrics", new Date(Date.now()));
@@ -182,8 +153,6 @@ export const useLiteStreamMarketDataModule = (
       const stream = setInterval(async () => {
         changeMarketMetrics();
       }, 5 * 1000);
-      if (marketMetrics?.trade_history?.length > 0 && setIsLoading)
-        setIsLoading(false);
 
       return () => {
         threadId.current = Math.round(100000000 * Math.random());
